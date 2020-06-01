@@ -139,7 +139,7 @@
                 <th mat-header-cell *matHeaderCellDef > ADDRESS&nbsp;&nbsp;&nbsp;</th>
                 <td mat-cell *matCellDef="let element">
                   <div *ngFor="let add of element.msaCustAddrs">
-                    <i [matTooltip]="add.addr | uppercase" matTooltipPosition="above" class="material-icons">room</em>
+                    <em [matTooltip]="add.addr | uppercase" matTooltipPosition="above" class="material-icons">room</em>
                   </div>
                 </td>
               </ng-container>
@@ -168,13 +168,13 @@
               <ng-container matColumnDef="version">
                 <th mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let element" style="padding-right: 0px;" >
-                  <i class="material-icons iconSize" style="cursor: pointer;" (click)="openDialogContractVersion(element)" *ngIf="(perList && (perList.includes('CONTRACT_READ'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">visibility</em>
+                  <emclass="material-icons iconSize" style="cursor: pointer;" (click)="openDialogContractVersion(element)" *ngIf="(perList && (perList.includes('CONTRACT_READ'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">visibility</em>
                 </td>
               </ng-container>
               <ng-container matColumnDef="edit">
                 <th mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let element" style="padding-right: 0px;" >
-                  <i class="material-icons iconSize" style="cursor: pointer;" (click)="showSfxCodeData(element)" *ngIf="(perList && (perList.includes('CONTRACT_UPDATE'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">create</em>
+                  <emclass="material-icons iconSize" style="cursor: pointer;" (click)="showSfxCodeData(element)" *ngIf="(perList && (perList.includes('CONTRACT_UPDATE'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">create</em>
                 </td>
               </ng-container>
 

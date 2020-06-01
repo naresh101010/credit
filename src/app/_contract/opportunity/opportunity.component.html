@@ -126,7 +126,7 @@
       <div class="col-lg-6 col-md-6  ">						
         <div class="row">
           <div class="col-lg-4 col-md-4 label-text paddingrightzero">Salesforce Opportunity&nbsp;No.
-            <i *ngIf='editflow && oportunity.referenceData.allSfxOpportunities' matTooltipPosition="above" class="material-icons" (click)="openCCDialog(oportunity.referenceData.allSfxOpportunities)" style="cursor: pointer;color: #27AE60;">open_in_new</em>
+            <em *ngIf='editflow && oportunity.referenceData.allSfxOpportunities' matTooltipPosition="above" class="material-icons" (click)="openCCDialog(oportunity.referenceData.allSfxOpportunities)" style="cursor: pointer;color: #27AE60;">open_in_new</em>
           </div>
           <div *ngIf="oportunity.responseData" class="col-lg-8 col-md-8 label-text-value">{{oportunity.responseData.sfdcOpprId}}({{oportunity.responseData.opprName}})</div>
         </div>

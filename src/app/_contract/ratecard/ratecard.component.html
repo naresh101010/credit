@@ -41,17 +41,17 @@
                 <div [ngClass]="(data.rateCardCode == model.rateCardCode)  ? 'commercialbox1' : 'commercialbox'" style="margin-right: 1rem;">
                   <div class="container">
                     <div *ngxPermissionsOnly="['RATE CARD_CREATE']" class="futureCard">
-                    <i *ngIf="editflow" style="cursor: pointer"
+                    <em *ngIf="editflow" style="cursor: pointer"
                     (click)="toggleCopyRc(data)" id="toggleCopyRc">
                     <!-- <img src="../assets/images/copy-document.svg"> -->
-                    <i class="material-icons deleteIcon1" style="left: 7rem !important">file_copy</em>
+                    <em class="material-icons deleteIcon1" style="left: 7rem !important">file_copy</em>
                     <div class="future_card" *ngIf="data.showRctoggle && isRcToggle">
                     <h6 class="future_rc_txt" (click)="copyRateCard(data,'FCP')">FUTURE RATE CARD</h6>
                     <h6 class="future_rc_txt" (click)="copyRateCard(data,'CP')">COPY RATE CARD</h6>
                     </div>
                     </em>
-                    <i  *ngIf="editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1"  style="left: 7rem !important">delete</em>
-                    <i  *ngIf="!editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1">delete</em>
+                    <em *ngIf="editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1"  style="left: 7rem !important">delete</em>
+                    <em *ngIf="!editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1">delete</em>
                     
                     </div>
                     <h6 (click)="ratecardDeailbyId(data,false)" style="cursor: pointer;">{{data.rateCardCode}}</h6>
@@ -66,7 +66,7 @@
               </div>
             </div>
               <div class="commercialbox2" style="margin-right: 1rem;" *ngxPermissionsOnly="['RATE CARD_CREATE']">
-                <i class="addNewButton" (click)="changeState1()"
+                <em class="addNewButton" (click)="changeState1()"
                   class="material-icons addNewButton" style="position: relative;" id="addRateCard">add</em>
                 <p class="addNewText">Add New</p>
               </div>
@@ -299,7 +299,7 @@
                     'commercialbox': (selectedId != data.id)
                     }" style="margin-right: 1rem;">
                     <div class="container">
-                      <i *ngxPermissionsOnly="['COMMERCIAL_CREATE']" class="material-icons deleteIcon1" (click)="deleteCommercialDetailbyId(data.id)">delete</em>
+                      <em*ngxPermissionsOnly="['COMMERCIAL_CREATE']" class="material-icons deleteIcon1" (click)="deleteCommercialDetailbyId(data.id)">delete</em>
                       <h6 style="cursor: pointer;" (click)="getCommercialDetailbyId(data.id)">{{data.id}}</h6>
                       <mat-divider id="commercialboxdivider"></mat-divider>
                       <p *ngIf="data.chargeByName.length>13" class="card_minor_text to_upper_case heading_bold" [matTooltip]="data.chargeByName | uppercase">{{data.chargeByName}}</p>
@@ -312,7 +312,7 @@
               </div>
 
               <div *ngIf="!isCopyRateCard" class="commercialbox2" style="margin-right: 1rem;">
-                <i style="color: #27AE60; font-size: 8.5rem; cursor: pointer;" (click)="getCommercialDetailbyId('')"
+                <emstyle="color: #27AE60; font-size: 8.5rem; cursor: pointer;" (click)="getCommercialDetailbyId('')"
                   class="material-icons addNewButton" id="addCommercialSurface" *ngxPermissionsOnly="['COMMERCIAL_CREATE']">add</em>
                 <p class="addNewText" *ngxPermissionsOnly="['COMMERCIAL_CREATE']">Add New</p>
               </div>
@@ -1433,7 +1433,7 @@
                 <!-- <slab 5 ends here > -->
 
               </div>
-              <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon" ><i class="material-icons" (click)="deleteCustomRM(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
+              <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon" ><emclass="material-icons" (click)="deleteCustomRM(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
               </div>
             </div>
             </form></div>
@@ -2085,7 +2085,7 @@
     
                     </div>
                   </div>
-                  <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><i class="material-icons" (click)="deleteSfxDlvrCusMP(i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
+                  <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><emclass="material-icons" (click)="deleteSfxDlvrCusMP(i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
                   </div>
                 </div>
                 </div>
@@ -2692,7 +2692,7 @@
   
                   </div>
                 </div>
-                <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><i matTooltipPosition="above" class="material-icons" (click)="deleteSfxBkngCusM(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
+                <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><emmatTooltipPosition="above" class="material-icons" (click)="deleteSfxBkngCusM(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
                 </div>
               </div>
             </div>
@@ -2845,7 +2845,7 @@
                   'commercialbox': (selectedIdcmd != data.id)
                   }" style="margin-right: 1rem;">
                   <div class="container">
-                    <i class="material-icons deleteIcon1"></em>
+                    <emclass="material-icons deleteIcon1"></em>
                     <h6 style="cursor: pointer;" (click)="getCommandmentDetailbyId(data.id)">{{data.id}}</h6>
                     <mat-divider id="commercialboxdivider"></mat-divider>
                     <p *ngIf="data.chargeByName.length>13" class="card_minor_text to_upper_case heading_bold" [matTooltip]="data.chargeByName | uppercase">{{data.chargeByName}}</p>
@@ -3863,8 +3863,8 @@
                 </div>
                 <div class="col-lg-1 col-md-1   " style="width: 15%;" *ngxPermissionsOnly="['CUSTOMER LOCATION_CREATE','CUSTOMER LOCATION_UPDATE']">
 
-                  <div class="col-lg-6 col-md-6  " > <span  class="text-center"><i matTooltipPosition="above" class="material-icons" (click)="openCCDialog(field)" style="cursor: pointer;color: #27AE60;">room</em></span> </div>
-                  <div class="col-lg-6 col-md-6  " > <span *ngIf ="field.newBranch && i > 0" style="padding-left: 2rem;"  class="text-center" ><i matTooltipPosition="above" class="material-icons" (click)="deleteBranch(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
+                  <div class="col-lg-6 col-md-6  " > <span  class="text-center"><emmatTooltipPosition="above" class="material-icons" (click)="openCCDialog(field)" style="cursor: pointer;color: #27AE60;">room</em></span> </div>
+                  <div class="col-lg-6 col-md-6  " > <span *ngIf ="field.newBranch && i > 0" style="padding-left: 2rem;"  class="text-center" ><emmatTooltipPosition="above" class="material-icons" (click)="deleteBranch(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
                  
                  
                 </div>

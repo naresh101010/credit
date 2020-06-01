@@ -313,7 +313,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" (click)="addBillingBy()" *ngIf="addBilling==true"> 
-                    <span><i class="material-icons" style="cursor: pointer;" #tooltip="matTooltip"
+                    <span><em class="material-icons" style="cursor: pointer;" #tooltip="matTooltip"
                         matTooltip="ADD BILLING BY" matTooltipPosition="right">add_circle</em>
                       </span></div>
                   </div>
@@ -349,7 +349,7 @@
                 </div>
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 row " *ngIf="billingData.cneeCnorFlag==1 && billingData.cneeCnorBillingCateg && !msaBillingExists">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> 
-                    <span><i class="material-icons" (click)="assignConnCnee(billingData.cneeCnorBillingCateg)"
+                    <span><em class="material-icons" (click)="assignConnCnee(billingData.cneeCnorBillingCateg)"
                         style="cursor: pointer;">create</em>
                       </span></div>
                   </div>
@@ -434,7 +434,7 @@
                         </mat-select>
                       </mat-form-field>
                       <span *ngIf="(billtoAddr.errors?.required && (billtoAddr.touched || fBilling.submitted))" class="hasErrorMsg marginBilling"><em>Required&nbsp;!</em></span>
-                      <b *ngIf="!msaBillingExists"><i style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="addAddress(i)" #tooltip="matTooltip" matTooltip="ADD Bill TO ADDRESS"
+                      <b *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="addAddress(i)" #tooltip="matTooltip" matTooltip="ADD Bill TO ADDRESS"
                         matTooltipPosition="right" class="material-icons">add</em></b>
                     </td>
                   </ng-container>
@@ -607,7 +607,7 @@
                           </mat-option>
                         </mat-select >
                       </mat-form-field>
-                      <b *ngIf="!msaBillingExists"><i style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="emailAddress(i)" #tooltip="matTooltip" matTooltip="ADD BDM E-MAIL ID"
+                      <b *ngIf="!msaBillingExists"><emstyle="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="emailAddress(i)" #tooltip="matTooltip" matTooltip="ADD BDM E-MAIL ID"
                         matTooltipPosition="right" class="material-icons">add</em></b>
                   </ng-container>
                   <ng-container matColumnDef="commBillEmail">
