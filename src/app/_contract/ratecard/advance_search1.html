@@ -1,5 +1,5 @@
 <div class="contractContainer">
-    <!-- <h3 id="h2">Search Branch</h3> -->
+     
     <div style="position: relative;">
       <h3 id="h2">Search Branch</h3>
       <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
@@ -13,7 +13,7 @@
             <em class="fa fa-search" (click)="advanceDefaultBranchName(model.searchbyname)" id="defualtBranchSearch3" style="cursor: pointer;"></em>
             <input autocomplete="true" minlength="3" type="text" (keyup.enter)="advanceDefaultBranchName(model.searchbyname)" class="form-control" required
              placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
-                <!-- validation -->
+                 
                    <div *ngIf="searchbyname.invalid && (searchbyname.dirty || searchbyname.touched)">                      
                     <div *ngIf="advanceSearch==true" class="error">
                       Enter mimimum 3 character
@@ -33,7 +33,7 @@
       </div>
     </div>
 </div>
-    <!-- panal -->
+     
     <div class="row-margin" *ngIf="tabledataLength > 0" style="width: 100rem;">
           <div class="col-lg-12 col-md-12">
             <div class="row removeRowMargin">

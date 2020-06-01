@@ -287,7 +287,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
             left: 10%;">
               <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Direct Booking</div>
-              <!-- <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"  *ngIf="!obj1.isDirectPickup"></div> -->
+               
               <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
                 [ngClass]="versionDifference.isDirectPickup==1? 'highlight' : ''" *ngIf="obj1.isDirectPickup==1">YES
               </div>
@@ -931,7 +931,7 @@
 
                   <div *ngIf="comItem.safextCharge.length>0">
                     <div class="row leftSpace">
-                      <!-- <div class="row col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>             -->
+                       
                       <div class="text-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Safextension Applicable</div>
                       <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="comItem.safextFlag==1">
                         YES</div>
@@ -943,17 +943,17 @@
                       <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"
                         [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'safexChargesType')? 'highlight' : ''">
                         {{comItem.safexChargesType}}</div>
-                      <!-- <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"><span *ngFor="let item of comItem.safextCharge;let j=index">{{item.safextCtgy}}<span *ngIf="j!=(comItem.safextCharge.length-1)">,</span></span></div> -->
+                       
                     </div>
 
                     <div class="row leftSpace1">
-                      <!-- <div class="row col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>             -->
+                       
                       <div class="text-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Safextension Type</div>
                       <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"
                         *ngFor="let sfxItem of comItem.safextCharge | slice:0:1;"
                         [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,sfxItem,s,j,i,'safextLevel')? 'highlight' : ''">
                         {{sfxItem.safextLevel}}</div>
-                      <!-- <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"><span *ngFor="let sfxItem of item1.safextSlaDTOs;let i=index;"><span *ngIf="i==0">{{sfxItem.safextType}}</span></span></div> -->
+                       
                       <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
                     </div>
 
@@ -1154,7 +1154,7 @@
                             </span>
                             
                           </div>
-                          <!-- <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="ppItem.rrFlag!=0 && ppItem.calcUnit">{{ppItem.pricingParamVal}} ({{ppItem.calcUnit}})</div> -->
+                           
                           <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="ppItem.rrFlag==0"
                             [ngClass]="ifRatecardCommercialPricingParamTransObjectChanged(comItem,ppItem,s,j,i,b,'rrFlag')? 'highlight' : ''">
                             NA</div>
@@ -1319,7 +1319,7 @@
                   </div>
                 
 
-                <!-- Non Geograpgy -->
+                 
                 <h3 style="position: relative;">Non Geography Commandments</h3>
                 <div class="row">
                   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -1448,7 +1448,7 @@
                   <div class="row">
                     <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
                       <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">Group</div>
-                      <!-- <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">RR</div> -->
+                       
                       <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">SLA Days</div>
                       <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
 

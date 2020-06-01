@@ -254,7 +254,7 @@
             <div class="col-lg-4 col-md-4  " style="position: relative;
       left: 10%;">
               <div class="col-lg-5 col-md-5   text-heading">Direct Booking</div>
-              <!-- <div class="col-lg-7 col-md-7   text-heading-bar"  *ngIf="!data.isDirectPickup"></div> -->
+               
               <div class="col-lg-7 col-md-7   text-heading-bar" *ngIf="data.isDirectPickup==1">YES</div>
               <div class="col-lg-7 col-md-7   text-heading-bar" *ngIf="data.isDirectPickup==0">NO</div>
             </div>
@@ -800,7 +800,7 @@ left: -5%;">
 
                   <div *ngIf="comItem.safextCharge.length>0">
                     <div class="row leftSpace">
-                      <!-- <div class="row col-lg-1 col-md-1"></div>             -->
+                       
                       <div class="text-heading col-lg-2 col-md-2  ">Safextension Applicable</div>
                       <div class="text-heading-bar col-lg-3 col-md-3  " *ngIf="comItem.safextFlag==1">
                         YES</div>
@@ -811,15 +811,15 @@ left: -5%;">
                       <div class="text-heading col-lg-2 col-md-2  ">Safextension Charge</div>
                       <div class="text-heading-bar col-lg-3 col-md-3  ">{{comItem.safexChargesType}}
                       </div>
-                      <!-- <div class="text-heading-bar col-lg-3 col-md-3  "><span *ngFor="let item of comItem.safextCharge;let j=index">{{item.safextCtgy}}<span *ngIf="j!=(comItem.safextCharge.length-1)">,</span></span></div> -->
+                       
                     </div>
 
                     <div class="row leftSpace1">
-                      <!-- <div class="row col-lg-1 col-md-1  "></div>             -->
+                       
                       <div class="text-heading col-lg-2 col-md-2  ">Safextension Type</div>
                       <div class="text-heading-bar col-lg-3 col-md-3  "
                         *ngFor="let sfxItem of comItem.safextCharge | slice:0:1;">{{sfxItem.safextLevel}}</div>
-                      <!-- <div class="text-heading-bar col-lg-3 col-md-3  "><span *ngFor="let sfxItem of item1.safextSlaDTOs;let i=index;"><span *ngIf="i==0">{{sfxItem.safextType}}</span></span></div> -->
+                       
                       <div class="col-lg-1 col-md-1  "></div>
                     </div>
 
@@ -957,7 +957,7 @@ left: -5%;">
                           <div class="zoal-rate-content col-lg-3 col-md-3  " *ngIf="ppItem.rrFlag!=0">
                             {{ppItem.pricingParamVal}}<span *ngIf="ppItem.calcUnit">&nbsp; ({{ppItem.calcUnit}})</span>
                           </div>
-                          <!-- <div class="zoal-rate-content col-lg-3 col-md-3  " *ngIf="ppItem.rrFlag!=0 && ppItem.calcUnit">{{ppItem.pricingParamVal}} ({{ppItem.calcUnit}})</div> -->
+                           
                           <div class="zoal-rate-content col-lg-3 col-md-3  " *ngIf="ppItem.rrFlag==0">NA
                           </div>
                           <div class="col-lg-2 col-md-2  "></div>
@@ -1075,7 +1075,7 @@ left: -5%;">
                   </div>
                 </div>
 
-                <!-- Non Geograpgy -->
+                 
                 <h3 style="position: relative;">Non Geography Commandments</h3>
                 <div class="row">
                   <div class="col-lg-12 col-md-12  ">
@@ -1158,7 +1158,7 @@ left: -5%;">
                   <div class="row">
                     <div class="col-lg-10 col-md-10  ">
                       <div class="zoal-rate-heading col-lg-3 col-md-3  ">Group</div>
-                      <!-- <div class="zoal-rate-heading col-lg-2 col-md-2  ">RR</div> -->
+                       
                       <div class="zoal-rate-heading col-lg-2 col-md-2  ">SLA Days</div>
                       <div class="col-lg-1 col-md-1  "></div>
 
@@ -1501,7 +1501,7 @@ left: -5%;">
                   <div class="col-lg-10 col-md-10  ">
                     <div class="zoal-rate-heading col-lg-3 col-md-3  ">CONSIGNEE</div>
                     <div class="zoal-rate-heading col-lg-3 col-md-3  ">CONSIGNOR</div>
-                    <!-- <div class="zoal-rate-heading col-lg-2 col-md-2  ">Status</div> -->
+                     
                   </div>
                 </div>
                 <div *ngFor="let cnbItem of billingItem.billingCneeCnorMap">
@@ -1509,7 +1509,7 @@ left: -5%;">
                     <div class=" col-lg-10 col-md-10  ">
                       <div class="zoal-rate-content col-lg-3 col-md-3  ">{{cnbItem.cneeName}}</div>
                       <div class="zoal-rate-content col-lg-3 col-md-3  ">{{cnbItem.cnorName}}</div>
-                      <!-- <div class="zoal-rate-content col-lg-2 col-md-2  ">{{cnbItem.status}}</div> -->
+                       
                     </div>
                   </div>
                 </div>
@@ -1540,7 +1540,7 @@ left: -5%;">
       </div>
       <div class="col-lg-3 col-lg-3  col-md-3 text-right" style="margin-top: 3%;">
         <div class="example-button-row text-center" style="margin-top: 5%">
-          <!-- <button class="btn1"  mat-raised-button color="primary" >Print</button>  -->
+           
         </div>
       </div>
     </div>

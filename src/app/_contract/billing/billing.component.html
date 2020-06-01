@@ -19,7 +19,6 @@
     </div>
   </div>
   <mat-card>
-    <!-- <div> -->
       <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
         <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 label-text row">Billing Level</div>
         <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 ">
@@ -32,7 +31,6 @@
         </div>
       </div>
       <mat-accordion>
-        <!-- below code to be used in case of rate card billing -->        
         <mat-expansion-panel class="full-width" id="box-shadow " [expanded]="billingLevel=='RATE CARD'" *ngIf="billingLevel=='RATE CARD'" #first>
           <mat-expansion-panel-header>Billing Level (RATE CARD)</mat-expansion-panel-header>
           <mat-card-content>
@@ -42,7 +40,6 @@
                   <h6 style="margin-top: 3rem; color: #fff;margin-bottom: 1rem !important;">{{item.rateCardCode}}</h6>
                   <hr class="divider">
                   <p>Effective Date:</p><p class="carton-text">{{item.effectiveDt}}</p>
-                  <!-- <P class="carton-text">{{item.descr}}</P> -->
                 </div>
               </div>
             </div>
@@ -52,7 +49,6 @@
         <mat-expansion-panel class="full-width" id="box-shadow" #second>
           <mat-expansion-panel-header (click)="openDetails()">Detailed</mat-expansion-panel-header>
           <mat-card-content>
-            <!-- next -->
             <div class="row">
               <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: .4rem;">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row" *ngIf="billingLevel=='MSA'">
@@ -86,7 +82,6 @@
                   </div>
                 </div>
               </div>
-            <!-- next -->
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf="billingLevel!='RATE CARD'">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 row">
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  label-text">Billing Sublevel<span class="redMark"> *</span></div>
@@ -116,8 +111,7 @@
                   </div>
                 </div>
               </div>
-            <!-- </div> -->
-            <!-- next -->
+            
             <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: .4rem;">
               <div class="row col-lg-4 col-md-4 col-sm-4 col-xs-4">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 label-text">Billing SubType<span class="redMark"> *</span></div>
@@ -148,7 +142,7 @@
                   </div>
               </div>
               </div>
-            <!-- next -->
+       
               <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: -.4rem;">
                 <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2  label-text">Bill Date<span class="redMark"> *</span></div>
                   <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8  ">
@@ -196,7 +190,7 @@
                   </div>
                 </div>
               </div>
-            <!-- next -->
+         
               <div class=" row col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">E-billing<span class="redMark"> *</span></div>
@@ -223,8 +217,7 @@
                     </div>
                 </div>
               </div>
-            <!-- NEXT -->
-            <!-- next -->
+         
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">TOD<span class="redMark"> *</span></div>
@@ -245,15 +238,12 @@
                       <mat-form-field appearance="outline">
                         <input autocomplete="true" #TurnoverAmount='ngModel' numeric  decimals="2" matInput name="todAmt" [(ngModel)]="billingData.todAmt" maxlength="8" [disabled]="msaBillingExists">
                       </mat-form-field>
-                      <!-- <span *ngIf="(TurnoverAmount.errors?.required && (TurnoverAmount.touched || fBilling.submitted))"
-                          class="hasErrorMsgRight">
-                          <em>Required&nbsp;!</em>
-                      </span> -->
+                  
                     </div>
                   </div>
                 </div>
               </div>
-            <!-- NEXT -->
+           
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" style="padding-top: .4rem;">
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
                   <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">TOD Based On<span class="redMark"> *</span></div>
@@ -290,7 +280,7 @@
                   </div>
                 </div>
               </div>
-            <!-- next -->
+          
             <hr id="collapsedivider">
               <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">                
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
@@ -354,11 +344,11 @@
                       </span></div>
                   </div>
               </div>           
-            <!-- </div> -->   
+           
          
           </div>
           <hr id="collapsedivider">
-          <!-- next -->       
+             
 
             <div class="billingby-container example-container mat-elevation-z8" *ngIf="billingByLevelMapId" style="width: 100% !important;">
                 <table aria-describedby="table-data"  mat-table [dataSource]="billingData.billingBy" class="biilingTable">
@@ -451,7 +441,6 @@
                       </span>
                       <span *ngIf="gstinNum.errors?.pattern" class="hasErrorMsg marginBilling">Invalid GSTIN !</span>
                       <span *ngIf=" gstinNum.invalid && (gstinNum.dirty || gstinNum.touched) && !gstinNum.errors?.required && !gstinNum.errors?.pattern" class="hasErrorMsg marginBilling">Invalid GSTIN !</span>
-                      <!-- <span *ngIf="!gstinChk && !gstinNum.invalid && !gstinNum.errors?.required " class="hasErrorMsg">Invalid GSTIN !</span> -->
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="collBranchId">
@@ -496,10 +485,7 @@
                         {{item.value}}
                       </mat-radio-button>
                     </mat-radio-group>
-                    <!-- <span *ngIf="(excludeBillingFlag.errors?.required && (excludeBillingFlag.touched || fBilling.submitted))"
-                        class="hasErrorMsg">
-                        <em>Required&nbsp;!</em>
-                    </span> -->
+                 
                   </div>
                     </td>
                   </ng-container>
@@ -535,10 +521,7 @@
                           <em>Required&nbsp;!</em>
                       </span>
                       <span *ngIf="tanNum.errors?.pattern" class="hasErrorMsg marginBilling">Invalid TAN</span>
-                      <!-- <span *ngIf="tanNum.invalid && (tanNum.dirty || tanNum.touched) && !tanNum.errors?.required && !tanNum.errors?.pattern" class="hasErrorMsg">Invalid TAN</span>
-                      <span *ngIf="!tanNum.invalid && tanNum.errors?.required " class="hasErrorMsg">Invalid TAN</span>
-                      <span *ngIf="tanNum.errors?.pattern " class="hasErrorMsg">Invalid TAN</span> -->
-                      <!-- <span *ngIf="!tanChk && !tanNum.invalid && !tanNum.errors?.required " class="hasErrorMsg">Invalid TAN</span> -->
+                     
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="lkpGbCtgyId">
@@ -633,7 +616,6 @@
                 </table>
               </div>
 
-            <!-- next -->
             <div class="row" *ngIf="billingData.cneeCnorBillingCateg=='CONSIGNEE' && billingData.cneeCnorFlag==1">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
                 <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8  label-text">Consignee wise Billing</div></div>
@@ -663,7 +645,6 @@
         </mat-expansion-panel>
       </mat-accordion>
 
-    <!-- </div> -->
 
     <div style="margin-top: 3%;">
       <mat-accordion>
