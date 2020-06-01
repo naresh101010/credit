@@ -162,7 +162,7 @@
 <table aria-describedby="table-data"   mat-table  [dataSource]="dataSource" matSort>
 
   <ng-container matColumnDef="name">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>
       <mat-checkbox [checked]="selFlag" (change)="selectAll($event)" color="primary">
         <span class="service-fonts-checkbox fontWeight">NAME</span>
       </mat-checkbox>
@@ -174,40 +174,40 @@
     </td>
   </ng-container>
   <ng-container matColumnDef="lkpConsigntypeName">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>TYPE </th>
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>TYPE </th>
     <td mat-cell *matCellDef="let element"> {{element.lkpConsigntypeName | uppercase}} </td>
   </ng-container>
   <ng-container matColumnDef="panNum">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO.</th >
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO.</th >
     <td mat-cell *matCellDef="let element"> {{element.panNum | uppercase}} </td>
   </ng-container>
   <ng-container matColumnDef="gstinNum">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> GST NO. </th>
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> GST NO. </th>
     <td mat-cell *matCellDef="let element"> {{element.gstinNum | uppercase}} </td>
   </ng-container>
   <ng-container matColumnDef="tanNum">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> TAN NO. </th>
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> TAN NO. </th>
     <td mat-cell *matCellDef="let element"> {{element.tanNum | uppercase}} </td >
   </ng-container>
   <ng-container matColumnDef="mob">
-    <th mat-header-cell *matHeaderCellDef  mat-sort-header> MOBILE NO. </th >
+    <th id="table_header" mat-header-cell *matHeaderCellDef  mat-sort-header> MOBILE NO. </th >
     <td mat-cell *matCellDef="let element"> {{element.mob | uppercase}} </td>
   </ng-container>
   <ng-container matColumnDef="addr1">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> ADDRESS </th >
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> ADDRESS </th >
     <td mat-cell *matCellDef="let element" ><div class="row_center1" [matTooltip]="element.addrBook.addr1 + ' ' + element.addrBook.addr2 + ' ' + element.addrBook.addr3"
       matTooltipPosition="above">{{element.addrBook.addr1 | uppercase }} {{element.addrBook.addr2 | uppercase}} {{element.addrBook.addr3 | uppercase }}</div> </td>
   </ng-container>
   <ng-container matColumnDef="city">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header> CITY </th >
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> CITY </th >
     <td mat-cell *matCellDef="let element"> {{element.city | uppercase}} </td>
   </ng-container>
   <ng-container matColumnDef="pincode">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>PINCODE  </th>
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>PINCODE  </th>
     <td mat-cell *matCellDef="let element"> {{element.pincode | uppercase}} </td>
   </ng-container>
   <ng-container matColumnDef="dealerCode">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header>DEALER CODE  </th>
+    <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>DEALER CODE  </th>
     <td mat-cell *matCellDef="let element"> {{element.dealerCode | uppercase}} </td>
   </ng-container>
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -85,40 +85,40 @@
 
         
         <ng-container matColumnDef="custName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
           <td mat-cell *matCellDef="let element">{{element.custName | uppercase}}</td>
         </ng-container>
       
         
         <ng-container matColumnDef="sfdcAccId">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ACCOUNT ID </th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> ACCOUNT ID </th>
           <td mat-cell *matCellDef="let element"> {{element.sfdcAccId}} </td>
         </ng-container>
       
      
         <ng-container matColumnDef="pan">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> PAN</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> PAN</th>
           <td mat-cell *matCellDef="let element"> {{element.pan}}</td>
         </ng-container>
      
         <ng-container matColumnDef="gstinNum">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
           <td mat-cell *matCellDef="let element"> {{element.gstinNum}} </td>
         </ng-container>
   
         <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header>EMAIL </th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>EMAIL </th>
           <td mat-cell *matCellDef="let element"> {{element.email}} </td>
         </ng-container>
         <ng-container matColumnDef="actions1">
-          <th mat-header-cell *matHeaderCellDef >  </th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef >  </th>
           <td mat-cell *matCellDef="let element"> 
                 <button *ngIf="(perList && perList.includes('MSA_CREATE')) && !isDisable"  class="btn1" mat-raised-button color="primary" routerLink="/contract/msa"  skipLocationChange (click)="showMSA(element)">New Opportunity</button>
              </td>
         </ng-container>
 
         <ng-container matColumnDef="actions2">
-          <th mat-header-cell *matHeaderCellDef >  
+          <th id="table_header" mat-header-cell *matHeaderCellDef >  
             <a style="cursor: pointer;"  *ngIf="(perList && (perList.includes('COMMANDMENT_UPDATE') && perList.includes('CONTRACT_UPDATE'))) && isDisable"
         #tooltip="matTooltip"   matTooltip="Commandment Bulk Upload Template" matTooltipPosition="right" (click)="downloadCmdTemplate()">Download Template</a>
           </th>

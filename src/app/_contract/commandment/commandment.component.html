@@ -4,13 +4,13 @@
     <div class="billingby-container" *ngIf="cmdmntCharge.length>0" style="width: 100% !important;">
       <table aria-describedby="table-data"  mat-table [dataSource]="geoCmdmntCharge" style="width: 100% !important;">
         <ng-container matColumnDef="cmdmntName">
-          <th mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>          
+          <th id="table_header" mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>          
           <td mat-cell *matCellDef="let element; let i = index"><div style="width: 21rem !important; word-break: break-word;">{{element.cmdmntName}}
             </div>
           </td>
         </ng-container>
         <ng-container matColumnDef="freight">
-          <th mat-header-cell *matHeaderCellDef>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>
             <div style="width: 8rem !important;">MIN FREIGHT</div></th>
           <td mat-cell *matCellDef="let element; let i = index">
             <mat-checkbox (click)="$event.preventDefault()" matInput name="geoMinCalcFlag" [checked]="element.minFrieghtFlg==1?true:false"
@@ -19,7 +19,7 @@
         </ng-container>
         
         <ng-container matColumnDef="rrFlag">
-          <th mat-header-cell *matHeaderCellDef>RR FLAG</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>RR FLAG</th>
           <td mat-cell *matCellDef="let element; let i = index">
             <div *ngIf="!(element.minFrieghtFlg==1)" style="width: 24rem !important;">
             <mat-radio-group class="example-radio-group" *ngFor="let item of element.rrValueList"
@@ -41,7 +41,7 @@
         </ng-container>
         
         <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef>PRICE</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>PRICE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)"  appGreaterZero [required]="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" #geoPrice='ngModel' [(ngModel)]="element.price" matInput name="geoPrice-{{i}}" 
@@ -59,7 +59,7 @@
         </ng-container>
 
         <ng-container matColumnDef="geoTypeName">
-          <th mat-header-cell *matHeaderCellDef>BASED ON</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>BASED ON</th>
           <td mat-cell *matCellDef="let element; let i = index">
             <div style="width: 10rem !important;">
             <a *ngIf="element.geoTypeName=='PINCODE'" (click)="excludePincode(i);">{{element.geoTypeName}}</a>
@@ -69,7 +69,7 @@
         </ng-container>
 
         <ng-container matColumnDef="geoFeatureName">
-          <th mat-header-cell *matHeaderCellDef>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>
             <div style="width: 15rem !important;">FEATURE</div></th>
           <td mat-cell *matCellDef="let element; let i = index">
             {{element.geoFeatureName}}
@@ -77,7 +77,7 @@
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcTypeId">
-          <th mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpCalcTypeId='ngModel' [(ngModel)]="element.lkpCalcTypeId" name="geoLkpCalcTypeId-{{i}}" [(value)]="element.lkpCalcTypeId">
@@ -98,7 +98,7 @@
 
         
         <ng-container matColumnDef="lkpCalcUnitId">
-          <th mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpCalcUnitId='ngModel' [(ngModel)]="element.lkpCalcUnitId" name="geoLkpCalcUnitId-{{i}}" [(value)]="element.lkpCalcUnitId"
@@ -119,7 +119,7 @@
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcMeasureId">
-          <th mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpCalcMeasureId='ngModel' [(ngModel)]="element.lkpCalcMeasureId" name="geoLkpCalcMeasureId-{{i}}" [(value)]="element.lkpCalcMeasureId"
@@ -140,7 +140,7 @@
         </ng-container>
 
         <ng-container matColumnDef="lkpChrgOnId">
-          <th mat-header-cell *matHeaderCellDef>CHARGES ON</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CHARGES ON</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpChrgOnId='ngModel' [(ngModel)]="element.lkpChrgOnId" name="geoLkpChrgOnId-{{i}}" [(value)]="element.lkpChrgOnId"
@@ -161,7 +161,7 @@
         </ng-container>
 
         <ng-container matColumnDef="minVal">
-          <th mat-header-cell *matHeaderCellDef>MIN AMT</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>MIN AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline" >
               <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #geoMinVal='ngModel' [(ngModel)]="element.minVal" matInput name="geoMinVal-{{i}}" [(value)]="element.minVal"
@@ -182,7 +182,7 @@
         </ng-container>
 
         <ng-container matColumnDef="maxVal">
-          <th mat-header-cell *matHeaderCellDef>MAX AMT</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>MAX AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #geoMaxVal='ngModel' [(ngModel)]="element.maxVal" matInput name="geoMaxVal-{{i}}" [(value)]="element.maxVal"
@@ -211,7 +211,7 @@
     <div *ngIf="nonGeoCmdmntCharge.length>0" class="billingby-container" style="width: 100% !important;">
       <table aria-describedby="table-data"  mat-table [dataSource]="nonGeoCmdmntCharge" style="width: 100% !important;">
         <ng-container matColumnDef="cmdmntName">
-          <th mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>
           <td mat-cell *matCellDef="let element; let i = index">
             <div style="width: 21rem !important;word-break: break-word;">
             {{element.cmdmntName}}
@@ -219,14 +219,14 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="freight">
-          <th mat-header-cell *matHeaderCellDef><div style="width: 8rem !important;" >MIN FREIGHT</div></th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef><div style="width: 8rem !important;" >MIN FREIGHT</div></th>
           <td mat-cell *matCellDef="let element; let i = index">
             <mat-checkbox matInput (click)="$event.preventDefault()" name="nonGeoMinCalcFlag" [checked]="element.minFrieghtFlg==1?true:false"
               [disabled]="element.applicableFlag==1?false:true"> </mat-checkbox>
           </td>
         </ng-container>
         <ng-container matColumnDef="rrFlag">
-          <th mat-header-cell *matHeaderCellDef>RR FLAG</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>RR FLAG</th>
           <td mat-cell *matCellDef="let element; let i = index">
             <div *ngIf="!(element.minFrieghtFlg==1)" style="width: 24rem !important;">
             <mat-radio-group class="example-radio-group" *ngFor="let item of element.rrValueList"
@@ -249,7 +249,7 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="price">
-          <th mat-header-cell *matHeaderCellDef>PRICE</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>PRICE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" #nonGeoPrice='ngModel' [(ngModel)]="element.price" matInput name="nonGeoPrice-{{i}}" matInput name="nonGeoPrice"
@@ -270,7 +270,7 @@
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcTypeId">
-          <th mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpCalcTypeId='ngModel' [(ngModel)]="element.lkpCalcTypeId" name="nonGeoLkpCalcTypeId-{{i}}"  [(value)]="element.lkpCalcTypeId">
@@ -290,7 +290,7 @@
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcUnitId">
-          <th mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpCalcUnitId='ngModel' [(ngModel)]="element.lkpCalcUnitId" name="nonGeoLkpCalcUnitId-{{i}}" [(value)]="element.lkpCalcUnitId"
@@ -311,7 +311,7 @@
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcMeasureId">
-          <th mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpCalcMeasureId='ngModel' [(ngModel)]="element.lkpCalcMeasureId" name="nonGeoLkpCalcMeasureId-{{i}}" [(value)]="element.lkpCalcMeasureId"
@@ -332,7 +332,7 @@
         </ng-container>
 
         <ng-container matColumnDef="lkpChrgOnId">
-          <th mat-header-cell *matHeaderCellDef>CHARGES ON</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>CHARGES ON</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpChrgOnId='ngModel' [(ngModel)]="element.lkpChrgOnId" name="nonGeoLkpChrgOnId-{{i}}" [(value)]="element.lkpChrgOnId"
@@ -353,7 +353,7 @@
         </ng-container>
 
         <ng-container matColumnDef="minVal">
-          <th mat-header-cell *matHeaderCellDef>MIN AMT</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>MIN AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #nonGeoMinVal='ngModel' [(ngModel)]="element.minVal" matInput name="nonGeoMinVal-{{i}}" [(value)]="element.minVal"
@@ -374,7 +374,7 @@
         </ng-container>
 
         <ng-container matColumnDef="maxVal">
-          <th mat-header-cell *matHeaderCellDef>MAX AMT</th>
+          <th id="table_header" mat-header-cell *matHeaderCellDef>MAX AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #nonGeoMaxVal='ngModel' [(ngModel)]="element.maxVal" matInput name="nonGeoMaxVal-{{i}}" [(value)]="element.maxVal"

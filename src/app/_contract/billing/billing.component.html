@@ -363,7 +363,7 @@
             <div class="billingby-container example-container mat-elevation-z8" *ngIf="billingByLevelMapId" style="width: 100% !important;">
                 <table aria-describedby="table-data"  mat-table [dataSource]="billingData.billingBy" class="biilingTable">
                   <ng-container matColumnDef="state">
-                    <th mat-header-cell *matHeaderCellDef >STATE</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >STATE</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index" >
                       <mat-form-field appearance="outline" style="width: 80%;" class="state_dropdown">
                         <mat-select disableOptionCentering panelClass="creditSelect" name="stateId" [(value)]="element.stateId" (selectionChange)="updateList(i, 'stateId', $event.value)" panelClass="state_dropdown" [disabled]="msaBillingExists">
@@ -376,7 +376,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="assignBranchId">
-                    <th mat-header-cell *matHeaderCellDef >ASSIGN BRANCH</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >ASSIGN BRANCH</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                         <input autocomplete="true" required #assignBranchId='ngModel' [(ngModel)]="element.assignBranchName" matInput name="assignBranchId-{{i}}" readonly [(value)]="element.assignBranchName" >
@@ -389,7 +389,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="billingBranchId">
-                    <th mat-header-cell *matHeaderCellDef >BILLING BRANCH</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >BILLING BRANCH</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <a class="pincodeText" (click)="searchBillingBranch(element)" style="cursor: pointer !important;">
                       <mat-form-field appearance="outline" >                        
@@ -407,7 +407,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="submsnBranchId">
-                    <th mat-header-cell *matHeaderCellDef >SUBMISSION BRANCH</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >SUBMISSION BRANCH</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index" >
                       <div class="relative">
                       <a class="pincodeText" (click)="searchSubmissionBranch(element)" style="cursor: pointer !important;"><span class="fa fa-search fa-lg" id="billingSearch" (click)="searchSubmissionBranch(element, element.submsnBranchName)"></span>
@@ -423,7 +423,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="billtoAddr">
-                    <th mat-header-cell *matHeaderCellDef>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef>
                      <div style="min-width: 21rem !important;">BILL TO ADDRESS</div></th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" style="margin-right: .5rem !important;">
@@ -439,7 +439,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="gstinNum">
-                    <th mat-header-cell *matHeaderCellDef >GSTIN NUM</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >GSTIN NUM</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                         <input required #gstinNum='ngModel' [(ngModel)]="element.gstinNum" maxlength="15" minlength="15" [disabled]="msaBillingExists"
@@ -455,7 +455,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="collBranchId">
-                    <th mat-header-cell *matHeaderCellDef >COLLECTION BRANCH</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >COLLECTION BRANCH</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <div class="relative">
                       <a class="pincodeText" (click)="searchCollectionBranch(element)" style="cursor: pointer !important;">
@@ -472,7 +472,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="minBillingAmt"> 
-                    <th mat-header-cell *matHeaderCellDef >MIN. BILLING AMOUNT</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >MIN. BILLING AMOUNT</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                         <input required #minBillingAmt='ngModel' numeric maxlength="8" decimals="2" [disabled]="msaBillingExists" [(ngModel)]="element.minBillingAmt" matInput name="minBillingAmt-{{i}}" [(value)]="element.minBillingAmt" (keyup)="changeValue(i, 'minBillingAmt', $event.target.value)" (blur)="updateList(i, 'minBillingAmt', $event.target.value)">
@@ -488,7 +488,7 @@
                     <td></td>
                   </ng-container>
                   <ng-container matColumnDef="excludeBillingFlag">
-                    <th mat-header-cell *matHeaderCellDef >EXCLUDE BILLING</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >EXCLUDE BILLING</th>
                     <td class="paddingtopone" mat-cell *matCellDef="let element; let i = index"><div style="width: 18rem !important;">
                       <mat-radio-group style="padding-left: 1.5rem !important;" class="example-radio-group" *ngFor="let item of excludeBillingFlagList" (change)="updateList(i, 'excludeBillingFlag', $event.value)"
                       name="excludeBillingFlag{{i}}" [(value)]="element.excludeBillingFlag" [disabled]="msaBillingExists">
@@ -504,7 +504,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="excludeBillingDt">
-                    <th mat-header-cell *matHeaderCellDef >EXCLUDE BILLING DATE</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >EXCLUDE BILLING DATE</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline"  style="width: 13rem !important;">
                         <input required #excludeBillingDt='ngModel' [(ngModel)]="element.excludeBillingDt" matInput [matDatepicker]="picker2" name="excludeBillingDt-{{i}}" class="date_picker"
@@ -522,7 +522,7 @@
                   </ng-container>
 
                   <ng-container matColumnDef="tanNum">
-                    <th mat-header-cell *matHeaderCellDef >TAN</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >TAN</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                    
@@ -542,7 +542,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="lkpGbCtgyId">
-                    <th mat-header-cell *matHeaderCellDef >GB CATEGORY</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >GB CATEGORY</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                         <mat-select disableOptionCentering panelClass="creditSelect" required #lkpGbCtgyId='ngModel' [(ngModel)]="element.lkpGbCtgyId" name="lkpGbCtgyId-{{i}}" 
@@ -559,7 +559,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="creditRisk">
-                    <th mat-header-cell *matHeaderCellDef >CREDIT LIMIT</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >CREDIT LIMIT</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                         <input required #creditRisk='ngModel' [(ngModel)]="element.creditRisk" matInput name="creditRisk-{{i}}" [(value)]="element.creditRisk" 
@@ -572,7 +572,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="mnthPotential">
-                    <th mat-header-cell *matHeaderCellDef >MONTHLY POTENTIAL</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >MONTHLY POTENTIAL</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                         <input required #mnthPotential='ngModel' [(ngModel)]="element.mnthPotential" matInput name="mnthPotential-{{i}}" [(value)]="element.mnthPotential"
@@ -585,7 +585,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="ebillEmail">
-                    <th mat-header-cell *matHeaderCellDef>E-BILL E-MAIL ID</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef>E-BILL E-MAIL ID</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">     
                       <mat-form-field appearance="outline" >
                         <input required #ebillEmail='ngModel' [(ngModel)]="element.ebillEmail" matInput name="ebillEmail-{{i}}" [(value)]="element.ebillEmail" 
@@ -598,7 +598,7 @@
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="bdmEmail">
-                    <th mat-header-cell *matHeaderCellDef ><div style="min-width: 22rem !important;">BDM E-MAIL ID</div></th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef ><div style="min-width: 22rem !important;">BDM E-MAIL ID</div></th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" style="margin-right: 0 !important;">
                         <mat-select disableOptionCentering panelClass="creditSelect" #bdmEmail='ngModel' [(ngModel)]="element.bdmEmail" matInput name="bdmEmail-{{i}}" [(value)]="element.bdmEmail" [disabled]="msaBillingExists">
@@ -611,7 +611,7 @@
                         matTooltipPosition="right" class="material-icons">add</em></strong>
                   </ng-container>
                   <ng-container matColumnDef="commBillEmail">
-                    <th mat-header-cell *matHeaderCellDef >COMMUNICATION E-MAIL ID</th>
+                    <th id="table_header" mat-header-cell *matHeaderCellDef >COMMUNICATION E-MAIL ID</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
                       <mat-form-field appearance="outline" >
                         <input required #commBillEmail='ngModel' [(ngModel)]="element.commBillEmail" matInput name="commBillEmail-{{i}}" 

@@ -103,7 +103,7 @@
 
               <!-- Position Column -->
               <ng-container matColumnDef="custName">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
                 <td mat-cell *matCellDef="let element"> 
                   <a *ngIf="(perList && (perList.includes('CONTRACT_CREATE'))) && selectedValue != 'ACTIVE' && selectedValue !='EXPIRING SOON'" (click)="goToMsa(element)"><div class="row_center row_center_width" [matTooltip]="element.custName | uppercase" matTooltipPosition="above" style="width: 13rem !important;" [matTooltipDisabled]="element.custName.length<14">{{element.custName | uppercase}}</div>
                   </a>
@@ -114,29 +114,29 @@
 
               <!-- Name Column -->
               <ng-container matColumnDef="opprId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>OPPORTUNITY ID </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>OPPORTUNITY ID </th>
                 <td mat-cell *matCellDef="let element"> <div class="row_center row_center_width dashboardOppor" [matTooltip]="element.opprId" matTooltipPosition="above">{{element.opprId}}</div> </td>
               </ng-container>
 
               <!-- Weight Column -->
               <ng-container matColumnDef="pan">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO. </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO. </th>
                 <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" > {{element.pan}}</div></td>
               </ng-container>
 
               <!-- Symbol Column -->
               <ng-container matColumnDef="gstinNum">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
                 <td mat-cell *matCellDef="let element"> <div class="row_center row_center_width" [matTooltip]="element.gstinNum" matTooltipPosition="above">{{element.gstinNum}}</div> </td>
               </ng-container>
               <!-- Saleforce id -->
               <ng-container matColumnDef="sfdcAccId">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> SALEFORCE ACC.ID </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> SALEFORCE ACC.ID </th>
                 <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" [matTooltip]="element.sfdcAccId" matTooltipPosition="above" >{{element.sfdcAccId}} </div></td>
               </ng-container>
               <!-- msaCustAddrs id -->
               <ng-container matColumnDef="msaCustAddrs">
-                <th mat-header-cell *matHeaderCellDef > ADDRESS&nbsp;&nbsp;&nbsp;</th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef > ADDRESS&nbsp;&nbsp;&nbsp;</th>
                 <td mat-cell *matCellDef="let element">
                   <div *ngFor="let add of element.msaCustAddrs">
                     <em [matTooltip]="add.addr | uppercase" matTooltipPosition="above" class="material-icons">room</em>
@@ -145,34 +145,34 @@
               </ng-container>
               <!-- Saleforce id -->
               <ng-container matColumnDef="originatingSrc">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> SOURCE </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> SOURCE </th>
                 <td mat-cell *matCellDef="let element"><div class="row_center row_center_width"> {{element.originatingSrc}} </div></td>
               </ng-container>
               <ng-container matColumnDef="sfxCode" *ngIf="selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON'">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> SFX CODE </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> SFX CODE </th>
                 <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" [matTooltip]="element.cntrCode" matTooltipPosition="above">{{element.cntrCode}}</div> </td>
               </ng-container>
 
               <!-- Expiry date column -->
               <ng-container matColumnDef="expDt" *ngIf="selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON'">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> EXPIRY DATE </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> EXPIRY DATE </th>
                 <td mat-cell *matCellDef="let element" style="color: red;"> <div class="row_center row_center_width">{{element.cntrExpDt}} </div></td>
               </ng-container>
               
              <!-- Last updated date column -->
               <ng-container matColumnDef="lastUpdateDate" *ngIf="selectedValue === 'DRAFT'">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> LAST UPDATE DATE </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> LAST UPDATE DATE </th>
                 <td mat-cell *matCellDef="let element"> {{element.cntrUpdDt}} </td>
               </ng-container>
 
               <ng-container matColumnDef="version">
-                <th mat-header-cell *matHeaderCellDef> </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let element" style="padding-right: 0px;" >
                   <emclass="material-icons iconSize" style="cursor: pointer;" (click)="openDialogContractVersion(element)" *ngIf="(perList && (perList.includes('CONTRACT_READ'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">visibility</em>
                 </td>
               </ng-container>
               <ng-container matColumnDef="edit">
-                <th mat-header-cell *matHeaderCellDef> </th>
+                <th id="table_header" mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let element" style="padding-right: 0px;" >
                   <emclass="material-icons iconSize" style="cursor: pointer;" (click)="showSfxCodeData(element)" *ngIf="(perList && (perList.includes('CONTRACT_UPDATE'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">create</em>
                 </td>
