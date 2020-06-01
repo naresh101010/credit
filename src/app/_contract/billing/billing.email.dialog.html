@@ -1,7 +1,7 @@
 <div style="padding: 1.8rem;" class="contractContainer">
     <div style="position: relative;">
         <h3 id="h3">BDM E-MAIL ID</h3>
-        <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+        <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
       </div>
     <hr id="popup-hr">
     <div layout="row" fxLayout.xs="column" fxLayoutAlign="center center">
@@ -19,7 +19,7 @@
                 <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text"></div>
                     <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
-                        <span *ngIf="(address.errors?.required && (address.touched || f.submitted))" class="hasErrorMsg"><i>Required !</i></span>
+                        <span *ngIf="(address.errors?.required && (address.touched || f.submitted))" class="hasErrorMsg"><em>Required !</em></span>
                         <span *ngIf="(address.errors?.pattern && (address.touched || f.submitted))" class="hasErrorMsg">Invalid Email</span>
                     </div>
                 </div>

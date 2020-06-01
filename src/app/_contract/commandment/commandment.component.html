@@ -51,9 +51,9 @@
             </mat-form-field>
             <div *ngIf="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" class="commandmentValidation">
             <span *ngIf="(geoPrice.errors?.required && (geoPrice.touched || fCommandment.submitted))"
-                class="hasErrorMsg"><i>Required !</i></span>
+                class="hasErrorMsg"><em>Required !</em></span>
             <span *ngIf="(((geoPrice.errors?.greaterZero) || ((geoPrice.errors?.greaterZero) && fCommandment.submitted)) && (!geoPrice.errors?.required))" class="hasErrorMsg">
-              <i>Greater Than 0!</i></span>
+              <em>Greater Than 0!</em></span>
             </div>
           </td>
         </ng-container>
@@ -90,7 +90,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoLkpCalcTypeId.errors?.required && (geoLkpCalcTypeId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -112,7 +112,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoLkpCalcUnitId.errors?.required && (geoLkpCalcUnitId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -133,7 +133,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoLkpCalcMeasureId.errors?.required && (geoLkpCalcMeasureId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -154,7 +154,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoLkpChrgOnId.errors?.required && (geoLkpChrgOnId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -172,10 +172,10 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoMinVal.errors?.required && (geoMinVal.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             <span *ngIf="(((geoMinVal.errors?.greaterZero) || ((geoMinVal.errors?.greaterZero) && fCommandment.submitted)) && (!geoMinVal.errors?.required))" class="hasErrorMsg">
-              <i>Greater Than 0!</i>
+              <em>Greater Than 0!</em>
             </span>
             </div>
           </td>
@@ -193,10 +193,10 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoMaxVal.errors?.required && (geoMaxVal.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             <span *ngIf="(((geoMaxVal.errors?.greaterZero) || ((geoMaxVal.errors?.greaterZero) && fCommandment.submitted)) && (!geoMaxVal.errors?.required))" class="hasErrorMsg">
-              <i>Greater Than 0!</i>
+              <em>Greater Than 0!</em>
             </span>
             </div>
           </td>
@@ -260,10 +260,10 @@
             <div *ngIf="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" class="commandmentValidation">
             <span *ngIf="(nonGeoPrice.errors?.required && (nonGeoPrice.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             <span *ngIf="(((nonGeoPrice.errors?.greaterZero) || ((nonGeoPrice.errors?.greaterZero) && fCommandment.submitted)) && (!nonGeoPrice.errors?.required))" class="hasErrorMsg">
-              <i>Greater Than 0!</i>
+              <em>Greater Than 0!</em>
             </span>
             </div>
           </td>
@@ -283,7 +283,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpCalcTypeId.errors?.required && (nonGeoLkpCalcTypeId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -304,7 +304,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpCalcUnitId.errors?.required && (nonGeoLkpCalcUnitId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -325,7 +325,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpCalcMeasureId.errors?.required && (nonGeoLkpCalcMeasureId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -346,7 +346,7 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpChrgOnId.errors?.required && (nonGeoLkpChrgOnId.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             </div>
           </td>
@@ -364,10 +364,10 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoMinVal.errors?.required && (nonGeoMinVal.touched || fCommandment.submitted))"
                 class="hasErrorMsg">
-                <i>Required !</i>
+                <em>Required !</em>
             </span>
             <span *ngIf="(((nonGeoMinVal.errors?.greaterZero) || ((nonGeoMinVal.errors?.greaterZero) && fCommandment.submitted)) && (!nonGeoMinVal.errors?.required))" class="hasErrorMsg">
-              <i>Greater Than 0!</i>
+              <em>Greater Than 0!</em>
             </span>
             </div>
           </td>
@@ -385,10 +385,10 @@
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
               <span *ngIf="(nonGeoMaxVal.errors?.required && (nonGeoMaxVal.touched || fCommandment.submitted))"
                   class="hasErrorMsg">
-                  <i>Required !</i>
+                  <em>Required !</em>
               </span>
               <span *ngIf="(((nonGeoMaxVal.errors?.greaterZero) || ((nonGeoMaxVal.errors?.greaterZero) && fCommandment.submitted)) && (!nonGeoMaxVal.errors?.required))" class="hasErrorMsg">
-                <i>Greater Than 0!</i>
+                <em>Greater Than 0!</em>
               </span>
             </div>
           </td>

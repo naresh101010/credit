@@ -1,7 +1,7 @@
 <form *ngIf="data.msaDto && data.msaDto!=null">
   <div style="position: relative;padding: 1.8rem;">
     <h3>Preview For Edited Data</h3>
-    <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()" style="top: 1rem !important; right: 2rem !important;"></i>
+    <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()" style="top: 1rem !important; right: 2rem !important;"></em>
   </div>
   <div class="previewHeading" style="overflow: scroll; height: 500px;margin-top: 0rem !important;">
     <div class="previewHeading2" style="margin-top: 0rem !important;">
@@ -10,13 +10,13 @@
         fxLayoutAlign.xs="space-between start" class="barContent">
         <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Customer Name :<span>{{customerName}}</span>
         </div>
-        <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <i>{{data.sfxCode}}</i></div>
+        <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <em>{{data.sfxCode}}</em></div>
       </div>
       <div class="barContent" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
         fxLayoutAlign.xs="space-between start" class="barContent">
         <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Saleforce Account ID
           :<span>{{sfdcAccId}}</span></div>
-        <div fxFlex=50 fxFlex.xs=100 fxLayout="row" text-align fxLayoutAlign="end">Version : <i>{{data.version}}</i>
+        <div fxFlex=50 fxFlex.xs=100 fxLayout="row" text-align fxLayoutAlign="end">Version : <em>{{data.version}}</em>
         </div>
       </div>
       <div class="row leftSpace">

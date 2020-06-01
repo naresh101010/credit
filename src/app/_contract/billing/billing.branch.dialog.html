@@ -1,7 +1,7 @@
     <div mat-dialog-content class="contractContainer">
       <div style="position: relative;">
         <h3 id="h2">Search Branch</h3>
-        <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+        <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
       </div>
       <hr id="popup-hr">  
       <div class="row-margin" *ngIf="searchBranchFlag===false" style="max-width: 50rem;">
@@ -9,7 +9,7 @@
       <div class="col-lg-4 col-md-4  margin-row paddingzero">
         <h5 class="searchby1">Search By : Name</h5></div>        
               <div class="col-lg-6 col-md-6 " style="padding-right: 0;">       
-              <i class="fa fa-search" (click)="advanceDefaultBranchName(model.searchbyname)" id="defualtBranchSearch3" style="cursor: pointer;"></i>
+              <em class="fa fa-search" (click)="advanceDefaultBranchName(model.searchbyname)" id="defualtBranchSearch3" style="cursor: pointer;"></em>
               <input autocomplete="true" minlength="3" type="text" (click)="advanceDefaultBranchName(model.searchbyname)" (keyup.enter)="advanceDefaultBranchName(model.searchbyname)" class="form-control" required
                placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
               <div *ngIf="advanceDefaultError==true" class="error">Enter mimimum 3 character</div>             
@@ -50,7 +50,7 @@
                   <div class="col-lg-2 col-md-2 bar width">{{branch.branchName }}</div>
                   <div class="col-lg-2 col-md-2 bar width">
                     <i matTooltip={{branch.address}}
-                    matTooltipPosition="above" class="material-icons">room</i></div>
+                    matTooltipPosition="above" class="material-icons">room</em></div>
                     <div class="col-lg-2 col-md-2 bar width">{{branch.regionBranch }}</div>
                     <div class="col-lg-2 col-md-2 bar width">{{branch.branchType }}</div>
               </div>

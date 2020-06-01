@@ -13,7 +13,7 @@
   <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
       <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span>{{custName}}</span></div>
       <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{sfdcAccId}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><i>{{sfxCode}}</i></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em>{{sfxCode}}</em></div>
   </div>
   
   <form name="docform" (ngSubmit)="docform.form.valid" #docform="ngForm" novalidate>
@@ -35,7 +35,7 @@
                 </mat-option>
               </mat-select>
               </mat-form-field>
-             <p *ngIf="(doctype.errors?.required && doctype.touched)" class="hasErrorMsgRight paddingtopone"><i>Required&nbsp;!</i></p>
+             <p *ngIf="(doctype.errors?.required && doctype.touched)" class="hasErrorMsgRight paddingtopone"><em>Required&nbsp;!</em></p>
              </div>
           </div>     
 
@@ -50,7 +50,7 @@
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <p *ngIf="(Subdoctype.errors?.required && Subdoctype.touched)" class="hasErrorMsgRight paddingtopone"><i>Required&nbsp;!</i></p>
+              <p *ngIf="(Subdoctype.errors?.required && Subdoctype.touched)" class="hasErrorMsgRight paddingtopone"><em>Required&nbsp;!</em></p>
             </div>
           </div>       
           </div>
@@ -66,7 +66,7 @@
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               </mat-form-field>
               <span *ngIf="(dtpicr.errors?.required && dtpicr.touched)" class="hasErrorMsgRight paddingtopone">
-              <i>Required&nbsp;!</i>
+              <em>Required&nbsp;!</em>
               </span>
               <span *ngIf="isValidDocExpiryDate && !(dtpicr.errors?.required)" class="hasErrorMsgRight paddingtopone">
                 Invalid Expiry Date!
@@ -108,7 +108,7 @@
                 </mat-option>
               </mat-select>  
             </mat-form-field>
-            <p *ngIf="(Entitytype.errors?.required && Entitytype.touched)" class="hasErrorMsgRight paddingtopone"><i>Required&nbsp;!</i></p>
+            <p *ngIf="(Entitytype.errors?.required && Entitytype.touched)" class="hasErrorMsgRight paddingtopone"><em>Required&nbsp;!</em></p>
 
           </div>
         </div>
@@ -143,7 +143,7 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" >{{item.docSubtype}}</div>  
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">&nbsp;{{item.expDt}}</div>    
         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-right">
-          <i class="material-icons fontSizeforview" (click)="downloadDocument(item.docPathRef)" >remove_red_eye</i>
+          <i class="material-icons fontSizeforview" (click)="downloadDocument(item.docPathRef)" >remove_red_eye</em>
         </div>  
       </div>
     </div>

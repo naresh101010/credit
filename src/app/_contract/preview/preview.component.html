@@ -13,7 +13,7 @@
         </div>
   
         <div class="col-md-9 text-right">
-          <button class="Preclose_button" (click)="closePreview()" id="signCloseButton"><i class="fa fa-times fa-3x" aria-hidden="true" style="top: -2rem !important;"></i>
+          <button class="Preclose_button" (click)="closePreview()" id="signCloseButton"><em class="fa fa-times fa-3x" aria-hidden="true" style="top: -2rem !important;"></em>
           </button>
         </div>
       </div>
@@ -31,13 +31,13 @@
     <div class="barContent" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start"
       class="barContent">
       <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Customer Name : <span>{{customerName}}</span></div>
-      <div *ngIf="!data.sfxCode" fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <i> NOT GENERATED YET</i></div>
-      <div *ngIf="data.sfxCode" fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <i> {{data.sfxCode}}</i></div>
+      <div *ngIf="!data.sfxCode" fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <em> NOT GENERATED YET</em></div>
+      <div *ngIf="data.sfxCode" fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <em> {{data.sfxCode}}</em></div>
     </div>
     <div class="barContent" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start"
       class="barContent">
       <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Saleforce Account ID : <span>{{sfdcAccId}}</span></div>
-      <div fxFlex=50 fxFlex.xs=100 fxLayout="row" text-align fxLayoutAlign="end">Version : <i> {{data.version}}</i>
+      <div fxFlex=50 fxFlex.xs=100 fxLayout="row" text-align fxLayoutAlign="end">Version : <em> {{data.version}}</em>
       </div>
     </div>
     <div class="row leftSpace">

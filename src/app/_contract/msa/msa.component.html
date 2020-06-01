@@ -13,7 +13,7 @@
   <div id="mat-card-heading" fxLayout="row"  *ngFor="let user of msa.responseData" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
       <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span>{{user.custName}}</span></div>
       <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{user.sfdcAccId}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><i>{{sfxCode}}</i></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em>{{sfxCode}}</em></div>
     </div> 
     <mat-card>
       <!-- sfx -->

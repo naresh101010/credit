@@ -23,7 +23,7 @@
     <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span>{{custName}}</span></div>
     <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id :
       </span><span>{{sfdcAccId}}</span></div>
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><i>{{sfxCode}}</i>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em>{{sfxCode}}</em>
     </div>
   </div>
   <mat-card>
@@ -44,14 +44,14 @@
                     <i *ngIf="editflow" style="cursor: pointer"
                     (click)="toggleCopyRc(data)" id="toggleCopyRc">
                     <!-- <img src="../assets/images/copy-document.svg"> -->
-                    <i class="material-icons deleteIcon1" style="left: 7rem !important">file_copy</i>
+                    <i class="material-icons deleteIcon1" style="left: 7rem !important">file_copy</em>
                     <div class="future_card" *ngIf="data.showRctoggle && isRcToggle">
                     <h6 class="future_rc_txt" (click)="copyRateCard(data,'FCP')">FUTURE RATE CARD</h6>
                     <h6 class="future_rc_txt" (click)="copyRateCard(data,'CP')">COPY RATE CARD</h6>
                     </div>
-                    </i>
-                    <i  *ngIf="editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1"  style="left: 7rem !important">delete</i>
-                    <i  *ngIf="!editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1">delete</i>
+                    </em>
+                    <i  *ngIf="editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1"  style="left: 7rem !important">delete</em>
+                    <i  *ngIf="!editflow" (click)="putRatecard(data)" class="material-icons deleteIcon1">delete</em>
                     
                     </div>
                     <h6 (click)="ratecardDeailbyId(data,false)" style="cursor: pointer;">{{data.rateCardCode}}</h6>
@@ -67,7 +67,7 @@
             </div>
               <div class="commercialbox2" style="margin-right: 1rem;" *ngxPermissionsOnly="['RATE CARD_CREATE']">
                 <i class="addNewButton" (click)="changeState1()"
-                  class="material-icons addNewButton" style="position: relative;" id="addRateCard">add</i>
+                  class="material-icons addNewButton" style="position: relative;" id="addRateCard">add</em>
                 <p class="addNewText">Add New</p>
               </div>
           </div>
@@ -218,7 +218,7 @@
                   <div class="row">
                     <div class="col-lg-6 col-md-6  "></div>
                     <div class="col-lg-6 col-md-6  ">
-                      <p *ngIf="(serviceoffring.errors?.required && serviceoffring.touched)" class="redMark"><i>Required !</i></p>
+                      <p *ngIf="(serviceoffring.errors?.required && serviceoffring.touched)" class="redMark"><em>Required !</em></p>
                     </div>
                   </div>
                   <div class="row" >
@@ -261,7 +261,7 @@
                   <div class="row" *ngIf="(commandment.errors?.required && commandment.touched)">
                     <div class="col-lg-6 col-md-6  "></div>
                     <div class="col-lg-6 col-md-6  ">
-                      <p *ngIf="(commandment.errors?.required && commandment.touched)" class="redMark"><i>Required !</i></p>
+                      <p *ngIf="(commandment.errors?.required && commandment.touched)" class="redMark"><em>Required !</em></p>
                     </div>
                   </div>
 
@@ -299,7 +299,7 @@
                     'commercialbox': (selectedId != data.id)
                     }" style="margin-right: 1rem;">
                     <div class="container">
-                      <i *ngxPermissionsOnly="['COMMERCIAL_CREATE']" class="material-icons deleteIcon1" (click)="deleteCommercialDetailbyId(data.id)">delete</i>
+                      <i *ngxPermissionsOnly="['COMMERCIAL_CREATE']" class="material-icons deleteIcon1" (click)="deleteCommercialDetailbyId(data.id)">delete</em>
                       <h6 style="cursor: pointer;" (click)="getCommercialDetailbyId(data.id)">{{data.id}}</h6>
                       <mat-divider id="commercialboxdivider"></mat-divider>
                       <p *ngIf="data.chargeByName.length>13" class="card_minor_text to_upper_case heading_bold" [matTooltip]="data.chargeByName | uppercase">{{data.chargeByName}}</p>
@@ -313,7 +313,7 @@
 
               <div *ngIf="!isCopyRateCard" class="commercialbox2" style="margin-right: 1rem;">
                 <i style="color: #27AE60; font-size: 8.5rem; cursor: pointer;" (click)="getCommercialDetailbyId('')"
-                  class="material-icons addNewButton" id="addCommercialSurface" *ngxPermissionsOnly="['COMMERCIAL_CREATE']">add</i>
+                  class="material-icons addNewButton" id="addCommercialSurface" *ngxPermissionsOnly="['COMMERCIAL_CREATE']">add</em>
                 <p class="addNewText" *ngxPermissionsOnly="['COMMERCIAL_CREATE']">Add New</p>
               </div>
             </div>
@@ -716,12 +716,12 @@
                         numeric decimals="2" maxlength={{maxLength}} name="priceOne-{{i}}">
                     </mat-form-field>
                     <span *ngIf="(priceOne.errors?.required && (priceOne.touched || fCommercial.submitted))" class="hasErrorMsg">
-                      <i>Required !</i>
+                      <em>Required !</em>
                     </span>
                     <span
                       *ngIf="(((priceOne.errors?.greaterZero) || ((priceOne.errors?.greaterZero) && fCommercial.submitted)) && (!priceOne.errors?.required))"
                       class="hasErrorMsg">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>
                   <div *ngIf="CommercialDataModel.slabFlag==0" class="col-lg-1 col-md-1  ">
@@ -731,12 +731,12 @@
                     </mat-form-field>
                     <span *ngIf="(minFreightOne.errors?.required && (minFreightOne.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required !</i>
+                      <em>Required !</em>
                     </span>
                     <span
                       *ngIf="(((minFreightOne.errors?.greaterZero) || ((minFreightOne.errors?.greaterZero) && fCommercial.submitted)) && (!minFreightOne.errors?.required))"
                       class="hasErrorMsg">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>
                   <!-- <----slab 1 ----->
@@ -753,12 +753,12 @@
                         </mat-form-field>
                         <span *ngIf="(slabPrice1.errors?.required && (slabPrice1.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span
                           *ngIf="(((slabPrice1.errors?.greaterZero) || ((slabPrice1.errors?.greaterZero) && fCommercial.submitted)) && (!slabPrice1.errors?.required))"
                           class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
                       <div class="col-lg-6 col-md-6  ">
@@ -771,12 +771,12 @@
                             </mat-form-field>
                             <span *ngIf="(slabMinAmt1.errors?.required && (slabMinAmt1.touched || fCommercial.submitted))"
                               class="hasErrorMsg">
-                              <i>Required!</i>
+                              <em>Required!</em>
                             </span>
                             <span
                               *ngIf="(((slabMinAmt1.errors?.greaterZero) || ((slabMinAmt1.errors?.greaterZero) && fCommercial.submitted)) && (!slabMinAmt1.errors?.required))"
                               class="hasErrorMsg">
-                              <i>Greater Than 0!</i>
+                              <em>Greater Than 0!</em>
                             </span>
                           </div>
                         </div>
@@ -795,12 +795,12 @@
                         </mat-form-field>
                         <span *ngIf="(slabPrice2.errors?.required && (slabPrice2.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span
                           *ngIf="(((slabPrice2.errors?.greaterZero) || ((slabPrice2.errors?.greaterZero) && fCommercial.submitted)) && (!slabPrice2.errors?.required))"
                           class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
                       <div class="col-lg-6 col-md-6  ">
@@ -813,12 +813,12 @@
                             </mat-form-field>
                             <span *ngIf="(slabMinAmt2.errors?.required && (slabMinAmt2.touched || fCommercial.submitted))"
                               class="hasErrorMsg">
-                              <i>Required!</i>
+                              <em>Required!</em>
                             </span>
                             <span
                               *ngIf="(((slabMinAmt2.errors?.greaterZero) || ((slabMinAmt2.errors?.greaterZero) && fCommercial.submitted)) && (!slabMinAmt2.errors?.required))"
                               class="hasErrorMsg">
-                              <i>Greater Than 0!</i>
+                              <em>Greater Than 0!</em>
                             </span>
                           </div>
                         </div>
@@ -836,12 +836,12 @@
                         </mat-form-field>
                         <span *ngIf="(slabPrice3.errors?.required && (slabPrice3.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span
                           *ngIf="(((slabPrice3.errors?.greaterZero) || ((slabPrice3.errors?.greaterZero) && fCommercial.submitted)) && (!slabPrice3.errors?.required))"
                           class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
                       <div class="col-lg-6 col-md-6  ">
@@ -854,12 +854,12 @@
                             </mat-form-field>
                             <span *ngIf="(slabMinAmt3.errors?.required && (slabMinAmt3.touched || fCommercial.submitted))"
                               class="hasErrorMsg">
-                              <i>Required!</i>
+                              <em>Required!</em>
                             </span>
                             <span
                               *ngIf="(((slabMinAmt3.errors?.greaterZero) || ((slabMinAmt3.errors?.greaterZero) && fCommercial.submitted)) && (!slabMinAmt3.errors?.required))"
                               class="hasErrorMsg">
-                              <i>Greater Than 0!</i>
+                              <em>Greater Than 0!</em>
                             </span>
                           </div>
                         </div>
@@ -878,12 +878,12 @@
                           </mat-form-field>
                           <span *ngIf="(slabPrice4.errors?.required && (slabPrice4.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span
                             *ngIf="(((slabPrice4.errors?.greaterZero) || ((slabPrice4.errors?.greaterZero) && fCommercial.submitted)) && (!slabPrice4.errors?.required))"
                             class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                         </div>
                         <div class="col-lg-6 col-md-6  ">
@@ -896,12 +896,12 @@
                               </mat-form-field>
                               <span *ngIf="(slabMinAmt4.errors?.required && (slabMinAmt4.touched || fCommercial.submitted))"
                                 class="hasErrorMsg">
-                                <i>Required!</i>
+                                <em>Required!</em>
                               </span>
                               <span
                                 *ngIf="(((slabMinAmt4.errors?.greaterZero) || ((slabMinAmt4.errors?.greaterZero) && fCommercial.submitted)) && (!slabMinAmt4.errors?.required))"
                                 class="hasErrorMsg">
-                                <i>Greater Than 0!</i>
+                                <em>Greater Than 0!</em>
                               </span>
                             </div>
                           </div>
@@ -925,12 +925,12 @@
                           </mat-form-field>
                           <span *ngIf="(slabPrice5.errors?.required && (slabPrice5.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span
                             *ngIf="(((slabPrice5.errors?.greaterZero) || ((slabPrice5.errors?.greaterZero) && fCommercial.submitted)) && (!slabPrice5.errors?.required))"
                             class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                         </div>
                         <div class="col-lg-6 col-md-6  ">
@@ -943,12 +943,12 @@
                               </mat-form-field>
                               <span *ngIf="(slabMinAmt5.errors?.required && (slabMinAmt5.touched || fCommercial.submitted))"
                                 class="hasErrorMsg">
-                                <i>Required!</i>
+                                <em>Required!</em>
                               </span>
                               <span
                                 *ngIf="(((slabMinAmt5.errors?.greaterZero) || ((slabMinAmt5.errors?.greaterZero) && fCommercial.submitted)) && (!slabMinAmt5.errors?.required))"
                                 class="hasErrorMsg">
-                                <i>Greater Than 0!</i>
+                                <em>Greater Than 0!</em>
                               </span>
                             </div>
                           </div>
@@ -1095,7 +1095,7 @@
                   </mat-form-field>
                   <span *ngIf="(lkpSrcTypeId.errors?.required && (lkpSrcTypeId.touched || fCommercial.submitted))"
                     class="hasErrorMsg">
-                    <i>Required!</i>
+                    <em>Required!</em>
                   </span>
                 </div>
                 <div class="col-lg-1 col-md-1   slab_width1">
@@ -1108,7 +1108,7 @@
                   </mat-form-field>
                   <span *ngIf="(lkpDestTypeId.errors?.required && (lkpDestTypeId.touched || fCommercial.submitted))"
                     class="hasErrorMsg">
-                    <i>Required!</i>
+                    <em>Required!</em>
                   </span>
                 </div>
                 <!-- for source -->
@@ -1122,7 +1122,7 @@
                   </mat-form-field> 
                   <span *ngIf="(srcId.errors?.required && (srcId.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>                              
               </div>
                 <div class="col-lg-1 col-md-1   slab_width1" *ngIf="field.lkpSrcTypeName=='STATE'">
@@ -1135,7 +1135,7 @@
                     </mat-form-field>
                     <span *ngIf="(srcId.errors?.required && (srcId.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                 </div>
                 <div class="col-lg-1 col-md-1   slab_width1" *ngIf="field.lkpSrcTypeName=='DISTRICT'">
@@ -1148,7 +1148,7 @@
                   </mat-form-field>
                   <span *ngIf="(srcId.errors?.required && (srcId.touched || fCommercial.submitted))"
                     class="hasErrorMsg">
-                    <i>Required!</i>
+                    <em>Required!</em>
                   </span>
               </div>
               <div class="col-lg-1 col-md-1   slab_width1" *ngIf="field.lkpSrcTypeName=='CITY'">
@@ -1161,7 +1161,7 @@
                 </mat-form-field>
                 <span *ngIf="(srcId.errors?.required && (srcId.touched || fCommercial.submitted))"
                   class="hasErrorMsg">
-                  <i>Required!</i>
+                  <em>Required!</em>
                 </span>
             </div>
             <div class="col-lg-1 col-md-1   slab_width1" *ngIf="field.lkpSrcTypeName=='PINCODE'">
@@ -1174,7 +1174,7 @@
                     </mat-form-field>
                     <span *ngIf="(srcId.errors?.required && (srcId.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                   </a>
               </div>
@@ -1190,7 +1190,7 @@
                   </mat-form-field>
                   <span *ngIf="(destId.errors?.required && (destId.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
               </div>
                 <div class="col-lg-1 col-md-1   slab_width1" *ngIf="field.lkpDestTypeName=='STATE'">
@@ -1203,7 +1203,7 @@
                     </mat-form-field>
                     <span *ngIf="(destId.errors?.required && (destId.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                 </div>
                 <div class="col-lg-1 col-md-1   slab_width1" *ngIf="field.lkpDestTypeName=='DISTRICT'">
@@ -1216,7 +1216,7 @@
                   </mat-form-field>
                   <span *ngIf="(destId1.errors?.required && (destId1.touched || fCommercial.submitted))"
                     class="hasErrorMsg">
-                    <i>Required!</i>
+                    <em>Required!</em>
                   </span>
               </div>
               <div class="col-lg-1 col-md-1   slab_width1" *ngIf="field.lkpDestTypeName=='CITY'">
@@ -1229,7 +1229,7 @@
                 </mat-form-field>
                 <span *ngIf="(destId.errors?.required && (destId.touched || fCommercial.submitted))"
                   class="hasErrorMsg">
-                  <i>Required!</i>
+                  <em>Required!</em>
                 </span>
             </div>
                
@@ -1243,7 +1243,7 @@
                           </mat-form-field>
                           <span *ngIf="(destId.errors?.required && (destId.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                         </a>
                     </div>
@@ -1254,10 +1254,10 @@
                         </mat-form-field>
                         <span *ngIf="(crmPrice.errors?.required && (crmPrice.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((crmPrice.errors?.greaterZero) || ((crmPrice.errors?.greaterZero) && fCommercial.submitted)) && (!crmPrice.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
                       <div class="col-lg-1 col-md-1   slab_width">
@@ -1266,10 +1266,10 @@
                         </mat-form-field>
                         <span *ngIf="(crmMinFreight.errors?.required && (crmMinFreight.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((crmMinFreight.errors?.greaterZero) || ((crmMinFreight.errors?.greaterZero) && fCommercial.submitted)) && (!crmMinFreight.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div> 
                     </div>
@@ -1283,10 +1283,10 @@
                         </mat-form-field>
                         <span *ngIf="(crmPrice1.errors?.required && (crmPrice1.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((crmPrice1.errors?.greaterZero) || ((crmPrice1.errors?.greaterZero) && fCommercial.submitted)) && (!crmPrice1.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1   slab_width">
@@ -1296,10 +1296,10 @@
                       </mat-form-field>
                       <span *ngIf="(crmMinFreight1.errors?.required && (crmMinFreight1.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((crmMinFreight1.errors?.greaterZero) || ((crmMinFreight1.errors?.greaterZero) && fCommercial.submitted)) && (!crmMinFreight1.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
                     <!-- Slab 1 -->
@@ -1314,10 +1314,10 @@
                       </mat-form-field>
                       <span *ngIf="(crmPrice2.errors?.required && (crmPrice2.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((crmPrice2.errors?.greaterZero) || ((crmPrice2.errors?.greaterZero) && fCommercial.submitted)) && (!crmPrice2.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                   </div>
                   <div class="col-lg-1 col-md-1   slab_width">
@@ -1327,10 +1327,10 @@
                     </mat-form-field>
                     <span *ngIf="(crmMinFreight2.errors?.required && (crmMinFreight2.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                     <span *ngIf="(((crmMinFreight2.errors?.greaterZero) || ((crmMinFreight2.errors?.greaterZero) && fCommercial.submitted)) && (!crmMinFreight2.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>
                   <!-- Slab-->
@@ -1345,10 +1345,10 @@
                       </mat-form-field>
                       <span *ngIf="(crmPricethree.errors?.required && (crmPricethree.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((crmPricethree.errors?.greaterZero) || ((crmPricethree.errors?.greaterZero) && fCommercial.submitted)) && (!crmPricethree.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                   </div>
                   <div class="col-lg-1 col-md-1   slab_width">
@@ -1358,10 +1358,10 @@
                     </mat-form-field>
                     <span *ngIf="(crmMinFreightthree.errors?.required && (crmMinFreightthree.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                     <span *ngIf="(((crmMinFreightthree.errors?.greaterZero) || ((crmMinFreightthree.errors?.greaterZero) && fCommercial.submitted)) && (!crmMinFreightthree.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>
                   <!-- Slab 3 -->
@@ -1377,10 +1377,10 @@
                         </mat-form-field>
                         <span *ngIf="(crmPriceFour.errors?.required && (crmPriceFour.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((crmPriceFour.errors?.greaterZero) || ((crmPriceFour.errors?.greaterZero) && fCommercial.submitted)) && (!crmPriceFour.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1   slab_width">
@@ -1390,10 +1390,10 @@
                       </mat-form-field>
                       <span *ngIf="(crmMinFreightfour.errors?.required && (crmMinFreightfour.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((crmMinFreightfour.errors?.greaterZero) || ((crmMinFreightfour.errors?.greaterZero) && fCommercial.submitted)) && (!crmMinFreightfour.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
                   </div>
@@ -1409,10 +1409,10 @@
                         </mat-form-field>
                         <span *ngIf="(crmPriceFive.errors?.required && (crmPriceFive.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((crmPriceFive.errors?.greaterZero) || ((crmPriceFive.errors?.greaterZero) && fCommercial.submitted)) && (!crmPriceFive.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1   slab_width">
@@ -1422,10 +1422,10 @@
                       </mat-form-field>
                       <span *ngIf="(crmMinFreightFive.errors?.required && (crmMinFreightFive.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((crmMinFreightFive.errors?.greaterZero) || ((crmMinFreightFive.errors?.greaterZero) && fCommercial.submitted)) && (!crmMinFreightFive.errors?.required))" class="hasErrorMsg" style="font-size: smaller;">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
                   </div>
@@ -1433,7 +1433,7 @@
                 <!-- <slab 5 ends here > -->
 
               </div>
-              <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon" ><i class="material-icons" (click)="deleteCustomRM(field, i)" style="cursor: pointer;color: #27AE60;">delete</i></span></div>
+              <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon" ><i class="material-icons" (click)="deleteCustomRM(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
               </div>
             </div>
             </form></div>
@@ -1602,10 +1602,10 @@
                     </mat-form-field>
                     <span *ngIf="(dcprice.errors?.required && (dcprice.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                     <span *ngIf="(((dcprice.errors?.greaterZero) || ((dcprice.errors?.greaterZero) && fCommercial.submitted)) && (!dcprice.errors?.required))" class="hasErrorMsg">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>           
                   <div class="col-lg-1 col-md-1   " >
@@ -1614,10 +1614,10 @@
                     </mat-form-field>
                     <span *ngIf="(dcminAmt.errors?.required && (dcminAmt.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                     <span *ngIf="(((dcminAmt.errors?.greaterZero) || ((dcminAmt.errors?.greaterZero) && fCommercial.submitted)) && (!dcminAmt.errors?.required))" class="hasErrorMsg">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>
                 </div>
@@ -1630,10 +1630,10 @@
                           </mat-form-field>
                           <span *ngIf="(dcprice.errors?.required && (dcprice.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((dcprice.errors?.greaterZero) || ((dcprice.errors?.greaterZero) && fCommercial.submitted)) && (!dcprice.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                       </div>
                       <div class="col-lg-1 col-md-1  ">
@@ -1643,10 +1643,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcminAmt.errors?.required && (dcminAmt.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcminAmt.errors?.greaterZero) || ((dcminAmt.errors?.greaterZero) && fCommercial.submitted)) && (!dcminAmt.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
                     </div>
@@ -1658,10 +1658,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcprice2.errors?.required && (dcprice2.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcprice2.errors?.greaterZero) || ((dcprice2.errors?.greaterZero) && fCommercial.submitted)) && (!dcprice2.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -1671,10 +1671,10 @@
                       </mat-form-field>
                       <span *ngIf="(dcminAmt2.errors?.required && (dcminAmt2.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((dcminAmt2.errors?.greaterZero) || ((dcminAmt2.errors?.greaterZero) && fCommercial.submitted)) && (!dcminAmt2.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>  
                   </div>
@@ -1686,10 +1686,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcprice3.errors?.required && (dcprice3.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcprice3.errors?.greaterZero) || ((dcprice3.errors?.greaterZero) && fCommercial.submitted)) && (!dcprice3.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -1699,10 +1699,10 @@
                       </mat-form-field>
                       <span *ngIf="(dcminAmt3.errors?.required && (dcminAmt3.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((dcminAmt3.errors?.greaterZero) || ((dcminAmt3.errors?.greaterZero) && fCommercial.submitted)) && (!dcminAmt3.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>  
                   </div>
@@ -1714,10 +1714,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcprice4.errors?.required && (dcprice4.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcprice4.errors?.greaterZero) || ((dcprice4.errors?.greaterZero) && fCommercial.submitted)) && (!dcprice4.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -1727,10 +1727,10 @@
                       </mat-form-field>
                       <span *ngIf="(dcminAmt4.errors?.required && (dcminAmt4.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((dcminAmt4.errors?.greaterZero) || ((dcminAmt4.errors?.greaterZero) && fCommercial.submitted)) && (!dcminAmt4.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>  
                   </div>
@@ -1742,10 +1742,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcprice5.errors?.required && (dcprice5.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcprice5.errors?.greaterZero) || ((dcprice5.errors?.greaterZero) && fCommercial.submitted)) && (!dcprice5.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -1755,10 +1755,10 @@
                       </mat-form-field>
                       <span *ngIf="(dcminAmt5.errors?.required && (dcminAmt5.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((dcminAmt5.errors?.greaterZero) || ((dcminAmt5.errors?.greaterZero) && fCommercial.submitted)) && (!dcminAmt5.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>  
                   </div>
@@ -1892,7 +1892,7 @@
                         </mat-form-field>
                         <span *ngIf="(dcmfromId.errors?.required && (dcmfromId.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                       </a>
                     </div>
@@ -1906,7 +1906,7 @@
                         </mat-form-field>
                         <span *ngIf="(dcmfromId.errors?.required && (dcmfromId.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         </div>
 
@@ -1917,10 +1917,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcmprice.errors?.required && (dcmprice.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcmprice.errors?.greaterZero) || ((dcmprice.errors?.greaterZero) && fCommercial.submitted)) && (!dcmprice.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -1929,10 +1929,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcmMinAmt.errors?.required && (dcmMinAmt.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcmMinAmt.errors?.greaterZero) || ((dcmMinAmt.errors?.greaterZero) && fCommercial.submitted)) && (!dcmMinAmt.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                   </div>
@@ -1947,10 +1947,10 @@
                             </mat-form-field>
                             <span *ngIf="(dcmprice.errors?.required && (dcmprice.touched || fCommercial.submitted))"
                               class="hasErrorMsg">
-                              <i>Required!</i>
+                              <em>Required!</em>
                             </span>
                             <span *ngIf="(((dcmprice.errors?.greaterZero) || ((dcmprice.errors?.greaterZero) && fCommercial.submitted)) && (!dcmprice.errors?.required))" class="hasErrorMsg">
-                              <i>Greater Than 0!</i>
+                              <em>Greater Than 0!</em>
                             </span>
                         </div>
                         <div class="col-lg-1 col-md-1  ">
@@ -1960,10 +1960,10 @@
                           </mat-form-field>
                           <span *ngIf="(dcmMinAmt.errors?.required && (dcmMinAmt.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((dcmMinAmt.errors?.greaterZero) || ((dcmMinAmt.errors?.greaterZero) && fCommercial.submitted)) && (!dcmMinAmt.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                         </div>
       
@@ -1976,10 +1976,10 @@
                           </mat-form-field>
                           <span *ngIf="(dcmprice2.errors?.required && (dcmprice2.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((dcmprice2.errors?.greaterZero) || ((dcmprice2.errors?.greaterZero) && fCommercial.submitted)) && (!dcmprice2.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                       </div>
                       <div class="col-lg-1 col-md-1  ">
@@ -1989,10 +1989,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcmMinAmt2.errors?.required && (dcmMinAmt2.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcmMinAmt2.errors?.greaterZero) || ((dcmMinAmt2.errors?.greaterZero) && fCommercial.submitted)) && (!dcmMinAmt2.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
     
@@ -2005,10 +2005,10 @@
                           </mat-form-field>
                           <span *ngIf="(dcmprice3.errors?.required && (dcmprice3.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((dcmprice3.errors?.greaterZero) || ((dcmprice3.errors?.greaterZero) && fCommercial.submitted)) && (!dcmprice3.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                       </div>
                       <div class="col-lg-1 col-md-1  ">
@@ -2018,10 +2018,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcmMinAmt3.errors?.required && (dcmMinAmt3.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcmMinAmt3.errors?.greaterZero) || ((dcmMinAmt3.errors?.greaterZero) && fCommercial.submitted)) && (!dcmMinAmt3.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
     
@@ -2034,10 +2034,10 @@
                           </mat-form-field>
                           <span *ngIf="(dcmprice4.errors?.required && (dcmprice4.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((dcmprice4.errors?.greaterZero) || ((dcmprice4.errors?.greaterZero) && fCommercial.submitted)) && (!dcmprice4.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                       </div>
                       <div class="col-lg-1 col-md-1  ">
@@ -2047,10 +2047,10 @@
                         </mat-form-field>
                         <span *ngIf="(dcmMinAmt4.errors?.required && (dcmMinAmt4.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcmMinAmt4.errors?.greaterZero) || ((dcmMinAmt4.errors?.greaterZero) && fCommercial.submitted)) && (!dcmMinAmt4.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
     
@@ -2063,10 +2063,10 @@
                           </mat-form-field>
                           <span *ngIf="(dcmprice5.errors?.required && (dcmprice5.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((dcmprice5.errors?.greaterZero) || ((dcmprice5.errors?.greaterZero) && fCommercial.submitted)) && (!dcmprice5.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                       </div>
                       <div class="col-lg-1 col-md-1  ">
@@ -2076,16 +2076,16 @@
                         </mat-form-field>
                         <span *ngIf="(dcmMinAmt5.errors?.required && (dcmMinAmt5.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((dcmMinAmt5.errors?.greaterZero) || ((dcmMinAmt5.errors?.greaterZero) && fCommercial.submitted)) && (!dcmMinAmt5.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
     
                     </div>
                   </div>
-                  <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><i class="material-icons" (click)="deleteSfxDlvrCusMP(i)" style="cursor: pointer;color: #27AE60;">delete</i></span></div>
+                  <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><i class="material-icons" (click)="deleteSfxDlvrCusMP(i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
                   </div>
                 </div>
                 </div>
@@ -2213,10 +2213,10 @@
                     </mat-form-field>
                     <span *ngIf="(bcprice.errors?.required && (bcprice.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                     <span *ngIf="(((bcprice.errors?.greaterZero) || ((bcprice.errors?.greaterZero) && fCommercial.submitted)) && (!bcprice.errors?.required))" class="hasErrorMsg">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>           
                   <div class="col-lg-1 col-md-1  " >
@@ -2225,10 +2225,10 @@
                     </mat-form-field>
                     <span *ngIf="(bcminAmt.errors?.required && (bcminAmt.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                     </span>
                     <span *ngIf="(((bcminAmt.errors?.greaterZero) || ((bcminAmt.errors?.greaterZero) && fCommercial.submitted)) && (!bcminAmt.errors?.required))" class="hasErrorMsg">
-                      <i>Greater Than 0!</i>
+                      <em>Greater Than 0!</em>
                     </span>
                   </div>
                 </div>
@@ -2241,10 +2241,10 @@
                           </mat-form-field>
                           <span *ngIf="(bcprice.errors?.required && (bcprice.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((bcprice.errors?.greaterZero) || ((bcprice.errors?.greaterZero) && fCommercial.submitted)) && (!bcprice.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                       </div>
                       <div class="col-lg-1 col-md-1  ">
@@ -2254,10 +2254,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcminAmt.errors?.required && (bcminAmt.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcminAmt.errors?.greaterZero) || ((bcminAmt.errors?.greaterZero) && fCommercial.submitted)) && (!bcminAmt.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
     
@@ -2269,10 +2269,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcprice2.errors?.required && (bcprice2.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcprice2.errors?.greaterZero) || ((bcprice2.errors?.greaterZero) && fCommercial.submitted)) && (!bcprice2.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2282,10 +2282,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcminAmt2.errors?.required && (bcminAmt2.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcminAmt2.errors?.greaterZero) || ((bcminAmt2.errors?.greaterZero) && fCommercial.submitted)) && (!bcminAmt2.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
   
@@ -2298,10 +2298,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcprice3.errors?.required && (bcprice3.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcprice3.errors?.greaterZero) || ((bcprice3.errors?.greaterZero) && fCommercial.submitted)) && (!bcprice3.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2311,10 +2311,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcminAmt3.errors?.required && (bcminAmt3.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcminAmt3.errors?.greaterZero) || ((bcminAmt3.errors?.greaterZero) && fCommercial.submitted)) && (!bcminAmt3.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
                   </div>
@@ -2325,10 +2325,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcprice4.errors?.required && (bcprice4.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcprice4.errors?.greaterZero) || ((bcprice4.errors?.greaterZero) && fCommercial.submitted)) && (!bcprice4.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2338,10 +2338,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcminAmt4.errors?.required && (bcminAmt4.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcminAmt4.errors?.greaterZero) || ((bcminAmt4.errors?.greaterZero) && fCommercial.submitted)) && (!bcminAmt4.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
                   </div>
@@ -2352,10 +2352,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcprice5.errors?.required && (bcprice5.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcprice5.errors?.greaterZero) || ((bcprice5.errors?.greaterZero) && fCommercial.submitted)) && (!bcprice5.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2365,10 +2365,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcminAmt5.errors?.required && (bcminAmt5.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcminAmt5.errors?.greaterZero) || ((bcminAmt5.errors?.greaterZero) && fCommercial.submitted)) && (!bcminAmt5.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
                   </div>
@@ -2499,7 +2499,7 @@
                       </mat-form-field>
                       <span *ngIf="(toId.errors?.required && (toId.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                     </a>
                   </div>
@@ -2514,7 +2514,7 @@
                       </mat-form-field>
                       <span *ngIf="(toId.errors?.required && (toId.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       </div>
 
@@ -2525,10 +2525,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcmPrice.errors?.required && (bcmPrice.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcmPrice.errors?.greaterZero) || ((bcmPrice.errors?.greaterZero) && fCommercial.submitted)) && (!bcmPrice.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                   </div>
                   <div class="col-lg-1 col-md-1  ">
@@ -2537,10 +2537,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcmMinAmt.errors?.required && (bcmMinAmt.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcmMinAmt.errors?.greaterZero) || ((bcmMinAmt.errors?.greaterZero) && fCommercial.submitted)) && (!bcmMinAmt.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                   </div>
                 </div>
@@ -2554,10 +2554,10 @@
                           </mat-form-field>
                           <span *ngIf="(bcmPrice.errors?.required && (bcmPrice.touched || fCommercial.submitted))"
                             class="hasErrorMsg">
-                            <i>Required!</i>
+                            <em>Required!</em>
                           </span>
                           <span *ngIf="(((bcmPrice.errors?.greaterZero) || ((bcmPrice.errors?.greaterZero) && fCommercial.submitted)) && (!bcmPrice.errors?.required))" class="hasErrorMsg">
-                            <i>Greater Than 0!</i>
+                            <em>Greater Than 0!</em>
                           </span>
                       </div>
                       <div class="col-lg-1 col-md-1  ">
@@ -2567,10 +2567,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcmMinAmt.errors?.required && (bcmMinAmt.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcmMinAmt.errors?.greaterZero) || ((bcmMinAmt.errors?.greaterZero) && fCommercial.submitted)) && (!bcmMinAmt.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                       </div>
     
@@ -2583,10 +2583,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcmPrice2.errors?.required && (bcmPrice2.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcmPrice2.errors?.greaterZero) || ((bcmPrice2.errors?.greaterZero) && fCommercial.submitted)) && (!bcmPrice2.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2596,10 +2596,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcmMinAmt2.errors?.required && (bcmMinAmt2.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcmMinAmt2.errors?.greaterZero) || ((bcmMinAmt2.errors?.greaterZero) && fCommercial.submitted)) && (!bcmMinAmt2.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
   
@@ -2612,10 +2612,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcmPrice3.errors?.required && (bcmPrice3.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcmPrice3.errors?.greaterZero) || ((bcmPrice3.errors?.greaterZero) && fCommercial.submitted)) && (!bcmPrice3.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2625,10 +2625,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcmMinAmt3.errors?.required && (bcmMinAmt3.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcmMinAmt3.errors?.greaterZero) || ((bcmMinAmt3.errors?.greaterZero) && fCommercial.submitted)) && (!bcmMinAmt3.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
   
@@ -2641,10 +2641,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcmPrice4.errors?.required && (bcmPrice4.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcmPrice4.errors?.greaterZero) || ((bcmPrice4.errors?.greaterZero) && fCommercial.submitted)) && (!bcmPrice4.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2654,10 +2654,10 @@
                       </mat-form-field>
                       <span *ngIf="(bcmMinAmt4.errors?.required && (bcmMinAmt4.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcmMinAmt4.errors?.greaterZero) || ((bcmMinAmt4.errors?.greaterZero) && fCommercial.submitted)) && (!bcmMinAmt4.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
   
@@ -2670,10 +2670,10 @@
                         </mat-form-field>
                         <span *ngIf="(bcmPrice5.errors?.required && (bcmPrice5.touched || fCommercial.submitted))"
                           class="hasErrorMsg">
-                          <i>Required!</i>
+                          <em>Required!</em>
                         </span>
                         <span *ngIf="(((bcmPrice5.errors?.greaterZero) || ((bcmPrice5.errors?.greaterZero) && fCommercial.submitted)) && (!bcmPrice5.errors?.required))" class="hasErrorMsg">
-                          <i>Greater Than 0!</i>
+                          <em>Greater Than 0!</em>
                         </span>
                     </div>
                     <div class="col-lg-1 col-md-1  ">
@@ -2683,16 +2683,16 @@
                       </mat-form-field>
                       <span *ngIf="(bcmMinAmt5.errors?.required && (bcmMinAmt5.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((bcmMinAmt5.errors?.greaterZero) || ((bcmMinAmt5.errors?.greaterZero) && fCommercial.submitted)) && (!bcmMinAmt5.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>
                     </div>
   
                   </div>
                 </div>
-                <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><i matTooltipPosition="above" class="material-icons" (click)="deleteSfxBkngCusM(field, i)" style="cursor: pointer;color: #27AE60;">delete</i></span></div>
+                <div class="col-lg-1 col-md-1 " style="width: 0px !important;"> <span *ngIf ="field.deleteicon"><i matTooltipPosition="above" class="material-icons" (click)="deleteSfxBkngCusM(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
                 </div>
               </div>
             </div>
@@ -2743,10 +2743,10 @@
                       </mat-form-field>    
                       <span *ngIf="(pricingParamVal.errors?.required && (pricingParamVal.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((pricingParamVal.errors?.greaterZero) || ((pricingParamVal.errors?.greaterZero) && fCommercial.submitted)) && (!pricingParamVal.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>                  
                     </div>
                     <div class="col-lg-2 col-md-2   row-margin"></div>
@@ -2770,10 +2770,10 @@
                       </mat-form-field> 
                       <span *ngIf="(safexSlaDisabled.errors?.required && (safexSlaDisabled.touched || fCommercial.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                       </span>
                       <span *ngIf="(((safexSlaDisabled.errors?.greaterZero) || ((safexSlaDisabled.errors?.greaterZero) && fCommercial.submitted)) && (!safexSlaDisabled.errors?.required))" class="hasErrorMsg">
-                        <i>Greater Than 0!</i>
+                        <em>Greater Than 0!</em>
                       </span>                                   
                     </div>
                     <div class="col-lg-1 col-md-1  "></div>
@@ -2845,7 +2845,7 @@
                   'commercialbox': (selectedIdcmd != data.id)
                   }" style="margin-right: 1rem;">
                   <div class="container">
-                    <i class="material-icons deleteIcon1"></i>
+                    <i class="material-icons deleteIcon1"></em>
                     <h6 style="cursor: pointer;" (click)="getCommandmentDetailbyId(data.id)">{{data.id}}</h6>
                     <mat-divider id="commercialboxdivider"></mat-divider>
                     <p *ngIf="data.chargeByName.length>13" class="card_minor_text to_upper_case heading_bold" [matTooltip]="data.chargeByName | uppercase">{{data.chargeByName}}</p>
@@ -3699,7 +3699,7 @@
             </div>
             <div class="row">
               <div class="col-lg-4 col-md-4  ">
-                <h4 *ngIf="this.radioButtontncData.length === 0"><i>No Data Available</i></h4>
+                <h4 *ngIf="this.radioButtontncData.length === 0"><em>No Data Available</em></h4>
               </div>
             </div>
             <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of radioButtontncData; let i = index">
@@ -3793,7 +3793,7 @@
                     <input #branch='ngModel' required [ngModel]="field.bkngBranchName" [readonly]="field.bkngBranchName" autocomplete="true" list="brow1" class="inputfield3 backgroundWhite form-control input-md"  name="bkngBranchName-{{i}}" 
                     (change)="onDefaultBranchChanged(priFilter.bkngBranchName)" (keydown.enter)="openBaseLDialogBr(field)" placeholder="search" style="height: 2.7rem; padding-left: 2.3rem;cursor: pointer; position: relative;"/>
                     </a>
-                    <span *ngIf="(branch.errors?.required && branch.touched)" class="hasErrorMsgTopSide"><i>Required !</i></span>
+                    <span *ngIf="(branch.errors?.required && branch.touched)" class="hasErrorMsgTopSide"><em>Required !</em></span>
                 </div>
                 
                 <div class="col-lg-2 col-md-2  " style="width: 12%;">
@@ -3863,8 +3863,8 @@
                 </div>
                 <div class="col-lg-1 col-md-1   " style="width: 15%;" *ngxPermissionsOnly="['CUSTOMER LOCATION_CREATE','CUSTOMER LOCATION_UPDATE']">
 
-                  <div class="col-lg-6 col-md-6  " > <span  class="text-center"><i matTooltipPosition="above" class="material-icons" (click)="openCCDialog(field)" style="cursor: pointer;color: #27AE60;">room</i></span> </div>
-                  <div class="col-lg-6 col-md-6  " > <span *ngIf ="field.newBranch && i > 0" style="padding-left: 2rem;"  class="text-center" ><i matTooltipPosition="above" class="material-icons" (click)="deleteBranch(field, i)" style="cursor: pointer;color: #27AE60;">delete</i></span></div>
+                  <div class="col-lg-6 col-md-6  " > <span  class="text-center"><i matTooltipPosition="above" class="material-icons" (click)="openCCDialog(field)" style="cursor: pointer;color: #27AE60;">room</em></span> </div>
+                  <div class="col-lg-6 col-md-6  " > <span *ngIf ="field.newBranch && i > 0" style="padding-left: 2rem;"  class="text-center" ><i matTooltipPosition="above" class="material-icons" (click)="deleteBranch(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
                  
                  
                 </div>
@@ -3936,10 +3936,10 @@
                   </mat-form-field>
                   <span *ngIf="(slaDays.errors?.required && (slaDays.touched || fSLA.submitted))"
                       class="hasErrorMsgRight">
-                      <i>Required!</i>
+                      <em>Required!</em>
                   </span>
                   <span *ngIf="(((slaDays.errors?.greaterZero) || ((slaDays.errors?.greaterZero) && fSLA.submitted)) && (!slaDays.errors?.required))" class="hasErrorMsgRight">
-                    <i>Greater Than 0!</i>
+                    <em>Greater Than 0!</em>
                   </span>
  
                 </div>
@@ -3977,7 +3977,7 @@
                   </mat-form-field>
                   <span *ngIf="(lkpSrcTypeId.errors?.required && (lkpSrcTypeId.touched || fSLA.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                   </span>
                 </div>
                 <div class="col-lg-2 col-md-2  ">
@@ -3990,7 +3990,7 @@
                   </mat-form-field>
                   <span *ngIf="(lkpDestTypeId.errors?.required && (lkpDestTypeId.touched || fSLA.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                   </span>
                 </div>
                 <div class="col-lg-2 col-md-2   " *ngIf="!field.fromTypeSLA && field.defaultFlagFromSla==true">
@@ -4012,7 +4012,7 @@
                  </mat-form-field>
                  <span *ngIf="(srcId.errors?.required && (srcId.touched || fSLA.submitted))"
                      class="hasErrorMsg">
-                     <i>Required!</i>
+                     <em>Required!</em>
                  </span>
              </div>
              <div class="col-lg-2 col-md-2   " *ngIf='field.fromTypeSLA==="DISTRICT"'>
@@ -4025,7 +4025,7 @@
                </mat-form-field>
                <span *ngIf="(srcId.errors?.required && (srcId.touched || fSLA.submitted))"
                    class="hasErrorMsg">
-                   <i>Required!</i>
+                   <em>Required!</em>
                </span>
            </div>
            <div class="col-lg-2 col-md-2   " *ngIf='field.fromTypeSLA==="CITY"'>
@@ -4038,7 +4038,7 @@
              </mat-form-field>
              <span *ngIf="(srcId.errors?.required && (srcId.touched || fSLA.submitted))"
                  class="hasErrorMsg">
-                 <i>Required!</i>
+                 <em>Required!</em>
              </span>
          </div>
          <div class="col-lg-2 col-md-2   " *ngIf='field.fromTypeSLA==="PINCODE"'>
@@ -4051,7 +4051,7 @@
               </mat-form-field>
               <span *ngIf="(srcId.errors?.required && (srcId.touched || fSLA.submitted))"
                   class="hasErrorMsg">
-                  <i>Required!</i>
+                  <em>Required!</em>
               </span>
             </a>
            </div>
@@ -4066,7 +4066,7 @@
              </mat-form-field>
              <span *ngIf="(destId.errors?.required && (destId.touched || fSLA.submitted))"
                  class="hasErrorMsg">
-                 <i>Required!</i>
+                 <em>Required!</em>
              </span>
             </div>
              <div class="col-lg-2 col-md-2   " *ngIf='field.toTypeSLA==="STATE"'>
@@ -4079,7 +4079,7 @@
                  </mat-form-field>
                  <span *ngIf="(destId.errors?.required && (destId.touched || fSLA.submitted))"
                      class="hasErrorMsg">
-                     <i>Required!</i>
+                     <em>Required!</em>
                  </span>
              </div>
              <div class="col-lg-2 col-md-2   " *ngIf='field.toTypeSLA==="DISTRICT"'>
@@ -4092,7 +4092,7 @@
                </mat-form-field>
                <span *ngIf="(destId.errors?.required && (destId.touched || fSLA.submitted))"
                    class="hasErrorMsg">
-                   <i>Required!</i>
+                   <em>Required!</em>
                </span>
            </div>
            <div class="col-lg-2 col-md-2   "*ngIf='field.toTypeSLA==="CITY"'>
@@ -4105,7 +4105,7 @@
              </mat-form-field>
              <span *ngIf="(destId.errors?.required && (destId.touched || fSLA.submitted))"
                  class="hasErrorMsg">
-                 <i>Required!</i>
+                 <em>Required!</em>
              </span>
          </div>
             
@@ -4119,7 +4119,7 @@
                     </mat-form-field>
                     <span *ngIf="(destId.errors?.required && (destId.touched || fSLA.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                     </span>
                   </a>
                  </div>
@@ -4130,10 +4130,10 @@
                   </mat-form-field>
                   <span *ngIf="(customSlaDays.errors?.required && (customSlaDays.touched || fSLA.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                   </span>
                   <span *ngIf="(((customSlaDays.errors?.greaterZero) || ((customSlaDays.errors?.greaterZero) && fSLA.submitted)) && (!customSlaDays.errors?.required))" class="hasErrorMsg">
-                    <i>Greater Than 0!</i>
+                    <em>Greater Than 0!</em>
                   </span>
                 </div>
                 <mat-icon (click)="removeCustomSLA(i)" *ngIf="field.isNewSla" id="removeSlaIcon" mat-card-avatar aria-label="remove icon" class="removeIcon">remove_circle</mat-icon>
@@ -4188,7 +4188,7 @@
                   </mat-form-field>
                   <span *ngIf="(safextSrcId.errors?.required && (safextSrcId.touched || fSLA.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                   </span>
                 </div>
                 <div class="col-lg-4 col-md-4  " *ngIf='safextTypeVal == "PINCODE"'>
@@ -4200,7 +4200,7 @@
                     </mat-form-field>
                     <span *ngIf="(safextSrcId.errors?.required && (safextSrcId.touched || fSLA.submitted))"
                         class="hasErrorMsg">
-                        <i>Required!</i>
+                        <em>Required!</em>
                     </span>
                   </a>
                  <div *ngIf="sfx.fromValidation" class="invalid-feedback">
@@ -4217,7 +4217,7 @@
                  </mat-form-field>
                  <span *ngIf="(safextDestId.errors?.required && (safextDestId.touched || fSLA.submitted))"
                      class="hasErrorMsg">
-                     <i>Required!</i>
+                     <em>Required!</em>
                  </span>
                </div>
                <div class="col-lg-4 col-md-4  " *ngIf='safextTypeVal == "PINCODE"'>
@@ -4229,7 +4229,7 @@
                   </mat-form-field>
                   <span *ngIf="(safextDestId.errors?.required && (safextDestId.touched || fSLA.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                   </span>
                 </a>
                 <div *ngIf="sfx.toValidation" class="invalid-feedback">
@@ -4243,10 +4243,10 @@
                   </mat-form-field>
                   <span *ngIf="(slaDays.errors?.required && (slaDays.touched || fSLA.submitted))"
                       class="hasErrorMsg">
-                      <i>Required!</i>
+                      <em>Required!</em>
                   </span>					  
                   <span *ngIf="(((slaDays.errors?.greaterZero) || ((slaDays.errors?.greaterZero) && fSLA.submitted)) && (!slaDays.errors?.required))" class="hasErrorMsg">
-                    <i>Greater Than 0!</i>
+                    <em>Greater Than 0!</em>
                   </span>
                   <!-- <div *ngIf="sfx.slaDaysValidation" class="invalid-feedback">
                     <div *ngIf="sfx.slaDaysValidation" class="error">Please enter value</div>
@@ -4280,10 +4280,10 @@
                   </mat-form-field>
                   <span *ngIf="(safeExtnslaDays.errors?.required && (safeExtnslaDays.touched || fSLA.submitted))"
                   class="hasErrorMsgRight">
-                      <i>Required !</i>
+                      <em>Required !</em>
                   </span>
                   <span *ngIf="(((safeExtnslaDays.errors?.greaterZero) || ((safeExtnslaDays.errors?.greaterZero) && fSLA.submitted)) && (!safeExtnslaDays.errors?.required))" class="hasErrorMsgRight">
-                    <i>Greater Than 0!</i>
+                    <em>Greater Than 0!</em>
                   </span>
                   <!-- <div *ngIf="sfxType.slaDaysValidation" class="invalid-feedback">
                     <div *ngIf="sfxType.slaDaysValidation" class="error">Please enter value</div>
@@ -4341,7 +4341,7 @@
                   </mat-form-field>
                 <span *ngIf="(cnorVMI.errors?.required && (cnorVMI.touched || fVmiSection.submitted))"
                   class="hasErrorMsg">
-                  <i>Please select consignor</i>
+                  <em>Please select consignor</em>
                 </span>
                 </div>
                 <div class="col-lg-3 col-md-3  ">
@@ -4355,7 +4355,7 @@
                   </mat-form-field>
                   <span *ngIf="(cneeVMI.errors?.required && (cneeVMI.touched || fVmiSection.submitted))"
                     class="hasErrorMsg">
-                    <i>Please Select Consignee</i>
+                    <em>Please Select Consignee</em>
                   </span>
                 </div>
                 <div class="col-lg-3 col-md-3  ">
@@ -4375,7 +4375,7 @@
                   </mat-form-field>
                   <span *ngIf="(vmiType.errors?.required && (vmiType.touched || fVmiSection.submitted))"
                     class="hasErrorMsg">
-                    <i>Please Select VMI Type</i>
+                    <em>Please Select VMI Type</em>
                   </span>
                 </div>
                 <mat-icon (click)="removeVMI(i)" *ngIf="(((vmiList.length - 1) == i) && (vmi.isNewVMI))" id="removeicon" mat-card-avatar aria-label="remove icon" style="

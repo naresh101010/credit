@@ -4,7 +4,7 @@
   <div style="position: relative; margin-bottom: 5%;">
     <div style="position: relative;">
       <h3 class="paddingleftwo" id="h3">View Contracts</h3>
-      <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+      <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
     </div>
   <hr id="popup-hr">
     <div class="previewHeading scrollPreview" >
@@ -13,7 +13,7 @@
           fxLayoutAlign.xs="space-between start" class="barContent">
             <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Customer Name : <span *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MSA') && exAttrMap.get('MSA').includes('CUSTOMER NAME'))">{{dataPreview.msaDto.custName}}</span>
               <span style="color: red;" *ngIf="(exAttrKeyList && exAttrKeyList.includes('MSA') && exAttrMap.get('MSA').includes('CUSTOMER NAME'))">PERMISSION DENIED</span></div>
-          <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <i>{{dataPreview.sfxCode}}</i>
+          <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <em>{{dataPreview.sfxCode}}</em>
           </div>
         </div>
         <div class="barContent" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
@@ -21,7 +21,7 @@
           <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Saleforce Account ID
             : <span>{{dataPreview.msaDto.sfdcAccId}}</span></div>
           <div fxFlex=50 fxFlex.xs=100 fxLayout="row" text-align fxLayoutAlign="end">Version :
-            <i>{{dataPreview.version}}</i>
+            <em>{{dataPreview.version}}</em>
           </div>
         </div>
         <div class="row leftSpace">

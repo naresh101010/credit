@@ -1,7 +1,7 @@
 <div class="previewPage"  *ngIf="isv2">
   <h3 style="text-align: center; margin-top: 1rem">Version Comparison</h3>
   <i style="position: absolute;right: .7rem;top: 0px;cursor: pointer;" class="fa fa-times fa-2x" aria-hidden="true"
-  id="closeButton" (click)="closeDialog()"></i>
+  id="closeButton" (click)="closeDialog()"></em>
 
   <div class="previewHeading" style='overflow:scroll;'>
     <div class="previewHeading2">
@@ -10,14 +10,14 @@
         <div [ngClass]="versionDifference.msaDto.custName? 'highlight' : ''" fxFlex=50 fxFlex.xs=100 fxLayout="row"
           fxLayoutAlign="start"> Customer Name :<span>{{obj1.msaDto.custName}}</span></div>
         <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <i
-            [ngClass]="versionDifference.sfxCode? 'highlight' : ''">{{obj1.sfxCode}}</i></div>
+            [ngClass]="versionDifference.sfxCode? 'highlight' : ''">{{obj1.sfxCode}}</em></div>
       </div>
       <div class="barContent" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
         fxLayoutAlign.xs="space-between start" class="barContent">
         <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Saleforce Account ID :<span
             [ngClass]="versionDifference.msaDto.sfdcAccId? 'highlight' : ''">{{obj1.msaDto.sfdcAccId}}</span></div>
         <div fxFlex=50 fxFlex.xs=100 fxLayout="row" text-align fxLayoutAlign="end"
-          [ngClass]="versionDifference.version? 'highlight' : ''">Version : <i>{{obj1.version}}</i>
+          [ngClass]="versionDifference.version? 'highlight' : ''">Version : <em>{{obj1.version}}</em>
         </div>
       </div>
       <div class="row leftSpace">

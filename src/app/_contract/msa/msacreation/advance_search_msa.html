@@ -2,7 +2,7 @@
  
     <div style="position: relative;">
       <h3 id="h2">Search Branch</h3>
-      <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+      <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
     </div> 
     <hr id="popup-hr"> 
     <div class="row row-margin contractContainer" *ngIf="searchBranchFlag===false" style="max-width: 50rem;">
@@ -13,7 +13,7 @@
             <div *ngIf="model.search == 'NAME'" class="col-lg-6 col-md-6 col-sm-6 col-xl-6" style="padding-right: 0;">       
             <input autocomplete="true" minlength="3" type="text" style="height: 2.7rem; width: 90%;" (keyup.enter)="advanceDefaultBranchName()" class="form-control" required
              placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
-            <i class="fa fa-search" (click)="advanceDefaultBranchName()" id="defualtBranchSearch1" style="cursor: pointer;"></i>
+            <em class="fa fa-search" (click)="advanceDefaultBranchName()" id="defualtBranchSearch1" style="cursor: pointer;"></em>
                 <!-- validation -->
             <div *ngIf="searchbyname.invalid && (searchbyname.dirty || searchbyname.touched)">                      
                     <div *ngIf="searchbyname.errors.minlength || searchbyname.errors.maxlength"  class="error">
@@ -52,7 +52,7 @@
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">{{branch.branchName }}</div>
                   <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">
                     <i matTooltip={{branch.address}}
-                    matTooltipPosition="above" class="material-icons">room</i></div>
+                    matTooltipPosition="above" class="material-icons">room</em></div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">{{branch.regionBranch }}</div>
                     <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">{{branch.branchType }}</div>
               </div>

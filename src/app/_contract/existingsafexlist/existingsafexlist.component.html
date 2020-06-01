@@ -3,7 +3,7 @@
 <form >
   <div style="position: relative;">
     <h3 id="h2">Existing SFX</h3>
-    <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+    <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
   </div>
   <hr id="popup-hr"> 
   <mat-card class="existingSfx">  
@@ -42,11 +42,11 @@
       <ng-container matColumnDef="version">
         <th mat-header-cell *matHeaderCellDef>  </th>
         <td mat-cell *matCellDef="let element" (click)="openDialogContractVersion(element)"  style="padding-right: 0px;">       <i class="material-icons" style="cursor: pointer;">visibility
-          </i></td>
+          </em></td>
       </ng-container>
       <ng-container *ngIf="isEditflow" matColumnDef="edit">
         <th mat-header-cell *matHeaderCellDef>  </th>
-        <td mat-cell *matCellDef="let element" (click)="showSfxCodeData(element)" style="padding-right: 0px;"> <i class="material-icons" style="cursor: pointer;">create</i> </td>
+        <td mat-cell *matCellDef="let element" (click)="showSfxCodeData(element)" style="padding-right: 0px;"> <i class="material-icons" style="cursor: pointer;">create</em> </td>
       </ng-container>
   
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
