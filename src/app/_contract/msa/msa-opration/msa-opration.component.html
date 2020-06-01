@@ -81,7 +81,7 @@
          <hr class="green-border-heading">
 
 
-    <table *ngIf='dataSource' mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table aria-describedby="table-data"  *ngIf='dataSource' mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
         
         <ng-container matColumnDef="custName">

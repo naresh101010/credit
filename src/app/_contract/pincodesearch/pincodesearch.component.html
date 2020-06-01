@@ -45,7 +45,7 @@
     </div>
   </div>
   <div class="overflow-2 pincode_scroll">
-  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="(iscityenable) == true">
+  <table aria-describedby="table-data"  mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="(iscityenable) == true">
   
     <!-- Checkbox Column -->
     <ng-container matColumnDef="select">

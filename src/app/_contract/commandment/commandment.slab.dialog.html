@@ -7,7 +7,7 @@
             <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
         </div>
         <div class="row">
-            <table mat-table [dataSource]="slabChargeList">
+            <table aria-describedby="table-data"  mat-table [dataSource]="slabChargeList">
                 <ng-container matColumnDef="slabFrom">
                     <th mat-header-cell *matHeaderCellDef>FROM</th>
                     <td mat-cell *matCellDef="let element; let i = index">

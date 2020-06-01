@@ -361,7 +361,7 @@
           <!-- next -->       
 
             <div class="billingby-container example-container mat-elevation-z8" *ngIf="billingByLevelMapId" style="width: 100% !important;">
-                <table mat-table [dataSource]="billingData.billingBy" class="biilingTable">
+                <table aria-describedby="table-data"  mat-table [dataSource]="billingData.billingBy" class="biilingTable">
                   <ng-container matColumnDef="state">
                     <th mat-header-cell *matHeaderCellDef >STATE</th>
                     <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index" >

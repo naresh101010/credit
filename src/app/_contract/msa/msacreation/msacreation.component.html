@@ -374,7 +374,7 @@
       <input maxlength="50" class="banner-input1"  placeholder="Search"  autocomplete="true" (keyup)="applyFilter($event)" autocomplete="true">
      </div>
        <hr class="green-border-heading"> 
-   <table  mat-table  [dataSource]="dataSource" matSort >
+   <table aria-describedby="table-data"   mat-table  [dataSource]="dataSource" matSort >
 
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>

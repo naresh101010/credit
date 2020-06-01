@@ -16,7 +16,7 @@
       </div>
     
     <div class="overflow-2" *ngxPermissionsOnly="['CONTRACT_READ']">
-    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+    <table aria-describedby="table-data"  mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
           <ng-container matColumnDef="checked">
             <th mat-header-cell *matHeaderCellDef>
               <div style="width: 5rem !important;" ></div></th>
