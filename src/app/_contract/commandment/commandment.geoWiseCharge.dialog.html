@@ -1,0 +1,111 @@
+<!-- panal -->
+<mat-card style="padding: .5rem;" class="contractContainer">
+    <div style="position: relative;">
+        <h3 id="h2">State Charges <mat-icon (click)="addCharge()"  mat-card-avatar aria-label="Example icon"
+            style="cursor: pointer !important;position: relative !important;top: .7rem !important;">add_circle</mat-icon></h3>
+        <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+      </div> 
+      <hr id="popup-hr"> 
+    <mat-card-content>
+                <div class="scrollable_table contractContainer">
+                    <table mat-table [dataSource]="cmdmntGeoWiseChargeList">
+                        <ng-container matColumnDef="state">
+                            <th mat-header-cell *matHeaderCellDef>STATE</th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <div class="tableBox">
+                                <mat-form-field appearance="outline">
+                                    <mat-select disableOptionCentering panelClass="creditSelect" name="stateId-{{i}}" [(ngModel)]="element.stateId" required
+                                        (selectionChange)="getCity($event.value,i); updateList(i, 'stateId', $event.value)">
+                                        <mat-option *ngFor="let item of element.stateList | sortBy:'asc':'lookupVal'" [value]="item.id">
+                                            {{item.lookupVal}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field></div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="city">
+                            <th mat-header-cell *matHeaderCellDef>CITY</th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <div class="tableBox">
+                                <mat-form-field appearance="outline" class="cityPanel">
+                                    <mat-select disableOptionCentering panelClass="creditSelect" name="city" [formControl]="element.cityCntrl" multiple>
+                                        <mat-option *ngFor="let item of element.cityList | sortBy:'asc':'lookupVal'" (click)="selectCity(i,element.cityCntrl.value)" 
+                                        [value]="item.id">
+                                            {{item.lookupVal}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="surchargeType">
+                            <th mat-header-cell *matHeaderCellDef>SURCHARGE TYPE</th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <div class="tableBox">
+                                <mat-form-field appearance="outline">
+                                    <mat-select disableOptionCentering panelClass="creditSelect" name="surchargeType-{{i}}" [(ngModel)]="element.surchargeType"
+                                        (selectionChange)="updateList(i, 'surchargeType', $event.value)">
+                                        <mat-option *ngFor="let item of surchargeTypeList" [value]="item.id">
+                                            {{item.lookupVal}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="desc">
+                            <th mat-header-cell *matHeaderCellDef>DESCRIPTION</th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <div class="tableBox">
+                                <mat-form-field appearance="outline">
+                                    <input  autocomplete="true" matInput name="descr-{{i}}" [(ngModel)]="element.descr"
+                                        (keyup)="changeValue(i, 'descr', $event.target.value)"
+                                        (blur)="updateList(i, 'descr', $event.target.value)">
+                                </mat-form-field>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="expDate">
+                            <th mat-header-cell *matHeaderCellDef>EXPIRY DATE</th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <div class="tableBox">
+                                <mat-form-field appearance="outline">
+                                        <input matInput [matDatepicker]="picker2" name="expDt-{{i}}" [(ngModel)]="element.expDt"
+                                        (keyup)="changeValue(i, 'expDt', $event.target.value)" class="date_picker"
+                                        (blur)="updateList(i, 'expDt', $event.target.value)" placeholder="DD/MM/YYYY" required>
+                                        <mat-datepicker panelClass="creditDatepicker" #picker2></mat-datepicker>
+                                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                </mat-form-field>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                            <th mat-header-cell *matHeaderCellDef>FIXED SURCHARGE AMOUNT</th>
+                            <td mat-cell *matCellDef="let element; let i = index">
+                                <div class="tableBox">
+                                <mat-form-field appearance="outline">
+                                    <input  autocomplete="true" matInput name="price-{{i}}" [(ngModel)]="element.price" numeric
+                                        (keyup)="changeValue(i, 'price', $event.target.value)" required
+                                        (blur)="updateList(i, 'price', $event.target.value)">
+                                </mat-form-field>
+                                </div>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="columns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+                    </table>
+                </div>
+                <div class="example-button-row text-center" style="margin: 3%;">
+                    <button type="button" class="btn1" style="text-align: center" mat-raised-button color="primary"
+                        (click)="addStates()">SAVE</button>
+                </div>
+    </mat-card-content>
+</mat-card>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"> </ngx-spinner>

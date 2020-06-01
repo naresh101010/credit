@@ -1,0 +1,230 @@
+/* You can add global styles to this file, and also import other style files*/
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+@import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import 'https://fonts.googleapis.com/css?family=Open+Sans&display=swap';
+@import 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css';
+@import "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css";
+@import '~ngx-toastr/toastr';
+html{font-size: 45% !important;}
+body {font-size: 1.4rem; overflow-x: hidden; overflow-y: auto; box-sizing: border-box;font-family: 'Open Sans', sans-serif !important; line-height: 1.8; }
+
+::-webkit-scrollbar {width: 1.0rem;}
+::-webkit-scrollbar-track {background: #EBEBF2;}
+::-webkit-scrollbar-thumb {background: #6A6868; border-radius: 1rem;}
+::-webkit-scrollbar-thumb:hover {background: #585757;}
+h3{margin-top: 0;}
+p{margin: 0 0 1rem;}
+.contractContainer #bell{position: relative;right: 10.5rem; color: #6A6868;}
+.contractContainer #profile{position: relative; right: 101%; letter-spacing: 0; color: #1A1A1A;}
+.contractContainer #profileimg{position: relative;  right: 1%;}
+.contractContainer #titleheading{background: #F1F1F1;  width: 110%; margin-top: -12%; height: 5.1rem;}
+.contractContainer #heading{letter-spacing: 0; color: #1A1A1A;position: absolute;top: -5.5rem;left: .2rem;}
+.contractContainer #usersearchicon{position: relative; top: 5.5rem; font-size: 3.5rem; color: #6A6868;}
+.contractContainer #plusicon{color: #27AE60; position: absolute; right: -1%; top: 74%; z-index: 10; font-size: 4.0rem;}
+.contractContainer #userinput{font-size: 1.7rem; position: relative; top: 2.6rem; left: 3.9rem; font-weight: bold;}
+.contractContainer .RoleMH{font-size: 1.7rem; font-weight: bold; color: #1A1A1A; cursor: pointer;}
+.contractContainer #rolesearch{position: relative; top:2.5rem; font-size: 3.5rem; color: #585757;}
+.contractContainer .green-border{background: #27AE60; border: .1rem solid #27AE60; margin-top: -1.0rem; margin-bottom: 0rem;}
+.contractContainer .green-border-heading{background: #27AE60; border: .1rem solid #27AE60; margin-top: 1.4rem; margin-bottom: 1.0rem;}
+/* .mat-form-field-underline, .mat-form-field-underline.mat-focused{background-color: #FAFAFA; border-color: #fff;} */
+
+/* updated new */
+.contractContainer .search {position: relative; color: #1a1a1a; font-size: 1.4rem; padding-top: .7rem; width: 100%; }
+.contractContainer .search input { width: 100%; height: 4.5rem; border:0rem; color:#1a1a1a;}
+.contractContainer .breadcrumb {background: none !important; color:#1a1a1a; font-size: 1.4rem; font-weight:normal; text-align:left; position: relative;top: 0%; font-family:'Open Sans', sans-serif;}
+.contractContainer .breadcrumb .fa-caret-right {color:#1a1a1a; padding: .5rem;}
+.contractContainer .breadcrumb1{background: none !important; font-family: 'Open Sans', sans-serif;color:#1a1a1a; font-size: 1.4rem; font-weight:normal; position: absolute;top: 0%; left: 12%; z-index: 2;}
+.contractContainer .breadcrumb1 .fa-caret-right {color:#1a1a1a; padding: .5rem;}
+.contractContainer .breadcrumb2{background: none !important; font-family: 'Open Sans', sans-serif;color:#1a1a1a; font-size: 1.4rem; font-weight:normal; position: absolute;top: 0%; left: 10%; z-index: 2;}
+.contractContainer .breadcrumb2 .fa-caret-right {color:#1a1a1a; padding: .5rem;}
+
+
+/* User Management */
+.contractContainer #RoleS{color: #27AE60; position: absolute; font-size: 4.0rem; right: 4%; top: 12%;}
+
+.contractContainer .error{font:1.0rem; margin-left: 1.5rem; color: rgb(163, 63, 63); height: 0rem; margin:0rem; padding: 0rem;}
+.contractContainer a{cursor: pointer; color:#27AE60}
+
+
+/* view permission */
+.contractContainer .sectionOpen{  width: 100%;  height: auto;  cursor: pointer;}
+/* View Permission */
+.contractContainer .viewpermission{  width: 100%;  height: 0%;  background:#EBEBF2;  display: flex;}
+.contractContainer .viewpermi{  width: 25%;  height: 3.5rem;  border-bottom: .1rem solid #EBEBF2;  display: flex;  justify-content: center;  align-items: center;}
+.contractContainer .viewpermi1{  width: 25%;  height: 3.5rem;  display: flex;  justify-content: center;  align-items: center;  }
+.contractContainer .viewpermission1{  width: 100%;  height: 3.5rem;  display: flex;}
+.contractContainer .scrollbar{ overflow-y:scroll;  border-bottom: .1rem solid #EBEBF2;   font-size: 1.4rem;}
+.contractContainer .PermissionMapping{ position: relative;  left: .3rem;  top: .8rem;  font-size: 1.4rem;  font-weight: bold;}
+.contractContainer .userheading{position: relative; font-size: 1.5rem; left: 0rem; top: 1.7rem;}
+
+/* 18NOv2017 */
+.contractContainer #shadow{box-shadow: none;}
+.contractContainer #lending{height: fit-content; max-width: 100%; box-shadow: 0.05rem  0.05rem  0.05rem #ccc;  margin-top: 6.5rem;}
+
+/* 20 October */
+select option:hover{background: #27AE60}
+
+.contractContainer .mat-dialog-container {border-radius: 2.0rem;}
+.contractContainer mat-card{box-shadow: none !important;font-family: 'Open Sans', sans-serif !important;}
+.contractContainer .mat-card{box-shadow: none !important; font-family: 'Open Sans', sans-serif !important;}
+.contractContainer .mat-card{box-shadow: none !important; font-family: 'Open Sans', sans-serif !important;}
+.contractContainer .form-control {border-radius: 0; border: .1rem solid #6a6868; box-shadow: 0rem .2rem .6rem #00000029;height: 2.7rem;}
+.contractContainer .form-control-textarea {padding-left: .6rem; border-radius: 0; border: .1rem solid #6a6868; box-shadow: 0rem .2rem .6rem #00000029;}
+.contractContainer input{text-transform: uppercase;}
+.contractContainer textarea{text-transform: uppercase;}
+.contractContainer .form-control:focus {outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.contractContainer .form-control:hover{outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.contractContainer textarea:focus {outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.contractContainer textarea:hover{outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.contractContainer .form-control-textarea:focus{border-color: #27AE60;  box-shadow: none; -webkit-box-shadow: none;}
+.contractContainer mat-panel-title{font-weight: bold;}
+
+/* Media Queries */
+
+@media only screen and (max-width: 1534px) {
+  html {font-size: 57%;}
+}
+
+@media only screen and (max-width: 1440px) {
+    .contractContainer .mat-stepper-horizontal-line{min-width: 6rem !important;}
+  }
+
+@media only screen and (max-width: 1440px) {
+    html {font-size: 55%;}
+    .contractContainer .mat-stepper-horizontal-line{min-width: 5rem !important;}
+  }
+  
+  @media only screen and (max-width: 1366px) {
+    html {font-size: 52%;}
+    .contractContainer .mat-stepper-horizontal-line{min-width: 4rem !important;}
+  }
+
+/* Required Message Style */
+.contractContainer .hasErrorMsg {
+  color: red;
+  position: absolute;
+  left: 0;
+  bottom: -8px; 
+  right: 0;
+  text-align: center;
+}
+/* Required Message Style */
+
+.contractContainer .btn1:disabled{
+    cursor: not-allowed !important;
+    background-color: #81C784;
+  }
+  
+.contractContainer .mat-icon-button[disabled] .material-icons{
+  cursor: not-allowed;
+}
+  
+/********* Dialog CSS ***********/
+
+.creditDialog #bell{position: relative;right: 10.5rem; color: #6A6868;}
+.creditDialog #profile{position: relative; right: 101%; letter-spacing: 0; color: #1A1A1A;}
+.creditDialog #profileimg{position: relative;  right: 1%;}
+.creditDialog #titleheading{background: #F1F1F1;  width: 110%; margin-top: -12%; height: 5.1rem;}
+.creditDialog #heading{letter-spacing: 0; color: #1A1A1A;position: absolute;top: -5.5rem;left: .2rem;}
+.creditDialog #usersearchicon{position: relative; top: 5.5rem; font-size: 3.5rem; color: #6A6868;}
+.creditDialog #plusicon{color: #27AE60; position: absolute; right: -1%; top: 74%; z-index: 10; font-size: 4.0rem;}
+.creditDialog #userinput{font-size: 1.7rem; position: relative; top: 2.6rem; left: 3.9rem; font-weight: bold;}
+.creditDialog .RoleMH{font-size: 1.7rem; font-weight: bold; color: #1A1A1A; cursor: pointer;}
+.creditDialog #rolesearch{position: relative; top:2.5rem; font-size: 3.5rem; color: #585757;}
+.creditDialog .green-border{background: #27AE60; border: .1rem solid #27AE60; margin-top: -1.0rem; margin-bottom: 0rem;}
+.creditDialog .green-border-heading{background: #27AE60; border: .1rem solid #27AE60; margin-top: 1.4rem; margin-bottom: 1.0rem;}
+/* .mat-form-field-underline, .mat-form-field-underline.mat-focused{background-color: #FAFAFA; border-color: #fff;} */
+
+/* updated new */
+.creditDialog .search {position: relative; color: #1a1a1a; font-size: 1.4rem; padding-top: .7rem; width: 100%; }
+.creditDialog .search input { width: 100%; height: 4.5rem; border:0rem; color:#1a1a1a;}
+.creditDialog .breadcrumb {background: none !important; color:#1a1a1a; font-size: 1.4rem; font-weight:normal; text-align:left; position: relative;top: 0%; font-family:'Open Sans', sans-serif;}
+.creditDialog .breadcrumb .fa-caret-right {color:#1a1a1a; padding: .5rem;}
+.creditDialog .breadcrumb1{background: none !important; font-family: 'Open Sans', sans-serif;color:#1a1a1a; font-size: 1.4rem; font-weight:normal; position: absolute;top: 0%; left: 12%; z-index: 2;}
+.creditDialog .breadcrumb1 .fa-caret-right {color:#1a1a1a; padding: .5rem;}
+.creditDialog .breadcrumb2{background: none !important; font-family: 'Open Sans', sans-serif;color:#1a1a1a; font-size: 1.4rem; font-weight:normal; position: absolute;top: 0%; left: 10%; z-index: 2;}
+.creditDialog .breadcrumb2 .fa-caret-right {color:#1a1a1a; padding: .5rem;}
+
+
+/* User Management */
+.creditDialog #RoleS{color: #27AE60; position: absolute; font-size: 4.0rem; right: 4%; top: 12%;}
+
+.creditDialog .error{font:1.0rem; margin-left: 1.5rem; color: rgb(163, 63, 63); height: 0rem; margin:0rem; padding: 0rem;}
+.creditDialog a{cursor: pointer; color:#27AE60}
+
+
+/* view permission */
+.creditDialog .sectionOpen{  width: 100%;  height: auto;  cursor: pointer;}
+/* View Permission */
+.creditDialog .viewpermission{  width: 100%;  height: 0%;  background:#EBEBF2;  display: flex;}
+.creditDialog .viewpermi{  width: 25%;  height: 3.5rem;  border-bottom: .1rem solid #EBEBF2;  display: flex;  justify-content: center;  align-items: center;}
+.creditDialog .viewpermi1{  width: 25%;  height: 3.5rem;  display: flex;  justify-content: center;  align-items: center;  }
+.creditDialog .viewpermission1{  width: 100%;  height: 3.5rem;  display: flex;}
+.creditDialog .scrollbar{ overflow-y:scroll;  border-bottom: .1rem solid #EBEBF2;   font-size: 1.4rem;}
+.creditDialog .PermissionMapping{ position: relative;  left: .3rem;  top: .8rem;  font-size: 1.4rem;  font-weight: bold;}
+.creditDialog .userheading{position: relative; font-size: 1.5rem; left: 0rem; top: 1.7rem;}
+
+/* 18NOv2017 */
+.creditDialog #shadow{box-shadow: none;}
+.creditDialog #lending{height: fit-content; max-width: 100%; box-shadow: 0.05rem  0.05rem  0.05rem #ccc;  margin-top: 6.5rem;}
+
+/* 20 October */
+select option:hover{background: #27AE60}
+
+.creditDialog .mat-dialog-container {border-radius: 2.0rem;}
+.creditDialog mat-card{box-shadow: none !important;font-family: 'Open Sans', sans-serif !important;}
+.creditDialog .mat-card{box-shadow: none !important; font-family: 'Open Sans', sans-serif !important;}
+.creditDialog .mat-card{box-shadow: none !important; font-family: 'Open Sans', sans-serif !important;}
+.creditDialog .form-control {border-radius: 0; border: .1rem solid #6a6868; box-shadow: 0rem .2rem .6rem #00000029;height: 2.7rem;}
+.creditDialog .form-control-textarea {padding-left: .6rem; border-radius: 0; border: .1rem solid #6a6868; box-shadow: 0rem .2rem .6rem #00000029;}
+.creditDialog input{text-transform: uppercase;}
+.creditDialog textarea{text-transform: uppercase;}
+.creditDialog .form-control:focus {outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.creditDialog .form-control:hover{outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.creditDialog textarea:focus {outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.creditDialog textarea:hover{outline: none; border-color: #27AE60; box-shadow: 0 0 0 0;}
+.creditDialog .form-control-textarea:focus{border-color: #27AE60;  box-shadow: none; -webkit-box-shadow: none;}
+.creditDialog mat-panel-title{font-weight: bold;}
+
+/* Media Queries */
+
+@media only screen and (max-width: 1534px) {
+  html {font-size: 57%;}
+}
+
+@media only screen and (max-width: 1440px) {
+    .creditDialog .mat-stepper-horizontal-line{min-width: 6rem !important;}
+  }
+
+@media only screen and (max-width: 1440px) {
+    html {font-size: 55%;}
+    .creditDialog .mat-stepper-horizontal-line{min-width: 5rem !important;}
+  }
+  
+  @media only screen and (max-width: 1366px) {
+    html {font-size: 52%;}
+    .creditDialog .mat-stepper-horizontal-line{min-width: 4rem !important;}
+  }
+
+/* Required Message Style */
+.creditDialog .hasErrorMsg {
+  color: red;
+  position: absolute;
+  left: 0;
+  bottom: -8px; 
+  right: 0;
+  text-align: center;
+}
+/* Required Message Style */
+
+.creditDialog .btn1:disabled{
+    cursor: not-allowed !important;
+    background-color: #81C784;
+  }
+  
+.creditDialog .mat-icon-button[disabled] .material-icons{
+  cursor: not-allowed;
+}
+
+/********* Dialog CSS ***********/

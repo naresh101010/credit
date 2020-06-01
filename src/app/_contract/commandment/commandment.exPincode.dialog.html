@@ -1,0 +1,114 @@
+<mat-card style="padding: .5rem;">
+
+    <div style="position: relative;">
+        <h3 id="h2">Excluded Pincode</h3>
+        <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+      </div> 
+      <hr id="popup-hr"> 
+    <mat-card-content style="margin-top: -3rem !important;">
+        <div style="margin-top: 1.2rem;" class="contractContainer">
+            <div class="col-lg-12 col-md-12 row">
+                <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-6 col-md-6 label-text" style="padding-left: .4rem !important;">STATE</div>
+                    <div class="col-lg-6 col-md-6 paddingtophalf">
+                        <mat-form-field appearance="outline">
+                            <mat-select disableOptionCentering panelClass="creditSelect" name="stateId" [(value)]="stateId" (selectionChange)="getCityList()">
+                                <mat-option *ngFor="let item of stateList | sortBy:'asc':'lookupVal'" [value]="item.id">
+                                    {{item.lookupVal}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <div class="col-lg-6 col-md-6 label-text">CITY</div>
+                    <div class="col-lg-6 col-md-6 paddingtophalf">
+                        <mat-form-field appearance="outline">
+                            <mat-select disableOptionCentering panelClass="creditSelect" name="cityId" [(value)]="cityId">
+                                <mat-option *ngFor="let item of cityList | sortBy:'asc':'lookupVal'" [value]="item.id">
+                                    {{item.lookupVal}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <button type="button" class="btn1" mat-raised-button style="text-align: center; margin-bottom: 2%;"
+                        color="primary" (click)="getPincode(0)">SEARCH</button>
+                </div>
+            </div>
+            <div style="margin-top:5%;">
+                <div class="col-lg-12 col-md-12 row-margin">
+                    <div class="col-lg-6 col-md-6 label-text">INCLUDED PINCODE</div>
+                    <div class="col-lg-6 col-md-6">
+                        <div class="col-lg-2 col-md-2"></div>
+                        <div class="col-lg-10 col-md-10 label-text">EXCLUDED PINCODE</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 row-margin">
+                    <div class="col-lg-5 col-md-5 row-margin">
+                        <div class="col-lg-1 col-md-1 zonalheadingbar"></div>
+                        <div class="col-lg-3 col-md-3 zonalheadingbar fonts">PINCODE</div>
+                        <div class="col-lg-8 col-md-8 zonalheadingbar fonts">CITY</div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 row-margin"></div>
+                    <div class="col-lg-5 col-md-5 row-margin">
+                        <div class="col-lg-1 col-md-1 zonalheadingbar"></div>
+                        <div class="col-lg-3 col-md-3 zonalheadingbar fonts">PINCODE</div>
+                        <div class="col-lg-8 col-md-6 zonalheadingbar fonts">CITY</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 row-margin">
+                    <div class="col-lg-5 col-md-5 row-margin">
+                        <div class="col-lg-12 col-md-12 row-margin"
+                            *ngFor="let ccData of allPincodeList; let i = index">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 border-bottom row-margin">
+                                <mat-checkbox name="isChecked" [(ngModel)]="ccData.isChecked"
+                                    [checked]=ccData.isChecked>
+                                </mat-checkbox>
+                            </div>
+                            <div class="col-lg-3 col-md-3 border-bottom row-margin">
+                                {{ccData.pincode}}</div>
+                            <div class="col-lg-8 col-md-8 border-bottom row-margin">
+                                {{ccData.city}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 row-margin">
+                        <div class="col-lg-12 col-md-12 row-margin">
+                            <mat-icon (click)="addToExcludeList()" id="forwardIcon" mat-card-avatar
+                                aria-label="Remove from excluded list" style="font-size: xxx-large; margin-left: 25%; cursor: pointer; font-weight: bold;">arrow_forward</mat-icon>
+                            </div>
+                        <div class="col-lg-12 col-md-12 row-margin">
+                            <mat-icon (click)="removeFromExcludeList()" id="backIcon" mat-card-avatar
+                                aria-label="Add to excluded list" style="font-size: xxx-large; margin-left: 25%; cursor: pointer; font-weight: bold;">arrow_back</mat-icon>
+                            
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 ">
+                        <div class="col-lg-12 col-md-12 "
+                            *ngFor="let ccData of excludedPincodeList; let i = index">    
+                        <div class="col-lg-1 col-md-1 border-bottom ">
+                            <mat-checkbox name="isChecked" [(ngModel)]="ccData.isChecked" [checked]=ccData.isChecked>
+                            </mat-checkbox>
+                        </div>
+                        <div class="col-lg-3 col-md-3 border-bottom ">
+                            {{ccData.pincodeId}}</div>
+                        <div class="col-lg-8 col-md-8 border-bottom ">
+                            {{ccData.city}}
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class=" text-center">
+            <button type="button" class="btn1" style="text-align: center; margin-top: 5%; margin-bottom: 2%;"
+                (click)="saveExclusion()" mat-raised-button color="primary">SUBMIT</button>
+        </div>
+
+    </mat-card-content>
+</mat-card>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"> </ngx-spinner>

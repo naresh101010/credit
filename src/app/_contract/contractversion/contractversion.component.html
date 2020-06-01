@@ -1,0 +1,47 @@
+<div  *ngIf="isEnabled">
+
+  <div style="position: relative;">
+    <h3 class="paddingleftwo" id="h3">View Contracts</h3>
+    <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+  </div>
+<hr id="popup-hr">
+
+    <mat-card style="margin-bottom: 5%;" class="marginbottomone">
+      <div>     
+          <div *ngxPermissionsOnly="['CONTRACT_READ']">
+            <button class="btn1 marginRight marginbottomone" id="secondry-button" mat-raised-button color="primary" (click)="openDialogVersionpreview()" [disabled]="!isPreview"  >Preview</button> 
+            <button class="btn1 marginRight" id="secondry-button" mat-raised-button color="primary" >Share</button> 
+            <button class="btn1" style="text-align: right" mat-raised-button color="primary"  (click)="openDialogCompareVersions()" [disabled]="!isCompare"  >Compare</button>
+            </div>
+      </div>
+    
+    <div class="overflow-2" *ngxPermissionsOnly="['CONTRACT_READ']">
+    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+          <ng-container matColumnDef="checked">
+            <th mat-header-cell *matHeaderCellDef>
+              <div style="width: 5rem !important;" ></div></th>
+            <td mat-cell *matCellDef="let element; let i = index">
+              <mat-checkbox 
+              [checked]="element.checked"
+              [disabled]="element.disabled"                                   
+              (change)="selection(i, $event.checked)"> </mat-checkbox>
+            </td>
+          </ng-container>
+      
+        <ng-container matColumnDef="cntrVer">
+            <th mat-header-cell *matHeaderCellDef> VERSION </th>
+            <td mat-cell *matCellDef="let element"> {{element.cntrVer}} </td>
+          </ng-container> 
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+      </tr>
+    </table>
+    </div>
+    
+    </mat-card>
+    <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">  
+    </ngx-spinner> 
+  </div>    
+   
+    
+    

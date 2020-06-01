@@ -1,0 +1,68 @@
+<div mat-dialog-content id="advance-search-deailog">
+ 
+    <div style="position: relative;">
+      <h3 id="h2">Search Branch</h3>
+      <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+    </div> 
+    <hr id="popup-hr"> 
+    <div class="row row-margin contractContainer" *ngIf="searchBranchFlag===false" style="max-width: 50rem;">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12" style="margin-top: 1.5rem;">
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4 margin-row">
+      <h5 class="searchby">Search By : Name</h5></div>        
+          <!-- <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 margin-row">Name</div>         -->
+            <div *ngIf="model.search == 'NAME'" class="col-lg-6 col-md-6 col-sm-6 col-xl-6" style="padding-right: 0;">       
+            <input autocomplete="true" minlength="3" type="text" style="height: 2.7rem; width: 90%;" (keyup.enter)="advanceDefaultBranchName()" class="form-control" required
+             placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
+            <i class="fa fa-search" (click)="advanceDefaultBranchName()" id="defualtBranchSearch1" style="cursor: pointer;"></i>
+                <!-- validation -->
+            <div *ngIf="searchbyname.invalid && (searchbyname.dirty || searchbyname.touched)">                      
+                    <div *ngIf="searchbyname.errors.minlength || searchbyname.errors.maxlength"  class="error">
+                      Please enter 3 character 
+                    </div>             
+                  </div>
+          </div>      
+    </div>
+  </div>
+</div>
+
+
+
+
+    <!-- panal -->
+    <div class="row row-margin contractContainer" *ngIf="tabledataLength > 0" style="width: 85rem;">
+        <div>
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 pincode_scroll">
+            <div>
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 ">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 width zonalheadingbar">BRANCH&nbsp;CODE</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 width zonalheadingbar">BRANCH&nbsp;NAME</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 width zonalheadingbar">ADDRESS</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 width zonalheadingbar">REGION</div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 width zonalheadingbar">TYPE</div>
+            </div>
+            </div>
+            <div *ngFor="let branch of tableData">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 margin-row" style="width: 0;">
+                    <input (click)="filterDataByAreaList(branch)" type="radio" name="chk">                    
+                  </div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 margin-row" style="margin-left: 2.2rem;">{{ branch.branchCode }}</div>
+                </div>
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">{{branch.branchName }}</div>
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">
+                    <i matTooltip={{branch.address}}
+                    matTooltipPosition="above" class="material-icons">room</i></div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">{{branch.regionBranch }}</div>
+                    <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 bar width">{{branch.branchType }}</div>
+              </div>
+          </div>
+        </div>
+          <div class="example-button-row text-center" style="margin-bottom: 3%;">
+            <button mat-button  class="btn1" style="text-align: center;  margin-top: 4%;" mat-raised-button
+                  [mat-dialog-close]="data" color="primary">SAVE</button>
+            </div>
+        </div>
+  
+      </div >
+  

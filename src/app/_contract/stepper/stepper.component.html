@@ -1,0 +1,70 @@
+
+ <div id="stepper" fxLayout="row" fxLayoutAlign="end center">  
+  <div class="line stepperLine"></div>
+  <mat-horizontal-stepper  labelPosition="bottom">      
+    <mat-step  > 
+        <ng-template matStepLabel matStepperIcon="edit" > 
+          <p name='msa'>MSA</p>    
+          <div class="round" *ngIf='(currentState === "msa")'  [ngStyle]="{'background-color':currentState === 'msa' ? '#27AE60' : '#ccc' } " name='msa' routerLink="/contract/msa"  skipLocationChange  (click)="OnNextClick()"></div>
+          <div class="round" *ngIf='(step1 === "msaEdit")'  [ngStyle]="{'background-color':step1 === 'msaEdit' ? '#81C784' : '#ccc' }" name='msa' (click)="OnNextClick('/msa;edit')"></div>
+          <div class="round" *ngIf='(step1 === "msa")'  [ngStyle]="{'background-color':step1 === 'msa' ? '#81C784' : '#ccc' }" name='msa' routerLink="/contract/msa"  skipLocationChange  (click)="OnNextClick()"></div>
+          <div class="round" *ngIf='(step1 != "msa" && step1 !="msaEdit" && currentState != "msa")' name='msa'></div>
+        </ng-template>
+    </mat-step>         
+    <mat-step >  
+        <ng-template matStepLabel >
+          <p name='opportunity'>Opportunity</p>  
+          <div class="round" *ngIf='(currentState === "msaopportunity")' [ngStyle]="{'background-color':currentState === 'msaopportunity' ? '#27AE60' : '#ccc' }" name='msaopportunity'></div>
+          <div class="round" *ngIf='(currentState === "opportunity")' [ngStyle]="{'background-color':currentState === 'opportunity' ? '#27AE60' : '#ccc' }" name='opportunity'></div>
+          <div class="round" *ngIf='(step2 === "opportunityEdit")'  [ngStyle]="{'background-color':step2 === 'opportunityEdit' ? '#81C784' : '#ccc' }" name='opportunity' (click)="OnNextClick('/opportunity;edit')"></div>
+          <div class="round" *ngIf='(step2 === "opportunity")'  [ngStyle]="{'background-color':step2 === 'opportunity' ? '#81C784' : '#ccc' }" name='opportunity' routerLink="/contract/opportunity"  skipLocationChange  (click)="OnNextClick()"></div>
+          <div class="round" *ngIf='(step2 != "opportunity" && step2 !="opportunityEdit"  && currentState != "opportunity" && currentState != "msaopportunity")' name='opportunity' ></div>
+        </ng-template>
+    </mat-step>        
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel   >
+        <p  name='service' >Services</p>   
+        <div class="round" *ngIf='(currentState === "service")'  [ngStyle]="{'background-color':currentState === 'service' ? '#27AE60' : '#ccc' }" name='service'></div>
+        <div class="round" *ngIf='(step3 === "serviceEdit")'  [ngStyle]="{'background-color':step3 === 'serviceEdit' ? '#81C784' : '#ccc' }" name='service' (click)="OnNextClick('/service;edit')"></div>
+        <div class="round" *ngIf='(step3 === "service")'  [ngStyle]="{'background-color':step3 === 'service' ? '#81C784' : '#ccc' }" name='service' routerLink="/contract/service"  skipLocationChange (click)="OnNextClick()"></div>
+        <div class="round" *ngIf='(step3 != "service" && step3 !="serviceEdit"  && currentState != "service")' name='service' ></div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]=""  >
+    <ng-template matStepLabel>
+      <p  name='ratecard'>Rate&nbsp;Card</p>   
+      <div class="round" *ngIf='(currentState === "ratecard")'  [ngStyle]="{'background-color':currentState === 'ratecard' ? '#27AE60' : '#ccc' }" name='ratecard'></div>
+      <div class="round" *ngIf='(step4 === "ratecardEdit")'  [ngStyle]="{'background-color':step4 === 'ratecardEdit' ? '#81C784' : '#ccc' }" name='ratecard' (click)="OnNextClick('/ratecard;edit')"></div>
+      <div class="round" *ngIf='(step4 === "ratecard")'  [ngStyle]="{'background-color':step4 === 'ratecard' ? '#81C784' : '#ccc' }" name='ratecard' routerLink="/contract/ratecard"  skipLocationChange (click)="OnNextClick()"></div>
+      <div class="round" *ngIf='(step4 != "ratecard" && step4 != "ratecardEdit" && currentState != "ratecard")' name='ratecard' ></div>
+    </ng-template>
+      </mat-step>
+    <mat-step [stepControl]=""  >
+    <ng-template matStepLabel>
+      <p name='billing'>Billing</p> 
+      <div class="round" *ngIf='(currentState === "billing")' [ngStyle]="{'background-color':currentState === 'billing' ? '#27AE60' : '#ccc' }" name='billing'></div>
+      <div class="round" *ngIf='(step5 === "billingEdit")'  [ngStyle]="{'background-color':step5 === 'billingEdit' ? '#81C784' : '#ccc' }" name='billing' (click)="OnNextClick('/billing;edit')"></div>
+      <div class="round" *ngIf='(step5 === "billing")'  [ngStyle]="{'background-color':step5 === 'billing' ? '#81C784' : '#ccc' }" name='billing' routerLink="/contract/billing"  skipLocationChange (click)="OnNextClick()"></div>
+      <div class="round" *ngIf='(step5 != "billing" && step5 !="billingEdit" && currentState != "billing")' name='billing'></div>
+    </ng-template>
+      </mat-step>
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel>
+        <p  name='documentupload'>Document&nbsp;Upload</p> 
+        <div class="round" *ngIf='(currentState === "documentupload")' [ngStyle]="{'background-color':currentState === 'documentupload' ? '#27AE60' : '#ccc' }" name='documentupload'></div>
+        <div class="round" *ngIf='(step6 === "documentuploadEdit")'  [ngStyle]="{'background-color':step6 === 'documentuploadEdit' ? '#81C784' : '#ccc' }" name='documentupload' (click)="OnNextClick('/documentupload;edit')"></div>
+        <div class="round" *ngIf='(step6 === "documentupload")'  [ngStyle]="{'background-color':step6 === 'documentupload' ? '#81C784' : '#ccc' }" name='documentupload' routerLink="/contract/documentupload"  skipLocationChange (click)="OnNextClick()"></div>
+        <div class="round" *ngIf='(step6 != "documentupload" && step6 !="documentuploadEdit" && currentState != "documentupload")' name='documentupload'></div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel>
+        <p  name='preview'>Success</p> 
+        <div class="round" *ngIf='(currentState === "preview")' [ngStyle]="{'background-color':currentState === 'preview' ? '#27AE60' : '#ccc' }" name='preview'></div>
+        <div class="round" *ngIf='(step7 === "previewEdit")'  [ngStyle]="{'background-color':step7 === 'previewEdit' ? '#81C784' : '#ccc' }" name='preview' (click)="OnNextClick('/previewEdit;edit')"></div>
+        <div class="round" *ngIf='(step7 === "preview")'  [ngStyle]="{'background-color':step7 === 'preview' ? '#81C784' : '#ccc' }" name='preview' routerLink="/contract/preview"  skipLocationChange (click)="OnNextClick()"></div>
+        <div class="round" *ngIf='(step7 != "preview" && step7 !="previewEdit" && currentState != "preview")' name='preview'></div>
+      </ng-template>
+    </mat-step>
+</mat-horizontal-stepper>
+</div>

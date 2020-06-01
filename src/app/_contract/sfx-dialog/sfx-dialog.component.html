@@ -1,0 +1,16 @@
+<div class="text-center sfx_dialog">
+    <img src="../../../assets/images/tick.png">
+    <p><strong>Success!</strong></p>
+    <h4 *ngIf="isNew" style="margin: 0">SFX CODE GENERATED: </h4>
+    <h4 *ngIf="!isNew" style="margin: 0">SFX CODE SUBMITTED: </h4>
+    <h2 style="margin: 20px 0">{{message}}</h2>
+    <p>You will automatically redirected to Dashboard in <strong>15 Seconds</strong></p>
+    <p><strong>OR</strong></p>
+    <p>You can click <strong>OK</strong> button to do it yourself</p>
+    <div class="col-lg-12 col-lg-12 col-sm-12 col-md-12">
+    <a href="#">
+        <button mat-button class="btn1 text-center" mat-raised-button
+             color="primary">OK</button>
+    </a>
+    </div>
+</div>

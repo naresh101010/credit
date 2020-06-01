@@ -1,0 +1,36 @@
+<div sclass="contractContainer">
+    <!-- <mat-card-header>
+        <h3 class="consignee-mapping"> Opportunity List</h3>
+    </mat-card-header> -->
+
+    <div style="position: relative;">
+      <h3 id="h2">Opportunity List</h3>
+      <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="onNoClick()"></i>
+    </div>
+    <hr class="green-border" style="margin-top: .5rem !important;width: 99% !important;">  
+    <!-- <div> -->
+            <div class="col-md-12" >
+
+            <div class="col-lg-12 col-md-12">
+            <div class="col-lg-2 col-md-2 zonalheadingbar" >Opportunity ID</div>
+            <div class="col-lg-2 col-md-2 zonalheadingbar fonts" >Opportunity Name</div>
+            <div class="col-lg-6 col-md-6 zonalheadingbar fonts">Address</div>
+            <div class="col-lg-2 col-md-2 zonalheadingbar fonts" >TYPE</div>
+            </div> 
+
+              <div class="col-lg-12 col-md-12" *ngFor="let opportunityData of allOpportunity; let i = index" style="min-height: 10rem !important;">
+              <div class="col-lg-2 col-md-2 border-bottom">{{opportunityData.id}}</div>
+              <div class="col-lg-2 col-md-2 border-bottom" >{{opportunityData.opprName}}</div>
+              <div class="col-lg-6 col-md-6 border-bottom">{{opportunityData.opprAddr[0].addr}}
+              </div>
+              <div class="col-lg-2 col-md-2 border-bottom">{{opportunityData.lkpOpprType}} </div>
+            </div>
+            </div> 
+
+          <div class="example-button-row text-center" style="text-align: center; margin-top: 5%; margin-bottom: 2%;">
+             
+
+          </div>
+      
+    <!-- </mat-card-content> -->
+  </div>

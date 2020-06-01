@@ -1,0 +1,1899 @@
+<div class="previewPage"  *ngIf="isv2">
+  <h3 style="text-align: center; margin-top: 1rem">Version Comparison</h3>
+  <i style="position: absolute;right: .7rem;top: 0px;cursor: pointer;" class="fa fa-times fa-2x" aria-hidden="true"
+  id="closeButton" (click)="closeDialog()"></i>
+
+  <div class="previewHeading" style='overflow:scroll;'>
+    <div class="previewHeading2">
+      <div class="barContent" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+        fxLayoutAlign.xs="space-between start" class="barContent">
+        <div [ngClass]="versionDifference.msaDto.custName? 'highlight' : ''" fxFlex=50 fxFlex.xs=100 fxLayout="row"
+          fxLayoutAlign="start"> Customer Name :<span>{{obj1.msaDto.custName}}</span></div>
+        <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="end">SFX Code : <i
+            [ngClass]="versionDifference.sfxCode? 'highlight' : ''">{{obj1.sfxCode}}</i></div>
+      </div>
+      <div class="barContent" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+        fxLayoutAlign.xs="space-between start" class="barContent">
+        <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"> Saleforce Account ID :<span
+            [ngClass]="versionDifference.msaDto.sfdcAccId? 'highlight' : ''">{{obj1.msaDto.sfdcAccId}}</span></div>
+        <div fxFlex=50 fxFlex.xs=100 fxLayout="row" text-align fxLayoutAlign="end"
+          [ngClass]="versionDifference.version? 'highlight' : ''">Version : <i>{{obj1.version}}</i>
+        </div>
+      </div>
+      <div class="row leftSpace">
+        <div class="col-lg-1 msaBox"> &nbsp;</div>
+        <div class="col-lg-6 heading">MSA Details</div>
+      </div>
+      <mat-card>
+        <div class="row" style="position: relative;left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">PAN No.</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.pan? 'highlight' : ''">
+              {{obj1.msaDto.pan}} </div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Salesforce Monthly
+              Potential (AIR)</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.sfdcMnthPotentialAir? 'highlight' : ''">
+              {{obj1.msaDto.sfdcMnthPotentialAir}}</div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Contact Person</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.custName? 'highlight' : ''">
+              {{obj1.msaDto.custName}} </div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Salesforce Monthly
+              Potential (SURFACE)</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.sfdcMnthPotentialSurface? 'highlight' : ''">
+              {{obj1.msaDto.sfdcMnthPotentialSurface}} </div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;
+          left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Contact No. (L):</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.phone? 'highlight' : ''">
+              {{obj1.msaDto.phone}} </div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Salesforce Monthly
+              Potential (3PL)</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.sfdcMnthPotential3pl? 'highlight' : ''">
+              {{obj1.msaDto.sfdcMnthPotential3pl}}</div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;
+          left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Contact No. (M):</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.mobile? 'highlight' : ''">
+              {{obj1.msaDto.mobile}} </div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Account Type</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.accType? 'highlight' : ''">
+              {{obj1.msaDto.accType}}</div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;
+          left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">GST Num.</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.gstinNum? 'highlight' : ''">
+              {{obj1.msaDto.gstinNum}} </div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Monthaly Potential.
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.mnthPotential? 'highlight' : ''">{{obj1.msaDto.mnthPotential}}</div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;
+          left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Group Code</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.groupCode? 'highlight' : ''">
+              {{obj1.msaDto.groupCode}}</div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Credit Limit</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.creditRisk? 'highlight' : ''">{{obj1.msaDto.creditRisk}}</div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;
+          left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Customer Segment</div>
+
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.segment? 'highlight' : ''">
+              {{obj1.msaDto.segment}}</div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">SLA (%)</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.sla? 'highlight' : ''">
+              {{obj1.msaDto.sla}}
+              <span *ngIf="versionDifference.msaDto.sla"  class="material-icons">
+                {{versionDifference.msaDto.sla}}
+              </span></div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;
+          left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Customer Subsegment
+            </div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.subsegment? 'highlight' : ''">
+              {{obj1.msaDto.subsegment}}</div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Registered Address</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.registeredAddr? 'highlight' : ''">
+              {{obj1.msaDto.registeredAddr}}</div>
+          </div>
+        </div>
+        <div class="row" style="position: relative;
+          left: -5%;">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Base Location</div>
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+              [ngClass]="versionDifference.msaDto.baseLocation? 'highlight' : ''">
+              {{obj1.msaDto.baseLocation}} </div>
+          </div>
+          <div class="col-lg-2"></div>
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+          </div>
+        </div>
+      </mat-card>
+
+      <div class="row leftSpace">
+        <div class="col-lg-1 msaBox"> &nbsp;</div>
+        <div class="col-lg-6 heading">Opportunity</div>
+      </div>
+
+      <div *ngIf="obj1.opportunityDtoList">
+        <mat-card *ngFor="let item of obj1.opportunityDtoList let op=index">
+
+          <div class="row" style="position: relative;
+          left: -5%;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Business Type</div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.bizType? 'highlight' : ''">
+                {{obj1.bizType}} </div>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Contract Status</div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.status? 'highlight' : ''">{{obj1.status}}</div>
+            </div>
+          </div>
+          <div class="row" style="position: relative;
+          left: -5%;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">oportunity Type</div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar">
+                {{item.lkpOpprType}}</div>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Contract Sign Date
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.cntrSignDt? 'highlight' : ''">{{obj1.cntrSignDt | date: 'dd/MM/yyyy' }}</div>
+            </div>
+          </div>
+          <div class="row" style="position: relative;
+          left: -5%;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Oportunity No.</div>
+
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar">
+                {{item.sfdcOpprId}}</div>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Contract Start Date
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.effectiveDt? 'highlight' : ''">
+                {{obj1.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+            </div>
+          </div>
+          <div class="row" style="position: relative;
+          left: -5%;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Monthly Potential
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.msaDto.mnthPotential? 'highlight' : ''">
+                {{obj1.msaDto.mnthPotential}}
+                <span *ngIf="versionDifference.msaDto.mnthPotential"  class="material-icons">
+                  {{versionDifference.msaDto.mnthPotential}}
+                </span>
+              </div>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Contract End Date
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.expDt? 'highlight' : ''">
+                {{obj1.expDt | date: 'dd/MM/yyyy'}}</div>
+            </div>
+          </div>
+          <div class="row" style="position: relative;
+          left: -5%;">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Folio#</div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.folioNumber? 'highlight' : ''">
+                {{obj1.folioNumber}}</div>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Direct Booking</div>
+              <!-- <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"  *ngIf="!obj1.isDirectPickup"></div> -->
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.isDirectPickup==1? 'highlight' : ''" *ngIf="obj1.isDirectPickup==1">YES
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                [ngClass]="versionDifference.isDirectPickup==0? 'highlight' : ''" *ngIf="obj1.isDirectPickup==0">NO
+              </div>
+            </div>
+          </div>
+          <div class="row" style="position: relative;
+          left: -5%;">
+
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Opportunity Address
+              </div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar">
+                {{item.opportunityAddr}} </div>
+            </div>
+            <div class="col-lg-2"></div>
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+            </div>
+          </div>
+        </mat-card>
+
+      </div>
+      <!--Service Offering Starts-->
+
+
+      <div *ngFor="let item of obj1.serviceOfferings; let s=index;">
+        <mat-accordion id="shadow">
+          <mat-expansion-panel id="box-shadow">
+            <mat-expansion-panel-header>
+              <div class="col-lg-6 heading">Service: {{item.serviceOfferingName}}</div>
+            </mat-expansion-panel-header>
+            <mat-card>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Service Line</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifServiceObjectChanged(s,'serviceLine')? 'highlight' : ''">
+                    {{item.serviceLine}} </div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Service Offering
+                  </div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifServiceObjectChanged(s,'serviceOfferingName')? 'highlight' : ''">
+                    {{item.serviceOfferingName}}</div>
+                </div>
+              </div>
+            </mat-card>
+
+
+            <div *ngFor="let item1 of item.rateCards;let j = index;">
+
+
+              <div class="row leftSpace">
+                <div class="col-lg-1 msaBox"> &nbsp;</div>
+                <div class="col-lg-6 heading">Rate Card {{j+1}}</div>
+              </div>
+              <mat-card>
+                <div class="row" style="position: relative;
+                    left: -5%;">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">RateCard Name
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'rateCardCode')? 'highlight' : ''">
+                      {{item1.ratecardDTO.rateCardCode}} </div>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Status</div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'status')? 'highlight' : ''">
+                      {{item1.ratecardDTO.status}}</div>
+                  </div>
+                </div>
+                <div class="row" style="position: relative;
+          left: -5%;">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">RateCard SignDate
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'rateCardSignDt')? 'highlight' : ''">
+                      {{item1.ratecardDTO.rateCardSignDt | date: 'dd/MM/yyyy'}} </div>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Service Offering
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifServiceObjectChanged(s,'serviceOfferingName')? 'highlight' : ''">
+                      {{item.serviceOfferingName}}</div>
+                  </div>
+                </div>
+                <div class="row" style="position: relative;
+          left: -5%;">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">RateCard StartDate
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'effectiveDt')? 'highlight' : ''">
+                      {{item1.ratecardDTO.effectiveDt | date: 'dd/MM/yyyy'}} </div>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Base Location</div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'baseLocationBranch')? 'highlight' : ''">
+                      {{item1.ratecardDTO.baseLocationBranch}}</div>
+                  </div>
+                </div>
+                <div class="row" style="position: relative;
+          left: -5%;">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">RateCard EndDate
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'expDt')? 'highlight' : ''">
+                      {{item1.ratecardDTO.expDt | date: 'dd/MM/yyyy'}} </div>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Commandent</div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'cmdmntLevel')? 'highlight' : ''">
+                      {{item1.ratecardDTO.cmdmntLevel}}</div>
+                  </div>
+                </div>
+                <div class="row" style="position: relative;
+          left: -5%;">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Zone Matrix</div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'zoneMatrixName')? 'highlight' : ''">
+                      {{item1.ratecardDTO.zoneMatrixName}} </div>
+                  </div>
+                  <div class="col-lg-2"></div>
+                </div>
+                <div class="row" style="position: relative;
+          left: -5%;">
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                    <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Comments</div>
+                    <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                      [ngClass]="ifRatecardObjectChanged(item1,s,j,'descr')? 'highlight' : ''">
+                      {{item1.ratecardDTO.descr}}</div>
+                  </div>
+                  <div class="col-lg-2"></div>
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                    <!-- <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading" >Service Offering</div>
+              <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" >{{item1.serviceOfferingName}}</div> -->
+                  </div>
+                </div>
+              </mat-card>
+
+              <div *ngIf="item1.tncDTO">
+                <div class="row leftSpace">
+                  <div class="col-lg-1 msaBox"> &nbsp;</div>
+                  <div class="col-lg-6 heading">Term & Conditions</div>
+                </div>
+                <mat-card>
+                  <h3 style="position: relative;
+                    left: 4%;"> Fuel Details</h3>
+
+                  <div class="row" style="position: relative;left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Fuel Type</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'status')? 'highlight' : ''">
+                        {{item1.tncDTO.fuelType}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Base Fuel Index
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'fuelIndex')? 'highlight' : ''">
+                        {{item1.tncDTO.fuelIndex}}</div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="position: relative;left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Base Fuel Date
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'baseFuelDt')? 'highlight' : ''">
+                        {{item1.tncDTO.baseFuelDt | date: 'dd/MM/yyyy'}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Fuel Price
+                        PerLitr</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'fuelPrice')? 'highlight' : ''">
+                        RS.{{item1.tncDTO.fuelPrice}} </div>
+                    </div>
+                  </div>
+                  <div class="row" style="position: relative;
+          left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Calculate Based
+                        On </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'fuelCalcBasedOn')? 'highlight' : ''">
+                        {{item1.tncDTO.fuelCalcBasedOn}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Fuel Surcharge
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'fuelSurchrg')? 'highlight' : ''">
+                        {{item1.tncDTO.fuelSurchrg}}
+                        <span *ngIf="ifRatecardTncObjectChanged(item1,s,j,'fuelSurchrg')"  class="material-icons">
+                          {{versionCompare.serviceOfferings[s].rateCards[j].tncDTO.fuelSurchrg}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                  <h3 style="position: relative;
+          left: 4%;"> Increment Clause</h3>
+
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Applicable</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        *ngIf="item1.tncDTO.incrClauseFlag==1"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'incrClauseFlag')? 'highlight' : ''">YES</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        *ngIf="item1.tncDTO.incrClauseFlag!=1"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'incrClauseFlag')? 'highlight' : ''">NO</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Increment Type
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'incrType')? 'highlight' : ''">
+                        {{item1.tncDTO.incrType}}</div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Increment Month
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'incrMnth')? 'highlight' : ''">
+                        {{item1.tncDTO.incrMnth}}
+                        <span *ngIf="ifRatecardTncObjectChanged(item1,s,j,'incrMnth')"  class="material-icons">
+                          {{versionCompare.serviceOfferings[s].rateCards[j].tncDTO.incrMnth}}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Increment Based
+                        On</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'incrBasedOn')? 'highlight' : ''">
+                        {{item1.tncDTO.incrBasedOn}}</div>
+                    </div>
+                  </div>
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Increment
+                        Effective Date</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'incrEffectiveDt')? 'highlight' : ''">
+                        {{item1.tncDTO.incrEffectiveDt | date: 'dd/MM/yyyy'}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Increment Value
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'incrVal')? 'highlight' : ''">
+                        {{item1.tncDTO.incrVal}}
+                        <span *ngIf="ifRatecardTncObjectChanged(item1,s,j,'incrVal')"  class="material-icons">
+                          {{versionCompare.serviceOfferings[s].rateCards[j].tncDTO.incrVal}}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <h3 style="position: relative;
+      left: 4%;"> Insurance Detail</h3>
+
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Is Applicable
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'insuFlag')? 'highlight' : ''"
+                        *ngIf="item1.tncDTO.insuFlag==1">YES</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'insuFlag')? 'highlight' : ''"
+                        *ngIf="item1.tncDTO.insuFlag!=1">NO</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Policy Number
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'insuPolicyNum')? 'highlight' : ''">
+                        {{item1.tncDTO.insuPolicyNum}}</div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Insurance
+                        Company</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'insuCo')? 'highlight' : ''">
+                        {{item1.tncDTO.insuCo}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Insurance Valid
+                        Till</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'insuValidUptoDt')? 'highlight' : ''">
+                        {{item1.tncDTO.insuValidUptoDt}}</div>
+                    </div>
+                  </div>
+
+                  <h3 style="position: relative;
+      left: 4%;"> Security Details</h3>
+
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Is Applicable
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'securityFlag')? 'highlight' : ''"
+                        *ngIf="item1.tncDTO.securityFlag==1">YES</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'securityFlag')? 'highlight' : ''"
+                        *ngIf="item1.tncDTO.securityFlag!=1">NO</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Security Type
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'securityType')? 'highlight' : ''">
+                        {{item1.tncDTO.securityType}}</div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Sequrity Amount
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'securityAmt')? 'highlight' : ''">
+                        {{item1.tncDTO.securityAmt}}
+                        <span *ngIf="ifRatecardTncObjectChanged(item1,s,j,'securityAmt')"  class="material-icons">
+                          {{versionCompare.serviceOfferings[s].rateCards[j].tncDTO.securityAmt}}
+                        </span>
+                      </div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Security
+                        Reference</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'securityRefNum')? 'highlight' : ''">
+                        {{item1.tncDTO.securityRefNum}}</div>
+                    </div>
+                  </div>
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Bank IFSC </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'securityRefNum')? 'highlight' : ''">
+                        {{item1.tncDTO.bankIfscCode}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+      left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Bank Name</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'bankName')? 'highlight' : ''">
+                        {{item1.tncDTO.bankName}}</div>
+                    </div>
+                  </div>
+                  <div class="row" style="position: relative;
+      left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Bank Address
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardTncObjectChanged(item1,s,j,'bankAddr')? 'highlight' : ''">
+                        {{item1.tncDTO.bankAddr}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                    </div>
+                  </div>
+                         <!-- Notepad starts-->
+            <div *ngIf="item1.tncDTO.notepadDtoList && item1.tncDTO.notepadDtoList!=null && item1.tncDTO.notepadDtoList.length>0">
+              <h3 style="position: relative;">Notepad</h3>
+              <div class="row">
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                  <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">Notepad Name</div>
+                  <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-2 col-xs-3">Notepad Value</div>
+                </div>
+              </div>
+              <div *ngFor="let npItem of item1.tncDTO.notepadDtoList let n =index">
+                <div class="row">
+                  <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                    [ngClass]="ifTncNotePadObjectChanged(s,j,n,'notepadName')? 'highlight' : ''">{{npItem.notepadName}}</div>
+                    <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                    [ngClass]="ifTncNotePadObjectChanged(s,j,n,'notepadName')? 'highlight' : ''">{{npItem.notepadInputVal}}
+                    <!-- <span *ngIf="ifTncNotePadObjectChanged(s,j,n,'notepadName')"  class="material-icons">
+                      {{ npItem.notepadInputVal = 'Radio Test' || 'string' ? (versionCompare.serviceOfferings[s].rateCards[j].tncDTO.notepadDtoList[n].notepadInputVal) : ''}}
+                    </span> -->
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Notepad  Ends-->
+                </mat-card>
+              </div>
+              <!--Closing TnC-->
+
+              <!--Commercial Starts-->
+              <div *ngFor="let comItem of item1.commercialDTOs;let i = index;">
+                <div class="row leftSpace">
+                  <div class="col-lg-1 msaBox"> &nbsp;</div>
+                  <div class="col-lg-6 heading">Commercial {{i+1}}</div>
+                </div>
+                <div
+                  style="background-color: #515457;color: white;padding: 1rem 2rem; font-size: 1.6rem; margin-top: 1rem;"
+                  fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+                  fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
+                  <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"
+                    [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'id')? 'highlight' : ''">Commercial
+                    Id:<span>{{comItem.id}}</span></div>
+                  <div fxFlex=50 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"
+                    [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'chargeBy')? 'highlight' : ''">Charge
+                    By:<span>{{comItem.chargeBy}}</span></div>
+                </div>
+
+                <mat-card>
+                  <div class="row" style="position: relative;left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">GST Applicable</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="comItem.gstApplicable==1"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'gstApplicable')? 'highlight' : ''">
+                        YES</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="comItem.gstApplicable==0"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'gstApplicable')? 'highlight' : ''">
+                        NO</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Charge By
+                      </div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'chargeBy')? 'highlight' : ''">
+                        {{comItem.chargeBy}}</div>
+                    </div>
+                  </div>
+
+                  <div class="row" style="position: relative;left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">GST Type</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'gstType')? 'highlight' : ''">
+                        {{comItem.gstType}}</div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Product Category</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'prdctCtgy')? 'highlight' : ''">
+                        {{comItem.prdctCtgy}}</div>
+                    </div>
+                  </div>
+                  <div class="row" style="position: relative;left: -5%;">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Slab Required</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="comItem.slabRequired==1"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''">
+                        YES</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="comItem.slabRequired==0"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''">NO
+                      </div>
+                    </div>
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                      <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Slab Protection Type</div>
+                      <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabProtectionType')? 'highlight' : ''">
+                        {{comItem.slabProtectionType}}</div>
+                    </div>
+                  </div>
+                  <!--ZM Price List Starts-->
+                  <div *ngIf="comItem.zmPrice.length>0">
+                    <h3 style="position: relative;"> Zonal Rate Group</h3>
+                    <div class="row">
+                      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">RATE GROUP</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          *ngIf="comItem.slabRequired==1">SLAB</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">PRICE</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">MINIMUM FREIGHT</div>
+                      </div>
+                    </div>
+                    <div *ngFor="let zgItem of comItem.zmPrice let zmi = index ">
+                      <div class="row">
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmPriceObjectChanged(comItem,zgItem,s,j,i,zmi,'zmRgMap')? 'highlight' : ''">
+                            {{zgItem.zmRgMap}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            *ngIf="comItem.slabRequired==1"
+                            [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''">
+                            {{zgItem.slabFrom}}-{{zgItem.slabTo}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmPriceObjectChanged(comItem,zgItem,s,j,i,zmi,'price')? 'highlight' : ''">
+                            {{zgItem.price}}
+                            <span *ngIf="ifRatecardCommercialZmPriceObjectChanged(comItem,zgItem,s,j,i,zmi,'price')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].zmPrice[zmi].price}}
+                            </span>
+                          </div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmPriceObjectChanged(comItem,zgItem,s,j,i,zmi,'minFreight')? 'highlight' : ''">
+                            {{zgItem.minFreight}}
+                            <span *ngIf="ifRatecardCommercialZmPriceObjectChanged(comItem,zgItem,s,j,i,zmi,'minFreight')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].zmPrice[zmi].minFreight}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--ZM Price List Ends-->
+
+
+                  <!--Custom Rate Mapping: zmCustomPrice Starts-->
+                  <div *ngIf="comItem.zmCustomPrice.length>0">
+                    <h3 style="position: relative;"> Custom Rate Mapping</h3>
+                    <div class="row">
+                      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">FROM TYPE</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">TO TYPE</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">FROM</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">TO</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          *ngIf="comItem.slabRequired==1">SLAB</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">MINIMUM AMOUNT</div>
+                      </div>
+                    </div>
+                    <div *ngFor="let zmcItem of comItem.zmCustomPrice let zmi=index ">
+                      <div class="row">
+                        <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmCustomPriceObjectChanged(comItem,zmcItem,s,j,i,zmi,'srcType')? 'highlight' : ''">
+                            {{zmcItem.srcType}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmCustomPriceObjectChanged(comItem,zmcItem,s,j,i,zmi,'destType')? 'highlight' : ''">
+                            {{zmcItem.destType}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmCustomPriceObjectChanged(comItem,zmcItem,s,j,i,zmi,'source')? 'highlight' : ''">
+                            {{zmcItem.source}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmCustomPriceObjectChanged(comItem,zmcItem,s,j,i,zmi,'destination')? 'highlight' : ''">
+                            {{zmcItem.destination}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''"
+                            *ngIf="comItem.slabRequired==1">{{zmcItem.slabFrom}}-{{zmcItem.slabTo}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialZmCustomPriceObjectChanged(comItem,zmcItem,s,j,i,zmi,'minFreight')? 'highlight' : ''">
+                            {{zmcItem.minFreight}}
+                            <span *ngIf="ifRatecardCommercialZmCustomPriceObjectChanged(comItem,zmcItem,s,j,i,zmi,'minFreight')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].zmPrice[zmi].minFreight}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Custom Rate Mapping: zmCustomPrice Ends-->
+
+
+
+                  <div *ngIf="comItem.safextCharge.length>0">
+                    <div class="row leftSpace">
+                      <!-- <div class="row col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>             -->
+                      <div class="text-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Safextension Applicable</div>
+                      <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="comItem.safextFlag==1">
+                        YES</div>
+                      <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="comItem.safextFlag==0">NO
+                      </div>
+                      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+
+                      <div class="text-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Safextension Charge</div>
+                      <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                        [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'safexChargesType')? 'highlight' : ''">
+                        {{comItem.safexChargesType}}</div>
+                      <!-- <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"><span *ngFor="let item of comItem.safextCharge;let j=index">{{item.safextCtgy}}<span *ngIf="j!=(comItem.safextCharge.length-1)">,</span></span></div> -->
+                    </div>
+
+                    <div class="row leftSpace1">
+                      <!-- <div class="row col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>             -->
+                      <div class="text-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Safextension Type</div>
+                      <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                        *ngFor="let sfxItem of comItem.safextCharge | slice:0:1;"
+                        [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,sfxItem,s,j,i,'safextLevel')? 'highlight' : ''">
+                        {{sfxItem.safextLevel}}</div>
+                      <!-- <div class="text-heading-bar col-lg-3 col-md-3 col-sm-3 col-xs-3"><span *ngFor="let sfxItem of item1.safextSlaDTOs;let i=index;"><span *ngIf="i==0">{{sfxItem.safextType}}</span></span></div> -->
+                      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+                    </div>
+
+                    <!--Safextention delivery charges Starts-->
+
+                    <h3 style="position: relative;">Safextension Delivery Charges</h3>
+                    <div class="row">
+                      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">GROUP</div>
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                          *ngIf="comItem.slabRequired==1">SLAB</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">RATE PER KG</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">MINIMUM AMOUNT</div>
+                      </div>
+                    </div>
+                    <div *ngFor="let seItem of comItem.safextCharge let b=index">
+                      <div class="row" *ngIf="seItem.safextCtgy=='DELIVERY'">
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'safextEntity')? 'highlight' : ''">
+                            {{seItem.safextEntity}}</div>
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            *ngIf="comItem.slabRequired==1"
+                            [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''">
+                            {{seItem.slabFrom}}-{{seItem.slabTo}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'price')? 'highlight' : ''">
+                            RS.{{seItem.price}}
+                            <span *ngIf="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'price')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextCharge[b].price}}
+                            </span>
+                          </div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'minAmt')? 'highlight' : ''">
+                            RS.{{seItem.minAmt}}
+                            <span *ngIf="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'minAmt')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextCharge[b].minAmt}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--Safextention delivery charges ends-->
+
+                    <!--Safextention Booking charges Starts-->
+
+                    <h3 style="position: relative;">Safextension Booking Charges</h3>
+                    <div class="row">
+                      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">GROUP</div>
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                          *ngIf="comItem.slabRequired==1">SLAB</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">RATE PER KG</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">MINIMUM AMOUNT</div>
+                      </div>
+                    </div>
+                    <div *ngFor="let seItem of comItem.safextCharge let b=index">
+                      <div class="row" *ngIf="seItem.safextCtgy=='BOOKING'">
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'safextEntity')? 'highlight' : ''">
+                            {{seItem.safextEntity}}</div>
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''"
+                            *ngIf="comItem.slabRequired==1">{{seItem.slabFrom}}-{{seItem.slabTo}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'price')? 'highlight' : ''">
+                            RS.{{seItem.price}}
+                            <span *ngIf="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'price')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextCharge[b].price}}
+                            </span>
+                          </div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'minAmt')? 'highlight' : ''">
+                            RS.{{seItem.minAmt}}
+                            <span *ngIf="ifRatecardCommercialSafextensionObjectChanged(comItem,seItem,s,j,i,b,'minAmt')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextCharge[b].minAmt}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!--Safextention Booking charges ends-->
+                  </div>
+                  <!--safextCharge if cond ends-->
+
+                  <!--Safextention Delivery CUSTOM charges Starts-->
+                  <div *ngIf="comItem.safextDlvryCustomCharge.length>0">
+                    <h3 style="position: relative;">Safextension Delivery Custom Charges</h3>
+                    <div class="row">
+                      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">PINCODE/STATE</div>
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                          *ngIf="comItem.slabRequired==1">SLAB</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">RATE</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">MINIMUM AMOUNT</div>
+
+                      </div>
+                    </div>
+                    <div *ngFor="let sdcItem of comItem.safextDlvryCustomCharge let b= index">
+                      <div class="row">
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            [ngClass]="ifRatecardCommercialSafexDlvryCustomChargeObjectChanged(comItem,sdcItem,s,j,i,b,'destination')? 'highlight' : ''">
+                            {{sdcItem.destination}}</div>
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''"
+                            *ngIf="comItem.slabRequired==1">{{sdcItem.slabFrom}}-{{sdcItem.slabTo}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafexDlvryCustomChargeObjectChanged(comItem,sdcItem,s,j,i,b,'price')? 'highlight' : ''">
+                            RS.{{sdcItem.price}}
+                            <span *ngIf="ifRatecardCommercialSafexDlvryCustomChargeObjectChanged(comItem,sdcItem,s,j,i,b,'price')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextDlvryCustomCharge[b].price}}
+                            </span>
+                          </div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafexDlvryCustomChargeObjectChanged(comItem,sdcItem,s,j,i,b,'minAmt')? 'highlight' : ''">
+                            RS.{{sdcItem.minAmt}}
+                            <span *ngIf="ifRatecardCommercialSafexDlvryCustomChargeObjectChanged(comItem,sdcItem,s,j,i,b,'minAmt')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextDlvryCustomCharge[b].minAmt}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div><!-- Delivery custom charges ends-->
+
+                  <!--Safextention Booking CUSTOM charges Starts-->
+                  <div *ngIf="comItem.safextBkngCustomCharge.length>0">
+                    <h3 style="position: relative;">Safextension Booking Custom Charges</h3>
+                    <div class="row">
+                      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">PINCODE/STATE</div>
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                          *ngIf="comItem.slabRequired==1">SLAB</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">RATE</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">MINIMUM AMOUNT</div>
+                      </div>
+                    </div>
+                    <div *ngFor="let sbcItem of comItem.safextBkngCustomCharge let b=index">
+                      <div class="row">
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            [ngClass]="ifRatecardCommercialSafexBkngCustomChargeObjectChanged(comItem,sbcItems,s,j,i,b,'source')? 'highlight' : ''">
+                            {{sbcItem.source}}</div>
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                            [ngClass]="ifRatecardCommercialObjectChanged(comItem,s,j,i,'slabRequired')? 'highlight' : ''"
+                            *ngIf="comItem.slabRequired==1">{{sbcItem.slabFrom}}-{{sbcItem.slabTo}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafexBkngCustomChargeObjectChanged(comItem,sbcItems,s,j,i,b,'price')? 'highlight' : ''">
+                            RS.{{sbcItem.price}}
+                            <span *ngIf="ifRatecardCommercialSafexBkngCustomChargeObjectChanged(comItem,seItem,s,j,i,b,'price')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextBkngCustomCharge[b].price}}
+                            </span>
+                          </div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                            [ngClass]="ifRatecardCommercialSafexBkngCustomChargeObjectChanged(comItem,sbcItems,s,j,i,b,'minAmt')? 'highlight' : ''">
+                            RS.{{sbcItem.minAmt}}
+                            <span *ngIf="ifRatecardCommercialSafexBkngCustomChargeObjectChanged(comItem,seItem,s,j,i,b,'minAmt')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].safextBkngCustomCharge[b].minAmt}}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--CUSTOM Booking charges ends-->
+
+
+
+                  <!--Pricing Param Starts-->
+                  <div *ngIf="comItem.pricingParamTrans.length>0">
+
+                    <h3 style="position: relative;"> Pricing Param</h3>
+
+                    <div class="row">
+                      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+                        <div class="zoal-rate-heading col-lg-5 col-md-5 col-sm-5 col-xs-5">Param Name</div>
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">Value</div>
+                        <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                      </div>
+                    </div>
+
+                    <div *ngFor="let ppItem of comItem.pricingParamTrans let b=index">
+                      <div class="row">
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+
+                          <div class="zoal-rate-content col-lg-5 col-md-5 col-sm-5 col-xs-5">{{ppItem.pricingParam}}
+                          </div>
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="ppItem.rrFlag!=0"
+                            [ngClass]="ifRatecardCommercialPricingParamTransObjectChanged(comItem,ppItem,s,j,i,b,'pricingParamVal')? 'highlight' : ''">
+                            {{ppItem.pricingParamVal}}<span *ngIf="ppItem.calcUnit">&nbsp; ({{ppItem.calcUnit}})</span>
+                            <span *ngIf="ifRatecardCommercialPricingParamTransObjectChanged(comItem,ppItem,s,j,i,b,'pricingParamVal')"  class="material-icons">
+                              {{versionCompare.serviceOfferings[s].rateCards[j].commercialDTOs[i].pricingParamTrans[b].pricingParamVal}}
+                            </span>
+                            
+                          </div>
+                          <!-- <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="ppItem.rrFlag!=0 && ppItem.calcUnit">{{ppItem.pricingParamVal}} ({{ppItem.calcUnit}})</div> -->
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3" *ngIf="ppItem.rrFlag==0"
+                            [ngClass]="ifRatecardCommercialPricingParamTransObjectChanged(comItem,ppItem,s,j,i,b,'rrFlag')? 'highlight' : ''">
+                            NA</div>
+                          <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <!--Pricing Param Ends-->
+                </mat-card>
+              </div>
+              <!--Commercial List Ends-->
+
+              <!--Branch Start-->
+
+              <div *ngIf="item1.branchDTOs">
+                <div class="row leftSpace">
+                  <div class="col-lg-1 msaBox"> &nbsp;</div>
+                  <div class="col-lg-6 heading">Branch</div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Branch</div>
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Effective date</div>
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Expiry Date</div>
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Billable Weight</div>
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Booking Hold</div>
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Delivery Hold</div>
+                  </div>
+                </div>
+                <div *ngFor="let branchItem of item1.branchDTOs let b=index">
+                  <div class="row">
+                    <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'branchName')? 'highlight' : ''">
+                        {{branchItem.branchName}}</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'effectiveDt')? 'highlight' : ''">
+                        {{branchItem.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'expDt')? 'highlight' : ''">
+                        {{branchItem.expDt | date: 'dd/MM/yyyy'}}</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        *ngIf="branchItem.billableWghtFlag==1"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'billableWghtFlag')? 'highlight' : ''">
+                        YES</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        *ngIf="branchItem.billableWghtFlag==0"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'billableWghtFlag')? 'highlight' : ''">
+                        NO</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        *ngIf="branchItem.bkngBranchHoldFlag==1"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'bkngBranchHoldFlag')? 'highlight' : ''">
+                        YES</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        *ngIf="branchItem.bkngBranchHoldFlag==0"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'bkngBranchHoldFlag')? 'highlight' : ''">
+                        NO</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        *ngIf="branchItem.bkngBranchHoldFlag==1"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'bkngBranchHoldFlag')? 'highlight' : ''">
+                        YES</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                        *ngIf="branchItem.bkngBranchHoldFlag==0"
+                        [ngClass]="ifRatecardBranchObjectChanged(branchItem,s,j,b,'bkngBranchHoldFlag')? 'highlight' : ''">
+                        NO</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--Branch Ends-->
+
+              <!--Commandment Charges Start-->
+              <div *ngFor="let cmditemar of item1.commandmentChargeDTOs let cdIndex=index">
+                <div *ngIf="cmditemar && cmditemar!=null && cmditemar.length>0">
+                <div class="row" style="margin-top: 20px; padding-left: 13px;">
+                  <div class="col-lg-1 background" style="background-color:  #515457;width: 4%; height: 32px;"> &nbsp;
+                  </div>
+                  <div *ngIf="cmditemar[0].cmdmntLevel=='RATECARD'" class="col-lg-6 heading">Commandment</div>
+                  <div *ngIf="!(cmditemar[0].cmdmntLevel=='RATECARD')" class="col-lg-6 heading">Commandment For Commercial : {{cmditemar[0].entityId}}</div>
+                </div>
+                <h3 style="position: relative;">Geography Commandments</h3>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">NAME</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">MIN FREIGHT</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">VALUE</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">BASED ON</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">FEATURE</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CALCULATION TYPE</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CALCULATION UNIT</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CALCULATION MEASURE</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CHARGES ON</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">MIN AMT</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">MAX AMT</div>
+                  </div>
+                </div>
+                
+                  <div *ngIf="cmditemar &&  cmditemar.length>0">
+                    <div *ngFor="let cmdItem of cmditemar  let b = index">
+                      <div *ngIf="cmdItem.geoFeatureId && cmdItem.geoFeatureId!=0">
+                        <div class="row">
+                          <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName')? 'highlight' : ''">
+                              {{cmdItem.cmdmntName}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              *ngIf="cmdItem.minCalcFlag==0"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag')? 'highlight' : ''">
+                              NO</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              *ngIf="cmdItem.minCalcFlag==1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag')? 'highlight' : ''">
+                              YES</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              *ngIf="cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag')? 'highlight' : ''">
+                            </div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price')? 'highlight' : ''">
+                              {{cmdItem.price}}
+                              <span *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price')"  class="material-icons">
+                                {{versionCompare.serviceOfferings[s].rateCards[j].commandmentChargeDTOs[cdIndex][b]?.price}}
+                                </span>
+                            </div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'basedOn')? 'highlight' : ''">
+                              {{cmdItem.basedOn}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'geoFeatureName')? 'highlight' : ''">
+                              {{cmdItem.geoFeatureName}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType')? 'highlight' : ''">
+                              {{cmdItem.calcType}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit')? 'highlight' : ''">
+                              {{cmdItem.calcUnit}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure')? 'highlight' : ''">
+                              {{cmdItem.calcMeasure}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal')? 'highlight' : ''">
+                              {{cmdItem.lkpChargeOnVal}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal')? 'highlight' : ''">
+                              {{cmdItem.minVal}}
+                              <span *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal')"  class="material-icons">
+                                {{versionCompare.serviceOfferings[s].rateCards[j].commandmentChargeDTOs[cdIndex][b]?.minVal}}
+                                </span>
+                            </div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal')? 'highlight' : ''">
+                              {{cmdItem.maxVal}}
+                              <span *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal')"  class="material-icons">
+                                {{versionCompare.serviceOfferings[s].rateCards[j].commandmentChargeDTOs[cdIndex][b]?.maxVal}}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+
+                <!-- Non Geograpgy -->
+                <h3 style="position: relative;">Non Geography Commandments</h3>
+                <div class="row">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">NAME</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">MIN FREIGHT</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">VALUE</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CALCULATION TYPE</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CALCULATION UNIT</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CALCULATION MEASURE</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">CHARGES ON</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">MIN AMT</div>
+                    <div class="zoal-rate-heading col-lg-1 col-md-1 col-sm-1 col-xs-1">MAX AMT</div>
+                  </div>
+                </div>
+              
+                  <div *ngIf="cmditemar &&  cmditemar.length>0">
+                    <div *ngFor="let cmdItem of cmditemar let b=index">
+                      <div *ngIf="!cmdItem.geoFeatureId || cmdItem.geoFeatureId==0">
+                        <div class="row">
+                          <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName')? 'highlight' : ''">
+                              {{cmdItem.cmdmntName}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              *ngIf="cmdItem.minCalcFlag==0"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag')? 'highlight' : ''">
+                              NO</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              *ngIf="cmdItem.minCalcFlag==1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag')? 'highlight' : ''">
+                              YES</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              *ngIf="cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag')? 'highlight' : ''">
+                            </div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price')? 'highlight' : ''">
+                              {{cmdItem.price}}
+                              <span *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price')"  class="material-icons">
+                                {{versionCompare.serviceOfferings[s].rateCards[j].commandmentChargeDTOs[cdIndex][b]?.price}}
+                              </span>
+                            </div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType')? 'highlight' : ''">
+                              {{cmdItem.calcType}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit')? 'highlight' : ''">
+                              {{cmdItem.calcUnit}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure')? 'highlight' : ''">
+                              {{cmdItem.calcMeasure}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal')? 'highlight' : ''">
+                              {{cmdItem.lkpChargeOnVal}}</div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal')? 'highlight' : ''">
+                              {{cmdItem.minVal}}
+                              <span *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal')"  class="material-icons">
+                                {{versionCompare.serviceOfferings[s].rateCards[j].commandmentChargeDTOs[cdIndex][b]?.minVal}}
+                              </span>
+                            </div>
+                            <div class="zoal-rate-content col-lg-1 col-md-1 col-sm-1 col-xs-1"
+                              [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal')? 'highlight' : ''">
+                              {{cmdItem.maxVal}}
+                              <span *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal')"  class="material-icons">
+                                {{versionCompare.serviceOfferings[s].rateCards[j].commandmentChargeDTOs[cdIndex][b]?.maxVal}}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+  
+                <!--Commandment Slab Charges Starts-->
+                  <div *ngIf="cmditemar &&  cmditemar.length>0">
+                    <div *ngFor="let cmdItem of cmditemar let b=index">
+                      <div *ngIf="cmdItem.cmdmntSlabCharge.length>0">
+                        <h3 style="position: relative;"
+                          [ngClass]="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName')? 'highlight' : ''">Slab
+                          : {{cmdItem.cmdmntName}}</h3>
+                        <div class="row">
+                          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">FROM</div>
+                            <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">TO</div>
+                            <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">AMOUNT</div>
+                          </div>
+                        </div>
+
+                        <div *ngFor="let cSlabItem of cmdItem.cmdmntSlabCharge let i=index">
+                          <div class="row">
+                            <div class=" col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                              <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                                [ngClass]="ifRatecardCmdSlabObjectChanged(cmdItem,cSlabItem,s,j,b,cdIndex,i,'slabFrom')? 'highlight' : ''">
+                                {{cSlabItem.slabFrom}}</div>
+                              <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                                [ngClass]="ifRatecardCmdSlabObjectChanged(cmdItem,cSlabItem,s,j,b,cdIndex,i,'slabTo')? 'highlight' : ''">
+                                {{cSlabItem.slabTo}}</div>
+                              <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                                [ngClass]="ifRatecardCmdSlabObjectChanged(cmdItem,cSlabItem,s,j,b,cdIndex,i,'price')? 'highlight' : ''">
+                                {{cSlabItem.price}}</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                
+                <!--Commandment Slab Charges Ends-->
+
+              </div></div>
+              <!--Commandment Charges Ends-->
+
+
+              <!--SLA Starts-->
+              <div *ngIf="item1.zmSlaDTOs || item1.safextSlaDTOs || item1.zmCustomSlaDTOs">
+                <div class="row leftSpace">
+                  <div class="col-lg-1 msaBox"> &nbsp;</div>
+                  <div class="col-lg-6 heading">SLA</div>
+                </div>
+
+
+                <!--SLA Group transit Start-->
+                <div *ngIf="item1.zmSlaDTOs">
+                  <h3 style="position: relative;">SLA Group transit</h3>
+                  <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                      <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">Group</div>
+                      <!-- <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">RR</div> -->
+                      <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">SLA Days</div>
+                      <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+
+                    </div>
+                  </div>
+                  <div *ngFor="let zmSLA of item1.zmSlaDTOs let b =index">
+                    <div class="row">
+                      <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+                        <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                          [ngClass]="ifRatecardZmSLAObjectChanged(zmSLA,s,j,b,'zmRgMap')? 'highlight' : ''">
+                          {{zmSLA.zmRgMap}}</div>
+                        <!-- <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngIf="zmSLA.slaRrFlag==1">RR</div>
+              <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngIf="zmSLA.slaRrFlag==2">Custom</div> -->
+                        <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          [ngClass]="ifRatecardZmSLAObjectChanged(zmSLA,s,j,b,'slaDays')? 'highlight' : ''">
+                          {{zmSLA.slaDays}} <span *ngIf="ifRatecardZmSLAObjectChanged(zmSLA,s,j,b,'slaDays')"  class="material-icons">
+                            {{versionCompare.serviceOfferings[s].rateCards[j].zmSlaDTOs[b].slaDays}}
+                            </span></div>
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--SLA Group transit Ends-->
+
+                <!--Custom SLA Start-->
+                <div *ngIf="item1.zmCustomSlaDTOs">
+                  <h3 style="position: relative;">Custom SLA</h3>
+                  <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+
+
+                      <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">From Type</div>
+                      <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">To Type</div>
+                      <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">From</div>
+                      <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">To</div>
+                      <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">SLA Days</div>
+                      <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                    </div>
+                  </div>
+                  <div *ngFor="let cSLA of item1.zmCustomSlaDTOs let b=index">
+                    <div class="row">
+                      <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                          [ngClass]="ifRatecardCSLAObjectChanged(cSLA,s,j,b,'srcType')? 'highlight' : ''">
+                          {{cSLA.srcType}}</div>
+                        <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          [ngClass]="ifRatecardCSLAObjectChanged(cSLA,s,j,b,'destType')? 'highlight' : ''">
+                          {{cSLA.destType}}</div>
+                        <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          [ngClass]="ifRatecardCSLAObjectChanged(cSLA,s,j,b,'source')? 'highlight' : ''">{{cSLA.source}}
+                        </div>
+                        <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          [ngClass]="ifRatecardCSLAObjectChanged(cSLA,s,j,b,'destination')? 'highlight' : ''">
+                          {{cSLA.destination}}</div>
+                        <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          [ngClass]="ifRatecardCSLAObjectChanged(cSLA,s,j,b,'slaDays')? 'highlight' : ''">
+                          {{cSLA.slaDays}} 
+                          <span *ngIf="ifRatecardCSLAObjectChanged(zmSLA,s,j,b,'slaDays')"  class="material-icons">
+                            {{versionCompare.serviceOfferings[s].rateCards[j].zmCustomSlaDTOs[b].slaDays}}
+                          </span>
+                        </div>
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Custom SLA ends-->
+
+                <!--Safex SLA Start-->
+                <div *ngIf="item1.safextCustomSlaDTOs && item1.safextCustomSlaDTOs.length>0">
+                  <h3 style="position: relative;">Safextension Custom SLA</h3>
+                  <div class="row">
+                    <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                      <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">From</div>
+                      <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">To</div>
+                      <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">SLA Days</div>
+                      <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                    </div>
+                  </div>
+                  <div *ngFor="let safexCusSLA of item1.safextCustomSlaDTOs let b=index">
+                    <div class="row">
+                      <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                          [ngClass]="ifRatecardSafextSlaDTOsObjectChanged(safexCusSLA,s,j,b,'source')? 'highlight' : ''">
+                          {{safexCusSLA.source}}</div>
+                        <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          [ngClass]="ifRatecardSafextSlaDTOsObjectChanged(safexCusSLA,s,j,b,'destination')? 'highlight' : ''">
+                          {{safexCusSLA.destination}}</div>
+                        <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2"
+                          [ngClass]="ifRatecardSafextSlaDTOsObjectChanged(safexCusSLA,s,j,b,'slaDays')? 'highlight' : ''">
+                          {{safexCusSLA.slaDays}} <span *ngIf="ifRatecardSafextSlaDTOsObjectChanged(zmSLA,s,j,b,'slaDays')"  class="material-icons">
+                            {{versionCompare.serviceOfferings[s].rateCards[j].safextCustomSlaDTOs[b].slaDays}}
+                            </span></div>
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Safex SLA  Ends-->
+                  <!--Safex SLA Start-->
+                  <div *ngIf="item1.safextSlaDTOs && item1.safextSlaDTOs.length>0">
+                    <h3 style="position: relative;">Safextension SLA</h3>
+                    <div class="row">
+                      <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                        <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">Group</div>
+                        <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">SLA Days</div>
+                        <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                      </div>
+                    </div>
+                    <div *ngFor="let safexSLA of item1.safextSlaDTOs">
+                      <div class="row">
+                        <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                          <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3">{{safexSLA.groupName}}</div>
+                          <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2">{{safexSLA.slaDays}}</div>
+                          <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  <!--Safex SLA  Ends-->
+
+              </div>
+
+              <!--SLA Ends-->
+
+
+              <!--VMI Starts-->
+              <div *ngIf="item1.vmiDTOs">
+                <div class="row leftSpace">
+                  <div class="col-lg-1 msaBox"> &nbsp;</div>
+                  <div class="col-lg-6 heading">VMI</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">Consignor</div>
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">Consignee</div>
+                    <div class="zoal-rate-heading col-lg-2 col-md-2 col-sm-2 col-xs-2">VMI Flag</div>
+                    <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">VMI Type</div>
+                    <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                  </div>
+                </div>
+                <div *ngFor="let vmItem of item1.vmiDTOs">
+                  <div class="row">
+                    <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                      <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3">{{vmItem.cnorName}}</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2">{{vmItem.cneeName}}</div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngIf="vmItem.vmiFlag==1">YES
+                      </div>
+                      <div class="zoal-rate-content col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngIf="vmItem.vmiFlag==0">NO
+                      </div>
+                      <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3">{{vmItem.vmiType}}</div>
+                      <div class="col-lg-1 col-md-1 col-sm-4 col-xs-1"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!--VMI Ends-->
+            </div>
+            <!--Closing RateCards List-->
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <!--ServiceOffering ends-->
+
+      <!--Billing obj1 Starts-->
+      <mat-accordion id="shadow"
+        *ngIf="obj1.billingDtoList && obj1.billingDtoList!=null && obj1.billingDtoList.length>0">
+        <mat-expansion-panel id="box-shadow">
+          <mat-expansion-panel-header>
+            <div class="col-lg-6 heading">Billing</div>
+          </mat-expansion-panel-header>
+          <!--Billing config list starts-->
+          <div *ngFor="let billingItem of obj1.billingDtoList let bi=index">
+            <div class="row leftSpace">
+              <div class="col-lg-1 msaBox"> &nbsp;</div>
+              <div class="col-lg-6 heading">Billing Details</div>
+            </div>
+            <mat-card>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Billing Level</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'billingLevel')? 'highlight' : ''">
+                    {{billingItem.billingLevel}} </div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Alias Name
+                    Potential (AIR)</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'aliasName')? 'highlight' : ''">
+                    {{billingItem.aliasName}}</div>
+                </div>
+              </div>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">SFX Code Name</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar">NOT GENERATED YET</div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Billing Sublevel</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'billingSublevel')? 'highlight' : ''">
+                    {{billingItem.billingSublevel}}</div>
+                </div>
+              </div>
+              <div class="row" style="position: relative; left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Billing Subtype</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'billingSubtype')? 'highlight' : ''">
+                    {{billingItem.billingSubtype}}</div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Billing Format</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'billingFormat')? 'highlight' : ''">
+                    {{billingItem.billingFormat}}</div>
+                </div>
+              </div>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Bill Date</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'billingDtls')? 'highlight' : ''">
+                    {{billingItem.billingDtls}}</div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Billing Cycle</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'billingCycle')? 'highlight' : ''">
+                    {{billingItem.billingCycle}}</div>
+                </div>
+              </div>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">E Billing</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="billingItem.ebillFlag==1"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'ebillFlag')? 'highlight' : ''">YES</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="billingItem.ebillFlag==0"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'ebillFlag')? 'highlight' : ''">NO</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    *ngIf="billingItem.ebillFlag!=0 && billingItem.ebillFlag!=1"></div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Payment Terms</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'pymtTerm')? 'highlight' : ''">{{billingItem.pymtTerm}}
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">TOD</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="billingItem.todFlag==1"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'todFlag')? 'highlight' : ''">YES
+                  </div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar" *ngIf="billingItem.todFlag==0"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'todFlag')? 'highlight' : ''">NO
+                  </div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    *ngIf="billingItem.todFlag!=1 && billingItem.todFlag!=0"></div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;
+            left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Turnover Amount</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'todAmt')? 'highlight' : ''">{{billingItem.todAmt}}<span *ngIf="ifBiillingDtobjectChanged(bi,'todAmt')"  class="material-icons">
+                      {{versionCompare.billingDtoList[bi].todAmt}}
+                      </span></div>
+                </div>
+              </div>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Auto Billing</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    *ngIf="billingItem.autoBillingFlag==1"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'autoBillingFlag')? 'highlight' : ''">YES</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    *ngIf="billingItem.autoBillingFlag==0"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'autoBillingFlag')? 'highlight' : ''">NO</div>
+                </div>
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="position: relative;left: 10%;">
+                  <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-heading">Based On</div>
+                  <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7 text-heading-bar"
+                    [ngClass]="ifBiillingDtobjectChanged(bi,'todBasedOn')? 'highlight' : ''">{{billingItem.todBasedOn}}
+                  </div>
+                </div>
+              </div>
+              <div class="row" style="position: relative;left: -5%;">
+                <div class="col-lg-1"></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                </div>
+                <div class="col-lg-2"></div>
+              </div>
+
+              <!--Billing By Data Started-->
+              <div *ngIf="billingItem.billingBy && billingItem.billingBy!=null && billingItem.billingBy.length>0">
+
+                <div class="col-lg-6 leftSpace zoal-rate-content1">
+                  <div class="col-lg-12">
+                    <div>Billing By:
+                      <span *ngFor="let item of billingItem.billingBy | slice:0:1;">{{item.billingByLevelMapVal}}</span>
+                      <br>
+                    </div>
+                  </div>
+                  <div class="col-lg-12">Consignor/Consignee:
+                    <span *ngIf="billingItem.cneeCnorFlag==1">YES</span>
+                    <span *ngIf="billingItem.cneeCnorFlag==0">NO</span>
+                  </div>
+                </div>
+
+                <div class=" heading-bar-dashboard wordbreak" fxLayout fxLayout.xs="column" fxLayoutAlign="center"
+                  fxLayoutGap.xs="0">
+                  <div class="zoal-rate-heading " fxFlex="6.6%">BILLING BRANCH</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">SUBMISSION BRANCH</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">BILL TO ADDRESS</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">GST NUMBER</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">COLLECTION BRANCH</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">MIN BILLING AMOUNT</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">EXCLUDE BILLING</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">EXCLUDE BILLING DATE</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">TAN</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">GB CATEGORY</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">CREDIT LIMIT</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">MONTHLY POTENTIAL</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">E-BILL EMAIL</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">BDM EMAIL</div>
+                  <div class="zoal-rate-heading " fxFlex="6.6%">COMMUNICATION EMAIL</div>
+                </div>
+
+                <div *ngFor="let billByItem of billingItem.billingBy let bbi=index"
+                  class="wordbreak heading-bar-dashboard" style="width: 100%;" fxLayout fxLayout.xs="column"
+                  fxLayoutAlign="center" fxLayoutGap.xs="0">
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'billingBranchName')? 'highlight' : ''">
+                    {{billByItem.billingBranchName}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'submsnBranchName')? 'highlight' : ''">
+                    {{billByItem.submsnBranchName}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'billtoAddr')? 'highlight' : ''">
+                    {{billByItem.billtoAddr}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'gstinNum')? 'highlight' : ''">
+                    {{billByItem.gstinNum}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'collBranchName')? 'highlight' : ''">
+                    {{billByItem.collBranchName}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'minBillingAmt')? 'highlight' : ''">
+                    <span>{{billByItem.minBillingAmt}}</span>
+                    <span *ngIf="ifBiillingByItemObjectChanged(bi,bbi,'minBillingAmt')"  class="material-icons">
+                      {{versionCompare.billingDtoList[bi].billingBy[bbi].minBillingAmt}}
+                      </span>
+                  </div>
+                  <div class="zoal-rate-content " fxFlex="6.6%" *ngIf="billByItem.excludeBillingFlag==0">NO</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%" *ngIf="billByItem.excludeBillingFlag==1">YES</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'excludeBillingDt')? 'highlight' : ''">
+                    {{billByItem.excludeBillingDt | date: 'dd/MM/yyyy'}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'tanNum')? 'highlight' : ''">{{billByItem.tanNum}}
+                  </div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'lkpGbCtgyValue')? 'highlight' : ''">
+                    {{billByItem.lkpGbCtgyValue}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'creditRisk')? 'highlight' : ''">
+                   <span>{{billByItem.creditRisk}}</span> 
+                    <span *ngIf="ifBiillingByItemObjectChanged(bi,bbi,'creditRisk')"  class="material-icons">
+                      {{versionCompare.billingDtoList[bi].billingBy[bbi].creditRisk}}
+                      </span>
+                  </div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'mnthPotential')? 'highlight' : ''">
+                    {{billByItem.mnthPotential}}
+                    <span *ngIf="ifBiillingByItemObjectChanged(bi,bbi,'mnthPotential')"  class="material-icons">
+                      {{versionCompare.billingDtoList[bi].billingBy[bbi].mnthPotential}}
+                      </span>
+                    </div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'ebillEmail')? 'highlight' : ''">
+                    {{billByItem.ebillEmail}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'bdmEmailId')? 'highlight' : ''">
+                    {{billByItem.bdmEmailId}}</div>
+                  <div class="zoal-rate-content " fxFlex="6.6%"
+                    [ngClass]="ifBiillingByItemObjectChanged(bi,bbi,'commBillEmail')? 'highlight' : ''">
+                    {{billByItem.commBillEmail}}</div>
+                </div>
+              </div>
+              <!--Billing By Data Ends-->
+
+              <!-- Billing Consignee Consignor Mapping  Starts-->
+              <div
+                *ngIf="billingItem.billingCneeCnorMap && billingItem.billingCneeCnorMap!=null && billingItem.billingCneeCnorMap.length>0">
+                <h3 style="position: relative;">Consignee Consignor Mapping</h3>
+                <div class="row">
+                  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                    <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-3 col-xs-3">CONSIGNEE</div>
+                    <div class="zoal-rate-heading col-lg-3 col-md-3 col-sm-2 col-xs-3">CONSIGNOR</div>
+                  </div>
+                </div>
+                <div *ngFor="let cnbItem of billingItem.billingCneeCnorMap let ci=index">
+                  <div class="row">
+                    <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10">
+                      <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                        [ngClass]="ifCnItemObjectChanged(bi,ci,'cneeName')? 'highlight' : ''">{{cnbItem.cneeName}}</div>
+                      <div class="zoal-rate-content col-lg-3 col-md-3 col-sm-3 col-xs-3"
+                        [ngClass]="ifCnItemObjectChanged(bi,ci,'cnorName')? 'highlight' : ''">{{cnbItem.cnorName}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- Billing Consignee Consignor Mapping  Ends-->
+
+
+            </mat-card>
+          </div>
+          <!--Billing Config List Ends-->
+        </mat-expansion-panel>
+      </mat-accordion>
+      <!--Billing obj1 Ends-->
+    </div>
+  </div>
+</div>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"> </ngx-spinner>
