@@ -5,7 +5,7 @@
   <div class="row mt100">
     <div class="col-md-9">
       <p style="color: white;font-size: 3.2rem;"><span style="opacity: .9;">{{this.greeting()}},</span>
-        <b>{{userName}}</b></p>
+        <strong>{{userName}}</strong></p>
     </div>
     <div class="col-md-3 text-center">
       <label style="color: white;font-size: 3rem;">Credit Contract</label>
@@ -65,7 +65,7 @@
         <!--    In case of Pending Contract  start-->
         <div class="row" *ngIf="selectedValue === 'PENDING'" style="cursor: pointer !important;">
           <div class="col-md-6 dashboard-heading">
-            <h5><b>Pending Contracts ( {{count?.pendingCount}} )</b></h5>
+            <h5><strong>Pending Contracts ( {{count?.pendingCount}} )</strong></h5>
           </div>
         </div>
 
@@ -82,9 +82,9 @@
 
         <div class="row" *ngIf="selectedValue === 'EXPIRING SOON' || selectedValue === 'ACTIVE' || selectedValue === 'DRAFT'">
           <div class="col-md-6">
-            <h5 *ngIf="selectedValue === 'EXPIRING SOON'"><b>EXPIRING SOON ( {{count?.expCount}} )</b></h5>
-            <h5 *ngIf="selectedValue === 'ACTIVE'"><b>ACTIVE ( {{count?.totalCount}} )</b></h5>
-            <h5 *ngIf="selectedValue === 'DRAFT'"><b>IN DRAFT MODE ( {{msaData.length}} )</b></h5>
+            <h5 *ngIf="selectedValue === 'EXPIRING SOON'"><strong>EXPIRING SOON ( {{count?.expCount}} )</strong></h5>
+            <h5 *ngIf="selectedValue === 'ACTIVE'"><strong>ACTIVE ( {{count?.totalCount}} )</strong></h5>
+            <h5 *ngIf="selectedValue === 'DRAFT'"><strong>IN DRAFT MODE ( {{msaData.length}} )</strong></h5>
           </div>
         </div>
         <div class="row" *ngIf="selectedValue === 'EXPIRING SOON' || selectedValue === 'ACTIVE' || selectedValue === 'DRAFT'">

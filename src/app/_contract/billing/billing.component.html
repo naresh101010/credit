@@ -435,7 +435,7 @@
                       </mat-form-field>
                       <span *ngIf="(billtoAddr.errors?.required && (billtoAddr.touched || fBilling.submitted))" class="hasErrorMsg marginBilling"><em>Required&nbsp;!</em></span>
                       <b *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="addAddress(i)" #tooltip="matTooltip" matTooltip="ADD Bill TO ADDRESS"
-                        matTooltipPosition="right" class="material-icons">add</em></b>
+                        matTooltipPosition="right" class="material-icons">add</em></strong>
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="gstinNum">
@@ -608,7 +608,7 @@
                         </mat-select >
                       </mat-form-field>
                       <b *ngIf="!msaBillingExists"><emstyle="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="emailAddress(i)" #tooltip="matTooltip" matTooltip="ADD BDM E-MAIL ID"
-                        matTooltipPosition="right" class="material-icons">add</em></b>
+                        matTooltipPosition="right" class="material-icons">add</em></strong>
                   </ng-container>
                   <ng-container matColumnDef="commBillEmail">
                     <th mat-header-cell *matHeaderCellDef >COMMUNICATION E-MAIL ID</th>
