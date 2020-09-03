@@ -301,10 +301,13 @@ export class BillingComponent implements OnInit {
                   if (
                     this.businessType == "INBOUND" &&
                     billingByElement.lookupVal != "BOOKING BRANCH"
-                  )
+                  ){
                     this.billingByList.push(billingByElement);
-                  else if (this.businessType == "OUTBOUND")
+                  }                  
+                  else if (this.businessType == "OUTBOUND"){
                     this.billingByList.push(billingByElement);
+                  }
+                    
                 }
                 if (
                   this.businessType == "ANYWHERE TO ANYWHERE" &&
@@ -320,11 +323,12 @@ export class BillingComponent implements OnInit {
             );
           }
 
-          if (data.referenceData.billingCycleList)
+          if (data.referenceData.billingCycleList){
             this.billingCycleList = this.billingCycleList.concat(
               data.referenceData.billingCycleList
             );
-
+          }
+            
           if (data.referenceData.billingSubLevelList) {
             this.billingSubLevelList = this.billingSubLevelList.concat(
               data.referenceData.billingSubLevelList
@@ -801,12 +805,14 @@ export class BillingComponent implements OnInit {
                             this.billingData.billingBy[j].billingBranchId ===
                               branchElement.bkngBranchId
                           ) {
+                            console.log('1')
                             isBranchFound = true;
                           } else if (
                             this.billingByLevelName !== "BOOKING BRANCH" &&
                             this.billingData.billingBy[j].assignBranchId ===
                               branchElement.bkngBranchId
                           ) {
+                            console.log("2");
                             isBranchFound = true;
                           }
                         });
