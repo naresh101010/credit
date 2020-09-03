@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { localData } from './data';
 import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root'

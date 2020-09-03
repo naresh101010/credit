@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Subscription ,  from } from 'rxjs';
+import { Subscription  } from 'rxjs';
 import { AppSetting } from '../app.setting';
 
 

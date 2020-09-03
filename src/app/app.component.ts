@@ -1,4 +1,4 @@
-import { Component, HostListener, ViewEncapsulation } from "@angular/core";
+import { Component, ViewEncapsulation } from "@angular/core";
 import { Router } from "@angular/router";
 import { PlatformLocation } from "@angular/common";
 

@@ -1,5 +1,5 @@
-import { Directive, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { Validator, AbstractControl, Validators, NG_VALIDATORS } from '@angular/forms';
+import { Directive, Input} from '@angular/core';
+import { Validator, AbstractControl, NG_VALIDATORS } from '@angular/forms';
 import { GreaterZeroValidator } from './greater-zero.validator';
 
 @Directive({
