@@ -64,7 +64,7 @@
 
         <!-- Checkbox Column -->
         <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef scope="row">
+          <th mat-header-cell *matHeaderCellDef >
             <mat-checkbox (change)="$event ? masterToggle() : null" [checked]="selection.hasValue() && isAllSelected()"
               [aria-label]="checkboxLabel()">
             </mat-checkbox>

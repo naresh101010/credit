@@ -1142,8 +1142,8 @@ export class BillingComponent implements OnInit {
                 .getCneeCnorData(AppSetting.msaCustId)
                 .subscribe(
                   (cneeCnorData) => {
-                    let ob = ErrorConstants.validateException(cneeCnorData);
-                    if (ob.isSuccess) {
+                    let ob_ = ErrorConstants.validateException(cneeCnorData);
+                    if (ob_.isSuccess) {
                       for (
                         var k = 0;
                         k < this.billingData.billingCneeCnorMap.length;
@@ -1181,7 +1181,7 @@ export class BillingComponent implements OnInit {
                         }
                       }
                     } else {
-                      this.tosterService.error(ob.message);
+                      this.tosterService.error(ob_.message);
                       this.spinner.hide();
                     }
                   },
@@ -2712,11 +2712,13 @@ export class BillingComponent implements OnInit {
                         this.billingByLevelName === "BOOKING BRANCH" &&
                         obj.billingBranchId === elementData.bkngBranchId
                       ) {
+                        console.log('1')
                         exists = true;
                       } else if (
                         this.billingByLevelName !== "BOOKING BRANCH" &&
                         obj.assignBranchId === elementData.bkngBranchId
                       ) {
+                         console.log('2')
                         exists = true;
                       }
                     });
@@ -2782,12 +2784,14 @@ export class BillingComponent implements OnInit {
                         this.billingData.billingBy[j].billingBranchId ===
                           branchElement.bkngBranchId
                       ) {
+                        console.log('1')
                         isBranchFound = true;
                       } else if (
                         this.billingByLevelName !== "BOOKING BRANCH" &&
                         this.billingData.billingBy[j].assignBranchId ===
                           branchElement.bkngBranchId
                       ) {
+                         console.log('2')
                         isBranchFound = true;
                       }
                     });
@@ -3748,11 +3752,11 @@ export class BranchDialogBox {
                 this.twoAPIdata = data;
                 this.tableData = data;
                 this.spinner.hide();
-                for (let data of this.tableData) {
-                  if (data.branchType == "CORPORATE") {
-                    data.regionBranch = "";
-                  } else if (data.branchType == "REGION") {
-                    data.regionBranch = data.branchName;
+                for (let data_ of this.tableData) {
+                  if (data_.branchType == "CORPORATE") {
+                    data_.regionBranch = "";
+                  } else if (data_.branchType == "REGION") {
+                    data_.regionBranch = data_.branchName;
                   }
                 }
                 this.allTableData = [...this.tableData];
