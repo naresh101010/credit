@@ -667,11 +667,13 @@ export class BillingComponent implements OnInit {
                             this.billingByLevelName === "BOOKING BRANCH" &&
                             obj.billingBranchId === branchElement.bkngBranchId
                           ) {
+                            console.log("1");                            
                             exist = true;
                           } else if (
                             this.billingByLevelName !== "BOOKING BRANCH" &&
                             obj.assignBranchId === branchElement.bkngBranchId
                           ) {
+                            console.log('2')
                             exist = true;
                           }
                         });
@@ -712,11 +714,13 @@ export class BillingComponent implements OnInit {
                             this.billingByLevelName === "BOOKING BRANCH" &&
                             obj.billingBranchId === elementData.bkngBranchId
                           ) {
+                            console.log('1')
                             exists = true;
                           } else if (
                             this.billingByLevelName !== "BOOKING BRANCH" &&
                             obj.assignBranchId === elementData.bkngBranchId
                           ) {
+                            console.log("2");
                             exists = true;
                           }
                         });
