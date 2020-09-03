@@ -1309,8 +1309,10 @@ export class BillingComponent implements OnInit {
   showOffering(item) {
     console.log(item);
     if (item.lookupVal == "ALL") {
+      console.log('1')
       this.selectOffering = false;
     } else {
+      console.log("2");
       this.selectOffering = false;
     }
     //code to be uncommented if service needs to be activated in future
