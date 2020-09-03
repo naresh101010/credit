@@ -1,8 +1,6 @@
-// import { Component, OnInit } from '@angular/core';
-import { Component, OnInit, Inject, ViewChild, ElementRef, AfterViewInit,HostListener } from '@angular/core';
+import { Component, OnInit, Inject, ViewChild, ElementRef, HostListener } from '@angular/core';
 import { ContractService } from '../../contract.service';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AppSetting } from '../../../app.setting';
 import { MatDialog } from '@angular/material/dialog';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
@@ -296,7 +294,7 @@ export class MsaOprationComponent implements OnInit {
  cmdModuleEntitiId:any
  fileToUpload:any
  uploadDocument(id) {
-  var validExt: Boolean
+  var validExt: boolean
   if (this.uploadedCmdFileName) {
     validExt = this.uploadedCmdFileName.substr(this.uploadedCmdFileName.lastIndexOf("."), this.uploadedCmdFileName.length) == '.xls' ? true : false;
   }

@@ -12,7 +12,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { Router } from '@angular/router';
 import { ContractversionComponent } from '../contractversion/contractversion.component';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
 
 @Component({

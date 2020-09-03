@@ -12,7 +12,6 @@
   import { NgxSpinnerService } from "ngx-spinner";
   import { DataService } from "../sharedata.service";
   import { ErrorConstants }  from '../../models/constants';
-import { post } from 'selenium-webdriver/http';
 import { confimationdialog } from '../../confirmationdialog/confimationdialog';
 import { Validation } from 'src/app/shared/validation';
 
