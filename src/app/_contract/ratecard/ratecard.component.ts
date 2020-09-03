@@ -2174,8 +2174,9 @@ createFreshSafexChargeBkg(isType){
   }
 
   addsafexDeliveryCharges() {
-    if(this.successDataForCommer)
-    this.CommercialDataModel.safextCharge = this.successDataForCommer.safextCharge;
+    if(this.successDataForCommer){
+        this.CommercialDataModel.safextCharge = this.successDataForCommer.safextCharge;
+    }
     let isType:string;
     let isTypeId:number;
     let contains:boolean;
@@ -2536,20 +2537,26 @@ console.log(this.zonalrategroup,"zonalrate group")
       field['lkpDestTypeName'] = srcType
     }
     if(srcType=='STATE' && from == 'src'){
-      if(field.srcId)
-      field.stateNamesfrom = this.covertStateIdToStateName(field.srcId);
+      if(field.srcId){
+        field.stateNamesfrom = this.covertStateIdToStateName(field.srcId);
+      }
     }
     if(srcType=='STATE' && from == 'desc'){
-      if(field.destId)
-      field.stateNamesto = this.covertStateIdToStateName(field.destId);
+      if(field.destId){
+        field.stateNamesto = this.covertStateIdToStateName(field.destId );
+      }
     }
     if(srcType=='CITY' && from == 'src'){
-      if(field.srcId)
-      field.cityNamesfrom = this.covertCityIdToCityName(field.srcId);
+      if(field.srcId){
+        field.cityNamesfrom = this.covertCityIdToCityName(field.srcId);
+
+      }
     }
     if(srcType=='CITY' && from == 'desc'){
-      if(field.destId)
-      field.cityNamesto = this.covertCityIdToCityName(field.destId);
+      if(field.destId){
+        field.cityNamesto = this.covertCityIdToCityName(field.destId);
+
+      }
     }
 
     // clearing all values from 
@@ -3522,8 +3529,9 @@ if(postData.safextDlvryCustomCharge.length>0){
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.zmPrice.push(old);
+            if(old.id){
+              data.zmPrice.push(old);
+            }
           }
         }
       }
@@ -3539,8 +3547,9 @@ if(postData.safextDlvryCustomCharge.length>0){
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.zmCustomPrice.push(old);
+            if(old.id){
+              data.zmCustomPrice.push(old);
+            }
           }
         }
       }
@@ -3556,8 +3565,9 @@ if(postData.safextDlvryCustomCharge.length>0){
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.safextCharge.push(old);
+            if(old.id){
+                data.safextCharge.push(old);
+            }
           }
         }
       }
@@ -3573,8 +3583,9 @@ if(postData.safextDlvryCustomCharge.length>0){
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.safextDlvryCustomCharge.push(old);
+            if(old.id){
+                data.safextDlvryCustomCharge.push(old);
+            }
           }
         }
       }
@@ -3590,8 +3601,9 @@ if(postData.safextDlvryCustomCharge.length>0){
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.safextBkngCustomCharge.push(old);
+            if(old.id){
+                data.safextBkngCustomCharge.push(old);
+            }
           }
         }
       }
@@ -3607,8 +3619,10 @@ if(postData.safextDlvryCustomCharge.length>0){
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.commercialProductMap.push(old);
+            if(old.id){
+                data.commercialProductMap.push(old);
+
+            }
           }
         }
       }
@@ -3624,8 +3638,10 @@ if(postData.safextDlvryCustomCharge.length>0){
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.pricingParamTrans.push(old);
+            if(old.id){
+                data.pricingParamTrans.push(old);
+
+            }
           }
         }
       }

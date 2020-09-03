@@ -157,8 +157,10 @@ export class MsaOprationComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    if(this.dataSource)
-    this.dataSource.paginator = this.paginator;
+    if(this.dataSource){
+          this.dataSource.paginator = this.paginator;
+
+    }
    }
 
   getMSAReferences(){
