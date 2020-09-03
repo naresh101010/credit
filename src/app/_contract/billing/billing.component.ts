@@ -1731,6 +1731,7 @@ export class BillingComponent implements OnInit {
                       this.billingByLevelName == "SUBMISSION BRANCH" ||
                       this.billingByLevelName == "COLLECTION BRANCH"
                     ) {
+                      console.log('1')
                       newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                       newBillingBy.assignBranchName =
                         brnchResult.bkngBranchName;
@@ -1755,6 +1756,7 @@ export class BillingComponent implements OnInit {
                       this.billingByLevelName == "DESTINATION BRANCH WISE" &&
                       this.businessType === "INBOUND"
                     ) {
+                      console.log("2");
                       newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                       newBillingBy.assignBranchName =
                         brnchResult.bkngBranchName;
@@ -2090,6 +2092,7 @@ export class BillingComponent implements OnInit {
           this.billingByLevelName == "SUBMISSION BRANCH" &&
           this.businessType == "ANYWHERE TO ANYWHERE"
         ) {
+          console.log('1')
           this.billingData.billingBy[
             i
           ].assignBranchId = this.billingData.billingBy[i].submsnBranchId;
@@ -2116,6 +2119,7 @@ export class BillingComponent implements OnInit {
           this.billingByLevelName == "DESTINATION BRANCH WISE" &&
           this.businessType != "ANYWHERE TO ANYWHERE"
         ) {
+          console.log("2");
           if (
             !(this.billingLevel === "MSA" && this.businessType === "OUTBOUND")
           ) {
