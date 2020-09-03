@@ -2039,6 +2039,7 @@ export class BillingComponent implements OnInit {
           this.billingByLevelName == "BOOKING BRANCH" &&
           this.businessType != "ANYWHERE TO ANYWHERE"
         ) {
+          console.log('11')
           this.billingData.billingBy[
             i
           ].assignBranchId = this.billingData.billingBy[i].billingBranchId;
