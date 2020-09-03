@@ -1,12 +1,11 @@
 import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { ContractService } from '../contract.service';
-import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorConstants } from '../models/constants';
 import { VersionpreviewComponent } from '../versionpreview/versionpreview.component';
-import { ConsignorUploadFile } from '../msa/msa.component';
 import { CompareversionsComponent } from '../compareversions/compareversions.component';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { NgxPermissionsService } from 'ngx-permissions';

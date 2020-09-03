@@ -10,8 +10,6 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ContractversionComponent } from '../contractversion/contractversion.component';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
-import  * as _ from "lodash";
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 
 @Component({

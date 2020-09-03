@@ -108,7 +108,7 @@
         <div class="row mt15">
           <div class="table-responsive">
 <div class="table_scroll" style="max-height: 48rem ; overflow-y: scroll;">
-    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" *ngxPermissionsOnly="['CONTRACT_READ']">
+    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" aria-describedby="table" *ngxPermissionsOnly="['CONTRACT_READ']">
 
               <!-- Position Column -->
               <ng-container matColumnDef="custName">

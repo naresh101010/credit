@@ -2,7 +2,7 @@ import { Component, OnInit, HostListener, ViewChild } from '@angular/core';
 import { ContractService } from '../contract.service';
 import { AppSetting } from 'src/app/app.setting';
 import { HttpClient } from '@angular/common/http';
-import { ToastrService, ToastRef } from 'ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { NgxSpinnerService } from "ngx-spinner";
 import { DatePipe } from '@angular/common';

@@ -2,7 +2,7 @@
   <div  *ngIf="cmdmntCharge.length>0">
     <h4 class="heading_bold"><strong>Geography Commandments</strong></h4>
     <div class="billingby-container" *ngIf="cmdmntCharge.length>0" style="width: 100% !important;">
-      <table mat-table [dataSource]="geoCmdmntCharge" style="width: 100% !important;">
+      <table mat-table [dataSource]="geoCmdmntCharge" style="width: 100% !important;" aria-describedby="table">
         <ng-container matColumnDef="cmdmntName">
           <th  scope="row"  mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>          
           <td mat-cell *matCellDef="let element; let i = index"><div style="width: 21rem !important; word-break: break-word;">{{element.cmdmntName}}
@@ -227,7 +227,7 @@
     </div>
     <h4 class="heading_bold"><strong>Non-Geography Commandments</strong></h4>
     <div *ngIf="nonGeoCmdmntCharge.length>0" class="billingby-container" style="width: 100% !important;">
-      <table mat-table [dataSource]="nonGeoCmdmntCharge" style="width: 100% !important;">
+      <table mat-table [dataSource]="nonGeoCmdmntCharge" style="width: 100% !important;" aria-describedby="table"> 
         <ng-container matColumnDef="cmdmntName">
           <th  scope="row" mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>
           <td mat-cell *matCellDef="let element; let i = index">
