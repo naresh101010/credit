@@ -2983,9 +2983,9 @@ export class BillingComponent implements OnInit {
       // alt+n [Next]
       event.preventDefault();
       if (document.getElementById("billingNextButton")) {
-        let nextElement: HTMLElement = document.getElementById(
+        let nextElement = document.getElementById(
           "billingNextButton"
-        ) as HTMLElement;
+        ) 
         nextElement.click();
       }
     }
@@ -2994,9 +2994,9 @@ export class BillingComponent implements OnInit {
       // ctrl+s [Save as Draft]
       event.preventDefault();
       if (document.getElementById("billingDraftButton")) {
-        let saveElement: HTMLElement = document.getElementById(
+        let saveElement = document.getElementById(
           "billingDraftButton"
-        ) as HTMLElement;
+        ) ;
         saveElement.click();
       }
     }
@@ -3304,9 +3304,9 @@ export class AddressDialogBox {
       // esc [Close Dialog]
       event.preventDefault();
       if (document.getElementById("closeButton")) {
-        let escElement: HTMLElement = document.getElementById(
+        let escElement = document.getElementById(
           "closeButton"
-        ) as HTMLElement;
+        );
         escElement.click();
       }
     }
@@ -3396,9 +3396,9 @@ export class EmailDialogBox {
       // esc [Close Dialog]
       event.preventDefault();
       if (document.getElementById("closeButton")) {
-        let escElement: HTMLElement = document.getElementById(
+        let escElement = document.getElementById(
           "closeButton"
-        ) as HTMLElement;
+        ) ;
         escElement.click();
       }
     }
@@ -3489,9 +3489,9 @@ export class EbillEmailDialogBox {
       // esc [Close Dialog]
       event.preventDefault();
       if (document.getElementById("closeButton")) {
-        let escElement: HTMLElement = document.getElementById(
+        let escElement = document.getElementById(
           "closeButton"
-        ) as HTMLElement;
+        ) 
         escElement.click();
       }
     }
@@ -3583,9 +3583,9 @@ export class CommunicationEmailDialogBox {
       // esc [Close Dialog]
       event.preventDefault();
       if (document.getElementById("closeButton")) {
-        let escElement: HTMLElement = document.getElementById(
+        let escElement = document.getElementById(
           "closeButton"
-        ) as HTMLElement;
+        )  ;
         escElement.click();
       }
     }
@@ -3636,9 +3636,9 @@ export class CneeCnorDialogBox {
       // esc [Close Dialog]
       event.preventDefault();
       if (document.getElementById("closeButton")) {
-        let escElement: HTMLElement = document.getElementById(
+        let escElement = document.getElementById(
           "closeButton"
-        ) as HTMLElement;
+        )  ;
         escElement.click();
       }
     }
@@ -3785,9 +3785,9 @@ export class BranchDialogBox {
       // esc [Close Dialog]
       event.preventDefault();
       if (document.getElementById("closeButton")) {
-        let escElement: HTMLElement = document.getElementById(
+        let escElement = document.getElementById(
           "closeButton"
-        ) as HTMLElement;
+        ) ;
         escElement.click();
       }
     }

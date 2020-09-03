@@ -220,7 +220,7 @@ handleKeyboardEvent(event: KeyboardEvent) {
     if (event.keyCode === 27) { // esc [Close Dialog]
       event.preventDefault();
       if(document.getElementById('closeButton')){
-        let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+        let element = document.getElementById('closeButton')  ;
         element.click();
       }
     }
@@ -687,12 +687,12 @@ signDate(){
     //   event.preventDefault();
 
     //   if(this.rateCard && document.getElementById('addRateCard')){
-    //     let element: HTMLElement = document.getElementById('addRateCard') as HTMLElement;
+    //     let element = document.getElementById('addRateCard')  ;
     //     element.click();
     //   }
 
     //   else if(this.commercialSurface && document.getElementById('addCommercialSurface')){
-    //    let element: HTMLElement = document.getElementById('addCommercialSurface') as HTMLElement;
+    //    let element = document.getElementById('addCommercialSurface')  ;
     //    element.click();
     //   }
 
@@ -705,22 +705,22 @@ signDate(){
        event.preventDefault();
 
        if(this.rateCardDetail && document.getElementById('rateCardDraftButton')){
-         let element: HTMLElement = document.getElementById('rateCardDraftButton') as HTMLElement;
+         let element = document.getElementById('rateCardDraftButton')  ;
          element.click();
        }      
 
        else if(this.commercialSurface && document.getElementById('commercialDraftButton')){
-        let element: HTMLElement = document.getElementById('commercialDraftButton') as HTMLElement;
+        let element = document.getElementById('commercialDraftButton')  ;
         element.click();
        }
 
        else if(this.commandmentPanel && document.getElementById('commandmentDraftButton')){
-        let element: HTMLElement = document.getElementById('commandmentDraftButton') as HTMLElement;
+        let element = document.getElementById('commandmentDraftButton')  ;
         element.click();
        }
 
        else if(this.slaPanel && document.getElementById('slaSaveButton')){
-         let element: HTMLElement = document.getElementById('slaSaveButton') as HTMLElement;
+         let element = document.getElementById('slaSaveButton')  ;
          element.click();
        }
         
@@ -731,42 +731,42 @@ signDate(){
       event.preventDefault();
 
       if(this.rateCardDetail && document.getElementById('rateCardNextButton')){
-        let element: HTMLElement = document.getElementById('rateCardNextButton') as HTMLElement;
+        let element = document.getElementById('rateCardNextButton')  ;
         element.click();
       }
 
       else if(this.commercialSurface && document.getElementById('commercialNextButton')){
-        let element: HTMLElement = document.getElementById('commercialNextButton') as HTMLElement;
+        let element = document.getElementById('commercialNextButton')  ;
         element.click();
       }
 
       else if(this.commandmentPanel && document.getElementById('commandmentNextButton')){
-        let element: HTMLElement = document.getElementById('commandmentNextButton') as HTMLElement;
+        let element = document.getElementById('commandmentNextButton')  ;
         element.click();
       }
 
       else if(this.termsPanel && document.getElementById('termsNextButton')){
-        let element: HTMLElement = document.getElementById('termsNextButton') as HTMLElement;
+        let element = document.getElementById('termsNextButton')  ;
         element.click();
       }
 
       else if(this.branchPanel && document.getElementById('branchNextButton')){
-        let element: HTMLElement = document.getElementById('branchNextButton') as HTMLElement;
+        let element = document.getElementById('branchNextButton')  ;
         element.click();
       }
 
       else if(this.slaPanel && document.getElementById('slaNextButton')){
-        let element: HTMLElement = document.getElementById('slaNextButton') as HTMLElement;
+        let element = document.getElementById('slaNextButton')  ;
         element.click();
       }      
 
       else if(this.vmiPanel && document.getElementById('vmiNextButton')){
-        let element: HTMLElement = document.getElementById('vmiNextButton') as HTMLElement;
+        let element = document.getElementById('vmiNextButton')  ;
         element.click();
       }
 
       else {
-        let element: HTMLElement = document.getElementById('rateSubmitButton') as HTMLElement;
+        let element = document.getElementById('rateSubmitButton')  ;
         element.click();
       }
     }
@@ -6702,7 +6702,7 @@ error => {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let element = document.getElementById('closeButton')  ;
           element.click();
         }
       }

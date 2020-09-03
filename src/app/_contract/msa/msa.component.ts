@@ -179,7 +179,7 @@ handleKeyboardEvent(event: KeyboardEvent) {
     if (event.ctrlKey && (event.keyCode === 83)) { // ctrl+s [Save as Draft]
       event.preventDefault();
       if(document.getElementById('secondry-button')){
-        let element: HTMLElement = document.getElementById('secondry-button') as HTMLElement;
+        let element = document.getElementById('secondry-button')  ;
         element.click();
       }
     }
@@ -187,7 +187,7 @@ handleKeyboardEvent(event: KeyboardEvent) {
     if (event.altKey && (event.keyCode === 78)) { // alt+n [Next]
         event.preventDefault();
         if(document.getElementById('msaNextButton')){
-          let element: HTMLElement = document.getElementById('msaNextButton') as HTMLElement;
+          let element = document.getElementById('msaNextButton')  ;
           element.click();
         }
       }
@@ -920,7 +920,7 @@ export class ConsignorUploadFile implements OnInit {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('signCloseButton')){
-          let element: HTMLElement = document.getElementById('signCloseButton') as HTMLElement;
+          let element = document.getElementById('signCloseButton')  ;
           element.click();
         }
       }
@@ -1142,7 +1142,7 @@ getErrorFiles(moduleEntityId)
         if (event.keyCode === 27) { // esc [Close Dialog]
           event.preventDefault();
           if(document.getElementById('closeButton')){
-            let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+            let element = document.getElementById('closeButton')  ;
             element.click();
           }
         }

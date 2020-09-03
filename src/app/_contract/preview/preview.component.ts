@@ -230,7 +230,7 @@ export class PreviewComponent implements OnInit {
       if (event.altKey && (event.keyCode === 78)) { // alt+n [Next]
           event.preventDefault();
           if(document.getElementById('previewSubmitButton')){
-            let element: HTMLElement = document.getElementById('previewSubmitButton') as HTMLElement;
+            let element = document.getElementById('previewSubmitButton')  ;
             element.click();
           }
         }
@@ -417,7 +417,7 @@ export class EditPreview implements OnInit{
         if (event.keyCode === 27) { // esc [Close Dialog]
           event.preventDefault();
           if(document.getElementById('closeButton')){
-            let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+            let element = document.getElementById('closeButton')  ;
             element.click();
           }
         }
@@ -478,7 +478,7 @@ export class EmailDialogBoxP {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement = document.getElementById('closeButton')  ;
           escElement.click();
         }
       }
