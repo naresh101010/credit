@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener} from '@angular/core';
+import { Component, OnInit, HostListener,Inject, ViewChild, ElementRef} from '@angular/core';
 import { ContractService } from '../contract.service';
 import { AppSetting } from 'src/app/app.setting';
 import { ToastrService } from 'ngx-toastr';
@@ -10,6 +10,9 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { SfxDialogComponent } from '../sfx-dialog/sfx-dialog.component';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
+
+
 
 @Component({
   selector: 'app-preview',
@@ -17,6 +20,13 @@ import { AuthorizationService } from '../services/authorization.service';
   styleUrls: ["../core.css"]
 })
 export class PreviewComponent implements OnInit {
+  @ViewChild('previewContent', null) previewContent:ElementRef;
+
+
+  exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: 'previewContent', // the id of html/table element
+  }
   
   
   printPage() {
@@ -29,9 +39,9 @@ export class PreviewComponent implements OnInit {
     private router: Router,
     public dialog: MatDialog,
     private permissionsService: NgxPermissionsService,
-    private authorizationService: AuthorizationService) { }
+    private authorizationService: AuthorizationService,private exportAsService: ExportAsService) { }
   
-  customerName : String= AppSetting.customerName;
+  customerName : string= AppSetting.customerName;
   sfdcAccId= AppSetting.sfdcAccId;
   editflow = false;
   isDisable:boolean;
@@ -48,7 +58,8 @@ export class PreviewComponent implements OnInit {
     this.getPreviewData();
   }
 
-  closePreview(){
+  closePreview($event){
+    $event.preventDefault();
     if (this.editflow) {
       this.router.navigate(['/contract/documentupload', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
     } else {
@@ -57,12 +68,11 @@ export class PreviewComponent implements OnInit {
   }
 
 
-
   /**
    * get preview data
    */
   data:any={};
-  loadingFlag: Boolean=true;
+  loadingFlag: boolean=true;
   getPreviewData(){
     console.log("Getting Preview Data...");
     this.spinner.show();
@@ -109,7 +119,12 @@ export class PreviewComponent implements OnInit {
         this.tosterservice.error(ErrorConstants.getValue(404));
         console.log(ErrorConstants.getValue(404));
       });
+  }
 
+  expendPanel: boolean = false;
+  expandToggle(){
+    debugger
+    this.expendPanel = true;
   }
 
   printPreview(){
@@ -121,6 +136,58 @@ export class PreviewComponent implements OnInit {
     WindowPrt.print();
     WindowPrt.close();
   }
+
+
+  sendEmail(){
+    let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData.user;
+    const addrDialog = this.dialog.open(EmailDialogBoxP, {
+      panelClass: 'creditDialog',
+      disableClose: true,
+      data : {email : userDt.email}
+    });
+
+    addrDialog.afterClosed().subscribe(result => {           
+      if (result && result!="") {
+      this.spinner.show();
+      let ob = {
+        "userId": userDt.userId, "toEmail": result,
+        "subject": "Preview PDF For: " +this.customerName, "contractCode": this.data.sfxCode?this.data.sfxCode:'NOT GENERATED YET'
+      }
+      this.exportAsService.get(this.exportAsConfig).subscribe(content => {
+        let file1 = this.b64toBlob(content)
+        this.sendData(ob,file1)
+      }); 
+      // const printContent = document.getElementById("previewContent");
+      // let doc = new jspdf('p', 'pt', 'a4');
+      // doc.fromHTML(printContent.innerHTML, 15, 15);
+      // var file = new Blob([doc.output()], {
+      //   type: 'application/pdf'
+      // });
+      }
+    });    
+  }
+
+   b64toBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'application/pdf' });
+    }
+
+   sendData(ob, file){
+    this.contractService.sendEmail(file, JSON.stringify(ob))
+    .subscribe(data => {
+      this.spinner.hide();
+      this.tosterservice.success("Email Sent Successfully !");
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue In Sending Email !');
+    });
+
+   }
   
   generateSFXCode(){
     this.spinner.show();
@@ -129,7 +196,7 @@ export class PreviewComponent implements OnInit {
       if (ob.isSuccess) {
         console.log(result);
         this.spinner.hide();
-        const dialogSfxCode = this.dialog.open(SfxDialogComponent, {
+        this.dialog.open(SfxDialogComponent, {
         data:{message:result.data.responseData.sfxCode,isNew:true},
           disableClose: true,
           panelClass: 'creditDialog',
@@ -166,9 +233,6 @@ export class PreviewComponent implements OnInit {
             let element: HTMLElement = document.getElementById('previewSubmitButton') as HTMLElement;
             element.click();
           }
-          else {
-                  
-          }
         }
 
   }
@@ -186,6 +250,13 @@ export class PreviewComponent implements OnInit {
 })
 
 export class EditPreview implements OnInit{
+  @ViewChild('previewContent', null) previewContent:ElementRef;
+
+
+  exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: 'previewContent', // the id of html/table element
+  }
 
   constructor(
     public dialogRef: MatDialogRef<EditPreview>,
@@ -193,18 +264,64 @@ export class EditPreview implements OnInit{
     private contractService: ContractService,
     private spinner: NgxSpinnerService,
     private router: Router,
-    private tosterservice: ToastrService) {}
+    private tosterservice: ToastrService,
+    private exportAsService: ExportAsService) {}
 
     ngOnInit(){
       this.getEditPreviewData();
     }
 
-    customerName : String= AppSetting.customerName;
+    customerName : string= AppSetting.customerName;
     sfdcAccId= AppSetting.sfdcAccId;
   /**
    * get preview from stage for edited data
    */
   data:any={};
+  
+  sendEmail(){
+    let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData.user;
+    const addrDialog = this.dialog.open(EmailDialogBoxP, {
+      panelClass: 'creditDialog',
+      disableClose: true,
+      data : {email : userDt.email}
+    });
+
+    addrDialog.afterClosed().subscribe(result => {           
+      if (result && result!="") {
+      this.spinner.show();
+      let ob = {
+        "userId": userDt.userId, "toEmail": result,
+        "subject": "Preview PDF For: " +this.customerName, "contractCode": this.data.sfxCode?this.data.sfxCode:'NOT GENERATED YET'
+      }
+      this.exportAsService.get(this.exportAsConfig).subscribe(content => {
+        let file1 = this.b64toBlob(content)
+        this.sendData(ob,file1)
+      }); 
+      }
+    });    
+  }
+
+   b64toBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'application/pdf' });
+    }
+
+   sendData(ob, file){
+    this.contractService.sendEmail(file, JSON.stringify(ob))
+    .subscribe(data => {
+      this.spinner.hide();
+      this.tosterservice.success("Email Sent Successfully !");
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue In Sending Email !');
+    });
+
+   }
   getEditPreviewData(){
     console.log("Getting Edit Preview Data...");
     this.spinner.show();
@@ -305,5 +422,66 @@ export class EditPreview implements OnInit{
           }
         }
     }
+
+}
+
+@Component({
+  selector: 'email-dialog',
+  templateUrl: 'email.dialog.html',
+  styleUrls: ['../core.css']
+})
+
+export class EmailDialogBoxP {
+
+  constructor( public dialogRef: MatDialogRef<EmailDialogBoxP>, 
+    public dialog: MatDialog,
+    private spinner: NgxSpinnerService,
+    private tosterservice: ToastrService,
+    @Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  bdmEmail:string=""
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+  closeDialog(): void {
+    const dialogRefConfirm = this.dialog.open(confimationdialog, {
+      width: '300px',
+      data:{message:'Are you sure ?'},
+      panelClass: 'creditDialog',
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if(value){
+        this.dialogRef.close();
+      }else{
+        console.log('Keep Open');
+      }
+    });
+    
+  }
+
+  ngOnInit() {
+    this.bdmEmail = this.data.email;
+  }
+
+  emailAddress(){
+    this.data = this.bdmEmail.toUpperCase();
+    this.spinner.show();
+    this.dialogRef.close(this.data);
+  }
+
+  @HostListener('document:keydown', ['$event'])
+    handleKeyboardEvent(event: KeyboardEvent) {
+      if (event.keyCode === 27) { // esc [Close Dialog]
+        event.preventDefault();
+        if(document.getElementById('closeButton')){
+          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          escElement.click();
+        }
+      }
+  }
 
 }

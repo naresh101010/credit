@@ -50,6 +50,8 @@ export class OpportunityComponent implements OnInit {
   cntrCode = AppSetting.sfxCode;
   editflow = false;
   openDialog = false;
+	searchCtrl = '';
+	searchCtrlSub = '';
   isDisable:boolean;
   // maxNewDate;
   SFXTypes = ['New SFX', 'Existing SFX']
@@ -100,12 +102,12 @@ export class OpportunityComponent implements OnInit {
     this.minDate = e;
   }
   }
-  this.effectiveDate();
+  this.effectiveDate(false);
   this.expDate();
   
   }
 
-  effectiveDate() {
+  effectiveDate(isExpToUpdate) {
     let effYear = parseInt(this.datePipe.transform(this.model.effectiveDt, 'yyyy'))
     if (effYear > 9999) {
       this.model.effectiveDt = "";
@@ -142,6 +144,13 @@ export class OpportunityComponent implements OnInit {
       let e = new Date(b);
       e.setDate(e.getDate()+1);
       this.minDate = e;
+    }
+
+    // increment exp date by one year
+    if(isExpToUpdate && b && !this.isValidEffectiveDt){
+      let f = new Date(b);
+      f.setFullYear(f.getFullYear()+1);
+      this.model.expDt = f;
     }
   }
   this.expDate();
@@ -214,9 +223,6 @@ export class OpportunityComponent implements OnInit {
           let element: HTMLElement = document.getElementById('secondry-button') as HTMLElement;
           element.click();
         }
-        else {
-                
-        }
       }
   
       if (event.altKey && (event.keyCode === 78)) { // alt+n [Next]
@@ -224,9 +230,6 @@ export class OpportunityComponent implements OnInit {
           if(document.getElementById('opportunityNextButton')){
             let element: HTMLElement = document.getElementById('opportunityNextButton') as HTMLElement;
             element.click();
-          }
-          else {
-                  
           }
         }
   
@@ -266,8 +269,7 @@ export class OpportunityComponent implements OnInit {
     });
     this.model={};
     this.isDataAvailable =false;
-    
-    this.getOportunity(this.editflow,false);
+    this.getMsa();
     //VALIDATION
     this.registerForm = this.formBuilder.group({
       Folio: ['', Validators.required],
@@ -360,6 +362,7 @@ export class OpportunityComponent implements OnInit {
             this.segmentList.push(item);
           }
           if (this.oportunity.referenceData.subSegmentList && this.oportunity.referenceData.subSegmentList.length > 0) {
+            this.subSegmentList =[];
             for (var item of this.oportunity.referenceData.subSegmentList) {
               this.subSegmentList.push(item);
             }
@@ -407,6 +410,16 @@ export class OpportunityComponent implements OnInit {
               e.setDate(e.getDate()-1);
               this.maxdate = e;
             }
+            // check if subsegment exist 
+            let ifSubSegmentExist = true;
+            for(let subseg of this.subSegmentList){
+              if(subseg.id==this.model.subsegmentId){
+                ifSubSegmentExist = false;
+                break;}
+            }
+            if(ifSubSegmentExist){
+              this.model.subsegmentId= null;
+            }
           }else{
             this.model.id = null;
             for(let type of this.contractTypeList){
@@ -416,7 +429,7 @@ export class OpportunityComponent implements OnInit {
               }
             }
             for (let type of this.businessTypeList) {
-              if (type.descr == 'INBOUND') {
+              if (type.descr == 'OUTBOUND') {
                 this.model.lkpBizTypeId = type.id;
                 this.model["lkpBizTypeValue"] = type.descr; 
                 AppSetting.businessType = type.descr;
@@ -448,11 +461,32 @@ export class OpportunityComponent implements OnInit {
 this.isDataAvailable=true;
 
           // if(this.openDialog){
-            this.getMsa();
           // }
+          if(!this.oportunity.responseData.contract){
+            for(let seg of  this.segmentList){
+              if(seg.segmentName==this.segmentName)
+              this.model.segmentId= seg.id;
+            }
+            for(let subseg of this.subSegmentList){
+              if(subseg.subsegmentName==this.subsegmentName)
+              this.model.subsegmentId= subseg.id;
+            }
+          }
           if(isNavigate){
             this.openConfirmationDialog();
          }
+         if(!isNavigate){
+          for (let data of this.msa.responseData) {
+            AppSetting.customerName = data.custName
+            AppSetting.sfdcAccId = data.sfdcAccId
+            this.sfdcAccId = AppSetting.sfdcAccId;
+            this.custName = AppSetting.customerName;
+            this.cntrCode = AppSetting.sfxCode
+            if(this.openDialog){
+            this.openDialogEditFlow();
+          }
+          }
+       }
          if(this.editflow){
            this.reasonList = this.oportunity.referenceData.cntrTermRsn;
          }
@@ -506,7 +540,7 @@ this.isDataAvailable=true;
   postOportunity() {
     this.spinner.show();
 
-    this.model
+    // this.model
     let data = {
       "cntrSignDt": this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd'),
       "cntrType": this.model.cntrType,
@@ -536,58 +570,11 @@ this.isDataAvailable=true;
       data["id"] = this.oportunity.responseData.contract.id
     }
     for (let type of this.businessTypeList) {
-      if (type.lookupVal == 'INBOUND') {
+      if (type.lookupVal == 'ANYWHERE TO ANYWHERE') {
         data["dlvryHoldFlag"] = this.model.dlvryHoldFlag
       }
     }
-
-          // Con Cnee Check 
-
-          let isConCneeFound= false;
-          let messageForCCError:any;
-          let lookupName:any;
-          for (let type of this.businessTypeList) {
-              if(type.id==this.model.lkpBizTypeId){
-                lookupName = type.lookupVal;
-              }
-          }
-            if (lookupName == 'INBOUND') {
-              for (let data of this.msa.responseData) {
-                for (let data1 of data.cneeCnor) {
-                    let cneeID ;
-                    for(let cc of this.consignType){
-                      if(cc.lookupVal=='CONSIGNEE') cneeID = cc.id
-                    }
-                    if(data1.lkpConsigntypeId==cneeID){
-                      isConCneeFound= true;
-                    }
-                }
-                if(!isConCneeFound)messageForCCError = 'No Consignee Exists! Please Add On MSA Page.'
-              }
-            }
-            if (lookupName == 'OUTBOUND') {
-              for (let data of this.msa.responseData) {
-                for (let data1 of data.cneeCnor) {
-                    let cneeID ;
-                    for(let cc of this.consignType){
-                      if(cc.lookupVal=='CONSIGNOR') cneeID = cc.id
-                    }
-                    if(data1.lkpConsigntypeId==cneeID){
-                      isConCneeFound= true;
-                    }
-                }
-                if(!isConCneeFound)messageForCCError = 'No Consignor Exists! Please Add On MSA Page.'
-              }
-            }
-            if (lookupName == 'ANYWHERE TO ANYWHERE') {
-              isConCneeFound= true;
-            }
-            if(isConCneeFound){
-             this.servicePostOppCntr(data,false);}
-             else{
-              this.spinner.hide();
-              this.tosterservice.info(messageForCCError);
-             }
+       this.servicePostOppCntr(data,false);
 
   }
 
@@ -620,16 +607,20 @@ this.isDataAvailable=true;
         success => {
           let ob = ErrorConstants.validateException(success);
         if (ob.isSuccess) {
-          //this.spinner.hide();
           this.postOprtunityData = success.data.responseData
           AppSetting.contractId = this.postOprtunityData
-          this.tosterservice.success("Saved Successfully");
           console.log(this.postOprtunityData, "oportunity data")
           this.model = {}
           this.businessTypeList = []
           this.contractTypeList = []
           this.opprAddr = []
           this.oportunity = {}
+          if (this.isDisable) {
+            this.tosterservice.info("CONTRACT TERMINATED !")
+            this.router.navigate(['contract/'], { skipLocationChange: true });
+          }else{
+            this.tosterservice.success("Saved Successfully");
+          }
           this.getOportunity(this.editflow,isNavigate);
         }
         else {
@@ -645,7 +636,6 @@ this.isDataAvailable=true;
   
   opportunityNext() {
     this.spinner.show();
-    if (!this.postOprtunityData) { 
       let data = {
         "cntrSignDt": this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd'),
         "cntrType": this.model.cntrType,
@@ -673,7 +663,7 @@ this.isDataAvailable=true;
         data["id"] = this.oportunity.responseData.contract.id
       }
       for (let type of this.businessTypeList) {
-        if (type.lookupVal == 'INBOUND') {
+        if (type.lookupVal == 'ANYWHERE TO ANYWHERE') {
           data["dlvryHoldFlag"] = this.model.dlvryHoldFlag
         }
       }
@@ -692,10 +682,12 @@ this.isDataAvailable=true;
           for (let data of this.msa.responseData) {
             for (let data1 of data.cneeCnor) {
                 let cneeID ;
+                let bothTypeId;
                 for(let cc of this.consignType){
                   if(cc.lookupVal=='CONSIGNEE') cneeID = cc.id
+                  if(cc.lookupVal=='BOTH') bothTypeId = cc.id
                 }
-                if(data1.lkpConsigntypeId==cneeID){
+                if(data1.lkpConsigntypeId==cneeID || data1.lkpConsigntypeId==bothTypeId){
                   isConCneeFound= true;
                 }
             }
@@ -706,10 +698,12 @@ this.isDataAvailable=true;
           for (let data of this.msa.responseData) {
             for (let data1 of data.cneeCnor) {
                 let cneeID ;
+                let bothTypeId;
                 for(let cc of this.consignType){
                   if(cc.lookupVal=='CONSIGNOR') cneeID = cc.id
+                  if(cc.lookupVal=='BOTH') bothTypeId = cc.id
                 }
-                if(data1.lkpConsigntypeId==cneeID){
+                if(data1.lkpConsigntypeId==cneeID || data1.lkpConsigntypeId==bothTypeId){
                   isConCneeFound= true;
                 }
             }
@@ -753,26 +747,9 @@ this.isDataAvailable=true;
           this.spinner.hide();
           this.tosterservice.info(messageForCCError);
         }
-    }
-
-    if (this.postOprtunityData) {
-      if(this.editflow){
-        this.router.navigate(['/contract/service', { steper:true,'editflow': 'true'}], {skipLocationChange: true});
-      }else{
-      AppSetting.contractId = this.postOprtunityData
-      this.router.navigate(['contract/service'], {skipLocationChange: true});
-      }
-    }
-
-
   }
-  segmentFlg(){
-    this.subSegmentFlage=false;
-  }
-
-  subSegmentFlage=false;
   getSubsegment(segmentId){
-    this.subSegmentFlage=true;
+    this.model.subsegmentId = null;
     this.contractservice.getSubsefmentBySegmentId(segmentId)
       .subscribe( subsegmentList => {
         let ob = ErrorConstants.validateException(subsegmentList);
@@ -795,6 +772,15 @@ this.isDataAvailable=true;
 
   }
 
+  scrollActiveValue(){
+    let selectItem = document.getElementsByClassName('mat-selected')[0];
+    setTimeout(()=>{  
+        if(selectItem){
+          selectItem.scrollIntoView(false);
+        }
+    },500)
+  }
+
   // dialog
   openDialogEditFlow(): void {
 
@@ -812,6 +798,8 @@ this.isDataAvailable=true;
   }
   msa:any = {}
   consignType:any = []
+  segmentName:any;
+  subsegmentName:any;
   getMsa() {
     this.consignType= [];
     this.spinner.show();
@@ -823,16 +811,10 @@ this.isDataAvailable=true;
           if (ob.isSuccess) {
             this.msa = success.data;
             this.consignType = this.msa.referenceData.consignType;
-            for (let data of this.msa.responseData) {
-              AppSetting.customerName = data.custName
-              AppSetting.sfdcAccId = data.sfdcAccId
-              this.sfdcAccId = AppSetting.sfdcAccId;
-              this.custName = AppSetting.customerName;
-              this.cntrCode = AppSetting.sfxCode
-              if(this.openDialog){
-              this.openDialogEditFlow();
-            }
-            }
+            this.segmentName = this.msa.responseData[0].segment;
+            this.subsegmentName = this.msa.responseData[0].subsegment;
+            this.subSegmentList = this.msa.referenceData.subSegmentList;
+            this.getOportunity(this.editflow,false);
           } else {
             this.tosterservice.error(ob.message);
             this.spinner.hide();
@@ -862,8 +844,6 @@ this.isDataAvailable=true;
         this.openDialog = false;
         this.postOportunity()
         this.editflow = false;
-        this.tosterservice.info("CONTRACT TERMINATED !")
-        this.router.navigate(['contract/'], {skipLocationChange: true});
       }
       console.log('The dialog was closed with pinocde ' ,result);
     });

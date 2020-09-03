@@ -8,6 +8,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { DatePipe } from '@angular/common';
 import { AuthorizationService } from '../services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { ErrorConstants } from '../models/constants';
 
 @Component({
   selector: 'app-documentupload',
@@ -54,14 +55,22 @@ export class DocumentuploadComponent implements OnInit {
   sfxCode = AppSetting.sfxCode;
 
   fileToUpload: File = null;
-  uploadedFileName: String ='';
-  fileBrowseflag: Boolean=false;
+  uploadedFileName: string ='';
+  fileBrowseflag: boolean=false;
   //On file browse
   handleFileInput(event){
    let fileList: FileList = event.target.files;
 
     if(fileList.length > 0) {
         this.fileToUpload = fileList[0];
+        this.fileToUpload = fileList[0];
+      let fileSizeTemp = this.fileToUpload.size/ 1024 / 1024;
+      if (fileSizeTemp > 5) {
+        this.uploadedFileName = this.fileToUpload.name;
+        this.fileBrowseflag = false;
+        this.toaster.error("File size should be less then 5 MB");
+        return
+      }
         if(this.fileToUpload.name && !this.validateFileLength(this.fileToUpload.name)){
           this.uploadedFileName = this.fileToUpload.name;
           this.fileBrowseflag=false;
@@ -124,7 +133,7 @@ export class DocumentuploadComponent implements OnInit {
     console.log("user date"+this.docExpiryDate+" formatted Date "+formattedDate);
   
     //this.msaCustId='3'; //for testing only
-    var requestData: String= '{';
+    var requestData: string= '{';
     requestData+='"msaCustId":';
     requestData+='"'+this.msaCustId+'",';
     requestData+='"lkpDocTypeId":';
@@ -174,7 +183,8 @@ export class DocumentuploadComponent implements OnInit {
         this.docformupload.resetForm();
         this.getDocumentDetailbyId();
       }, error => {
-      console.log(error);
+        this.toaster.error(ErrorConstants.errorNotFound);
+        console.log(error);
       this.spinner.hide();
     });
   }else{
@@ -209,7 +219,7 @@ export class DocumentuploadComponent implements OnInit {
     };
     if(this.moduleEntityId){
       requesData.moduleEntityIds.push(this.moduleEntityId);
-    };
+    }
    
    
     console.log("request json for Search/Get "+JSON.stringify(requesData));
@@ -236,6 +246,7 @@ export class DocumentuploadComponent implements OnInit {
             "docSubtype": "",
             "expDt": "",
             "docPathRef": "",
+            'signedUrl': ''
           };
           //set all values in doc object
           docObj.docRef=obj.docRef;
@@ -251,17 +262,16 @@ export class DocumentuploadComponent implements OnInit {
               docObj.docSubtype=subTypeObj.lookupVal;
             }
           }
-          this.docList.push(docObj)    
+          docObj.signedUrl = obj.signedUrl;
+          this.docList.push(docObj);
         }
         //
 
       },
-  
     error => {
       this.spinner.hide();
       console.log(error)
     });
-   
   }
 
   subTypeList //for subDocumentType dropdown
@@ -281,11 +291,11 @@ export class DocumentuploadComponent implements OnInit {
           var resData: any=data;
           this.subTypeList=resData.data.responseData;
           console.log(data, "sub Document list");
-        });
+        },
     
       error => {
         console.log(error,"Inside Error")
-      }
+      });
 
     }
   }
@@ -293,33 +303,15 @@ export class DocumentuploadComponent implements OnInit {
   /*
   * This will be called on click of download icon to download the document
   */
-  downloadDocument(fileName){
-    console.log(fileName);
-    var fName=fileName.substr(fileName.lastIndexOf('/')+1,fileName.length);
-    console.log(fName,'name of file');
-   // fName="ss.png";
-    
-    this.contractservice.postDownloadDocument(fileName)
-      .subscribe(data => {
-        console.log("inside downloadDocument response");
-        console.log(data,"download file");
-        //var resData=data;
-        //console.log(resData.originalFilename,"File Name");
-        var a = document.createElement("a");
-        //var json = JSON.stringify(data),
-        var blob = new Blob([data], {type: "octet/stream"});
-        var url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fName;
-        a.click();
-        window.URL.revokeObjectURL(url);
-
-        this.toaster.success("Saved Successfully");
-      });
-  
-    error => {
-      console.log(error,"Error in download")
-    } 
+  downloadDocument(item) {
+    console.log(item.docPathRef);
+    let fName = item.docPathRef.substr(item.docPathRef.lastIndexOf('/') + 1, item.docPathRef.length);
+    console.log(fName, 'name of file');
+    let a = document.createElement('a');
+    a.href = item.signedUrl;
+    a.download = fName;
+    a.click();
+    this.toaster.success('Download Successfully !');
   }
 
 /**diseable all date before current date in angular*/
@@ -328,7 +320,7 @@ todaydate:Date = new Date();
 isToggle= false;
 swapOffToggleButton(){
   this.uploadedFileName = '';
-  this.docformupload.resetForm();
+  // this.docformupload.resetForm();
   if(!this.isToggle){
     console.log("on");
     this.isToggle=true;
@@ -355,6 +347,8 @@ validateUploadFile(userDocTypeId,userSubTypeId,userDocExpiryDate,userModuleEntit
     errorMsg += "File Name should not be greater than 50";
   }else if (!this.validateFileExt(fileName)) {
     errorMsg += "Invalid file type";
+  } else if (!this.validateFileSize()) {
+    errorMsg += 'File size should be less than 5 MB';
   }
   if(errorMsg.length>0){
     this.toaster.error(errorMsg);
@@ -364,8 +358,17 @@ validateUploadFile(userDocTypeId,userSubTypeId,userDocExpiryDate,userModuleEntit
   return true;
 }
 
+validateFileSize() {
+  let fileSizeTemp = this.fileToUpload.size / 1024 / 1024;
+      if (fileSizeTemp > 5) {
+        return false;
+      } else {
+        return true;
+      }
+}
+
   validFileExtensions = [".jpg", ".jpeg",".png",".doc",".pdf",".docx"];    
-  validFormatsMgs: String= 'Allowed file formats are '+ this.validFileExtensions.join(', ');
+  validFormatsMgs: string= 'Allowed file formats are '+ this.validFileExtensions.join(', ');
  // fileName
   validateFileExt(fileName) {
     if(fileName && fileName.length < 51){
@@ -391,7 +394,8 @@ validateUploadFile(userDocTypeId,userSubTypeId,userDocExpiryDate,userModuleEntit
     }else{return true}
   }
 
-  navigateToPreview(){
+  navigateToPreview($event){
+    $event.preventDefault();
     if(this.editflow){
       this.router.navigate(['/contract/preview',{steper:true,'editflow':'true'}], {skipLocationChange: true});
     }else{
@@ -408,9 +412,6 @@ validateUploadFile(userDocTypeId,userSubTypeId,userDocExpiryDate,userModuleEntit
           if(document.getElementById('previewButton')){
             let element: HTMLElement = document.getElementById('previewButton') as HTMLElement;
             element.click();
-          }
-          else {
-                  
           }
         }
 
@@ -432,16 +433,17 @@ validateUploadFile(userDocTypeId,userSubTypeId,userDocExpiryDate,userModuleEntit
     let docYear = parseInt(this.datePipe.transform(this.docExpiryDate, 'yyyy'))
       if (docYear > 9999) {
         this.docExpiryDate = "";
-      } else {
-    this.docExpiryDate = this.datePipe.transform(this.docExpiryDate, 'yyyy-MM-dd')
+      } 
+  // else {
+  //   this.docExpiryDate = this.datePipe.transform(this.docExpiryDate, 'yyyy-MM-dd')
 
-    if (this.docExpiryDate < this.minDate || this.docExpiryDate > this.maxDate) {
-      this.isValidDocExpiryDate = true;
-    }
-    else {
-      this.isValidDocExpiryDate = false;
-    }
-  }
+  //   if (this.docExpiryDate < this.minDate || this.docExpiryDate > this.maxDate) {
+  //     this.isValidDocExpiryDate = true;
+  //   }
+  //   else {
+  //     this.isValidDocExpiryDate = false;
+  //   }
+  // }
   }
 
 }

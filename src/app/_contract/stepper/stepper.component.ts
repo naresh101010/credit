@@ -5,7 +5,7 @@ import { CommonService } from 'src/app/core/common.service';
 @Component({
   selector: 'stepper',
   templateUrl: './stepper.component.html',
-  styleUrls: ['../core.css', './stepper.component.css']
+  styleUrls: ['../core.css']
 })
 export class StepperComponent implements OnInit {
 
@@ -27,8 +27,8 @@ export class StepperComponent implements OnInit {
       this.currentState = urll.slice(10).split(";")[0].toLowerCase();
     }
 
-    if (this.currentState == 'msa') {
-    }
+    // if (this.currentState == 'msa') {
+    // }
 
     if (this.currentState == 'opportunity' || this.currentState == 'msaopportunity') {
       if (urll.includes('steper=true') || urll.includes('openDialog=true')) {

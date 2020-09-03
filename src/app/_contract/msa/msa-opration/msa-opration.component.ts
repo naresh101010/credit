@@ -27,6 +27,7 @@ export class MsaOprationComponent implements OnInit {
   displayedColumns: string[] = [
     'custName',
     'sfdcAccId',
+    'sfdcAccType',
     'pan',
     'gstinNum',
     'email',
@@ -62,7 +63,7 @@ export class MsaOprationComponent implements OnInit {
     this.acrouter.params.subscribe(params => {
         if (params['openDialog']) {
           this.isDisable = true;
-        this.displayedColumns = ['custName', 'sfdcAccId', 'pan', 'gstinNum', 'email', 'actions2'];
+        this.displayedColumns = ['custName', 'sfdcAccId', 'sfdcAccType', 'pan', 'gstinNum', 'email', 'actions2'];
         }
     });
     this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata);
@@ -85,6 +86,7 @@ export class MsaOprationComponent implements OnInit {
   getMSAsearch(obj){
   let DisField=[];
   let fields=[];
+  this.msaSearchResult = [];
   let trueOne=false;
   for (var key in this.searchModel) {
     if (this.searchModel[key].length<3 && this.searchModel[key].length!="")
@@ -120,7 +122,13 @@ export class MsaOprationComponent implements OnInit {
       let ob = ErrorConstants.validateException(data);
       if (ob.isSuccess) {
         this.spinner.hide();
-        this.msaSearchResult=data.data.responseData;
+        if (data.data && data.data.responseData && data.data.responseData.length > 0) {
+          data.data.responseData.forEach(msaResult => {
+            if (msaResult.accType !== 'PRC' && msaResult.accType !== 'RETAIL') {
+              this.msaSearchResult.push(msaResult);
+            }
+          });
+        }
         //added for #BulkUpload
         for (let item of data.data.referenceData.moduleEntityList) {
           if(item.lookupVal == "COMMANDMENT"){
@@ -174,12 +182,55 @@ export class MsaOprationComponent implements OnInit {
         });
   }
 //msadata:any
-  passResultData(msadata){
-    let passData ={}
+  passResultData(msadata, flag) {
+    let passData = {};
     passData["msadata"]=msadata;
     passData["referenceData"]=this.referenceData;
-    this.sharedSearchdata.changeMessage(passData)
-   
+    this.sharedSearchdata.changeMessage(passData);
+    if (flag === 0) {
+    this.router.navigate(['contract/msacreation'], {skipLocationChange: true});
+    } else {
+    this.spinner.show();
+    this.contractservice.getPRCContractByMSAId(msadata.id).subscribe(validateResult => {
+      let ob = ErrorConstants.validateException(validateResult);
+      if (ob.isSuccess) {
+        let cntrCode = '';
+        if (validateResult.data.responseData && validateResult.data.responseData.length > 0) {
+          validateResult.data.responseData.forEach(element => {
+            cntrCode = cntrCode + element.cntrCode + ', ';
+          });
+        }
+        this.spinner.hide();
+        if (cntrCode === '') {
+          this.router.navigate(['contract/msacreation'], {skipLocationChange: true});
+        } else {
+          const dialogRefConfirm = this.dialog.open(confimationdialog, {
+            width: '450px',
+            data: { message: `PRC active contracts also exists for this MSA with contract code ${cntrCode} \n \n 
+                              Do you want to continue ?`},
+            panelClass: 'creditDialog',
+            disableClose: true,
+            backdropClass: 'backdropBackground'
+          });
+          dialogRefConfirm.afterClosed().subscribe(value => {
+            if (value) {
+              this.router.navigate(['contract/msacreation'], {skipLocationChange: true});
+            }
+          });
+        }
+      } else {
+        this.spinner.hide();
+        this.tosterservice.error(ob.message);
+      }
+
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error(ErrorConstants.errorNotFound);
+    });
+
+    
+  }
+
   }
   
   showMSA(msadata){
@@ -207,13 +258,18 @@ export class MsaOprationComponent implements OnInit {
     /**
    * Download templete for bulk upload
    */
-  downloadCmdTemplate(){
+  downloadCmdTemplate() {
     this.spinner.show();
     this.contractservice.getCmdDownloadDoc()
       .subscribe(data => {
         this.spinner.hide();
         var a = document.createElement("a");
         var blob = new Blob([data], {type: "octet/stream"});
+         //for edge browser
+          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, 'COMMANDMENT_UPDATE_TEMPLATE.xls');
+            return;
+          } 
         var url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = 'COMMANDMENT_UPDATE_TEMPLATE.xls';
@@ -251,11 +307,11 @@ export class MsaOprationComponent implements OnInit {
         this.tosterservice.success("File uploaded");
         this.uploadedCmdFileName = '';
     
-      });
+      },
     error => {
       console.log(error)
       this.spinner.hide()
-    }
+    });
   } else {
     this.spinner.hide();
     this.uploadedCmdFileName='';
@@ -311,6 +367,7 @@ export interface MsaElement {
   pan: string
   gstinNum: string
   sfdcAccId:string
+  sfdcAccType:string
   msaCustAddrs: any
   actions1:string
   actions2:string
@@ -397,40 +454,13 @@ getErrorFiles(moduleEntityId,id)
       } else {
         this.tosterservice.error(ob.message);
       }
-    });
+    },
 
   error => {
     console.log(error)
     this.tosterservice.error("Something went wrong");
-  }  
-}
-
-/*
-* #BulkUpload
-* This will be called on click of download icon to download the document
-*/
-downloadDocument(fileName){
-console.log(fileName, "ref path");
-var fName=fileName.substr(fileName.lastIndexOf('/')+1,fileName.length);
-console.log(fName,'name of file');
-
-this._contractService.postDownloadDocument(fileName)
-  .subscribe(data => {
-    var a = document.createElement("a");
-    //var json = JSON.stringify(data);
-    var blob = new Blob([data], {type: "octet/stream"});
-    var url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = fName;
-    a.click();
-    window.URL.revokeObjectURL(url);
-    this.tosterservice.success("File downloaded");
-  },error => {
-    console.log(error,"Error in download");
-    this.tosterservice.error("Something went wrong");
   });
 }
-
 
   @HostListener('document:keydown', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {

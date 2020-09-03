@@ -5,7 +5,7 @@
   <div class="row mt100">
     <div class="col-md-9">
       <p style="color: white;font-size: 3.2rem;"><span style="opacity: .9;">{{this.greeting()}},</span>
-        <strong>{{userName}}</strong></p>
+        <strong> {{userName}}</strong></p>
     </div>
     <div class="col-md-3 text-center">
       <label style="color: white;font-size: 3rem;">Credit Contract</label>
@@ -17,12 +17,12 @@
 <div class="container containerWidth cardMarginTop">
   <div class="row countCard">
     <div class="col-md-4">
-      <mat-card class="count_card" style="border-radius: 1rem">
-        <mat-card-content>
-          <label style="color: #27AE60;font-size: 2.2rem;">
+      <mat-card class="count_card cursor" style="border-radius: 1rem" (click)="onSelectBlock('ACTIVE')">
+        <mat-card-content >
+          <label class="cursor" style="color: #27AE60;font-size: 2.2rem;">
             Total Active Contracts
           </label>
-          <h2 class="cardPointer" (click)="onSelectBlock('ACTIVE')">
+          <h2 class="cardPointer">
             {{count?.totalCount }}
           </h2>
           <h5>Today</h5>
@@ -32,10 +32,10 @@
       </mat-card>
     </div>
     <div class="col-md-4">
-      <mat-card class="count_card">
+      <mat-card class="count_card cursor" (click)="onSelectBlock('PENDING')">
         <mat-card-content>
-          <label style="color: #27AE60;font-size: 2.2rem;" >Pending </label>
-          <h2 class="cardPointerRed" (click)="onSelectBlock('PENDING')">{{count?.pendingCount}} </h2>
+          <label style="color: #27AE60;font-size: 2.2rem;" class="cursor">Pending </label>
+          <h2 class="cardPointerRed">{{count?.pendingCount}} </h2>
           <h5>Today</h5>
           <div class="topCircle"></div>
           <div class="bottomCircle"></div>
@@ -43,12 +43,12 @@
       </mat-card>
     </div>
     <div class="col-md-4">
-      <mat-card class="count_card">
+      <mat-card class="count_card cursor" (click)="onSelectBlock('EXPIRING SOON')">
         <mat-card-content>
-          <label style="color: #27AE60;font-size: 2.2rem;">
+          <label class="cursor" style="color: #27AE60;font-size: 2.2rem;">
             Expiring Soon
           </label>
-          <h2 class="cardPointerRed" (click)="onSelectBlock('EXPIRING SOON')">{{count?.expCount}}</h2>
+          <h2 class="cardPointerRed" >{{count?.expCount}}</h2>
           <h5>This Month</h5>
           <div class="topCircle"></div>
           <div class="bottomCircle"></div>
@@ -58,14 +58,14 @@
   </div>
 </div>
 
-<section class="container mt15 containerWidth" >
+<section class="container mt15 containerWidth contractContainer" >
   <div class="row">
     <div class="col-md-10">
-      <mat-card style="min-height: 60rem;">
+      <mat-card style="min-height: 67rem;">
         <!--    In case of Pending Contract  start-->
         <div class="row" *ngIf="selectedValue === 'PENDING'" style="cursor: pointer !important;">
           <div class="col-md-6 dashboard-heading">
-            <h5><strong>Pending Contracts ( {{count?.pendingCount}} )</strong></h5>
+            <h5><strong>PENDING CONTRACTS ({{count?.pendingCount}})</strong></h5>
           </div>
         </div>
 
@@ -73,197 +73,193 @@
           <div class="col-md-3 col-sm-8 col-xs-12">
             <a style="cursor: pointer;">
               <span class="fa fa-search fa-lg" id="defualtBranchSearch"></span>
-              <input class="inputfield3 form-control input-md" placeholder="Search" (keyup)="applyFilter($event)"
+              <input class="inputfield3 form-control input-md" [(ngModel)]="searchFilter" placeholder="Search" (keyup)="applyFilter($event)"
                 style="height: 2.7rem; padding-left: 2.3rem;" />
             </a>
           </div>
         </div>
-         
+        <!--    In case of Pending Contract  end  -->
 
-        <div class="row" *ngIf="selectedValue === 'EXPIRING SOON' || selectedValue === 'ACTIVE' || selectedValue === 'DRAFT'">
+        <div class="row" *ngIf="selectedValue === 'EXPIRING SOON' || selectedValue === 'ACTIVE' || selectedValue === 'DRAFT' || selectedValue === 'INACTIVE'">
           <div class="col-md-6">
-            <h5 *ngIf="selectedValue === 'EXPIRING SOON'"><strong>EXPIRING SOON ( {{count?.expCount}} )</strong></h5>
-            <h5 *ngIf="selectedValue === 'ACTIVE'"><strong>ACTIVE ( {{count?.totalCount}} )</strong></h5>
-            <h5 *ngIf="selectedValue === 'DRAFT'"><strong>IN DRAFT MODE ( {{msaData.length}} )</strong></h5>
+            <h5 *ngIf="selectedValue === 'EXPIRING SOON'"><strong>EXPIRING SOON ({{count?.expCount}})</strong></h5>
+            <div class="col-md-3" *ngIf="selectedValue === 'ACTIVE'" style="padding-left: 0px !important;">
+            <h5><strong>ACTIVE ({{count?.totalCount}})</strong></h5>
+          </div>
+          <div class="col-md-6" *ngIf="selectedValue === 'ACTIVE'" style="padding-top: .5rem !important;">
+            <mat-radio-group class="example-radio-group" [(ngModel)]="activeStatusValue" (change) ="activeStatus($event)">
+            <mat-radio-button value="ACTIVE" class="example-radio-button" >Active</mat-radio-button>
+            <mat-radio-button value="EXPIRED" class="example-radio-button" >Expired</mat-radio-button>
+          </mat-radio-group>
+          </div>
+            <h5 *ngIf="selectedValue === 'DRAFT'"><strong>IN DRAFT MODE ({{count?.draftCount}})</strong></h5>
+            <h5 *ngIf="selectedValue === 'INACTIVE'"><strong>TERMINATED ({{count?.inactiveCount}})</strong></h5>
           </div>
         </div>
-        <div class="row" *ngIf="selectedValue === 'EXPIRING SOON' || selectedValue === 'ACTIVE' || selectedValue === 'DRAFT'">
+        <div class="row" *ngIf="selectedValue === 'EXPIRING SOON' || selectedValue === 'ACTIVE' || selectedValue === 'DRAFT' || selectedValue === 'INACTIVE'">
           <div class="col-md-3 col-sm-8 col-xs-12">
             <a style="cursor: pointer;">
               <span class="fa fa-search fa-lg" id="defualtBranchSearch"></span>
-              <input class="inputfield3 form-control input-md" placeholder="Search" (keyup)="applyFilter($event)"
+              <input class="inputfield3 form-control input-md" [(ngModel)]="searchFilter" placeholder="Search" (keyup)="applyFilter($event)"
                 style="height: 2.7rem; padding-left: 2.3rem;" />
             </a>
           </div>
         </div>
         <div class="row mt15">
-          <div class="table-responsive" style="margin-bottom: 30px; ">
+          <div class="table-responsive">
+<div class="table_scroll" style="max-height: 48rem ; overflow-y: scroll;">
+    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" *ngxPermissionsOnly="['CONTRACT_READ']">
 
-    <table aria-describedby="table-data"  mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" *ngxPermissionsOnly="['CONTRACT_READ']">
-
-               
+              <!-- Position Column -->
               <ng-container matColumnDef="custName">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
-                <td mat-cell *matCellDef="let element"> 
-                  <a *ngIf="(perList && (perList.includes('CONTRACT_CREATE'))) && selectedValue != 'ACTIVE' && selectedValue !='EXPIRING SOON'" (click)="goToMsa(element)"><div class="row_center row_center_width" [matTooltip]="element.custName | uppercase" matTooltipPosition="above" style="width: 13rem !important;" [matTooltipDisabled]="element.custName.length<14">{{element.custName | uppercase}}</div>
+                <th scope="row"  mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
+                <td mat-cell *matCellDef="let element">
+                  <a *ngIf="(perList && (perList.includes('CONTRACT_CREATE'))) && selectedValue != 'ACTIVE' && selectedValue !='EXPIRING SOON' && selectedValue != 'INACTIVE'" (click)="goToMsa(element)"><div class="row_center row_center_width" [matTooltip]="element.custName | uppercase" matTooltipPosition="above" style="width: 13rem !important;" [matTooltipDisabled]="element.custName.length<14">{{element.custName | uppercase}}</div>
                   </a>
-                  <div *ngIf="!(perList && (perList.includes('CONTRACT_CREATE'))) && selectedValue != 'ACTIVE' && selectedValue != 'EXPIRING SOON'" class="row_center row_center_width" [matTooltip]="element.custName | uppercase" matTooltipPosition="above" style="width: 13rem !important;" [matTooltipDisabled]="element.custName.length<14">{{element.custName | uppercase}}</div>
-                  <div *ngIf="selectedValue == 'ACTIVE' || selectedValue == 'EXPIRING SOON'" class="row_center row_center_width" [matTooltip]="element.custName | uppercase" matTooltipPosition="above" style="width: 13rem !important;" [matTooltipDisabled]="element.custName.length<14">{{element.custName | uppercase}}</div>
+                  <div *ngIf="!(perList && (perList.includes('CONTRACT_CREATE'))) && selectedValue != 'INACTIVE' && selectedValue != 'ACTIVE' && selectedValue != 'EXPIRING SOON'" class="row_center row_center_width" [matTooltip]="element.custName | uppercase" matTooltipPosition="above" style="width: 13rem !important;" [matTooltipDisabled]="element.custName.length<14">{{element.custName | uppercase}}</div>
+                  <div *ngIf="selectedValue == 'ACTIVE' || selectedValue == 'EXPIRING SOON' || selectedValue == 'INACTIVE'" class="row_center row_center_width" [matTooltip]="element.custName | uppercase" matTooltipPosition="above" style="width: 13rem !important;" [matTooltipDisabled]="element.custName.length<14">{{element.custName | uppercase}}</div>
                 </td>
               </ng-container>
 
-               
-              <ng-container matColumnDef="opprId">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>OPPORTUNITY ID </th>
-                <td mat-cell *matCellDef="let element"> <div class="row_center row_center_width dashboardOppor" [matTooltip]="element.opprId" matTooltipPosition="above">{{element.opprId}}</div> </td>
+              <!-- Name Column -->
+              <ng-container matColumnDef="sfdcOpprId">
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> SALESFORCE OPP.ID </th>
+                <td mat-cell *matCellDef="let element"> <div class="row_center row_center_width dashboardOppor" [matTooltip]="element.sfdcOpprId" matTooltipPosition="above"
+                  >{{element.sfdcOpprId}}</div> </td>
               </ng-container>
 
-               
+              <!-- Weight Column -->
               <ng-container matColumnDef="pan">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO. </th>
-                <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" > {{element.pan}}</div></td>
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO. </th>
+                <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" style="width: 11rem !important;"> {{element.pan}}</div></td>
               </ng-container>
 
-               
+              <!-- Symbol Column -->
               <ng-container matColumnDef="gstinNum">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
                 <td mat-cell *matCellDef="let element"> <div class="row_center row_center_width" [matTooltip]="element.gstinNum" matTooltipPosition="above">{{element.gstinNum}}</div> </td>
               </ng-container>
-               
+              <!-- Saleforce id -->
               <ng-container matColumnDef="sfdcAccId">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> SALEFORCE ACC.ID </th>
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> SALESFORCE ACC.ID </th>
                 <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" [matTooltip]="element.sfdcAccId" matTooltipPosition="above" >{{element.sfdcAccId}} </div></td>
               </ng-container>
-               
+              <!-- msaCustAddrs id -->
               <ng-container matColumnDef="msaCustAddrs">
-                <th id="table_header" mat-header-cell *matHeaderCellDef > ADDRESS&nbsp;&nbsp;&nbsp;</th>
+                <th scope="row" mat-header-cell *matHeaderCellDef > ADDRESS&nbsp;&nbsp;&nbsp;</th>
                 <td mat-cell *matCellDef="let element">
                   <div *ngFor="let add of element.msaCustAddrs">
                     <em [matTooltip]="add.addr | uppercase" matTooltipPosition="above" class="material-icons">room</em>
                   </div>
                 </td>
               </ng-container>
-               
+              <!-- Saleforce id -->
               <ng-container matColumnDef="originatingSrc">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> SOURCE </th>
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> SOURCE </th>
                 <td mat-cell *matCellDef="let element"><div class="row_center row_center_width"> {{element.originatingSrc}} </div></td>
               </ng-container>
-              <ng-container matColumnDef="sfxCode" *ngIf="selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON'">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> SFX CODE </th>
+              <ng-container matColumnDef="cntrCode" *ngIf="selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON' || selectedValue === 'INACTIVE'">
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> SFX CODE </th>
                 <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" [matTooltip]="element.cntrCode" matTooltipPosition="above">{{element.cntrCode}}</div> </td>
               </ng-container>
 
-               
-              <ng-container matColumnDef="expDt" *ngIf="selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON'">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> EXPIRY DATE </th>
-                <td mat-cell *matCellDef="let element" style="color: red;"> <div class="row_center row_center_width">{{element.cntrExpDt}} </div></td>
+              <!-- Expiry date column -->
+              <ng-container matColumnDef="cntrExpDt" *ngIf="selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON' || selectedValue === 'INACTIVE'">
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> EXPIRY DATE </th>
+                <td mat-cell *matCellDef="let element" style="color: red;"> <div class="row_center row_center_width">{{element.cntrExpDt | date : 'dd-MM-yyyy'}} </div></td>
               </ng-container>
-              
-              
-              <ng-container matColumnDef="lastUpdateDate" *ngIf="selectedValue === 'DRAFT'">
-                <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> LAST UPDATE DATE </th>
-                <td mat-cell *matCellDef="let element"> {{element.cntrUpdDt}} </td>
+
+             <!-- Last updated date column -->
+              <ng-container matColumnDef="cntrUpdDt" *ngIf="selectedValue === 'DRAFT'">
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> LAST UPDATE DATE </th>
+                <td mat-cell *matCellDef="let element"> {{element.cntrUpdDt | date : 'dd-MM-yyyy'}} </td>
               </ng-container>
 
               <ng-container matColumnDef="version">
-                <th id="table_header" mat-header-cell *matHeaderCellDef> </th>
+                <th scope="row" mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let element" style="padding-right: 0px;" >
-                  <emclass="material-icons iconSize" style="cursor: pointer;" (click)="openDialogContractVersion(element)" *ngIf="(perList && (perList.includes('CONTRACT_READ'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">visibility</em>
+                  <em class="material-icons iconSize" style="cursor: pointer;" (click)="openDialogContractVersion(element)" *ngIf="(perList && (perList.includes('CONTRACT_READ'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON' || selectedValue === 'INACTIVE')">visibility</em>
                 </td>
               </ng-container>
               <ng-container matColumnDef="edit">
-                <th id="table_header" mat-header-cell *matHeaderCellDef> </th>
+                <th scope="row" mat-header-cell *matHeaderCellDef> </th>
                 <td mat-cell *matCellDef="let element" style="padding-right: 0px;" >
-                  <emclass="material-icons iconSize" style="cursor: pointer;" (click)="showSfxCodeData(element)" *ngIf="(perList && (perList.includes('CONTRACT_UPDATE'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">create</em>
+                  <em class="material-icons iconSize" style="cursor: pointer;" (click)="showSfxCodeData(element)" *ngIf="(perList && (perList.includes('CONTRACT_UPDATE'))) && (selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON')">create</em>
                 </td>
               </ng-container>
 
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;" ></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="row.getContractIdFlag ? 'backgroundGren' : '' "></tr>
             </table>
-            <div>
-              <mat-paginator class="contractContainer paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+</div>
+  <div panelClass="paginator">
+              <mat-paginator class="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
             </div>
           </div>
         </div>
 
       </mat-card>
     </div>
-    <div class="col-md-2" *ngxPermissionsOnly="['CONTRACT_READ']">
-      <div class="mo_float_left pull-right" [ngClass]="selectedValue === 'PENDING' ? 'greenBlock' : 'whiteBlock'"
-        (click)="onSelectBlock('PENDING')">
-        <img  width="26px" [src]="selectedValue === 'PENDING' ? '/assets/images/pending_icon.png': '/assets/images/green_pending.png'" />
-        <h3 class="fontSizeDashboard" [ngClass]="selectedValue === 'PENDING' ? 'white' : 'green'">Pending<br>Contract</h3>
-        <div>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'PENDING' ? 'white' : 'green'">turned_in_not</mat-icon>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'PENDING' ? 'white' : 'red'">favorite</mat-icon>
-        </div>
-      </div>
 
-      <div class="pull-right" [ngClass]="selectedValue === 'EXPIRING SOON' ? 'greenBlock' : 'whiteBlock'"
-        (click)="onSelectBlock('EXPIRING SOON')" style="cursor: pointer;">
-        <img width="26px"
-          [src]="selectedValue === 'EXPIRING SOON' ? '/assets/images/expiring_white.png' : '/assets/images/expiring_icon.png'">
-        <h3 class="fontSizeDashboard">Expiring<br>Soon</h3>
-        <div>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'EXPIRING SOON' ? 'white' : 'green'">turned_in_not</mat-icon>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'EXPIRING SOON' ? 'white' : 'red'">favorite</mat-icon>
-        </div>
-      </div>
 
-      <div class="mo_float_left pull-right" [ngClass]="selectedValue === 'DRAFT' ? 'greenBlock' : 'whiteBlock'" (click)="onSelectBlock('DRAFT')">
-        <img width="26px" [src]="selectedValue === 'DRAFT' ? '/assets/images/draft_white.png' :'/assets/images/inDraftMode_icon.png'">
-        <h3 class="fontSizeDashboard">In Draft<br>Mode</h3>
-        <div>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'DRAFT' ? 'white' : 'green'">turned_in_not</mat-icon>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'DRAFT' ? 'white' : 'red'">favorite</mat-icon>
+
+    <div class="col-md-2"  cdkDropList  [ngClass]="draggedObjects?.length == 0 ? 'border' : ''"
+         #bookmarked="cdkDropList"
+         [cdkDropListData]="draggedObjects"
+         [cdkDropListConnectedTo]="[simple]"
+         (cdkDropListDropped)="drop($event)">
+      <p *ngIf="draggedObjects.length == 0">Drop Here...</p>
+      <div *ngFor="let item of draggedObjects; let j=index">
+        <div class="pull-right" *ngxPermissionsOnly="[item.permission]"  [ngClass]="selectedValue === item?.targetValue ? 'greenBlock' : 'whiteBlock'"
+             cdkDrag>
+          <img style="margin-bottom: 0px;" width="26px"   [src]="getImagePath(item?.imagePath,item?.targetValue)" alt="icon"/>
+          <h3 *ngIf="item.objectName == 'MSA'" class="fontSizeDashboard text-center"  [title]="item?.objectName"
+               style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;"
+               (click)="onSelectBlock(item?.targetValue)"> {{item?.objectName}} </h3>
+          <h3 *ngIf="item.objectName != 'MSA'" class="fontSizeDashboard text-center"  [title]="item?.objectName"
+               style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;"
+               (click)="onSelectBlock(item?.targetValue)"> {{item?.objectName | titlecase}} </h3>
+          <h3 class="fontSizeDashboard" [ngClass]="selectedValue === item?.targetValue ? 'white' : 'red'">
+            <span *ngIf="item.count">({{item?.count}})</span></h3>
+          <div style="margin-top: 5px;">
+            <mat-icon matTooltip="Mark the object as pinned" class="iconSize" (click)="addToPinnedObj(item,j)" [ngClass]="checkIsPinned(item) ? 'orange' : selectedValue === item.targetValue ? 'white' : 'black'">{{item.bookmarkIcon}}</mat-icon>
+            <mat-icon matTooltip="Mark the object as favourite" class="iconSize" (click)="addToFavorite(item,j)" [ngClass]="checkIsFavorite(item) ? 'red' : selectedValue === item?.targetValue ? 'white' : 'green'">{{item.favoriteIcon}}</mat-icon>
+          </div>
         </div>
       </div>
     </div>
   </div>
-
   <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"></ngx-spinner>
 </section>
 
-
 <section>
   <div class="container containerWidth" style="margin-bottom: 50px;margin-top: 2rem;">
-    <div class="row">
-      <div class="col-md-3 col-sm-6 mo_mb10 paddingrightzero" *ngxPermissionsOnly="['MSA_READ']">
-        <mat-card class="example-card matCardBottom">
+
+
+    <div class="row" cdkDropList [ngClass]="cardDetails?.length == 0 ? 'favourite_block' : '' "
+         #simple="cdkDropList"
+         [cdkDropListData]="cardDetails"
+         [cdkDropListConnectedTo]="[bookmarked]"
+         (cdkDropListDropped)="drop($event)">
+      <p *ngIf="cardDetails.length == 0">Drop Here...</p>
+      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 paddingrightzero bottomMargin" *ngFor="let data of cardDetails;  let k=index" cdkDrag>
+        <mat-card class="example-card matCardBottom" *ngxPermissionsOnly="[data.permission]">
           <mat-card-content>
-            <mat-icon  style="padding-top:2px; color:BLACK">turned_in_not</mat-icon>
-            <mat-icon class="heartIcon">favorite</mat-icon>
-            <label style="color: #27AE60;font-size: 2rem;display: block;cursor: pointer;" routerLink="/contract/msaoperation" skipLocationChange >MSA
-              <mat-icon class="iconSize" style="color: #27AE60;float:right;margin-bottom: 10 PX;font-size:xx-large;">library_books
-              </mat-icon>
-            </label>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-      <div class="item item-2 col-md-3 col-sm-6 mo_mb10 paddingrightzero" *ngxPermissionsOnly="['CONTRACT_READ','MSA_READ']">
-        <mat-card class="example-card matCardBottom">
-          <mat-card-content>
-            <mat-icon style="padding-top:2px;color:yellow">turned_in_not</mat-icon>
-            <mat-icon class="heartIcon">favorite</mat-icon>
-            <label style="color: #27AE60;font-size: 2rem;display: block;cursor: pointer;" (click) = "commandmentSearch()">Bulk Update Commandments
-              <mat-icon class="iconSize" style="color: #27AE60;float:right;font-size:xx-large;">library_books</mat-icon>
-            </label>
-
-          </mat-card-content>
-
-        </mat-card>
-      </div>
-
-      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 paddingrightzero">
-        <mat-card class="example-card matCardBottom">
-          <mat-card-content>
-            <mat-icon style="padding-top:2px;color:black">turned_in_not</mat-icon>
-            <mat-icon class="heartIcon1">favorite</mat-icon>
-            <label class="fontSizeDashboard" style="color: #27AE60; font-size: 2rem;display: block;">Reports
-              <mat-icon style="color: #27AE60;float:right;font-size:xx-large;">timeline</mat-icon>
-            </label>
+            <mat-icon matTooltip="Mark the object as pinned"  matTooltipPosition="above" style="padding-top:2px;" (click)="addToPinnedObj(data,k)" [ngClass]="checkIsPinned(data) ? 'orange' : 'black'">{{data.bookmarkIcon}}</mat-icon>
+            <mat-icon matTooltip="Mark the object as favourite" matTooltipPosition="above" class="heartIcon1" (click)="addToFavorite(data,k)" [ngClass]="checkIsFavorite(data) ? 'red' : green">{{data.favoriteIcon}}</mat-icon>
+            <div class="row cursor">
+              <div class="col-md-10 cursor">
+                <label *ngIf="data.objectName == 'MSA'"  class="fontSizeDashboard cursor" style="color: #27AE60; font-size: 2rem;display: block;white-space: nowrap;"
+                       [title]="data?.objectName" (click)="onSelectBlock(data?.targetValue)"> {{data?.objectName}}
+                </label>
+                <label *ngIf="data.objectName != 'MSA'" class="fontSizeDashboard cursor" style="color: #27AE60; font-size: 2rem;display: block;white-space: nowrap;"
+                       [title]="data?.objectName" (click)="onSelectBlock(data?.targetValue)"> {{data?.objectName | titlecase}}
+              </label>
+              </div>
+              <div class="col-md-2">
+                <img style="margin-bottom: 7px;float:right;margin-top: 5PX;" width="30px" alt=""  src="/assets/images/{{data?.imagePath}}"/>
+              </div>
+            </div>
           </mat-card-content>
         </mat-card>
       </div>

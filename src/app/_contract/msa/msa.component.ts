@@ -30,6 +30,12 @@ export interface SearchBrData {branchName: any, branchId:any }
 var msaCustId
 var msaPostId
 var msadata
+var ELEMENT_DATA: Element[] = [
+
+];
+var ELEMENT_POST_DATA: Element[] = [
+
+];
 
 @Component({
   selector: 'app-msa',
@@ -57,6 +63,7 @@ export class MsaComponent implements OnInit {
      private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
   openDialog(): void {
     const dialogRef = this.dialog.open(ConsignorUploadFile, {disableClose: true,
+      maxWidth: '100%',
       panelClass: 'creditDialog',
       data: {editflow: this.editflow, AddressType: this.AddressType,msaDataList :JSON.parse(JSON.stringify(this.msa.responseData))}
     });
@@ -108,7 +115,6 @@ tableData: any = [];
 tabledataLength;
 baseLocationError:boolean;
 advanceDefaultBranchName(str){ 
-  this.tableData = [];
   if(str){
     this.baseLocationError=true;
     if(str.term.length > 2 && str.term){
@@ -117,7 +123,21 @@ advanceDefaultBranchName(str){
         .subscribe(success => {
           let ob = ErrorConstants.validateException(success);
           if (ob.isSuccess) {
+            this.tableData = [];
             this.tableData = success.data.responseData;
+            if (this.tableData && this.tableData.length > 0) {
+              this.tableData.sort((a, b) => {
+                const branchNameA = a.branchName.toUpperCase();
+                const branchNameB = b.branchName.toUpperCase();
+                let comparison = 0;
+                if (branchNameA > branchNameB) {
+                  comparison = 1;
+                } else if (branchNameA < branchNameB) {
+                  comparison = -1;
+                }
+                return comparison;
+              });
+            }
             for(let val of this.tableData){
               val["baseLocation"]= val.branchName;
               val["baseLocationBranchId"] = val.branchId;
@@ -134,14 +154,16 @@ advanceDefaultBranchName(str){
             this.spinner.hide();
           });  
   }
-  this.tableData = [];
-  this.tabledataLength = 0;
   }
 }
-
+emptyData(){
+  this.tableData=[];
+}
 onClear(){
   this.baseLocationError = false;
-  this.tableData = [];
+  if(this.tableData.length>0 &&  this.tableData[0].baseLocation==='BRANCH UNAVAILABLE'){
+    this.emptyData();
+  }
 }
 
 onBranchChanged(event){
@@ -161,9 +183,6 @@ handleKeyboardEvent(event: KeyboardEvent) {
         let element: HTMLElement = document.getElementById('secondry-button') as HTMLElement;
         element.click();
       }
-      else {
-              
-      }
     }
 
     if (event.altKey && (event.keyCode === 78)) { // alt+n [Next]
@@ -171,9 +190,6 @@ handleKeyboardEvent(event: KeyboardEvent) {
         if(document.getElementById('msaNextButton')){
           let element: HTMLElement = document.getElementById('msaNextButton') as HTMLElement;
           element.click();
-        }
-        else {
-                
         }
       }
 
@@ -208,7 +224,7 @@ sfxCode = AppSetting.sfxCode;
     }
 
     this.getMsa();
-    this.model
+    // this.model
 
     //VALIDATION
     this.registerForm = this.formBuilder.group({
@@ -233,6 +249,7 @@ sfxCode = AppSetting.sfxCode;
 
   msa: any = {}
   templateRefPath='';
+  signedUrl = '';
   passData:any;
   cneeCnorList=[];
   AddRess:any;
@@ -244,9 +261,11 @@ sfxCode = AppSetting.sfxCode;
         success => {
         let ob = ErrorConstants.validateException(success);
         if (ob.isSuccess) {
-          this.msa = success.data;          
+          this.msa = success.data;
+          this.msa.responseData[0].msaCustAddrs[0].addr = this.msa.responseData[0].msaCustAddrs[0].addr.replace('|',' ');
+          this.msa.responseData[0].msaCustAddrs[0].addr = this.msa.responseData[0].msaCustAddrs[0].addr + ' ' + this.msa.responseData[0].msaCustAddrs[0].pincodeId;
+          // this.msa.responseData[0].msaCustAddrs[0].addr         
           this.passData=success;      
-          console.log(success, 'print data MSA')   
           this.AddressType=success.data.referenceData.consignType;
           this.spinner.hide();
           msadata = this.msa
@@ -276,6 +295,7 @@ sfxCode = AppSetting.sfxCode;
         } 
         if(this.msa.referenceData.cnorCneeTemplate.length>0){
           this.templateRefPath=this.msa.referenceData.cnorCneeTemplate[0].docPathRef;
+          this.signedUrl = this.msa.referenceData.cnorCneeTemplate[0].signedUrl;
         }
 
           if(ELEMENT_DATA)
@@ -301,9 +321,11 @@ sfxCode = AppSetting.sfxCode;
       // let temp = _.find(this.AddressType, { 'lookupVal': data.lkpConsigntypeId});      
       // data.lkpConsigntypeId=temp.id;
       // data.lkpConsigntypeId=data.lkpConsigntypeId;
+      if(data.panNum)
         data.panNum=data.panNum.toUpperCase();
-        if(data.tanNum)
-          data.tanNum=data.tanNum.toUpperCase();
+      if(data.tanNum)
+        data.tanNum=data.tanNum.toUpperCase();
+      if(data.gstinNum)
         data.gstinNum=data.gstinNum.toUpperCase();
 
 
@@ -461,8 +483,8 @@ sfxCode = AppSetting.sfxCode;
 
   removeData(vall, j) {
     
-    for (let i = 0; i < ELEMENT_DATA.length; i++) {
-    }
+    // for (let i = 0; i < ELEMENT_DATA.length; i++) {
+    // }
     ELEMENT_DATA.splice(j, 1);
     this.ChangeDetectorRef.detectChanges();
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
@@ -493,7 +515,7 @@ sfxCode = AppSetting.sfxCode;
   */
   uploadDocument() {
     console.log(this.conModuleEntitiId, "moduleEntityid - uploadDocument")
-    var validExt: Boolean
+    var validExt:boolean;
     if (this.uploadedBFileName) {
       validExt = this.uploadedBFileName.substr(this.uploadedBFileName.lastIndexOf("."), this.uploadedBFileName.length) == '.xls' ? true : false;
     }
@@ -505,6 +527,12 @@ sfxCode = AppSetting.sfxCode;
           
           var a = document.createElement("a");
           var blob = new Blob([data], { type: "octet/stream" });
+          //for edge browser
+          if(window.navigator && window.navigator.msSaveOrOpenBlob) {
+            window.navigator.msSaveOrOpenBlob(blob, this.uploadedBFileName);
+            return;
+          } 
+         
           var url = window.URL.createObjectURL(blob);
           a.href = url;
           a.download = this.uploadedBFileName;
@@ -530,31 +558,17 @@ sfxCode = AppSetting.sfxCode;
    * Download templete for bulk upload
    */
   downloadTemplate(){
-    console.log("inside download Template");
-    var fName="Consigner_consignee.xls";
-    
-    this._contractService.postDownloadDocument(this.templateRefPath)
-      .subscribe(data => {
-
-
-        console.log("inside downloadDocument response");
-        console.log(data,"download file");
-        var a = document.createElement("a");
-        var blob = new Blob([data], {type: "octet/stream"});
-        var url = window.URL.createObjectURL(blob);
-        a.href = url;
-        a.download = fName;
-        a.click();
-        window.URL.revokeObjectURL(url);
-        this.tosterservice.success("Saved Successfully");
-    
-      },error => {
-        console.log(error,"Error in download")
-        this.tosterservice.error("Something went wrong");
-      });
+    console.log('inside download Template');
+    let fName='Consigner_consignee.xls';
+    console.log(fName, 'name of file');
+    let a = document.createElement('a');
+    a.href = this.signedUrl;
+    a.download = fName;
+    a.click();
+    this.tosterservice.success('Download Successfully !');
   }
 
-  selFlag: Boolean=false;
+  selFlag:boolean =false;
   /**
    * will be called on check/uncheck of Select all
    * @param e 
@@ -689,11 +703,20 @@ export class ConsignorUploadFile implements OnInit {
     }
   }
 
+  clickBodyElem(event) {
+    this.pincodeError=false;
+   }
 
   panChk=false;
-  onPanChange(num){
-   this.panChk= Validation.panValidation(num);
-  }
+  panLength=false;
+  onPanChange(num) {
+  if(num.length>0) {
+    this.panChk= Validation.panValidation(num);
+    this.panLength = true;
+  } else {
+    this.panLength = false;
+    this.panChk = false;
+  }}
   tanChk=false;
   tanLength=false;
   onTanChange(num){
@@ -713,8 +736,8 @@ export class ConsignorUploadFile implements OnInit {
 
   pincodeData:any;
   pincodeError:any;
-  pincodeSearch(str){ 
-    this.pincodeData = [];
+  pincodeSearch(str){
+    if(!this.isAddressChecked){ 
     if(str){
       if(str.term.length > 3 && str.term){
         this.pincodeError=false;
@@ -722,6 +745,7 @@ export class ConsignorUploadFile implements OnInit {
           .subscribe(success => {
             let ob = ErrorConstants.validateException(success);
             if (ob.isSuccess) {
+              this.pincodeData = [];
               this.pincodeData = success.data.responseData;
               if(this.pincodeData.length==0){
                 this.tosterservice.info('No Pincode found !!');
@@ -746,6 +770,7 @@ export class ConsignorUploadFile implements OnInit {
       }
     }
   }
+  }
 
  
   address
@@ -754,23 +779,7 @@ export class ConsignorUploadFile implements OnInit {
     addressone:'',
     Address:''
   }
-  checkForDuplicateCC(){
-    if(this.msaDataList.length==0 && ELEMENT_POST_DATA.length==0){ return true;}
-    this.model.panNum=this.model.panNum.toUpperCase();
-    for(let msaCC of this.msaDataList[0].cneeCnor){
-      if(this.model.panNum==msaCC.panNum && this.model.lkpConsigntypeId == msaCC.lkpConsigntypeId){
-        this.tosterservice.error('Duplicate Consignor & Consignee Details');
-        return false;
-      }
-    }
-    for(let newElemet of ELEMENT_POST_DATA){
-      if(this.model.panNum==newElemet.panNum && this.model.lkpConsigntypeId == newElemet.lkpConsigntypeId){
-        this.tosterservice.error('Duplicate Consignor & Consignee Details');
-        return false;
-      }
-    }
-    return true;
-  }
+ 
   ccname:any;
     updateTypeName(){
       for(let data of this.AddressType){
@@ -780,8 +789,7 @@ export class ConsignorUploadFile implements OnInit {
       }
     }
   addElement(valid,form) {
-    valid =  this.checkForDuplicateCC();
-    if(valid){
+    if(valid) {
       let tempPin  = this.model.pincode;
       this.model.pincode = '';
       this.spinner.show();
@@ -837,15 +845,11 @@ export class ConsignorUploadFile implements OnInit {
         });
 
     }
-    
-        
-
   }
 
   removeData(vall, j) {
-    ;
-    for (let i = 0; i < ELEMENT_POST_DATA.length; i++) {
-    }
+    
+ 
     ELEMENT_POST_DATA.splice(j, 1);
     this.ChangeDetectorRef.detectChanges();
     this.dataSource1 = new MatTableDataSource(ELEMENT_POST_DATA);
@@ -876,10 +880,12 @@ export class ConsignorUploadFile implements OnInit {
       val = d
     }    
     for(let data of ELEMENT_POST_DATA){   
-        data.panNum=data.panNum.toUpperCase();
+        if(data.panNum)
+          data.panNum=data.panNum.toUpperCase();
         if(data.tanNum)
           data.tanNum=data.tanNum.toUpperCase();
-        data.gstinNum=data.gstinNum.toUpperCase();
+        if(data.gstinNum)
+          data.gstinNum=data.gstinNum.toUpperCase();
     }
 
     
@@ -938,16 +944,19 @@ export class ConsignorUploadFile implements OnInit {
           this.model.addressone = val["addr2"]?val["addr2"]:'';
           this.model.addresstwo = val["addr3"]?val["addr3"]:'';
           this.model.pincode=val["pincodeId"];
+          this.pincodeData=[{"pincode": val["pincodeId"],"pincodeId" : val["pincodeId"]}];
           this.model.city=val["city"];
         }
       }
     }
 
   }
+  emptyPincodeData(){
+    this.pincodeData=[];
+  }
   onClear(){
     this.address1Error = false;
     this.pincodeError=false;
-    this.pincodeData=[];
   }
   clearAddresValues(){
     this.model.Address=null;
@@ -1017,12 +1026,7 @@ export interface Element {
   lkpConsigntypeName: string
 }
 
-var ELEMENT_DATA: Element[] = [
 
-];
-var ELEMENT_POST_DATA: Element[] = [
-
-];
 
 
 
@@ -1093,7 +1097,8 @@ getErrorFiles(moduleEntityId)
                     
   console.log("request JSON for get ErrorFiles: " + JSON.stringify(requesData));
   this._contractService.postSearchDocuments(requesData)
-    .subscribe(data => {
+    .subscribe(
+      data => {
       let ob = ErrorConstants.validateException(data);
       if (ob.isSuccess) {
         var docData: any = {}
@@ -1107,39 +1112,30 @@ getErrorFiles(moduleEntityId)
       } else {
         this.tosterservice.error(ob.message);
       }
-    });
+    },
+    error => {
+      console.log(error)
+      this.tosterservice.error("Something went wrong");
+    }  
+    );
 
-  error => {
-    console.log(error)
-    this.tosterservice.error("Something went wrong");
-  }  
+ 
 }
 
 /*
 * #BulkUpload
 * This will be called on click of download icon to download the document
 */
-downloadDocument(fileName){
-console.log(fileName, "ref path");
-var fName=fileName.substr(fileName.lastIndexOf('/')+1,fileName.length);
-console.log(fName,'name of file');
-
-this._contractService.postDownloadDocument(fileName)
-  .subscribe(data => {
-    var a = document.createElement("a");
-    //var json = JSON.stringify(data);
-    var blob = new Blob([data], {type: "octet/stream"});
-    var url = window.URL.createObjectURL(blob);
-    a.href = url;
+  downloadDocument(item) {
+    let fName = item.docPathRef.substr(item.docPathRef.lastIndexOf('/') + 1, item.docPathRef.length);
+    console.log(fName, 'name of file');
+    let a = document.createElement('a');
+    a.href = item.signedUrl;
     a.download = fName;
     a.click();
-    window.URL.revokeObjectURL(url);
-    this.tosterservice.success("File downloaded");
-  },error => {
-    console.log(error,"Error in download");
-    this.tosterservice.error("Something went wrong");
-  });
-}
+    this.tosterservice.success('Download Successfully !');
+
+  }
 
 
   @HostListener('document:keydown', ['$event'])

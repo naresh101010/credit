@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild,Inject, HostListener } from '@angular/core';
-import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
+import { HttpClient} from '@angular/common/http';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatPaginator, MatSort } from '@angular/material';
@@ -13,13 +13,13 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 
 export interface PincodeElement {
-  pincode: String;
-  city:String;
+  pincode: string;
+  city:string;
 }
 
 export interface PlaceClickedElement {
-  id: Number;
-  pincode:String;
+  id: number;
+  pincode:string;
 }
 
 @Component({
@@ -40,13 +40,7 @@ export class PincodesearchComponent implements OnInit {
      public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: any,) { }
 
-  headerData={ 
-    'branchCode': '02',
-    'journeyId': '01', 
-    'originUserType':'03',
-    'userId': 'user123'
-    }
-
+  
     isStateenable = false;
     iscityenable = false;
 
@@ -61,9 +55,11 @@ export class PincodesearchComponent implements OnInit {
     selectedPincode: number;
     stateId=''; //input for service, to get city list
     cityId=''; //id to get pincode list
-      
+    selectedPinList = [];
     
-  ngOnInit() {
+    type:any;
+    ngOnInit() {
+    this.type = this.data.type;
     if(this.data.isSafexttype.length>0){
       console.log('call')
       let arr = [];
@@ -76,6 +72,10 @@ export class PincodesearchComponent implements OnInit {
       this.stateList = arr;
     }else{
     this.getState();
+    }
+    this.selection.clear();
+    if(this.data.selectedPinCommaSep){
+      this.selectedPinList = this.data.selectedPinCommaSep.split(',');
     }
   }
 
@@ -160,6 +160,12 @@ export class PincodesearchComponent implements OnInit {
             this.iscityenable =false;
           }
           this.dataSource = new MatTableDataSource(this.pincodeList); 
+          for(let dataele of this.pincodeList){
+            if(this.selectedPinList.indexOf(dataele.pincode)!== -1){
+              this.selectedPinList.splice(this.selectedPinList.indexOf(dataele.pincode),1);
+              this.selection.select(dataele);
+            }
+          }
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
           this.dataSource.filterPredicate = 
@@ -183,10 +189,6 @@ export class PincodesearchComponent implements OnInit {
       }); 
   } 
 
-  }
-
-  selectPincode(row){
-    this.selectedPincode= row.pincode;
   }
 
   applyFilter(filterValue: string) {
@@ -214,7 +216,7 @@ export class PincodesearchComponent implements OnInit {
 
     dialogRefConfirm.afterClosed().subscribe(value => {
       if(value){
-        this.dialogRefEdit.close();
+        this.dialogRefEdit.close(this.data.selectedPinCommaSep);
       }else{
         console.log('Keep Open');
       }
@@ -249,10 +251,11 @@ export class PincodesearchComponent implements OnInit {
     console.log('selection',JSON.stringify(""+this.selection.selected));
     let allchkPincodeList = [];
     for(let i in this.selection.selected){
-      console.log("seee",JSON.stringify(this.pincodeList[i]));
-      allchkPincodeList.push(this.pincodeList[i].pincode);
+      console.log("seee",JSON.stringify(this.selection.selected[i]));
+      allchkPincodeList.push(this.selection.selected[i].pincode);
     }
-
+    if(this.selectedPinList.length>0)
+    allchkPincodeList= allchkPincodeList.concat(this.selectedPinList);
     this.dialogRefEdit.close(allchkPincodeList.toString());
   
   }
@@ -266,6 +269,17 @@ export class PincodesearchComponent implements OnInit {
         element.click();
       }
     }
+}
+
+searchCtrl = '';
+searchCtrlState = '';
+scrollActiveValue(){
+  let selectItem = document.getElementsByClassName('mat-selected')[0];
+  setTimeout(()=>{  
+      if(selectItem){
+        selectItem.scrollIntoView(false);
+      }
+  },500)
 }
 
 }

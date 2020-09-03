@@ -1,4 +1,4 @@
-import { Component, Input, Inject,OnChanges, ViewChild, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Inject,OnChanges, ViewChild, Output, EventEmitter, HostListener, ViewChildren, AfterViewInit, QueryList, ElementRef } from '@angular/core';
 import * as models from "../models/commandmentModel";
 import { ContractService } from '../contract.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { Lookup } from '../models/billingModel';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -50,19 +51,65 @@ export class CommandmentComponent implements OnChanges {
     return radio;
   }
 
-  radioWithoutNA = [{ id: 1, value: 'RR' },
-    { id: 2, value: 'CUSTOM' }
-    ]
-    
-
   @ViewChild("fCommandment", null) saveCommandment: any;
+
+  isValidCommandmentSlab() {
+    let slabErrorFlag = false;
+    
+    this.geoCmdmntCharge.forEach(elem1=>{
+      if ((elem1.rrFlag != 0 && elem1.rrFlag != 1) && elem1['slabErrorFlag']) {
+         slabErrorFlag = true;     
+      }
+    })
+
+    this.nonGeoCmdmntCharge.forEach(elem2=>{
+      if ((elem2.rrFlag != 0 && elem2.rrFlag != 1) && elem2['slabErrorFlag']) {
+         slabErrorFlag = true;   
+      }
+    })
+    return slabErrorFlag;  
+  }
+
+  isValidCommandmentState() {
+    let errorFlag = false;
+    this.geoCmdmntCharge.forEach(data => {
+      if ((data.rrFlag === 2) && data.geoTypeName === 'STATE' && data['stateErrorFlag']) {
+        errorFlag = true;
+      }
+    });
+    return errorFlag;
+  }
+
+  compareMin(element){
+    if(element){
+      if((Number(element.maxVal))<(Number(element.minVal))){
+        element.minFlag = true;
+      }
+      else{
+        element.minFlag = false;
+      }
+    }
+  }
+  isValidMinMax() {
+    let slabErrorFlag = false;    
+    this.geoCmdmntCharge.forEach(elem1=>{
+      if ((elem1.rrFlag != 0 && elem1.rrFlag != 1)  && elem1['minFlag']) {
+        slabErrorFlag = true;        }
+    })
+    this.nonGeoCmdmntCharge.forEach(elem2=>{
+      if ((elem2.rrFlag != 0 && elem2.rrFlag != 1)  && elem2['minFlag']) {
+        slabErrorFlag = true;        }
+    })
+    return slabErrorFlag;  
+  }
+
   
   isValidCommandment() {
     
     let rrFlagValid = true;
 
     this.geoCmdmntCharge.forEach(elem1=>{
-      if (elem1.rrFlag != 0 && elem1.rrFlag != 1) {
+      if (elem1.rrFlag != 0 && elem1.rrFlag != 1){
           rrFlagValid = false;     
       }
     })
@@ -77,7 +124,7 @@ export class CommandmentComponent implements OnChanges {
       this.saveCommandments(1);
     }else{
       if(this.saveCommandment.form.valid === false){
-        this.tosterService.error('Some required fields are missing !!');
+        this.tosterService.error('Some Required Fields Missing/Invalid !');
       }
     }
 
@@ -103,7 +150,7 @@ export class CommandmentComponent implements OnChanges {
       this.saveCommandments(0);
     }else{
       if(this.saveCommandment.form.valid === false){
-        this.tosterService.error('Some required fields are missing !!');
+        this.tosterService.error('Some Required Fields Missing/Invalid !');
       }
     }
 
@@ -168,7 +215,6 @@ export class CommandmentComponent implements OnChanges {
     this.nonGeoCmdmntCharge = [];
     this.geoColumns = [];
     this.nonGeoColumns = [];
-    console.log(this.inputData);
     if (this.inputData && this.inputData.offeringId) {
       this.entityId = this.inputData.entityId;
       this.editflow = this.inputData.isEdit;
@@ -182,7 +228,6 @@ export class CommandmentComponent implements OnChanges {
 
 
   getCommandment() {
-    console.log("inputdata", this.inputData);
     this.spinner.show();
     this.contractservice.getOportunity(AppSetting.oprtunityId, this.editflow).subscribe(success => {
 
@@ -208,7 +253,6 @@ export class CommandmentComponent implements OnChanges {
         this.contractservice.getCommandmentDetail(this.inputData.level, entityIdtoFetch, this.serviceOfferingId, this.businessTypeId, this.customerTypeId,this.editflow)
         .subscribe(resultData => {
           let ob = ErrorConstants.validateException(resultData);
-          console.log(resultData);
           if (ob.isSuccess) {
             if (resultData && resultData.data) {
               this.commandmentResult = JSON.parse(JSON.stringify(resultData.data));
@@ -222,11 +266,13 @@ export class CommandmentComponent implements OnChanges {
               }
 
               let cmdmntChargeList = [];
+              this.cmdmntRef = this.cmdmntRef.sort((ele1,ele2) => ele1.commandmentOrder - ele2.commandmentOrder);
               this.cmdmntRef.forEach(cmdmntData => {
                 let exists = false;
                 if (this.cmdmntCharge && this.cmdmntCharge.length > 0) {
                   for (let i = 0; i < this.cmdmntCharge.length; i++) {
-                    if (this.cmdmntCharge[i].cmdmntId == cmdmntData.id) {
+                    if (this.cmdmntCharge[i].cmdmntId === cmdmntData.id) {
+                      this.cmdmntCharge[i].commandmentOrder = cmdmntData.commandmentOrder;
                       this.cmdmntCharge[i].cmdmntName = cmdmntData.commandmentName;
                       if (cmdmntData.geoFeatureName && cmdmntData.geoFeatureName != "") {
                         this.cmdmntCharge[i].geoFeatureName = cmdmntData.geoFeatureName;
@@ -237,26 +283,22 @@ export class CommandmentComponent implements OnChanges {
                       this.cmdmntCharge[i].calcMeasureList = cmdmntData.calcMeasureList;
                       this.cmdmntCharge[i].calcUnitList = cmdmntData.calcUnitList;
                       this.cmdmntCharge[i].chargesOnList = cmdmntData.chargesOnList;
+                      this.cmdmntCharge[i].minAmountFlag = cmdmntData.minAmountFlag;
+                      this.cmdmntCharge[i].maxAmountFlag = cmdmntData.maxAmountFlag;
                       this.cmdmntCharge[i].rrValueList = this.createRadio();
                       exists = true;
 
-                      if (this.cmdmntCharge[i].rrFlag == 1 && cmdmntData.cmdmntRrsList && cmdmntData.cmdmntRrsList.length > 0) {
+                      // setting default value in all cases
+                      if(cmdmntData.cmdmntRrsList && cmdmntData.cmdmntRrsList.length > 0) {
                         this.cmdmntCharge[i].defaultPrice = cmdmntData.cmdmntRrsList[0].rrValue;
                         this.cmdmntCharge[i].defaultLkpCalcMeasureId = cmdmntData.cmdmntRrsList[0].calculationMeasureId;
                         this.cmdmntCharge[i].defaultLkpCalcUnitId = cmdmntData.cmdmntRrsList[0].calculationUnitId;
-                        this.cmdmntCharge[i].price = cmdmntData.cmdmntRrsList[0].rrValue;
-                        this.cmdmntCharge[i].lkpCalcMeasureId = cmdmntData.cmdmntRrsList[0].calculationMeasureId;
-                        this.cmdmntCharge[i].lkpCalcUnitId = cmdmntData.cmdmntRrsList[0].calculationUnitId;
-                        this.cmdmntCharge[i].lkpCalcTypeId = cmdmntData.cmdmntRrsList[0].calculationTypeId;
-                        this.cmdmntCharge[i].minVal = cmdmntData.cmdmntRrsList[0].minValue;
-                        this.cmdmntCharge[i].maxVal = cmdmntData.cmdmntRrsList[0].maxValue;
+                        this.cmdmntCharge[i].defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
+                        this.cmdmntCharge[i].defaultLkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId
                         this.cmdmntCharge[i].defaultLkpCalcTypeId = cmdmntData.cmdmntRrsList[0].calculationTypeId;
+                        this.cmdmntCharge[i].defaultLkpCalcTypeName = this.getNameFromLookup(this.cmdmntCharge[i].calcTypeList, this.cmdmntCharge[i].lkpCalcTypeId);
                         this.cmdmntCharge[i].defaultMinVal = cmdmntData.cmdmntRrsList[0].minValue;
                         this.cmdmntCharge[i].defaultMaxVal = cmdmntData.cmdmntRrsList[0].maxValue;
-                        this.cmdmntCharge[i].lkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId
-                        this.cmdmntCharge[i].defaultLkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId
-                        this.cmdmntCharge[i].minFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
-                        this.cmdmntCharge[i].fieldDisabled = true;
                         if (cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList && cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.length > 0) {
                           this.cmdmntCharge[i].defaultCmdmntSlabCharge = [];
                           cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.forEach(element => {
@@ -266,6 +308,20 @@ export class CommandmentComponent implements OnChanges {
                             cmdmntSlabCharge.slabTo = element.slabTo;
                             this.cmdmntCharge[i].defaultCmdmntSlabCharge.push(cmdmntSlabCharge);
                           });
+                      }}
+
+                      if (this.cmdmntCharge[i].rrFlag == 1 && cmdmntData.cmdmntRrsList && cmdmntData.cmdmntRrsList.length > 0) {
+                        this.cmdmntCharge[i].price = cmdmntData.cmdmntRrsList[0].rrValue;
+                        this.cmdmntCharge[i].lkpCalcMeasureId = cmdmntData.cmdmntRrsList[0].calculationMeasureId;
+                        this.cmdmntCharge[i].lkpCalcUnitId = cmdmntData.cmdmntRrsList[0].calculationUnitId;
+                        this.cmdmntCharge[i].lkpCalcTypeId = cmdmntData.cmdmntRrsList[0].calculationTypeId;
+                        this.cmdmntCharge[i].lkpCalcTypeName = this.getNameFromLookup(this.cmdmntCharge[i].calcTypeList, this.cmdmntCharge[i].lkpCalcTypeId);
+                        this.cmdmntCharge[i].minVal = cmdmntData.cmdmntRrsList[0].minValue;
+                        this.cmdmntCharge[i].maxVal = cmdmntData.cmdmntRrsList[0].maxValue;
+                        this.cmdmntCharge[i].lkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId;
+                        this.cmdmntCharge[i].minFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
+                        this.cmdmntCharge[i].minCalcFlag = this.cmdmntCharge[i].minFrieghtFlg;
+                        this.cmdmntCharge[i].fieldDisabled = true;
                           let newSlabCharge: models.CommandmentSlabChargeDTO[] = [];
                           if (this.cmdmntCharge[i].cmdmntSlabCharge && this.cmdmntCharge[i].cmdmntSlabCharge.length > 0) {
                             cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.forEach(element => {
@@ -289,28 +345,17 @@ export class CommandmentComponent implements OnChanges {
                             this.cmdmntCharge[i].cmdmntSlabCharge = this.cmdmntCharge[i].defaultCmdmntSlabCharge;
                           }
                         }
-                      } else if (this.cmdmntCharge[i].rrFlag == 2) {
+                       else if (this.cmdmntCharge[i].rrFlag == 2) {
                         this.cmdmntCharge[i].fieldDisabled = false;
-                        this.cmdmntCharge[i].defaultPrice = null;
-                        this.cmdmntCharge[i].defaultLkpCalcMeasureId = null;
-                        this.cmdmntCharge[i].defaultLkpCalcUnitId = null;
-                        this.cmdmntCharge[i].defaultLkpCalcTypeId = null
-                        this.cmdmntCharge[i].defaultMinVal = null
-                        this.cmdmntCharge[i].defaultMaxVal = null
-                        this.cmdmntCharge[i].defaultLkpChrgOnId = null
+                        this.cmdmntCharge[i].lkpCalcTypeName = this.getNameFromLookup(this.cmdmntCharge[i].calcTypeList, this.cmdmntCharge[i].lkpCalcTypeId);
+                        this.cmdmntCharge[i].minFrieghtFlg = this.cmdmntCharge[i].minCalcFlag;
                       } else {
                         this.cmdmntCharge[i].fieldDisabled = true;
-                        this.cmdmntCharge[i].defaultPrice = null;
-                        this.cmdmntCharge[i].defaultLkpCalcMeasureId = null;
-                        this.cmdmntCharge[i].defaultLkpChrgOnId = null
-                        this.cmdmntCharge[i].defaultLkpCalcUnitId = null;
-                        this.cmdmntCharge[i].defaultLkpCalcTypeId = null
-                        this.cmdmntCharge[i].defaultMinVal = null
-                        this.cmdmntCharge[i].defaultMaxVal = null
                       }
 
                     }
                   }
+                  this.cmdmntCharge = this.cmdmntCharge.sort((ele1,ele2) => ele1.commandmentOrder - ele2.commandmentOrder);
                 }
                 if (!exists) {
                   let cmdmntChargeNew = new models.Commandment();
@@ -327,7 +372,8 @@ export class CommandmentComponent implements OnChanges {
                   cmdmntChargeNew.chargesOnList = cmdmntData.chargesOnList;
                   cmdmntChargeNew.applicableFlag = cmdmntData.rrFlag != 0 ? 1 : 0;
                   cmdmntChargeNew.rrFlag = cmdmntData.rrFlag;
-                  cmdmntChargeNew.minCalcFlag = cmdmntData.minAmountFlag;
+                  cmdmntChargeNew.minAmountFlag = cmdmntData.minAmountFlag;
+                  cmdmntChargeNew.maxAmountFlag = cmdmntData.maxAmountFlag;
                   cmdmntChargeNew.minVal = null;
                   cmdmntChargeNew.maxVal = null;
                   cmdmntChargeNew.cmdmntId = cmdmntData.id;
@@ -340,14 +386,18 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.lkpCalcMeasureId = cmdmntData.cmdmntRrsList[0].calculationMeasureId;
                     cmdmntChargeNew.lkpCalcUnitId = cmdmntData.cmdmntRrsList[0].calculationUnitId;
                     cmdmntChargeNew.lkpCalcTypeId = cmdmntData.cmdmntRrsList[0].calculationTypeId;
+                    cmdmntChargeNew.lkpCalcTypeName = this.getNameFromLookup(cmdmntChargeNew.calcTypeList, cmdmntChargeNew.lkpCalcTypeId);
                     cmdmntChargeNew.minVal = cmdmntData.cmdmntRrsList[0].minValue;
                     cmdmntChargeNew.maxVal = cmdmntData.cmdmntRrsList[0].maxValue;
                     cmdmntChargeNew.defaultLkpCalcTypeId = cmdmntData.cmdmntRrsList[0].calculationTypeId;
+                    cmdmntChargeNew.defaultLkpCalcTypeName = this.getNameFromLookup(cmdmntChargeNew.calcTypeList, cmdmntChargeNew.lkpCalcTypeId);
                     cmdmntChargeNew.defaultMinVal = cmdmntData.cmdmntRrsList[0].minValue;
                     cmdmntChargeNew.defaultMaxVal = cmdmntData.cmdmntRrsList[0].maxValue;
                     cmdmntChargeNew.lkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId
                     cmdmntChargeNew.defaultLkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId
                     cmdmntChargeNew.minFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
+                    cmdmntChargeNew.minCalcFlag = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
+                    cmdmntChargeNew.defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
                     cmdmntChargeNew.fieldDisabled = true;
                     if (cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList && cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.length > 0) {
                       cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.forEach(element => {
@@ -364,25 +414,26 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.lkpCalcMeasureId = null;
                     cmdmntChargeNew.lkpCalcUnitId = null;
                     cmdmntChargeNew.lkpCalcTypeId = null;
+                    cmdmntChargeNew.lkpCalcTypeName = null;
                     cmdmntChargeNew.minVal = null;
                     cmdmntChargeNew.maxVal = null;
                     cmdmntChargeNew.defaultPrice = null;
                     cmdmntChargeNew.defaultLkpCalcMeasureId = null;
                     cmdmntChargeNew.defaultLkpCalcUnitId = null;
                     cmdmntChargeNew.defaultLkpCalcTypeId = null;
+                    cmdmntChargeNew.defaultLkpCalcTypeName = null;
                     cmdmntChargeNew.defaultMinVal = null;
                     cmdmntChargeNew.defaultMaxVal = null;
                     cmdmntChargeNew.fieldDisabled = false;
                     cmdmntChargeNew.defaultLkpChrgOnId = null;
                   }
-                  if (cmdmntData.rrFlag == 2) {
+                  if (cmdmntData.rrFlag === 2) {
                     cmdmntChargeNew.fieldDisabled = true;
+                    cmdmntChargeNew.lkpCalcTypeName = this.getNameFromLookup(cmdmntChargeNew.calcTypeList, cmdmntChargeNew.lkpCalcTypeId);
                   }
                   cmdmntChargeList.push(cmdmntChargeNew);
                 }
               });
-              console.log(cmdmntChargeList);
-              console.log(this.cmdmntCharge);
               if(cmdmntChargeList && cmdmntChargeList.length>0)
                 this.cmdmntCharge = this.cmdmntCharge.concat(cmdmntChargeList);
               
@@ -396,12 +447,23 @@ export class CommandmentComponent implements OnChanges {
 
 
           this.cmdmntCharge.forEach(element => {
-            if (element.geoFeatureName && element.geoFeatureName != "") {
+            if (element.cmdmntName && element.cmdmntName !== '') {
+            if (element.geoFeatureName && element.geoFeatureName !== '') {
+              if (element.rrFlag === 2) {
+                element['stateErrorFlag'] = element.cmdmntGeoWiseCharge && element.cmdmntGeoWiseCharge.length > 0 ? false : true;
+              } else {
+                element['stateErrorFlag'] = false;
+              }
               this.geoCmdmntCharge.push(element);
             } else {
+              element['stateErrorFlag'] = false;
               this.nonGeoCmdmntCharge.push(element);
             }
-          });
+          }
+        }
+
+          );
+
           this.spinner.hide();
         }, error => {
           this.spinner.hide();
@@ -419,7 +481,6 @@ export class CommandmentComponent implements OnChanges {
   }
 
   changeRR(rrValue, index, geo) {
-    console.log(rrValue, index, geo);
     let rrList = this.createRadio();
     let name = "";
     rrList.forEach(element => {
@@ -428,97 +489,151 @@ export class CommandmentComponent implements OnChanges {
       }
     });
     if (geo) {
-      if (name == "RR") {
+      if (name === "RR") {
         this.geoCmdmntCharge[index].price = this.geoCmdmntCharge[index].defaultPrice;
         this.geoCmdmntCharge[index].lkpCalcMeasureId = this.geoCmdmntCharge[index].defaultLkpCalcMeasureId;
+        this.geoCmdmntCharge[index].minFrieghtFlg = this.geoCmdmntCharge[index].defaultMinFrieghtFlg;
         this.geoCmdmntCharge[index].lkpCalcUnitId = this.geoCmdmntCharge[index].defaultLkpCalcUnitId;
         this.geoCmdmntCharge[index].lkpCalcTypeId = this.geoCmdmntCharge[index].defaultLkpCalcTypeId;
+        this.geoCmdmntCharge[index].lkpCalcTypeName = this.getNameFromLookup(this.geoCmdmntCharge[index].calcTypeList, this.geoCmdmntCharge[index].lkpCalcTypeId);
         this.geoCmdmntCharge[index].lkpChrgOnId = this.geoCmdmntCharge[index].defaultLkpChrgOnId;
         this.geoCmdmntCharge[index].minVal = this.geoCmdmntCharge[index].defaultMinVal;
         this.geoCmdmntCharge[index].maxVal = this.geoCmdmntCharge[index].defaultMaxVal;
         this.geoCmdmntCharge[index].fieldDisabled = true;
         this.geoCmdmntCharge[index].applicableFlag = 1;
-        this.geoCmdmntCharge[index].cmdmntSlabCharge = this.geoCmdmntCharge[index].defaultCmdmntSlabCharge;
-      } else if (name == "NA") {
+        if (this.geoCmdmntCharge[index].defaultCmdmntSlabCharge) {
+          this.geoCmdmntCharge[index].cmdmntSlabCharge = this.geoCmdmntCharge[index].defaultCmdmntSlabCharge;
+        } else {
+        this.geoCmdmntCharge[index].cmdmntSlabCharge = []; }
+        this.geoCmdmntCharge[index].cmdmntGeoWiseCharge = [];
+        this.geoCmdmntCharge[index].cmdmntGeoExclusion = [];
+        this.geoCmdmntCharge[index]['stateErrorFlag'] = false;
+      } else if (name === "NA") {
         this.geoCmdmntCharge[index].price = null;
         this.geoCmdmntCharge[index].lkpCalcMeasureId = null;
         this.geoCmdmntCharge[index].lkpCalcUnitId = null;
         this.geoCmdmntCharge[index].lkpCalcTypeId = null;
+        this.geoCmdmntCharge[index].defaultLkpCalcTypeName = null;
         this.geoCmdmntCharge[index].minVal = null;
         this.geoCmdmntCharge[index].maxVal = null;
         this.geoCmdmntCharge[index].lkpChrgOnId = null;
         this.geoCmdmntCharge[index].fieldDisabled = true;
         this.geoCmdmntCharge[index].applicableFlag = 0;
         this.geoCmdmntCharge[index].cmdmntSlabCharge = [];
-      } else if (name == "CUSTOM") {
+        this.geoCmdmntCharge[index].minFrieghtFlg = 0;
+        this.geoCmdmntCharge[index].cmdmntGeoWiseCharge = [];
+        this.geoCmdmntCharge[index].cmdmntGeoExclusion = [];
+        this.geoCmdmntCharge[index]['stateErrorFlag'] = false;
+      } else if (name === "CUSTOM") {
         this.geoCmdmntCharge[index].price = null;
         this.geoCmdmntCharge[index].lkpCalcMeasureId = null;
         this.geoCmdmntCharge[index].lkpCalcUnitId = null;
         this.geoCmdmntCharge[index].lkpCalcTypeId = null;
+        this.geoCmdmntCharge[index].lkpCalcTypeName = null;
         this.geoCmdmntCharge[index].minVal = null;
         this.geoCmdmntCharge[index].maxVal = null;
         this.geoCmdmntCharge[index].lkpChrgOnId = null;
         this.geoCmdmntCharge[index].fieldDisabled = false;
         this.geoCmdmntCharge[index].applicableFlag = 1;
         this.geoCmdmntCharge[index].cmdmntSlabCharge = [];
+        this.geoCmdmntCharge[index].cmdmntGeoWiseCharge = [];
+        this.geoCmdmntCharge[index].cmdmntGeoExclusion = [];
+        this.selectonChange(this.geoCmdmntCharge[index]);
+        this.geoCmdmntCharge[index]['stateErrorFlag'] = true;
       }
     } else {
       if (name == "RR") {
         this.nonGeoCmdmntCharge[index].price = this.nonGeoCmdmntCharge[index].defaultPrice;
         this.nonGeoCmdmntCharge[index].lkpCalcMeasureId = this.nonGeoCmdmntCharge[index].defaultLkpCalcMeasureId;
+        this.nonGeoCmdmntCharge[index].minFrieghtFlg = this.nonGeoCmdmntCharge[index].defaultMinFrieghtFlg;
         this.nonGeoCmdmntCharge[index].lkpChrgOnId = this.nonGeoCmdmntCharge[index].defaultLkpChrgOnId;
         this.nonGeoCmdmntCharge[index].lkpCalcUnitId = this.nonGeoCmdmntCharge[index].defaultLkpCalcUnitId;
         this.nonGeoCmdmntCharge[index].lkpCalcTypeId = this.nonGeoCmdmntCharge[index].defaultLkpCalcTypeId;
+        this.nonGeoCmdmntCharge[index].lkpCalcTypeName = this.getNameFromLookup(this.nonGeoCmdmntCharge[index].calcTypeList, this.nonGeoCmdmntCharge[index].lkpCalcTypeId);
         this.nonGeoCmdmntCharge[index].minVal = this.nonGeoCmdmntCharge[index].defaultMinVal;
         this.nonGeoCmdmntCharge[index].maxVal = this.nonGeoCmdmntCharge[index].defaultMaxVal;
         this.nonGeoCmdmntCharge[index].fieldDisabled = true;
         this.nonGeoCmdmntCharge[index].applicableFlag = 1;
-        this.nonGeoCmdmntCharge[index].cmdmntSlabCharge = this.nonGeoCmdmntCharge[index].defaultCmdmntSlabCharge;
+        if (this.nonGeoCmdmntCharge[index].defaultCmdmntSlabCharge) {
+          this.nonGeoCmdmntCharge[index].cmdmntSlabCharge = this.nonGeoCmdmntCharge[index].defaultCmdmntSlabCharge;
+        } else {
+        this.nonGeoCmdmntCharge[index].cmdmntSlabCharge = []; }
+        this.nonGeoCmdmntCharge[index].cmdmntGeoWiseCharge = [];
+        this.nonGeoCmdmntCharge[index].cmdmntGeoExclusion = [];
       } else if (name == "NA") {
         this.nonGeoCmdmntCharge[index].price = null;
         this.nonGeoCmdmntCharge[index].lkpCalcMeasureId = null;
         this.nonGeoCmdmntCharge[index].lkpCalcUnitId = null;
         this.nonGeoCmdmntCharge[index].lkpCalcTypeId = null;
+        this.nonGeoCmdmntCharge[index].lkpCalcTypeName = null;
         this.nonGeoCmdmntCharge[index].minVal = null;
         this.nonGeoCmdmntCharge[index].maxVal = null;
         this.nonGeoCmdmntCharge[index].lkpChrgOnId = null;
         this.nonGeoCmdmntCharge[index].fieldDisabled = true;
         this.nonGeoCmdmntCharge[index].applicableFlag = 0;
         this.nonGeoCmdmntCharge[index].cmdmntSlabCharge = [];
+        this.nonGeoCmdmntCharge[index].minFrieghtFlg=0;
+        this.nonGeoCmdmntCharge[index].cmdmntGeoWiseCharge = [];
+        this.nonGeoCmdmntCharge[index].cmdmntGeoExclusion = [];
       } else if (name == "CUSTOM") {
         this.nonGeoCmdmntCharge[index].price = null;
         this.nonGeoCmdmntCharge[index].lkpCalcMeasureId = null;
         this.nonGeoCmdmntCharge[index].lkpCalcUnitId = null;
         this.nonGeoCmdmntCharge[index].lkpCalcTypeId = null;
+        this.nonGeoCmdmntCharge[index].lkpCalcTypeName = null;
         this.nonGeoCmdmntCharge[index].minVal = null;
         this.nonGeoCmdmntCharge[index].maxVal = null;
         this.nonGeoCmdmntCharge[index].lkpChrgOnId = null;
         this.nonGeoCmdmntCharge[index].fieldDisabled = false;
         this.nonGeoCmdmntCharge[index].applicableFlag = 1;
         this.nonGeoCmdmntCharge[index].cmdmntSlabCharge = [];
+        this.nonGeoCmdmntCharge[index].cmdmntGeoWiseCharge = [];
+        this.nonGeoCmdmntCharge[index].cmdmntGeoExclusion = [];
+        this.selectonChange(this.nonGeoCmdmntCharge[index]);
       }
     }
   }
 
   updateList(index, column, value, geo) {
-    console.log(index, column, value, geo);
     if (geo)
       this.geoCmdmntCharge[index][column] = value;
     else
       this.nonGeoCmdmntCharge[index][column] = value;
   }
+  selectonChange(obj){
+    if(obj['calcTypeList'] && obj['calcTypeList'].length == 1){
+      obj['lkpCalcTypeId']  = obj['calcTypeList'][0].id;
+      obj['lkpCalcTypeName'] = obj['calcTypeList'][0].lookupVal;
+      if( obj['lkpCalcTypeName'] == "SLAB"){
+        if(obj.cmdmntSlabCharge && obj.cmdmntSlabCharge.length > 0){
+          obj['slabErrorFlag'] = false;
+        }else{
+          obj['slabErrorFlag'] = true;
+        }
+      }
+    }
+
+    if(obj['calcUnitList'] && obj['calcUnitList'].length == 1){
+      obj['lkpCalcUnitId'] = obj['calcUnitList'][0].id;            
+    }
+
+      if(obj['calcMeasureList'] && obj['calcMeasureList'].length == 1){
+      obj['lkpCalcMeasureId'] = obj['calcMeasureList'][0].id;            
+    }
+    if(obj['chargesOnList'] && obj['chargesOnList'].length == 1){
+      obj['lkpChrgOnId'] = obj['chargesOnList'][0].id;            
+    }
+    }
 
   changeValue(index, column, value, geo) {
-    console.log(index, column, value, geo);
-    if (geo)
+    if (geo){
       this.geoCmdmntCharge[index][column] = value;
+    }
     else
       this.nonGeoCmdmntCharge[index][column] = value;
   }
 
   saveCommandments(nextFlag) {
-    console.log(this.cmdmntCharge);
-    console.log(this.commandmentResult);
     this.spinner.show();
     let data: models.Commandment[] = [];
     this.geoCmdmntCharge.forEach(element => {
@@ -529,7 +644,6 @@ export class CommandmentComponent implements OnChanges {
       element.cmdmntLevel = this.inputData.level
       data.push(element);
     });
-    console.log(data);
     let newData =this.deactivateOrpanChild(data);
     newData["contractId"] = this.contractId;
     if (this.inputData.isCopyRateCard) {
@@ -564,51 +678,90 @@ export class CommandmentComponent implements OnChanges {
 
   }
 
+  getNameFromLookup(list, id) {
+    let name = '';
+    list.forEach(element => {
+      if (element.id == id)
+        name = element.lookupVal;
+    });
+    return name;
+  }
+
   addSlabCharges(index, geo) {
     var cmdmntId: any = 0;
     var slabChargeList: models.CommandmentSlabChargeDTO[] = [];
     var calTypeId = 0;
     var calcTypeName = "";
+    var commmandmentName = "";
     var calTypeList = [];
+    let rrFlag = 0; 
     if (geo) {
       calTypeId = this.geoCmdmntCharge[index].lkpCalcTypeId;
       cmdmntId = this.geoCmdmntCharge[index].cmdmntId;
       slabChargeList = this.geoCmdmntCharge[index].cmdmntSlabCharge;
       calTypeList = this.geoCmdmntCharge[index].calcTypeList;
+      commmandmentName = this.geoCmdmntCharge[index].cmdmntName;
+      rrFlag = this.geoCmdmntCharge[index].rrFlag;
+      calcTypeName = this.getNameFromLookup(calTypeList, calTypeId);
+      this.geoCmdmntCharge[index].lkpCalcTypeName = calcTypeName;
     } else {
       calTypeId = this.nonGeoCmdmntCharge[index].lkpCalcTypeId;
       cmdmntId = this.nonGeoCmdmntCharge[index].cmdmntId;
       slabChargeList = this.nonGeoCmdmntCharge[index].cmdmntSlabCharge;
       calTypeList = this.nonGeoCmdmntCharge[index].calcTypeList;
+      commmandmentName = this.nonGeoCmdmntCharge[index].cmdmntName;
+      rrFlag = this.nonGeoCmdmntCharge[index].rrFlag;
+      calcTypeName = this.getNameFromLookup(calTypeList, calTypeId);
+      this.nonGeoCmdmntCharge[index].lkpCalcTypeName = calcTypeName;
     }
 
-    calTypeList.forEach(element => {
-      if (element.id == calTypeId)
-        calcTypeName = element.lookupVal;
-    });
+    
 
-    if (calcTypeName == 'SLAB') {
+    if (calcTypeName === 'SLAB') {
       const slabDialog = this.dialog.open(SlabDialogBox, {disableClose: true,
-        width: '650px',
+        width: '700px',
         panelClass: 'creditDialog',
-        data: { cmdmntId: cmdmntId, slabChargeList: slabChargeList }
+        data: { cmdmntId: cmdmntId, slabChargeList: slabChargeList,
+                commmandmentName : commmandmentName, rrFlag : rrFlag }
       });
       slabDialog.afterClosed().subscribe(result => {
         console.log(result, 'The dialog was closed');
-        if (result && result != "") {
+        if (result && result !== '') {
           if (geo) {
             this.geoCmdmntCharge[index].cmdmntSlabCharge = result;
+            if (result.length > 0 && result[0].price) {
+            this.geoCmdmntCharge[index].price = result[0].price;
+            }
+            this.geoCmdmntCharge[index]['slabErrorFlag'] = false;
           } else {
             this.nonGeoCmdmntCharge[index].cmdmntSlabCharge = result;
+            if (result.length > 0 && result[0].price) {
+            this.nonGeoCmdmntCharge[index].price = result[0].price;
+          }
+            this.nonGeoCmdmntCharge[index]['slabErrorFlag'] = false;
           }
         }
+          if (geo && (!this.geoCmdmntCharge[index].cmdmntSlabCharge ||
+            this.geoCmdmntCharge[index].cmdmntSlabCharge.length === 0)) {
+            this.geoCmdmntCharge[index]['slabErrorFlag'] = true;
+          } else if (!geo && (!this.nonGeoCmdmntCharge[index].cmdmntSlabCharge ||
+            this.nonGeoCmdmntCharge[index].cmdmntSlabCharge.length === 0)) {
+            this.nonGeoCmdmntCharge[index]['slabErrorFlag'] = true;
+          }
       });
+    } else {
+      if (geo) {
+        this.geoCmdmntCharge[index].cmdmntSlabCharge = [];
+        this.geoCmdmntCharge[index]['slabErrorFlag'] = false;
+      } else {
+        this.nonGeoCmdmntCharge[index].cmdmntSlabCharge = [];
+        this.nonGeoCmdmntCharge[index]['slabErrorFlag'] = false;
+      }
     }
 
   }
 
   excludePincode(index) {
-    console.log(this.geoCmdmntCharge[index]);
     const excludePincode = this.dialog.open(ExcludePinDialogBox, {disableClose: true,
       panelClass: 'creditDialog',
       data: {
@@ -619,10 +772,8 @@ export class CommandmentComponent implements OnChanges {
     });
     excludePincode.afterClosed().subscribe(result => {
       console.log(result, 'The dialog was closed');
-      if (result && result.length > 0){
+      if (result) {
         this.geoCmdmntCharge[index].cmdmntGeoExclusion = result;
-      } else {
-        this.geoCmdmntCharge[index].cmdmntGeoExclusion = [];
       }
     });
   }
@@ -631,22 +782,29 @@ export class CommandmentComponent implements OnChanges {
     const includeStateCity = this.dialog.open(GeoWiseChargeDialogBox, {disableClose: true,
       panelClass: 'creditDialog',
       data: {
-        cmdmntId: this.geoCmdmntCharge[index].cmdmntId, cmdmntGeoWiseChargeList: this.geoCmdmntCharge[index].cmdmntGeoWiseCharge
-        , geoFeatureId: this.geoCmdmntCharge[index].geoFeatureId
+        cmdmntId: this.geoCmdmntCharge[index].cmdmntId,
+        cmdmntGeoWiseChargeList: JSON.parse(JSON.stringify(this.geoCmdmntCharge[index].cmdmntGeoWiseCharge))
+        , geoFeatureId: this.geoCmdmntCharge[index].geoFeatureId, calcUnitList : this.geoCmdmntCharge[index].calcUnitList
       },
-      width: '120rem',
+      width: '145rem',
     });
     includeStateCity.afterClosed().subscribe(result => {
       console.log(result, 'The dialog was closed');
-      if (result && result.length > 0)
-        this.geoCmdmntCharge[index].cmdmntGeoWiseCharge = result;
+      if (result) {
+        this.geoCmdmntCharge[index].cmdmntGeoWiseCharge = JSON.parse(JSON.stringify(result));
+      }
+      if (this.geoCmdmntCharge[index].cmdmntGeoWiseCharge) {
+        this.geoCmdmntCharge[index]['stateErrorFlag'] = this.geoCmdmntCharge[index].cmdmntGeoWiseCharge.length > 0 ? false : true;
+      } else {
+        this.geoCmdmntCharge[index]['stateErrorFlag'] = true;
+      }
     });
   }
 
   deactivateOrpanChild(newCommandmentList): any {
     var inactiveStatus = 0;
     this.referenceList.statusList.forEach(element => {
-      if (element.lookupVal === 'INACTIVE')
+      if (element.lookupVal === 'DELETED')
         inactiveStatus = element.id;
     });
 
@@ -750,16 +908,27 @@ export class CommandmentComponent implements OnChanges {
 
 export class GeoWiseChargeDialogBox {
   constructor(private spinner: NgxSpinnerService, private tosterService: ToastrService, private contractservice: ContractService,
-    public dialogRef: MatDialogRef<GeoWiseChargeDialogBox>, public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) { }
+    public dialogRef: MatDialogRef<GeoWiseChargeDialogBox>, public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any, 
+    private datePipe: DatePipe,) { }
 
   cmdmntGeoWiseCharges: models.CmdmntGeoWiseChargeDTO[] = [];
   cmdmntGeoWiseChargeList: models.CmdmntGeoWiseChargeDTO[] = [];
   cmdmntGeoWiseCharge = new models.CmdmntGeoWiseChargeDTO();
   cmdmntId: number = 0;
   columns: string[];
-  stateList: Lookup[] = [];
+  stateList: Lookup[];
   cityList: Lookup[] = [];
-  surchargeTypeList: Lookup[] = [];
+  calcUnitList: Lookup[] = [];
+  minDate = new Date();
+
+
+    @ViewChild('bottmScrollEl', null) bottmScrollEl: ElementRef;
+  bottomScroll(){
+    setTimeout(() => {
+      var objDiv =  this.bottmScrollEl.nativeElement;
+    objDiv.scrollTop = objDiv.scrollHeight;   
+    }, 200);    
+    }
 
 
   closeDialog(): void {
@@ -784,60 +953,82 @@ export class GeoWiseChargeDialogBox {
 
   ngOnInit() {
     this.cmdmntGeoWiseChargeList = [];
+    if (this.data.calcUnitList) {
+      this.calcUnitList = JSON.parse(JSON.stringify(this.data.calcUnitList));
+    }
+    this.spinner.show();
     this.contractservice.getStatesByFeature(this.data.geoFeatureId).subscribe(result => {
+      let states = [];
       result.data.responseData.forEach(element => {
-        this.stateList.push({ id: element.id, lookupVal: element.stateName,descr:element.stateName });
+        states.push({ id: element.id, lookupVal: element.stateName,descr:element.stateName });
       });
-      this.columns = ["state", "city", "desc", "expDate", "amount"];
-      console.log(this.data);
+      this.stateList = JSON.parse(JSON.stringify(states));
+      this.columns = ['state', 'city', 'lkpCalcUnitId', 'desc', 'expDate', 'amount', 'action'];
       if (this.data.cmdmntGeoWiseChargeList && this.data.cmdmntGeoWiseChargeList.length > 0) {
-        this.cmdmntGeoWiseCharges = this.cmdmntGeoWiseCharges.concat(this.data.cmdmntGeoWiseChargeList);
+        this.cmdmntGeoWiseCharges = this.cmdmntGeoWiseCharges.concat(JSON.parse(JSON.stringify(this.data.cmdmntGeoWiseChargeList)));
         let dataListMap = new Map();
         for (let i = 0; i < this.cmdmntGeoWiseCharges.length; i++) {
+          this.cmdmntGeoWiseCharges[i].validPrice = true;
+          this.cmdmntGeoWiseCharges[i].validDt = true;
           if (this.cmdmntGeoWiseCharges[i].cityId && this.cmdmntGeoWiseCharges[i].cityId > 0) {
             var data = this.cmdmntGeoWiseCharges[i].stateId 
               + "" + this.cmdmntGeoWiseCharges[i].descr + "" + this.cmdmntGeoWiseCharges[i].expDt
-              + "" + this.cmdmntGeoWiseCharges[i].price;
-            var index = dataListMap.get(data);
-            if (index || index === 0) {
+              + "" + this.cmdmntGeoWiseCharges[i].price + "" + this.cmdmntGeoWiseCharges[i].lkpCalcUnitId;
+            var keyPresent = dataListMap.has(data);
+            if (keyPresent) {
+              var index = dataListMap.get(data);
+              this.cmdmntGeoWiseChargeList[index].disableCity = false;
+              this.checkDate(index, this.cmdmntGeoWiseChargeList[index].expDt,'expDt');
               this.cmdmntGeoWiseChargeList[index].selectedCityList.push(this.cmdmntGeoWiseCharges[i].cityId);
               this.cmdmntGeoWiseChargeList[index].cityCntrl.setValue(this.cmdmntGeoWiseChargeList[index].selectedCityList);
-              console.log(this.cmdmntGeoWiseChargeList[index].cityCntrl.value,"aaaaaaaaaa",this.cmdmntGeoWiseChargeList[index].selectedCityList);
             } else {
               dataListMap.set(data, this.cmdmntGeoWiseChargeList.length);
               this.cmdmntGeoWiseCharges[i].selectedCityList = [];
+              this.cmdmntGeoWiseCharges[i].cityList = [];
               this.cmdmntGeoWiseCharges[i].selectedCityList.push(this.cmdmntGeoWiseCharges[i].cityId);
               this.cmdmntGeoWiseCharges[i].cityCntrl = new FormControl();
               this.cmdmntGeoWiseCharges[i].cityCntrl.setValue(this.cmdmntGeoWiseCharges[i].selectedCityList);
-              console.log(this.cmdmntGeoWiseCharges[i].cityCntrl.value,"bbbb",this.cmdmntGeoWiseCharges[i].selectedCityList);
               this.cmdmntGeoWiseCharges[i].stateList = this.stateList;
+              this.cmdmntGeoWiseCharges[i].disableCity = false;
               this.cmdmntGeoWiseChargeList.push(this.cmdmntGeoWiseCharges[i]);
-              this.getCityStart(this.cmdmntGeoWiseCharges[i].stateId,this.cmdmntGeoWiseChargeList.length -1);
+              this.checkDate(this.cmdmntGeoWiseChargeList.length -1, this.cmdmntGeoWiseCharges[i].expDt,'expDt');
+              this.getCity(this.cmdmntGeoWiseCharges[i].stateId,this.cmdmntGeoWiseChargeList.length -1,true);
             }
           } else {
-            this.cmdmntGeoWiseCharges[i].cityCntrl = new FormControl();
             this.cmdmntGeoWiseCharges[i].stateList = this.stateList;
+            this.cmdmntGeoWiseCharges[i].disableCity = true;
+            this.cmdmntGeoWiseCharges[i].selectedCityList = [];
+            this.cmdmntGeoWiseCharges[i].cityList = [];
+            this.cmdmntGeoWiseCharges[i].cityCntrl = new FormControl();
             this.cmdmntGeoWiseChargeList.push(this.cmdmntGeoWiseCharges[i]);
-            this.getCityStart(this.cmdmntGeoWiseCharges[i].stateId,this.cmdmntGeoWiseChargeList.length -1);
+            this.checkDate(this.cmdmntGeoWiseChargeList.length -1, this.cmdmntGeoWiseCharges[i].expDt,'expDt');
+            //this.getCityStart(this.cmdmntGeoWiseCharges[i].stateId,this.cmdmntGeoWiseChargeList.length -1);
           }
 
         }
+      } else {
+        this.addCharge();
       }
 
-
+      this.spinner.hide();
       this.cmdmntId = this.data.cmdmntId;
-      console.log(this.cmdmntGeoWiseCharges);
-      console.log(this.cmdmntId, this.cmdmntGeoWiseChargeList);
     }, error => {
+      this.spinner.hide();
       console.log("Error in getting all states");
     });
   }
 
   addCharge() {
-    this.cmdmntGeoWiseCharge = new models.CmdmntGeoWiseChargeDTO;
+    this.cmdmntGeoWiseCharge = new models.CmdmntGeoWiseChargeDTO();
+    for(let item of this.calcUnitList){
+      if(item.lookupVal==='PERKG'){
+        this.cmdmntGeoWiseCharge.lkpCalcUnitId=item.id;
+      }
+    }
+    this.cmdmntGeoWiseCharge.cityCntrl = new FormControl();
     this.cmdmntGeoWiseCharge.stateList = this.cmdmntGeoWiseCharge.stateList.concat(this.stateList);
     this.cmdmntGeoWiseChargeList = this.cmdmntGeoWiseChargeList.concat(this.cmdmntGeoWiseCharge);
-    console.log(this.cmdmntGeoWiseChargeList);
+    this.bottomScroll();
   }
 
 getCityStart(stateId,index){
@@ -849,7 +1040,18 @@ getCityStart(stateId,index){
         cities.forEach(element => {
           this.cmdmntGeoWiseChargeList[index].cityList.push({ id: element.id, lookupVal: element.cityName, descr:element.cityName  });
         });
-      }else {
+        this.cmdmntGeoWiseChargeList[index].cityList.sort((a, b) => {
+          const cityNameA = a.lookupVal.toUpperCase();
+          const cityNameB = b.lookupVal.toUpperCase();
+          let comparison = 0;
+          if (cityNameA > cityNameB) {
+            comparison = 1;
+          } else if (cityNameA < cityNameB) {
+            comparison = -1;
+          }
+          return comparison;
+        });
+      } else {
         this.tosterService.error(ob.message);
         this.spinner.hide();
       }
@@ -858,9 +1060,12 @@ getCityStart(stateId,index){
     });
 }
 
-  getCity(stateId, index) {
+  getCity(stateId, index, start) {
+    this.spinner.show();
+    if(!start) {
     this.cmdmntGeoWiseChargeList[index].cityList = [];
-    this.cmdmntGeoWiseChargeList[index].selectedCityList = [];
+    this.cmdmntGeoWiseChargeList[index].selectedCityList = []; 
+   }
     this.contractservice.getCityByStateService(stateId).subscribe(result => {
       let ob = ErrorConstants.validateException(result);
       if (ob.isSuccess) {
@@ -869,12 +1074,12 @@ getCityStart(stateId,index){
         var stateExists = false;
         var cityExists: string[] = [];
         for (let i = 0; i < this.cmdmntGeoWiseChargeList.length - 1; i++) {
-          if (stateId == this.cmdmntGeoWiseChargeList[i].stateId) {
+          if (stateId === this.cmdmntGeoWiseChargeList[i].stateId && i !== index) {
             stateExists = true;
             console.log(stateId);
             this.cmdmntGeoWiseChargeList[i].selectedCityList.forEach(city => {
               cities.forEach(element => {
-                if (city == element.id) {
+                if (city === element.id) {
                   cityExists.push(element.id);
                 }
               });
@@ -883,8 +1088,19 @@ getCityStart(stateId,index){
         }
         if (cityExists && cityExists.length > 0) {
           cities.forEach(element => {
-            if (!cityExists.includes(element.id))
+            if (!cityExists.includes(element.id)) {
               this.cmdmntGeoWiseChargeList[index].cityList.push({ id: element.id, lookupVal: element.cityName ,descr: element.cityName });
+          }});
+          this.cmdmntGeoWiseChargeList[index].cityList.sort((a, b) => {
+            const cityNameA = a.lookupVal.toUpperCase();
+            const cityNameB = b.lookupVal.toUpperCase();
+            let comparison = 0;
+            if (cityNameA > cityNameB) {
+              comparison = 1;
+            } else if (cityNameA < cityNameB) {
+              comparison = -1;
+            }
+            return comparison;
           });
         }
         console.log(cities, "stateExists==>", stateExists);
@@ -892,28 +1108,76 @@ getCityStart(stateId,index){
           cities.forEach(element => {
             this.cmdmntGeoWiseChargeList[index].cityList.push({ id: element.id, lookupVal: element.cityName, descr:element.cityName  });
           });
-          console.log(this.cmdmntGeoWiseChargeList[index]);
+          this.cmdmntGeoWiseChargeList[index].cityList.sort((a, b) => {
+            const cityNameA = a.lookupVal.toUpperCase();
+            const cityNameB = b.lookupVal.toUpperCase();
+            let comparison = 0;
+            if (cityNameA > cityNameB) {
+              comparison = 1;
+            } else if (cityNameA < cityNameB) {
+              comparison = -1;
+            }
+            return comparison;
+          });
         }
-  
-  
-      }else {
-        this.tosterService.error(ob.message);
         this.spinner.hide();
+      } else {
+        this.spinner.hide();
+        this.tosterService.error(ob.message);
       }
     }, error => {
+      this.spinner.hide();
       this.tosterService.error(ErrorConstants.getValue(404));
     });
   }
 
   selectCity(index, cntrl) {
-    console.log(index, cntrl);
     this.cmdmntGeoWiseChargeList[index].selectedCityList = cntrl;
-    console.log(this.cmdmntGeoWiseChargeList[index].selectedCityList);
   }
 
   addStates() {
     let cmdmntGeoWiseChargesNew: models.CmdmntGeoWiseChargeDTO[];
     cmdmntGeoWiseChargesNew = [];
+    let stateList = [];
+    let validate = true;
+    this.cmdmntGeoWiseChargeList.forEach(element => {
+      if (validate && !element.validDt) {
+        validate = false;
+        this.tosterService.error('Invalid Expiry Date !!');
+        return;
+      }
+
+      if (validate && !element.validPrice) {
+        validate = false;
+        this.tosterService.error('Invalid Price !!');
+        return;
+      }
+
+      if (validate && ((!element.stateId || element.stateId === null)
+        || (!element.lkpCalcUnitId || element.lkpCalcUnitId === null)
+        || (!element.price || element.price === null || (element.price && !element.price.toString().trim()))
+        || (!element.disableCity && (!element.selectedCityList || element.selectedCityList.length === 0)))) {
+        validate = false;
+        this.tosterService.error('Some Required Fields Missing/Invalid !');
+        return;
+      }
+
+      if (validate && !(element.selectedCityList && element.selectedCityList.length > 0)) {
+        if (stateList.includes(element.stateId)) {
+          this.tosterService.warning('Duplicate state exists for all cities. Kindly remove/modify data.');
+          validate = false;
+        } else {
+          stateList.push(element.stateId);
+        }
+      } else {
+        stateList.push(element.stateId);
+      }
+      if (element.price && element.validPrice) {
+        element.price = Number(element.price.toString().trim()); }
+    });
+
+    if (validate) {
+
     for (let i = 0; i < this.cmdmntGeoWiseChargeList.length; i++) {
       var data = this.cmdmntGeoWiseChargeList[i];
       if(this.cmdmntGeoWiseChargeList[i].selectedCityList && this.cmdmntGeoWiseChargeList[i].selectedCityList.length>0){
@@ -936,7 +1200,6 @@ getCityStart(stateId,index){
         cmdmntGeoWiseChargesNew.push(cmdmntGeoCharge);
       }
     }
-
    
     var length = this.cmdmntGeoWiseCharges.length;
     for (let i = 0; i < cmdmntGeoWiseChargesNew.length; i++) {
@@ -957,19 +1220,66 @@ getCityStart(stateId,index){
       }
     }
     this.dialogRef.close(cmdmntGeoWiseChargesNew);
+
+  }
   }
 
   updateList(index, column, value) {
-    console.log(index, column, value);
     this.cmdmntGeoWiseChargeList[index][column] = value;
+    if (column === 'expDt' && !(value === 0 || value === 1)) {
+      this.checkDate(index, value,column);
+      }
+    if (column === 'price') {
+      let regex = /^\d*\.?\d{0,2}$/g;
+      let exp = String(value).match(regex);
+      this.cmdmntGeoWiseChargeList[index].validPrice = !isNaN(parseFloat(value)) && isFinite(value) && exp !== null && exp.length !== 0;
+      }
+  }
+
+  checkDate(index, value, column) {
+    if (value) {
+      let a = this.datePipe.transform(value, 'yyyy-MM-dd');
+      let currentDate: Date = new Date();
+      currentDate.setHours(0, 0, 0, 0);
+      let currDateinMilli = new Date(currentDate);
+      let dateinMilli = new Date(Date.parse(a));
+      this.cmdmntGeoWiseChargeList[index][column] = a;
+      if (dateinMilli.getTime() > currDateinMilli.getTime()) {
+        this.cmdmntGeoWiseChargeList[index].validDt = true;
+      } else {
+        this.cmdmntGeoWiseChargeList[index].validDt = false;
+      }
+    } else {
+      this.cmdmntGeoWiseChargeList[index].validDt = true;
+    }
   }
 
   changeValue(index, column, value) {
-    console.log(index, column, value);
+    if (column === 'price') {
+      let regex = /^\d*\.?\d{0,2}$/g;
+      let exp = String(value).match(regex);
+      this.cmdmntGeoWiseChargeList[index].validPrice = !isNaN(parseFloat(value)) && isFinite(value) && exp !== null && exp.length !== 0;
+    }
     this.cmdmntGeoWiseChargeList[index][column] = value;
   }
 
-  
+  selectAllCity(checked, index) {
+    if (!checked) {
+      this.getCity(this.cmdmntGeoWiseChargeList[index].stateId, index, false); }
+    this.cmdmntGeoWiseChargeList[index].cityCntrl = new FormControl();
+    this.cmdmntGeoWiseChargeList[index].disableCity = checked;
+    this.cmdmntGeoWiseChargeList[index].selectedCityList = [];
+  }
+
+  deleteGeoCharge(index) {
+    this.cmdmntGeoWiseChargeList.splice(index, 1);
+    let temp = [];
+    Object.assign(temp, this.cmdmntGeoWiseChargeList);
+    this.cmdmntGeoWiseChargeList = [];
+    this.cmdmntGeoWiseChargeList = this.cmdmntGeoWiseChargeList.concat(temp);
+    
+  }
+
   @HostListener('document:keydown', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {
       if (event.keyCode === 27) { // esc [Close Dialog]
@@ -979,6 +1289,36 @@ getCityStart(stateId,index){
           element.click();
         }
       }
+  }
+
+  searchCtrl = '';
+  searchCtrlCity = '';
+  scrollActiveValue(){
+    let selectItem = document.getElementsByClassName('mat-selected')[0];
+    setTimeout(()=>{  
+        if(selectItem){
+          selectItem.scrollIntoView(false);
+        }
+    },500)
+  }
+
+  getToolTipData(element) {
+    let message = '';
+    if (element.cityList && element.cityList.length > 0
+      && element.cityCntrl && element.cityCntrl.value && element.cityCntrl.value.length > 0) {
+      element.cityList.forEach(data => {
+        element.cityCntrl.value.forEach(data1 => {
+          if (data.id === data1) {
+            if (message !== '') {
+              message += ', ' + data.lookupVal;
+            } else {
+              message = data.lookupVal;
+            }
+          }
+        });
+      });
+    }
+    return message;
   }
 
 }
@@ -1002,10 +1342,12 @@ export class ExcludePinDialogBox {
   excludedPincodeList: models.CommdtGeoExclusionDTO[] = [];
   allPincodeList: models.CommdtGeoExclusionDTO[] = [];
   cmdmntId: number = 0;
-  stateList: Lookup[] = [];
+  stateList: Lookup[];
   cityList: Lookup[] = [];
   stateId: number;
   cityId: number;
+  allCheckedEx = false;
+  allCheckedInc = false;
 
   ngOnInit() {
     this.cmdmntId = this.data.cmdmntId;
@@ -1013,13 +1355,16 @@ export class ExcludePinDialogBox {
   }
 
   getStateList() {
-    this.contractservice.getAllStates().subscribe(result => {
+    this.contractservice.getStatesByPinFeatureId(this.data.geoFeatureId).subscribe(result => {
       let ob = ErrorConstants.validateException(result);
       if (ob.isSuccess) {
+        let stateData = [];
         result.data.responseData.forEach(element => {
-          this.stateList.push({ id: element.id, lookupVal: element.stateName,descr: element.stateName });
+          stateData.push({ id: element.id, lookupVal: element.stateName,descr: element.stateName });
         });
-        console.log(this.stateList);
+        this.stateList = JSON.parse(JSON.stringify(stateData));
+        this.cityList = [];
+        this.cityId = null;
   
       }else {
         this.tosterService.error(ob.message);
@@ -1029,25 +1374,31 @@ export class ExcludePinDialogBox {
   }
 
   getCityList() {
-    this.cityList = [];
     this.spinner.show();
-    this.contractservice.getCityByStateService(this.stateId).subscribe(result => {
-     let ob = ErrorConstants.validateException(result);
-      if (ob.isSuccess) {
-        result.data.responseData.forEach(element => {
-          this.cityList.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
-        });
-  
-      }else {
-        this.tosterService.error(ob.message);
-      }
+    this.contractservice.getCityByStateNPinFeatureId(this.stateId,this.data.geoFeatureId).subscribe(
+      
+      result => {
+        let ob = ErrorConstants.validateException(result);
+          if (ob.isSuccess) {
+            let cityData = [];
+            result.data.responseData.forEach(element => {
+              cityData.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
+            });
+            this.cityList = JSON.parse(JSON.stringify(cityData));
+          }else {
+            this.cityList = [];
+            this.tosterService.error(ob.message);
+          }
+          this.spinner.hide();
+    },
+    error=>{
+      this.cityList = [];
       this.spinner.hide();
-    }
-    ),error=>{
-      this.spinner.hide();
+      console.log(error);
       this.tosterService.error(ErrorConstants.getValue(404));
-    };
-  }
+    }
+
+    )}
 
   closeDialog(): void {
     
@@ -1100,8 +1451,6 @@ export class ExcludePinDialogBox {
             this.allPincodeList.push(pincodeData);
           });
         }
-        
-        console.log(this.allPincodeList);
         if (flag === 1) {
           this.getStateList();
           this.excludedPincodeList = this.excludedPincodeList.concat(this.data.excludedPincodeList);
@@ -1114,33 +1463,33 @@ export class ExcludePinDialogBox {
           });
           this.allPincodeList = [];
         }
-        
       } else {
         this.tosterService.error(ob.message);
       }
       this.spinner.hide();
-    }), error => {
+    }, error => {
       this.spinner.hide();
       this.tosterService.error(ErrorConstants.getValue(404));
-    };
+    });
   }
 
   addToExcludeList() {
+    this.allCheckedEx = false;
+    this.allCheckedInc = false;
     let pincodeList = JSON.parse(JSON.stringify(this.allPincodeList));
     this.allPincodeList = [];
     pincodeList.forEach(element => {
       if (element.isChecked) {
         element.isChecked = false;
         this.excludedPincodeList.push(element);
-      }
-      else
+      } else {
         this.allPincodeList.push(element);
-    });
-    console.log(this.excludedPincodeList);
-    console.log(this.allPincodeList);
+    }});
   }
 
   removeFromExcludeList() {
+    this.allCheckedEx = false;
+    this.allCheckedInc = false;
     let pincodeList = JSON.parse(JSON.stringify(this.excludedPincodeList));
     this.excludedPincodeList = [];
     pincodeList.forEach(element => {
@@ -1148,20 +1497,54 @@ export class ExcludePinDialogBox {
         element.isChecked = false;
         element.pincode = element.pincodeId;
         this.allPincodeList.push(element);
-      }
-      else
+      } else {
         this.excludedPincodeList.push(element);
-    });
-    console.log(this.excludedPincodeList);
-    console.log(this.allPincodeList);
+    }});
   }
 
-
+  changeAllInc(value) {
+    if (value === true) {
+      this.allPincodeList.forEach(element => {
+        element.isChecked = true;
+      });
+    } else {
+      this.allPincodeList.forEach(element => {
+        element.isChecked = false;
+      });
+    }
+  }
+  changeAllEx(value) {
+    if (value === true) {
+      this.excludedPincodeList.forEach(element => {
+        element.isChecked = true;
+      });
+    } else {
+      this.excludedPincodeList.forEach(element => {
+        element.isChecked = false;
+      });
+    }
+  }
+  resetAllInc() {
+    this.allPincodeList.forEach(element => {
+      if (!element.isChecked) {
+        this.allCheckedInc = false;
+        return;
+      }});
+      this.allCheckedInc = true;
+  }
+  resetAllEx() {
+    this.excludedPincodeList.forEach(element => {
+      if (!element.isChecked) {
+        this.allCheckedEx = false;
+        return;
+      }});
+      this.allCheckedEx = true;
+  }
 
   saveExclusion() {
     this.dialogRef.close(this.excludedPincodeList);
   }
-  
+
   @HostListener('document:keydown', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {
       if (event.keyCode === 27) { // esc [Close Dialog]
@@ -1171,6 +1554,17 @@ export class ExcludePinDialogBox {
           element.click();
         }
       }
+  }
+
+  searchCtrl = '';
+  searchCtrlCity = '';
+  scrollActiveValue(){
+    let selectItem = document.getElementsByClassName('mat-selected')[0];
+    setTimeout(()=>{  
+        if(selectItem){
+          selectItem.scrollIntoView(false);
+        }
+    },500);
   }
 
 }
@@ -1186,12 +1580,13 @@ export class ExcludePinDialogBox {
 
 export class SlabDialogBox {
 
-  constructor(public dialogRef: MatDialogRef<SlabDialogBox>, public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) { }
+  constructor(private tosterService: ToastrService,public dialogRef: MatDialogRef<SlabDialogBox>, public dialog: MatDialog, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   slabChargeList: models.CommandmentSlabChargeDTO[] = [];
   slabCharge = new models.CommandmentSlabChargeDTO();
   cmdmntId: number = 0;
   slabColumns: string[];
+  rrFlag = 0;
 
   closeDialog(): void {
     // this.dialogRef.close();
@@ -1212,22 +1607,31 @@ export class SlabDialogBox {
       }
     });
   }
-
+  commmandmentName:any;
   ngOnInit() {
-    this.slabColumns = ["slabFrom", "slabTo", "price"];
+    this.slabColumns = ["slabFrom", "slabTo", "price","action"];
     this.slabChargeList = this.slabChargeList.concat(this.data.slabChargeList);
     this.cmdmntId = this.data.cmdmntId;
+    this.commmandmentName = this.data.commmandmentName;
+    this.rrFlag = this.data.rrFlag;
     if(this.slabChargeList.length == 0){
-      this.addSlab();
-    }
-    
+      //this.addSlab();
+    }    
   }
   isAddSlabEnabled = false;
+
   addSlab() {
     var length = this.slabChargeList.length;
+    for(var i = 0; i < length; i++){
+      if(Number(this.slabChargeList[i]['slabFrom']) > Number(this.slabChargeList[i]['slabTo'])){
+        this.tosterService.info('TO Value should be greater than FROM ');
+        return;
+      }
+    }
     this.slabCharge = new models.CommandmentSlabChargeDTO();
+    if(length == 0){this.slabCharge.slabFrom =0;}
     if (length > 0) {
-      this.slabCharge.slabFrom = Number(this.slabChargeList[length - 1].slabTo);
+      this.slabCharge.slabFrom = Number(this.slabChargeList[length - 1].slabTo) + 1;
       this.slabCharge.slabTo = null;
       this.slabCharge.price = null;
     }
@@ -1235,17 +1639,41 @@ export class SlabDialogBox {
   }
 
   saveSlab() {
+    for(var i = 0; i < this.slabChargeList.length; i++){
+      if(Number(this.slabChargeList[i]['slabFrom']) > Number(this.slabChargeList[i]['slabTo'])){
+        this.tosterService.info('TO Value should be greater than FROM ');
+        return;
+      }
+    }
     this.dialogRef.close(this.slabChargeList);
   }
 
-  updateList(index, column, value) {
-    console.log(index, column, value);
+  updateList(index, column, valueObj) {
+    let value:any;
+    if(valueObj % 1 == 0){
+      value = Math.floor(valueObj)
+    }else{
+      value = valueObj;
+    }
+    
+    if(column=='slabTo'){
+      if(this.slabChargeList[index+1])
+      this.slabChargeList[index+1]['slabFrom'] = Number(value)+1;}
     this.slabChargeList[index][column] = value;
   }
 
   changeValue(index, column, value) {
-    console.log(index, column, value);
+    if(column=='slabTo'){
+      if(this.slabChargeList[index+1])
+      this.slabChargeList[index+1]['slabFrom'] = Number(value)+1;}
     this.slabChargeList[index][column] = value;
+  }
+
+  deleteSLab(i){
+    this.slabChargeList.splice(i,1);
+    let temp = JSON.parse(JSON.stringify(this.slabChargeList));
+    this.slabChargeList = [];
+    this.slabChargeList = temp;
   }
 
 }

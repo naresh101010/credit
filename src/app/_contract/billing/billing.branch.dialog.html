@@ -1,4 +1,4 @@
-    <div mat-dialog-content class="contractContainer">
+    <div mat-dialog-content class="contractContainer" style="min-height: 120px">
       <div style="position: relative;">
         <h3 id="h2">Search Branch</h3>
         <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
@@ -12,7 +12,7 @@
               <em class="fa fa-search" (click)="advanceDefaultBranchName(model.searchbyname)" id="defualtBranchSearch3" style="cursor: pointer;"></em>
               <input autocomplete="true" minlength="3" type="text" (click)="advanceDefaultBranchName(model.searchbyname)" (keyup.enter)="advanceDefaultBranchName(model.searchbyname)" class="form-control" required
                placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
-              <div *ngIf="advanceDefaultError==true" class="error">Enter mimimum 3 character</div>             
+              <div *ngIf="advanceDefaultError==true" class="error">Enter minimum 3 character</div>             
               </div>      
       </div>
     </div>
@@ -27,7 +27,7 @@
         </div>
       </div>
   </div>
-    <div class="row-margin paddingtopone" *ngIf="tabledataLength > 0" style="min-width: 100rem !important;">
+    <div class="row-margin paddingtopone contractContainer" *ngIf="tabledataLength > 0" style="min-width: 100rem !important;">
           <div class="col-lg-12 col-md-12 ">
             <div class="row removeRowMargin">
               <div class="col-lg-12 col-md-12">
@@ -43,7 +43,7 @@
               <div class="col-lg-12 col-md-12 branchfonts" >
                   <div class="col-lg-2 col-md-2 bar width">
                   <div class="col-lg-6 col-md-6 margin-row" style="width: 0;">
-                    <input (click)="setBranch(branch)" type="radio" name="chk">                    
+                      <mat-radio-button (click)="setBranch(branch)" name="chk"></mat-radio-button>
                   </div>
                   <div class="col-lg-6 col-md-6 margin-row">{{ branch.branchCode }}</div>
                 </div>
@@ -63,5 +63,4 @@
             </div>
         </div>
   
-      <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">  </ngx-spinner>
   

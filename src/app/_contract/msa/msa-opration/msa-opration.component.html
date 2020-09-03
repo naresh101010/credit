@@ -1,17 +1,17 @@
 
    <div class="hero-content contractContainer">
     <div class="row text-left parent">
-          <div class="breadcrumb">
-            <a href="#" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-            <a href="#" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-            <a href="#" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-            CREDIT
-          </div>
+      <div class="breadcrumb">
+        <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+        <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+        <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+        CREDIT
+    </div>
         </div>
     <div class="msaOperation">
     <h3>Search MSA</h3>    
     <div *ngIf="(perList && perList.includes('MSA_CREATE')) && !isDisable" class="row" class="msabutton">
-    <button class="btn1"  mat-raised-button color="primary"  routerLink='/contract/msacreation'  skipLocationChange (click)="passResultData({})">New MSA</button>
+    <button class="btn1"  mat-raised-button color="primary"  (click)="passResultData({},0)">New MSA</button>
     </div>
     </div>
     <mat-card>
@@ -72,7 +72,7 @@
       </div>
 </mat-card>
 
-<mat-card>
+<mat-card style="margin-bottom: 10rem !important;">
 
     <div *ngIf='dataSource' class="filter">
         <span class="fa fa-search fa-lg" id="dashboard-search"></span>
@@ -81,53 +81,67 @@
          <hr class="green-border-heading">
 
 
-    <table aria-describedby="table-data"  *ngIf='dataSource' mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+    <table *ngIf='dataSource' mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
         
         <ng-container matColumnDef="custName">
-          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
-          <td mat-cell *matCellDef="let element">{{element.custName | uppercase}}</td>
+          <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> CUSTOMER NAME </th>
+          <td mat-cell *matCellDef="let element"> <div class="msaSearchName"  
+            [matTooltip]="element.custName" [matTooltipDisabled]="element.custName?.length<14" matTooltipPosition="above">{{element.custName | uppercase}}</div></td>
         </ng-container>
       
         
         <ng-container matColumnDef="sfdcAccId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> ACCOUNT ID </th>
-          <td mat-cell *matCellDef="let element"> {{element.sfdcAccId}} </td>
+          <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> ACCOUNT ID </th>
+          <td mat-cell *matCellDef="let element"><div class="msaSearchName" 
+            [matTooltip]="element.sfdcAccId" [matTooltipDisabled]="element.sfdcAccId?.length < 14" matTooltipPosition="above"> 
+            {{element.sfdcAccId}} </div></td>
+        </ng-container>
+
+        <ng-container matColumnDef="sfdcAccType">
+          <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> ACCOUNT TYPE </th>
+          <td mat-cell *matCellDef="let element"><div class="msaSearchName" 
+            [matTooltip]="element.accType" [matTooltipDisabled]="element.accType.length<14" matTooltipPosition="above">
+             {{element.accType}}</div> </td>
         </ng-container>
       
      
         <ng-container matColumnDef="pan">
-          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> PAN</th>
-          <td mat-cell *matCellDef="let element"> {{element.pan}}</td>
+          <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> PAN</th>
+          <td mat-cell *matCellDef="let element"><div class="msaSearchPAN">
+             {{element.pan}}</div></td>
         </ng-container>
      
         <ng-container matColumnDef="gstinNum">
-          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
-          <td mat-cell *matCellDef="let element"> {{element.gstinNum}} </td>
+          <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> GSTIN </th>
+          <td mat-cell *matCellDef="let element"><div class="msaSearchGST">
+             {{element.gstinNum}} </div></td>
         </ng-container>
   
         <ng-container matColumnDef="email">
-          <th id="table_header" mat-header-cell *matHeaderCellDef mat-sort-header>EMAIL </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+          <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>EMAIL </th>
+          <td mat-cell *matCellDef="let element"><div class="msaSearchEmail" 
+            [matTooltip]="element.email" [matTooltipDisabled]="element.email?.length<27" matTooltipPosition="above">
+            {{element.email}}</div></td>
         </ng-container>
         <ng-container matColumnDef="actions1">
-          <th id="table_header" mat-header-cell *matHeaderCellDef >  </th>
+          <th scope="row" mat-header-cell *matHeaderCellDef >  </th>
           <td mat-cell *matCellDef="let element"> 
                 <button *ngIf="(perList && perList.includes('MSA_CREATE')) && !isDisable"  class="btn1" mat-raised-button color="primary" routerLink="/contract/msa"  skipLocationChange (click)="showMSA(element)">New Opportunity</button>
              </td>
         </ng-container>
 
         <ng-container matColumnDef="actions2">
-          <th id="table_header" mat-header-cell *matHeaderCellDef >  
+          <th scope="row" mat-header-cell *matHeaderCellDef >  
             <a style="cursor: pointer;"  *ngIf="(perList && (perList.includes('COMMANDMENT_UPDATE') && perList.includes('CONTRACT_UPDATE'))) && isDisable"
         #tooltip="matTooltip"   matTooltip="Commandment Bulk Upload Template" matTooltipPosition="right" (click)="downloadCmdTemplate()">Download Template</a>
           </th>
           <td mat-cell *matCellDef="let element"> 
-                <button *ngIf="(perList && perList.includes('MSA_CREATE')) && !isDisable" class="btn1" mat-raised-button color="primary" routerLink="/contract/msacreation"  skipLocationChange (click)="passResultData(element)">Link</button>
+                <button *ngIf="(perList && perList.includes('MSA_CREATE')) && !isDisable" class="btn1" mat-raised-button color="primary" (click)="passResultData(element,1)">Link</button>
                 <input type="file" accept=".xls" #browseFile id="file" (click)="browseFile.value = null" (change)="handleFileInput($event,element.id)" style="display:none ;cursor: pointer;">
                 <a *ngIf="(perList && (perList.includes('COMMANDMENT_UPDATE') && perList.includes('CONTRACT_UPDATE'))) && isDisable" (click)="browseFile.click()"> Update Commandment</a>&nbsp;&nbsp;&nbsp;&nbsp;
-                <a *ngIf="(perList && (perList.includes('COMMANDMENT_UPDATE') && perList.includes('CONTRACT_UPDATE'))) && isDisable" (click)="openDialogForDownloadError(element.id)">View Uploaded Files</a>&nbsp;
-            </td>
+                <a  *ngIf="(perList && (perList.includes('COMMANDMENT_UPDATE') && perList.includes('CONTRACT_UPDATE'))) && isDisable" (click)="openDialogForDownloadError(element.id)">View Uploaded Files</a>&nbsp;
+              </td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

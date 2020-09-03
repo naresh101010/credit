@@ -66,6 +66,7 @@ export class ServiceComponent implements OnInit {
             if(this.services.offerings.length>0){
             this.oldOfferingList = JSON.parse(JSON.stringify(this.services.offerings));
             this.model.lkpServiceLineId=this.services.offerings[0].lkpServiceLineId;
+            this.model.wmsPct= this.services.offerings[0].wmsPct;
             AppSetting.offeringId= this.services.offerings[0].id
             this.servicesId=this.services.offerings[0].id
             this.getServiceOfering(this.model.lkpServiceLineId,false);}
@@ -90,9 +91,6 @@ export class ServiceComponent implements OnInit {
           let element: HTMLElement = document.getElementById('serviceNextButton') as HTMLElement;
           element.click();
         }
-        else {
-                
-        }
       }
 
       if (event.ctrlKey && (event.keyCode === 83)) { // ctrl+s [Save as Draft]
@@ -100,9 +98,6 @@ export class ServiceComponent implements OnInit {
         if(document.getElementById('secondry-button')){
           let element: HTMLElement = document.getElementById('secondry-button') as HTMLElement;
           element.click();
-        }
-        else {
-                
         }
       }
   
@@ -174,7 +169,7 @@ else{
       }
     }
   }
-}}else{
+}}else if (data && data !== null) {
   var ischeck = data.isChecked;
   var id = data.id;
     if(ischeck){
@@ -210,6 +205,9 @@ else{
     console.log("this.offeringList", this.offeringList);
     if (this.offeringList.length > 0) {
       this.spinner.show();
+      this.offeringList.forEach(element => {
+        element.lkpServiceLineId = this.model.lkpServiceLineId;
+      });
       this.deactivateOrphanOffering();
       this.contractservice.postServices(this.offeringList, this.editflow)
         .subscribe(
@@ -251,12 +249,23 @@ else{
   }
  
   
-  
+  isWmsPercRequired:boolean=false;
   getServiceOfering(offering,isChange) {
     this.spinner.show();
     let isChangeServiceLine = false;
     if(this.oldOfferingList.length>0 && offering!=this.oldOfferingList[0].lkpServiceLineId){
       isChangeServiceLine= true;
+    }
+    let serviceLineName='';
+    for(let item of this.servicelinelist){
+      if(item.id==offering){
+        serviceLineName = item.lookupVal;
+      }
+    }
+    if(serviceLineName=='WMS+DISTRIBUTION'){
+      this.isWmsPercRequired = true;
+    }else{
+      this.isWmsPercRequired = false;
     }
     this.offeringList=[]
     AppSetting.serviceOfering=[]
@@ -314,7 +323,7 @@ else{
   deactivateOrphanOffering(){
     var inactiveStatus=0;
     this.statusList.forEach(element => {
-      if(element.lookupVal==='INACTIVE'){
+      if(element.lookupVal==='DELETED'){
         inactiveStatus=element.id;
       }
     });

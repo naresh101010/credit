@@ -28,4 +28,6 @@ export class SafextDlvryCustomCharge{
     "id4" : number
     "id5" : number
     "deleteicon":boolean
+    "stateNamesfrom":string
+    "cityNamesfrom":string
 }

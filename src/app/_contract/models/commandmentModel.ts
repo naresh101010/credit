@@ -6,6 +6,8 @@ export class CommandmentResult {
 }
 
 export class Commandment {
+    minAmountFlag: number;
+    maxAmountFlag: number;
     id: number;
     cmdmntLevel: string;
     cmdmntId: number;
@@ -13,7 +15,9 @@ export class Commandment {
     applicableFlag: number;
     rrFlag: number;
     lkpCalcTypeId: number;
-    defaultLkpCalcTypeId: number
+    lkpCalcTypeName: string;
+    defaultLkpCalcTypeName: string;
+    defaultLkpCalcTypeId: number;
     lkpCalcMeasureId: number;
     defaultLkpCalcMeasureId: number;
     lkpCalcUnitId: number;
@@ -22,13 +26,14 @@ export class Commandment {
     cmdntChrgOnId: number
     defaultLkpChrgOnId: number
     minFrieghtFlg: number
+    minCalcFlag: number
+    defaultMinFrieghtFlg: number
     price: number;
     defaultPrice: number;
     minVal: number;
     defaultMinVal: number;
     maxVal: number;
     defaultMaxVal: number;
-    minCalcFlag: number;
     geoCustomChrgFlag: number;
     cmdmntSlabCharge: CommandmentSlabChargeDTO[] = [];
     defaultCmdmntSlabCharge: CommandmentSlabChargeDTO[] = [];
@@ -44,15 +49,16 @@ export class Commandment {
     chargesOnList: Lookup[];
     rrValueList: Radio[];
     fieldDisabled: boolean;
+    commandmentOrder: number;
     def
 }
 
 export class CommandmentSlabChargeDTO {
     descr: string;
     id: number;
-    price: number = 0;
-    slabFrom: number = 0;
-    slabTo: number = 0;
+    price: number = null;
+    slabFrom: number = null;
+    slabTo: number = null;
     version: number;
     status: number;
 }
@@ -78,7 +84,7 @@ export class CmdmntGeoWiseChargeDTO {
     expDt: Date = new Date();
     stateId: number;
     cityId: number = 0;
-    surchargeType: number;
+    lkpCalcUnitId: number;
     id: number;
     price: number = 0;
     status: number;
@@ -86,6 +92,9 @@ export class CmdmntGeoWiseChargeDTO {
     cityCntrl: FormControl = new FormControl();
     cityList: Lookup[] = [];
     stateList: Lookup[] = [];
+    disableCity: boolean;
+    validDt : boolean;
+    validPrice : boolean;
 
     constructor(cmdmntGeoCharge: any = {}) {
         this.cmdmntGeoLevel = "";
@@ -100,7 +109,11 @@ export class CmdmntGeoWiseChargeDTO {
         this.cityCntrl = new FormControl();
         this.cityList = [];
         this.stateList = [];
-        this.id = null;;
+        this.id = null;
+        this.lkpCalcUnitId = null;
+        this.disableCity = true;
+        this.validDt = true;
+        this.validPrice = true;
     }
 }
 

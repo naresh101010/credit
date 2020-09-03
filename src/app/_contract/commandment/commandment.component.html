@@ -2,35 +2,29 @@
   <div  *ngIf="cmdmntCharge.length>0">
     <h4 class="heading_bold"><strong>Geography Commandments</strong></h4>
     <div class="billingby-container" *ngIf="cmdmntCharge.length>0" style="width: 100% !important;">
-      <table aria-describedby="table-data"  mat-table [dataSource]="geoCmdmntCharge" style="width: 100% !important;">
+      <table mat-table [dataSource]="geoCmdmntCharge" style="width: 100% !important;">
         <ng-container matColumnDef="cmdmntName">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>          
+          <th  scope="row"  mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>          
           <td mat-cell *matCellDef="let element; let i = index"><div style="width: 21rem !important; word-break: break-word;">{{element.cmdmntName}}
-            </div>
+          </div>
           </td>
         </ng-container>
+
         <ng-container matColumnDef="freight">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>
             <div style="width: 8rem !important;">MIN FREIGHT</div></th>
           <td mat-cell *matCellDef="let element; let i = index">
-            <mat-checkbox (click)="$event.preventDefault()" matInput name="geoMinCalcFlag" [checked]="element.minFrieghtFlg==1?true:false"
-              [disabled]="element.applicableFlag==1?false:true"> </mat-checkbox>
+            <mat-checkbox matInput name="geoMinFrieghtFlg-{{i}}" [checked]="element.minFrieghtFlg==1?true:false"
+              (change)="updateList(i, 'minCalcFlag', $event.checked ? 1 : 0,true)" [(ngModel)]="element.minFrieghtFlg"
+              [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)"> </mat-checkbox>
           </td>
         </ng-container>
         
         <ng-container matColumnDef="rrFlag">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>RR FLAG</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>RR FLAG</th>
           <td mat-cell *matCellDef="let element; let i = index">
-            <div *ngIf="!(element.minFrieghtFlg==1)" style="width: 24rem !important;">
+            <div style="width: 24rem !important;">
             <mat-radio-group class="example-radio-group" *ngFor="let item of element.rrValueList"
-              [name]="element.cmdmntId" [(value)]="element.rrFlag" (change)="changeValue(i, 'rrFlag', $event.value,true)">
-              <mat-radio-button class="example-radio-button" [value]="item.id" (change)="changeRR($event.value,i,true)">
-                {{item.value}}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-          <div *ngIf="(element.minFrieghtFlg==1)" style="width: 24rem !important;">
-            <mat-radio-group class="example-radio-group" *ngFor="let item of radioWithoutNA"
               [name]="element.cmdmntId" [(value)]="element.rrFlag" (change)="changeValue(i, 'rrFlag', $event.value,true)">
               <mat-radio-button class="example-radio-button" [value]="item.id" (change)="changeRR($event.value,i,true)">
                 {{item.value}}
@@ -41,164 +35,188 @@
         </ng-container>
         
         <ng-container matColumnDef="price">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>PRICE</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>PRICE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
-              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)"  appGreaterZero [required]="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" #geoPrice='ngModel' [(ngModel)]="element.price" matInput name="geoPrice-{{i}}" 
-                 [(value)]="element.price" numeric decimals="2"
+              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true) || element.geoTypeName=='STATE'"  [required]="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" #geoPrice='ngModel' [(ngModel)]="element.price" matInput name="geoPrice-{{i}}" 
+                numeric decimals="2"
                 (keyup)="changeValue(i, 'price', $event.target.value,true)"
                 (blur)="updateList(i, 'price', $event.target.value,true)" maxlength="8">
             </mat-form-field>
             <div *ngIf="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" class="commandmentValidation">
             <span *ngIf="(geoPrice.errors?.required && (geoPrice.touched || fCommandment.submitted))"
-                class="hasErrorMsg"><em>Required !</em></span>
-            <span *ngIf="(((geoPrice.errors?.greaterZero) || ((geoPrice.errors?.greaterZero) && fCommandment.submitted)) && (!geoPrice.errors?.required))" class="hasErrorMsg">
-              <em>Greater Than 0!</em></span>
-            </div>
+                class="commandmentError">Required&nbsp;!</span>
+            <span *ngIf="(geoPrice.errors?.isNumeric && geoPrice.touched && !geoPrice.errors?.required)"
+                class="commandmentError">
+                Invalid !
+            </span>
+          </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="geoTypeName">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>BASED ON</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>BASED ON</th>
           <td mat-cell *matCellDef="let element; let i = index">
             <div style="width: 10rem !important;">
             <a *ngIf="element.geoTypeName=='PINCODE'" (click)="excludePincode(i);">{{element.geoTypeName}}</a>
-            <a *ngIf="element.geoTypeName=='STATE'" (click)="includeStateCity(i);">{{element.geoTypeName}}</a>
+            <a *ngIf="element.geoTypeName=='STATE' && element.rrFlag===2" (click)="includeStateCity(i);">{{element.geoTypeName}}</a>
+            <div *ngIf="element.geoTypeName==='STATE' && element.rrFlag!==2">{{element.geoTypeName}}</div>
             <div *ngIf="element.geoTypeName!='PINCODE' && element.geoTypeName!='STATE'">{{element.geoTypeName}}</div>
+            <span *ngIf="element.stateErrorFlag && element.geoTypeName=='STATE' && element.rrFlag===2"
+            class="commandmentError" style="text-align: center !important; top:3rem;" matTooltip="Please add atleast one state surcharge">
+            State Surcharge Required !
+        </span>
           </div></td>
         </ng-container>
 
         <ng-container matColumnDef="geoFeatureName">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>
-            <div style="width: 15rem !important;">FEATURE</div></th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>
+            <div style="width: 20rem !important;">FEATURE</div></th>
           <td mat-cell *matCellDef="let element; let i = index">
             {{element.geoFeatureName}}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcTypeId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
-            <mat-form-field appearance="outline">
-              <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpCalcTypeId='ngModel' [(ngModel)]="element.lkpCalcTypeId" name="geoLkpCalcTypeId-{{i}}" [(value)]="element.lkpCalcTypeId">
+            <div style="width: 22rem !important;">
+             <mat-form-field appearance="outline" style="margin-right: 0rem !important;">
+               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpCalcTypeId='ngModel' [(ngModel)]="element.lkpCalcTypeId" name="geoLkpCalcTypeId-{{i}}">
                 <mat-option (click)="updateList(i, 'lkpCalcTypeId', item.id,true); addSlabCharges(i,true);" 
-                 *ngFor="let item of element.calcTypeList" [value]="item.id">
+                 *ngFor="let item of element.calcTypeList | sortBy:'asc':'descr'" [value]="item.id" 
+                 [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
-            <span *ngIf="(geoLkpCalcTypeId.errors?.required && (geoLkpCalcTypeId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+            <em class="material-icons iconSize" style="font-size: 21px !important; margin-right: 3rem !important;" (click)="addSlabCharges(i,true)" *ngIf="element.lkpCalcTypeName==='SLAB'">create</em>
+            <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation"> 
+            <span *ngIf="(geoLkpCalcTypeId.errors?.required && (geoLkpCalcTypeId.touched || fCommandment.submitted))" class="commandmentError">Required&nbsp;!</span>
+            <span *ngIf="element.slabErrorFlag && !(geoLkpCalcTypeId.errors?.required) && (element.rrFlag != 0 && element.rrFlag != 1)"
+                class="commandmentError" matTooltip="Please add atleast one slab">
+                Slab Required !
             </span>
-            </div>
+          </div>
+          </div>
           </td>
         </ng-container>
 
         
         <ng-container matColumnDef="lkpCalcUnitId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpCalcUnitId='ngModel' [(ngModel)]="element.lkpCalcUnitId" name="geoLkpCalcUnitId-{{i}}" [(value)]="element.lkpCalcUnitId"
                 
                 (selectionChange)="updateList(i, 'lkpCalcUnitId', $event.value,true)">
-                <mat-option *ngFor="let item of element.calcUnitList" [value]="item.id">
+                <mat-option *ngFor="let item of element.calcUnitList | sortBy:'asc':'descr'" [value]="item.id" 
+                [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoLkpCalcUnitId.errors?.required && (geoLkpCalcUnitId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcMeasureId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpCalcMeasureId='ngModel' [(ngModel)]="element.lkpCalcMeasureId" name="geoLkpCalcMeasureId-{{i}}" [(value)]="element.lkpCalcMeasureId"
                 
                 (selectionChange)="updateList(i, 'lkpCalcMeasureId', $event.value,true)">
-                <mat-option *ngFor="let item of element.calcMeasureList" [value]="item.id">
+                <mat-option *ngFor="let item of element.calcMeasureList | sortBy:'asc':'descr'" [value]="item.id" 
+                [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoLkpCalcMeasureId.errors?.required && (geoLkpCalcMeasureId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="lkpChrgOnId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CHARGES ON</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CHARGES ON</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #geoLkpChrgOnId='ngModel' [(ngModel)]="element.lkpChrgOnId" name="geoLkpChrgOnId-{{i}}" [(value)]="element.lkpChrgOnId"
                 
                 (selectionChange)="updateList(i, 'lkpChrgOnId', $event.value,true)">
-                <mat-option *ngFor="let item of element.chargesOnList" [value]="item.id">
+                <mat-option *ngFor="let item of element.chargesOnList | sortBy:'asc':'descr'" [value]="item.id" 
+                [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(geoLkpChrgOnId.errors?.required && (geoLkpChrgOnId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="minVal">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>MIN AMT</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>MIN AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline" >
-              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #geoMinVal='ngModel' [(ngModel)]="element.minVal" matInput name="geoMinVal-{{i}}" [(value)]="element.minVal"
+              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true) || (element.minAmountFlag==1?false:true)" [required]="!((element.applicableFlag==1 && element.minAmountFlag==1)?false:true)" #geoMinVal='ngModel' [(ngModel)]="element.minVal" matInput name="geoMinVal-{{i}}"
                 numeric decimals="2"
-                (keyup)="changeValue(i, 'minVal', $event.target.value,true)"
+                (keyup)="changeValue(i, 'minVal', $event.target.value,true);compareMin(element)"
                 (blur)="updateList(i, 'minVal', $event.target.value,true)" maxlength="8">
             </mat-form-field>
-            <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
+            <div *ngIf="!((element.applicableFlag==1 && element.minAmountFlag==1)?false:true)" class="commandmentValidation">
             <span *ngIf="(geoMinVal.errors?.required && (geoMinVal.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
-            <span *ngIf="(((geoMinVal.errors?.greaterZero) || ((geoMinVal.errors?.greaterZero) && fCommandment.submitted)) && (!geoMinVal.errors?.required))" class="hasErrorMsg">
-              <em>Greater Than 0!</em>
+            <span *ngIf="(geoMinVal.errors?.isNumeric && geoMinVal.touched && !geoMinVal.errors?.required)"
+                class="commandmentError">
+                Invalid !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="maxVal">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>MAX AMT</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>MAX AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
-              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #geoMaxVal='ngModel' [(ngModel)]="element.maxVal" matInput name="geoMaxVal-{{i}}" [(value)]="element.maxVal"
+              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)  || (element.maxAmountFlag==1?false:true)"  [required]="!((element.applicableFlag==1 && element.maxAmountFlag==1)?false:true)" #geoMaxVal='ngModel' [(ngModel)]="element.maxVal" matInput name="geoMaxVal-{{i}}"
               numeric decimals="2"
-                (keyup)="changeValue(i, 'maxVal', $event.target.value,true)"
+                (keyup)="changeValue(i, 'maxVal', $event.target.value,true);compareMin(element)"
                 (blur)="updateList(i, 'maxVal', $event.target.value,true)" maxlength="8">
             </mat-form-field>
-            <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
+            <div>
+            <div *ngIf="!((element.applicableFlag==1 && element.maxAmountFlag==1)?false:true)" class="commandmentValidation">
             <span *ngIf="(geoMaxVal.errors?.required && (geoMaxVal.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
-            <span *ngIf="(((geoMaxVal.errors?.greaterZero) || ((geoMaxVal.errors?.greaterZero) && fCommandment.submitted)) && (!geoMaxVal.errors?.required))" class="hasErrorMsg">
-              <em>Greater Than 0!</em>
+            <span *ngIf="(geoMaxVal.errors?.isNumeric && geoMaxVal.touched && !geoMaxVal.errors?.required)"
+                class="commandmentError">
+                Invalid !
             </span>
+            
+            <span *ngIf="element.minFlag && ((element.maxVal!=null)) && ((!(geoMaxVal.errors?.required)) && (!(geoMaxVal.errors?.isNumeric)) || fCommandment.submitted)" class="commandmentError" style="width: 40rem !important;margin-left: -18rem;">
+              Max Amt. Should Be Greater Than Min Amt. !
+          </span> </div>
             </div>
+
+          
           </td>
         </ng-container>
 
@@ -209,9 +227,9 @@
     </div>
     <h4 class="heading_bold"><strong>Non-Geography Commandments</strong></h4>
     <div *ngIf="nonGeoCmdmntCharge.length>0" class="billingby-container" style="width: 100% !important;">
-      <table aria-describedby="table-data"  mat-table [dataSource]="nonGeoCmdmntCharge" style="width: 100% !important;">
+      <table mat-table [dataSource]="nonGeoCmdmntCharge" style="width: 100% !important;">
         <ng-container matColumnDef="cmdmntName">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>COMMANDMENT NAME</th>
           <td mat-cell *matCellDef="let element; let i = index">
             <div style="width: 21rem !important;word-break: break-word;">
             {{element.cmdmntName}}
@@ -219,26 +237,18 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="freight">
-          <th id="table_header" mat-header-cell *matHeaderCellDef><div style="width: 8rem !important;" >MIN FREIGHT</div></th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef><div style="width: 8rem !important;" >MIN FREIGHT</div></th>
           <td mat-cell *matCellDef="let element; let i = index">
-            <mat-checkbox matInput (click)="$event.preventDefault()" name="nonGeoMinCalcFlag" [checked]="element.minFrieghtFlg==1?true:false"
-              [disabled]="element.applicableFlag==1?false:true"> </mat-checkbox>
+            <mat-checkbox matInput name="nonGeoMinFrieghtFlg-{{i}}" [checked]="element.minFrieghtFlg==1?true:false"
+            (change)="updateList(i, 'minCalcFlag', $event.checked ? 1 : 0,false)" [(ngModel)]="element.minFrieghtFlg"
+              [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)"> </mat-checkbox>
           </td>
         </ng-container>
         <ng-container matColumnDef="rrFlag">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>RR FLAG</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>RR FLAG</th>
           <td mat-cell *matCellDef="let element; let i = index">
-            <div *ngIf="!(element.minFrieghtFlg==1)" style="width: 24rem !important;">
+            <div style="width: 24rem !important;">
             <mat-radio-group class="example-radio-group" *ngFor="let item of element.rrValueList"
-              [name]="element.cmdmntId" [(value)]="element.rrFlag" (change)="changeValue(i, 'rrFlag', $event.value,false)">
-              <mat-radio-button class="example-radio-button" [value]="item.id"
-                (change)="changeRR($event.value,i,false)">
-                {{item.value}}
-              </mat-radio-button>
-            </mat-radio-group>
-          </div>
-          <div *ngIf="(element.minFrieghtFlg==1)" style="width: 24rem !important;">
-            <mat-radio-group class="example-radio-group" *ngFor="let item of radioWithoutNA"
               [name]="element.cmdmntId" [(value)]="element.rrFlag" (change)="changeValue(i, 'rrFlag', $event.value,false)">
               <mat-radio-button class="example-radio-button" [value]="item.id"
                 (change)="changeRR($event.value,i,false)">
@@ -249,147 +259,162 @@
           </td>
         </ng-container>
         <ng-container matColumnDef="price">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>PRICE</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>PRICE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
-              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" #nonGeoPrice='ngModel' [(ngModel)]="element.price" matInput name="nonGeoPrice-{{i}}" matInput name="nonGeoPrice"
-                 [(value)]="element.price" numeric decimals="2"
+              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" #nonGeoPrice='ngModel' [(ngModel)]="element.price" matInput name="nonGeoPrice-{{i}}"
+                numeric decimals="2"
                 (keyup)="changeValue(i, 'price', $event.target.value,false)"
                 (blur)="updateList(i, 'price', $event.target.value,false)" maxlength="8">
             </mat-form-field>
             <div *ngIf="!(element.fieldDisabled || (element.applicableFlag==1?false:true))" class="commandmentValidation">
             <span *ngIf="(nonGeoPrice.errors?.required && (nonGeoPrice.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
-            <span *ngIf="(((nonGeoPrice.errors?.greaterZero) || ((nonGeoPrice.errors?.greaterZero) && fCommandment.submitted)) && (!nonGeoPrice.errors?.required))" class="hasErrorMsg">
-              <em>Greater Than 0!</em>
+            <span *ngIf="(nonGeoPrice.errors?.isNumeric && nonGeoPrice.touched && !nonGeoPrice.errors?.required)"
+                class="commandmentError">
+                Invalid !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcTypeId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CALCULATION TYPE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
-            <mat-form-field appearance="outline">
+            <div style="width: 22rem !important;">
+            <mat-form-field appearance="outline" style="margin-right : 0rem !important;">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpCalcTypeId='ngModel' [(ngModel)]="element.lkpCalcTypeId" name="nonGeoLkpCalcTypeId-{{i}}"  [(value)]="element.lkpCalcTypeId">
                 <mat-option (click)="updateList(i, 'lkpCalcTypeId', item.id,false); addSlabCharges(i,false);"
-                *ngFor="let item of element.calcTypeList" [value]="item.id">
+                *ngFor="let item of element.calcTypeList | sortBy:'asc':'descr'" [value]="item.id" 
+                [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
+            <em class="material-icons iconSize" style="font-size: 21px !important;margin-right: 3rem !important;" (click)="addSlabCharges(i,false)" *ngIf="element.lkpCalcTypeName==='SLAB'">create</em>
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpCalcTypeId.errors?.required && (nonGeoLkpCalcTypeId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
-            </div>
+            <span *ngIf="element.slabErrorFlag && !(nonGeoLkpCalcTypeId.errors?.required) && (element.rrFlag != 0 && element.rrFlag != 1)"
+                class="commandmentError" matTooltip="Please add atleast one slab">
+                Slab Required !
+            </span>
+            </div> </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcUnitId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CALCULATION UNIT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpCalcUnitId='ngModel' [(ngModel)]="element.lkpCalcUnitId" name="nonGeoLkpCalcUnitId-{{i}}" [(value)]="element.lkpCalcUnitId"
                 
                 (selectionChange)="updateList(i, 'lkpCalcUnitId', $event.value,false)">
-                <mat-option *ngFor="let item of element.calcUnitList" [value]="item.id">
+                <mat-option *ngFor="let item of element.calcUnitList | sortBy:'asc':'descr'" [value]="item.id" 
+                [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpCalcUnitId.errors?.required && (nonGeoLkpCalcUnitId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
-            </span>
+                class="commandmentError">Required !</span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="lkpCalcMeasureId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CALCULATION MEASURE</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpCalcMeasureId='ngModel' [(ngModel)]="element.lkpCalcMeasureId" name="nonGeoLkpCalcMeasureId-{{i}}" [(value)]="element.lkpCalcMeasureId"
                 
                 (selectionChange)="updateList(i, 'lkpCalcMeasureId', $event.value,false)">
-                <mat-option *ngFor="let item of element.calcMeasureList" [value]="item.id">
+                <mat-option *ngFor="let item of element.calcMeasureList | sortBy:'asc':'descr'" [value]="item.id" 
+                [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpCalcMeasureId.errors?.required && (nonGeoLkpCalcMeasureId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="lkpChrgOnId">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>CHARGES ON</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>CHARGES ON</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
               <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" [required]="!(element.applicableFlag==1?false:true)" #nonGeoLkpChrgOnId='ngModel' [(ngModel)]="element.lkpChrgOnId" name="nonGeoLkpChrgOnId-{{i}}" [(value)]="element.lkpChrgOnId"
                 
-                (selectionChange)="updateList(i, 'lkpChrgOnId', $event.value,true)">
-                <mat-option *ngFor="let item of element.chargesOnList" [value]="item.id">
+                (selectionChange)="updateList(i, 'lkpChrgOnId', $event.value,false)">
+                <mat-option *ngFor="let item of element.chargesOnList | sortBy:'asc':'descr'" [value]="item.id" 
+                [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<13" matTooltipPosition="above">
                   {{item.descr}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoLkpChrgOnId.errors?.required && (nonGeoLkpChrgOnId.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="minVal">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>MIN AMT</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>MIN AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
-              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #nonGeoMinVal='ngModel' [(ngModel)]="element.minVal" matInput name="nonGeoMinVal-{{i}}" [(value)]="element.minVal"
+              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)  || (element.minAmountFlag==1?false:true)"  [required]="!((element.applicableFlag==1 && element.minAmountFlag==1)?false:true)" #nonGeoMinVal='ngModel' [(ngModel)]="element.minVal" matInput name="nonGeoMinVal-{{i}}"
               numeric decimals="2"
-                (keyup)="changeValue(i, 'minVal', $event.target.value,false)"
+                (keyup)="changeValue(i, 'minVal', $event.target.value,false);compareMin(element)"
                 (blur)="updateList(i, 'minVal', $event.target.value,false)" maxlength="8">
             </mat-form-field>
-            <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
+            <div *ngIf="!((element.applicableFlag==1 && element.minAmountFlag==1)?false:true)" class="commandmentValidation">
             <span *ngIf="(nonGeoMinVal.errors?.required && (nonGeoMinVal.touched || fCommandment.submitted))"
-                class="hasErrorMsg">
-                <em>Required !</em>
+                class="commandmentError">
+                Required !
             </span>
-            <span *ngIf="(((nonGeoMinVal.errors?.greaterZero) || ((nonGeoMinVal.errors?.greaterZero) && fCommandment.submitted)) && (!nonGeoMinVal.errors?.required))" class="hasErrorMsg">
-              <em>Greater Than 0!</em>
+            <span *ngIf="(nonGeoMinVal.errors?.isNumeric && nonGeoMinVal.touched && !nonGeoMinVal.errors?.required)"
+                class="commandmentError">
+                Invalid !
             </span>
             </div>
           </td>
         </ng-container>
 
         <ng-container matColumnDef="maxVal">
-          <th id="table_header" mat-header-cell *matHeaderCellDef>MAX AMT</th>
+          <th  scope="row" mat-header-cell *matHeaderCellDef>MAX AMT</th>
           <td mat-cell *matCellDef="let element; let i = index" class="paddingtopone">
             <mat-form-field appearance="outline">
-              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)" appGreaterZero [required]="!(element.applicableFlag==1?false:true)" #nonGeoMaxVal='ngModel' [(ngModel)]="element.maxVal" matInput name="nonGeoMaxVal-{{i}}" [(value)]="element.maxVal"
+              <input autocomplete="true" [disabled]="element.fieldDisabled || (element.applicableFlag==1?false:true)  || (element.maxAmountFlag==1?false:true)" [required]="!((element.applicableFlag==1 && element.maxAmountFlag==1)?false:true)" #nonGeoMaxVal='ngModel' [(ngModel)]="element.maxVal" matInput name="nonGeoMaxVal-{{i}}" 
               numeric decimals="2"
-                (keyup)="changeValue(i, 'maxVal', $event.target.value,false)"
+                (keyup)="changeValue(i, 'maxVal', $event.target.value,false);compareMin(element)"
                 (blur)="updateList(i, 'maxVal', $event.target.value,false)" maxlength="8">
             </mat-form-field>
-            <div *ngIf="!(element.applicableFlag==1?false:true)" class="commandmentValidation">
+            <div>
+            <div *ngIf="!((element.applicableFlag==1 && element.maxAmountFlag==1)?false:true)" class="commandmentValidation">
               <span *ngIf="(nonGeoMaxVal.errors?.required && (nonGeoMaxVal.touched || fCommandment.submitted))"
-                  class="hasErrorMsg">
-                  <em>Required !</em>
+                  class="commandmentError">
+                  Required !
               </span>
-              <span *ngIf="(((nonGeoMaxVal.errors?.greaterZero) || ((nonGeoMaxVal.errors?.greaterZero) && fCommandment.submitted)) && (!nonGeoMaxVal.errors?.required))" class="hasErrorMsg">
-                <em>Greater Than 0!</em>
+              <span *ngIf="(nonGeoMaxVal.errors?.isNumeric && nonGeoMaxVal.touched && !nonGeoMaxVal.errors?.required)"
+                  class="commandmentError">
+                  Invalid !
               </span>
+            <span *ngIf="element.minFlag && ((element.maxVal!=null)) && ((!(nonGeoMaxVal.errors?.required)) && (!(nonGeoMaxVal.errors?.isNumeric)) || fCommandment.submitted)" class="commandmentError" style="width: 40rem !important;margin-left: -18rem;">
+              Max Amt. Should Be Greater Than Min Amt. !
+          </span> </div>
             </div>
           </td>
         </ng-container>
@@ -405,9 +430,9 @@
   <div style="margin-top: 3%;">
     <mat-accordion>
       <div class="example-button-row text-center" style="margin-top: 5%" *ngxPermissionsOnly="['COMMANDMENT_CREATE','COMMANDMENT_UPDATE']">
-        <button type="submit" id="commandmentDraftButton" class="btn1" mat-raised-button color="primary" (click)="isValidCommandmentDraft()">Save As
+        <button type="submit" id="commandmentDraftButton" class="btn1" mat-raised-button color="primary" [disabled]="isValidCommandmentState() || isValidCommandmentSlab() || isValidMinMax()" (click)="isValidCommandmentDraft()">Save As
           Draft</button>
-        <button type="submit" id="commandmentNextButton" class="btn1" style="text-align: center" mat-raised-button color="primary"
+        <button type="submit" id="commandmentNextButton" [disabled]="isValidCommandmentState() || isValidCommandmentSlab() || isValidMinMax()" class="btn1" style="text-align: center" mat-raised-button color="primary"
           (click)="isValidCommandment()">Continue</button> 
       </div>
     </mat-accordion>

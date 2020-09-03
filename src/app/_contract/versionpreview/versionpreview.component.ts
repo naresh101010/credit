@@ -4,10 +4,11 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { AppSetting } from 'src/app/app.setting';
 import { ErrorConstants } from '../models/constants';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { AuthorizationService } from '../services/authorization.service';
+import { EmailDialogBoxP } from '../preview/preview.component';
+import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
 @Component({
   selector: 'app-versionpreview',
@@ -22,13 +23,19 @@ export class VersionpreviewComponent implements OnInit {
   perKeyList = [];
   exAttrKeyList =  [];
 
+  exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: 'printPreview', // the id of html/table element
+  }
+
   constructor(
     private contractService:ContractService,
     public dialogRefVersionPreview: MatDialogRef<VersionpreviewComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any, private router: Router,
     private spinner: NgxSpinnerService, private tosterservice: ToastrService,
     private dialog: MatDialog,
-    private cd: ChangeDetectorRef, private authorizationService: AuthorizationService
+    private cd: ChangeDetectorRef, private authorizationService: AuthorizationService,
+    private exportAsService: ExportAsService
   ) { }
 version:string
   editflow = false;
@@ -147,6 +154,58 @@ version:string
       }
     });
   }
+
+  sendEmail(){
+    let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData.user;
+    
+    const addrDialog = this.dialog.open(EmailDialogBoxP, {
+      panelClass: 'creditDialog',
+      disableClose: true,
+      data : {email : userDt.email}
+    });
+    addrDialog.afterClosed().subscribe(result => {           
+      if (result && result!="") {
+    this.spinner.show();
+    let ob = {
+      "userId": userDt.userId, "toEmail": result,
+      "subject": "Preview PDF For: " +this.dataPreview.msaDto.custName, "contractCode": this.dataPreview.sfxCode?this.dataPreview.sfxCode:'NOT GENERATED YET'
+    }
+    this.exportAsService.get(this.exportAsConfig).subscribe(content => {
+      let file1 = this.b64toBlob(content)
+      this.sendData(ob,file1)
+    }); 
+    // const printContent = document.getElementById("previewContent");
+    // let doc = new jspdf('p', 'pt', 'a4');
+    // doc.fromHTML(printContent.innerHTML, 15, 15);
+    // var file = new Blob([doc.output()], {
+    //   type: 'application/pdf'
+    // });
+    }
+  });    
+}
+
+ b64toBlob(dataURI) {
+  var byteString = atob(dataURI.split(',')[1]);
+  var ab = new ArrayBuffer(byteString.length);
+  var ia = new Uint8Array(ab);
+  for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type: 'application/pdf' });
+  }
+
+ sendData(ob, file){
+  this.spinner.show();
+  this.contractService.sendEmail(file, JSON.stringify(ob))
+  .subscribe(data => {
+    this.spinner.hide();
+    this.tosterservice.success("Email Sent Successfully !");
+  }, error => {
+    this.spinner.hide();
+    this.tosterservice.error('Issue In Sending Email !');
+  });
+
+ }
 
   @HostListener('document:keydown', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {

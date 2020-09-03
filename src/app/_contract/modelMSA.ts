@@ -24,7 +24,7 @@ export class modelMSA {
 						fdcCrtdDt:Date
 						effectiveDt:Date
 						propelRefId: number
-						contactPerson :String
+						contactPerson :string
 						gstinExempt: number
 						insuFlag: number
 						packType: string

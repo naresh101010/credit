@@ -1,7 +1,7 @@
 <div style="padding: 1.8rem;" class="contractContainer">
     <div style="position: relative;">
         <h3 id="h2">ADD ADDRESS</h3>
-        <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
+        <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
       </div>
     <hr id="popup-hr">
     <div layout="row" fxLayout.xs="column" fxLayoutAlign="center center">
@@ -37,7 +37,7 @@
                 <mat-accordion>
                     <div class="example-button-row text-center" style="margin-top: 5%">
                         <button class="btn1" mat-raised-button mat-button color="primary"
-                            (click)="addAddress()" [disabled]="!f.form.valid" [style.color]="f.invalid ? 'white' : 'green'">Save</button>
+                            (click)="addAddress()" [disabled]="!f.form.valid">Save</button>
                     </div>
                 </mat-accordion>
             </div>

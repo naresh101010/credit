@@ -4,7 +4,7 @@ export class Validation {
 
 
     public static panValidation(pan) {
-        var regex = /([A-Z]){5}([0-9]){4}([A-Z]){1}$/;
+        var regex = /([A-Z]){3}([ABCFGHLJPTF]){1}([A-Z]){1}([0-9]){4}([A-Z]){1}$/;
         if (regex.test(pan.toUpperCase())) {
             return true;
         } else {
@@ -22,9 +22,9 @@ export class Validation {
     }
 
     public static gstinValidation(gstin) {
-        var regex =/\d{2}[A-Z]{5}\d{4}[A-Z]{1}[A-Z\d]{1}[Z]{1}[A-Z\d]{1}/;
-        // var regex=/\\d{2}[a-zA-Z]{5}\\d{4}[a-zA-Z]{1}\\d{1}[a-zA-Z]{1}\\d{1}/;
-        if (regex.test(gstin.toUpperCase())) {
+        var regexByPan = /\d{2}[A-Z]{3}[ABCFGHLJPTF]{1}[A-Z]{1}\d{4}[A-Z]{1}[A-Z\d]{1}[Z,D]{1}[A-Z\d]{1}/;
+        var regexByTan = /\d{2}[A-Z]{4}\d{5}[A-Z]{1}[A-Z\d]{1}[Z,D]{1}[A-Z\d]{1}/;
+        if (regexByPan.test(gstin.toUpperCase()) || regexByTan.test(gstin.toUpperCase())) {
             return true;
         } else {
             return false;

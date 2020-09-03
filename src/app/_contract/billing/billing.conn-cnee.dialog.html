@@ -1,29 +1,32 @@
 
     <div style="position: relative;">
         <h3 id="h2">Consignee/Consignor Mapping</h3>
-        <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
+        <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
       </div>
     <hr id="popup-hr">
         <div class="col-lg-12 pincode_scroll contractContainer">
             <div class="row">
                 <div class="col-lg-6 col-md-6 " *ngIf="data.element !='CONSIGNEE' && data.cneeList && data.cneeList.length>0">
                     <div class="row">
-                        <div class="col-lg-12 col-md-12"><b class="billingFonts">Consignor List</strong></div>
-                        <div class="col-lg-12 col-md-12" *ngIf="data.element !='CONSIGNEE'">
-                            <div class="col-lg-1 col-md-1 zonalheadingbar"></div>
-                            <div class="col-lg-3 col-md-3 zonalheadingbar fonts">Name</div>
-                            <div class="col-lg-8 col-md-8 zonalheadingbar fonts">Address</div>
+                        <div class="col-lg-12 col-md-12 col-sm-12"><strong class="billingFonts">Consignor List</strong> </div>
+                        <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="data.element !='CONSIGNEE'">
+                            <div class="col-lg-1 col-md-1 col-sm-1 zonalheadingbar"></div>
+                            <div class="col-lg-3 col-md-3 col-sm-3 zonalheadingbar fonts">Name</div>
+                            <div class="col-lg-8 col-md-8 col-sm-8 zonalheadingbar fonts">Address</div>
                         </div>
-                        <div class="col-lg-12 col-md-12" *ngIf="data.element !='CONSIGNEE'">
-                            <div class="row" *ngFor="let ccData of data.cnorList; let i = index" style="border-bottom:.1rem solid #f1f1f1 !important;">
-                                <div class="col-lg-1 col-md-1 bilingConsinee">
+                        <div class="col-lg-12 col-md-12 col-sm-12" *ngIf="data.element !='CONSIGNEE'">
+                            <div class="row border-bottom marginLeftzero" *ngFor="let ccData of data.cnorList; let i = index" style="border-bottom:.1rem solid #f1f1f1 !important;">
+                                <div class="col-lg-1 col-md-1 col-sm-1 bilingConsinee">
                                     <mat-checkbox name="ischecked" [(ngModel)]="ccData.ischecked" 
                                         [checked]=ccData.ischecked>
                                     </mat-checkbox>
                                 </div>
-                                <div class="col-lg-3 col-md-3   bilingConsinee">
+                                <div class="col-lg-3 col-md-3 col-sm-3 consiText" [matTooltip]="ccData.name | uppercase" matTooltipPosition="above" [matTooltipDisabled]="ccData.name?.length<14">
                                     {{ccData.name | uppercase}}</div>
-                                <div class="col-lg-8 col-md-8  bilingConsinee">
+                                <div class="col-lg-8 col-md-8 col-sm-8 bilingConsinee"
+                                [matTooltip]="ccData.addrBook.addr1 + ' ' + ccData.addrBook.addr2 + ' ' + ccData.addrBook.addr2 + ' ' + ccData.addrBook.pincodeId | uppercase"
+              [matTooltipDisabled]="(ccData.addrBook.addr1+ccData.addrBook.addr2+ccData.addrBook.addr2+ccData.addrBook.pincodeId)?.length<52"
+              matTooltipPosition="above">
                                     {{ccData.addrBook.addr1 | uppercase}}&nbsp;{{ccData.addrBook.addr2 | uppercase}}&nbsp;{{ccData.addrBook.addr3 | uppercase}}
                                     &nbsp;{{ccData.addrBook.pincodeId}}
                                 </div>
@@ -32,21 +35,24 @@
                     </div>
                 </div>
 
-                <div class="col-lg-6 col-md-6" *ngIf=" data.cneeList && data.cneeList.length>0">
-                    <div class="col-lg-12 col-md-12"><b class="billingFonts">Consignee List</strong></div>
-                    <div class="col-lg-12 col-md-12">
-                        <div class="col-lg-1 col-md-1 zonalheadingbar"></div>
-                        <div class="col-lg-3 col-md-3 zonalheadingbar fonts">Name</div>
-                        <div class="col-lg-8 col-md-6 zonalheadingbar fonts">Address</div>
+                <div class="col-lg-6 col-md-6 col-sm-6" *ngIf=" data.cneeList && data.cneeList.length>0">
+                    <div class="col-lg-12 col-md-12 col-sm-12"><strong class="billingFonts">Consignee List</strong> </div>
+                    <div class="col-lg-12 col-md-12 col-sm-12">
+                        <div class="col-lg-1 col-md-1 col-sm-1 zonalheadingbar"></div>
+                        <div class="col-lg-3 col-md-3 col-sm-3 zonalheadingbar fonts">Name</div>
+                        <div class="col-lg-8 col-md-6 col-sm-6 zonalheadingbar fonts">Address</div>
                     </div>
                     <div class="col-lg-12 col-md-12" >
-                        <div class="row" *ngFor="let ccData of data.cneeList; let i = index" style="border-bottom:.1rem solid #f1f1f1 !important;">
-                            <div class="col-lg-1 col-md-1 bilingConsinee">
+                        <div class="row border-bottom marginLeftzero" *ngFor="let ccData of data.cneeList; let i = index" >
+                            <div class="col-lg-1 col-md-1 col-sm-1">
                                 <mat-checkbox name="ischecked" [(ngModel)]="ccData.ischecked" [checked]=ccData.ischecked></mat-checkbox>
                             </div>
-                            <div class="col-lg-3 col-md-3  bilingConsinee">
+                            <div class="col-lg-3 col-md-3 col-sm-3  consiText" [matTooltip]="ccData.name | uppercase" matTooltipPosition="above" [matTooltipDisabled]="ccData.name?.length<14">
                                 {{ccData.name | uppercase}}</div>
-                            <div class="col-lg-8 col-md-8 bilingConsinee">
+                            <div class="col-lg-8 col-md-8 col-md-8 consiText"
+                            [matTooltip]="ccData.addrBook.addr1 + ' ' + ccData.addrBook.addr2 + ' ' + ccData.addrBook.addr2 + ' ' + ccData.addrBook.pincodeId | uppercase"
+              [matTooltipDisabled]="(ccData.addrBook.addr1+ccData.addrBook.addr2+ccData.addrBook.addr2+ccData.addrBook.pincodeId)?.length<52"
+              matTooltipPosition="above">
                                 {{ccData.addrBook.addr1 | uppercase}}&nbsp;{{ccData.addrBook.addr2 | uppercase}}&nbsp;{{ccData.addrBook.addr3 | uppercase}}
                                 &nbsp;{{ccData.addrBook.pincodeId}}
                             </div>

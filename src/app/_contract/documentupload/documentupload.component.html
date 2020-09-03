@@ -1,41 +1,42 @@
 <div class="hero-content">
   <div class="row text-left parent">      
-        <div class="breadcrumb">
-          <a href="#" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-          <a href="#" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-          <a href="#" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-          CREDIT
-      </div>
+    <div class="breadcrumb">
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      CREDIT
+  </div>
       <stepper></stepper>
     </div>
   
   <h3>Credit Contract</h3>
   <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span>{{custName}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{sfdcAccId}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em>{{sfxCode}}</em></div>
-  </div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center salesForceWidth" 
+      [matTooltip]="custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="custName?.length<33">{{custName}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center salesForceWidth">{{sfdcAccId}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center salesForceWidth">{{sfxCode}}</em></div>
+   </div>
   
   <form name="docform" (ngSubmit)="docform.form.valid" #docform="ngForm" novalidate>
     
 
     <mat-card  style="box-shadow: none;">  
       <div class="row">
-        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-          <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12 paddingzero">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 paddingzero">
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12 paddingtopzero paddingleftzero label-text">Document Type<span style="color: red;"> *</span>
+        <div class="col-lg-12 col-md-12 ">
+          <div class="col-lg-6 col-md-6  paddingzero">
+            <div class="col-lg-6 col-md-6  paddingzero">
+            <div class="col-lg-6 col-md-6  paddingtopzero paddingleftzero label-text">Document Type<span style="color: red;"> *</span>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12"> 
+            <div class="col-lg-6 col-md-6 "> 
               <mat-form-field appearance="outline" style="width: 100%;">
               <mat-select disableOptionCentering panelClass="creditSelect" #doctype='ngModel' required name="docTypeId" [(ngModel)]="docTypeId" (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()" placeholder="Select Option">
-                <mat-option [value]="">Select Option</mat-option>
-                <mat-option *ngFor="let item of docTypeList" [value]="item.id">
+                <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'lookupVal'" [value]="item.id" 
+                [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<15" matTooltipPosition="above">
                   {{item.lookupVal}}
                 </mat-option>
               </mat-select>
               </mat-form-field>
-             <p *ngIf="(doctype.errors?.required && doctype.touched)" class="hasErrorMsgRight paddingtopone"><em>Required&nbsp;!</em></p>
+             <p *ngIf="(doctype.errors?.required && doctype.touched)" class="hasErrorMsgRight paddingtopone">Required&nbsp;!</p>
              </div>
           </div>     
 
@@ -44,13 +45,13 @@
             <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
               <mat-form-field appearance="outline" style="width: 100%;">
                 <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype='ngModel' required name="subTypeId" [(ngModel)]="subTypeId" placeholder="Select Option">
-                  <mat-option [value]="">Select Option</mat-option>
-                  <mat-option *ngFor="let item of subTypeList" [value]="item.id">
+                  <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'lookupVal'" [value]="item.id" 
+                  [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<15" matTooltipPosition="above">
                     {{item.lookupVal}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
-              <p *ngIf="(Subdoctype.errors?.required && Subdoctype.touched)" class="hasErrorMsgRight paddingtopone"><em>Required&nbsp;!</em></p>
+              <p *ngIf="(Subdoctype.errors?.required && Subdoctype.touched)" class="hasErrorMsgRight paddingtopone">Required&nbsp;!</p>
             </div>
           </div>       
           </div>
@@ -60,16 +61,16 @@
               <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 paddingtopzero label-text" *ngIf="(isToggle) == true" style="text-align: left">Expiry<span style="color: red;">*</span></div>                 
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12"  *ngIf="(isToggle) == true"> 
                 <mat-form-field appearance="outline" id="datepick" class="exprity">
-                <input #dtpicr='ngModel' required matInput [matDatepicker]="picker2" name="rateCardSignDt" [min]="minDate" [max]="maxDate" (dateChange)="docExpiryDt()" class="date_picker"
+                <input #dtpicr='ngModel' required matInput [matDatepicker]="picker2" name="rateCardSignDt"  (dateChange)="docExpiryDt()" class="date_picker"
                 (blur)="docExpiryDt()" placeholder="DD/MM/YYYY"  [(ngModel)]="docExpiryDate">
                 <mat-datepicker panelClass="creditDatepicker" #picker2></mat-datepicker>
                 <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
               </mat-form-field>
               <span *ngIf="(dtpicr.errors?.required && dtpicr.touched)" class="hasErrorMsgRight paddingtopone">
-              <em>Required&nbsp;!</em>
+              Required&nbsp;!
               </span>
               <span *ngIf="isValidDocExpiryDate && !(dtpicr.errors?.required)" class="hasErrorMsgRight paddingtopone">
-                Invalid Expiry Date!
+                Invalid Expiry Date&nbsp;!
               </span>
             </div> 
             <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12" *ngIf="(isToggle) == false">
@@ -103,12 +104,13 @@
           <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
             <mat-form-field appearance="outline" style="width: 100%;">
               <mat-select disableOptionCentering panelClass="creditSelect" #Entitytype='ngModel' required name="subTypeId1" [(ngModel)]="moduleEntityId" placeholder="Select Option">
-                <mat-option *ngFor="let item of moduleEntityList" [value]="item.id">
+                <mat-option *ngFor="let item of moduleEntityList | sortBy:'asc':'lookupVal'" [value]="item.id" 
+                [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<15" matTooltipPosition="above">
                   {{item.lookupVal}}
                 </mat-option>
               </mat-select>  
             </mat-form-field>
-            <p *ngIf="(Entitytype.errors?.required && Entitytype.touched)" class="hasErrorMsgRight paddingtopone"><em>Required&nbsp;!</em></p>
+            <p *ngIf="(Entitytype.errors?.required && Entitytype.touched)" class="hasErrorMsgRight paddingtopone">Required&nbsp;!</p>
 
           </div>
         </div>
@@ -121,7 +123,7 @@
       </div>
 
     
-    <div class="row background" style="margin-top: 2rem !important">
+    <div class="row background documentTextColor" style="margin-top: 2rem !important">
       <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6">
         <div class="col-lg-9 col-md-9 col-sm-9 col-xs-9 label-text paddingtop">Name</div>
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 label-text paddingtop">Document Type</div>
@@ -143,7 +145,7 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" >{{item.docSubtype}}</div>  
         <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3">&nbsp;{{item.expDt}}</div>    
         <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 text-right">
-          <em class="material-icons fontSizeforview" (click)="downloadDocument(item.docPathRef)" >remove_red_eye</em>
+          <em class="material-icons fontSizeforview" (click)="downloadDocument(item)" >remove_red_eye</em>
         </div>  
       </div>
     </div>
@@ -164,7 +166,7 @@
     <div class="row">
     <div class="col-lg-3 col-lg-3 col-sm-3 col-md-3" style="margin-top: 3%;">
         <div class="example-button-row text-center" style="margin-top: 5%">
-          <button class="btn1" id="previewButton" mat-raised-button color="primary" (click)="navigateToPreview()">Preview</button> 
+          <button class="btn1" id="previewButton" mat-raised-button color="primary" (click)="navigateToPreview($event)">Preview</button> 
           </div>
     </div>
     <div class="col-lg-6 col-lg-6 col-sm-6 col-md-6"></div>

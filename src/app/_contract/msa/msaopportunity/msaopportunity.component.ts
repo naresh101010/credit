@@ -30,7 +30,8 @@ address
       this.opportunityPostData["prdctCtgy"]=this.msaResult.prdctCtgy;
       this.opportunityPostData["gstinNum"]=this.msaResult.gstinNum;
       this.opportunityPostData["originatingSrc"]=this.msaResult.originatingSrc;
-      this.address=this.msaResult.msaCustAddrs[0].addr;
+      let addrArry = this.msaResult.msaCustAddrs[0].addr.split("|");
+      this.address=addrArry[0];
       console.log("opportunity data",this.opportunityPostData);
       }
     

@@ -47,6 +47,16 @@ export class AuthorizationService {
     }
   }
 
+  getMenuHierarchyId(){
+   if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
+      let menu = this.data.childMenu.filter(function (item) {
+                 return item.target === 'CREDIT';
+               });
+     return menu;
+    }
+  }
+
+
   setPermissionMap(permission) {
     let per = this.permissionMap.get(permission.entityName) == null ? [] : this.permissionMap.get(permission.entityName);
     per.push(permission.subEntityName + '_' + permission.permissionType);

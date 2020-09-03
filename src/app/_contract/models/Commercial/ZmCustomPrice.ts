@@ -29,4 +29,8 @@ export class ZmCustomPrice{
     "id4":number
     "id5":number
     "deleteicon":boolean
+    "stateNamesto":string
+    "stateNamesfrom":string
+    "cityNamesto":string
+    "cityNamesfrom":string
 }

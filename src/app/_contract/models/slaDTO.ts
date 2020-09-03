@@ -24,6 +24,10 @@ export class slaDTO{
                     slaRrFlag: number
                     slaDays : number
                     ratecardId: number
+                    stateNamesto:string
+                    stateNamesfrom:string
+                    cityNamesto:string
+                    cityNamesfrom:string
                 }]
     safextCustomSlaDTO :[{
                     id: number
@@ -33,5 +37,9 @@ export class slaDTO{
                     ratecardId: number
                     safextSrcId: string
                     safextDestId: string
+                    stateNamesto:string
+                    stateNamesfrom:string
+                    cityNamesfrom:string
+                    cityNamesto:string
                  }]
 }

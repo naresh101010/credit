@@ -1,11 +1,11 @@
-<div class="hero-content">
+<div class="">
   <div class="row text-left parent">
-        <div class="breadcrumb">
-            <a href="#" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-            <a href="#" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-            <a href="#" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-            MSA
-        </div>
+    <div class="breadcrumb">
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      MSA
+  </div>
     </div>
 
     <h3> Credit Contract</h3>
@@ -17,6 +17,7 @@
     </div>
 
 <mat-card>
+  <form name="form" #f="ngForm" novalidate>
     <div>
         <div class="row" style="padding-left: 0;">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
@@ -54,7 +55,8 @@
                                   <div class="col-lg-6 col-md-6 label-text">Opportunity Address:</div>
                                   <div class="col-lg-6 col-md-6 ">              
                                         <mat-form-field appearance="outline" style="width: 88%;">
-                                            <input autocomplete="true" matInput name="address" [(ngModel)]=address />
+                                            <input autocomplete="true" style="overflow: hidden !important;" [matTooltip]="address | uppercase"  matTooltipPosition="above"
+                                             matInput name="address" [(ngModel)]=address />
                                           </mat-form-field>
                                       </div>
                                 </div>
@@ -67,11 +69,13 @@
                                 <div class="row" style="padding-left: 0;">
                                     <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
                                         <div class="row" style="padding-top:10px;">
-                                          <div class="col-lg-6 col-md-6 label-text">Opportunity Name:</div>
+                                          <div class="col-lg-6 col-md-6 label-text">Opportunity Name: <span class="redMark"> *</span></div>
                                           <div class="col-lg-6 col-md-6 ">              
                                                 <mat-form-field appearance="outline" style="width: 88%;">
-                                                    <input autocomplete="true" matInput name="oppName" maxlength="25" [(ngModel)]=opportunityPostData.opprName />
+                                                    <input autocomplete="true" style="overflow: hidden !important;" [matTooltip]="opportunityPostData.opprName | uppercase"  matTooltipPosition="above"
+                                                    matInput name="oppName" #oppName="ngModel" maxlength="500" [(ngModel)]=opportunityPostData.opprName required />
                                                   </mat-form-field>
+                                                  <app-validation-msg  *ngIf="(oppName.errors?.required && oppName.touched)" [msg]="'Required&nbsp;!'"></app-validation-msg>
                                               </div>
                                         </div>
                                         </div>
@@ -85,10 +89,11 @@
     <div style="margin-top: 3%;">
         <mat-accordion>       
           <div class="example-button-row text-center" style="margin-top: 5%">
-                <button class="btn1" style="text-align: center" mat-raised-button color="primary" (click)="postOpportunity()">Submit</button>
+                <button class="btn1" style="text-align: center" mat-raised-button color="primary" [disabled]='!f.form.valid' (click)="postOpportunity()">Submit</button>
         </div>
         </mat-accordion>
       </div>
+    </form>
 </mat-card>
 </div>
 <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"></ngx-spinner>

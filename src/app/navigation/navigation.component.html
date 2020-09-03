@@ -3,7 +3,7 @@
       <button type="button" aria-label="Toggle sidenav" mat-icon-button>
       <mat-icon aria-label="Side nav toggle icon" (click)="drawer.toggle()" style="font-size: 3.5rem;color: #575555;height: 0;line-height: 0;margin-top: .3rem;" >menu</mat-icon>
     </button>
-    <a><img  style="width: 13rem; margin-left: 1.7rem; margin-right: 4rem;" class="circle" src="../assets/images/logo.png" width="100"></a> 
+    <a><img  style="width: 13rem; margin-left: 1.7rem; margin-right: 4rem;" class="circle" src="../assets/images/logo.png" width="100" alt="img"></a> 
     <span  class="fa fa-search search-icon"></span>
 
     <div class="search"><input placeholder="Track WAYBILL"></div>
@@ -11,7 +11,7 @@
     
     <div style="font-size: 1.6rem; width: 25rem; text-align: center;margin-top: 1rem;">
       <button mat-icon-button [matMenuTriggerFor]="menu" id="profile-button">
-        <p style="position: relative;top: 1.5rem; right: 3rem;">Anuj Gupta<em id="fa-down" class="fa fa-caret-down" aria-hidden="true"></em></p>       
+        <p style="position: relative;top: 1.5rem; right: 3rem;">Anuj Gupta<i id="fa-down" class="fa fa-caret-down" aria-hidden="true"></i></p>       
       </button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item routerLink="/navigation/changepass" >

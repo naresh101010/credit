@@ -16,17 +16,19 @@ import { OpportunityComponent, SearchContractEdit } from './_contract/opportunit
 import { ServiceComponent } from './_contract/service/service.component';
 import { MsaComponent, ConsignorUploadFile, DownloadErrorFile } from './_contract/msa/msa.component';
 import { RatecardComponent, SearchCcDialogBox,BaseLocationSearchB} from './_contract/ratecard/ratecard.component';
-import { BillingComponent,CneeCnorDialogBox, BranchDialogBox, AddressDialogBox, EmailDialogBox } from './_contract/billing/billing.component';
+import { BillingComponent,CneeCnorDialogBox, BranchDialogBox, AddressDialogBox, EmailDialogBox, EbillEmailDialogBox, CommunicationEmailDialogBox} from './_contract/billing/billing.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { StepperComponent } from './_contract/stepper/stepper.component';
 import { MsaOprationComponent,DownloadReportFile } from './_contract/msa/msa-opration/msa-opration.component';
 import { MsacreationComponent,ConsignorAddition,BaseLocationSearchMSA } from './_contract/msa/msacreation/msacreation.component';
-import { PreviewComponent, EditPreview } from './_contract/preview/preview.component';
+import { PreviewComponent, EditPreview,EmailDialogBoxP } from './_contract/preview/preview.component';
 import { DocumentuploadComponent } from './_contract/documentupload/documentupload.component';
 import { MsaopportunityComponent } from './_contract/msa/msaopportunity/msaopportunity.component';
 import { CommandmentComponent, SlabDialogBox, ExcludePinDialogBox, GeoWiseChargeDialogBox } from './_contract/commandment/commandment.component';
 import { PincodesearchComponent } from './_contract/pincodesearch/pincodesearch.component';
+import { CitysearchComponent } from './_contract/citysearch/citysearch.component';
+import { StatesearchComponent } from './_contract/statesearch/statesearch.component';
 import { ExistingsafexlistComponent } from './_contract/existingsafexlist/existingsafexlist.component';
 import { ContractversionComponent } from './_contract/contractversion/contractversion.component';
 import { confimationdialog } from './_contract/confirmationdialog/confimationdialog';
@@ -50,6 +52,15 @@ import { AuthGuard } from './core/auth.guard';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { AlphabetOnlyDirective } from './shared/alphabet.directive';
+import { StringFilterPipe } from './shared/string-filter.pipe';
+import { rangeTncDirective } from './shared/rangeTnc.directive';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ReportsComponent } from './_contract/reports/reports.component';
+import { NumberOnlyDirective } from './shared/number-only.directive';
+import { ExportAsModule } from 'ngx-export-as';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+
+
 
 
 
@@ -70,10 +81,13 @@ const appRoutes: Routes = [
     { path: 'msaopportunity', component: MsaopportunityComponent, data: {title: 'msaopportunity'}},
     { path: 'commandment', component: CommandmentComponent, data: {title: 'commandment'}},
     { path: 'pincodesearch', component: PincodesearchComponent, data: {title: 'pincodesearch'}},
+    { path: 'citysearch', component: CitysearchComponent, data: {title: 'citysearch'}},
+    { path: 'statesearch', component: StatesearchComponent, data: {title: 'statesearch'}},
     { path: 'existingsafexlist', component: ExistingsafexlistComponent, data: {title: 'existingsafexlist'}},
     { path: 'contractversion', component: ContractversionComponent, data: {title: 'contractversion'}},
     { path: 'versionpreview', component: VersionpreviewComponent, data: {title: 'versionpreview'}},
-    { path: 'compareversion', component: CompareversionsComponent, data: {title: 'compareversion'}}
+    { path: 'compareversion', component: CompareversionsComponent, data: {title: 'compareversion'}},
+    { path: "report", component: ReportsComponent, data: { title: "report" }   }
   ]}
 ];
 
@@ -86,17 +100,18 @@ const appRoutes: Routes = [
     // BaseLocationSearchR,
     BaseLocationSearchB, StepperComponent
     ,CneeCnorDialogBox,BranchDialogBox, MsaOprationComponent, MsacreationComponent, DocumentuploadComponent,ConsignorAddition, MsaopportunityComponent,SearchContractEdit,BaseLocationSearchMSA,
-    DownloadErrorFile,AddressDialogBox, PincodesearchComponent, ExistingsafexlistComponent, CommandmentComponent, SlabDialogBox, ExcludePinDialogBox, GeoWiseChargeDialogBox, ContractversionComponent, VersionpreviewComponent,
-    ValidationMsgComponent,confimationdialog,EditPreview,CompareversionsComponent, GreaterZeroDirective, SortByPipe, SfxDialogComponent,EmailDialogBox, EmptyRouteComponent,DownloadReportFile
+    DownloadErrorFile,AddressDialogBox, PincodesearchComponent,CitysearchComponent,StatesearchComponent, ExistingsafexlistComponent, CommandmentComponent, SlabDialogBox, ExcludePinDialogBox, GeoWiseChargeDialogBox, ContractversionComponent, VersionpreviewComponent,
+    ValidationMsgComponent,confimationdialog,EditPreview,CompareversionsComponent, GreaterZeroDirective, rangeTncDirective, SortByPipe, SfxDialogComponent,EmailDialogBox,EbillEmailDialogBox,CommunicationEmailDialogBox, EmptyRouteComponent,DownloadReportFile,
+    StringFilterPipe,ReportsComponent,NumberOnlyDirective,EmailDialogBoxP
   ],
-   
+
   imports: [LayoutModule,FlexLayoutModule,NgSelectModule,
     BrowserModule, NgxSpinnerModule,NgxPrintModule,
     BrowserAnimationsModule,FormsModule, ReactiveFormsModule,HttpClientModule,
-    NgpSortModule, ClickOutsideModule, 
+    NgpSortModule, ClickOutsideModule, NgxMatSelectSearchModule,
     RouterModule.forRoot(
       appRoutes
-      
+
       // { useHash: true } // <-- debugging purposes only
     ),
     CustomMaterialModule,
@@ -105,7 +120,9 @@ const appRoutes: Routes = [
       preventDuplicates: true,
       timeOut: 5000
     }),
-    NgxPermissionsModule.forRoot()
+    NgxPermissionsModule.forRoot(),
+    ExportAsModule,
+    DragDropModule
   ],
 entryComponents: [
    RatecardComponent,SearchCcDialogBox,
@@ -114,13 +131,13 @@ entryComponents: [
 MsaComponent,ConsignorUploadFile,
 CneeCnorDialogBox,BranchDialogBox,ConsignorAddition,
 MsaopportunityComponent,SearchContractEdit,AddressDialogBox,BaseLocationSearchMSA,DownloadErrorFile,SlabDialogBox
-, ExcludePinDialogBox, GeoWiseChargeDialogBox,confimationdialog,EditPreview, SfxDialogComponent,EmailDialogBox,DownloadReportFile],
+, ExcludePinDialogBox, GeoWiseChargeDialogBox,confimationdialog,EditPreview, SfxDialogComponent,EmailDialogBox,EbillEmailDialogBox,CommunicationEmailDialogBox, DownloadReportFile,EmailDialogBoxP],
   providers: [DatePipe,
     {provide: DateAdapter, useClass: AppDateFormatAdapter},
     {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
     {
       provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,      
+      useClass: AuthInterceptor,
       multi: true,
       },
     { provide: APP_BASE_HREF, useValue: '/' }
@@ -128,6 +145,3 @@ MsaopportunityComponent,SearchContractEdit,AddressDialogBox,BaseLocationSearchMS
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-
-
-

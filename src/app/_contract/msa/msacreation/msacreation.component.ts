@@ -25,6 +25,8 @@ import { Validation } from 'src/app/shared/validation';
   })
   export class MsacreationComponent implements OnInit {
 
+    
+
     regexp = new RegExp(/^[a-zA-Z]*$/);
     contactPerson: boolean;
     contactValidation(){
@@ -51,6 +53,8 @@ import { Validation } from 'src/app/shared/validation';
   subSegmentDropdownList=[];
   accountTypeDropdownList=[]
   addressList=[];
+	searchCtrl = '';
+	searchCtrlSub = '';
   regAddress={
     pincodeId :'',
     addr:''
@@ -82,9 +86,6 @@ constructor(private sharedSearchdata: DataService,
           let element: HTMLElement = document.getElementById('secondry-button') as HTMLElement;
           element.click();
         }
-        else {
-                
-        }
       }
 
         if (event.altKey && (event.keyCode === 78)) {  // alt+n [Next]
@@ -93,12 +94,19 @@ constructor(private sharedSearchdata: DataService,
               let element: HTMLElement = document.getElementById('msaCreationNextButton') as HTMLElement;
               element.click();
             }
-            else {
-                    
-            }
           }
     
     }
+
+    
+  scrollActiveValue(){
+    let selectItem = document.getElementsByClassName('mat-selected')[0];
+    setTimeout(()=>{  
+        if(selectItem){
+          selectItem.scrollIntoView(false);
+        }
+    },500)
+  }
     
   AddressType: any[];
   msadata:any
@@ -119,11 +127,17 @@ constructor(private sharedSearchdata: DataService,
        console.log("msaselectedData retreived",this.msaSelectedData);
        this.sharedSearchdata.changeMessage(new modelMSA())
        this.segmentDropdownList=this.referenceData.segmentList;
-       this.accountTypeDropdownList=this.referenceData.contractTypeList;
+       this.referenceData.contractTypeList.forEach(accType => {
+        if(accType.lookupVal!=='PRC' && accType.lookupVal!=='RETAIL') {
+         this.accountTypeDropdownList.push(accType);
+        }
+      });
        this.consignTypeList=this.referenceData.consignType;
        this.createSubSegmentDownList();      
        if(this.msaSelectedData!=undefined && this.msaSelectedData.msaCustAddrs!=undefined && this.msaSelectedData.msaCustAddrs.length !=0 ){
         
+         let addrArry = this.msaSelectedData.msaCustAddrs[0].addr.split("|");
+         this.msaSelectedData.msaCustAddrs[0].addr = addrArry[0];
          this.regAddress=this.msaSelectedData.msaCustAddrs[0];
          this.onPanChange(this.msaSelectedData.pan);
          this.onGstnChange(this.msaSelectedData.gstinNum);
@@ -133,6 +147,10 @@ constructor(private sharedSearchdata: DataService,
          val['branchName'] = this.msaSelectedData.baseLocation;
          val['branchId'] = this.msaSelectedData.baseLocationBranchId;
          this.tableData.push(val);
+         let pincode = {};
+         pincode["pincode"]= this.regAddress.pincodeId;
+         pincode["pincodeId"] = this.regAddress.pincodeId;
+         this.pincodeData.push(pincode);
        }
       
       this.dataSource = new MatTableDataSource(ELEMENT_POST_DATA);   
@@ -144,7 +162,6 @@ tableData: any = [];
 tabledataLength;
 baseLocationError:boolean = false;
 advanceDefaultBranchName(str){ 
-  this.tableData = []; 
   if(str){
     this.baseLocationError=true;
     if((str.term.length > 2 && str.term)){
@@ -154,7 +171,21 @@ advanceDefaultBranchName(str){
      
             let ob = ErrorConstants.validateException(success);
             if (ob.isSuccess) {
+              this.tableData = []; 
               this.tableData = success.data.responseData;
+              if (this.tableData && this.tableData.length > 0) {
+                this.tableData.sort((a, b) => {
+                  const branchNameA = a.branchName.toUpperCase();
+                  const branchNameB = b.branchName.toUpperCase();
+                  let comparison = 0;
+                  if (branchNameA > branchNameB) {
+                    comparison = 1;
+                  } else if (branchNameA < branchNameB) {
+                    comparison = -1;
+                  }
+                  return comparison;
+                });
+              }
               this.tabledataLength = this.tableData.length;  
         
             }else {
@@ -167,17 +198,26 @@ advanceDefaultBranchName(str){
             this.spinner.hide();
           });  
   }
-  this.tableData = [];
-  this.tabledataLength = 0;
   }
 }
-
-onClear(){
-  this.baseLocationError = false;
-  this.tableData = []
-  this.pincodeError=false;
+emptyPincodeData(){
   this.pincodeData=[];
 }
+emptyBaselocationData(){
+  this.tableData=[];
+}
+onClear(module) {
+  if(module==='BRANCH') {
+  this.baseLocationError = false;
+} else if (module === 'PINCODE') {
+  this.pincodeError=false;
+}
+}
+
+clickBodyElem(event) {
+  this.baseLocationError = false;
+  this.pincodeError=false;
+ }
 panChk=false;
 onPanChange(num){
   this.panChk= Validation.panValidation(num);
@@ -220,6 +260,7 @@ segmentFlg(){
     }
 
     numberOnly(event): boolean {
+    
       const charCode = (event.which) ? event.which : event.keyCode;
       if (charCode > 31 && (charCode < 48 || charCode > 57)) {
         return false;
@@ -243,7 +284,25 @@ segmentFlg(){
     postMSAData() {
       this.spinner.show();
       this.addressList=[];
+      let oldaddr = JSON.parse(JSON.stringify(this.regAddress));
       this.addressList.push(this.regAddress);
+      let cityName = '';
+      let stateName = '';
+      let distName = '';
+      for (let citydata of this.pincodeData) {
+        if (this.regAddress.pincodeId === citydata.pincode) {
+          if (citydata.city) {
+            cityName = ' , ' + citydata.city.cityName;
+            if (citydata.city.district) {
+              distName = ' , ' + citydata.city.district.districtName;
+              if (citydata.city.district.state) {
+                stateName = ' , ' + citydata.city.district.state.stateName;
+              }
+            }
+          }
+        }
+    }
+        this.addressList[0].addr = this.addressList[0].addr + '|' + cityName +  distName + stateName;
          this.msaSelectedData.msaCustAddrs=this.addressList;
          let val = Math.floor(Math.random() * (1000 + 5000)) + 1000;
          this.msaSelectedData.originatingSrc='PROPELI';
@@ -268,12 +327,14 @@ segmentFlg(){
       
           }else {
             this.tosterservice.error(data.errors.error[0].description);
+            this.regAddress = oldaddr;
             this.spinner.hide();
           }
         },
 
     error => {
       console.log("error received:",error)
+      this.regAddress = oldaddr;
       this.tosterservice.error(error.error.errors.error[0].description);
       this.spinner.hide();
     }
@@ -330,14 +391,14 @@ getConsigneeConsignerData() {
   //dialog box for consigner consignee
   openDialog(): void {
     const dialogRef = this.dialog.open(ConsignorAddition, {
-      width: '140rem',
+      maxWidth: '100%',
       panelClass: 'creditDialog',
       disableClose: true,
       backdropClass: 'backdropBackground',
       data: {AddressType: this.AddressType,concneeList: JSON.parse(JSON.stringify(ELEMENT_POST_DATA))}
     });
     dialogRef.afterClosed().subscribe(result => {
-      debugger
+      
       let temp:any[] = [...this.dataSource.data, ...ELEMENT_POST_DATA]
       ELEMENT_POST_DATA = temp;
       this.dataSource = new MatTableDataSource(temp);  
@@ -368,10 +429,13 @@ openBaseLDialog(): void {
 displayedColumns: string[] = [ 'name', 'lkpConsigntypeName', 'panNum', 'gstinNum', 'tanNum', 'mob', 'addr1', 'city', 'pincode', 'dealerCode'];
 dataSource = new MatTableDataSource(ELEMENT_DATA);
     
-pincodeData:any;
+pincodeData:any = [];
 pincodeError:any;
 pincodeSearch(str){ 
-  this.pincodeData = [];
+  if(str.term.length>6){
+  console.log(str, 'print str')
+  return false
+  }
   if(str){
     if(str.term.length > 3 && str.term){
       this.pincodeError=false;
@@ -379,6 +443,7 @@ pincodeSearch(str){
         .subscribe(success => {
           let ob = ErrorConstants.validateException(success);
           if (ob.isSuccess) {
+            this.pincodeData = [];
             this.pincodeData = success.data.responseData;
             if(this.pincodeData.length==0){
               this.tosterservice.info('No Pincode found !!');
@@ -387,6 +452,7 @@ pincodeSearch(str){
             for(let val of this.pincodeData){
               val["pincode"]= val.pincode;
               val["pincodeId"] = val.pincode;
+              //val["city"] = val.city.cityName;
             }
         }
         else {
@@ -410,7 +476,10 @@ pincodeSearch(str){
     AddressType: any[];
     concneeList: any[];
 }
-  @Component({
+  
+var ELEMENT_DATA: Element[] = [];
+var ELEMENT_POST_DATA: Element[] = []; 
+@Component({
     selector: 'dialog-overview-example-dialog',
     templateUrl: 'consignor_Open_MSA.html',
     styleUrls: ['../../core.css']
@@ -427,6 +496,7 @@ pincodeSearch(str){
       var re = /^[0-9]+$/;
       this.pastedText = Number(event.clipboardData.getData('text'));
       if(re.test(this.pastedText)){
+        console.log("test")
       }
       else{
         event.preventDefault();
@@ -448,18 +518,13 @@ pincodeSearch(str){
     AddressType:any[];
     concneeList:any[];
     ngOnInit() {
-      debugger
+      
       ELEMENT_POST_DATA = []
       this.dataSource1 = null
       this.AddressType = this.data.AddressType;
       this.concneeList = this.data.concneeList;
     }
-    // AddressType: any[] = [{ id: 44, value: 'CONSIGNOR' },
-    //                       { id: 45, value: 'CONSIGNEE' },
-    //                       { id: 46, value: 'BOTH' },
-    //                      ]
     value1 = '';
-    //displayedColumns = ['position', 'name', 'weight', 'symbol'];
     displayedColumns: string[] = ['name', 'lkpConsigntypeName', 'panNum', 'gstNum', 'tanNum', 'mob', 'address', 'city', 'pincode', 'dealercode', 'delete'];
     dataSource1 = new MatTableDataSource(ELEMENT_POST_DATA); 
 
@@ -471,9 +536,9 @@ pincodeSearch(str){
       
     }
     removeData(vall, j) {
-      ;
-      for (let i = 0; i < ELEMENT_POST_DATA.length; i++) {
-      }
+      
+      // for (let i = 0; i < ELEMENT_POST_DATA.length; i++) {
+      // }
       ELEMENT_POST_DATA.splice(j, 1);
       this.ChangeDetectorRef.detectChanges();
       this.dataSource1 = new MatTableDataSource(ELEMENT_POST_DATA);
@@ -501,9 +566,15 @@ pincodeSearch(str){
     }
    
     PanChk=false;
-    onPanChange(num){
-      this.PanChk= Validation.panValidation(num);
-    }
+    panLength=false;
+    onPanChange(num) {
+      if(num.length>0) {
+        this.PanChk= Validation.panValidation(num);
+        this.panLength = true;
+      } else {
+        this.panLength = false;
+        this.PanChk = false;
+      }}
 
     tanChk=false;
     tanLength=false;
@@ -569,23 +640,7 @@ pincodeSearch(str){
       addresstwo:'',
       addressone:''
     }
-    checkForDuplicateCC(){
-      if(this.concneeList.length==0 && ELEMENT_POST_DATA.length==0){ return true;}
-      this.model.panNum=this.model.panNum.toUpperCase();
-      for(let msaCC of this.concneeList){
-        if(this.model.panNum==msaCC.panNum && this.model.lkpConsigntypeId == msaCC.lkpConsigntypeId){
-          this.tosterservice.error('Duplicate Consignor & Consignee Details');
-          return false;
-        }
-      }
-      for(let newElemet of ELEMENT_POST_DATA){
-        if(this.model.panNum==newElemet.panNum && this.model.lkpConsigntypeId == newElemet.lkpConsigntypeId){
-          this.tosterservice.error('Duplicate Consignor & Consignee Details');
-          return false;
-        }
-      }
-      return true;
-    }
+    
     ccname:any;
     updateTypeName(){
       for(let data of this.AddressType){
@@ -595,8 +650,7 @@ pincodeSearch(str){
       }
     }
     addElement(valid,form) {
-      valid = this.checkForDuplicateCC();
-      if(valid){
+      if(valid) {
         let tempPin  = this.model.pincode;
         this.model.pincode = '';
         this.spinner.show();
@@ -628,8 +682,10 @@ pincodeSearch(str){
               this.model.address = addrBook.addr1 + ' ' + addrBook.addr2 + ' ' + addrBook.addr3;
               if(this.model.tanNum)
                 this.model.tanNum=this.model.tanNum.toUpperCase();
-              this.model.gstinNum=this.model.gstinNum.toUpperCase();
-              this.model.panNum=this.model.panNum.toUpperCase();
+              if(this.model.gstinNum)
+                this.model.gstinNum=this.model.gstinNum.toUpperCase();
+              if(this.model.panNum)
+                this.model.panNum=this.model.panNum.toUpperCase();
 
               let dataList ={
                 name: this.model.name, lkpConsigntypeId: this.model.lkpConsigntypeId,
@@ -659,9 +715,6 @@ pincodeSearch(str){
           });
   
       }
-      
-          
-  
     }
 
 
@@ -681,6 +734,7 @@ pincodeSearch(str){
             this.model.addressone = val["addr2"]?val["addr2"]:'';
             this.model.addresstwo = val["addr3"]?val["addr3"]:'';
             this.model.pincode=val["pincodeId"];
+            this.pincodeData=[{"pincode": val["pincodeId"],"pincodeId" : val["pincodeId"]}];
             this.model.city=val["city"];
           }
         }
@@ -690,12 +744,13 @@ pincodeSearch(str){
     pincodeData:any;
     pincodeError:any;
     pincodeSearch(str){ 
-      this.pincodeData = [];
+      if(!this.isAddressChecked){
       if(str){
         if(str.term.length > 3 && str.term){
           this.pincodeError=false;
           this._contractService.getAddrByPincode(str.term)
             .subscribe(success => {
+              this.pincodeData = [];
               let ob = ErrorConstants.validateException(success);
               if (ob.isSuccess) {
                 this.pincodeData = success.data.responseData;
@@ -722,13 +777,18 @@ pincodeSearch(str){
         }
       }
     }
+    }
+    emptyPincodeData(){
+      this.pincodeData=[];
+    }
     onClear(){
       this.address1Error = false;
       this.pincodeError=false;
-      this.pincodeData = [];
-
     }
-  
+
+    clickBodyElem(event) {
+      this.pincodeError=false;
+     }
   
   saveMsa() {
       console.log("savemsa called");
@@ -771,10 +831,7 @@ pincodeSearch(str){
     lkpConsigntypeName: string
   }
   
-  var ELEMENT_DATA: Element[] = [
-  
-  ];
-  var ELEMENT_POST_DATA: Element[] = [];  
+ 
 
  //class and component for branch location diaglog box
  export interface SearchBrData {branchName: any, branchId:any }
@@ -853,6 +910,32 @@ pincodeSearch(str){
           if (ob.isSuccess) {
             this.twoAPIdata = success.data.responseData;
             this.tableData = success.data.responseData;
+
+            if (this.tableData && this.tableData.length > 0) {
+              this.tableData.sort((a, b) => {
+                const branchNameA = a.branchName.toUpperCase();
+                const branchNameB = b.branchName.toUpperCase();
+                let comparison = 0;
+                if (branchNameA > branchNameB) {
+                  comparison = 1;
+                } else if (branchNameA < branchNameB) {
+                  comparison = -1;
+                }
+                return comparison;
+              });
+              this.twoAPIdata.sort((a, b) => {
+                const branchNameA = a.branchName.toUpperCase();
+                const branchNameB = b.branchName.toUpperCase();
+                let comparison = 0;
+                if (branchNameA > branchNameB) {
+                  comparison = 1;
+                } else if (branchNameA < branchNameB) {
+                  comparison = -1;
+                }
+                return comparison;
+              });
+            }
+
             for (let data of this.tableData) {
               if (data.branchType == 'CORPORATE') {
                 data.regionBranch = '';

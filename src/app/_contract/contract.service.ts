@@ -15,7 +15,7 @@ export class ContractService {
   constructor(private http: HttpClient) { }
   headerData = {
     'branchCode': '02',
-    'journeyId': '01',
+    'journeyId': 'CREDIT_CNTR',
     'originUserType': '03',
     'userId': 'user123'
   }
@@ -25,14 +25,14 @@ export class ContractService {
     return this.http.get<any>(AppSetting.API_ENDPOINT + `secure/credit-contract/v1/msa/status/${status}`, { headers: headers }).pipe(catchError((error: Response) => {
       return observableThrowError("Something went wrong");
     }));
-  }  
+  }
   contractCount(){
     var headers = new HttpHeaders(this.headerData);
     return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/contract/contractCount", { headers: headers }).pipe(catchError((error: Response) => {
       return observableThrowError("Something went wrong");
     }));
   }
-  // for  MSA 
+  // for  MSA
   private _urlmsa: any = "assets/json/msa.json";
   getMsa(msaCustId){
     var headers = new HttpHeaders(this.headerData);
@@ -208,12 +208,7 @@ export class ContractService {
       return observableThrowError("Something went wrong");
     }));
   }
-  getAddrByCity() {
-    var headers = new HttpHeaders(this.headerData);
-    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/geography/city", { headers: headers }).pipe(catchError((error: Response) => {
-      return observableThrowError("Something went wrong");
-    }));
-  }
+
   getAddrByDistrict() {
     var headers = new HttpHeaders(this.headerData);
     return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/geography/district", { headers: headers }).pipe(catchError((error: Response) => {
@@ -342,7 +337,7 @@ export class ContractService {
   }
 
   /**
-   * Get the fuel price based on three parameters 
+   * Get the fuel price based on three parameters
    *  */
 
   getFuelPrice(fuelIndex, fuelType) {
@@ -353,7 +348,7 @@ export class ContractService {
     });
   }
 
-  //tnc ends here          
+  //tnc ends here
 
   //Branch detail
   getBranch() {
@@ -564,6 +559,20 @@ export class ContractService {
     });
   }
 
+  getAllCountry() {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/geography/country", { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
+  getStatesByPinFeatureId(pinFeatureId) {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/geography/state?pincodeFeatureId=" + pinFeatureId, { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
   putDeactivateCneeCor(val): Observable<MSA[]> {
     var headers = new HttpHeaders(this.headerData);
     return this.http.put<MSA[]>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/msa/cneeCnor", val, { headers: headers }).pipe(
@@ -601,14 +610,6 @@ export class ContractService {
     formData.append('fileData', data);
     formData.append('file', file);
     return this.http.post<MSA[]>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/document/upload", formData, { headers: headers }).catch((error: Response) => {
-      return Observable.throw("Something went wrong");
-    });
-  }
-
-  postDownloadDocument(fileName: String) {
-    var headers = new HttpHeaders(this.headerData);
-    console.log("calling download service..");
-    return this.http.post<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/document/download", fileName, { responseType: 'blob' as 'json', headers: headers }).catch((error: Response) => {
       return Observable.throw("Something went wrong");
     });
   }
@@ -705,6 +706,20 @@ export class ContractService {
     });
   }
 
+  getStateByCountryId(countryId): Observable<any> {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any[]>(AppSetting.API_ENDPOINT + 'secure/credit-contract/v1/geography/state/country/' + countryId, { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
+  getCityByStateNPinFeatureId(stateId,featureId): Observable<any> {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any[]>(AppSetting.API_ENDPOINT + 'secure/credit-contract/v1/geography/city/state/'+ stateId+'?pincodeFeatureId=' +featureId, { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
   saveCommandment(data,isEdit) {
     var headers = new HttpHeaders(this.headerData);
     if(isEdit){
@@ -757,7 +772,7 @@ export class ContractService {
       return this.http.get<any>(AppSetting.API_ENDPOINT + `secure/credit-contract/v1/history/${contractId}`, { headers: headers, params: params }).pipe(catchError((error: Response) => {
         return observableThrowError("Something went wrong");
       }));
-  
+
   }
 
   getStatesByFeature(geoFeatureId) {
@@ -773,7 +788,7 @@ export class ContractService {
       return Observable.throw("Something went wrong");
     });
   }
-  
+
   validateContract(contractId,isEdit){
     var headers = new HttpHeaders(this.headerData);
     if (isEdit) {
@@ -805,7 +820,7 @@ export class ContractService {
     return this.http.get<any>(AppSetting.API_ENDPOINT + `secure/credit-contract-stg/v1/preview/edit/${contractId}`, { headers: headers }).pipe(catchError((error: Response) => {
         return observableThrowError("Something went wrong");
     }));
-    
+
   }
 
   getCmdDownloadDoc(){
@@ -826,4 +841,44 @@ export class ContractService {
     });
   }
 
+  getPRCContractByMSAId (msaId) {
+    let headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT + `secure/credit-contract/v1/contract/prccrc/contract/${msaId}`, { headers: headers }).pipe(catchError((error: Response) => {
+        return observableThrowError("Something went wrong");
+    }));
+  }
+
+  sendEmail(file,data){
+    var headers = new HttpHeaders(this.headerData);
+    headers.append('Content-Type', 'multipart/form-data');
+    const formData = new FormData();
+    formData.append('emailData', data);
+    formData.append('file', file,"preview.pdf");
+    return this.http.post<any>(AppSetting.API_ENDPOINT + "/secure/credit-contract/v1/document/email", formData, { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
+ // get module card details
+    getCardDetails(menuHierarchyId) {
+      var headers = new HttpHeaders(this.headerData);
+      return this.http.get<any>(AppSetting.API_ENDPOINT_UM +"/secure/v1/dashboard/moduleCardDetails/"+ menuHierarchyId, { headers: headers }).pipe(catchError((error: Response) => {
+        return observableThrowError("Something went wrong");
+      }));
+    }
+    // post drag and drop data
+    postDragDropData(data) {
+      var headers = new HttpHeaders(this.headerData);
+      return this.http.post<any>(AppSetting.API_ENDPOINT_UM + "/secure/v1/dashboard/bookmark",data, { headers: headers }).pipe(catchError((error: Response) => {
+        return observableThrowError("Something went wrong");
+      }));
+    }
+
+     // get dragged data, feature data
+     getDragDropData(menuHierarchyId) {
+        var headers = new HttpHeaders(this.headerData);
+        return this.http.get<any>(AppSetting.API_ENDPOINT_UM + "/secure/v1/dashboard/bookmark/"+ menuHierarchyId, { headers: headers }).pipe(catchError((error: Response) => {
+          return observableThrowError("Something went wrong");
+        }));
+     }
 }

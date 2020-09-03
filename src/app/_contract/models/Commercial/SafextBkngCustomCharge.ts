@@ -27,4 +27,6 @@ export class SafextBkngCustomCharge{
     "id4" : number
     "id5" : number
     "deleteicon":boolean
+    "stateNamesto":string
+    "cityNamesto":string
 }

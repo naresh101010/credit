@@ -1,43 +1,61 @@
-    <div class="slab_dialog">
+    <div class="slab_dialog contractContainer" >
+        <form name="form" (ngSubmit)="slab.form.valid" #slab="ngForm" novalidate>
         <div class="row" style="position: relative">
-            <h4 class="consignor-heading"> TO-PAY SERVICE CHARGES SLAB
-                <!-- <mat-icon (click)="addSlab()" id="plusicon2" mat-card-avatar aria-label="Example icon"
-                    style="cursor: pointer;">add_circle</mat-icon> -->
+            <h4 class="consignor-heading"> {{commmandmentName}} SLAB 
+                <button type="submit" *ngIf="rrFlag===2" [disabled]="!slab.form.valid" (click)="addSlab()" [style.color]="slab.invalid ? '#CCC' : '#27AE60'" 
+           class="material-icons addButtonSlab">add_circle</button>
             </h4>
             <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
         </div>
+        
+
         <div class="row">
-            <table aria-describedby="table-data"  mat-table [dataSource]="slabChargeList">
+            <table mat-table [dataSource]="slabChargeList">
                 <ng-container matColumnDef="slabFrom">
-                    <th id="table_header" mat-header-cell *matHeaderCellDef>FROM</th>
-                    <td mat-cell *matCellDef="let element; let i = index">
+                    <th scope="row" mat-header-cell *matHeaderCellDef>FROM&nbsp;<span *ngIf="commmandmentName=='TO-PAY SERVICE CHARGES'">(Kg)</span></th>
+                    <td mat-cell *matCellDef="let element; let i = index" >
+                        <div class="slabPadding">
                         <mat-form-field appearance="outline">
-                            <input autocomplete="true" matInput name="slabFrom" [(value)]="element.slabFrom"
+                            <input autocomplete="true" matInput name="slabFrom_{{i}}" #slabFrom="ngModel" [disabled]="rrFlag!==2" [(ngModel)]="element.slabFrom"
                                 (keyup)="changeValue(i, 'slabFrom', $event.target.value)" numeric decimals="0"
-                                (blur)="updateList(i, 'slabFrom', $event.target.value)" maxlength="5">
-                        </mat-form-field>
+                                (blur)="updateList(i, 'slabFrom', $event.target.value)" maxlength="5" required  readonly>
+                        </mat-form-field>                        
+                        </div>
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="slabTo">
-                    <th id="table_header" mat-header-cell *matHeaderCellDef>TO</th>
-                    <td mat-cell *matCellDef="let element; let i = index">
+                    <th scope="row" mat-header-cell *matHeaderCellDef>TO&nbsp;<span *ngIf="commmandmentName=='TO-PAY SERVICE CHARGES'">(Kg)</span></th>
+                    <td mat-cell *matCellDef="let element; let i = index" >
+                        <div class="slabPadding">
                         <mat-form-field appearance="outline">
-                            <input  autocomplete="true" matInput name="slabTo" [(value)]="element.slabTo"
+                            <input  autocomplete="true" matInput name="slabTo_{{i}}" #slabTo="ngModel" [disabled]="rrFlag!==2" [(ngModel)]="element.slabTo"
                                 (keyup)="changeValue(i, 'slabTo', $event.target.value)"  numeric decimals="0"
-                                (blur)="updateList(i, 'slabTo', $event.target.value)" maxlength="5" min={{element.slabFrom}}>
+                                (blur)="updateList(i, 'slabTo', $event.target.value)" maxlength="5" min={{element.slabFrom}} required>
                         </mat-form-field>
+                        </div>
                     </td>
                 </ng-container>
 
                 <ng-container matColumnDef="price">
-                    <th id="table_header" mat-header-cell *matHeaderCellDef>PRICE</th>
+                    <th scope="row" mat-header-cell *matHeaderCellDef>PRICE&nbsp;<span *ngIf="commmandmentName=='VALUE SURCHARGE'">(%)</span></th>
                     <td mat-cell *matCellDef="let element; let i = index">
+                        <div class="slabPadding">
                         <mat-form-field appearance="outline">
-                            <input  autocomplete="true" matInput name="price" [(value)]="element.price"
+                            <input  autocomplete="true" matInput name="price_{{i}}" #price="ngModel" [disabled]="rrFlag!==2" [(ngModel)]="element.price"
                                 (keyup)="changeValue(i, 'price', $event.target.value)" numeric decimals="2"
-                                (blur)="updateList(i, 'price', $event.target.value)" maxlength="8">
+                                (blur)="updateList(i, 'price', $event.target.value)" maxlength="8" required>
                         </mat-form-field>
+                        </div>
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="action">
+                    <th scope="row" mat-header-cell *matHeaderCellDef></th>
+                    <td mat-cell *matCellDef="let element; let i = index">
+                        <div class="slabPadding">
+                        <span *ngIf="rrFlag===2"><em class="material-icons customeRemoveIcon" (click)="deleteSLab(i)" style="cursor: pointer;color: #27AE60;">delete</em></span>
+                        </div>
                     </td>
                 </ng-container>
 
@@ -45,8 +63,10 @@
                 <tr mat-row *matRowDef="let row; columns: slabColumns;"></tr>
             </table>
         </div>
+        </form>
+
         <div class="example-button-row text-center" style="margin-bottom: 3%;">
-            <button type="button" class="btn1" style="text-align: center" mat-raised-button color="primary"
+            <button type="button" class="btn1 saveButton" [disabled]="!slab.form.valid || rrFlag!==2" mat-raised-button color="primary"
                 (click)="saveSlab()">SAVE</button>
         </div>
     </div>

@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 @Component({
   selector: 'app-sfx-dialog',
   templateUrl: './sfx-dialog.component.html',
-  styleUrls: ['./sfx-dialog.component.css']
+  styleUrls: ['../core.css']
 })
 export class SfxDialogComponent implements OnInit {
 

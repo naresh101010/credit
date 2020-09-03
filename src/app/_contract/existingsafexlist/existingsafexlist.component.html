@@ -8,44 +8,46 @@
   <hr id="popup-hr"> 
   <mat-card class="existingSfx">  
   <div class="overflow-2 pincode_scroll">
-  <table aria-describedby="table-data"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">    
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">    
     <ng-container matColumnDef="cntrCode">
-      <th id="table_header" mat-header-cell *matHeaderCellDef> SFX CODE </th>
+      <th scope="row" mat-header-cell *matHeaderCellDef> SFX CODE </th>
       <td mat-cell *matCellDef="let element"> 
         <a  style="cursor: pointer;" (click)="showSfxCodeData(element)">{{element.cntrCode}} </a>
       </td>
     </ng-container>
+
+    
     <ng-container matColumnDef="lkpBizTypeId">
-      <th id="table_header" mat-header-cell *matHeaderCellDef> BUSINESS TYPE </th>
+      <th scope="row" mat-header-cell *matHeaderCellDef> BUSINESS TYPE </th>
       <td mat-cell *matCellDef="let element"> {{element.businessType}} </td>
     </ng-container>
     <ng-container matColumnDef="service">
-      <th id="table_header" mat-header-cell *matHeaderCellDef> SERVICES </th>
+      <th scope="row" mat-header-cell *matHeaderCellDef> SERVICES </th>
       <td mat-cell *matCellDef="let element"> {{element.servicetype}} </td>
     </ng-container>
     <ng-container matColumnDef="effectiveDt">
-      <th id="table_header" mat-header-cell *matHeaderCellDef> CONTRACT START DATE </th>
+      <th scope="row" mat-header-cell *matHeaderCellDef> CONTRACT START DATE </th>
       <td mat-cell *matCellDef="let element"> {{element.effectiveDt | date:'MM/dd/yyyy'}} </td>
     </ng-container>
     <ng-container matColumnDef="expDt">
-        <th id="table_header" mat-header-cell *matHeaderCellDef> CONTRACT END DATE </th>
+        <th scope="row" mat-header-cell *matHeaderCellDef> CONTRACT END DATE </th>
         <td mat-cell *matCellDef="let element"> {{element.expDt | date:'MM/dd/yyyy'}} </td>
       </ng-container>
       <ng-container matColumnDef="crtdDt">
-        <th id="table_header" mat-header-cell *matHeaderCellDef> CONTRACT SIGNED DATE </th>
+        <th scope="row" mat-header-cell *matHeaderCellDef> CONTRACT SIGNED DATE </th>
         <td mat-cell *matCellDef="let element"> {{element.crtdDt | date:'MM/dd/yyyy'}} </td>
       </ng-container>
       <ng-container matColumnDef="status">
-        <th id="table_header" mat-header-cell *matHeaderCellDef> STATUS </th>
+        <th scope="row" mat-header-cell *matHeaderCellDef> STATUS </th>
         <td mat-cell *matCellDef="let element"> {{element.statusName}} </td>
       </ng-container>
       <ng-container matColumnDef="version">
-        <th id="table_header" mat-header-cell *matHeaderCellDef>  </th>
+        <th scope="row" mat-header-cell *matHeaderCellDef>  </th>
         <td mat-cell *matCellDef="let element" (click)="openDialogContractVersion(element)"  style="padding-right: 0px;">       <em class="material-icons" style="cursor: pointer;">visibility
           </em></td>
       </ng-container>
       <ng-container *ngIf="isEditflow" matColumnDef="edit">
-        <th id="table_header" mat-header-cell *matHeaderCellDef>  </th>
+        <th scope="row" mat-header-cell *matHeaderCellDef>  </th>
         <td mat-cell *matCellDef="let element" (click)="showSfxCodeData(element)" style="padding-right: 0px;"> <em class="material-icons" style="cursor: pointer;">create</em> </td>
       </ng-container>
   
@@ -57,10 +59,6 @@
   
   </mat-card>
   </form>
-  
-  <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">  
-  
-  </ngx-spinner>
   
   
   

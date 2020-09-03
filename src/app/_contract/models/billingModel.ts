@@ -38,12 +38,15 @@ export class BillingModel {
     lkpPymtTermId: number;
     lkpTodBasedOnId: number;
     todAmt: number;
-    todFlag: number
+    todFlag: number;
+    gstinRegdFlag:number
 
     constructor(billingData: any = {}) {
         this.aliasName = '';
         this.autoBillingFlag = 0;
+        this.gstinRegdFlag = 0;
         this.billingBy = [];
+
         this.billingBy = this.billingBy.concat(new BillingBy());
         this.billingCneeCnorMap = [];
         this.billingCneeCnorMap = this.billingCneeCnorMap.concat(new BillingCneeCnorMap());
@@ -100,6 +103,8 @@ export class BillingBy {
     assignBranchName: string;
     bdmemailList:string[];
     bdmEmail: string;
+    ebillemailList:string[];
+    ebillEmail: string;
     billingBranchId: number;
     billingBranchName: string;
     billingByLevelMapId: number;
@@ -107,9 +112,9 @@ export class BillingBy {
     billtoAddrList: string[];
     collBranchId: number;
     collBranchName: string;
+    communicationemailList: string[];
     commBillEmail: string;
     creditRisk: number;
-    ebillEmail: string;
     excludeBillingDt: Date;
     excludeBillingFlag: number;
     gstinNum: string;
@@ -128,6 +133,8 @@ export class BillingBy {
         this.assignBranchName = '';
         this.bdmemailList = [];
         this.bdmEmail = '';
+        this.ebillemailList = [];
+        this.ebillEmail = '';
         this.billingBranchId = 0;
         this.billingBranchName = '';
         this.billingByLevelMapId = 0;
@@ -135,6 +142,7 @@ export class BillingBy {
         this.billtoAddrList = [];
         this.collBranchId = 0;
         this.collBranchName = '';
+        this.communicationemailList =[];
         this.commBillEmail = '';
         this.creditRisk = 0;
         this.ebillEmail = '';

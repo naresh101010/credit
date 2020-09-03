@@ -1,39 +1,23 @@
 import {Directive, ElementRef, HostListener, Input} from '@angular/core';
+import { AbstractControl, NG_VALIDATORS } from '@angular/forms';
+import { NumericValidator } from './numeric.validator';
+
 
 @Directive({
-    selector: '[numeric]'
+    selector: '[numeric]',
+    providers: [{ provide: NG_VALIDATORS, useExisting: NumericDirective, multi: true }]
 })
 
 export class NumericDirective {
-
-    @Input('decimals') decimals: number = 0;
-
-    private check(value: string, decimals: number)
-    {
-      if (decimals <= 0) {
-        return String(value).match(new RegExp(/^\d+$/));
-      } else {
-          var regExpString = "^\\s*((\\d+(\\.\\d{0," + decimals + "})?)|((\\d*(\\.\\d{1," + decimals + "}))))\\s*$"
-          return String(value).match(new RegExp(regExpString));
-      }
+  @Input('isChkZero') isChkZero: boolean;
+  private valFn = NumericValidator();
+	validate(control: AbstractControl): { [key: string]: any } {
+    if(!control.value){
+      return null;
     }
+		return this.isChkZero?null:this.valFn(control);
+	}
 
-    private specialKeys = [ 
-      'Backspace', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight', 'Delete'
-    ];
-
-    constructor(private el: ElementRef) {
-    }
-
-    @HostListener('keydown', [ '$event' ])
-    onKeyDown(event: KeyboardEvent) {
-        if (this.specialKeys.indexOf(event.key) !== -1) {
-            return;
-        }
-        let current: string = this.el.nativeElement.value;
-        let next: string = current.concat(event.key);
-        if ( next && !this.check(next, this.decimals) ) {
-           event.preventDefault();
-        }
-    }
+  constructor() { }
+  
 }
