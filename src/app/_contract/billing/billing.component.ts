@@ -417,6 +417,7 @@ export class BillingComponent implements OnInit {
                 } else if (this.businessType != "ANYWHERE TO ANYWHERE") {
                   this.addBilling = false;
                   if (this.billingByLevelName == "BOOKING BRANCH") {
+                    console.log('1')
                     this.displayedColumns = [
                       "billingBranchId",
                       "submsnBranchId",
@@ -438,6 +439,7 @@ export class BillingComponent implements OnInit {
                     this.billingByLevelName == "SUBMISSION BRANCH" ||
                     this.billingByLevelName == "COLLECTION BRANCH"
                   ) {
+                     console.log("2");
                     this.displayedColumns = [
                       "assignBranchId",
                       "submsnBranchId",
@@ -847,8 +849,8 @@ export class BillingComponent implements OnInit {
               .getCneeCnorData(AppSetting.msaCustId)
               .subscribe(
                 (cneeCnorData) => {
-                  let ob = ErrorConstants.validateException(cneeCnorData);
-                  if (ob.isSuccess) {
+                  let ob_ = ErrorConstants.validateException(cneeCnorData);
+                  if (ob_.isSuccess) {
                     for (
                       var k = 0;
                       k < this.billingData.billingCneeCnorMap.length;
@@ -882,7 +884,7 @@ export class BillingComponent implements OnInit {
                       }
                     }
                   } else {
-                    this.tosterService.error(ob.message);
+                    this.tosterService.error(ob_.message);
                     this.spinner.hide();
                   }
                 },
@@ -1303,8 +1305,11 @@ export class BillingComponent implements OnInit {
             billingByElement.lookupVal != "BOOKING BRANCH"
           ) {
             this.billingByList.push(billingByElement);
+            console.log('1')
           } else if (this.businessType == "OUTBOUND") {
             this.billingByList.push(billingByElement);
+            console.log("2");
+            
           }
         }
         if (
