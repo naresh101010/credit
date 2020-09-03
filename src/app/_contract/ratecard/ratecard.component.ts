@@ -4558,8 +4558,10 @@ if(postData.safextDlvryCustomCharge.length>0){
         SuccessData = success.data.responseData;
         if(this.isCopyRateCard && SuccessData){
           for(let idsCheck of this.oldCommercialIdList){
-            if(idsCheck.id==this.selectedId)
-            this.removeAllIdsForCopy(SuccessData);
+            if(idsCheck.id==this.selectedId){
+              this.removeAllIdsForCopy(SuccessData);
+            }
+           
           }
         }
         this.SuccessDataRef = success.data.referenceData;
@@ -5025,10 +5027,12 @@ if(postData.safextDlvryCustomCharge.length>0){
               }
             }
             if(item.attributeTypeId==1 || item.attributeTypeId==2){
-                if(item.attributeValue)
-                item.attributeValue = item.attributeValue.toUpperCase().split(',').map(function(item) {
-                  return item.trim();
+                if(item.attributeValue){
+                      item.attributeValue = item.attributeValue.toUpperCase().split(',').map(function(item) {
+                      return item.trim();
                 });
+                }
+              
             }
           this.notepadAttributesList.push(item)
         }
@@ -5803,8 +5807,10 @@ getFuelPriceAndDate()
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.safextCustomSlaDTO.push(old);
+            if(old.id){
+                 data.safextCustomSlaDTO.push(old);
+            }
+           
           }
         }
       }
@@ -5820,8 +5826,10 @@ getFuelPriceAndDate()
           }
           if (!isFound) {
             old['status'] = deleteStatusId;
-            if(old.id)
-            data.zmSlaDTO.push(old);
+            if(old.id){
+                data.zmSlaDTO.push(old);
+            }
+            
           }
         }
       }
