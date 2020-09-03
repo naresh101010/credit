@@ -1834,6 +1834,7 @@ export class BillingComponent implements OnInit {
                     this.billingByLevelName == "SUBMISSION BRANCH" ||
                     this.billingByLevelName == "COLLECTION BRANCH"
                   ) {
+                    console.log('1')
                     newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                     newBillingBy.assignBranchName = brnchResult.bkngBranchName;
                     this.displayedColumns = [
