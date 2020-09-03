@@ -302,9 +302,11 @@ export class BillingComponent implements OnInit {
                     this.businessType == "INBOUND" &&
                     billingByElement.lookupVal != "BOOKING BRANCH"
                   ){
+                    console.log('1')
                     this.billingByList.push(billingByElement);
                   }                  
                   else if (this.businessType == "OUTBOUND"){
+                    console.log("2");
                     this.billingByList.push(billingByElement);
                   }
                     
