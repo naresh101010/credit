@@ -499,6 +499,7 @@ export class BillingComponent implements OnInit {
                     this.billingByLevelName == "DESTINATION STATE WISE" &&
                     this.businessType === "INBOUND"
                   ) {
+                    console.log('1')
                     this.getAllStates();
                     this.displayedColumns = [
                       "assignBranchId",
@@ -523,6 +524,7 @@ export class BillingComponent implements OnInit {
                     this.billingByLevelName == "DESTINATION STATE WISE" &&
                     this.businessType === "OUTBOUND"
                   ) {
+                     console.log("2");
                     this.getAllStates();
                     this.addBilling = true;
                     this.displayedColumns = [
@@ -2637,11 +2639,13 @@ export class BillingComponent implements OnInit {
                         this.billingByLevelName === "BOOKING BRANCH" &&
                         obj.billingBranchId === branchElement.bkngBranchId
                       ) {
+                        console.log('1');
                         exist = true;
-                      } else if (
+                      } else if (                        
                         this.billingByLevelName !== "BOOKING BRANCH" &&
                         obj.assignBranchId === branchElement.bkngBranchId
                       ) {
+                        console.log("2");
                         exist = true;
                       }
                     });
