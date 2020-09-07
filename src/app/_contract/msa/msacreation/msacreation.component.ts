@@ -611,12 +611,12 @@ var ELEMENT_POST_DATA: Element[] = [];
                   return;
                 }
                 console.log(JSON.stringify);
-                for(let val of this.addressData){
-                  val["id"]=val.id;
-                  val["addr1"]= val.addr1;
-                  val["addr2"] = val.addr2;
-                  val["addr3"] = val.addr3;
-                }
+                // for(let val of this.addressData){
+                //   val["id"]=val.id;
+                //   val["addr1"]= val.addr1;
+                //   val["addr2"] = val.addr2;
+                //   val["addr3"] = val.addr3;
+                // }
                 this.addressDatalength= this.addressData.length;          
             }
             else {
