@@ -1585,7 +1585,7 @@ export class BillingComponent implements OnInit {
     if (event.altKey && (event.keyCode === 78)) { // alt+n [Next]
         event.preventDefault();
         if(document.getElementById('billingNextButton')){
-          let nextElement: HTMLElement = document.getElementById('billingNextButton') as HTMLElement;
+          let nextElement = document.getElementById('billingNextButton') ;
           nextElement.click();
         }
       }
@@ -1593,7 +1593,7 @@ export class BillingComponent implements OnInit {
       if (event.ctrlKey && (event.keyCode === 83)) { // ctrl+s [Save as Draft]
         event.preventDefault();
         if(document.getElementById('billingDraftButton')){
-          let saveElement: HTMLElement = document.getElementById('billingDraftButton') as HTMLElement;
+          let saveElement = document.getElementById('billingDraftButton');
           saveElement.click();
         }
       }
@@ -1878,7 +1878,7 @@ export class AddressDialogBox {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement = document.getElementById('closeButton');
           escElement.click();
         }
       }
@@ -1968,7 +1968,7 @@ export class EmailDialogBox {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement = document.getElementById('closeButton');
           escElement.click();
         }
       }
@@ -2058,7 +2058,7 @@ export class EbillEmailDialogBox {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement = document.getElementById('closeButton');
           escElement.click();
         }
       }
@@ -2149,7 +2149,7 @@ export class CommunicationEmailDialogBox {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement = document.getElementById('closeButton');
           escElement.click();
         }
       }
@@ -2202,7 +2202,7 @@ export class CneeCnorDialogBox {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement = document.getElementById('closeButton');
           escElement.click();
         }
       }
@@ -2345,7 +2345,7 @@ fiterData(filterValue){
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement= document.getElementById('closeButton');
           escElement.click();
         }
       }

@@ -1,4 +1,4 @@
-import { Component, Input, Inject,OnChanges, ViewChild, Output, EventEmitter, HostListener, ViewChildren, AfterViewInit, QueryList, ElementRef } from '@angular/core';
+import { Component, Input, Inject,OnChanges, ViewChild, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
 import * as models from "../models/commandmentModel";
 import { ContractService } from '../contract.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -1307,7 +1307,7 @@ getCityStart(stateId,index){
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let element = document.getElementById('closeButton');
           element.click();
         }
       }
