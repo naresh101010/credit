@@ -26,6 +26,7 @@ export class MsaOprationComponent implements OnInit {
     'custName',
     'sfdcAccId',
     'sfdcAccType',
+    'groupCode',
     'pan',
     'gstinNum',
     'email',
@@ -157,8 +158,7 @@ export class MsaOprationComponent implements OnInit {
   ngAfterViewInit() {
     if(this.dataSource){
           this.dataSource.paginator = this.paginator;
-
-    }
+        }
    }
 
   getMSAReferences(){

@@ -33,4 +33,21 @@ export class AppSetting {
   public static serviceOfering=[]
   public static stepperFlag=false
   public static businessType
+
+  public static reset() {
+    AppSetting.msaCustId = null;
+    AppSetting.msaCustId = null;
+    AppSetting.oprtunityId = null;
+    AppSetting.startDate = null;
+    AppSetting.customerName = null;
+    AppSetting.sfdcAccId = null;
+    AppSetting.sfxCode = 'NOT GENERATED YET';
+    AppSetting.endDate = null;
+    AppSetting.contractId = null;
+    AppSetting.offeringId = null;
+    AppSetting.ratecardId = null;
+    AppSetting.serviceOfering = [];
+    AppSetting.stepperFlag = false;
+    AppSetting.businessType = null;
+  }
 }

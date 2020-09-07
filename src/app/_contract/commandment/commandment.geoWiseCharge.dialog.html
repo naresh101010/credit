@@ -97,7 +97,7 @@
                                 <div class="tableBoxState marginBottom" style="width: 18rem !important;">
              <mat-form-field appearance="outline" id="datepick">
                  <input  matInput [matDatepicker]="picker2"  (dateChange)="updateList(i, 'expDt', $event.target.value)" class="date_picker"
-                  placeholder="DD/MM/YYYY" [(value)]="element.expDt" [min]="minDate">
+                  placeholder="DD/MM/YYYY" [(value)]="element.expDt" >
                  <mat-datepicker panelClass="creditDatepicker" #picker2></mat-datepicker>
                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                </mat-form-field>
@@ -111,13 +111,13 @@
                             <td mat-cell *matCellDef="let element; let i = index">
                                 <div class="tableBoxState marginBottom parent">
                                 <mat-form-field appearance="outline">
-                                    <input  autocomplete="true" matInput numeric maxlength="7" decimals="2"
+                                    <input  autocomplete="true" matInput maxlength="7" decimals="2"
                                         (keyup)="changeValue(i, 'price', $event.target.value)" required [(value)]="element.price"
                                         (blur)="updateList(i, 'price', $event.target.value)">
                                 </mat-form-field>
-                                <span *ngIf="!element.price || element.price==null || element.price==='' || (element.price && !element.price.toString().trim())"
+                                <span *ngIf="(!element.price && element.price!==0) || element.price==null || element.price==='' || (element.price && !element.price.toString().trim())"
                                 class="stateValidation">Required&nbsp;!</span>
-                                <span *ngIf="!(!element.price || element.price==null || element.price==='' || (element.price && !element.price.toString().trim())) && !element.validPrice" class="stateValidation">Invalid !</span>
+                                <span *ngIf="!((!element.price && element.price!==0) || element.price==null || element.price==='' || (element.price && !element.price.toString().trim())) && !element.validPrice" class="stateValidation">Invalid !</span>
                                 </div>
                             </td>
                         </ng-container>

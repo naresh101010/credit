@@ -2,16 +2,17 @@ import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContractService } from '../contract.service';
 import { AppSetting } from '../../app.setting';
-import { DatePipe } from '@angular/common';
+import { DatePipe, formatDate } from '@angular/common';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from "ngx-spinner";
 import { MatDialog } from '@angular/material/dialog';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, DateAdapter, MAT_DATE_FORMATS, NativeDateAdapter } from '@angular/material';
 import { ErrorConstants }  from '../models/constants';
 import { ExistingsafexlistComponent } from '../existingsafexlist/existingsafexlist.component';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { HttpClient } from "@angular/common/http";
+import * as moment from 'moment';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
 
@@ -53,10 +54,12 @@ export class OpportunityComponent implements OnInit {
 	searchCtrlSub = '';
   isDisable:boolean;
   // maxNewDate;
+  sfxValue='New SFX';
   SFXTypes = ['New SFX', 'Existing SFX']
   changeSfxType(type) {
+    this.sfxValue = type;
     if (type === 'Existing SFX') {
-      this.openDialogSFXSearch(AppSetting.msaCustId);
+      this.openDialogSFXSearch(AppSetting.msaCustId,type);
     }
   }
 
@@ -191,7 +194,7 @@ export class OpportunityComponent implements OnInit {
 
   
   // dialog
-  openDialogSFXSearch(msadata): void {
+  openDialogSFXSearch(msadata,type): void {
 
     const dialogRefEdit = this.dialog.open(ExistingsafexlistComponent, {
       width: '1000px',
@@ -206,6 +209,8 @@ export class OpportunityComponent implements OnInit {
       this.spinner.show();
        result.opportunityId = AppSetting.oprtunityId;
        this.serviceAssignOppCntr(result,true);
+      }else{
+        this.sfxValue='New SFX';
       }
       console.log('The dialog was closed');
     });
@@ -219,7 +224,7 @@ export class OpportunityComponent implements OnInit {
       if (event.ctrlKey && (event.keyCode === 83)) { // ctrl+s [Save as Draft]
         event.preventDefault();
         if(document.getElementById('secondry-button')){
-          let element = document.getElementById('secondry-button')  ;
+          let element: HTMLElement = document.getElementById('secondry-button') as HTMLElement;
           element.click();
         }
       }
@@ -227,7 +232,7 @@ export class OpportunityComponent implements OnInit {
       if (event.altKey && (event.keyCode === 78)) { // alt+n [Next]
           event.preventDefault();
           if(document.getElementById('opportunityNextButton')){
-            let element = document.getElementById('opportunityNextButton')  ;
+            let element: HTMLElement = document.getElementById('opportunityNextButton') as HTMLElement;
             element.click();
           }
         }
@@ -463,18 +468,16 @@ this.isDataAvailable=true;
           // }
           if(!this.oportunity.responseData.contract){
             for(let seg of  this.segmentList){
-              if(seg.segmentName==this.segmentName){
-                  this.model.segmentId = seg.id;
-              }
+              if(seg.segmentName==this.segmentName)
+              this.model.segmentId= seg.id;
             }
             for(let subseg of this.subSegmentList){
-              if(subseg.subsegmentName==this.subsegmentName){
-                this.model.subsegmentId = subseg.id;
-              }
+              if(subseg.subsegmentName==this.subsegmentName)
+              this.model.subsegmentId= subseg.id;
             }
           }
           if(isNavigate){
-            this.openConfirmationDialog();
+            this.openConfirmationDialogEdit();
          }
          if(!isNavigate){
           for (let data of this.msa.responseData) {
@@ -852,11 +855,11 @@ this.isDataAvailable=true;
   }
 
     // dialog 
-    openConfirmationDialog(): void {
+    openConfirmationDialogEdit(): void {
 
       const dialogRefConfirm = this.dialog.open(confimationdialog, {
         width: '300px',
-        data:{message:'Are you sure ?'},
+        data:{message:'Do you want to edit the contract ?'},
         panelClass: 'creditDialog',
         disableClose: true,
         backdropClass: 'backdropBackground'
@@ -950,7 +953,7 @@ export class SearchContractEdit {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let element = document.getElementById('closeButton')  ;
+          let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
           element.click();
         }
       }

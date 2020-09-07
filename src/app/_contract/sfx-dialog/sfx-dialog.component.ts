@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
-import {  Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-sfx-dialog',
@@ -20,10 +20,15 @@ export class SfxDialogComponent implements OnInit {
   ngOnInit() {
     this.message = this.data.message;
     this.isNew = this.data.isNew;
-    setTimeout(() => {
-      this.dialogSfxCode.close();
-      this.router.navigate(['/contract']);
-  }, 15000);
+    this.autoRun;
+  }
+  autoRun:any = setTimeout(() => {
+    this.dialogSfxCode.close();
+    this.router.navigate(['/contract']);
+}, 15000);
+
+  stopautoRun(){
+    clearTimeout(this.autoRun);
   }
 
 }

@@ -246,7 +246,8 @@ export class DocumentuploadComponent implements OnInit {
             "docSubtype": "",
             "expDt": "",
             "docPathRef": "",
-            'signedUrl': ''
+            'signedUrl': '',
+            'msaCustId': ''
           };
           //set all values in doc object
           docObj.docRef=obj.docRef;
@@ -263,6 +264,7 @@ export class DocumentuploadComponent implements OnInit {
             }
           }
           docObj.signedUrl = obj.signedUrl;
+          docObj.msaCustId = obj.msaCustId;
           this.docList.push(docObj);
         }
         //
@@ -394,7 +396,7 @@ validateFileSize() {
     }else{return true}
   }
 
-  navigateToPreview($event){
+  navigateToPreview($event) {
     $event.preventDefault();
     if(this.editflow){
       this.router.navigate(['/contract/preview',{steper:true,'editflow':'true'}], {skipLocationChange: true});
@@ -432,18 +434,27 @@ validateFileSize() {
   docExpiryDt(){
     let docYear = parseInt(this.datePipe.transform(this.docExpiryDate, 'yyyy'))
       if (docYear > 9999) {
-        this.docExpiryDate = "";
-      } 
-  // else {
-  //   this.docExpiryDate = this.datePipe.transform(this.docExpiryDate, 'yyyy-MM-dd')
-
-  //   if (this.docExpiryDate < this.minDate || this.docExpiryDate > this.maxDate) {
-  //     this.isValidDocExpiryDate = true;
-  //   }
-  //   else {
-  //     this.isValidDocExpiryDate = false;
-  //   }
-  // }
+        this.docExpiryDate = '';
+      }
   }
 
+  deleteFile(item) {
+    this.spinner.show();
+    console.log (item);
+    const deactivateData = {key:'msa',value:[item.msaCustId]};
+    this.contractservice.deactivateDocument(deactivateData).subscribe(result => {
+      let ob = ErrorConstants.validateException(result);
+      if(ob.isSuccess) {
+      this.docformupload.resetForm();
+      this.getDocumentDetailbyId();
+      } else {
+        this.toaster.error(ob.message);
+        this.spinner.hide();
+      }
+    },error => {
+      this.toaster.error(ErrorConstants.errorNotFound);
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
 }

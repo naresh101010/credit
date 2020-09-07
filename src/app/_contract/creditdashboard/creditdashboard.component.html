@@ -8,24 +8,18 @@
         <strong> {{userName}}</strong></p>
     </div>
     <div class="col-md-3 text-center">
-      <label style="color: white;font-size: 3rem;">Credit Contract</label>
+      <label style="color: white;font-size: 3rem;">CREDIT CONTRACT</label>
     </div>
   </div>
 </div>
-
 
 <div class="container containerWidth cardMarginTop">
   <div class="row countCard">
     <div class="col-md-4">
       <mat-card class="count_card cursor" style="border-radius: 1rem" (click)="onSelectBlock('ACTIVE')">
         <mat-card-content >
-          <label class="cursor" style="color: #27AE60;font-size: 2.2rem;">
-            Total Active Contracts
-          </label>
-          <h2 class="cardPointer">
-            {{count?.totalCount }}
-          </h2>
-          <h5>Today</h5>
+          <label class="cursor" style="color: #27AE60;font-size: 2.2rem;">Total Active Contracts</label>
+          <h2 class="cardPointer">{{count?.totalCount }}</h2><h5>Today</h5>
           <div class="topCircle"></div>
           <div class="bottomCircle"></div>
         </mat-card-content>
@@ -45,11 +39,8 @@
     <div class="col-md-4">
       <mat-card class="count_card cursor" (click)="onSelectBlock('EXPIRING SOON')">
         <mat-card-content>
-          <label class="cursor" style="color: #27AE60;font-size: 2.2rem;">
-            Expiring Soon
-          </label>
-          <h2 class="cardPointerRed" >{{count?.expCount}}</h2>
-          <h5>This Month</h5>
+          <label class="cursor" style="color: #27AE60;font-size: 2.2rem;">Expiring Soon</label>
+          <h2 class="cardPointerRed" >{{count?.expCount}}</h2><h5>This Month</h5>
           <div class="topCircle"></div>
           <div class="bottomCircle"></div>
         </mat-card-content>
@@ -108,7 +99,7 @@
         <div class="row mt15">
           <div class="table-responsive">
 <div class="table_scroll" style="max-height: 48rem ; overflow-y: scroll;">
-    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" aria-describedby="table" *ngxPermissionsOnly="['CONTRACT_READ']">
+    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" *ngxPermissionsOnly="['CONTRACT_READ']">
 
               <!-- Position Column -->
               <ng-container matColumnDef="custName">
@@ -188,6 +179,12 @@
                 </td>
               </ng-container>
 
+              <!-- group code -->
+              <ng-container matColumnDef="groupCode">
+                <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> MSA CODE </th>
+                <td mat-cell *matCellDef="let element"><div class="row_center row_center_width" [matTooltip]="element.groupCode" matTooltipPosition="above" >{{element.groupCode}} </div></td>
+              </ng-container>
+
               <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true;" ></tr>
               <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="row.getContractIdFlag ? 'backgroundGren' : '' "></tr>
             </table>
@@ -203,24 +200,20 @@
 
 
 
-    <div class="col-md-2"  cdkDropList  [ngClass]="draggedObjects?.length == 0 ? 'border' : ''"
+    <div class="col-md-2"  cdkDropList  [ngClass]="draggedObjects?.length == 0 ? 'border' : 'drag_drop_box_without_border'"
          #bookmarked="cdkDropList"
          [cdkDropListData]="draggedObjects"
          [cdkDropListConnectedTo]="[simple]"
          (cdkDropListDropped)="drop($event)">
       <p *ngIf="draggedObjects.length == 0">Drop Here...</p>
       <div *ngFor="let item of draggedObjects; let j=index">
-        <div class="pull-right" *ngxPermissionsOnly="[item.permission]"  [ngClass]="selectedValue === item?.targetValue ? 'greenBlock' : 'whiteBlock'"
-             cdkDrag>
-          <img style="margin-bottom: 0px;" width="26px"   [src]="getImagePath(item?.imagePath,item?.targetValue)" alt="icon"/>
-          <h3 *ngIf="item.objectName == 'MSA'" class="fontSizeDashboard text-center"  [title]="item?.objectName"
-               style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;"
-               (click)="onSelectBlock(item?.targetValue)"> {{item?.objectName}} </h3>
-          <h3 *ngIf="item.objectName != 'MSA'" class="fontSizeDashboard text-center"  [title]="item?.objectName"
-               style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;"
-               (click)="onSelectBlock(item?.targetValue)"> {{item?.objectName | titlecase}} </h3>
-          <h3 class="fontSizeDashboard" [ngClass]="selectedValue === item?.targetValue ? 'white' : 'red'">
-            <span *ngIf="item.count">({{item?.count}})</span></h3>
+        <div class="pull-right" *ngxPermissionsOnly="[item.permission]"  [ngClass]="selectedValue === item?.targetValue ? 'greenBlock' : 'whiteBlock'" cdkDrag (click)="onSelectBlock(item?.targetValue)">
+          <img  style="margin-bottom: 0px;" width="26px"   [src]="getImagePath(item?.imagePath,item?.targetValue)" alt="icon"/>
+          <h3 *ngIf="item.objectName == 'MSA'" class="fontSizeDashboard text-center" [title]="item?.objectName"
+               style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;"> {{item?.objectName}} </h3>
+          <h3 *ngIf="item.objectName != 'MSA'" class="fontSizeDashboard text-center" [title]="item?.objectName"
+               style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;"> {{item?.objectName | titlecase}} </h3>
+          <h3 class="fontSizeDashboard" [ngClass]="selectedValue === item?.targetValue ? 'white' : 'red'"><span *ngIf="item.count">({{item?.count}})</span></h3>
           <div style="margin-top: 5px;">
             <mat-icon matTooltip="Mark the object as pinned" class="iconSize" (click)="addToPinnedObj(item,j)" [ngClass]="checkIsPinned(item) ? 'orange' : selectedValue === item.targetValue ? 'white' : 'black'">{{item.bookmarkIcon}}</mat-icon>
             <mat-icon matTooltip="Mark the object as favourite" class="iconSize" (click)="addToFavorite(item,j)" [ngClass]="checkIsFavorite(item) ? 'red' : selectedValue === item?.targetValue ? 'white' : 'green'">{{item.favoriteIcon}}</mat-icon>
@@ -242,7 +235,7 @@
          [cdkDropListConnectedTo]="[bookmarked]"
          (cdkDropListDropped)="drop($event)">
       <p *ngIf="cardDetails.length == 0">Drop Here...</p>
-      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 paddingrightzero bottomMargin" *ngFor="let data of cardDetails;  let k=index" cdkDrag>
+      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 paddingrightzero dropdown bottomMargin" *ngFor="let data of cardDetails;  let k=index" cdkDrag (click)="onSelectBlock(data?.targetValue)">
         <mat-card class="example-card matCardBottom" *ngxPermissionsOnly="[data.permission]">
           <mat-card-content>
             <mat-icon matTooltip="Mark the object as pinned"  matTooltipPosition="above" style="padding-top:2px;" (click)="addToPinnedObj(data,k)" [ngClass]="checkIsPinned(data) ? 'orange' : 'black'">{{data.bookmarkIcon}}</mat-icon>
@@ -250,14 +243,14 @@
             <div class="row cursor">
               <div class="col-md-10 cursor">
                 <label *ngIf="data.objectName == 'MSA'"  class="fontSizeDashboard cursor" style="color: #27AE60; font-size: 2rem;display: block;white-space: nowrap;"
-                       [title]="data?.objectName" (click)="onSelectBlock(data?.targetValue)"> {{data?.objectName}}
+                       [title]="data?.objectName" > {{data?.objectName}}
                 </label>
-                <label *ngIf="data.objectName != 'MSA'" class="fontSizeDashboard cursor" style="color: #27AE60; font-size: 2rem;display: block;white-space: nowrap;"
-                       [title]="data?.objectName" (click)="onSelectBlock(data?.targetValue)"> {{data?.objectName | titlecase}}
+                <label *ngIf="data.objectName != 'MSA'" class="fontSizeDashboard cursor" style="color: #27AE60; font-size: 2rem;display: block;"
+                       [title]="data?.objectName"> {{data?.objectName | titlecase}}
               </label>
               </div>
               <div class="col-md-2">
-                <img style="margin-bottom: 7px;float:right;margin-top: 5PX;" width="30px" alt=""  src="/assets/images/{{data?.imagePath}}"/>
+                <img class="iconImage" alt="icon"  src="/assets/images/{{data?.imagePath}}"/>
               </div>
             </div>
           </mat-card-content>

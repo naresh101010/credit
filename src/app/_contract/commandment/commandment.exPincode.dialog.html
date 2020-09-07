@@ -75,8 +75,8 @@
                         <div class="col-lg-8 col-md-6 zonalheadingbar fonts">CITY</div>
                     </div>
                 </div>
-                <div class="col-lg-12 col-md-12 row-margin overflow-2 pincode_scroll">
-                    <div class="col-lg-5 col-md-5 row-margin">
+                <div class="col-lg-12 col-md-12 row-margin">
+                    <div class="col-lg-5 col-md-5 row-margin pincode_scroll">
                         <div class="col-lg-12 col-md-12  paddingleft1point5"
                             *ngFor="let ccData of allPincodeList; let i = index">
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 border-bottom paddingleftzero">
@@ -94,22 +94,16 @@
                             </div>
                         <div class="col-lg-12 col-md-12 row-margin">
                             <mat-icon (click)="removeFromExcludeList()" id="backIcon" mat-card-avatar
-                                aria-label="Add to excluded list" style="font-size: xxx-large; margin-left: 25%; cursor: pointer; font-weight: bold;">arrow_back</mat-icon>
-                            
+                                aria-label="Add to excluded list" style="font-size: xxx-large; margin-left: 25%; cursor: pointer; font-weight: bold;">arrow_back</mat-icon>                             
                         </div>
-                    </div>
-                    <div class="col-lg-5 col-md-5 ">
-                        <div class="col-lg-12 col-md-12" style="padding-left: 0 !important;"
-                            *ngFor="let ccData of excludedPincodeList; let i = index">    
+                     </div>
+                    <div class="col-lg-5 col-md-5 pincode_scroll">
+                        <div class="col-lg-12 col-md-12" style="padding-left: 0 !important;" *ngFor="let ccData of excludedPincodeList; let i = index">    
                         <div class="col-lg-1 col-md-1 border-bottom paddingleftzero ">
-                            <mat-checkbox name="isChecked" (change)="resetAllEx()" [(ngModel)]="ccData.isChecked" [checked]=ccData.isChecked>
-                            </mat-checkbox>
+                            <mat-checkbox name="isChecked" (change)="resetAllEx()" [(ngModel)]="ccData.isChecked" [checked]=ccData.isChecked></mat-checkbox>
                         </div>
-                        <div class="col-lg-3 col-md-3 border-bottom paddingleftzero">
-                            {{ccData.pincodeId}}</div>
-                        <div class="col-lg-8 col-md-8 border-bottom ">
-                            {{ccData.city}}
-                        </div>
+                        <div class="col-lg-3 col-md-3 border-bottom paddingleftzero">{{ccData.pincodeId}}</div>
+                        <div class="col-lg-8 col-md-8 border-bottom ">{{ccData.city}}</div>
                     </div>
                     </div>
                 </div>

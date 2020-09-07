@@ -223,8 +223,10 @@
                   <div class="col-lg-6 col-md-6"></div>
                   <div class="row" >
                     <div class="col-lg-6 col-md-6 label-text">Status</div>
-                    <div class="col-lg-6 col-md-6 label-text-value">
-                      ACTIVE</div>
+                    <div class="col-lg-6 col-md-6 label-text-value" *ngIf="model.isStgRc || sfxCode === 'NOT GENERATED YET' || !model.rateCardCode || model.rateCardCode===null">
+                    DRAFT </div>
+                    <div class="col-lg-6 col-md-6 label-text-value" *ngIf="!model.isStgRc && sfxCode !== 'NOT GENERATED YET' && model.rateCardCode && model.rateCardCode !== null">
+                      ACTIVE </div>
                   </div>
                   <!-- Service Offering -->
                   <div class="row margintop10" >
@@ -257,6 +259,7 @@
                           class="creditNgDropdown ngValue"
                           bindValue="baseLocnBranchId"
                           appendTo="body"
+                          dropdownPosition="bottom"
                           (search) ='advanceDefaultBranchName($event)'
                           [(ngModel)]="model.baseLocnBranchId"
                           (click)="onClear()"
@@ -326,7 +329,7 @@
                     'commercialbox': (selectedId != data.id)
                     }" class="rightBottom">
                     <div class="containerTile">
-                      <em *ngxPermissionsOnly="['COMMERCIAL_CREATE']" class="material-icons deleteIcon1" (click)="deleteCommercialDetailbyId(data.id)">delete</em>
+                      <em *ngxPermissionsOnly="['COMMERCIAL_CREATE']" class="material-icons deleteIcon1" (click)="deleteCommercialDetailbyId(data)">delete</em>
                       <h6 style="cursor: pointer;">{{data.id}}</h6>
                       <mat-divider id="tileLine"></mat-divider>
                       <p *ngIf="data.chargeByName.length>13" class="card_minor_text to_upper_case heading_bold" [matTooltip]="data.chargeByName | uppercase">{{data.chargeByName}}</p>
@@ -536,8 +539,6 @@
                   <div class="col-lg-1 col-md-1   zonalheadingbar">ZONAL GROUP</div>
                   <div class="col-lg-1 col-md-1   zonalheadingbar" *ngIf="CommercialDataModel.slabFlag==0">RATE</div>
                   <div *ngIf="CommercialDataModel.slabFlag==0" class="col-lg-1 col-md-1   zonalheadingbar">MINIMUM FREIGHT</div>
-                 
-                 
                   <!-- slab 1 -->
                   <div *ngIf="CommercialDataModel.slabFlag==1">
                     <div class="col-lg-2 col-md-2  " style="width: 15%; padding: 0 !important;"
@@ -551,7 +552,8 @@
                             style="padding: 0 !important;">
                             <input maxlength="5" autocomplete="true" name="zmslabto1" autocomplete="true"
                               autocomplete="true" class="dropdown disabled_input" id="zonal-input" placeholder="0-{{zmslabto1}}"
-                              *ngIf="!(show)">
+                              *ngIf="!(show)"
+                              [matTooltip]="zmToolTip1" [matTooltipDisabled]="zmslabto1 && zmslabto1<99999" matTooltipPosition="above">
                             <div class="dropdown" *ngIf="show">
                               <button class="btn btn-success commercialButton" type="submit" (click)="addSlabVal1()">
                                 SUBMIT</button>
@@ -589,7 +591,8 @@
                             style="padding: 0 !important;">
                             <input name="zmslabfrom2" autocomplete="true" autocomplete="true" maxlength="5"
                               autocomplete="true" class="dropdown disabled_input" id="zonal-input" placeholder="{{zmslabfrom2}}-{{zmslabto2}}"
-                              *ngIf="!(showArray)">
+                              *ngIf="!(showArray)"
+                              [matTooltip]="zmToolTip2" [matTooltipDisabled]="zmslabto2 && zmslabto2<99999" matTooltipPosition="above">
                             <div class="dropdown" *ngIf="showArray">
                               <button class="btn btn-success commercialButton" type="submit" (click)="addSlabVal2()">SUBMIT</button>
                             </div>
@@ -626,8 +629,10 @@
                           <div class="col-lg-12 col-md-12 zonalheadingbar1" (click)="toggleArray2(zmslabto3)"
                             style="padding: 0 !important;">
                             <input name="zmslabfrom3" autocomplete="true" maxlength="5" autocomplete="true" class="dropdown disabled_input"
-                              id="zonal-input" placeholder="{{zmslabfrom3}}-{{zmslabto3}}" *ngIf="!(showArray2)">
-                            <div class="dropdown" *ngIf="showArray2">
+                              id="zonal-input" placeholder="{{zmslabfrom3}}-{{zmslabto3}}" *ngIf="!(showArray2)"
+                              [matTooltip]="zmToolTip3" [matTooltipDisabled]="zmslabto3 && zmslabto3<99999" matTooltipPosition="above">
+                            <div class="dropdown" *ngIf="showArray2"
+                            >
                               <button class="btn btn-success commercialButton" type="submit" (click)="addSlabVal3()">SUBMIT</button></div>
                           </div>
                           <!-- hover  -->
@@ -664,8 +669,10 @@
                           <div class="col-lg-12 col-md-12 zonalheadingbar1" (click)="toggleArray3(zmslabto4)"
                             style="padding: 0 !important;">
                             <input name="zmslabfrom4" autocomplete="true" maxlength="5" autocomplete="true" class="dropdown disabled_input"
-                              id="zonal-input" disabled placeholder="{{zmslabfrom4}}-{{zmslabto4}}" *ngIf="!(showArray3)">
-                            <div class="dropdown" *ngIf="showArray3">
+                              id="zonal-input" placeholder="{{zmslabfrom4}}-{{zmslabto4}}" *ngIf="!(showArray3)"
+                              [matTooltip]="zmToolTip4" [matTooltipDisabled]="zmslabto4 && zmslabto4<99999" matTooltipPosition="above">
+                            <div class="dropdown" *ngIf="showArray3"
+                            >
                               <button class="btn btn-success commercialButton" type="submit" (click)="addSlabVal4()">SUBMIT</button></div>
                           </div>
                           <!-- hover  -->
@@ -704,8 +711,10 @@
                           <div class="col-lg-12 col-md-12 zonalheadingbar1" (click)="toggleArray4(zmslabto5)"
                             style="padding: 0 !important;">
                             <input name="zmslabfrom5" autocomplete="true" maxlength="5" autocomplete="true" class="dropdown disabled_input"
-                              id="zonal-input" placeholder="{{zmslabfrom5}}-{{zmslabto5}}" *ngIf="!(showArray4)">
-                            <div class="dropdown" *ngIf="showArray4">
+                              id="zonal-input" placeholder="{{zmslabfrom5}}-{{zmslabto5}}" *ngIf="!(showArray4)"
+                              [matTooltip]="zmToolTip5" [matTooltipDisabled]="zmslabto5 && zmslabto5<99999" matTooltipPosition="above">
+                            <div class="dropdown" *ngIf="showArray4"
+                            >
                               <button class="btn btn-success commercialButton" type="submit" (click)="addSlabVal5()">SUBMIT</button></div>
                           </div>
                           <!-- hover  -->
@@ -716,7 +725,7 @@
                             <div class="col-lg-4 col-md-4   zonalheadingbar1 to">To</div>
                             <div class="col-lg-4 col-md-4   zonalheadingbar1 three"><input maxlength="5" type="number"
                                 name="zmslabto5" autocomplete="number" autocomplete="true" id="zonal-input1" [(ngModel)]="zmslabto5"
-                                min="{{zmslabfrom5}}" max="99999"></div>
+                                min="{{zmslabfrom5}}" max="9999999999"></div>
                           </div>
                           <!--end of hover  -->
                         </div>
@@ -767,8 +776,7 @@
                   <div class="col-lg-1 col-md-1   commercial-padding" *ngIf="CommercialDataModel.slabFlag==0">
                     <mat-form-field appearance="outline" style="height: 2.7rem; width: 100%;">
                       <input required #priceOne='ngModel' matInput autocomplete="true" [(ngModel)]="item.price"
-                        numeric decimals="2" maxlength={{maxLength}} name="priceOne-{{i}}" tabindex="{{i}}">
-                        
+                        numeric decimals="2" maxlength={{maxLength}} name="priceOne-{{i}}">
                     </mat-form-field>
                     <span *ngIf="(priceOne.errors?.required && (priceOne.touched || fCommercial.submitted))" class="hasErrorMsg">
                       Required !
@@ -785,7 +793,7 @@
                   <div *ngIf="CommercialDataModel.slabFlag==0" class="col-lg-1 col-md-1  ">
                     <mat-form-field appearance="outline" style="height: 2.7rem; width: 100%;">
                       <input required #minFreightOne='ngModel' matInput autocomplete="true"
-                        [(ngModel)]="item.minFreight" numeric decimals="2" maxlength="8" name="minFreightOne-{{i}}" >
+                        [(ngModel)]="item.minFreight" numeric decimals="2" maxlength="8" name="minFreightOne-{{i}}">
                     </mat-form-field>
                     <span *ngIf="(minFreightOne.errors?.required && (minFreightOne.touched || fCommercial.submitted))"
                       class="hasErrorMsg">
@@ -1065,7 +1073,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                     <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                      <input name="zmslabfrom1" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom1}}-{{zmslabto1}}"> 
+                      <input matInput name="zmslabfrom1" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  
+                      id="zonal-input" readonly placeholder="{{zmslabfrom1}}-{{zmslabto1}}"
+                      [matTooltip]="zmToolTip1" [matTooltipDisabled]="zmslabto1 && zmslabto1<99999" matTooltipPosition="above"> 
                       <div class="dropdown"></div>
                       </div>
                     <!-- Hover -->
@@ -1083,7 +1093,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom2" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom2}}-{{zmslabto2}}"> 
+                                  <input matInput name="zmslabfrom2" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  
+                                  id="zonal-input" readonly placeholder="{{zmslabfrom2}}-{{zmslabto2}}"
+                                  [matTooltip]="zmToolTip2" [matTooltipDisabled]="zmslabto2 && zmslabto2<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1101,7 +1113,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom3" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom3}}-{{zmslabto3}}"> 
+                                  <input matInput name="zmslabfrom3" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  
+                                  id="zonal-input" readonly placeholder="{{zmslabfrom3}}-{{zmslabto3}}"
+                                  [matTooltip]="zmToolTip3" [matTooltipDisabled]="zmslabto3 && zmslabto3<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1119,7 +1133,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom4" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom4}}-{{zmslabto4}}"> 
+                                  <input  matInput name="zmslabfrom4" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  
+                                  id="zonal-input" readonly placeholder="{{zmslabfrom4}}-{{zmslabto4}}"
+                                  [matTooltip]="zmToolTip4" [matTooltipDisabled]="zmslabto4 && zmslabto4<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1137,7 +1153,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom5" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom5}}-{{zmslabto5}}"> 
+                                  <input matInput name="zmslabfrom5" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  
+                                  id="zonal-input" readonly placeholder="{{zmslabfrom5}}-{{zmslabto5}}"
+                                  [matTooltip]="zmToolTip5" [matTooltipDisabled]="zmslabto5 && zmslabto5<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1588,7 +1606,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                   <!-- hover  -->
                     <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                      <input name="zmslabfrom1" numeric  decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom1}}-{{zmslabto1}}"> 
+                      <input matInput name="zmslabfrom1" numeric  decimals="2" autocomplete="true"  autocomplete="true" class="dropdown" 
+                       id="zonal-input" readonly placeholder="{{zmslabfrom1}}-{{zmslabto1}}"
+                       [matTooltip]="zmToolTip1" [matTooltipDisabled]="zmslabto1 && zmslabto1<99999" matTooltipPosition="above"> 
                       <div class="dropdown"></div>
                       </div>
                     <!-- Hover -->
@@ -1606,7 +1626,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom2" numeric  decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom2}}-{{zmslabto2}}"> 
+                                  <input matInput name="zmslabfrom2" numeric  decimals="2" autocomplete="true"  autocomplete="true" class="dropdown" 
+                                   id="zonal-input" readonly placeholder="{{zmslabfrom2}}-{{zmslabto2}}"
+                                   [matTooltip]="zmToolTip2" [matTooltipDisabled]="zmslabto2 && zmslabto2<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1624,7 +1646,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom3" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom3}}-{{zmslabto3}}"> 
+                                  <input matInput name="zmslabfrom3" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown" 
+                                   id="zonal-input" readonly placeholder="{{zmslabfrom3}}-{{zmslabto3}}"
+                                   [matTooltip]="zmToolTip3" [matTooltipDisabled]="zmslabto3 && zmslabto3<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1642,7 +1666,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom4" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom4}}-{{zmslabto4}}"> 
+                                  <input matInput name="zmslabfrom4" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown" 
+                                   id="zonal-input" readonly placeholder="{{zmslabfrom4}}-{{zmslabto4}}"
+                                   [matTooltip]="zmToolTip4" [matTooltipDisabled]="zmslabto4 && zmslabto4<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1660,7 +1686,9 @@
                   <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                 <!-- hover  -->
                                 <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                  <input name="zmslabfrom5" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom5}}-{{zmslabto5}}"> 
+                                  <input matInput name="zmslabfrom5" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown" 
+                                   id="zonal-input" readonly placeholder="{{zmslabfrom5}}-{{zmslabto5}}"
+                                   [matTooltip]="zmToolTip5" [matTooltipDisabled]="zmslabto5 && zmslabto5<99999" matTooltipPosition="above"> 
                                   <div class="dropdown"></div>
                                   </div>
                     <!-- Hover -->
@@ -1885,7 +1913,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                           <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                            <input name="zmslabfrom1" numeric  decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom1}}-{{zmslabto1}}"> 
+                            <input matInput name="zmslabfrom1" numeric  decimals="2" autocomplete="true"  autocomplete="true" 
+                            class="dropdown"  id="zonal-input" readonly placeholder="{{zmslabfrom1}}-{{zmslabto1}}"
+                            [matTooltip]="zmToolTip1" [matTooltipDisabled]="zmslabto1 && zmslabto1<99999" matTooltipPosition="above"> 
                             <div class="dropdown"></div>
                             </div>
                           <!-- Hover -->
@@ -1903,7 +1933,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                           <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                            <input name="zmslabfrom2" numeric  decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom2}}-{{zmslabto2}}"> 
+                            <input matInput name="zmslabfrom2" numeric  decimals="2" autocomplete="true"  
+                            autocomplete="true" class="dropdown"  id="zonal-input" readonly placeholder="{{zmslabfrom2}}-{{zmslabto2}}"
+                            [matTooltip]="zmToolTip2" [matTooltipDisabled]="zmslabto2 && zmslabto2<99999" matTooltipPosition="above"> 
                             <div class="dropdown"></div>
                             </div>
                           <!-- Hover -->
@@ -1921,7 +1953,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom3" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom3}}-{{zmslabto3}}"> 
+                                        <input matInput name="zmslabfrom3" numeric decimals="2" autocomplete="true"  autocomplete="true" 
+                                        class="dropdown"  id="zonal-input" readonly placeholder="{{zmslabfrom3}}-{{zmslabto3}}"
+                                        [matTooltip]="zmToolTip3" [matTooltipDisabled]="zmslabto3 && zmslabto3<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -1939,7 +1973,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom4" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom4}}-{{zmslabto4}}"> 
+                                        <input matInput name="zmslabfrom4" numeric decimals="2" autocomplete="true"  autocomplete="true" 
+                                        class="dropdown"  id="zonal-input" readonly placeholder="{{zmslabfrom4}}-{{zmslabto4}}"
+                                        [matTooltip]="zmToolTip4" [matTooltipDisabled]="zmslabto4 && zmslabto4<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -1958,7 +1994,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom5" numeric decimals="2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom5}}-{{zmslabto5}}"> 
+                                        <input matInput name="zmslabfrom5" numeric decimals="2" autocomplete="true"  autocomplete="true" 
+                                        class="dropdown"  id="zonal-input" readonly placeholder="{{zmslabfrom5}}-{{zmslabto5}}"
+                                        [matTooltip]="zmToolTip5" [matTooltipDisabled]="zmslabto5 && zmslabto5<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2218,7 +2256,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                           <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                            <input name="zmslabfrom1" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom1}}-{{zmslabto1}}"> 
+                            <input matInput name="zmslabfrom1" autocomplete="true"  autocomplete="true" class="dropdown"  
+                            id="zonal-input" readonly placeholder="{{zmslabfrom1}}-{{zmslabto1}}"
+                            [matTooltip]="zmToolTip1" [matTooltipDisabled]="zmslabto1 && zmslabto1<99999" matTooltipPosition="above"> 
                             <div class="dropdown"></div>
                             </div>
                           <!-- Hover -->
@@ -2236,7 +2276,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom2}}-{{zmslabto2}}"> 
+                                        <input matInput name="zmslabfrom2" autocomplete="true"  autocomplete="true" class="dropdown"
+                                          id="zonal-input" readonly placeholder="{{zmslabfrom2}}-{{zmslabto2}}"
+                                          [matTooltip]="zmToolTip2" [matTooltipDisabled]="zmslabto2 && zmslabto2<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2254,7 +2296,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom3" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom3}}-{{zmslabto3}}"> 
+                                        <input matInput name="zmslabfrom3" autocomplete="true"  autocomplete="true" class="dropdown" 
+                                         id="zonal-input" readonly placeholder="{{zmslabfrom3}}-{{zmslabto3}}"
+                                         [matTooltip]="zmToolTip3" [matTooltipDisabled]="zmslabto3 && zmslabto3<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2272,7 +2316,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom4" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom4}}-{{zmslabto4}}"> 
+                                        <input matInput name="zmslabfrom4" autocomplete="true"  autocomplete="true" class="dropdown" 
+                                         id="zonal-input" readonly placeholder="{{zmslabfrom4}}-{{zmslabto4}}"
+                                         [matTooltip]="zmToolTip4" [matTooltipDisabled]="zmslabto4 && zmslabto4<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2290,7 +2336,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom5" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom5}}-{{zmslabto5}}"> 
+                                        <input matInput name="zmslabfrom5" autocomplete="true"  autocomplete="true" class="dropdown"  
+                                        id="zonal-input" readonly placeholder="{{zmslabfrom5}}-{{zmslabto5}}"
+                                        [matTooltip]="zmToolTip5" [matTooltipDisabled]="zmslabto5 && zmslabto5<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2519,7 +2567,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                           <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                            <input name="zmslabfrom1" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom1}}-{{zmslabto1}}" maxlength ="19" > 
+                            <input matInput name="zmslabfrom1" autocomplete="true"  autocomplete="true" class="dropdown"  
+                            id="zonal-input" readonly placeholder="{{zmslabfrom1}}-{{zmslabto1}}" maxlength ="19" 
+                            [matTooltip]="zmToolTip1" [matTooltipDisabled]="zmslabto1 && zmslabto1<99999" matTooltipPosition="above"> 
                             <div class="dropdown"></div>
                             </div>
                           <!-- Hover -->
@@ -2537,7 +2587,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom2" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom2}}-{{zmslabto2}}" maxlength ="19" > 
+                                        <input matInput name="zmslabfrom2" autocomplete="true"  autocomplete="true" class="dropdown"  
+                                        id="zonal-input" readonly placeholder="{{zmslabfrom2}}-{{zmslabto2}}" maxlength ="19" 
+                                        [matTooltip]="zmToolTip2" [matTooltipDisabled]="zmslabto2 && zmslabto2<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2555,7 +2607,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom3" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom3}}-{{zmslabto3}}" > 
+                                        <input matInput name="zmslabfrom3" autocomplete="true"  autocomplete="true" class="dropdown"
+                                          id="zonal-input" readonly placeholder="{{zmslabfrom3}}-{{zmslabto3}}" 
+                                          [matTooltip]="zmToolTip3" [matTooltipDisabled]="zmslabto3 && zmslabto3<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2573,7 +2627,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom4" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom4}}-{{zmslabto4}}" > 
+                                        <input matInput name="zmslabfrom4" autocomplete="true"  autocomplete="true" class="dropdown"
+                                          id="zonal-input" readonly placeholder="{{zmslabfrom4}}-{{zmslabto4}}" 
+                                          [matTooltip]="zmToolTip4" [matTooltipDisabled]="zmslabto4 && zmslabto4<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -2591,7 +2647,9 @@
                         <div class="col-lg-12 col-md-12 zonalheadingbar1">SLAB</div>                    
                                       <!-- hover  -->
                                       <div class="col-lg-12 col-md-12 zonalheadingbar1"  style="padding: 0 !important;">
-                                        <input name="zmslabfrom5" autocomplete="true"  autocomplete="true" class="dropdown"  id="zonal-input" disabled placeholder="{{zmslabfrom5}}-{{zmslabto5}}" > 
+                                        <input matInput name="zmslabfrom5" autocomplete="true"  autocomplete="true" class="dropdown"
+                                          id="zonal-input" readonly placeholder="{{zmslabfrom5}}-{{zmslabto5}}" 
+                                          [matTooltip]="zmToolTip5" [matTooltipDisabled]="zmslabto5 && zmslabto5<99999" matTooltipPosition="above"> 
                                         <div class="dropdown"></div>
                                         </div>
                           <!-- Hover -->
@@ -4462,7 +4520,7 @@
                 <mat-icon >add_circle</mat-icon>
               </button>
             </h5>
-            <div class="row" *ngIf="vmiList.length>0" >
+            <div class="row" *ngIf="vmiList.length>0" style="padding-top: 1.rem;">
               <div class="col-lg-6 col-md-6  ">
                 <div class="col-lg-3 col-md-3   zonalheadingbar">CONSIGNOR <span class="redMark"> *</span></div>
                 <div class="col-lg-3 col-md-3   zonalheadingbar">CONSIGNEE <span class="redMark"> *</span></div>

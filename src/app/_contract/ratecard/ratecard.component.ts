@@ -274,9 +274,10 @@ export class RatecardComponent implements OnInit {
   }
 
  addSlabVal(){
-  if(this.zmslabto1>99898 || this.zmslabto1<0) {
+  if(this.zmslabto1>9999999999 || this.zmslabto1<0) {
     this.zmslabto1 = this.prevzmslabto1;
-    this.tosterservice.info('Please enter values between <0 - 99898>');
+    this.updateTootlipSlab();
+    this.tosterservice.info('Please enter values between <0 - 9999999999>');
     return;
    }
    if(this.CommercialDataModel.ZonalSlabCounter===2){
@@ -295,11 +296,13 @@ export class RatecardComponent implements OnInit {
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
+   this.updateTootlipSlab();
  }
  addSlabVal1(){
-  if(this.zmslabto1>99898 || this.zmslabto1<0) {
+  if(this.zmslabto1>9999999999 || this.zmslabto1<0) {
     this.zmslabto1 = this.prevzmslabto1;
-   this.tosterservice.info('Please enter values between <0 - 99898>');
+    this.updateTootlipSlab();
+   this.tosterservice.info('Please enter values between <0 - 9999999999>');
    return;
   }
   if(this.CommercialDataModel.ZonalSlabCounter===2){
@@ -330,12 +333,13 @@ export class RatecardComponent implements OnInit {
    this.zmslabfrom5 = this.zmslabto4 +1
    this.zmslabto5 = this.zmslabfrom5+100;
   }
-
+  this.updateTootlipSlab();
 }
  addSlabVal2(){
-   if(this.zmslabto2<this.zmslabfrom2 || this.zmslabto2>99898) {
+   if(this.zmslabto2<this.zmslabfrom2 || this.zmslabto2>9999999999) {
     this.zmslabto2 = this.prevzmslabto2;
-    this.tosterservice.info('Please enter values between <0 - 99898>');
+    this.updateTootlipSlab();
+    this.tosterservice.info('Please enter values between <0 - 9999999999>');
     return;
    }
   if(this.CommercialDataModel.ZonalSlabCounter===3){
@@ -356,12 +360,13 @@ export class RatecardComponent implements OnInit {
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
-
+   this.updateTootlipSlab();
  }
  addSlabVal3(){
-  if(this.zmslabto3<this.zmslabfrom3 || this.zmslabto3>99898) {
+  if(this.zmslabto3<this.zmslabfrom3 || this.zmslabto3>9999999999) {
     this.zmslabto3 = this.prevzmslabto3;
-    this.tosterservice.info('Please enter values between <0 - 99898>');
+    this.updateTootlipSlab();
+    this.tosterservice.info('Please enter values between <0 - 9999999999>');
     return;
    }
    if(this.CommercialDataModel.ZonalSlabCounter===4){
@@ -374,26 +379,30 @@ export class RatecardComponent implements OnInit {
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
+   this.updateTootlipSlab();
 }
 addSlabVal4(){
-  if(this.zmslabto4<this.zmslabfrom4 || this.zmslabto4>99898) {
+  if(this.zmslabto4<this.zmslabfrom4 || this.zmslabto4>9999999999) {
     this.zmslabto4 = this.prevzmslabto4;
-    this.tosterservice.info('Please enter values between <0 - 99898>');
+    this.updateTootlipSlab();
+    this.tosterservice.info('Please enter values between <0 - 9999999999>');
     return;
    }
    if(this.CommercialDataModel.ZonalSlabCounter===5){
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
-
+   this.updateTootlipSlab();
 }
 
 addSlabVal5(){
-  if(this.zmslabto5<this.zmslabfrom5) {
+  if(this.zmslabto5<this.zmslabfrom5 || this.zmslabto5>9999999999) {
     this.zmslabto5 = this.prevzmslabto5;
-    this.tosterservice.info('Please enter values between <0 - 99898>');
+    this.updateTootlipSlab();
+    this.tosterservice.info('Please enter values between <0 - 9999999999>');
     return;
    }
+   this.updateTootlipSlab();
 }
 
   showArray2 = false;
@@ -458,32 +467,32 @@ addSlabVal5(){
    addFieldColumn() {
     
     if(this.CommercialDataModel.ZonalSlabCounter==1){
-      if(this.zmslabto1>99899){
-        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
+      if(this.zmslabto1>9999999998){
+        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==2){
-      if(this.zmslabto2>99899){
-        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
+      if(this.zmslabto2>9999999998){
+        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==3){
-      if(this.zmslabto3>99899){
-        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
+      if(this.zmslabto3>9999999998){
+        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==4){
-      if(this.zmslabto4>99899){
-        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
+      if(this.zmslabto4>9999999998){
+        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==5){
-      if(this.zmslabto5>99899){
-        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
+      if(this.zmslabto5>9999999998){
+        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
         return;
       }
     }
@@ -687,12 +696,12 @@ signDate(){
     //   event.preventDefault();
 
     //   if(this.rateCard && document.getElementById('addRateCard')){
-    //     let element = document.getElementById('addRateCard')  ;
+    //     let element: HTMLElement = document.getElementById('addRateCard') as HTMLElement;
     //     element.click();
     //   }
 
     //   else if(this.commercialSurface && document.getElementById('addCommercialSurface')){
-    //    let element = document.getElementById('addCommercialSurface')  ;
+    //    let element: HTMLElement = document.getElementById('addCommercialSurface') as HTMLElement;
     //    element.click();
     //   }
 
@@ -2276,6 +2285,7 @@ console.log(this.zonalrategroup,"zonalrate group")
 
   oldCommerIdForCmdCopy:any;
   isCommandmentAlreadyExist:any=false;
+  commercialRef;
   getCommercialDetail(callFromCmdmnt) {
     this.selectedId='';
     if(!this.model.id){
@@ -2297,6 +2307,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         let ob = ErrorConstants.validateException(success);
         if(ob.isSuccess){
         this.commercial = success.data.responseData;
+        this.commercialRef = success.data.referenceData;
         console.log(this.commercial, 'print commercial surface')
           if (callFromCmdmnt) {
             if (this.commercial.length == 0 && this.rcCmdLevel == "COMMERCIAL LEVEL") {
@@ -2596,7 +2607,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.zmCustomPrice){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 99999
+        zmp.slabTo = 9999999999
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -2605,7 +2616,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zmp);
         let zm2 = new ZmCustomPrice();
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 99999;
+        zm2.slabTo = 9999999999;
         zm2.minFreight = zmp.minFreight2;
         zm2.price = zmp.price2;
         zm2.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2636,7 +2647,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm2);
         let zm3 = new ZmCustomPrice();
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 99999;
+        zm3.slabTo = 9999999999;
         zm3.minFreight = zmp.minFreight3;
         zm3.price = zmp.price3;
         zm3.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2680,7 +2691,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm3);
         let zm4 = new ZmCustomPrice();
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 99999;
+        zm4.slabTo = 9999999999;
         zm4.minFreight = zmp.minFreight4;
         zm4.price = zmp.price4;
         zm4.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2737,7 +2748,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm4);
         let zm5 = new ZmCustomPrice();
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 99999;
+        zm5.slabTo = 9999999999;
         zm5.minFreight = zmp.minFreight5;
         zm5.price = zmp.price5;
         zm5.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2757,7 +2768,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.zmPrice){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 99999
+        zmp.slabTo = 9999999999
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -2767,7 +2778,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zmp);
         let zm2 = new ZmPrice();
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 99999;
+        zm2.slabTo = 9999999999;
         zm2.minFreight = zmp.minFreight2;
         zm2.price = zmp.price2;
         zm2.zmRgMapId = zmp.zmRgMapId;
@@ -2793,7 +2804,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm2);
         let zm3 = new ZmPrice();
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 99999;
+        zm3.slabTo = 9999999999;
         zm3.minFreight = zmp.minFreight3;
         zm3.price = zmp.price3;
         zm3.zmRgMapId = zmp.zmRgMapId;
@@ -2828,7 +2839,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm3);
         let zm4 = new ZmPrice();
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 99999;
+        zm4.slabTo = 9999999999;
         zm4.minFreight = zmp.minFreight4;
         zm4.price = zmp.price4;
         zm4.zmRgMapId = zmp.zmRgMapId;
@@ -2873,7 +2884,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm4);
         let zm5 = new ZmPrice();
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 99999;
+        zm5.slabTo = 9999999999;
         zm5.minFreight = zmp.minFreight5;
         zm5.price = zmp.price5;
         zm5.zmRgMapId = zmp.zmRgMapId;
@@ -2891,7 +2902,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.safextBkngCustomCharge ){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 99999
+        zmp.slabTo = 9999999999
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -2903,7 +2914,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm2.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm2.toId = zmp.toId
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 99999;
+        zm2.slabTo = 9999999999;
         zm2.minAmt = zmp.minAmt2;
         zm2.price = zmp.price2;
         if(zmp.id2){
@@ -2931,7 +2942,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm3.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm3.toId = zmp.toId
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 99999;
+        zm3.slabTo = 9999999999;
         zm3.minAmt = zmp.minAmt3;
         zm3.price = zmp.price3;
         if(zmp.id3){
@@ -2969,7 +2980,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm4.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm4.toId = zmp.toId
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 99999;
+        zm4.slabTo = 9999999999;
         zm4.minAmt = zmp.minAmt4;
         zm4.price = zmp.price4;
         if(zmp.id4){
@@ -3018,7 +3029,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm5.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm5.toId = zmp.toId
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 99999;
+        zm5.slabTo = 9999999999;
         zm5.minAmt = zmp.minAmt5;
         zm5.price = zmp.price5;
         if(zmp.id5){
@@ -3035,7 +3046,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.safextDlvryCustomCharge ){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 99999;
+        zmp.slabTo = 9999999999;
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -3047,7 +3058,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm2.lkpDestTypeId = zmp.lkpDestTypeId
         zm2.fromId = zmp.fromId
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 99999;
+        zm2.slabTo = 9999999999;
         zm2.minAmt = zmp.minAmt2;
         zm2.price = zmp.price2;
         if(zmp.id2){
@@ -3075,7 +3086,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm3.lkpDestTypeId = zmp.lkpDestTypeId
         zm3.fromId = zmp.fromId
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 99999;
+        zm3.slabTo = 9999999999;
         zm3.minAmt = zmp.minAmt3;
         zm3.price = zmp.price3;
         if(zmp.id3){
@@ -3113,7 +3124,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm4.lkpDestTypeId = zmp.lkpDestTypeId
         zm4.fromId = zmp.fromId
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 99999;
+        zm4.slabTo = 9999999999;
         zm4.minAmt = zmp.minAmt4;
         zm4.price = zmp.price4;
         if(zmp.id4){
@@ -3162,7 +3173,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm5.lkpDestTypeId = zmp.lkpDestTypeId
         zm5.fromId = zmp.fromId
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 99999;
+        zm5.slabTo = 9999999999;
         zm5.minAmt = zmp.minAmt5;
         zm5.price = zmp.price5;
         if(zmp.id5){
@@ -3178,7 +3189,7 @@ console.log(this.zonalrategroup,"zonalrate group")
       for(let zmp of this.CommercialDataModel.safextCharge){
         if(this.CommercialDataModel.ZonalSlabCounter==1){
           zmp.slabFrom = this.zmslabfrom1
-          zmp.slabTo = 99999
+          zmp.slabTo = 9999999999
           arr.push(zmp);
         }
         else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -3191,7 +3202,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm2.safextCtgy = zmp.safextCtgy;
           zm2.safextEntityId = zmp.safextEntityId
           zm2.slabFrom = this.zmslabfrom2;
-          zm2.slabTo = 99999;
+          zm2.slabTo = 9999999999;
           zm2.minAmt = zmp.minAmt2;
           zm2.price = zmp.price2;
           if(zmp.id2){
@@ -3221,7 +3232,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm3.safextCtgy = zmp.safextCtgy;
           zm3.safextEntityId = zmp.safextEntityId
           zm3.slabFrom = this.zmslabfrom3;
-          zm3.slabTo = 99999;
+          zm3.slabTo = 9999999999;
           zm3.minAmt = zmp.minAmt3;
           zm3.price = zmp.price3;
           if(zmp.id3){
@@ -3262,7 +3273,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm4.safextCtgy = zmp.safextCtgy;
           zm4.safextEntityId = zmp.safextEntityId
           zm4.slabFrom = this.zmslabfrom4;
-          zm4.slabTo = 99999;
+          zm4.slabTo = 9999999999;
           zm4.minAmt = zmp.minAmt4;
           zm4.price = zmp.price4;
           if(zmp.id4){
@@ -3315,7 +3326,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm5.safextCtgy = zmp.safextCtgy;
           zm5.safextEntityId = zmp.safextEntityId
           zm5.slabFrom = this.zmslabfrom5;
-          zm5.slabTo = 99999;
+          zm5.slabTo = 9999999999;
           zm5.minAmt = zmp.minAmt5;
           zm5.price = zmp.price5;
           if(zmp.id5){
@@ -3711,6 +3722,19 @@ if(postData.safextDlvryCustomCharge.length>0){
   zmslabfrom4:number
   zmslabto5:number
   zmslabfrom5:number
+  zmToolTip1:string;
+  zmToolTip2:string;
+  zmToolTip3:string;
+  zmToolTip4:string;
+  zmToolTip5:string;
+
+  updateTootlipSlab(){
+    this.zmToolTip1=this.zmslabfrom1+'-'+this.zmslabto1;
+    this.zmToolTip2=this.zmslabfrom2+'-'+this.zmslabto2;
+    this.zmToolTip3=this.zmslabfrom3+'-'+this.zmslabto3;
+    this.zmToolTip4=this.zmslabfrom4+'-'+this.zmslabto4;
+    this.zmToolTip5=this.zmslabfrom5+'-'+this.zmslabto5;
+  }
 
   zonalGroupName(){
     if(this.CommercialDataModel.id && this.CommercialDataModel.zmPrice.length>0){
@@ -4434,12 +4458,24 @@ if(postData.safextDlvryCustomCharge.length>0){
       }
     }
   }
-  deleteCommercialDetailbyId(id) {
+  deleteCommercialDetailbyId(data) {
     event.stopPropagation();
-
+    let chargeBy;
+    let productCtg;
+    for(let chargeby of this.commercialRef.chargeByList){
+      if(chargeby.id==data.lkpChrgById){
+        chargeBy= chargeby.lookupVal;
+      }
+    }
+    for(let procat of this.commercialRef.productCategoryList){
+      if(procat.id==data.prdctCtgyId){
+        productCtg = procat.prdctCtgy;
+      }
+    }
     const dialogRefEdit = this.dialog.open(confimationdialog,{
 
-      data:{message:"Are you sure you want to delete this Commercial ?"},
+      data:{message:"Commercial card would be permanently deleted. Are you sure you want to delete Commercial Card:"+data.id+
+      " Charge By - "+chargeBy+" Product Category - "+productCtg},
           disableClose: true,
           panelClass: 'creditDialog',
           width: '300px'
@@ -4447,9 +4483,9 @@ if(postData.safextDlvryCustomCharge.length>0){
   
     dialogRefEdit.afterClosed().subscribe(result => {
       if(result){
-        if (id) {
+        if (data.id) {
           this.spinner.show();
-          this.contractservice.deleteCommercialDetailbyId(id,this.editflow,AppSetting.contractId).subscribe(success => {
+          this.contractservice.deleteCommercialDetailbyId(data.id,this.editflow,AppSetting.contractId).subscribe(success => {
             let ob = ErrorConstants.validateException(success);
             if (ob.isSuccess) {
               this.spinner.hide();
@@ -4800,7 +4836,7 @@ if(postData.safextDlvryCustomCharge.length>0){
         this.showCommercialData=true;
         this.changeSlabProtion();
         this.spinner.hide();
-       
+        this.updateTootlipSlab();
     }else {
       this.tosterservice.error(ob.message);
       this.spinner.hide();
@@ -4997,7 +5033,7 @@ if(postData.safextDlvryCustomCharge.length>0){
          this.modeltnc.ratecardId=this.model.id
          this.modeltnc["contractId"] = AppSetting.contractId;
          for(let ft of this.tnc.referenceData.fuelTypeList){
-           if(ft.lookupVal=='PETROL'){
+           if(ft.lookupVal=='DIESEL'){
            this.modeltnc.lkpFuelTypeId=ft.id
            }
          }
@@ -5201,7 +5237,7 @@ if(postData.safextDlvryCustomCharge.length>0){
       this.modeltnc.fuelSurchrgMeasure=null;
     } else {
       for(let ft of this.tnc.referenceData.fuelTypeList){
-        if(ft.lookupVal=='PETROL'){
+        if(ft.lookupVal=='DIESEL'){
         this.modeltnc.lkpFuelTypeId=ft.id
         }
       }

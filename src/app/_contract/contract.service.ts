@@ -398,19 +398,6 @@ export class ContractService {
     }
   }
 
-  deactivateOldBilling(data, isEdit) {
-    var headers = new HttpHeaders(this.headerData);
-    if (isEdit) {
-      return this.http.put<any>(AppSetting.API_ENDPOINT + "secure/credit-contract-stg/v1/billing/deactivate", data, { headers: headers }).catch((error: Response) => {
-        return Observable.throw("Something went wrong");
-      });
-    } else {
-      return this.http.put<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/billing/deactivate", data, { headers: headers }).catch((error: Response) => {
-        return Observable.throw("Something went wrong");
-      });
-    }
-  }
-
   getBillingByMSA(msaId) {
     var headers = new HttpHeaders(this.headerData);
     return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/credit-contract/v1/billing/msa/" + msaId, { headers: headers }).catch((error: Response) => {
@@ -881,4 +868,12 @@ export class ContractService {
           return observableThrowError("Something went wrong");
         }));
      }
+
+     deactivateDocument(data: any) {
+      let headers = new HttpHeaders(this.headerData);
+      return this.http.post<any>(AppSetting.API_ENDPOINT + `secure/credit-contract/v1/documnet/deactivate/`, data ,
+      { headers: headers }).pipe(catchError((error: Response) => {
+        return observableThrowError("Something went wrong");
+    }));
+    }
 }

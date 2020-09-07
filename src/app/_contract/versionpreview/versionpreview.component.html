@@ -45,7 +45,7 @@
             </div>
             <div class="col-lg-1 col-md-1"></div>
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-              <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Salesforce Monthly
+              <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak">Salesforce Monthly
                 Potential (AIR)</div>
                 <div class="col-lg-7 col-md-7 flex4 grey_td text-heading green_th-bar" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MSA') && exAttrMap.get('MSA').includes('MONTHLY POTENTIAL')); else deniedBlock">
                 {{dataPreview.msaDto.sfdcMnthPotentialAir}}</div>
@@ -60,7 +60,7 @@
             </div>
             <div class="col-lg-1 col-md-1"></div>
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-              <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Salesforce Monthly
+              <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak">Salesforce Monthly
                 Potential (SURFACE)</div>
                 <div class="col-lg-7 col-md-7 flex4 grey_td text-heading green_th-bar" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MSA') && exAttrMap.get('MSA').includes('MONTHLY POTENTIAL')) else deniedBlock">
                 {{dataPreview.msaDto.sfdcMnthPotentialSurface}} </div>
@@ -75,7 +75,7 @@
             </div>
             <div class="col-lg-1 col-md-1"></div>
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-              <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Salesforce Monthly
+              <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak">Salesforce Monthly
                 Potential (3PL)</div>
                 <div class="col-lg-7 col-md-7 flex4 grey_td text-heading green_th-bar" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MSA') && exAttrMap.get('MSA').includes('MONTHLY POTENTIAL')); else deniedBlock">
                 {{dataPreview.msaDto.sfdcMnthPotential3pl}}</div>
@@ -145,7 +145,7 @@
               <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Customer Subsegment
               </div>
                 <div class="col-lg-7 col-md-7 flex4 grey_td text-heading green_th-bar" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MSA') && exAttrMap.get('MSA').includes('SUB-SEGMENT')); else deniedBlock">
-                {{dataPreview.msaDto.subsegment}}</div>
+                {{dataPreview.msaDto.subSegment}}</div>
             </div>
             <div class="col-lg-1 col-md-1"></div>
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
@@ -295,7 +295,7 @@
     
     
                   <div *ngFor="let item1 of item.rateCards;let j = index;">
-                    <div *ngIf="item1.ratecardDTO && dataPreview.isRatecardApplicable ">
+                    <div *ngIf="item1.ratecardDTO">
     
                       <div class="row leftSpace">
                         <div class="col-lg-1 col-sm-3 col-xs-3 msaBox"> &nbsp;</div>
@@ -838,6 +838,38 @@
                               </div>
                             </div>
                           </div>
+                          <!--Commandment state Charges Starts-->
+                          <div *ngFor="let cmdItem of cmditemar">
+                            <div *ngIf="cmdItem.cmdmntGeoWiseCharge && cmdItem.cmdmntGeoWiseCharge.length>0">
+                              <h3 class="h3HeadingStyle marginLeft4rem" style="position: relative; margin-left: 6rem !important;"><strong>State Charges : {{cmdItem.cmdmntName}}</strong></h3>
+                              <div class="row marginZonal">
+                                <div class="col-lg-1 col-md-1"></div>
+                                <div class="col-lg-6 col-md-6 flex-box">
+                                  <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">STATE</div>
+                                  <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">CITY</div>
+                                  <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">SURCHARGE TYPE</div>
+                                  <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">EXPIRY DATE</div>
+                                  <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">FIXED SURCHARGE AMOUNT</div>
+                                </div>
+                              </div>
+        
+                              <div *ngFor="let cmdmntGeoWiseCharge of cmdItem.cmdmntGeoWiseCharge">
+                                <div class="row marginZonal">
+                                  <div class="col-lg-1 col-md-1"></div>
+                                  <div class="col-lg-6 col-md-6 flex-box">
+                                    <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.stateName}}</div>
+                                    <div *ngIf="cmdmntGeoWiseCharge.cityName" class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.cityName}}</div>
+                                    <div *ngIf="!cmdmntGeoWiseCharge.cityName" class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">ALL</div>
+                                    <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.surchargeName}}</div>
+                                    <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.expDt | date: 'dd/MM/yyyy'}}</div>
+                                    <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.price}}</div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                      <!--Commandment state Charges Ends-->
+
                           <!--Commandment Slab Charges Starts-->
                           <div *ngFor="let cmdItem of cmditemar">
                             <div *ngIf="cmdItem.cmdmntSlabCharge.length>0">
@@ -968,6 +1000,39 @@
                           </div>
                         </div>
                       </div>
+
+                      <!--Commandment State Charges Starts-->
+                      <div *ngFor="let cmdItem of cmditemar">
+                        <div *ngIf="cmdItem.cmdmntGeoWiseCharge && cmdItem.cmdmntGeoWiseCharge.length>0">
+                          <h3 class="h3HeadingStyle marginLeft4rem" style="position: relative; margin-left: 6rem !important;"><strong>State Charges : {{cmdItem.cmdmntName}}</strong></h3>
+                          <div class="row marginZonal">
+                            <div class="col-lg-1 col-md-1"></div>
+                            <div class="col-lg-6 col-md-6 flex-box">
+                              <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">STATE</div>
+                              <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">CITY</div>
+                              <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">SURCHARGE TYPE</div>
+                              <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">EXPIRY DATE</div>
+                              <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">FIXED SURCHARGE AMOUNT</div>
+                            </div>
+                          </div>
+    
+                          <div *ngFor="let cmdmntGeoWiseCharge of cmdItem.cmdmntGeoWiseCharge">
+                            <div class="row marginZonal">
+                              <div class="col-lg-1 col-md-1"></div>
+                              <div class="col-lg-6 col-md-6 flex-box">
+                                <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.stateName}}</div>
+                                <div *ngIf="cmdmntGeoWiseCharge.cityName" class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.cityName}}</div>
+                                <div *ngIf="!cmdmntGeoWiseCharge.cityName" class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">ALL</div>
+                                <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.surchargeName}}</div>
+                                <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.expDt | date: 'dd/MM/yyyy'}}</div>
+                                <div class="zoal-rate-content flex1 grey_td col-lg-2 col-md-2 col-sm-2 col-xs-2">{{cmdmntGeoWiseCharge.price}}</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <!--Commandment State Charges Ends-->
+                      
                       <!--Commandment Slab Charges Starts-->
                       <div *ngFor="let cmdItem of cmditemar">
                         <div *ngIf="cmdItem.cmdmntSlabCharge.length>0">
@@ -999,7 +1064,7 @@
                     </div>
                   </div>
                   <!--Commandment Charges Ends-->
-                    <div *ngIf="item1.tncDTO && dataPreview.isRatecardApplicable">
+                    <div *ngIf="item1.tncDTO">
                       <div class="row leftSpace">
                         <div class="col-lg-1 col-sm-3 col-xs-3 msaBox"> &nbsp;</div>
                         <div class="col-lg-6 col-sm-9 col-xs-9 heading">Terms & Conditions For RateCard : {{item1.ratecardDTO.rateCardCode}}</div>
@@ -1187,8 +1252,10 @@
                               *ngIf="item1.tncDTO.excessClauseFlag!=1">NO</div>
                           </div>
                           <div class="col-lg-1 col-md-1"></div>
-                          <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box" style="position: relative;">
-    
+                          <div *ngIf="item1.tncDTO.excessClauseFlag==1" class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box" style="position: relative;">
+                            <div class="col-lg-5 col-md-5 flex3 flex3 text-heading green_th green_th">Amount
+                            </div>
+                            <div class="col-lg-7 col-md-7 flex4 grey_tdcol-xs-7 flex4 text-heading green_th-bar grey_td">{{item1.tncDTO.excessClauseAmt}}</div>
                           </div>
                         </div>
     

@@ -227,7 +227,7 @@
                       <mat-radio-group class="example-radio-group"
                         *ngFor="let item of ebillingList " name="ebillFlag" [(ngModel)]="billingData.ebillFlag" [disabled]="msaBillingExists">
                         <mat-radio-button class="example-radio-button" [value]="item.id">
-                          <span class=""> {{item.value}}</span>
+                          <span class="">{{item.value}}</span>
                         </mat-radio-button>
                       </mat-radio-group>
                   </div>
@@ -650,7 +650,7 @@
                
 
                       <mat-form-field appearance="outline" style="margin-right: 0 !important;">
-                        <mat-select panelClass="creditSelect" #ebillEmail='ngModel' [(ngModel)]="element.ebillEmail" matInput name="ebillEmail-{{i}}" [(value)]="element.ebillEmail" [disabled]="msaBillingExists">
+                        <mat-select panelClass="creditSelect" #ebillEmail='ngModel'required [(ngModel)]="element.ebillEmail" matInput name="ebillEmail-{{i}}" [(value)]="element.ebillEmail" [disabled]="msaBillingExists">
                           <mat-option *ngFor="let item of element.ebillemailList | sortBy:'asc':'item'" [value]="item"
                           [matTooltip]="item" [matTooltipDisabled]="item.length<21" matTooltipPosition="above">
                             {{item}}
@@ -659,7 +659,8 @@
                       </mat-form-field>
                       <strong *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="ebillemailAddress(i)" #tooltip="matTooltip" matTooltip="ADD EBILL E-MAIL ID"
                         matTooltipPosition="right" class="material-icons">add</em></strong>
-                   
+                      <span *ngIf="(ebillEmail.errors?.required && (ebillEmail.touched || fBilling.submitted))" class="hasErrorMsg marginBilling">Required&nbsp;!</span>
+
                     </td>
                   </ng-container>
                   <ng-container matColumnDef="bdmEmail">
@@ -682,7 +683,7 @@
       
 
                       <mat-form-field appearance="outline" style="margin-right: 0 !important;">
-                        <mat-select panelClass="creditSelect" #commBillEmail='ngModel' [(ngModel)]="element.commBillEmail" matInput name="commBillEmail-{{i}}" [(value)]="element.commBillEmail" [disabled]="msaBillingExists">
+                        <mat-select panelClass="creditSelect" #commBillEmail='ngModel' required [(ngModel)]="element.commBillEmail" matInput name="commBillEmail-{{i}}" [(value)]="element.commBillEmail" [disabled]="msaBillingExists">
                           <mat-option *ngFor="let item of element.communicationemailList | sortBy:'asc':'item'" [value]="item"
                           [matTooltip]="item" [matTooltipDisabled]="item.length<21" matTooltipPosition="above">
                             {{item}}
@@ -691,7 +692,7 @@
                       </mat-form-field>
                       <strong *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="communicationEmail(i)" #tooltip="matTooltip" matTooltip="ADD COMMUNICATION E-MAIL ID"
                         matTooltipPosition="right" class="material-icons">add</em></strong>
-              
+                      <span *ngIf="(commBillEmail.errors?.required && (commBillEmail.touched || fBilling.submitted))" class="hasErrorMsg marginBilling">Required&nbsp;!</span>
                     </td>
                   </ng-container>
                   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

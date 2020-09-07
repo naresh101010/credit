@@ -86,7 +86,7 @@ openDialogForDownloadError(): void {
   const dialogRef = this.dialog.open(DownloadErrorFile, {disableClose: true,
     panelClass: 'creditDialog',
     data: {conModuleId:this.conModuleEntitiId},
-    width: '40%',
+    width: '50%',
   });
   dialogRef.afterClosed().subscribe(result => {
     console.log('The dialog was closed');    

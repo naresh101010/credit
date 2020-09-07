@@ -1,4 +1,4 @@
-import { Component, ViewEncapsulation } from "@angular/core";
+import { Component, HostListener, ViewEncapsulation } from "@angular/core";
 import { Router } from "@angular/router";
 import { PlatformLocation } from "@angular/common";
 
@@ -99,8 +99,9 @@ export class AppComponent {
   .contractContainer .paddingrightthree{padding-right: 3rem !important;}
   .contractContainer .inline{display: inline !important;position: relative !important;bottom: .5rem !important; font-size: 2rem !important; font-weight: 600;left: -1rem !important;}
   .contractContainer .existingSfx{margin-bottom: 5% !important;padding-top: 0 !important;}
-  .cdk-drag-placeholder {display:none !important;}
+  .cdk-drag-placeholder {visibility: hidden !important;}
   .cdk-drag-animating {display: none !important}
+  #cdk-drop-list-0{height: 74rem !important}
   
   /* *****************************************************************************************************
                                               MSA COMPONENT 
@@ -442,6 +443,7 @@ export class AppComponent {
   .contractContainer #zonal-input1::placeholder{text-align: center; color: #27AE60;}
   .contractContainer .input::placeholder{font-size: 1.6rem !important;}
   .contractContainer .dropdown{ cursor: pointer;}
+  .creditDialog .dropdown{ cursor: pointer;}
   .contractContainer .hoverDisplay {position: absolute;top: -3.2rem; width: 200%;right: -6.5rem;padding: 0;}  
   .contractContainer .mousehover:hover + .hoverDisplay{display: block;}
   .contractContainer .from{padding: 0 !important;}
@@ -585,7 +587,7 @@ export class AppComponent {
   .contractContainer .pincode_scroll{max-height: 50rem; overflow-y: auto;}
 
   .contractContainer .bdmScroll{max-height: 50rem; overflow-y: auto; }
-  .creditDialog .bdmScroll{max-height: 50rem; overflow-y: auto; }
+  .creditDialog .bdmScroll{max-height: 50rem; overflow-y: auto; min-height: 8rem !important }
   
   .ng-dropdown-panel.creditNgDropdown .scroll-host{max-height: 32rem !important; overflow-y: auto;}
   .mat-option{padding: 0 6px !important;font-family: 'Open Sans', sans-serif !important;}
@@ -744,11 +746,9 @@ export class AppComponent {
  .creditDialog .geoWidth{width: 10% !important;}
  .contractContainer .green_th{background: #27AE60 !important; color: #000 !important; font-weight: 600;word-break: break-all;}
  .contractContainer .wordbreak{word-break: break-word !important;line-height: 1.2 !important;width: 100% !important;}
-
-
-
-
-
+ .contractContainer .wordPBreak{word-break: break-word !important;}
+ .creditDialog .wordPBreak{word-break: break-word !important;}
+ 
   .contractContainer .printButton{cursor: pointer !important;color: rgb(33, 110, 36), !important;width: 2.4rem !important; left: 0% !important;font-size: 3.2rem !important; border: none !important; background: transparent !important;position: relative !important;
     top: .3rem !important;}
   .contractContainer .printBar{height: 8rem;box-shadow: 0 7px 6px -7px #ccc;background: #fff !important;z-index: 1;top: 6.4rem;
@@ -864,7 +864,7 @@ export class AppComponent {
     .contractContainer .marginLeftzero{margin-left: 0 !important}
     .contractContainer .marginleftexclude{margin-left: 1.5rem !important;}
     .contractContainer .marginLeft4rem{margin-left: 4rem !important}
-    .contractContainer .marginRight{margin-right: .5rem !important;}
+    .contractContainer .marginRight{margin-right: .5rem !important;}    
     .contractContainer .exprity{width: 14rem !important; position: relative !important;top: 0rem !important;}
     .contractContainer .docUpload{box-shadow: none !important;padding: 0 !important;font-weight: 600 !important;font-size: 1.4rem !important;}
     .contractContainer .docToggle{position: relative !important;top: .4rem !important;left: 1rem !important;cursor:  pointer !important;}
@@ -1180,14 +1180,16 @@ export class AppComponent {
   .creditDialog .mat-form-field-appearance-outline{margin: 0 0;position: relative !important;top: 0 !important;}
   .creditDialog .mat-form-field-appearance-outline:hover{border-color: #27AE60;}
   .creditDialog .mat-form-field-appearance-outline .mat-form-field-outline{position: absolute; top: 0;color: #6a6868 !important ; box-shadow: 0 .2rem .2rem #00000029;}
+  
+  .creditDialog .multiple-mail .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick{color: transparent !important;}
+  .creditDialog .multiple-mail .mat-form-field-appearance-outline .mat-form-field-outline{color: transparent !important;box-shadow: none !important;}
+  .creditDialog .multipleMail{border: .1rem solid #6a6868;max-height: 50rem;min-height: 20rem; overflow-y: auto;padding-right: 1rem}
   .creditDialog .mat-form-field.mat-focused .mat-form-field-ripple {background: #27AE60 !important;}
   .creditDialog .mat-form-field-appearance-outline .mat-form-field-outline-thick {color: #27AE60 !important;}
   .creditDialog .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {color: #27AE60 !important;}
-  .creditDialog .mat-form-field-appearance-outline .mat-form-field-outline-end {border-radius: 0 !important ;
-    min-width: 0 !important ;}
+  .creditDialog .mat-form-field-appearance-outline .mat-form-field-outline-end {border-radius: 0 !important;min-width: 0 !important ;}
   .creditDialog .mat-focused .mat-form-field-label {color: green !important;}
-  .creditDialog .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
-      background: #ccc !important;}
+  .creditDialog .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline{background: #ccc !important;}
   .creditDialog .mat-input-element {position: absolute; top: -.6rem !important;margin-top: .2rem !important}
   /* End of mat form field */
     /* mat Table */
@@ -1586,6 +1588,7 @@ export class AppComponent {
     .creditDialog .confirmationButton{margin-bottom: 2.5rem !important;margin-top: 1.5rem !important;}
     .creditDialog .marginLeft{margin-left: .5rem !important;}
     .creditDialog .marginRight{margin-right: .5rem !important;}
+    .creditDialog .marginRightZero{margin-right: 0 !important;}
     .creditDialog .exprity{width: 14rem !important; position: relative !important;top: 0rem !important;}
     .creditDialog .docUpload{box-shadow: none !important;padding: 0 !important;font-weight: 600 !important;font-size: 1.4rem !important;}
     .creditDialog .docToggle{position: relative !important;top: .4rem !important;left: 1rem !important;cursor:  pointer !important;}

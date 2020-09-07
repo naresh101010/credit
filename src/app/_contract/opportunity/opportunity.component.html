@@ -136,7 +136,7 @@
           <div class="col-lg-4 col-md-4 paddingrightzero"></div>
           <div *ngIf="!model.id" class="col-lg-4 col-md-4 label-text-value">
             <div class="col-lg-12 col-md-12 label-text-value">
-            <mat-radio-group [disabled]="isDisable" aria-label="Select an option" [value]='SFXTypes[0]' name="sfxtype" *ngFor="let type of SFXTypes"
+            <mat-radio-group [disabled]="isDisable" aria-label="Select an option" [(ngModel)]="sfxValue" [value]='SFXTypes[0]' name="sfxtype" *ngFor="let type of SFXTypes"
             (change)="changeSfxType(type)">
               <mat-radio-button class="example-radio-button" [value]="type">
                 {{type}}

@@ -105,6 +105,12 @@
              {{element.accType}}</div> </td>
         </ng-container>
       
+        <ng-container matColumnDef="groupCode">
+          <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> MSA CODE</th>
+          <td mat-cell *matCellDef="let element"><div class="msaSearchName"
+            [matTooltip]="element.groupCode" [matTooltipDisabled]="element.groupCode.length<8" matTooltipPosition="above">
+             {{element.groupCode}}</div></td>
+        </ng-container>
      
         <ng-container matColumnDef="pan">
           <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> PAN</th>

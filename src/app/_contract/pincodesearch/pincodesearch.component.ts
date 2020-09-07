@@ -254,11 +254,9 @@ export class PincodesearchComponent implements OnInit {
       console.log("seee",JSON.stringify(this.selection.selected[i]));
       allchkPincodeList.push(this.selection.selected[i].pincode);
     }
-    if(this.selectedPinList.length>0){
-       allchkPincodeList = allchkPincodeList.concat(this.selectedPinList);
-       this.dialogRefEdit.close(allchkPincodeList.toString());
-    }
-   
+    if(this.selectedPinList.length>0)
+    allchkPincodeList= allchkPincodeList.concat(this.selectedPinList);
+    this.dialogRefEdit.close(allchkPincodeList.toString());
   
   }
   
@@ -267,7 +265,7 @@ export class PincodesearchComponent implements OnInit {
     if (event.keyCode === 27) { // esc [Close Dialog]
       event.preventDefault();
       if(document.getElementById('closeButton')){
-        let element = document.getElementById('closeButton')  ;
+        let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
         element.click();
       }
     }

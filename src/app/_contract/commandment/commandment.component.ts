@@ -1,4 +1,4 @@
-import { Component, Input, Inject,OnChanges, ViewChild, Output, EventEmitter, HostListener, ElementRef } from '@angular/core';
+import { Component, Input, Inject,OnChanges, ViewChild, Output, EventEmitter, HostListener, ViewChildren, AfterViewInit, QueryList, ElementRef } from '@angular/core';
 import * as models from "../models/commandmentModel";
 import { ContractService } from '../contract.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -397,7 +397,7 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.defaultLkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId
                     cmdmntChargeNew.minFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
                     cmdmntChargeNew.minCalcFlag = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
-                    cmdmntChargeNew.defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
+                    cmdmntChargeNew.defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
                     cmdmntChargeNew.fieldDisabled = true;
                     if (cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList && cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.length > 0) {
                       cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.forEach(element => {
@@ -417,6 +417,26 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.lkpCalcTypeName = null;
                     cmdmntChargeNew.minVal = null;
                     cmdmntChargeNew.maxVal = null;
+                    if (cmdmntData.cmdmntRrsList && cmdmntData.cmdmntRrsList.length > 0) {
+                    cmdmntChargeNew.defaultPrice = cmdmntData.cmdmntRrsList[0].rrValue;
+                    cmdmntChargeNew.defaultLkpCalcMeasureId = cmdmntData.cmdmntRrsList[0].calculationMeasureId;
+                    cmdmntChargeNew.defaultLkpCalcUnitId = cmdmntData.cmdmntRrsList[0].calculationUnitId;
+                    cmdmntChargeNew.defaultLkpCalcTypeId = cmdmntData.cmdmntRrsList[0].calculationTypeId;
+                    cmdmntChargeNew.defaultLkpCalcTypeName = this.getNameFromLookup(cmdmntChargeNew.calcTypeList, cmdmntChargeNew.lkpCalcTypeId);
+                    cmdmntChargeNew.defaultMinVal = cmdmntData.cmdmntRrsList[0].minValue;
+                    cmdmntChargeNew.defaultMaxVal = cmdmntData.cmdmntRrsList[0].maxValue;
+                    cmdmntChargeNew.defaultLkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId;
+                    cmdmntChargeNew.defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
+                    if (cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList && cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.length > 0) {
+                      cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.forEach(element => {
+                        let cmdmntSlabCharge = new models.CommandmentSlabChargeDTO();
+                        cmdmntSlabCharge.price = element.rrValue;
+                        cmdmntSlabCharge.slabFrom = element.slabFrom;
+                        cmdmntSlabCharge.slabTo = element.slabTo;
+                        cmdmntChargeNew.defaultCmdmntSlabCharge.push(cmdmntSlabCharge);
+                      });
+                    }
+                    } else {
                     cmdmntChargeNew.defaultPrice = null;
                     cmdmntChargeNew.defaultLkpCalcMeasureId = null;
                     cmdmntChargeNew.defaultLkpCalcUnitId = null;
@@ -424,8 +444,9 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.defaultLkpCalcTypeName = null;
                     cmdmntChargeNew.defaultMinVal = null;
                     cmdmntChargeNew.defaultMaxVal = null;
-                    cmdmntChargeNew.fieldDisabled = false;
                     cmdmntChargeNew.defaultLkpChrgOnId = null;
+                    }
+                    cmdmntChargeNew.fieldDisabled = false;
                   }
                   if (cmdmntData.rrFlag === 2) {
                     cmdmntChargeNew.fieldDisabled = true;
@@ -513,7 +534,7 @@ export class CommandmentComponent implements OnChanges {
         this.geoCmdmntCharge[index].lkpCalcMeasureId = null;
         this.geoCmdmntCharge[index].lkpCalcUnitId = null;
         this.geoCmdmntCharge[index].lkpCalcTypeId = null;
-        this.geoCmdmntCharge[index].defaultLkpCalcTypeName = null;
+        this.geoCmdmntCharge[index].lkpCalcTypeName = null;
         this.geoCmdmntCharge[index].minVal = null;
         this.geoCmdmntCharge[index].maxVal = null;
         this.geoCmdmntCharge[index].lkpChrgOnId = null;
@@ -919,7 +940,6 @@ export class GeoWiseChargeDialogBox {
   stateList: Lookup[];
   cityList: Lookup[] = [];
   calcUnitList: Lookup[] = [];
-  minDate = new Date();
 
 
     @ViewChild('bottmScrollEl', null) bottmScrollEl: ElementRef;
@@ -1155,7 +1175,7 @@ getCityStart(stateId,index){
 
       if (validate && ((!element.stateId || element.stateId === null)
         || (!element.lkpCalcUnitId || element.lkpCalcUnitId === null)
-        || (!element.price || element.price === null || (element.price && !element.price.toString().trim()))
+        || ((!element.price && element.price !== 0) || element.price === null || (element.price && !element.price.toString().trim()))
         || (!element.disableCity && (!element.selectedCityList || element.selectedCityList.length === 0)))) {
         validate = false;
         this.tosterService.error('Some Required Fields Missing/Invalid !');
@@ -1172,7 +1192,7 @@ getCityStart(stateId,index){
       } else {
         stateList.push(element.stateId);
       }
-      if (element.price && element.validPrice) {
+      if ((element.price || element.price === 0) && element.validPrice) {
         element.price = Number(element.price.toString().trim()); }
     });
 
@@ -1285,7 +1305,7 @@ getCityStart(stateId,index){
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let element = document.getElementById('closeButton')  ;
+          let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
           element.click();
         }
       }
@@ -1550,7 +1570,7 @@ export class ExcludePinDialogBox {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let element = document.getElementById('closeButton') ;
+          let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
           element.click();
         }
       }
@@ -1657,20 +1677,15 @@ export class SlabDialogBox {
     }
     
     if(column=='slabTo'){
-      if(this.slabChargeList[index+1]){
-          this.slabChargeList[index + 1]["slabFrom"] = Number(value) + 1;
-      }
-    }
+      if(this.slabChargeList[index+1])
+      this.slabChargeList[index+1]['slabFrom'] = Number(value)+1;}
     this.slabChargeList[index][column] = value;
   }
-  
 
   changeValue(index, column, value) {
     if(column=='slabTo'){
-      if(this.slabChargeList[index+1]){
-        this.slabChargeList[index + 1]["slabFrom"] = Number(value) + 1;
-      }
-    }
+      if(this.slabChargeList[index+1])
+      this.slabChargeList[index+1]['slabFrom'] = Number(value)+1;}
     this.slabChargeList[index][column] = value;
   }
 

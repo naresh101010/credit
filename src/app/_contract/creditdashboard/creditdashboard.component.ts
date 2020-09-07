@@ -48,6 +48,7 @@ export class CreditdashboardComponent implements OnInit {
   count;
   checkValue;
   ngOnInit() {
+    AppSetting.reset();
     this.authorizationService.setPermissions('CONTRACT');
     this.menuHierarchy = this.authorizationService.getMenuHierarchyId();
     this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
@@ -129,7 +130,9 @@ export class CreditdashboardComponent implements OnInit {
            }
            let dateinMilli = new Date(Date.parse(data.cntrExpDt));
            if (value === 'EXPIRING SOON') {
-             if (dateinMilli.getMonth() === new Date().getMonth() && dateinMilli.getFullYear() === new Date().getFullYear() && dateinMilli.getTime() >= currDateinMilli.getTime()) {
+             let filterDate = new Date();
+             filterDate.setDate(filterDate.getDate() + 60);
+             if (dateinMilli.getTime() >= currDateinMilli.getTime() && dateinMilli.getTime() <= filterDate.getTime()) {
                this.msaData.push(data);
              }
            }
@@ -250,7 +253,7 @@ export class CreditdashboardComponent implements OnInit {
   //  this.countData(value);
     this.selectedValue = value;
     if (this.selectedValue === 'PENDING') {
-      this.displayedColumns = ['custName', 'sfdcAccId', 'sfdcOpprId', 'pan', 'gstinNum', 'msaCustAddrs', 'originatingSrc',];
+      this.displayedColumns = ['custName', 'sfdcAccId', 'sfdcOpprId', 'groupCode', 'pan', 'gstinNum', 'msaCustAddrs', 'originatingSrc',];
     } else if (this.selectedValue === 'ACTIVE' || this.selectedValue === 'EXPIRING SOON') {
       this.displayedColumns = ['custName', 'sfdcAccId', 'sfdcOpprId', 'pan', 'gstinNum', 'msaCustAddrs', 'originatingSrc', 'cntrCode', 'cntrExpDt', 'version', 'edit'];
     }  else if (this.selectedValue === 'INACTIVE') {
@@ -296,7 +299,6 @@ export class CreditdashboardComponent implements OnInit {
 
 /*----------  get all module card details ------- */
     getModuleCardDetails() {
-      this.spinner.show();
       this._contractService.getCardDetails(this.menuHierarchy[0].id).subscribe(cardDetails => {
         for(let cardDetail of cardDetails.data){
         cardDetail['bookmarkIcon'] = 'bookmark_border';
@@ -305,7 +307,6 @@ export class CreditdashboardComponent implements OnInit {
         cardDetail['permission'] = 'CONTRACT_READ';
         }
         else if(cardDetail.objectName == 'COMMANDMENT'){
-        debugger
         cardDetail['permission'] = cardDetail.objectName + '_UPDATE';
         cardDetail.objectName = 'BULK UPDATE COMMANDMENTS';
         }
@@ -317,12 +318,12 @@ export class CreditdashboardComponent implements OnInit {
         this.getDragDropData();
       }, (error) => {
         this.spinner.hide();
+        this.tosterservice.error(ErrorConstants.getValue(404));
       })
     }
 
     /*---------- get drag drop data ----------- */
     getDragDropData() {
-        this.spinner.show();
         this._contractService.getDragDropData(this.menuHierarchy[0].id).subscribe(data => {
         this.draggedObjects = data.data.draggedObjects;
         this.favouriteObjects = data.data.favouriteObjects;
@@ -370,7 +371,6 @@ export class CreditdashboardComponent implements OnInit {
                         }
                       }
                       }
-        this.spinner.hide();
         console.log('draggedObjects : ',this.draggedObjects)
       }, (error) => {
         let ob = ErrorConstants.validateException(error.error);
@@ -429,6 +429,7 @@ export class CreditdashboardComponent implements OnInit {
 
     /*------ Add module card in favorite -------- */
     addToFavorite(item,index) {
+      event.stopPropagation();
       var isFavourite = this.favouriteObjects.find(x => x.objectId == item.objectId)
       var favoriteObj : any = {}
         favoriteObj.menuHierarchyId = item.menuHierarchyId;
@@ -496,6 +497,7 @@ export class CreditdashboardComponent implements OnInit {
 
     addToPinnedObj(item,index) {
       var isPinned;
+      event.stopPropagation();
       if (this.pinnedObject !== undefined) {
         if (this.pinnedObject.objectId === item.objectId) {
           isPinned = 0;

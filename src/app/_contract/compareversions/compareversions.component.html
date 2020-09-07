@@ -44,7 +44,7 @@
           </div>
           <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-            <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading">Salesforce Monthly
+            <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading wordPBreak">Salesforce Monthly
               Potential (AIR)</div>
             <div class="col-lg-7 col-md-7 flex4 grey_td   text-heading-bar"
               [ngClass]="versionDifference.msaDto.sfdcMnthPotentialAir? 'highlight' : ''">
@@ -61,7 +61,7 @@
           </div>
           <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-            <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading">Salesforce Monthly
+            <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading wordPBreak">Salesforce Monthly
               Potential (SURFACE)</div>
             <div class="col-lg-7 col-md-7 flex4 grey_td   text-heading-bar"
               [ngClass]="versionDifference.msaDto.sfdcMnthPotentialSurface? 'highlight' : ''">
@@ -78,7 +78,7 @@
           </div>
           <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-            <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading">Salesforce Monthly
+            <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading wordPBreak">Salesforce Monthly
               Potential (3PL)</div>
             <div class="col-lg-7 col-md-7 flex4 grey_td   text-heading-bar"
               [ngClass]="versionDifference.msaDto.sfdcMnthPotential3pl? 'highlight' : ''">
@@ -158,8 +158,8 @@
             <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading">Customer Subsegment
             </div>
             <div class="col-lg-7 col-md-7 flex4 grey_td   text-heading-bar"
-              [ngClass]="versionDifference.msaDto.subsegment? 'highlight' : ''">
-              {{obj1.msaDto.subsegment}}</div>
+              [ngClass]="versionDifference.msaDto.subSegment? 'highlight' : ''">
+              {{obj1.msaDto.subSegment}}</div>
           </div>
           <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
@@ -209,7 +209,7 @@
           <div class="row leftPrint">
             <div class="col-lg-1 col-md-1"></div>
             <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-              <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading">oportunity Type</div>
+              <div class="col-lg-5 col-sm-5 flex3 green_th  text-heading">Oportunity Type</div>
               <div class="col-lg-7 col-md-7 flex4 grey_td   text-heading-bar">
                 {{item.lkpOpprType}}</div>
             </div>
@@ -322,7 +322,7 @@
     
     
                 <div *ngFor="let item1 of item.rateCards;let j = index;">
-                  <div *ngIf = " item.rateCards && obj1.isRatecardApplicable">
+                  <div *ngIf = " item.rateCards">
                     <div class="row leftSpace">
                       <div class="col-lg-1 col-md-1 msaBox"> &nbsp;</div>
                       <div class="col-lg-6 col-md-1 heading">Rate Card : {{item1.ratecardDTO.rateCardCode}}</div>
@@ -730,8 +730,7 @@
     
                       <!--Pricing Param Starts-->
                       <div *ngIf="comItem.pricingParamTrans.length>0">
-
-                        <h3 class="h3HeadingStyle" style="position: relative;"> <strong>Pricing Parameters</strong></h3>
+                        <h3 class="h3heading" style="position: relative;"> <strong>Pricing Parameters</strong></h3>
     
                         <div class="row leftPrint">
                           <div class="col-lg-1 col-md-1"></div>
@@ -807,20 +806,20 @@
                               <div class="col-lg-1 col-md-1"></div>
                                 <div class=" col-lg-11 flex-box">
                                 <div class="text-heading borderLeftRight geoWidth green_th col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.cmdmntName}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 "  *ngIf=" (cmdItem.minCalcflag==1 || cmdItem.minCalcFlag==0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minCalcFlag==1 ? 'YES' : 'NO'}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0 && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''"></div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==0" [ngClass]="respObject.flage ? 'highlight' : ''">NA</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==1" [ngClass]="respObject.flage ? 'highlight' : ''">RR</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==2" [ngClass]="respObject.flage ? 'highlight' : ''">CUSTOM</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1  " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.price}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'basedOn') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.basedOn}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'geoFeatureName') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.geoFeatureName}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcType}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcUnit}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcMeasure}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.lkpChargeOnVal}}</div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minVal}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
-                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.maxVal}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1"><span *ngIf=" (cmdItem.minCalcflag==1 || cmdItem.minCalcFlag==0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minCalcFlag==1 ? 'YES' : 'NO'}} </span></div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0 && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''"></div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="cmdItem.rrFlag==0">NA</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="cmdItem.rrFlag==1">RR</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="cmdItem.rrFlag==2">CUSTOM</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.price}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'basedOn') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.basedOn}}</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'geoFeatureName') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.geoFeatureName}}</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcType}}</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcUnit}}</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcMeasure}}</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.lkpChargeOnVal}}</div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minVal}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
+                                <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.maxVal}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
                               </div>
                             </div>
                           </div>
@@ -853,24 +852,66 @@
                                 <div class="col-lg-1 col-md-1"></div>
                                   <div class=" col-lg-11 flex-box">
                                   <div class="text-heading borderLeftRight geoWidth green_th col-lg-2 col-md-2 col-sm-2 col-xs-2" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.cmdmntName}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf=" (cmdItem.minCalcFlag==1 || cmdItem.minCalcFlag==0)  && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''"> {{cmdItem.minCalcFlag==0 ? 'NO' : 'YES'}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf=" (cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''"></div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="cmdItem.rrFlag==0" [ngClass]="respObject.flage ? 'highlight' : ''">NA</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="cmdItem.rrFlag==1" [ngClass]="respObject.flage ? 'highlight' : ''">RR</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="cmdItem.rrFlag==2" [ngClass]="respObject.flage ? 'highlight' : ''">CUSTOM</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.price}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcType}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcUnit}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcMeasure}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.lkpChargeOnVal}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minVal}} <span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.maxVal}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1"> <span  *ngIf=" (cmdItem.minCalcFlag==1 || cmdItem.minCalcFlag==0)  && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minCalcFlag==0 ? 'NO' : 'YES'}}</span></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf=" (cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''"></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="cmdItem.rrFlag==0" >NA</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="cmdItem.rrFlag==1" >RR</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="cmdItem.rrFlag==2" >CUSTOM</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.price}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcType}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcUnit}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcMeasure}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.lkpChargeOnVal}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minVal}} <span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 col-sm-1 col-xs-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.maxVal}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
         
+                      <!--Commandment state Charges Starts-->
+                      <div *ngIf="cmditemar &&  cmditemar.length>0">
+                        <div *ngFor="let cmdItem of cmditemar let b=index">
+                          <div *ngIf="cmdItem.cmdmntGeoWiseCharge && cmdItem.cmdmntGeoWiseCharge.length>0">
+                            <h3 class="h3heading" style="position: relative;" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName') as respObject"
+                            [ngClass]="respObject.flage ? 'highlight' : ''"><span class="marginSpan">State Charges : {{cmdItem.cmdmntName}}</span></h3>
+                            <div class="row marginZonal">
+                              <div class="col-lg-1 col-md-1"></div>
+                              <div class="col-lg-6 col-md-6 flex-box">
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">STATE</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">CITY</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">SURCHARGE TYPE</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">EXPIRY DATE</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">FIXED SURCHARGE AMOUNT</div>
+                              </div>
+                            </div>
+    
+                            <div *ngFor="let cmdmntGeoWiseCharge of cmdItem.cmdmntGeoWiseCharge let i=index">
+                              <div class="row marginZonal">
+                                <div class="col-lg-1 col-md-1"></div>
+                                <div class="col-lg-6 col-md-6 flex-box">
+                                  <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1">
+                                  {{cmdmntGeoWiseCharge.stateName}}</div>
+                                  <div *ngIf="cmdmntGeoWiseCharge.cityName" class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1">
+                                  {{cmdmntGeoWiseCharge.cityName}}</div>
+                                    <div *ngIf="!cmdmntGeoWiseCharge.cityName" class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1" >
+                                    ALL</div>
+                                  <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1" >
+                                  {{cmdmntGeoWiseCharge.surchargeName}}</div>
+                                  <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1" >
+                                  {{cmdmntGeoWiseCharge.expDt | date: 'dd/MM/yyyy'}}</div>
+                                  <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1" >
+                                  {{cmdmntGeoWiseCharge.price}}</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    
+                    <!--Commandment state Charges Ends-->
+
                       <!--Commandment Slab Charges Starts-->
                         <div *ngIf="cmditemar &&  cmditemar.length>0">
                           <div *ngFor="let cmdItem of cmditemar let b=index">
@@ -951,11 +992,11 @@
                                 <div class="col-lg-1" ></div>
                                  <div class="col-lg-11 col-md-11 flex-box">
                                   <div class="text-heading borderLeftRight geoWidth green_th col-lg-1 col-md-1" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.cmdmntName}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf=" (cmdItem.minCalcflag==1 || cmdItem.minCalcFlag==0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minCalcFlag==1 ? 'YES' : 'NO'}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 "><span  *ngIf=" (cmdItem.minCalcflag==1 || cmdItem.minCalcFlag==0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minCalcFlag==1 ? 'YES' : 'NO'}}</span></div>
                                   <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0 && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject"  [ngClass]="respObject.flage ? 'highlight' : ''"></div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==0" [ngClass]="respObject.flage ? 'highlight' : ''">NA</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==1" [ngClass]="respObject.flage ? 'highlight' : ''">RR</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==2" [ngClass]="respObject.flage ? 'highlight' : ''">CUSTOM</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==0">NA</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==1">RR</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="cmdItem.rrFlag==2">CUSTOM</div>
                                   <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.price}}<span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
                                   <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'basedOn') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.basedOn}}</div>
                                   <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'geoFeatureName') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.geoFeatureName}}</div>
@@ -996,65 +1037,67 @@
                               <div class="row marginZonal">
                                 <div class="col-lg-1 col-md-1" ></div>
                                 <div class="col-lg-11 col-md-11 flex-box">
-                                  <div class="text-heading borderLeftRight geoWidth green_th col-lg-2 col-md-2  prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.cmdmntName}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1  prev_width"
-                                     *ngIf=" (cmdItem.minCalcFlag==1 || cmdItem.minCalcFlag==0)  && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject"
-                                     [ngClass]="respObject.flage ? 'highlight' : ''"> {{cmdItem.minCalcFlag==0 ? 'NO' : 'YES'}}
-                                  </div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width"
-                                     *ngIf=" (cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject"
-                                     [ngClass]="respObject.flage ? 'highlight' : ''">
-                                  </div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="cmdItem.rrFlag==0"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    NA</div>
-                                    <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="cmdItem.rrFlag==1"
-                                    [ngClass]="respObject.flage ? 'highlight' : ''">
-                                      RR</div>
-                                      <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="cmdItem.rrFlag==2"
-                                      [ngClass]="respObject.flage ? 'highlight' : ''">
-                                        CUSTOM</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1   prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.price}}
-                                    <span *ngIf="respObject.flage && respObject.compare"  class="material-icons">
-                                      {{respObject.compare}}
-                                    </span>
-                                  </div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.calcType}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.calcUnit}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.calcMeasure}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1   prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.lkpChargeOnVal}}</div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1  prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.minVal}}
-                                    <span *ngIf="respObject.flage && respObject.compare"  class="material-icons">
-                                      {{respObject.compare}}
-                                    </span>
-                                  </div>
-                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal') as respObject"
-                                  [ngClass]="respObject.flage ? 'highlight' : ''">
-                                    {{cmdItem.maxVal}}
-                                    <span *ngIf="respObject.flage && respObject.compare"  class="material-icons">
-                                      {{respObject.compare}}
-                                    </span>
-                                  </div>
+                                  <div class="text-heading borderLeftRight geoWidth green_th col-lg-2 col-md-2  prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.cmdmntName}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1  prev_width"  *ngIf=" (cmdItem.minCalcFlag==1 || cmdItem.minCalcFlag==0)  && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''"> {{cmdItem.minCalcFlag==0 ? 'NO' : 'YES'}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width" *ngIf=" (cmdItem.minCalcFlag!=1 && cmdItem.minCalcFlag!=0 ) && ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minCalcFlag') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''"></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="cmdItem.rrFlag==0">NA</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="cmdItem.rrFlag==1">RR</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="cmdItem.rrFlag==2">CUSTOM</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1   prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'price') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.price}} <span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcType') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcType}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcUnit') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcUnit}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'calcMeasure') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.calcMeasure}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1   prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'lkpChargeOnVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.lkpChargeOnVal}}</div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1  prev_width" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'minVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.minVal}} <span *ngIf="respObject.flage && respObject.compare"  class="material-icons"> {{respObject.compare}}</span></div>
+                                  <div class="text-heading borderLeftRight geoWidth grey_td col-lg-1 col-md-1 prev_width " *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'maxVal') as respObject" [ngClass]="respObject.flage ? 'highlight' : ''">{{cmdItem.maxVal}} <span *ngIf="respObject.flage && respObject.compare"  class="material-icons">{{respObject.compare}}</span></div>
                                 </div>
                               </div>
                             </div>
                           </div>
                         </div>
         
+                      <!--Commandment State Charges Starts-->
+                      <div *ngIf="cmditemar &&  cmditemar.length>0">
+                        <div *ngFor="let cmdItem of cmditemar let b=index">
+                          <div *ngIf="cmdItem.cmdmntGeoWiseCharge && cmdItem.cmdmntGeoWiseCharge.length>0">
+                            <h3 class="h3heading" style="position: relative;" *ngIf="ifRatecardCommandmentObjectChanged(cmdItem,s,j,b,cdIndex,'cmdmntName') as respObject"
+                            [ngClass]="respObject.flage ? 'highlight' : ''"><span class="marginSpan">State Charges : {{cmdItem.cmdmntName}}</span></h3>
+                            <div class="row marginZonal">
+                              <div class="col-lg-1 col-md-1"></div>
+                               <div class="col-lg-6 col-md-6 flex-box">
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">STATE</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">CITY</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">SURCHARGE TYPE</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">EXPIRY DATE</div>
+                                <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">FIXED SURCHARGE AMOUNT</div>
+                              </div>
+                            </div>
+    
+                            <div *ngFor="let cmdmntGeoWiseCharge of cmdItem.cmdmntGeoWiseCharge let i=index">
+                              <div class="row marginZonal">
+                                <div class="col-lg-1 col-md-1"></div>
+                                   <div class="col-lg-6 col-md-6 flex-box">
+                                    <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1">
+                                    {{cmdmntGeoWiseCharge.stateName}}</div>
+                                    <div *ngIf="cmdmntGeoWiseCharge.cityName" class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1">
+                                    {{cmdmntGeoWiseCharge.cityName}}</div>
+                                    <div *ngIf="!cmdmntGeoWiseCharge.cityName" class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1" >
+                                      ALL</div>
+                                    <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1">
+                                    {{cmdmntGeoWiseCharge.surchargeName}}</div>
+                                    <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1" >
+                                    {{cmdmntGeoWiseCharge.expDt | date: 'dd/MM/yyyy'}}</div>
+                                    <div class="zoal-rate-content grey_td col-lg-2 col-md-2 col-sm-1 col-xs-1 flex1" >
+                                    {{cmdmntGeoWiseCharge.price}}</div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    
+                    <!--Commandment State Charges Ends-->
+
                       <!--Commandment Slab Charges Starts-->
                         <div *ngIf="cmditemar &&  cmditemar.length>0">
                           <div *ngFor="let cmdItem of cmditemar let b=index">
@@ -1097,7 +1140,7 @@
                   </div>
                   
                   <!--Commandment Charges Ends-->
-                  <div *ngIf="item1.tncDTO && obj1.isRatecardApplicable">
+                  <div *ngIf="item1.tncDTO">
                     <div class="row leftSpace">
                       <div class="col-lg-1 col-md-1 msaBox"> &nbsp;</div>
                       <div class="col-lg-6 col-md-1 heading">Term & Conditions For RateCard : {{item1.ratecardDTO.rateCardCode}}</div>
@@ -1276,8 +1319,11 @@
                           [ngClass]="respObject.flage? 'highlight' : ''" >{{item1.tncDTO.excessClauseFlag==1 ? 'YES' : 'NO' }}</div>
                         </div>
                         <div class="col-lg-1 col-md-1"></div>
-                        <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-                          
+                        <div *ngIf="item1.tncDTO.excessClauseFlag==1" class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
+                          <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 flex3   text-heading green_th">Amount
+                          </div>
+                          <div class="col-lg-7 col-md-7 flex4 grey_td col-sm-7 col-xs-7 flex4   text-heading-bar" *ngIf="ifRatecardTncObjectChanged(item1,s,j,'excessClauseAmt') as respObject"
+                          [ngClass]="respObject.flage? 'highlight' : ''" >{{item1.tncDTO.excessClauseAmt}}</div>
                         </div>
                       </div>
     
@@ -1357,18 +1403,17 @@
                   <h3 class="h3heading" style="position: relative;"><strong>Notepad</strong></h3>
                   <div class="row leftPrint">
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-10 col-md-10 flex-box ">
-                      <div class="zoal-rate-heading green_th col-lg-3 col-md-3 flex1 ">Notepad Name</div>
+                    <div class="col-lg-10 col-md-10 flex-box">
+                      <div class="zoal-rate-heading green_th col-lg-3 col-md-3 flex1">Notepad Name</div>
                       <div class="zoal-rate-heading green_th col-lg-3 col-md-3  flex1">Notepad Value</div>
                     </div>
                   </div>
                   <div *ngFor="let npItem of item1.tncDTO.notepadDtoList let n =index">
                     <div class="row leftPrint">
-                      <div class=" col-lg-10 col-md-10 flex-box ">
-                        <div class="zoal-rate-content grey_td col-lg-3 col-md-3  flex1"
-                        [ngClass]="ifTncNotePadObjectChanged(s,j,n, npItem, 'notepadName')? 'highlight' : ''">{{npItem.notepadName}}</div>
-                        <div class="zoal-rate-content grey_td col-lg-3 col-md-3  flex1"
-                        [ngClass]="ifTncNotePadObjectChanged(s,j,n,npItem, 'notepadName')? 'highlight' : ''">{{npItem.notepadInputVal}}
+                      <div class="col-lg-1 col-md-1"></div>
+                      <div class=" col-lg-10 col-md-10 flex-box">
+                        <div class="zoal-rate-content grey_td col-lg-3 col-md-3 flex1" [ngClass]="ifTncNotePadObjectChanged(s,j,n, npItem, 'notepadName')? 'highlight' : ''">{{npItem.notepadName}}</div>
+                        <div class="zoal-rate-content grey_td col-lg-3 col-md-3 flex1" [ngClass]="ifTncNotePadObjectChanged(s,j,n,npItem, 'notepadName')? 'highlight' : ''">{{npItem.notepadInputVal}}
                       </div>
                       </div>
                     </div>
@@ -1764,7 +1809,7 @@
               <!--Billing By Data Started-->
               <div *ngIf="billingItem.billingBy && billingItem.billingBy!=null && billingItem.billingBy.length>0">
 
-                <div class="col-lg-6 leftSpace zoal-rate-content1">
+                <div class="col-lg-6 leftSpace text-heading green_th wordPBreak">
                   <div class="col-lg-12">
                     <div>Billing By:
                       <span *ngFor="let item of billingItem.billingBy | slice:0:1;">{{item.billingByLevelMapVal}}</span>
@@ -1827,14 +1872,13 @@
               <!--Billing By Data Ends-->
 
               <!-- Billing Consignee Consignor Mapping  Starts-->
-              <div
-                *ngIf="billingItem.billingCneeCnorMap && billingItem.billingCneeCnorMap!=null && billingItem.billingCneeCnorMap.length>0">
-                <h3 style="position: relative;">Consignee Consignor Mapping</h3>
+              <div *ngIf="billingItem.billingCneeCnorMap && billingItem.billingCneeCnorMap!=null && billingItem.billingCneeCnorMap.length>0">
+                <h3 class="h3heading">Consignee Consignor Mapping</h3>
                <div class="col-lg-1 col-md-1"></div>
                 <div class="row leftPrint">
                   <div class="col-lg-10 col-md-10 flex-box ">
-                    <div class="zoal-rate-heading col-lg-3 col-md-3 flex3 ">CONSIGNEE</div>
-                    <div class="zoal-rate-heading col-lg-3 col-md-3  flex4">CONSIGNOR</div>
+                    <div class="zoal-rate-heading col-lg-3 green_th col-md-3 flex3 ">CONSIGNEE</div>
+                    <div class="zoal-rate-heading col-lg-3 green_th col-md-3  flex4">CONSIGNOR</div>
                   </div>
                 </div>
                 <div *ngFor="let cnbItem of billingItem.billingCneeCnorMap let ci=index">

@@ -74,6 +74,7 @@
                    class="creditNgDropdown"
                    bindValue="baseLocationBranchId"
                    appendTo="body"
+                   dropdownPosition="bottom"
                    (search) ='advanceDefaultBranchName($event)'
                    [(ngModel)]="user.baseLocationBranchId"
                    (click)="onClear()"
@@ -165,7 +166,7 @@
   <input style="margin-left: 1%" maxlength="50" class="banner-input1"  placeholder="Search"  autocomplete="true" (keyup)="applyFilter($event)" autocomplete="true">
  </div>
    <hr class="green-border-heading"> 
-<table  mat-table  [dataSource]="dataSource" matSort aria-describedby="table">
+<table  mat-table  [dataSource]="dataSource" matSort>
 
   <ng-container matColumnDef="name">
     <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>

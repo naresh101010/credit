@@ -58,7 +58,7 @@
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-          <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Salesforce Monthly Potential (AIR)</div>
+          <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak" >Salesforce Monthly Potential (AIR)</div>
           <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{data.msaDto.sfdcMnthPotentialAir}}</div>
         </div>
       </div>
@@ -71,7 +71,7 @@
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-          <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Salesforce Monthly
+          <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak" >Salesforce Monthly
             Potential (SURFACE)</div>
           <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{data.msaDto.sfdcMnthPotentialSurface}} </div>
         </div>
@@ -79,12 +79,12 @@
       <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
-          <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Contact No. (L):</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{data.msaDto.phone}} </div>
+          <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Contact No. (L):</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading-bar">{{data.msaDto.phone}} </div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-          <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Salesforce Monthly Potential (3PL)</div>
+          <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak" >Salesforce Monthly Potential (3PL)</div>
           <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{data.msaDto.sfdcMnthPotential3pl}}</div>
         </div>
       </div>
@@ -536,7 +536,10 @@
                   *ngIf="item1.tncDTO.excessClauseFlag!=1">NO</div>
               </div>
               <div class="col-lg-1 col-md-1"></div>
-              <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
+              <div *ngIf="item1.tncDTO.excessClauseFlag==1" class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box ">
+                <div class="col-lg-5 col-md-5 flex3 flex3 text-heading green_th green_th">Amount
+                </div>
+                <div class="col-lg-7 col-md-7 flex4 grey_tdcol-xs-7 flex4 text-heading green_th-bar grey_td">{{item1.tncDTO.excessClauseAmt}}</div>
               </div>
             </div>
 
@@ -1042,6 +1045,38 @@
     </div>
   </div>
 </div>
+
+<!--Commandment State Surcharge Starts-->
+<div *ngFor="let cmdItem of cmditemar">
+  <div *ngIf="cmdItem.cmdmntGeoWiseCharge && cmdItem.cmdmntGeoWiseCharge.length>0">
+    <h3 class="h3heading">State Charges : {{cmdItem.cmdmntName}}</h3>
+    <div class="row marginZonL">
+      <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+      <div class="col-lg-6 col-md-6 flex-box ">
+        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">STATE</div>
+        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">CITY</div>
+        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">SURCHARGE TYPE</div>
+        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">EXPIRY DATE</div>
+        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">FIXED SURCHARGE AMOUNT</div>
+      </div>
+    </div>
+
+    <div *ngFor="let cmdmntGeoWiseCharge of cmdItem.cmdmntGeoWiseCharge">
+      <div class="row marginZonL">
+        <div class="col-lg-1 col-md-1 col-sm-1 col-xs-1"></div>
+        <div class=" col-lg-6 col-md-6  flex-box">
+          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.stateName}}</div>
+          <div *ngIf="cmdmntGeoWiseCharge.cityName" class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.cityName}}</div>
+          <div *ngIf="!cmdmntGeoWiseCharge.cityName" class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">ALL</div>
+          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.surchargeName}}</div>
+          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.expDt | date: 'dd/MM/yyyy'}}</div>
+          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.price}}</div>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+<!--Commandment State Surcharge Charges Ends-->
 <!--Commandment Slab Charges Starts-->
 <div *ngFor="let cmdItem of cmditemar">
     <div *ngIf="cmdItem.cmdmntSlabCharge.length>0">
@@ -1246,91 +1281,91 @@
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Billing Level</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >
             {{billingItem.billingLevel}} </div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box smallPrint">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Alias Name</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.aliasName}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.aliasName}}</div>
         </div>
       </div>
       <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >SFX Code Name</div>
-          <div *ngIf="!data.sfxCode" class="col-lg-7 col-md-7 flex4   text-heading-bar" >NOT GENERATED YET</div>
-          <div *ngIf="data.sfxCode" class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{data.sfxCode}}</div>
+          <div *ngIf="!data.sfxCode" class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >NOT GENERATED YET</div>
+          <div *ngIf="data.sfxCode" class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{data.sfxCode}}</div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box smallPrint">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Billing Sublevel</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.billingSublevel}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.billingSublevel}}</div>
         </div>
       </div>
       <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Billing Subtype</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.billingSubtype}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.billingSubtype}}</div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box smallPrint">
             <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Billing Format</div>
-            <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.billingFormat}}</div>
+            <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.billingFormat}}</div>
           </div>
       </div>
       <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Bill Date</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.billingDtls}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.billingDtls}}</div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box smallPrint">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Billing Cycle</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.billingCycle}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.billingCycle}}</div>
         </div>
       </div>
       <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >E Billing</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.ebillFlag==1">YES</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.ebillFlag==0">NO</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.ebillFlag!=0 && billingItem.ebillFlag!=1"></div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.ebillFlag==1">YES</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.ebillFlag==0">NO</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.ebillFlag!=0 && billingItem.ebillFlag!=1"></div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box smallPrint">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Payment Terms</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.pymtTerm}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.pymtTerm}}</div>
         </div>
       </div>
       <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >TOD</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.todFlag==1">YES</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.todFlag==0">NO</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.todFlag!=1 && billingItem.todFlag!=0"></div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.todFlag==1">YES</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.todFlag==0">NO</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.todFlag!=1 && billingItem.todFlag!=0"></div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box smallPrint">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Turnover Amount</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.todAmt}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.todAmt}}</div>
         </div>
       </div>
       <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Auto Billing</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.autoBillingFlag==1">YES</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar"  *ngIf="billingItem.autoBillingFlag==0">NO</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.autoBillingFlag==1">YES</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight"  *ngIf="billingItem.autoBillingFlag==0">NO</div>
         </div>
         <div class="col-lg-1 col-md-1"></div>
         <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box smallPrint">
           <div class="col-lg-5 col-md-5 flex3 text-heading green_th" >Based On</div>
-          <div class="col-lg-7 col-md-7 flex4   text-heading-bar" >{{billingItem.todBasedOn}}</div>
+          <div class="col-lg-7 col-md-7 flex4   text-heading grey_td borderLeftRight" >{{billingItem.todBasedOn}}</div>
         </div>
       </div>
       <div class="row leftPrint">
@@ -1354,7 +1389,7 @@
           <span *ngIf="billingItem.cneeCnorFlag==0">NO</span>
         </div>        
       </div>
-
+ 
       <div class=" heading-bar-dashboard wordbreak" fxLayout fxLayout.xs="column" fxLayoutAlign="center"  fxLayoutGap.xs="0">
         <div *ngIf="billingItem.billingBy[0].assignBranchName" class="zoal-rate-heading green_th " fxFlex="6.6%">ASSIGN BRANCH</div>
         <div *ngIf="!billingItem.billingBy[0].assignBranchName" class="zoal-rate-heading green_th " fxFlex="6.6%">BILLING BRANCH</div>
@@ -1414,11 +1449,12 @@
        <div class="row leftPrint">
         <div class="col-lg-1 col-md-1"></div>
         <div class=" col-lg-10 col-md-10 flex-box ">
-          <div class="text-heading green_th col-lg-3 col-md-3 flex4 ">{{cnbItem.cneeName}}</div>
-          <div class="text-heading green_th col-lg-3 col-md-3 flex3 ">{{cnbItem.cnorName}}</div>
+          <div class="text-heading grey_td col-lg-3 col-md-3 flex3 borderLeftRight">{{cnbItem.cneeName}}</div>
+          <div class="text-heading grey_td col-lg-3 col-md-3 flex4 borderLeftRight">{{cnbItem.cnorName}}</div>
         </div>
         </div>
-      </div></div>
+      </div>
+    </div>
       <!-- Billing Consignee Consignor Mapping  Ends-->
 
 

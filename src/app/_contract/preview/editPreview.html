@@ -46,8 +46,7 @@
           </div>
           <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-            <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Salesforce Monthly
-              Potential (AIR)</div>
+            <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak">Salesforce Monthly Potential (AIR)</div>
             <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
               {{data.msaDto.sfdcMnthPotentialAir}}</div>
           </div>
@@ -61,8 +60,7 @@
           </div>
           <div class="col-lg-1 col-md-1"></div>
          <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-            <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Salesforce Monthly
-              Potential (SURFACE)</div>
+            <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak">Salesforce Monthly Potential (SURFACE)</div>
             <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
               {{data.msaDto.sfdcMnthPotentialSurface}} </div>
           </div>
@@ -76,7 +74,7 @@
           </div>
           <div class="col-lg-1 col-md-1"></div>
           <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-            <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Salesforce Monthly
+            <div class="col-lg-5 col-md-5 flex3 text-heading green_th wordPBreak">Salesforce Monthly
               Potential (3PL)</div>
             <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
               {{data.msaDto.sfdcMnthPotential3pl}}</div>
@@ -384,10 +382,9 @@
                   <div class="col-lg-6 col-md-6 heading">Term & Conditions</div>
                 </div>
                 <mat-card>
-                  <h3 style="position: relative;
-              left: 4%;"> Fuel Details</h3>
+                  <h3 style="position: relative;left: 4%;"> Fuel Details</h3>
 
-                  <div class="row leftSpace">
+                  <div class="row leftPrint">
                     <div class="col-lg-1 col-md-1"></div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Fuel Type</div>
@@ -403,7 +400,7 @@
                     </div>
                   </div>
 
-                  <div class="row leftSpace">
+                  <div class="row leftPrint">
                     <div class="col-lg-1 col-md-1"></div>
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Base Fuel Date
@@ -448,8 +445,7 @@
                         *ngIf="item1.tncDTO.incrClauseFlag!=1">NO</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Increment Type
                       </div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
@@ -466,8 +462,7 @@ left: 10%;">
                         {{item1.tncDTO.incrMnth}}</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Increment Based
                         On</div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
@@ -483,8 +478,7 @@ left: 10%;">
                         {{item1.tncDTO.incrEffectiveDt  | date: 'dd/MM/yyyy'}}</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Increment Value
                       </div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
@@ -492,22 +486,19 @@ left: 10%;">
                     </div>
                   </div>
 
-                  <h3 style="position: relative;
-left: 4%;"> Insurance Detail</h3>
+                  <h3 style="position: relative;left: 4%;"> Insurance Detail</h3>
 
                   <div class="row leftPrint">
                     <div class="col-lg-1 col-md-1"></div>
+
                     <div class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
-                      <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Is Applicable
-                      </div>
-                      <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td"
-                        *ngIf="item1.tncDTO.insuFlag==1">YES</div>
-                      <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td"
-                        *ngIf="item1.tncDTO.insuFlag!=1">NO</div>
+                      <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Is Applicable</div>
+                      <div class="col-lg-7 col-md-7 flex4 text-heading-bar grey_td" *ngIf="item1.tncDTO.insuFlag==1">YES</div>
+                      <div class="col-lg-7 col-md-7 flex4 text-heading-bar grey_td" *ngIf="item1.tncDTO.insuFlag!=1">NO</div>
                     </div>
+
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Policy Number
                       </div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
@@ -524,8 +515,7 @@ left: 10%;">
                         {{item1.tncDTO.insuCo}}</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Insurance Valid
                         Till</div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
@@ -544,7 +534,10 @@ left: 10%;">
                         *ngIf="item1.tncDTO.excessClauseFlag!=1">NO</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;left: 10%;">
+                    <div *ngIf="item1.tncDTO.excessClauseFlag==1" class="col-lg-5 col-md-5 col-sm-6 col-xs-6 flex-box">
+                      <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Amount
+                      </div>
+                      <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">{{item1.tncDTO.excessClauseAmt}}</div>
                     </div>
                   </div>
 
@@ -562,8 +555,7 @@ left: 4%;"> Security Details</h3>
                         *ngIf="item1.tncDTO.securityFlag!=1">NO</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Security Type
                       </div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
@@ -580,8 +572,7 @@ left: 10%;">
                         {{item1.tncDTO.securityAmt}}</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Security
                         Reference</div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
@@ -596,8 +587,7 @@ left: 10%;">
                         {{item1.tncDTO.bankIfscCode}}</div>
                     </div>
                     <div class="col-lg-1 col-md-1"></div>
-                    <div class="col-lg-4 col-md-4  " style="position: relative;
-left: 10%;">
+                    <div class="col-lg-5 col-md-5">
                       <div class="col-lg-5 col-md-5 flex3 text-heading green_th">Bank Name</div>
                       <div class="col-lg-7 col-md-7 flex4   text-heading-bar grey_td">
                         {{item1.tncDTO.bankName}}</div>
@@ -1071,6 +1061,37 @@ left: 10%;">
                     </div>
                   </div>
                 </div>
+                <!--Commandment State Charges Starts-->
+                <div *ngFor="let cmdItem of cmditemar">
+                  <div *ngIf="cmdItem.cmdmntGeoWiseCharge && cmdItem.cmdmntGeoWiseCharge.length>0">
+                    <h3 class="h3HeadingStyle" style="position: relative; margin-left: 6rem;"><strong>State Charges : {{cmdItem.cmdmntName}}</strong></h3>
+                    <div class="row marginZonal">
+                      <div class="col-lg-1 col-md-1"></div>
+                      <div class="col-lg-6 col-md-6 flex-box">
+                        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">STATE</div>
+                        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">CITY</div>
+                        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">SURCHARGE TYPE</div>
+                        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">EXPIRY DATE</div>
+                        <div class="zoal-rate-heading green_th col-lg-2 col-md-2 flex1">FIXED SURCHARGE AMOUNT</div>
+                      </div>
+                    </div>    
+                    <div *ngFor="let cmdmntGeoWiseCharge of cmdItem.cmdmntGeoWiseCharge">
+                      <div class="row marginZonal">
+                        <div class="col-lg-1 col-md-1"></div>
+                        <div class="col-lg-6 col-md-6 flex-box">
+                          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.stateName}}</div>
+                          <div *ngIf="cmdmntGeoWiseCharge.cityName" class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.cityName}}</div>
+                          <div *ngIf="!cmdmntGeoWiseCharge.cityName" class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">ALL</div>
+                          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.surchargeName}}</div>
+                          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.expDt | date: 'dd/MM/yyyy'}}</div>
+                          <div class="text-heading borderLeftRight grey_td col-lg-2 col-md-2 flex1">{{cmdmntGeoWiseCharge.price}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!--Commandment State Charges Ends-->
+
                 <!--Commandment Slab Charges Starts-->
                 <div *ngFor="let cmdItem of cmditemar">
                   <div *ngIf="cmdItem.cmdmntSlabCharge.length>0">
@@ -1135,7 +1156,7 @@ left: 10%;">
 
                 <!--Custom SLA Start-->
                 <div *ngIf="item1.zmCustomSlaDTOs && item1.zmCustomSlaDTOs!=null && item1.zmCustomSlaDTOs.length>0">
-                  <h3 style="position: relative;">Custom SLA</h3>
+                  <h3 style="position: relative;margin-left: 6rem;" class="h3HeadingStyle">Custom SLA</h3>
                   <div class="row marginZonal">
                     <div class="col-lg-1 col-md-1"></div>
                     <div class="col-lg-10 col-md-10 flex-box">
@@ -1151,11 +1172,11 @@ left: 10%;">
                     <div class="row marginZonal">
                       <div class="col-lg-1 col-md-1"></div>
                       <div class=" col-lg-10 col-md-10 col-sm-10 col-xs-10 flex-box">
-                        <div class="zoal-rate-content  grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  ">{{cSLA.srcType}}</div>
-                        <div class="zoal-rate-content  grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  ">{{cSLA.destType}}</div>
-                        <div class="zoal-rate-content  grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  wordWrap">{{cSLA.source}}</div>
-                        <div class="zoal-rate-content  grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  wordWrap">{{cSLA.destination}}</div>
-                        <div class="zoal-rate-content  grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  ">{{cSLA.slaDays}}</div>
+                        <div class="text-heading grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  ">{{cSLA.srcType}}</div>
+                        <div class="text-heading grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  ">{{cSLA.destType}}</div>
+                        <div class="text-heading grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  wordWrap">{{cSLA.source}}</div>
+                        <div class="text-heading grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  wordWrap">{{cSLA.destination}}</div>
+                        <div class="text-heading grey_td col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1  ">{{cSLA.slaDays}}</div>
                         <div class="col-lg-1 col-md-1  "></div>
                       </div>
                     </div>
@@ -1165,10 +1186,10 @@ left: 10%;">
 
                 <!--Safex custom SLA Start-->
                 <div *ngIf="item1.safextCustomSlaDTOs && item1.safextCustomSlaDTOs.length>0">
-                  <h3 class="h3HeadingStyle" style="position: relative; margin-left: 6rem;"><strong>Safextension Custom SLA</strong></h3>
-                  <div class="row leftPrint">
-                    <div class="col-lg-1 "></div>
-                    <div class="col-lg-6 col-md-6 flex-box ">
+                  <h3 class="h3HeadingStyle" style="position: relative; margin-left: 6rem;">Safextension Custom SLA</h3>
+                  <div class="row marginZonL">
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-6 col-md-6 flex-box">
                       <div class="zoal-rate-heading green_th col-lg-3 col-md-3 col-sm-3 col-xs-3 flex1">From</div>
                       <div class="zoal-rate-heading green_th col-lg-2 col-md-2 col-sm-2 col-xs-2 flex1">To</div>
                       <div class="zoal-rate-heading green_th col-lg-2 col-md-2 col-sm-2 col-xs-2 flex1">SLA Days</div>
@@ -1192,7 +1213,7 @@ left: 10%;">
 
                 <!--Safex SLA Charges Starts-->
                 <div *ngIf="item1.safextSlaDTOs && item1.safextSlaDTOs.length>0">
-                  <h3 style="position: relative;">Safextension SLA Charges</h3>
+                  <h3 style="position: relative;margin-left: 6rem;" class="h3HeadingStyle">Safextension SLA Charges</h3>
                   <div class="row marginZonal">
                     <div class="col-lg-1 col-md-1"></div>
                     <div class="col-lg-5 col-md-5 flex-box">
