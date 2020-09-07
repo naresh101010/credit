@@ -20,7 +20,7 @@ export class SfxDialogComponent implements OnInit {
   ngOnInit() {
     this.message = this.data.message;
     this.isNew = this.data.isNew;
-    this.autoRun;
+    // this.autoRun;
   }
   autoRun:any = setTimeout(() => {
     this.dialogSfxCode.close();
