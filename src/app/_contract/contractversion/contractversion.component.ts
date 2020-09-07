@@ -63,9 +63,9 @@ export class ContractversionComponent implements OnInit {
         let ob = ErrorConstants.validateException(data);
         if (ob.isSuccess) {
           var resData: any = data;
-          for (let data of resData.data.responseData) {
-            if (data.id != null || data.id != '') {
-              this.contractVersionData.push(data);
+          for (let data_ of resData.data.responseData) {
+            if (data_.id != null || data_.id != '') {
+              this.contractVersionData.push(data_);
             }
           }
           this.contractVersionData.forEach(item => {
@@ -145,8 +145,8 @@ export class ContractversionComponent implements OnInit {
        }
      }
  
-     this.versions = this.dataSource.filter(obj => {
-       return obj.checked == true
+     this.versions = this.dataSource.filter(obj_ => {
+       return obj_.checked == true
      });
  
    }

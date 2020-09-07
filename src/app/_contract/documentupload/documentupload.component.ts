@@ -149,7 +149,6 @@ export class DocumentuploadComponent implements OnInit {
     requestData+='}';
 
     if(this.contractId==null){
-      requestData="";
       requestData='{';
       requestData+='"msaCustId":';
       requestData+='"'+this.msaCustId+'",';
