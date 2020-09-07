@@ -441,7 +441,7 @@ export class CreditdashboardComponent implements OnInit {
         else{
         favoriteObj.menuCard = true;
         }
-        // isFavourite !==undefined ? isFavourite['favoriteIcon'] = 'favorite_border' : '';
+        isFavourite !==undefined ? isFavourite['favoriteIcon'] = 'favorite_border' : null;
         //isFavourite['favoriteIcon'] = isFavourite !==undefined ? 'favorite_border' : '';
         favoriteObj.objectOrder = index+1;
         favoriteObj.status = isFavourite !== undefined ? 0 : 1;
