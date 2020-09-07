@@ -23,16 +23,16 @@ export class DatepickerDirective {
     
     let formattedDate = "";
 
-    function extractMonth(inputDate) {
-      return inputDate.substr(0, 2);
+    function extractMonth(inputDate_) {
+      return inputDate_.substr(0, 2);
     }
 
-    function extractDay(inputDate) {
-      return inputDate.substr(2, 2);
+    function extractDay(inputDate_) {
+      return inputDate_.substr(2, 2);
     }
 
-    function extractYear(inputDate) {
-      return inputDate.substr(4, 4);
+    function extractYear(inputDate_) {
+      return inputDate_.substr(4, 4);
     }
 
     // Add / depending on number

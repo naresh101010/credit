@@ -9,7 +9,7 @@ import { CommonService } from 'src/app/core/common.service';
 })
 export class StepperComponent implements OnInit {
 
-  constructor(private router: Router, private CommonService: CommonService) {}
+  constructor(private router: Router, private CommonService_: CommonService) {}
 
   currentState;
   step1; step2; step3; step4; step5; step6; step7;
@@ -91,7 +91,7 @@ export class StepperComponent implements OnInit {
     if (url) {
       let exactUrl;
       exactUrl = url.slice(0).split(";")[0].toLowerCase();
-      this.CommonService.steperNextFlg = true;
+      this.CommonService_.steperNextFlg = true;
       if (!url.includes('edit')) {
         if(!this.router.url.includes('contract')){
           this.router.navigate([exactUrl], {skipLocationChange: true});
@@ -110,7 +110,7 @@ export class StepperComponent implements OnInit {
       }
     }
     else {
-      this.CommonService.steperNextFlg = true;
+      this.CommonService_.steperNextFlg = true;
     }
   }
 }
