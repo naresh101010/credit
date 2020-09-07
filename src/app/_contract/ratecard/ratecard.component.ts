@@ -5356,8 +5356,6 @@ getFuelPriceAndDate()
          if(this.fuelData == undefined || this.fuelData.length==0){
             this.modeltnc.fuelPrice=null;
          }
-         else{
-         }
          //if(value)this.BaseFuelDate(this.modeltnc);
          this.spinner.hide();
       }

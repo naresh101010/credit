@@ -26,11 +26,13 @@ export class AuthorizationService {
         if (item.menuLabel === 'CREDIT') {
           item.permissions.map(permission => {
             if (permission.entityName === entityName && permission.channelId === 33) {
+               console.log("1");
               this.setPermissionMap(permission);
               if (permission.attributeExclutionList && permission.attributeExclutionList.length > 0) {
                 this.setAttributeExclusion(permission);
               }
             } else if (entityName === 'ALL' && permission.channelId === 33) {
+              console.log('2')
               this.setPermissionMap(permission);
               if (permission.attributeExclutionList && permission.attributeExclutionList.length > 0) {
                 this.setAttributeExclusion(permission);

@@ -696,6 +696,7 @@ export class ConsignorUploadFile implements OnInit {
     var re = /^[0-9]+$/;
     this.pastedText = Number(event.clipboardData.getData('text'));
     if(re.test(this.pastedText)){
+      console.log(1)
     }
     else{
       event.preventDefault();
