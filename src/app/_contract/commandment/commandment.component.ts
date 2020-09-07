@@ -1677,15 +1677,19 @@ export class SlabDialogBox {
     }
     
     if(column=='slabTo'){
-      if(this.slabChargeList[index+1])
-      this.slabChargeList[index+1]['slabFrom'] = Number(value)+1;}
+      if(this.slabChargeList[index+1]){
+        this.slabChargeList[index + 1]["slabFrom"] = Number(value) + 1;
+      }      
+    }
     this.slabChargeList[index][column] = value;
   }
 
   changeValue(index, column, value) {
     if(column=='slabTo'){
-      if(this.slabChargeList[index+1])
-      this.slabChargeList[index+1]['slabFrom'] = Number(value)+1;}
+      if(this.slabChargeList[index+1]){
+        this.slabChargeList[index + 1]["slabFrom"] = Number(value) + 1;
+      }
+    }
     this.slabChargeList[index][column] = value;
   }
 

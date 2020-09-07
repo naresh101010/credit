@@ -468,12 +468,16 @@ this.isDataAvailable=true;
           // }
           if(!this.oportunity.responseData.contract){
             for(let seg of  this.segmentList){
-              if(seg.segmentName==this.segmentName)
-              this.model.segmentId= seg.id;
+              if(seg.segmentName==this.segmentName){
+                 this.model.segmentId = seg.id;
+              }
+             
             }
             for(let subseg of this.subSegmentList){
-              if(subseg.subsegmentName==this.subsegmentName)
-              this.model.subsegmentId= subseg.id;
+              if(subseg.subsegmentName==this.subsegmentName){
+                 this.model.subsegmentId = subseg.id;
+              }
+             
             }
           }
           if(isNavigate){

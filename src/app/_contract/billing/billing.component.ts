@@ -225,8 +225,9 @@ export class BillingComponent implements OnInit {
             result => {
               let ob = ErrorConstants.validateException(result);
               if (ob.isSuccess) {
-                if (result && result.data.responseData)
-                this.rateCardList = this.rateCardList.concat(result.data.responseData);
+                if (result && result.data.responseData){
+                  this.rateCardList = this.rateCardList.concat(result.data.responseData);
+                }
               this.second.close();
           
               }else {
@@ -908,8 +909,9 @@ export class BillingComponent implements OnInit {
     this.billingData.billingBy = [];
     this.billingData.billingBy.push(new billing.BillingBy());
     this.billingByAllList.forEach(billingByElement => {
-      if (blngByLvlId == billingByElement.id)
-      this.billingByLevelName = billingByElement.lookupVal;
+      if (blngByLvlId == billingByElement.id){
+            this.billingByLevelName = billingByElement.lookupVal;
+      }
     });
     if (this.billingByLevelName == 'CONSOLIDATION') {
       this.billingData.billingBy = [];
