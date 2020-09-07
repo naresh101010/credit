@@ -252,8 +252,8 @@ export class CommandmentComponent implements OnChanges {
         }
         this.contractservice.getCommandmentDetail(this.inputData.level, entityIdtoFetch, this.serviceOfferingId, this.businessTypeId, this.customerTypeId,this.editflow)
         .subscribe(resultData => {
-          let ob = ErrorConstants.validateException(resultData);
-          if (ob.isSuccess) {
+          let ob_ = ErrorConstants.validateException(resultData);
+          if (ob_.isSuccess) {
             if (resultData && resultData.data) {
               this.commandmentResult = JSON.parse(JSON.stringify(resultData.data));
               if (this.commandmentResult.responseData)
@@ -461,7 +461,7 @@ export class CommandmentComponent implements OnChanges {
             }
           }
           else {
-            this.tosterService.error(ob.message);
+            this.tosterService.error(ob_.message);
           }
           this.geoColumns = ["cmdmntName", "freight", "rrFlag", "price", "geoTypeName", "geoFeatureName", "lkpCalcTypeId", "lkpCalcUnitId", "lkpCalcMeasureId", "lkpChrgOnId", "minVal", "maxVal"];
           this.nonGeoColumns = ["cmdmntName", "freight", "rrFlag", "price", "lkpCalcTypeId", "lkpCalcUnitId", "lkpCalcMeasureId","lkpChrgOnId", "minVal", "maxVal"];
@@ -489,7 +489,9 @@ export class CommandmentComponent implements OnChanges {
         }, error => {
           this.spinner.hide();
           this.tosterService.error(ErrorConstants.getValue(404));
-        });
+        });    
+      
+      
       } else {
         this.tosterService.error(ob.message);
         this.spinner.hide();

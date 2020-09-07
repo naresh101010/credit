@@ -124,8 +124,8 @@ export class CompareversionsComponent implements OnInit {
           this.isv1 = true;
 
           this.contractService.getHistoryPreviewContractVersion(this.data.contractId, version2)
-            .subscribe(result => {
-              this.obj2 = result.data.responseData;
+            .subscribe(result_ => {
+              this.obj2 = result_.data.responseData;
               for (let objS of this.obj2.serviceOfferings) {
                 if (objS.rateCards) {
                   for (let objR of objS.rateCards) {
@@ -190,8 +190,8 @@ export class CompareversionsComponent implements OnInit {
           }
           this.enableDialog = true;
           this.contractService.getHistoryPreviewContractVersion(this.data.contractId, version2)
-            .subscribe(result => {
-              this.obj2 = result.data.responseData;
+            .subscribe(result_ => {
+              this.obj2 = result_.data.responseData;
               /**
                * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
                * and set the same at commercial level
@@ -238,7 +238,9 @@ export class CompareversionsComponent implements OnInit {
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
     }
-    else false;
+    else {
+        return false;
+    }
   }
 
   ifBillingCneeorMapObjectChanged(bindex, property) {
@@ -246,7 +248,9 @@ export class CompareversionsComponent implements OnInit {
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
     }
-    else false;
+    else {
+      return false
+    }
   }
 
   ifServiceObjectChanged(sindex, property) {
@@ -255,7 +259,9 @@ export class CompareversionsComponent implements OnInit {
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
     }
-    else false;
+    else {
+      return false;
+    }
   }
 
   ifRatecardObjectChanged(item, sindex, rindex, property) {
@@ -352,8 +358,8 @@ export class CompareversionsComponent implements OnInit {
   if(serviceOfferingsObj2){
     rateCardsObj2 =  serviceOfferingsObj2.rateCards;     
     if(rateCardsObj2){
-      let temp =  rateCardsObj2.filter(obj => {
-        return obj.tncDTO.id ==  tncObj.id;
+      let temp =  rateCardsObj2.filter(obj_ => {
+        return obj_.tncDTO.id ==  tncObj.id;
        }); 
        if(temp.length > 0){
          tncObj2 = temp[0].tncDTO;

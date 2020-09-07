@@ -1350,8 +1350,10 @@ export class BillingComponent implements OnInit {
                 var exist = false;
                 this.billingData.billingBy.forEach(obj => {
                   if (this.billingByLevelName === 'BOOKING BRANCH' && obj.billingBranchId === branchElement.bkngBranchId) {
+                    console.log('1')
                     exist = true;
                   } else if (this.billingByLevelName !== 'BOOKING BRANCH' && obj.assignBranchId === branchElement.bkngBranchId) {
+                    console.log("2");
                     exist = true;
                   }
                 });
@@ -1419,8 +1421,10 @@ export class BillingComponent implements OnInit {
                 isBranchFound = false
                 branchData.filter(filterData => this.rateCardId === filterData.ratecardId).forEach(branchElement => {
                   if (this.billingByLevelName === 'BOOKING BRANCH' && this.billingData.billingBy[j].billingBranchId === branchElement.bkngBranchId) {
+                    console.log('1')
                     isBranchFound = true;
                   } else if (this.billingByLevelName !== 'BOOKING BRANCH' && this.billingData.billingBy[j].assignBranchId === branchElement.bkngBranchId) {
+                    console.log("2");
                     isBranchFound = true;
                   }
                 });
@@ -2306,11 +2310,11 @@ fiterData(filterValue){
           this.twoAPIdata = data;
           this.tableData = data;
           this.spinner.hide();
-          for (let data of this.tableData) {
-            if (data.branchType == 'CORPORATE') {
-              data.regionBranch = '';
+          for (let data_ of this.tableData) {
+            if (data_.branchType == 'CORPORATE') {
+              data_.regionBranch = '';
             } else if (data.branchType == 'REGION') {
-              data.regionBranch = data.branchName;
+              data_.regionBranch = data_.branchName;
             }
           }
         this.allTableData = [...this.tableData];

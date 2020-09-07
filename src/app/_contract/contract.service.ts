@@ -110,8 +110,7 @@ export class ContractService {
   getServiceOfering(data) {
 
     var val1 = data
-    let params = new HttpParams();
-    params = params.append('serviceLineId', val1);
+  
     var headers = new HttpHeaders(this.headerData);
     return this.http.get<any>(AppSetting.API_ENDPOINT + `secure/credit-contract/v1/services/service-offering/service-line/${val1}`, { headers: headers }).pipe(
       catchError((error: Response) => {
