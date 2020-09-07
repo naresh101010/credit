@@ -223,7 +223,7 @@ export class OpportunityComponent implements OnInit {
       if (event.ctrlKey && (event.keyCode === 83)) { // ctrl+s [Save as Draft]
         event.preventDefault();
         if(document.getElementById('secondry-button')){
-          let element: HTMLElement = document.getElementById('secondry-button') as HTMLElement;
+          let element = document.getElementById('secondry-button');
           element.click();
         }
       }
@@ -231,7 +231,7 @@ export class OpportunityComponent implements OnInit {
       if (event.altKey && (event.keyCode === 78)) { // alt+n [Next]
           event.preventDefault();
           if(document.getElementById('opportunityNextButton')){
-            let element: HTMLElement = document.getElementById('opportunityNextButton') as HTMLElement;
+            let element = document.getElementById('opportunityNextButton');
             element.click();
           }
         }
