@@ -759,7 +759,7 @@ var ELEMENT_POST_DATA: Element[] = [];
                   return;
                 }
                 for(let val of this.pincodeData){
-                  val["pincode"]= val.pincode;
+                  // val["pincode"]= val.pincode;
                   val["pincodeId"] = val.pincode;
                 }
             }
