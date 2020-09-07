@@ -318,7 +318,7 @@ else{
                               } else if (this.offeringIdwithOldRc.includes(this.serviceofering[i].id)){
                                 this.serviceofering[i]["isDisabled"] = true;
                               }else{
-                                this.serviceofering[i]["isDisabled"] = false;;
+                                this.serviceofering[i]["isDisabled"] = false;
                               }
                             }
                           } else {
