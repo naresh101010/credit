@@ -253,10 +253,15 @@ export class BillingComponent implements OnInit {
           else {
             data.referenceData.billingByList.forEach(billingByElement => {
               if (billingByElement.lookupVal != 'CONSOLIDATION') {
-                if (this.businessType == 'INBOUND' && billingByElement.lookupVal != 'BOOKING BRANCH')
+                if (this.businessType == 'INBOUND' && billingByElement.lookupVal != 'BOOKING BRANCH'){
+                   this.billingByList.push(billingByElement);
+                   console.log('1')
+                }                 
+                else if (this.businessType == 'OUTBOUND'){
                   this.billingByList.push(billingByElement);
-                else if (this.businessType == 'OUTBOUND')
-                  this.billingByList.push(billingByElement);
+                      console.log("2");
+                }
+                  
               }
               if (this.businessType == "ANYWHERE TO ANYWHERE" && (billingByElement.lookupVal == 'DESTINATION BRANCH WISE' 
               || billingByElement.lookupVal == 'DESTINATION STATE WISE')) {
@@ -376,8 +381,10 @@ export class BillingComponent implements OnInit {
                   newBillingBy.billtoAddr = newBillingBy.billtoAddrList[0];
                   this.billingData.billingBy.forEach(obj => {
                     if (this.billingByLevelName === 'BOOKING BRANCH' && obj.billingBranchId === branchElement.bkngBranchId) {
+                      console.log('1')
                       exist = true;
                     } else if (this.billingByLevelName !== 'BOOKING BRANCH' && obj.assignBranchId === branchElement.bkngBranchId) {
+                      console.log("2");
                       exist = true;
                     }
                   });
@@ -402,8 +409,10 @@ export class BillingComponent implements OnInit {
                   newBillingBy.billtoAddr = newBillingBy.billtoAddrList[0];
                   branchData.forEach(elementData => {
                     if (this.billingByLevelName === 'BOOKING BRANCH' && obj.billingBranchId === elementData.bkngBranchId) {
+                      console.log('1')
                       exists = true;
                     } else if (this.billingByLevelName !== 'BOOKING BRANCH' && obj.assignBranchId === elementData.bkngBranchId) {
+                      console.log("2");
                       exists = true;
                     }
                   });
@@ -445,9 +454,11 @@ export class BillingComponent implements OnInit {
                   isBranchFound = false;
                   branchData.forEach(branchElement => {
                     if (this.billingByLevelName === 'BOOKING BRANCH' && this.billingData.billingBy[j].billingBranchId === branchElement.bkngBranchId) {
+                      console.log("1");
                       isBranchFound = true;
                     } else if (this.billingByLevelName !== 'BOOKING BRANCH' && this.billingData.billingBy[j].assignBranchId === branchElement.bkngBranchId) {
                       isBranchFound = true;
+                      console.log("2");
                     }
                   });
                   if (!isBranchFound) {
@@ -588,8 +599,8 @@ export class BillingComponent implements OnInit {
             }
             if (this.billingData && this.billingData.billingCneeCnorMap) {
               this.contractservice.getCneeCnorData(AppSetting.msaCustId).subscribe(cneeCnorData => {
-                     let ob = ErrorConstants.validateException(cneeCnorData);
-                if (ob.isSuccess) {
+                     let ob_ = ErrorConstants.validateException(cneeCnorData);
+                if (ob_.isSuccess) {
                       for (var k = 0; k < this.billingData.billingCneeCnorMap.length; k++) {
                         this.cneeList = cneeCnorData.data.referenceData.msaCneeList;
                         this.cnorList = cneeCnorData.data.referenceData.msaCnorList;
@@ -613,7 +624,7 @@ export class BillingComponent implements OnInit {
                     
             
                 }else {
-                  this.tosterService.error(ob.message);
+                  this.tosterService.error(ob_.message);
                   this.spinner.hide();
                 }}, error => {
                 console.log('error in getting cneeCnor data')
@@ -703,8 +714,10 @@ export class BillingComponent implements OnInit {
       this.billingByAllList.forEach(billingByElement => {
         if (billingByElement.lookupVal != 'CONSOLIDATION') {
           if (this.businessType == 'INBOUND' && billingByElement.lookupVal != 'BOOKING BRANCH') {
+            console.log('1')
               this.billingByList.push(billingByElement);
           } else if (this.businessType == 'OUTBOUND') {
+             console.log("2");
             this.billingByList.push(billingByElement);
           }
         }
@@ -719,9 +732,11 @@ export class BillingComponent implements OnInit {
   showOffering(item) {
     console.log(item);
     if (item.lookupVal == 'ALL') {
+          console.log("1");
       this.selectOffering = false;
     }
      else {
+           console.log("2");
       this.selectOffering = false;
      }
       //code to be uncommented if service needs to be activated in future
@@ -963,10 +978,12 @@ export class BillingComponent implements OnInit {
                   this.displayedColumns = ["billingBranchId", "submsnBranchId", "collBranchId", "billtoAddr","gstinNum", "minBillingAmt", "excludeBillingFlag", 'excludeBillingDt', 'tanNum', 'lkpGbCtgyId', 'creditRisk', 'mnthPotential', 'ebillEmail', 'bdmEmail', 'commBillEmail'];
                 }
                 else if (this.billingByLevelName == 'SUBMISSION BRANCH' || this.billingByLevelName == 'COLLECTION BRANCH') {
+                  console.log('1')
                   newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                   newBillingBy.assignBranchName = brnchResult.bkngBranchName;
                   this.displayedColumns = ["assignBranchId", "submsnBranchId", "collBranchId", "billtoAddr","gstinNum", "minBillingAmt", "excludeBillingFlag", 'excludeBillingDt', 'tanNum', 'lkpGbCtgyId', 'creditRisk', 'mnthPotential', 'ebillEmail', 'bdmEmail', 'commBillEmail'];
                 } else if (this.billingByLevelName == 'DESTINATION BRANCH WISE' && this.businessType==="INBOUND") {
+                    console.log("2");
                   newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                   newBillingBy.assignBranchName = brnchResult.bkngBranchName;
                   this.displayedColumns = ["assignBranchId", "submsnBranchId", "collBranchId", "billtoAddr","gstinNum", "minBillingAmt", "excludeBillingFlag", 'excludeBillingDt', 'tanNum', 'lkpGbCtgyId', 'creditRisk', 'mnthPotential', 'ebillEmail', 'bdmEmail', 'commBillEmail'];
@@ -1075,31 +1092,39 @@ export class BillingComponent implements OnInit {
       if (this.billingByLevelMapId != stateLevelId) {
         this.billingData.billingBy[i].stateId = null;
         if (this.billingByLevelName == "BOOKING BRANCH" && this.businessType != 'ANYWHERE TO ANYWHERE') {
+          console.log('1')
           this.billingData.billingBy[i].assignBranchId = this.billingData.billingBy[i].billingBranchId;
           this.billingData.billingBy[i].assignBranchName = this.billingData.billingBy[i].billingBranchName;
         } else if (this.billingByLevelName == "SUBMISSION BRANCH" && this.businessType != 'ANYWHERE TO ANYWHERE') {
+          console.log("2");
           this.billingData.billingBy[i].billingBranchId = this.billingData.billingBy[i].submsnBranchId;
           this.billingData.billingBy[i].billingBranchName = this.billingData.billingBy[i].submsnBranchName;
         } else if (this.billingByLevelName == "COLLECTION BRANCH" && this.businessType != 'ANYWHERE TO ANYWHERE') {
+          console.log("3");
           this.billingData.billingBy[i].billingBranchId = this.billingData.billingBy[i].collBranchId;
           this.billingData.billingBy[i].billingBranchName = this.billingData.billingBy[i].collBranchName;
         } else if (this.billingByLevelName == 'DESTINATION BRANCH WISE' && this.businessType == 'ANYWHERE TO ANYWHERE') {
+          console.log("4");
           this.billingData.billingBy[i].assignBranchId = this.billingData.billingBy[i].billingBranchId;
           this.billingData.billingBy[i].assignBranchName = this.billingData.billingBy[i].billingBranchName;
         } else if (this.billingByLevelName == 'COLLECTION BRANCH' && this.businessType == 'ANYWHERE TO ANYWHERE') {
+          console.log("5");
           this.billingData.billingBy[i].assignBranchId = this.billingData.billingBy[i].collBranchId;
           this.billingData.billingBy[i].assignBranchName = this.billingData.billingBy[i].collBranchName;
           this.billingData.billingBy[i].billingBranchId = this.billingData.billingBy[i].collBranchId;
           this.billingData.billingBy[i].billingBranchName = this.billingData.billingBy[i].collBranchName;
         } else if (this.billingByLevelName == 'SUBMISSION BRANCH' && this.businessType == 'ANYWHERE TO ANYWHERE') {
+          console.log("6");
           this.billingData.billingBy[i].assignBranchId = this.billingData.billingBy[i].submsnBranchId;
           this.billingData.billingBy[i].assignBranchName = this.billingData.billingBy[i].submsnBranchName;
           this.billingData.billingBy[i].billingBranchId = this.billingData.billingBy[i].submsnBranchId;
           this.billingData.billingBy[i].billingBranchName = this.billingData.billingBy[i].submsnBranchName;
         } else if (this.billingByLevelName == 'DESTINATION BRANCH WISE' && this.businessType === 'OUTBOUND') {
+          console.log("7");
           this.billingData.billingBy[i].assignBranchId = this.billingData.billingBy[i].billingBranchId;
           this.billingData.billingBy[i].assignBranchName= this.billingData.billingBy[i].billingBranchName;
         } else if (this.billingByLevelName == 'DESTINATION BRANCH WISE' && this.businessType != 'ANYWHERE TO ANYWHERE') {
+          console.log("8");
             if (!(this.billingLevel === "MSA" && this.businessType === 'OUTBOUND')) {
               this.billingData.billingBy[i].billingBranchId = this.billingData.billingBy[i].assignBranchId;
               this.billingData.billingBy[i].billingBranchName = this.billingData.billingBy[i].assignBranchName;
