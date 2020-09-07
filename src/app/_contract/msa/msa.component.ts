@@ -752,7 +752,6 @@ export class ConsignorUploadFile implements OnInit {
                 return;
               }
               for(let val of this.pincodeData){
-                val["pincode"]= val.pincode;
                 val["pincodeId"] = val.pincode;
               }
           }
@@ -976,12 +975,7 @@ export class ConsignorUploadFile implements OnInit {
                 this.tosterservice.info('Address Not found !!')
                 return;
               }
-              for(let val of this.addressData){
-                val["id"]=val.id;
-                val["addr1"]= val.addr1;
-                val["addr2"] = val.addr2;
-                val["addr3"] = val.addr3;
-              }
+            
               this.addressDatalength= this.addressData.length;          
           }
           else {

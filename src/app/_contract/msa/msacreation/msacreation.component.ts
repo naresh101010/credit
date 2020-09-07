@@ -111,7 +111,7 @@ constructor(private sharedSearchdata: DataService,
   msadata:any
     ngOnInit() {
       ELEMENT_POST_DATA=[];
-       this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata)
+      //  this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata)
         this.msabehaviour["_value"]={}
         this.msabehaviour=this.sharedSearchdata.currentMessage.source;
         if(this.msabehaviour._value){
@@ -354,14 +354,14 @@ getConsigneeConsignerData() {
           ELEMENT_POST_DATA=[];
           console.log("connee returned:",cneeCnorData);
           for (let i = 0; i < cneeCnorData.data.referenceData.msaCneeList.length; i++) {
-          cneeCnorData.data.referenceData.msaCneeList[i].city = cneeCnorData.data.referenceData.msaCneeList[i].city;
-          cneeCnorData.data.referenceData.msaCneeList[i].pincode = cneeCnorData.data.referenceData.msaCneeList[i].pincode;
+          // cneeCnorData.data.referenceData.msaCneeList[i].city = cneeCnorData.data.referenceData.msaCneeList[i].city;
+          // cneeCnorData.data.referenceData.msaCneeList[i].pincode = cneeCnorData.data.referenceData.msaCneeList[i].pincode;
           cneeCnorData.data.referenceData.msaCneeList[i].address = cneeCnorData.data.referenceData.msaCneeList[i].addrBook.addr1 + ' ' +
           cneeCnorData.data.referenceData.msaCneeList[i].addrBook.addr2 + ' '  + cneeCnorData.data.referenceData.msaCneeList[i].addrBook.addr3;
     }
     for (let i = 0; i < cneeCnorData.data.referenceData.msaCnorList.length; i++) {
-      cneeCnorData.data.referenceData.msaCnorList[i].city = cneeCnorData.data.referenceData.msaCnorList[i].city;
-      cneeCnorData.data.referenceData.msaCnorList[i].pincode = cneeCnorData.data.referenceData.msaCnorList[i].pincode;
+      // cneeCnorData.data.referenceData.msaCnorList[i].city = cneeCnorData.data.referenceData.msaCnorList[i].city;
+      // cneeCnorData.data.referenceData.msaCnorList[i].pincode = cneeCnorData.data.referenceData.msaCnorList[i].pincode;
       cneeCnorData.data.referenceData.msaCnorList[i].address = cneeCnorData.data.referenceData.msaCnorList[i].addrBook.addr1 + ' ' +
       cneeCnorData.data.referenceData.msaCnorList[i].addrBook.addr2 + ' '  + cneeCnorData.data.referenceData.msaCnorList[i].addrBook.addr3;
     }
@@ -450,7 +450,7 @@ pincodeSearch(str){
               return;
             }
             for(let val of this.pincodeData){
-              val["pincode"]= val.pincode;
+              // val["pincode"]= val.pincode;
               val["pincodeId"] = val.pincode;
               //val["city"] = val.city.cityName;
             }

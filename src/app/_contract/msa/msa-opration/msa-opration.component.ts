@@ -65,7 +65,7 @@ export class MsaOprationComponent implements OnInit {
         this.displayedColumns = ['custName', 'sfdcAccId', 'sfdcAccType', 'pan', 'gstinNum', 'email', 'actions2'];
         }
     });
-    this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata);
+    // this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata);
     this.referenceData=this.getMSAReferences();
   }
 
