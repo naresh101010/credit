@@ -893,6 +893,7 @@ var ELEMENT_POST_DATA: Element[] = [];
     var re = /^[0-9]+$/;
     this.pastedText = Number(event.clipboardData.getData('text'));
     if(re.test(this.pastedText)){
+      console.log('1')
     }
     else{
       event.preventDefault();

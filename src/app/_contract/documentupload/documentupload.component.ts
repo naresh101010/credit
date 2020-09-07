@@ -95,7 +95,7 @@ export class DocumentuploadComponent implements OnInit {
   */
  clearDate() {
   this.docExpiryDate ='';
-  };
+  }
 
   
   contractId=null;
