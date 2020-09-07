@@ -9,7 +9,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { FormBuilder } from '@angular/forms';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
-import { Validation } from 'src/app/shared/validation';
 import { DatePipe } from '@angular/common';
 import { ErrorConstants } from '../models/constants';
 import { NgxPermissionsService } from 'ngx-permissions';
@@ -997,19 +996,23 @@ export class BillingComponent implements OnInit {
               }
             } else {
               if (this.billingByLevelName == 'BOOKING BRANCH') {
+                console.log('1')
                 newBillingBy.billingBranchId = brnchResult.bkngBranchId;
                 newBillingBy.billingBranchName = brnchResult.bkngBranchName;
                 newBillingBy.assignBranchName = brnchResult.bkngBranchName;
                 this.displayedColumns = ["billingBranchId", "submsnBranchId", "collBranchId", "billtoAddr","gstinNum", "minBillingAmt", "excludeBillingFlag", 'excludeBillingDt', 'tanNum', 'lkpGbCtgyId', 'creditRisk', 'mnthPotential', 'ebillEmail', 'bdmEmail', 'commBillEmail'];
               } else if (this.billingByLevelName == 'SUBMISSION BRANCH' || this.billingByLevelName == 'COLLECTION BRANCH') {
+                console.log("2");
                 newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                 newBillingBy.assignBranchName = brnchResult.bkngBranchName;
                 this.displayedColumns = ["assignBranchId", "submsnBranchId", "collBranchId", "billtoAddr","gstinNum", "minBillingAmt", "excludeBillingFlag", 'excludeBillingDt', 'tanNum', 'lkpGbCtgyId', 'creditRisk', 'mnthPotential', 'ebillEmail', 'bdmEmail', 'commBillEmail'];
               } else if (this.billingByLevelName == 'DESTINATION BRANCH WISE' && this.businessType==="INBOUND") {
+                console.log("3");
                 newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                 newBillingBy.assignBranchName = brnchResult.bkngBranchName;
                 this.displayedColumns = ["assignBranchId", "submsnBranchId", "collBranchId", "billtoAddr","gstinNum", "minBillingAmt", "excludeBillingFlag", 'excludeBillingDt', 'tanNum', 'lkpGbCtgyId', 'creditRisk', 'mnthPotential', 'ebillEmail', 'bdmEmail', 'commBillEmail'];
               } else if (this.billingByLevelName == 'DESTINATION STATE WISE') {
+                console.log("4");
                 this.getAllStates();
                 newBillingBy.assignBranchId = brnchResult.bkngBranchId;
                 newBillingBy.assignBranchName = brnchResult.bkngBranchName;
@@ -1378,8 +1381,10 @@ export class BillingComponent implements OnInit {
                 newBillingBy.billtoAddr = newBillingBy.billtoAddrList[0];
                 branchData.filter(filterData => this.rateCardId === filterData.ratecardId).forEach(elementData => {
                   if (this.billingByLevelName === 'BOOKING BRANCH' && obj.billingBranchId === elementData.bkngBranchId) {
+                    console.log('1')
                     exists = true;
                   } else if (this.billingByLevelName !== 'BOOKING BRANCH' && obj.assignBranchId === elementData.bkngBranchId) {
+                         console.log("2");
                     exists = true;
                   }
                 });
