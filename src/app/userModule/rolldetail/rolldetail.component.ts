@@ -3,18 +3,14 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Router, ActivatedRoute } from "@angular/router";
 import { RolecreateService } from "./../role/rolecreate.service";
-import { ChangeDetectionStrategy } from '@angular/core';
 import { animate,state,style,transition,trigger } from "@angular/animations";
-import { $ } from "protractor";
 import { MatTableDataSource } from "@angular/material/table";
 import { AuthorizationService } from "../../core/services/authorization.service";
 import { NgxPermissionsService } from "ngx-permissions";
-import { filter } from "rxjs-compat/operator/filter";
 import { ErrorConstants }  from '../../core/interceptor/ErrorHnadle';
 import {ToastrService} from 'ngx-toastr';
 import { NgxSpinnerService } from "ngx-spinner";
 import * as _ from 'lodash';
-import * as moment from 'moment';
 
 export interface PeriodicElement {
   name: string;

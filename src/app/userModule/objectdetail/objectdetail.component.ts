@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import{ObjectdetailService} from '../objectdetail/objectdetail.service'
-import{ AppSetting} from '../../app.setting'
 import { ActivatedRoute , Router} from '@angular/router';
 import { ErrorConstants }  from '../../core/interceptor/ErrorHnadle';
 import {ToastrService} from 'ngx-toastr';

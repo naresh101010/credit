@@ -1,6 +1,6 @@
 import { Component,Inject, OnInit, ElementRef, ViewChild, ViewChildren, QueryList, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
-import { HttpClient, HttpHeaders} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { AppSetting } from './../../../app.setting'
 import { HttpModule } from '@angular/http'
@@ -11,12 +11,9 @@ import { AuthorizationService } from 'src/app/core/services/authorization.servic
 import { ErrorConstants }  from '../../../core/interceptor/ErrorHnadle';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { Spinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import * as moment from 'moment';
 import { DatePipe } from '@angular/common';
-import { throwError as observableThrowError, Observable } from 'rxjs';
 import 'rxjs/add/operator/catch';
-import { catchError } from 'rxjs/operators';
 
 export interface DialogData {
   animal: string;

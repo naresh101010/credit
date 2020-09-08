@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef, AfterViewInit, ViewChild, ViewChildren, QueryList, ChangeDetectorRef, Renderer2  } from '@angular/core';
+import { Component, OnInit,  ElementRef,  ViewChild, ViewChildren, QueryList, ChangeDetectorRef, Renderer2  } from '@angular/core';
 import * as XLSX from 'xlsx';
 import {MatTableDataSource} from '@angular/material/table';
 import {HttpClient, HttpHeaders} from '@angular/common/http';

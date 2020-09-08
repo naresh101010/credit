@@ -1,11 +1,8 @@
 import { Injectable, HostListener } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AppSetting } from "../../app.setting";
-import { BehaviorSubject, Subject } from "rxjs";
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
-import SimpleCrypto from "simple-crypto-js";
-import { ErrorConstants } from "../../core/interceptor/ErrorHnadle";
 import { ToastrService } from "ngx-toastr";
 
 @Injectable({

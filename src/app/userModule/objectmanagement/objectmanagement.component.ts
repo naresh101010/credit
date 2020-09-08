@@ -1,14 +1,13 @@
-import { Component, OnInit, Inject, ElementRef, AfterViewInit, ViewChild} from '@angular/core';
+import { Component, OnInit, Inject, ElementRef, ViewChild} from '@angular/core';
 import * as XLSX from 'xlsx';
 import { MatTableDataSource} from '@angular/material/table';
 import { ObjectmanagementService} from '../objectmanagement/objectmanagement.service'
-import { Router, ActivatedRoute } from '@angular/router';
-import { HttpClient, HttpHeaders,} from '@angular/common/http';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { AppSetting} from './../../app.setting';
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { MatPaginator, MatSort } from "@angular/material";
 import { NgxPermissionsService } from 'ngx-permissions';
-import { error, element } from 'protractor';
 import { ErrorConstants }  from '../../core/interceptor/ErrorHnadle';
 import {ToastrService} from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';

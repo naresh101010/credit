@@ -1,6 +1,5 @@
 import { Component, HostListener } from "@angular/core";
-import { AuthorizationService } from "./core/services/authorization.service";
-import { AppSetting } from "./app.setting";
+
 
 @Component({
   selector: "app-root",

@@ -3,11 +3,7 @@ import { CommonModule } from '@angular/common';
 import {CdkTableModule} from '@angular/cdk/table';
 import {CdkTreeModule} from '@angular/cdk/tree';
 import {A11yModule} from '@angular/cdk/a11y';
-import { NgxSpinnerModule } from "ngx-spinner"; 
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FilterPipeModule } from 'ngx-filter-pipe';
-import { LayoutModule } from '@angular/cdk/layout';
+
 import {
   MatAutocompleteModule,
   MatBadgeModule,

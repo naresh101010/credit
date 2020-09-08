@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef, AfterViewInit, ViewChild, QueryList, ViewChildren, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, HostListener, ElementRef,  ViewChild, ChangeDetectorRef } from '@angular/core';
 import * as XLSX from 'xlsx';
 import { MatTableDataSource} from '@angular/material/table';
 import { RolecreateService } from "./../role/rolecreate.service";

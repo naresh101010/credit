@@ -23,7 +23,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FilterPipeModule } from 'ngx-filter-pipe';
 import { LayoutModule } from '@angular/cdk/layout';
 
-import { NativeDateAdapter, DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
+import { DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
 
 import { AppDateAdapter, APP_DATE_FORMATS} from './userModule/date_formate/date.adapter';
 
