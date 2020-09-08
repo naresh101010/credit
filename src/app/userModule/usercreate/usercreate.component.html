@@ -228,12 +228,12 @@
               <table class="table" style="margin-top: 1.5rem;">
                   <thead>
                     <tr>
-                      <th style="width: 16%;">Branch Code</th>
-                      <th style="width: 16%;">Branch Name</th>
-                      <th style="width: 16%;">Effective Date</th>
-                      <th style="width: 16%;">Expiry Date</th>
-                      <th style="width: 5%;">&nbsp;</th>
-                      <th >&nbsp;</th>
+                      <th scope="row" style="width: 16%;">Branch Code</th>
+                      <th scope="row" style="width: 16%;">Branch Name</th>
+                      <th scope="row" style="width: 16%;">Effective Date</th>
+                      <th scope="row" style="width: 16%;">Expiry Date</th>
+                      <th scope="row" style="width: 5%;">&nbsp;</th>
+                      <th scope="row" >&nbsp;</th>
 
                     </tr>
                   </thead>
@@ -337,12 +337,12 @@
                 <!-- mAT TABLE -->
           <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
              <ng-container matColumnDef="roleName">
-                <th mat-header-cell *matHeaderCellDef> Role Name </th>
+                <th scope="row" mat-header-cell *matHeaderCellDef> Role Name </th>
                 <td mat-cell *matCellDef="let element">{{element.roleName}}</td>
               </ng-container>
 
             <ng-container matColumnDef="effectiveDate">
-              <th mat-header-cell *matHeaderCellDef> Effective Date </th>
+              <th scope="row" mat-header-cell *matHeaderCellDef> Effective Date </th>
               <td mat-cell *matCellDef="let element; let j = index">
                 <span *ngIf="!element.editDate">{{element.effectiveDate | date: 'dd/MM/yyyy'}}</span>
                 <span *ngIf="element.editDate">
@@ -360,7 +360,7 @@
               </td>
             </ng-container>
             <ng-container matColumnDef="expiryDate">
-              <th mat-header-cell *matHeaderCellDef> Expiry Date </th>
+              <th scope="row" mat-header-cell *matHeaderCellDef> Expiry Date </th>
               <td mat-cell *matCellDef="let element; let j = index">
                 <span *ngIf="!element.editDate">{{element.expiryDate | date: 'dd/MM/yyyy'}}</span>
                 <span *ngIf="element.editDate">
@@ -378,7 +378,7 @@
             </ng-container>
 
             <ng-container matColumnDef="editOperation">
-              <th mat-header-cell *matHeaderCellDef></th>
+              <th scope="row" mat-header-cell *matHeaderCellDef></th>
               <td mat-cell *matCellDef="let element">
                     <span>
                       <mat-icon *ngIf="!element.saveIcon"  class="icon-font userCreateIcon" (click)="editRole(element, j)">create</mat-icon>
@@ -391,12 +391,12 @@
             </ng-container>
 
               <ng-container matColumnDef="status">
-                  <th mat-header-cell *matHeaderCellDef> Role Permission </th>
+                  <th scope="row" mat-header-cell *matHeaderCellDef> Role Permission </th>
                   <td mat-cell *matCellDef="let element" (click)='getRoledetail(element.roleId)'><a>View Permission</a></td>
               </ng-container>
 
               <ng-container matColumnDef="delete">
-                <th mat-header-cell *matHeaderCellDef> Delete </th>
+                <th scope="row" mat-header-cell *matHeaderCellDef> Delete </th>
                 <td *matCellDef="let element; let j = index;" (click)="removeRoleList(element,j)">
                     <mat-icon style="cursor: pointer;"
                       (click)="removeRoleList(element,j)" class="example-icon">delete</mat-icon>
@@ -413,34 +413,34 @@
                    <table mat-table [dataSource]="webData" class="user_create_table">
                      <!-- Name Column -->
                      <ng-container matColumnDef="name">
-                       <th mat-header-cell *matHeaderCellDef> Entity </th>
+                       <th scope="row" mat-header-cell *matHeaderCellDef> Entity </th>
                        <td mat-cell *matCellDef="let element2">{{element2.subEntityName}} </td>
                      </ng-container>
                      <ng-container matColumnDef="moduleName">
-                       <th mat-header-cell *matHeaderCellDef> Function Module </th>
+                       <th scope="row" mat-header-cell *matHeaderCellDef> Function Module </th>
                        <td mat-cell *matCellDef="let element2">{{element2.moduleName}} </td>
                      </ng-container>
                      <ng-container matColumnDef="entityName">
-                       <th mat-header-cell *matHeaderCellDef> Section Name </th>
+                       <th scope="row" mat-header-cell *matHeaderCellDef> Section Name </th>
                        <td mat-cell *matCellDef="let element2">{{element2.entityName}} </td>
                      </ng-container>
                      <!-- Weight Column -->
                      <ng-container matColumnDef="weight" >
-                       <th mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Create  </th>
+                       <th scope="row" mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Create  </th>
                        <td mat-cell *matCellDef="let element2">
                           <mat-checkbox [disabled]="true"  [checked]="element2.WCreate" ></mat-checkbox>
                        </td>
                      </ng-container>
                      <!-- Symbol Column -->
                      <ng-container matColumnDef="symbol" >
-                       <th mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Update </th>
+                       <th scope="row" mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Update </th>
                        <td mat-cell *matCellDef="let element2">
                          <mat-checkbox [disabled]="true" [checked]="element2.WUpdate"></mat-checkbox> </td>
                      </ng-container>
 
                         <!-- Position Column -->
                         <ng-container matColumnDef="position">
-                            <th mat-header-cell *matHeaderCellDef> Read </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Read </th>
                             <td mat-cell *matCellDef="let element2">
                               <mat-checkbox [disabled]="true" [checked]="element2.WRead"></mat-checkbox> </td>
                           </ng-container>
@@ -457,33 +457,33 @@
                    <table mat-table [dataSource]="mobileData" class="user_create_table">
                       <!-- Name Column -->
                       <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Entity </th>
+                        <th scope="row" mat-header-cell *matHeaderCellDef> Entity </th>
                         <td mat-cell *matCellDef="let element2">{{element2.subEntityName}} </td>
                       </ng-container>
 
                      <ng-container matColumnDef="moduleName">
-                       <th mat-header-cell *matHeaderCellDef> Function Module </th>
+                       <th scope="row" mat-header-cell *matHeaderCellDef> Function Module </th>
                        <td mat-cell *matCellDef="let element2">{{element2.moduleName}} </td>
                      </ng-container>
                      <ng-container matColumnDef="entityName">
-                       <th mat-header-cell *matHeaderCellDef> Section Name </th>
+                       <th scope="row" mat-header-cell *matHeaderCellDef> Section Name </th>
                        <td mat-cell *matCellDef="let element2">{{element2.entityName}} </td>
                      </ng-container>
                       <!-- Weight Column -->
                       <ng-container matColumnDef="weight">
-                        <th mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Create  </th>
+                        <th scope="row" mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Create  </th>
                         <td mat-cell *matCellDef="let element2">
                           <mat-checkbox [disabled]="true"  [checked]="element2.MCreate" ></mat-checkbox> </td>
                       </ng-container>
                       <!-- Symbol Column -->
                       <ng-container matColumnDef="symbol">
-                        <th mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Update </th>
+                        <th scope="row" mat-header-cell *matHeaderCellDef style="padding-right: 0.2rem !important;"> Update </th>
                         <td mat-cell *matCellDef="let element2">
                           <mat-checkbox [disabled]="true"  [checked]="element2.MUpdate" ></mat-checkbox> </td>
                       </ng-container>
                          <!-- Position Column -->
                       <ng-container matColumnDef="position">
-                          <th mat-header-cell *matHeaderCellDef> Read </th>
+                          <th scope="row" mat-header-cell *matHeaderCellDef> Read </th>
                           <td mat-cell *matCellDef="let element2">
                              <mat-checkbox [disabled]="true"  [checked]="element2.MRead" ></mat-checkbox> </td>
                       </ng-container>
