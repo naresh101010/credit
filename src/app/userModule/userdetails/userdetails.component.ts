@@ -759,19 +759,19 @@ validateRole(){
         if (event.ctrlKey && (event.keyCode === 83)) {
           event.preventDefault();
           if(document.getElementById('branchSave')){
-          let element: HTMLElement = document.getElementById('branchSave') as HTMLElement;
+          let element = document.getElementById('branchSave') ;
           element.click();
           }
           else if(this.privilegeBranchPanel && document.getElementById('privilegeSubmitButton')){
-          let element: HTMLElement = document.getElementById('privilegeSubmitButton') as HTMLElement;
+          let element = document.getElementById('privilegeSubmitButton') ;
           element.click();
           }
           else if(this.isRoleMappingPanelOpen && document.getElementById('roleSubmitButton')){
-                  let element: HTMLElement = document.getElementById('roleSubmitButton') as HTMLElement;
+                  let element = document.getElementById('roleSubmitButton') ;
                   element.click();
                   }
           else {
-                  let element: HTMLElement = document.getElementById('submitButton') as HTMLElement;
+                  let element = document.getElementById('submitButton') ;
                   element.click();
                   }
            }

@@ -372,11 +372,11 @@ originalObjectPermissionList :any;
       if (event.ctrlKey && (event.keyCode === 83)) {
         event.preventDefault();
         if(document.getElementById('objectSubmit')){
-        let element: HTMLElement = document.getElementById('objectSubmit') as HTMLElement;
+        let element = document.getElementById('objectSubmit');
         element.click();
         }
         else{
-        let element: HTMLElement = document.getElementById('submitButton') as HTMLElement;
+        let element = document.getElementById('submitButton');
         element.click();
         }
          }
