@@ -1137,9 +1137,9 @@ constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private authSer:Au
        this.SpinnerService.hide();
       });
     } else {
-      var headers = new HttpHeaders({ 'branchCode': 'B1', 'journeyId': 'A1', 'userId': 'User1' });
+      var headers_ = new HttpHeaders({ 'branchCode': 'B1', 'journeyId': 'A1', 'userId': 'User1' });
       this.SpinnerService.show();
-      this.httpservice.get<any>(AppSetting.API_ENDPOINT + `secure/v1/branches/branchtype/${this.model.searchByType.$ngOptionLabel}`, { headers: headers }).subscribe(
+      this.httpservice.get<any>(AppSetting.API_ENDPOINT + `secure/v1/branches/branchtype/${this.model.searchByType.$ngOptionLabel}`, { headers: headers_ }).subscribe(
         data => {
           this.arr =[];
           this.advanceArea = data.data;
@@ -1177,8 +1177,8 @@ constructor(@Inject(MAT_DIALOG_DATA) public data: DialogData, private authSer:Au
     }
     else if(this.model.search != "PINCODE"){
       this.SpinnerService.show();
-      var headers = new HttpHeaders({ 'branchCode': 'B1', 'journeyId': 'A1', 'userId': 'User1' });
-      this.httpservice.get<any>(AppSetting.API_ENDPOINT + `secure/v1/branches/branchtype/${this.model.search}`, { headers: headers }).subscribe(
+      var hedrs = new HttpHeaders({ 'branchCode': 'B1', 'journeyId': 'A1', 'userId': 'User1' });
+      this.httpservice.get<any>(AppSetting.API_ENDPOINT + `secure/v1/branches/branchtype/${this.model.search}`, { headers: hedrs }).subscribe(
         data => {
         let ob = ErrorConstants.validateException(data);
                              if(ob.isSuccess){
