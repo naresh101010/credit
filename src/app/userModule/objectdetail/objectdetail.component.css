@@ -1,0 +1,28 @@
+.scroll_div {
+    width: 100%!important;
+    height: 10rem!important;
+    /* overflow-y: scroll; */
+    overflow: auto!important;
+}
+
+.scroll_div li {
+    list-style: none!important;
+}
+
+
+
+.form-control li:hover {
+    background-color: #000 !important;
+}
+.scroll_div li:hover {
+    content: attr(title);
+    background: #666;
+    color: #fff;
+    position: relative;
+    width: 100%;
+    left: 0;
+    border: none;
+}
+/* ul li:hover {
+    color: black;
+} */

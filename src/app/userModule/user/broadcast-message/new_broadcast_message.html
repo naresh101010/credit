@@ -1,0 +1,57 @@
+<div mat-dialog-content id="userCreateDefault">
+    <div style="position: relative;">
+    <h3 id="h2">Broadcast New Message</h3>
+    <i class="fa fa-times fa-2x" aria-hidden="true" (click)="closeDialog(null)"></i>
+    </div>
+    <hr id="popup-hr">
+
+    <div class="row" style="margin: 0 !important;">
+        <div class="col-lg-11 col-md-11">
+        <div class="col-md-3 broadcastText">Message: </div>
+        <div class="col-md-9">
+            <textarea   rows="8" cols="20" wrap="hard" maxlength="500" class="textareaoutline input-md1 fontSize" [(ngModel)]="data.broadcastMessage" name="broadcastMessage"></textarea>
+        </div>
+        </div>
+    </div>
+    <form name="form" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+    <div class="row" style="margin: 0 !important;">
+        <div class="col-lg-11 col-md-11">
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="col-md-6 col-sm-6 col-xs-6 broadcastText" style="padding-left: 0 !important;">Effective Date: </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 broadcastDatepic">
+                <mat-form-field appearance="outline" id="datepick" id="calender" style="width: 14rem;" class="datePick">
+
+                <input matInput [matDatepicker]="effectivedate" id="datepickerholder" #IsEffDate="ngModel" [(ngModel)]="data.effectiveDate" name="IsEffDate" style="padding-left: 0 !important;"
+                maxlength="29" (blur)="EffectiveDateEvent('change', $event)" (dateChange)="EffectiveDateEvent('change', $event)" [max]='IsExpdateForvalidation'
+                [min]='minDateEffe'  placeholder="DD/MM/YYYY" required>
+
+                <mat-datepicker-toggle matSuffix [for]="effectivedate"></mat-datepicker-toggle>
+                <mat-datepicker #effectivedate></mat-datepicker>
+              </mat-form-field>
+              <span class="broadError" *ngIf="(IsEffDate.errors?.required && IsEffDate.touched)">Required !</span>
+              <span *ngIf="IsEffDate.invalid && (!IsEffDate.errors?.required && IsEffDate.touched)" class="broadError" style="min-width: 17rem;">Please Enter valid Effective Date.</span>
+            </div>
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-6">
+            <div class="col-md-6 col-sm-6 col-xs-6 broadcastText">Expiry Date: </div>
+            <div class="col-md-6 col-sm-6 col-xs-6 broadcastDatepic">
+                <mat-form-field  appearance="outline" id="datepick" id="calender" style="width: 14rem;" class="datePick">
+
+                <input matInput [matDatepicker]="expiry" #IsExp='ngModel' [(ngModel)]="data.expiryDate" name="expiryDate" style="padding-left: 0 !important;"
+                (blur)="ExpiryDateEvent('change', $event)" (dateChange)="ExpiryDateEvent('change', $event)" [max]='' [min]='IsEffDateForvalidation'  name="IsExpdate" placeholder="DD/MM/YYYY" required>
+
+                <mat-datepicker-toggle matSuffix [for]="expiry"></mat-datepicker-toggle>
+                <mat-datepicker #expiry></mat-datepicker>
+              </mat-form-field>
+              <span *ngIf="IsExp.invalid && IsExp.touched" class="broadError" style="min-width: 17rem;" >Date should be greater then effective date.</span>
+            </div>
+        </div>
+    </div>
+    </div>
+    </form>
+
+    <div class="example-button-row text-center" style="margin-bottom: 3%; ">
+        <button [disabled]="!f.form.valid" id="branchSubmit" class="btn1" style="text-align: center; margin-top:2%;" mat-raised-button color="primary" (click)="addBroadcastMsg()">SUBMIT</button>
+    </div>
+
+   </div>

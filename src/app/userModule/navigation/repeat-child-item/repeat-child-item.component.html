@@ -1,0 +1,12 @@
+<a
+  *ngFor="let child of items"
+  [routerLink]="child.target | lowercase"
+  class="child"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+>
+  <span *ngIf="child.menuLabel">{{ child.menuLabel }}  </span>
+  <span style="display: none;">{{ child | nvaPipe }}</span>
+  <app-repeat-child-item [items]="child.childMenu"></app-repeat-child-item>
+  <mat-divider></mat-divider>
+</a>
