@@ -1,11 +1,4 @@
-// import { Component, OnInit } from '@angular/core';
-// import { Subject } from 'rxjs';
-// import { LoaderService } from 'src/app/core/services/loader.service';
 import { Component, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
-// import { LoaderService } from 'src/app/core/services/loader.service';
-import { LoaderState } from './loader';
-
 
 @Component({
   selector: 'app-loader',

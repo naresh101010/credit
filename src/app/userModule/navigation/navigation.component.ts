@@ -23,7 +23,7 @@ export class NavigationComponent implements OnInit {
   user_without_permi = false;
   tstUser:boolean = false;
   constructor(
-    private AuthorizationService: AuthorizationService,public dialog: MatDialog,
+    private AuthorizationService_: AuthorizationService, public dialog: MatDialog,
     private element: ElementRef<HTMLElement>
   ) {}
 
@@ -51,7 +51,7 @@ export class NavigationComponent implements OnInit {
     this.user = JSON.parse(
       sessionStorage.getItem("all")
     ).data.responseData.user.username;
-    this.navItems = this.AuthorizationService.getMenu();
+    this.navItems = this.AuthorizationService_.getMenu();
   }else{
     this.tstUser = true;
   }

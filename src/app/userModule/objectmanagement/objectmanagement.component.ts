@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ElementRef, ViewChild} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild} from '@angular/core';
 import * as XLSX from 'xlsx';
 import { MatTableDataSource} from '@angular/material/table';
 import { ObjectmanagementService} from '../objectmanagement/objectmanagement.service'
@@ -152,7 +152,7 @@ export class ObjectmanagementComponent implements OnInit {
   // httpservice: any;
   constructor(private httpservice:HttpClient,private toast: ToastrService,
     private SpinnerService: NgxSpinnerService,public objectmanagementservice:ObjectmanagementService,
-    public router:Router, private AuthorizationService:AuthorizationService, private permissionsService:NgxPermissionsService) { }
+    public router:Router, private AuthorizationService_:AuthorizationService, private permissionsService:NgxPermissionsService) { }
 //permission
 userPermission:any = [];
 rolePermission:any = [];
@@ -182,7 +182,7 @@ greeting(){
     this.getObj();
     //permission
     const perm = [];
-    this.permissionsService.loadPermissions(this.AuthorizationService.getPermissions('object'));
+    this.permissionsService.loadPermissions(this.AuthorizationService_.getPermissions('object'));
     // //end permission
   }
   sendViewId(a){
