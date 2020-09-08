@@ -762,8 +762,10 @@ export class DialogContentExampleDialog implements OnInit {
         }
 
         this.dataSource =  [...this.allFilteredObjects] //new MatTableDataSource(this.allFilteredObjects);
-          error => console.log(error);
-      });
+          
+      },
+      error => console.log(error)
+      );
 
 }
 
@@ -904,7 +906,7 @@ export class DialogContentExampleDialog implements OnInit {
   webentity = []
 
   webEntity(data, $event) {
-    this.model1.wentity
+    
     if ($event.checked == true) {
 
       this.webentity.push(data)

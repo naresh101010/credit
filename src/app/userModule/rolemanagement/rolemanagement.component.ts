@@ -90,22 +90,23 @@ dataSource;
 holdTopTen:[]
 onGet() {
     this.SpinnerService.show();
-    this.roleservice.getroles().subscribe((users: any) => {
-      let ob = ErrorConstants.validateException(users);
-      if(ob.isSuccess){
-        rolelist =users.data.responseData;
-         this.holdTopTen=users.data.responseData;
-        this.dataSource = new MatTableDataSource(rolelist);
-        this.SpinnerService.hide();
-        this.showHidePagination();
+    this.roleservice.getroles().subscribe(
+      (users: any) => {
+        let ob = ErrorConstants.validateException(users);
+        if (ob.isSuccess) {
+          rolelist = users.data.responseData;
+          this.holdTopTen = users.data.responseData;
+          this.dataSource = new MatTableDataSource(rolelist);
+          this.SpinnerService.hide();
+          this.showHidePagination();
+        } else {
+          this.toast.warning(ob.message, ob.code);
+        }
+      },
+      (error) => {
+        this.toast.warning(ErrorConstants.getValue(404));
       }
-      else{
-        this.toast.warning(ob.message, ob.code);
-      }
-    error =>{
-      this.toast.warning(ErrorConstants.getValue(404));
-    }
-  });
+    );
 }
 
 //status
