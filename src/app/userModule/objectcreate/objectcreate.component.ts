@@ -36,34 +36,43 @@ export class ObjectcreateComponent implements OnInit {
     );
   }
   getObj() {
-    this.objectservice.getUsers().subscribe((users: any) => {
-      // console.log(users),
-      error => console.log(error);
-    });
+    this.objectservice.getUsers().subscribe(
+     (users: any) => {},     
+      error => console.log(error)
+    );
   }
   onPut() {
     this.objectservice.update().subscribe(
         (users: any) => {
-          console.log(users),
+          console.log(users)
+        },
         (error:any) => {
           console.log(error);
         }
-    });
+    );
   }
 //Get module DropDown List value
   getmoduleList(){
-    this.objectservice.moduleList().subscribe((users: any) => {
-      console.log(users),
-      error => console.log(error);
-    });
+    this.objectservice.moduleList().subscribe(
+      (users: any) => {
+        console.log(users)
+      },
+      (error) => {
+        console.log(error)
+      }
+    );
   }
 //End module DDL
 //Get Section DropDown List value
   getscetionList(){
-    this.objectservice.scetionList().subscribe((users: any) => {
-      console.log(users),
-      error => console.log(error);
-    });
+    this.objectservice.scetionList().subscribe(
+      (users: any) => {
+        console.log(users)
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 //End Section DDL
 //Add Attributes
