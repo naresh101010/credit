@@ -21,7 +21,7 @@ headerData={
     
 //create User Service
 createusr(usrdata) {
-  var headers = new HttpHeaders(this.headerData);
+  // var headers = new HttpHeaders(this.headerData);
   return this.http.post(AppSetting.API_ENDPOINT+'secure/um/v1/users', usrdata,)
   .catch((error: Response) => {
     return Observable.throw("Something went wrong");

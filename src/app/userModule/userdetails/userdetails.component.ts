@@ -1962,11 +1962,6 @@ export class popforDefaultBranchDetails {
         }
         });
     } else {
-      var headers = new HttpHeaders({
-        branchCode: "B1",
-        journeyId: "A1",
-        userId: "User1"
-      });
       this.SpinnerService.hide();
       this.httpservice
         .get(
@@ -2509,7 +2504,7 @@ if(this.tableData.responseData && this.tableData.responseData.length>=0){
      if(this.model.search=="NAME"){
        let searcgObjJ=this.model.searchbyname.toUpperCase();
        this.SpinnerService.show();
-      var headers = new HttpHeaders({'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
+      
      this.httpservice.get(AppSetting.API_ENDPOINT+`secure/v1/branches/branchName/${searcgObjJ}`,  ).subscribe(
        data => {
          let ob = ErrorConstants.validateException(data);
@@ -2551,7 +2546,6 @@ if(this.tableData.responseData && this.tableData.responseData.length>=0){
        });
      }
        else{
-         var headers = new HttpHeaders({'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
          this.httpservice.get(AppSetting.API_ENDPOINT+`secure/v1/branches/branchtype/${this.model.search}`,  ).subscribe(
            data => {
              this.advanceArea=data;
