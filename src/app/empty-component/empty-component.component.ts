@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-empty-component',
-  templateUrl: './empty-component.component.html',
-  styleUrls: ['./empty-component.component.css']
+  templateUrl: './empty-component.component.html'
 })
 export class EmptyComponentComponent implements OnInit {
   url = sessionStorage.getItem('refresh_component');

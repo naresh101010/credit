@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Response } from '@angular/http';
 import 'rxjs/Rx';
 import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient  } from '@angular/common/http';
 import { Headers} from '@angular/http';
 import 'rxjs/Rx';
 import { AppSetting } from '../../app.setting';
