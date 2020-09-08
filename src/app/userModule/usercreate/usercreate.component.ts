@@ -1625,8 +1625,7 @@ branchDataFilter(filterValue: string) {
    this.tableData.responseData=[];
    if(this.model.search=="NAME"){
      let searcgObjJ=this.model.searchbyname.toUpperCase();
-     this.SpinnerService.show();
-    var headers = new HttpHeaders({'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
+     this.SpinnerService.show();    
    this.httpservice.get(AppSetting.API_ENDPOINT+`secure/v1/branches/branchName/${searcgObjJ}`,  ).subscribe(
      data => {
        let ob = ErrorConstants.validateException(data);
@@ -1672,7 +1671,6 @@ branchDataFilter(filterValue: string) {
   }
 
      else{
-       var headers = new HttpHeaders({'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
        this.SpinnerService.show();
        this.httpservice.get(AppSetting.API_ENDPOINT+`secure/v1/branches/branchtype/${this.model.search}`,  ).subscribe(
          data => {

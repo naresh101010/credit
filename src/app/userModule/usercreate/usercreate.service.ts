@@ -20,7 +20,6 @@ headerData={
 
 //create User Service
 createusr(usrdata) {
-  var headers = new HttpHeaders(this.headerData);
   return this.http.post(AppSetting.API_ENDPOINT+'secure/um/v1/users',usrdata,).catch((error: Response) => {
     return Observable.throw("Something went wrong");
   });
@@ -28,7 +27,6 @@ createusr(usrdata) {
 
 //Category DropDown Service
 categoryDDL() {
-  var headers = new HttpHeaders(this.headerData);
   return this.http.get(AppSetting.API_ENDPOINT+'secure/um/v1/lookup/USER_CATEGORY',).catch((error: Response) => {
     return Observable.throw("Something went wrong");
   });
@@ -37,8 +35,7 @@ categoryDDL() {
 
 // Default Data Service
 DefaultDoc() {
-  var headers = new HttpHeaders(this.headerData);
-  return this.http.get(AppSetting.API_ENDPOINT+'secure/um/v1/branches',).catch((error: Response) => {
+ return this.http.get(AppSetting.API_ENDPOINT+'secure/um/v1/branches',).catch((error: Response) => {
     return Observable.throw("Something went wrong");
   });
 }
@@ -46,7 +43,6 @@ DefaultDoc() {
 
 // Roll Data Service
 Rolldoc() {
-  var headers = new HttpHeaders(this.headerData);
   return this.http.get(AppSetting.API_ENDPOINT+'secure/um/v1/users',).catch((error: Response) => {
     return Observable.throw("Something went wrong");
   });
