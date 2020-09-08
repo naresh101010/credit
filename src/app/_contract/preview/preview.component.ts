@@ -12,6 +12,8 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 
+
+
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
@@ -59,12 +61,11 @@ export class PreviewComponent implements OnInit {
   closePreview($event){
     $event.preventDefault();
     if (this.editflow) {
-      this.router.navigate(['/prc-contract/documentupload', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+      this.router.navigate(['/contract/documentupload', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
     } else {
-      this.router.navigate(['/prc-contract/documentupload'], { skipLocationChange: true });
+      this.router.navigate(['/contract/documentupload'], { skipLocationChange: true });
     }
   }
-
 
 
   /**
@@ -84,23 +85,7 @@ export class PreviewComponent implements OnInit {
     
               console.log(result,"get preview response");
               this.data=result.data.responseData;
-
-              if(this.data  && this.data.branchDTOs && this.data.branchDTOs.length > 0 && this.data.isRatecardApplicable == 0){
-                this.data.serviceOfferings[0]['rateCards'] = [] ;
-                let temp = {
-                  branchDTOs : [], 
-                  ratecardDTO: {}, 
-                  commercialDTOs: [], 
-                  commandmentChargeDTOs: [], 
-                  tncDTO : {}, 
-                  safextSlaDTOs: [], 
-                  zmSlaDTOs: [], 
-                  safextCustomSlaDTOs: [], 
-                  zmCustomSlaDTOs: [] }
-                 temp.branchDTOs = this.data.branchDTOs;
-                this.data.serviceOfferings[0]['rateCards'].push(temp)
-
-              }
+              
               /**
                * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
                * and set the same at commercial level
@@ -138,6 +123,7 @@ export class PreviewComponent implements OnInit {
 
   expendPanel: boolean = false;
   expandToggle(){
+    debugger
     this.expendPanel = true;
   }
 
@@ -205,25 +191,24 @@ export class PreviewComponent implements OnInit {
   
   generateSFXCode(){
     this.spinner.show();
-    this.contractService.generateSFXCode(AppSetting.contractId,this.editflow).subscribe(result=>{
+    this.contractService.generateSFXCode(AppSetting.contractId,this.editflow).subscribe(result =>{
       let ob = ErrorConstants.validateException(result);
       if (ob.isSuccess) {
         console.log(result);
         this.spinner.hide();
-        const dialogSfxCode = this.dialog.open(SfxDialogComponent, {
-        data:{message:result.data.responseData.sfxCode, messageHeader: 'PRC Code GENERATED'},
+        this.dialog.open(SfxDialogComponent, {
+        data:{message:result.data.responseData.sfxCode,isNew:true},
           disableClose: true,
           panelClass: 'creditDialog',
           width: '400px'
         });
-  
-      }else {
+      } else {
         this.tosterservice.error(ob.message);
         this.spinner.hide();
       }
     }, error => {
       this.spinner.hide();
-      this.tosterservice.error('Issue in generating PRC Code. Kindly verfiy SFDC Oppr Id and MSA Account Id.');
+      this.tosterservice.error('Issue in generating SFX code. Kindly verfiy SFDC Oppr Id and MSA Account Id.');
     });
   }
 
@@ -265,6 +250,13 @@ export class PreviewComponent implements OnInit {
 })
 
 export class EditPreview implements OnInit{
+  @ViewChild('previewContent', null) previewContent:ElementRef;
+
+
+  exportAsConfig: ExportAsConfig = {
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: 'previewContent', // the id of html/table element
+  }
 
   constructor(
     public dialogRef: MatDialogRef<EditPreview>,
@@ -272,7 +264,8 @@ export class EditPreview implements OnInit{
     private contractService: ContractService,
     private spinner: NgxSpinnerService,
     private router: Router,
-    private tosterservice: ToastrService) {}
+    private tosterservice: ToastrService,
+    private exportAsService: ExportAsService) {}
 
     ngOnInit(){
       this.getEditPreviewData();
@@ -284,6 +277,51 @@ export class EditPreview implements OnInit{
    * get preview from stage for edited data
    */
   data:any={};
+  
+  sendEmail(){
+    let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData.user;
+    const addrDialog = this.dialog.open(EmailDialogBoxP, {
+      panelClass: 'creditDialog',
+      disableClose: true,
+      data : {email : userDt.email}
+    });
+
+    addrDialog.afterClosed().subscribe(result => {           
+      if (result && result!="") {
+      this.spinner.show();
+      let ob = {
+        "userId": userDt.userId, "toEmail": result,
+        "subject": "Preview PDF For: " +this.customerName, "contractCode": this.data.sfxCode?this.data.sfxCode:'NOT GENERATED YET'
+      }
+      this.exportAsService.get(this.exportAsConfig).subscribe(content => {
+        let file1 = this.b64toBlob(content)
+        this.sendData(ob,file1)
+      }); 
+      }
+    });    
+  }
+
+   b64toBlob(dataURI) {
+    var byteString = atob(dataURI.split(',')[1]);
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
+    }
+    return new Blob([ab], { type: 'application/pdf' });
+    }
+
+   sendData(ob, file){
+    this.contractService.sendEmail(file, JSON.stringify(ob))
+    .subscribe(data => {
+      this.spinner.hide();
+      this.tosterservice.success("Email Sent Successfully !");
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue In Sending Email !');
+    });
+
+   }
   getEditPreviewData(){
     console.log("Getting Edit Preview Data...");
     this.spinner.show();
@@ -293,30 +331,6 @@ export class EditPreview implements OnInit{
             if (ob.isSuccess) {
               console.log(result,"get preview response");
               this.data=result.data.responseData;
-              if(this.data && this.data.isRatecardApplicable == 0){
-                // this.data.serviceOfferings[0]['rateCards'] = [] ;
-                let temp = {
-                  branchDTOs : [], 
-                  // ratecardDTO: {}, 
-                  // commercialDTOs: [], 
-                  // commandmentChargeDTOs: [], 
-                  // tncDTO : {}, 
-                  // safextSlaDTOs: [], 
-                  // zmSlaDTOs: [], 
-                  // safextCustomSlaDTOs: [], 
-                  // zmCustomSlaDTOs: [] 
-                }
-                temp.branchDTOs = this.data.branchDTOs;
-                let tempRateCard = {
-                  ['rateCards'] : []
-                }
-                
-                tempRateCard.rateCards.push(temp);
-                 
-                this.data.serviceOfferings.push(tempRateCard);
-              }
-              
-              
               this.spinner.hide();
               /**
                * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
@@ -381,7 +395,7 @@ export class EditPreview implements OnInit{
         this.dialogRef.close();
         console.log(result);
         this.dialog.open(SfxDialogComponent, {
-        data:{message:result.data.responseData.sfxCode, messageHeader: 'PRC CODE SUBMITTED'},
+        data:{message:result.data.responseData.sfxCode,isNew:false},
           disableClose: true,
           panelClass: 'creditDialog',
           width: '400px'
@@ -393,7 +407,7 @@ export class EditPreview implements OnInit{
       }
     },error=>{
       this.spinner.hide();
-      this.tosterservice.error("Issue in generating PRC Code. Kindly verfiy SFDC Oppr Id and MSA Account Id.");
+      this.tosterservice.error("Issue in generating SFX code. Kindly verfiy SFDC Oppr Id and MSA Account Id.");
     });
   }
 

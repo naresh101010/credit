@@ -1,7 +1,8 @@
-<div class="text-center sfx_dialog">
-    <img src="../../../assets/images/tick.png" alt="tick">
+<div class="text-center sfx_dialog" style="padding: 2rem !important;margin-bottom: 4rem !important;">
+    <img src="../../../assets/images/tick.png" alt="img tick">
     <p><strong>Success!</strong></p>
-    <h4 style="margin: 0">{{messageHeader}}: </h4>
+    <h4 *ngIf="isNew" style="margin: 0">SFX CODE GENERATED: </h4>
+    <h4 *ngIf="!isNew" style="margin: 0">SFX CODE SUBMITTED: </h4>
     <h2 style="margin: 20px 0">{{message}}</h2>
     <p>You will automatically redirected to Dashboard in <strong>15 Seconds</strong></p>
     <p><strong>OR</strong></p>

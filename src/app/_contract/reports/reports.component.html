@@ -1,14 +1,14 @@
-<div class="hero-content prcContainer report">
+<div class="hero-content contractContainer report">
   <div class="row text-left parent">
     <div class="breadcrumb">
-      <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span> PRC </div>
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span> CREDIT </div>
   </div>
   <div class="msaOperation">
     <h3>Customer Contract Report </h3>
   </div>
-  <mat-card>
+  <mat-card>    
     <form #f="ngForm">
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -35,9 +35,9 @@
                 disableOptionCentering panelClass="creditNgxSelect advanceSearch" #doctype='ngModel' required
                 name="searchArrValue" [(ngModel)]="searchArrValue" placeholder="SEARCH {{finalObj.searchBy}} ">
                 <ngx-mat-select-search (change)="manualSel($event); validateField()" (keyup)="manualSearch($event); validateField()" [(ngModel)]="searchVal"
-                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'" name="search">
-                <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
-              </ngx-mat-select-search>
+                  [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'" name="search">
+                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
+                </ngx-mat-select-search>
                 <mat-option [value]="" style="display: none;">Select Option</mat-option>
                 <mat-option *ngFor="let item of (searchArr | stringFilter:searchVal:'branchName')"
                   [value]="item.branchId" [matTooltip]="item.branchName" matTooltipPosition="above"> {{item.branchName}}

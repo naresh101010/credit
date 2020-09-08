@@ -57,7 +57,7 @@ export class MsaComponent implements OnInit {
   registerForm: FormGroup;
   submitted = false;
   //END OF VALIDATION
-  constructor(private spinner: NgxSpinnerService, private tosterservice: ToastrService, private formBuilder: FormBuilder, public dialog: MatDialog, private _contractService: ContractService, private router: Router, private ChangeDetectorRef_: ChangeDetectorRef
+  constructor(private spinner: NgxSpinnerService, private tosterservice: ToastrService, private formBuilder: FormBuilder, public dialog: MatDialog, private _contractService: ContractService, private router: Router, private ChangeDetectorRef: ChangeDetectorRef
     ,private acrouter: ActivatedRoute,private sharedSearchdata: DataService,
      private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
   openDialog(): void {
@@ -153,7 +153,7 @@ advanceDefaultBranchName(str){
             this.spinner.hide();
           });  
   }
-}
+  }
 }
 emptyData(){
   this.tableData=[];
@@ -322,10 +322,10 @@ sfxCode = AppSetting.sfxCode;
       // data.lkpConsigntypeId=data.lkpConsigntypeId;
       if(data.panNum)
         data.panNum=data.panNum.toUpperCase();
-        if(data.tanNum)
-          data.tanNum=data.tanNum.toUpperCase();
+      if(data.tanNum)
+        data.tanNum=data.tanNum.toUpperCase();
       if(data.gstinNum)
-          data.gstinNum=data.gstinNum.toUpperCase();
+        data.gstinNum=data.gstinNum.toUpperCase();
 
 
 
@@ -364,9 +364,9 @@ sfxCode = AppSetting.sfxCode;
             }
             this.tosterservice.success("Saved Successfully");
             if (this.editflow) {
-              this.router.navigate(['/prc-contract/opportunity', { steper: true, 'editflow': 'true' }], {skipLocationChange : true});
+              this.router.navigate(['/contract/opportunity', { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
             } else {
-              this.router.navigate(['/prc-contract/opportunity'], {skipLocationChange : true});
+              this.router.navigate(['/contract/opportunity'], {skipLocationChange: true});
             }
           }else{
             this.tosterservice.success("Saved Successfully");
@@ -396,7 +396,7 @@ sfxCode = AppSetting.sfxCode;
     if(this.sourcePage=='msaSearchPage'){
       this.passData.data.responseData=this.passData.data.responseData[0];
       this.sharedSearchdata.changeMessage(this.passData)
-      this.router.navigate(['/prc-contract/msaopportunity'], {skipLocationChange : true});
+      this.router.navigate(['contract/msaopportunity'], {skipLocationChange: true});
     }
     else{
       this.putMsa(1);
@@ -482,9 +482,10 @@ sfxCode = AppSetting.sfxCode;
 
   removeData(vall, j) {
     
-  
+    // for (let i = 0; i < ELEMENT_DATA.length; i++) {
+    // }
     ELEMENT_DATA.splice(j, 1);
-    this.ChangeDetectorRef_.detectChanges();
+    this.ChangeDetectorRef.detectChanges();
     this.dataSource = new MatTableDataSource(ELEMENT_DATA);
 
   }
@@ -513,7 +514,7 @@ sfxCode = AppSetting.sfxCode;
   */
   uploadDocument() {
     console.log(this.conModuleEntitiId, "moduleEntityid - uploadDocument")
-    var validExt: boolean
+    var validExt:boolean;
     if (this.uploadedBFileName) {
       validExt = this.uploadedBFileName.substr(this.uploadedBFileName.lastIndexOf("."), this.uploadedBFileName.length) == '.xls' ? true : false;
     }
@@ -561,12 +562,12 @@ sfxCode = AppSetting.sfxCode;
     console.log(fName, 'name of file');
     let a = document.createElement('a');
     a.href = this.signedUrl;
-        a.download = fName;
-        a.click();
+    a.download = fName;
+    a.click();
     this.tosterservice.success('Download Successfully !');
   }
 
-  selFlag: boolean=false;
+  selFlag:boolean =false;
   /**
    * will be called on check/uncheck of Select all
    * @param e 
@@ -664,7 +665,7 @@ export class ConsignorUploadFile implements OnInit {
   //end
   constructor(
     public dialogRef: MatDialogRef<ConsignorUploadFile>,
-    @Inject(MAT_DIALOG_DATA) public data: DialogData,private spinner: NgxSpinnerService, private tosterservice: ToastrService, private formBuilder: FormBuilder, public dialog: MatDialog, private _contractService: ContractService, private router: Router, private ChangeDetectorRef_: ChangeDetectorRef) { }
+    @Inject(MAT_DIALOG_DATA) public data: DialogData,private spinner: NgxSpinnerService, private tosterservice: ToastrService, private formBuilder: FormBuilder, public dialog: MatDialog, private _contractService: ContractService, private router: Router, private ChangeDetectorRef: ChangeDetectorRef) { }
   //for consignor and consignee
 
   editflow: false
@@ -695,7 +696,7 @@ export class ConsignorUploadFile implements OnInit {
     var re = /^[0-9]+$/;
     this.pastedText = Number(event.clipboardData.getData('text'));
     if(re.test(this.pastedText)){
-      console.log('test')
+      console.log(1)
     }
     else{
       event.preventDefault();
@@ -708,9 +709,9 @@ export class ConsignorUploadFile implements OnInit {
 
   panChk=false;
   panLength=false;
-  onPanChange(num){
+  onPanChange(num) {
   if(num.length>0) {
-   this.panChk= Validation.panValidation(num);
+    this.panChk= Validation.panValidation(num);
     this.panLength = true;
   } else {
     this.panLength = false;
@@ -728,20 +729,13 @@ export class ConsignorUploadFile implements OnInit {
     }
   }
   gstnChk=false;
-  gstLength=false;
   onGstnChange(num){
-    if(num.length>0) {
-      this.gstnChk= Validation.gstinValidation(num);
-       this.gstLength = true;
-     } else {
-       this.gstLength = false;
-       this.gstnChk = false;
-     }
+    this.gstnChk= Validation.gstinValidation(num);
   }
 
 
   pincodeData:any;
-  pincodeError:boolean = false;
+  pincodeError:any;
   pincodeSearch(str){
     if(!this.isAddressChecked){ 
     if(str){
@@ -794,7 +788,7 @@ export class ConsignorUploadFile implements OnInit {
       }
     }
   addElement(valid,form) {
-    if(valid){
+    if(valid) {
       let tempPin  = this.model.pincode;
       this.model.pincode = '';
       this.spinner.show();
@@ -854,9 +848,9 @@ export class ConsignorUploadFile implements OnInit {
 
   removeData(vall, j) {
     
-
+ 
     ELEMENT_POST_DATA.splice(j, 1);
-    this.ChangeDetectorRef_.detectChanges();
+    this.ChangeDetectorRef.detectChanges();
     this.dataSource1 = new MatTableDataSource(ELEMENT_POST_DATA);
 
   }
@@ -885,12 +879,12 @@ export class ConsignorUploadFile implements OnInit {
       val = d
     }    
     for(let data of ELEMENT_POST_DATA){   
-      if(data.panNum)
-        data.panNum=data.panNum.toUpperCase();
+        if(data.panNum)
+          data.panNum=data.panNum.toUpperCase();
         if(data.tanNum)
           data.tanNum=data.tanNum.toUpperCase();
-          if(data.gstinNum)
-        data.gstinNum=data.gstinNum.toUpperCase();
+        if(data.gstinNum)
+          data.gstinNum=data.gstinNum.toUpperCase();
     }
 
     
@@ -962,16 +956,9 @@ export class ConsignorUploadFile implements OnInit {
   onClear(){
     this.address1Error = false;
     this.pincodeError=false;
-    this.model.pincode = '';
   }
-
-  onBlur(){
-    this.pincodeError=false;
-  }
-
   clearAddresValues(){
     this.model.Address=null;
-    this.onClear()
   }
   searchAddress(str){ 
     console.log(str)
@@ -1104,7 +1091,8 @@ getErrorFiles(moduleEntityId)
                     
   console.log("request JSON for get ErrorFiles: " + JSON.stringify(requesData));
   this._contractService.postSearchDocuments(requesData)
-    .subscribe(data => {
+    .subscribe(
+      data => {
       let ob = ErrorConstants.validateException(data);
       if (ob.isSuccess) {
         var docData: any = {}
@@ -1134,14 +1122,14 @@ getErrorFiles(moduleEntityId)
 */
   downloadDocument(item) {
     let fName = item.docPathRef.substr(item.docPathRef.lastIndexOf('/') + 1, item.docPathRef.length);
-console.log(fName,'name of file');
+    console.log(fName, 'name of file');
     let a = document.createElement('a');
     a.href = item.signedUrl;
     a.download = fName;
     a.click();
     this.tosterservice.success('Download Successfully !');
 
-}
+  }
 
 
   @HostListener('document:keydown', ['$event'])

@@ -11,13 +11,7 @@ export class BranchModel{
                     expDt: Date
                     id: number
                     branchPinCneeCnorMap: object
-                    bkngBranchName: string
-                    // billToAddr: string
-                    gstinNum: string
-                    tanNum: string
-                    entityId: number
-                    entityType: string
-                    // billtoAddrList: []
+                    ratecardId: number
                 }]
     referenceList :{
                     bookingBranchList:[{

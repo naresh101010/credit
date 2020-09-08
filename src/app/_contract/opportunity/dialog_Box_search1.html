@@ -1,13 +1,13 @@
- 
 <div style="position: relative;">
   <h3 class="paddingleftwo" id="h3">Contract Update</h3>
-  <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
+  <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
 </div>
 <hr id="popup-hr">
-<div style="margin: .3rem;border-radius: .3rem;" id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
-  <div fxFlex=34 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span>{{custName}}</span></div>
-  <div fxFlex=40 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Acc Id : </span><span>{{sfdcAccId}}</span></div>
-  <div fxFlex=26 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{cntrCode}}</em></div>
+
+<div style="margin: .3rem;border-radius: .3rem;" id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container contractContainer">
+  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center contractWidth" [matTooltip]="custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="custName?.length<25">{{custName}}</span></div>
+  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center contractWidth">{{sfdcAccId}}</span></div>
+  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center contractWidth">{{cntrCode}}</em></div>
 </div>
 <mat-card>
     <mat-card-content >
@@ -27,7 +27,7 @@
           <div >
             <div >
               <div class="commercialbox1 dropdown" style="margin-right: 1rem; " (click)="newRateRoute()">
-                 <h6 style="padding-top: 3rem;cursor: pointer;padding-left: 1.9rem;font-size: 1.2rem;">{{rateCardApplicableFlag ? "New Rate Card (Existing Offering)" : "Branch"}}</h6>
+                 <h6 style="padding-top: 3rem;cursor: pointer;padding-left: 1.9rem;font-size: 1.2rem;">New Rate Card (Existing Offering)</h6>
               </div>
             </div>
           </div>

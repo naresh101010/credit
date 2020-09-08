@@ -26,6 +26,7 @@ export class MsaOprationComponent implements OnInit {
     'custName',
     'sfdcAccId',
     'sfdcAccType',
+    'groupCode',
     'pan',
     'gstinNum',
     'email',
@@ -33,7 +34,6 @@ export class MsaOprationComponent implements OnInit {
     'actions2'
   ];
 
-  accTypeIgnoreList = ['CREDIT','3PL', 'TRANSPORTATION+3PL', 'FTL'];
 
   constructor(private contractservice: ContractService,private sharedSearchdata: DataService,private spinner: NgxSpinnerService,private acrouter: ActivatedRoute,
     private router: Router, private dialog: MatDialog, private tosterservice: ToastrService,
@@ -123,7 +123,7 @@ export class MsaOprationComponent implements OnInit {
         this.spinner.hide();
         if (data.data && data.data.responseData && data.data.responseData.length > 0) {
           data.data.responseData.forEach(msaResult => {
-            if (!this.accTypeIgnoreList.includes(msaResult.accType)){
+            if (msaResult.accType !== 'PRC' && msaResult.accType !== 'RETAIL') {
               this.msaSearchResult.push(msaResult);
             }
           });
@@ -188,7 +188,7 @@ export class MsaOprationComponent implements OnInit {
     passData["referenceData"]=this.referenceData;
     this.sharedSearchdata.changeMessage(passData);
     if (flag === 0) {
-    this.router.navigate(['prc-contract/msacreation'], {skipLocationChange: true});
+    this.router.navigate(['contract/msacreation'], {skipLocationChange: true});
     } else {
     this.spinner.show();
     this.contractservice.getPRCContractByMSAId(msadata.id).subscribe(validateResult => {
@@ -202,11 +202,11 @@ export class MsaOprationComponent implements OnInit {
         }
         this.spinner.hide();
         if (cntrCode === '') {
-          this.router.navigate(['prc-contract/msacreation'], {skipLocationChange: true});
+          this.router.navigate(['contract/msacreation'], {skipLocationChange: true});
         } else {
           const dialogRefConfirm = this.dialog.open(confimationdialog, {
             width: '450px',
-            data: { message: `SFX active contracts also exists for this MSA with contract code ${cntrCode} \n \n 
+            data: { message: `PRC active contracts also exists for this MSA with contract code ${cntrCode} \n \n 
                               Do you want to continue ?`},
             panelClass: 'creditDialog',
             disableClose: true,
@@ -214,7 +214,7 @@ export class MsaOprationComponent implements OnInit {
           });
           dialogRefConfirm.afterClosed().subscribe(value => {
             if (value) {
-              this.router.navigate(['prc-contract/msacreation'], {skipLocationChange: true});
+              this.router.navigate(['contract/msacreation'], {skipLocationChange: true});
             }
           });
         }
@@ -258,7 +258,7 @@ export class MsaOprationComponent implements OnInit {
     /**
    * Download templete for bulk upload
    */
-  downloadCmdTemplate(){
+  downloadCmdTemplate() {
     this.spinner.show();
     this.contractservice.getCmdDownloadDoc()
       .subscribe(data => {
@@ -301,19 +301,17 @@ export class MsaOprationComponent implements OnInit {
   this.spinner.show();
   if (validExt) {
       this.contractservice.postCmdUploadDoc(id,this.cmdModuleEntitiId,this.fileToUpload)
-      .subscribe(
-        data => {
+      .subscribe(data => {
         this.spinner.hide()
         console.log("data" ,data);
         this.tosterservice.success("File uploaded");
         this.uploadedCmdFileName = '';
     
       },
-      error => {
-        console.log(error)
-        this.spinner.hide()
-      });
-   
+    error => {
+      console.log(error)
+      this.spinner.hide()
+    });
   } else {
     this.spinner.hide();
     this.uploadedCmdFileName='';
@@ -442,8 +440,7 @@ getErrorFiles(moduleEntityId,id)
                     
   console.log("request JSON for get ErrorFiles: " + JSON.stringify(requesData));
   this._contractService.postSearchDocuments(requesData)
-    .subscribe(
-      data => {
+    .subscribe(data => {
       let ob = ErrorConstants.validateException(data);
       if (ob.isSuccess) {
         var docData: any = {}
@@ -458,12 +455,11 @@ getErrorFiles(moduleEntityId,id)
         this.tosterservice.error(ob.message);
       }
     },
-    error => {
-      console.log(error)
-      this.tosterservice.error("Something went wrong");
-    });
 
-  
+  error => {
+    console.log(error)
+    this.tosterservice.error("Something went wrong");
+  });
 }
 
   @HostListener('document:keydown', ['$event'])

@@ -32,7 +32,6 @@ import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
 import { CitysearchComponent } from '../citysearch/citysearch.component';
 import { StatesearchComponent } from '../statesearch/statesearch.component';
-import { AddressDialogBox } from '../billing/billing.component';
 
 //for select
 export interface Food {
@@ -397,7 +396,7 @@ addSlabVal4(){
 }
 
 addSlabVal5(){
-  if(this.zmslabto5<this.zmslabfrom5) {
+  if(this.zmslabto5<this.zmslabfrom5 || this.zmslabto5>9999999999) {
     this.zmslabto5 = this.prevzmslabto5;
     this.updateTootlipSlab();
     this.tosterservice.info('Please enter values between <0 - 9999999999>');
@@ -569,7 +568,7 @@ addSlabVal5(){
   if (effYear > 9999) {
     this.model.effectiveDt = "";
   } else {
-  this.endDate(this.model.expDt);
+  this.endDate();
   let b = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd')
   if (b < this.minDate || b > this.maxdateRCStart) {
     this.isValidStartDt = true;
@@ -585,32 +584,23 @@ addSlabVal5(){
 }
 }
 
-endDate(element:any) {
-  if (this.model.expDt === null) {
-    this.isValidEndDt = false;
-    return;
-  }
-
-  let expYear = parseInt(this.datePipe.transform(this.model.expDt, 'yyyy'));  
+endDate() {
+  this.first.close();
+  let expYear = parseInt(this.datePipe.transform(this.model.expDt, 'yyyy'))
     if (expYear > 9999) {
-      this.model.expDt = null;
+      this.model.expDt = "";
     } else {
-    let d = this.datePipe.transform(this.mindateRCExp, 'yyyy-MM-dd')
     let c = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd')
-    if (c < d || c > this.maxDate) {
+    if (c < this.mindateRCExp || c > this.maxDate) {
       this.isValidEndDt = true;
     }
     else {
-      this.isValidEndDt = false;    }
-    if(c)
+      this.isValidEndDt = false;
+    }
     {
       let e = new Date(c);
       e.setDate(e.getDate()-1);
       this.maxdateRCStart = e;
-      }
-      else{
-        element= null
-        this.isValidEndDt = false; 
       }
   }
 }
@@ -1191,7 +1181,7 @@ openBaseLDialogBr(field): void {
       }
     });
     this.getMsa();
-   // this.getRateCardDetail();
+    this.getRateCardDetail();
     this.getOpportunityDetails();
 
   }
@@ -1228,11 +1218,8 @@ openBaseLDialogBr(field): void {
 
   businessType:any;
   businessTypeId:any;
-  rateCardApplicableFlag:any = AppSetting.rateCardApplicableFlag;
   customerTypeId:any;
-  contractID: any;
   getOpportunityDetails() {
-    this.spinner.show();
     this.contractservice.getOportunity(AppSetting.oprtunityId,this.editflow).subscribe(opprResult => {
 
       this.opportunity.opportunityData = opprResult.data.responseData;
@@ -1242,23 +1229,11 @@ openBaseLDialogBr(field): void {
       var result = opprResult.data;
       this.businessTypeId= result.responseData.contract.lkpBizTypeId;
       this.customerTypeId = result.responseData.contract.cntrType;
-      this.rateCardApplicableFlag = result.responseData.contract.rateCardApplicableFlag;
-      this.contractID = result.responseData.contractId;
       result.referenceData.businessTypeList.forEach(element => {
         if (element.id == result.responseData.contract.lkpBizTypeId) {
           this.businessType = element.lookupVal;
         }
       });
-      
-        //  Add For Rate card Applicable 
-        if(this.rateCardApplicableFlag){        
-          this.getRateCardDetail()
-          }else {
-            this.six.open();
-            this.getAssignBranchdata(this.rateCardApplicableFlag);
-          }
-          //  End For Rate card Applicable 
-        
     },error=>{
       this.spinner.hide();
       this.tosterservice.error("Error in fetching opportunity");
@@ -1274,54 +1249,44 @@ openBaseLDialogBr(field): void {
      d.ratecardId = this.model.id;
     }
   }
-  rateCardAndTncFlag = false;
-  getAssignBranchdata(rateCardApplicableFlag) {
-    this.spinner.show();
-    let id, type;
-    if(rateCardApplicableFlag){
-      type = "RATECARD";
-      if(!this.model.id){
-        this.tosterservice.error('No Rate Card Selected !!');
-        this.six.close();
-        this.rateCardAndTncFlag = true;
-        this.spinner.hide();
-        return
-      }
-      if(this.isCopyRateCard && this.isTncCopy){
-        this.tosterservice.error('Tnc Not saved !!')
-        this.six.close();
-        this.rateCardAndTncFlag = true;
-        this.spinner.hide();
-        return
-      }
+  getAssignBranchdata() {
+    if(!this.model.id){
+      this.tosterservice.error('No Rate Card Selected !!')
+      this.six.close();
       this.spinner.hide();
-      
-      if(this.isCopyRateCard && this.isBranchCopy){
-        id=this.copiedRcId;
-      }else{
-        id=this.model.id;
-      }
-      
-    }else {
-      type = "SFX";
-      id = this.contractID;
+      return
     }
-    this.contractservice.getAssignBranchDetail(id, type,this.editflow)
+    if(this.isCopyRateCard && this.isTncCopy){
+      this.tosterservice.error('Tnc Not saved !!')
+      this.six.close();
+      this.spinner.hide();
+      return
+    }
+    if(this.fbranch)this.fbranch.resetForm();
+    this.spinner.show();
+    let id;
+    if(this.isCopyRateCard && this.isBranchCopy){
+      id=this.copiedRcId;
+    }else{
+      id=this.model.id;
+    }
+    console.log('ratecardID :: ', id);
+    this.contractservice.getAssignBranchDetail(id,this.editflow)
       .subscribe(
         success => {
           let ob = ErrorConstants.validateException(success);
         if(ob.isSuccess){
           this.spinner.hide();
-          if(this.isCopyRateCard){
-            this.tosterservice.info('Copied All Branches !');
-          }
           this.branchAssignModel = success.data.responseData;
-          if(this.isCopyRateCard){
+          if(this.isCopyRateCard && this.isBranchCopy){
+            this.tosterservice.info('Save To Copy All Branches !');
             this.removeAllBranchIdsForCopy(this.branchAssignModel);
           }
           this.branchAssignModel.assignBranch = success.data.responseData;
           this.branchAssignModel.assignBranch.forEach(obj => {
             obj['newBranch'] = false;
+            obj['isValidBranchExpiryDt'] = false;
+            obj['isValidBranchEffectiveDt'] = false;
           })
           this.oldAssignBranchList = JSON.parse(JSON.stringify(success.data.responseData));
           this.branchAssignModel.referenceList=success.data.referenceData;
@@ -1340,29 +1305,11 @@ openBaseLDialogBr(field): void {
       });
   }
 
-  //  Pradeep add 
-
-  addAddress(index){
-    const addrDialog = this.dialog.open(AddressDialogBox);
-    addrDialog.afterClosed().subscribe(result => {
-      console.log(result, 'The dialog was closed');
-      if (result && result!="") {
-        // this.branchAssignModel.assignBranch[index]["billtoAddrList"].push(result);
-        // this.branchAssignModel.assignBranch[index]["billToAddr"] = JSON.parse(JSON.stringify(result));
-      }
-    });
-  }
-
-
-  postBranch(obj) {
+postBranch() {
   let postData = [];
-  // console.log('postData before validation',this.branchAssignModel);
+  console.log('postData before validation',this.branchAssignModel);
   let isCCAddedInLastBranch=true;
   for(let data of this.branchAssignModel){
-    // data.billToAddr = data.billtoAddrList.join("||");
-    data.tanNum = data.tanNum ? data.tanNum.toUpperCase() : '';
-    data.gstinNum = data.gstinNum ? data.gstinNum.toUpperCase() : '';
-    // delete data.billtoAddrList;
     if(data.bkngBranchId){
     if(this.validationChecksBr(data)){
       postData.push(data);
@@ -1372,7 +1319,6 @@ openBaseLDialogBr(field): void {
       break;
     }
   }
-   
     if(isCCAddedInLastBranch){
       let inputData = this.deactivateOrphanBranchChild(postData);
       this.spinner.show();
@@ -1384,21 +1330,9 @@ openBaseLDialogBr(field): void {
         this.tosterservice.success('Saved Successfully');
         this.isBranchCopy = false;
         this.six.close();
-          if (obj == 'next') {
-            if (this.editflow) {
-              this.router.navigate(['/prc-contract/billing', { steper: true, 'editflow': 'true' }], {skipLocationChange : true});
-            } else {
-              this.router.navigate(['/prc-contract/billing'], {skipLocationChange : true});
-            }
-          }
-        if(this.rateCardApplicableFlag){
-          this.seven.open();
-          this.getSLAById();
-        }else{
-          this.six.open();
-          this.getAssignBranchdata(this.rateCardApplicableFlag);
-          
-        }
+        this.first.close();
+        this.seven.open();
+        this.getSLAById();
       }else{
         this.tosterservice.error(ob.message);
         this.spinner.hide();
@@ -1408,14 +1342,14 @@ openBaseLDialogBr(field): void {
       this.spinner.hide();
     });}else{
       this.spinner.hide();
-      let temp = [];
-       this.branchAssignModel.forEach(obj => {
-       if(obj && obj.branchPinCneeCnorMap.length == 0){
-         temp.push(obj.bkngBranchName);
-       }
-     })
-      console.log('temp', temp);
-      this.tosterservice.info(`Please Map Customer Location on Branch ${temp} !`);
+      let branchName:any;
+      branchName = [];
+      for(let brdata of this.branchAssignModel){
+        if(brdata.branchPinCneeCnorMap.length==0){
+          branchName.push(brdata.bkngBranchName);
+        }
+      }
+      this.tosterservice.info('Please Map Customer Location For '+ branchName.toString());
     }
   
 }
@@ -1499,7 +1433,8 @@ onchangeReasonBkg(value){
     value.dlvryBranchHoldFlag=1;}
 
 branchAssignment() {
-  let branchAssign: any = {
+  console.log("this.model.id",this.model.id);
+  let assignBranch: any = {
     ratecardId:this.model.id,
     billableWghtFlag:0,
     bkngBranchHoldFlag:0,
@@ -1507,37 +1442,27 @@ branchAssignment() {
     effectiveDt:this.model.effectiveDt,
     expDt:'',
     branchPinCneeCnorMap: [],
-    billtoAddrList: [],
-    entityId : (this.rateCardApplicableFlag) ? this.model.id : AppSetting.contractId,
-    entityType : (this.rateCardApplicableFlag) ? 'RateCard' : 'SFX',
-    newBranch: true
+    newBranch: true,
+    isValidBranchEffectiveDt: false,
+    isValidBranchExpiryDt: false
   };
-  if(!this.branchAssignModel) {
-    this.branchAssignModel=[]; 
-  }
+  if(!this.branchAssignModel)
+    this.branchAssignModel=[];
   
   let isCCAddedInLastBranch=false;
   if(this.branchAssignModel.length>0){
     if(this.branchAssignModel[this.branchAssignModel.length-1].branchPinCneeCnorMap.length>0){
       isCCAddedInLastBranch=true;
-}
+    }
   }else{
     isCCAddedInLastBranch=true;
   }
 
-    if(isCCAddedInLastBranch) {this.branchAssignModel.push(branchAssign);}else{
-      let temp = [];
-      this.branchAssignModel.forEach(obj => {
-       if(obj && obj.branchPinCneeCnorMap.length == 0){
-         temp.push(obj.bkngBranchName);
-       }
-     })
-      this.tosterservice.info(`Please Map Customer Location on Branch  ${temp} !`);
+    if(isCCAddedInLastBranch) {this.branchAssignModel.push(assignBranch);}else{
+      this.tosterservice.info('Please Map Customer Location For ' +this.branchAssignModel[this.branchAssignModel.length-1].bkngBranchName);
     }
 }
 
-isValidBranchEffectiveDt:boolean = false;
-isValidBranchExpiryDt:boolean = false;
 isValidflfcDate:boolean = false;
 isValidIncrDate:boolean = false;
 isValidInsuranceDate:boolean = false;
@@ -1766,7 +1691,7 @@ insuValidDate(modeltnc) {
      if(this.five)this.five.close();
      if(this.six)this.six.close();
      if(this.seven)this.seven.close();
-     //if(this.eight)this.eight.close();
+     if(this.eight)this.eight.close();
      this.clearAllRateCardPageForms();
     this.contractservice.getRateCardDetail(AppSetting.contractId,this.editflow)
       .subscribe(success => {
@@ -1775,13 +1700,12 @@ insuValidDate(modeltnc) {
         this.carddetail = success.data.responseData;
         console.log(this.carddetail, 'carddetails')
          this.spinner.hide();
-        //  this.getAssignBranchdata(this.rateCardApplicableFlag);
         for (var item of this.carddetail) {
-          item["showRctoggle"] = this.showRctoggle;
+          item["showRctoggle"] = false;
           // item["baseLocnBranchName"]= item.baseLocnBranchName;
           // item["baseLocnBranchId"] = item.baseLocnBranchId;
-                    this.rateCardDetails.push(item)
-                  }
+              this.rateCardDetails.push(item)
+        }
         this.rateCardDetails.sort((a, b) => a.id - b.id); 
         for (var item of success.data.referenceData.zoneMatrixList) {
           this.zoneMatrix.push(item)
@@ -1835,7 +1759,6 @@ isBranchCopy = false;
 isSlaCopy = false;
 isVmiCopy = false;
 isTncCopy = false;
-showRctoggle:boolean;
 showCommercialData:boolean = false;
 isFCopyRc:boolean;
 isCopyRc:boolean;
@@ -1964,19 +1887,6 @@ putRatecard(data){
     }
     return isNotDuplicateRc;
   }
-  isValidForm: boolean;
-  checkboxValidation(element){
-    console.log(element.checked, 'print element')
-    if(element.checked==true){
-      this.isValidForm = true;
-      return true;
-    }
-    else{
-      this.isValidForm = false;
-      return false;
-    }
-
-  }
   postRateCardDetail(type) {
     this.spinner.show();
     var data = {     
@@ -1992,9 +1902,6 @@ putRatecard(data){
       "serviceOffering": this.model.serviceOffering,
       "status": this.model.status,
       "zoneMtxId": this.model.zoneMtxId,
-      "paidFlag": this.model.paidFlag ? 1 : 0 ,
-      "toPayFlag": this.model.toPayFlag ? 1 : 0 ,
-      "focFlag": this.model.focFlag ? 1 : 0 ,
       "id":0
     };
     if(this.model.id){data.id=this.model.id;}
@@ -2032,8 +1939,8 @@ putRatecard(data){
         }
         else if(type=='save'){
           this.ratecard.resetForm();
-          this.changeState1();
           this.getRateCardDetail();
+          this.changeState1();
         }
 
       }else {
@@ -2216,7 +2123,9 @@ createFreshSafexChargeBkg(isType){
             data.calUnitName = unit.lookupVal
           }
         }
-  
+      //   for(let ppData of this.ReferenceDataModel.pricingParam){
+          
+      // }
       this.changeRRFlagPPEdit(data.rrFlag,data);
 
     }
@@ -2399,6 +2308,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         if(ob.isSuccess){
         this.commercial = success.data.responseData;
         this.commercialRef = success.data.referenceData;
+        console.log(this.commercial, 'print commercial surface')
           if (callFromCmdmnt) {
             if (this.commercial.length == 0 && this.rcCmdLevel == "COMMERCIAL LEVEL") {
               this.tosterservice.error('No Commercial exists !!')
@@ -2433,13 +2343,14 @@ console.log(this.zonalrategroup,"zonalrate group")
               comm["oldComm"]=false;
             }
             for (let ref of success.data.referenceData.chargeByList) {
+              console.log(ref, 'print chargebyname')
               if (comm.lkpChrgById == ref.id) {
                 comm["chargeByName"] = ref.lookupVal;
               }
             }
             if (comm.lkpPackTypeId) {
               for (let ref of success.data.referenceData.packagingTypeList) {
-                console.log(ref, 'print ref')
+                console.log(ref, 'print reference value')
                 if (comm.lkpPackTypeId == ref.id) {
                   comm["packageName"] = ref.lookupVal;
                 }
@@ -2493,22 +2404,20 @@ console.log(this.zonalrategroup,"zonalrate group")
       }
     }
     this.contractservice.getCommandmentDetail('RATECARD', this.model.id, serviceOfferingId, this.businessTypeId, this.customerTypeId, this.editflow)
-      .subscribe(
-        resultData => {
-          let ob = ErrorConstants.validateException(resultData);
-          console.log(resultData);
-          if (ob.isSuccess) {
-            if(resultData.data.responseData.length>0)
-              this.isCommandmentAlreadyExist = true;
-          }else{
-            this.isCommandmentAlreadyExist = false;
-          }
-        },
+      .subscribe(resultData => {
+        let ob = ErrorConstants.validateException(resultData);
+        console.log(resultData);
+        if (ob.isSuccess) {
+          if(resultData.data.responseData.length>0)
+            this.isCommandmentAlreadyExist = true;
+        }else{
+          this.isCommandmentAlreadyExist = false;
+        }
+      },
         error => {
           this.spinner.hide();
-        }
-      );
-    
+        });
+    // error => { }
   }
   createDlvrBkgList(){
     if(this.successDataForCommer && this.successDataForCommer.safextCharge.length>0){
@@ -2601,22 +2510,21 @@ console.log(this.zonalrategroup,"zonalrate group")
   getAllStatesList() {
     this.contractservice.getAddrByState()
 
-      .subscribe(
-      success => {
+      .subscribe(success => {
         this.spinner.hide();
         this.stateAddr = success.data.responseData;
         this.stateMap = new Map();
-          this.stateAddr.forEach((ele) => {
-            ele.id = ele.id.toString()
-            this.stateMap.set(ele.id,ele.stateName);
-          });       
+        this.stateAddr.forEach((ele) => {
+        ele.id = ele.id.toString()
+        this.stateMap.set(ele.id,ele.stateName);
+      });
         
+        console.log(this.stateAddr, "state")
       },
-      error => {
+        error => {
           this.spinner.hide();
-      }
-      );
-   
+        });
+    // error => { }
 
   }
 
@@ -2642,7 +2550,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     if(srcType=='STATE' && from == 'src'){
       if(field.srcId){
         field.stateNamesfrom = this.covertStateIdToStateName(field.srcId);
-      }      
+      }
     }
     if(srcType=='STATE' && from == 'desc'){
       if(field.destId){
@@ -5156,9 +5064,11 @@ if(postData.safextDlvryCustomCharge.length>0){
             }
             if(item.attributeTypeId==1 || item.attributeTypeId==2){
                 if(item.attributeValue){
-                item.attributeValue = item.attributeValue.toUpperCase().split(',').map(function(item) {
-                  return item.trim();
-                });}
+                      item.attributeValue = item.attributeValue.toUpperCase().split(',').map(function(item) {
+                      return item.trim();
+                });
+                }
+              
             }
           this.notepadAttributesList.push(item)
         }
@@ -5416,7 +5326,7 @@ console.log("modeltnc post data"+this.modeltnc)
             this.getSLAById();
           }else{
             this.six.open();
-            this.getAssignBranchdata(this.rateCardApplicableFlag);
+            this.getAssignBranchdata();
           }
           this.spinner.hide();
       }else{
@@ -5444,9 +5354,9 @@ getFuelPriceAndDate()
         if(ob.isSuccess){
          this.fuelData=success.data.responseData;
          if(this.fuelData == undefined || this.fuelData.length==0){
-             this.modeltnc.fuelPrice=null;
+            this.modeltnc.fuelPrice=null;
          }
-     
+         //if(value)this.BaseFuelDate(this.modeltnc);
          this.spinner.hide();
       }
       else{
@@ -5457,7 +5367,7 @@ getFuelPriceAndDate()
       this.tosterservice.error(ErrorConstants.getValue(404));
       this.spinner.hide();
     });
-   }     
+  }     
 
   furlTypeChange(event){
     this.modeltnc.baseFuelDt=null;
@@ -5896,10 +5806,9 @@ getFuelPriceAndDate()
           this.slaForm.resetForm();
         }
         else if(type=='continue'){
-          this.isSlaCopy = false;
           this.seven.close();
-        //  this.eight.open();
-          this.getSLAById();
+          this.getVMIById();
+          this.eight.open();
         }
 	    }else{
         this.tosterservice.error(ob.message);
@@ -6122,13 +6031,15 @@ getFuelPriceAndDate()
   getAllAddress(){
     let tempdata;
     this.contractservice.getAddrByState()
-    .subscribe(
-      data => {
-        tempdata = data;
-        this.stateAddrSla = tempdata.data.responseData;
-        this.stateAddrSla.forEach((ele) => ele.id= ele.id.toString());
-        console.log(this.stateAddrSla, "state")
-      })   
+    .subscribe(data => {
+      tempdata = data;
+      this.stateAddrSla = tempdata.data.responseData;
+      this.stateAddrSla.forEach((ele) => ele.id= ele.id.toString());
+      console.log(this.stateAddrSla, "state")
+    },
+    error => { 
+      
+    });
   }
 
   changeRRFlagPP(rrFlag,fielddata){
@@ -6304,8 +6215,11 @@ getFuelPriceAndDate()
         if(ob.isSuccess){
           this.vmiList = []
           this.vmiDetails = success.data.responseData;
-          if(this.isCopyRateCard){
-            this.removeAllVmiIdsForCopy(this.vmiDetails);
+          if(this.isCopyRateCard && this.isVmiCopy){
+            if(this.vmiList.length>0){
+              this.tosterservice.info('Save To Copy All VMI ! ');
+              this.removeAllVmiIdsForCopy(this.vmiDetails);
+            }
           }
           this.vmiDetails.referenceList = success.data.referenceData;
 	        this.vmiList = this.vmiDetails;  
@@ -6380,6 +6294,7 @@ getFuelPriceAndDate()
         if(ob.isSuccess){
         console.log(success.data.responseData, "branch status");
         this.isCopyRateCard = false;
+        this.isVmiCopy = false;
         this.spinner.hide();
         this.eight.close()
         this.tosterservice.success("Saved Successfully");
@@ -6433,9 +6348,9 @@ getFuelPriceAndDate()
           this.spinner.hide();
         } else {
           if (this.editflow) {
-            this.router.navigate(['/prc-contract/billing', {steper:true, 'editflow': 'true' }], {skipLocationChange : true});
+            this.router.navigate(['/contract/billing', {steper:true, 'editflow': 'true' }], {skipLocationChange: true});
           } else {
-            this.router.navigate(['/prc-contract/billing'], {skipLocationChange : true});
+            this.router.navigate(['/contract/billing'], {skipLocationChange: true});
           }
         }
       } else {

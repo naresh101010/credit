@@ -2,18 +2,21 @@
 <div class="hero-content">
   <div class="row text-left parent">      
         <div class="breadcrumb">
-          <a routerLink="/prc-contract/prc"  target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-          <a routerLink="/prc-contract/prc"  target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-          <a routerLink="/prc-contract/prc"  target="_self">Customer</a><span class="fa fa-caret-right"></span>
-          PRC
+          <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+          <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+          <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+          CREDIT
       </div>
       <stepper></stepper>
     </div>
-  <h3>PRC Contract</h3> 
+  <h3>Credit Contract</h3> 
   <div id="mat-card-heading" fxLayout="row"  *ngFor="let user of msa.responseData" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span class="customerName" [matTooltip]="user.custName" [matTooltipDisabled]="user.custName.length<30" matTooltipPosition="above">{{user.custName}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{user.sfdcAccId}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{sfxCode}}</em></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span>
+        <span class="row_center salesForceWidth" 
+        [matTooltip]="user.custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="user.custName?.length<33">{{user.custName}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span>
+        <span class="row_center salesForceWidth">{{user.sfdcAccId}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center salesForceWidth">{{sfxCode}}</em></div>
     </div> 
     <mat-card>
       <!-- sfx -->
@@ -25,7 +28,22 @@
               <div class="col-lg-6 col-md-6 label-text-value" >              
                 {{user.pan}} </div>
             </div>
-    
+            <div class="row">
+              <div class="col-lg-6 col-md-6 label-text">Contact Person</div>
+              <div class="col-lg-6 col-md-6 label-text-value" >
+                {{user.contactPerson}}</div>
+            </div> 
+                     
+            <div class="row">
+              <div class="col-lg-6 col-md-6 label-text">Contact No. (L)</div>
+              <div class="col-lg-6 col-md-6 label-text-value mNo"> {{ user.phone }}</div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 label-text">Contact No. (M)</div>
+              <div class="col-lg-6 col-md-6 label-text-value mNo"  >
+                {{user.mobile}}
+              </div>
+            </div> 
             <div class="row">
               <div class="col-lg-6 col-md-6 label-text">GSTIN</div>
               <div class="col-lg-6 col-md-6 label-text-value"  > {{user.gstinNum}}</div>
@@ -67,41 +85,43 @@
                 </div>  
               <div class="row">
                 <div class="col-lg-6 col-md-6 col-sm-6 col-md-6">
+                  <app-validation-msg *ngIf="(baseLocation.errors?.required && baseLocation.touched) && !(baseLocationError==true)" [msg]="'Required !'"></app-validation-msg>
                   <app-validation-msg  *ngIf="(baseLocationError==true)" [msg]="'Enter min. 3 character !'"></app-validation-msg>
                 </div>
-                <div class="col-lg-6 col-md-6 col-sm-6 col-md-6">
-                  <app-validation-msg *ngIf="(baseLocation.errors?.required && baseLocation.touched) && !(baseLocationError==true)" [msg]="'Required !'"></app-validation-msg>
-                </div>
+                <div class="col-lg-6 col-md-6 col-sm-6 col-md-6"></div>
               </div>          
           </div>
           <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3"></div>
           <div class="col-lg-5 col-md-5 col-sm-5 col-xl-5">          
             <div class="col-lg-6 col-md-6"></div>
             <div class="col-lg-6 col-md-6"></div>
-    
+            <div class="row">
+              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Salesforce Monthly Potential (Air)</div>
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value">{{user.sfdcMnthPotentialAir}} </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Salesforce Monthly Potential (Surface)</div>
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value">{{user.sfdcMnthPotentialSurface}}  </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Salesforce Monthly Potential (3PL)</div>
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value"> {{user.sfdcMnthPotential3pl}}
+                 </div>
+            </div>
             <div class="row">
               <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Account Type</div>
               <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value">
                   {{user.accType}}
               </div>
             </div>
-    
             <div class="row">
-              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Contact Person</div>
-              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value" style="overflow: hidden !important;"  [matTooltip]="user.contactPerson"  matTooltipPosition="above" >
-                {{user.contactPerson}}</div>
-            </div> 
-                     
-            <div class="row">
-              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Contact No. (L)</div>
-              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value"> {{ user.phone }}</div>
+              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Monthly Potential</div>
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value">{{user.monthlyPotential}}  </div>
             </div>
             <div class="row">
-              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Contact No. (M)</div>
-              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value"  >
-                {{user.mobile}}
-              </div>
-            </div> 
+              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Credit Limit</div>
+              <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value">{{user.creditRisk}}</div>
+            </div>
 
             <div class="row">
               <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">Email</div>
@@ -111,11 +131,12 @@
             </div>
 
             <div class="row">
-              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">SLA (%)</div>
+              <div class="col-lg-7 col-md-7 col-xs-7 col-sm-7 label-text">SLA (%)<span style="color: red;"> *</span></div>
               <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5 label-text-value">
-                  <div class="form-group marginBottomone">
-                  <input autocomplete="true" id="inputtext" type ="text" #sla1='ngModel' class="inputBox form-control input-field padding-left"  name="sla"  [(ngModel)]="user.sla" maxlength="4" pattern="^[0-9][0-9]*$">                 
+                  <div class="form-group">
+                  <input autocomplete="true" id="inputtext" type ="text" required #sla1='ngModel' class="inputBox form-control input-field padding-left"  name="sla"  [(ngModel)]="user.sla" maxlength="4" pattern="^[0-9][0-9]*$">                 
                       </div>
+                        <app-validation-msg *ngIf="(sla1.errors?.required && sla1.touched)" [msg]="'Required !'"></app-validation-msg>
                         <app-validation-msg  *ngIf="(sla1.errors?.pattern && sla1.touched && !sla1.errors?.required)" [msg]="'Only Numbers Allowed !'"></app-validation-msg>
                       </div>
             </div>           

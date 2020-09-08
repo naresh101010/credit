@@ -24,7 +24,7 @@ import { Validation } from 'src/app/shared/validation';
   })
   export class MsacreationComponent implements OnInit {
 
-    accTypeIgnoreList = ['CREDIT','3PL', 'TRANSPORTATION+3PL', 'FTL'];
+    
 
     regexp = new RegExp(/^[a-zA-Z]*$/);
     contactPerson: boolean;
@@ -127,10 +127,10 @@ constructor(private sharedSearchdata: DataService,
        this.sharedSearchdata.changeMessage(new modelMSA())
        this.segmentDropdownList=this.referenceData.segmentList;
        this.referenceData.contractTypeList.forEach(accType => {
-         if(!this.accTypeIgnoreList.includes(accType.lookupVal)) {
-          this.accountTypeDropdownList.push(accType);
-         }
-       });
+        if(accType.lookupVal!=='PRC' && accType.lookupVal!=='RETAIL') {
+         this.accountTypeDropdownList.push(accType);
+        }
+      });
        this.consignTypeList=this.referenceData.consignType;
        this.createSubSegmentDownList();      
        if(this.msaSelectedData!=undefined && this.msaSelectedData.msaCustAddrs!=undefined && this.msaSelectedData.msaCustAddrs.length !=0 ){
@@ -210,7 +210,6 @@ onClear(module) {
   this.baseLocationError = false;
 } else if (module === 'PINCODE') {
   this.pincodeError=false;
-  this.regAddress.pincodeId = '';
 }
 }
 
@@ -218,9 +217,6 @@ clickBodyElem(event) {
   this.baseLocationError = false;
   this.pincodeError=false;
  }
-onBlur(){ 
-  this.pincodeError=false;  
-}
 panChk=false;
 onPanChange(num){
   this.panChk= Validation.panValidation(num);
@@ -277,7 +273,6 @@ segmentFlg(){
       var re = /^[0-9]+$/;
       this.pastedText = Number(event.clipboardData.getData('text'));
       if(re.test(this.pastedText)){
-        console.log('test')
       }
       else{
         event.preventDefault();
@@ -327,7 +322,7 @@ segmentFlg(){
                       this.tosterservice.success("Partially saved: Consigner consignee not mapped!");
                     }
 
-          this.router.navigate(['/prc-contract/msaopportunity'], {skipLocationChange : true});
+          this.router.navigate(['contract/msaopportunity'], {skipLocationChange: true});
       
           }else {
             this.tosterservice.error(data.errors.error[0].description);
@@ -402,7 +397,7 @@ getConsigneeConsignerData() {
       data: {AddressType: this.AddressType,concneeList: JSON.parse(JSON.stringify(ELEMENT_POST_DATA))}
     });
     dialogRef.afterClosed().subscribe(result => {
-      debugger
+      
       let temp:any[] = [...this.dataSource.data, ...ELEMENT_POST_DATA]
       ELEMENT_POST_DATA = temp;
       this.dataSource = new MatTableDataSource(temp);  
@@ -434,7 +429,7 @@ displayedColumns: string[] = [ 'name', 'lkpConsigntypeName', 'panNum', 'gstinNum
 dataSource = new MatTableDataSource(ELEMENT_DATA);
     
 pincodeData:any = [];
-pincodeError:boolean = false;
+pincodeError:any;
 pincodeSearch(str){ 
   if(str.term.length>6){
   console.log(str, 'print str')
@@ -500,7 +495,6 @@ var ELEMENT_POST_DATA: Element[] = [];
       var re = /^[0-9]+$/;
       this.pastedText = Number(event.clipboardData.getData('text'));
       if(re.test(this.pastedText)){
-        console.log("test")
       }
       else{
         event.preventDefault();
@@ -517,12 +511,12 @@ var ELEMENT_POST_DATA: Element[] = [];
     //end
     constructor(
       public dialogRef: MatDialogRef<ConsignorAddition>,
-      @Inject(MAT_DIALOG_DATA) public data: DialogData,private spinner: NgxSpinnerService, private tosterservice: ToastrService, private formBuilder: FormBuilder, public dialog: MatDialog, private _contractService: ContractService, private router: Router, private ChangeDetectorRef_: ChangeDetectorRef) { }
+      @Inject(MAT_DIALOG_DATA) public data: DialogData,private spinner: NgxSpinnerService, private tosterservice: ToastrService, private formBuilder: FormBuilder, public dialog: MatDialog, private _contractService: ContractService, private router: Router, private ChangeDetectorRef: ChangeDetectorRef) { }
     //for consignor and consignee
     AddressType:any[];
     concneeList:any[];
     ngOnInit() {
-      debugger
+      
       ELEMENT_POST_DATA = []
       this.dataSource1 = null
       this.AddressType = this.data.AddressType;
@@ -541,9 +535,10 @@ var ELEMENT_POST_DATA: Element[] = [];
     }
     removeData(vall, j) {
       
-   
+      // for (let i = 0; i < ELEMENT_POST_DATA.length; i++) {
+      // }
       ELEMENT_POST_DATA.splice(j, 1);
-      this.ChangeDetectorRef_.detectChanges();
+      this.ChangeDetectorRef.detectChanges();
       this.dataSource1 = new MatTableDataSource(ELEMENT_POST_DATA);
   
     }
@@ -570,9 +565,9 @@ var ELEMENT_POST_DATA: Element[] = [];
    
     PanChk=false;
     panLength=false;
-    onPanChange(num){
+    onPanChange(num) {
       if(num.length>0) {
-      this.PanChk= Validation.panValidation(num);
+        this.PanChk= Validation.panValidation(num);
         this.panLength = true;
       } else {
         this.panLength = false;
@@ -592,18 +587,11 @@ var ELEMENT_POST_DATA: Element[] = [];
     }
 
     GstinChk=false;
-    gstLength=false;
     onGstinChange(num){
-      if(num.length>0) {
-        this.GstinChk= Validation.gstinValidation(num);
-        this.gstLength = true;
-        } else {
-          this.gstLength = false;
-          this.GstinChk = false;
-    }}
+      this.GstinChk= Validation.gstinValidation(num);
+    }
     clearAddresValues(){
       this.model.Address=null;
-      this.onClear();
     }
     searchAddress(str){ 
       console.log(str)
@@ -660,7 +648,7 @@ var ELEMENT_POST_DATA: Element[] = [];
       }
     }
     addElement(valid,form) {
-      if(valid){
+      if(valid) {
         let tempPin  = this.model.pincode;
         this.model.pincode = '';
         this.spinner.show();
@@ -693,9 +681,9 @@ var ELEMENT_POST_DATA: Element[] = [];
               if(this.model.tanNum)
                 this.model.tanNum=this.model.tanNum.toUpperCase();
               if(this.model.gstinNum)
-              this.model.gstinNum=this.model.gstinNum.toUpperCase();
+                this.model.gstinNum=this.model.gstinNum.toUpperCase();
               if(this.model.panNum)
-              this.model.panNum=this.model.panNum.toUpperCase();
+                this.model.panNum=this.model.panNum.toUpperCase();
 
               let dataList ={
                 name: this.model.name, lkpConsigntypeId: this.model.lkpConsigntypeId,
@@ -752,7 +740,7 @@ var ELEMENT_POST_DATA: Element[] = [];
   
     }
     pincodeData:any;
-    pincodeError:boolean = false;
+    pincodeError:any;
     pincodeSearch(str){ 
       if(!this.isAddressChecked){
       if(str){
@@ -794,16 +782,11 @@ var ELEMENT_POST_DATA: Element[] = [];
     onClear(){
       this.address1Error = false;
       this.pincodeError=false;
-      this.model.pincode = '';
-
     }
-  
-   clickBodyElem(event) {
+
+    clickBodyElem(event) {
       this.pincodeError=false;
      }
-    onBlur(){
-      this.pincodeError=false;
-    }
   
   saveMsa() {
       console.log("savemsa called");
@@ -908,7 +891,6 @@ var ELEMENT_POST_DATA: Element[] = [];
     var re = /^[0-9]+$/;
     this.pastedText = Number(event.clipboardData.getData('text'));
     if(re.test(this.pastedText)){
-      console.log("test")
     }
     else{
       event.preventDefault();

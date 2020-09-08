@@ -69,7 +69,7 @@ export class CommandmentComponent implements OnChanges {
     })
     return slabErrorFlag;  
   }
-  
+
   isValidCommandmentState() {
     let errorFlag = false;
     this.geoCmdmntCharge.forEach(data => {
@@ -483,7 +483,7 @@ export class CommandmentComponent implements OnChanges {
           }
         }
 
-           );
+          );
 
           this.spinner.hide();
         }, error => {
@@ -942,7 +942,6 @@ export class GeoWiseChargeDialogBox {
   stateList: Lookup[];
   cityList: Lookup[] = [];
   calcUnitList: Lookup[] = [];
-  minDate = new Date();
 
 
     @ViewChild('bottmScrollEl', null) bottmScrollEl: ElementRef;
@@ -1074,7 +1073,7 @@ getCityStart(stateId,index){
           }
           return comparison;
         });
-      }else {
+      } else {
         this.tosterService.error(ob.message);
         this.spinner.hide();
       }
@@ -1277,7 +1276,7 @@ getCityStart(stateId,index){
     }
   }
 
-  changeValue(index, column, value){
+  changeValue(index, column, value) {
     if (column === 'price') {
       let regex = /^\d*\.?\d{0,2}$/g;
       let exp = String(value).match(regex);
@@ -1400,26 +1399,26 @@ export class ExcludePinDialogBox {
     this.spinner.show();
     this.contractservice.getCityByStateNPinFeatureId(this.stateId,this.data.geoFeatureId).subscribe(
       
-    result => {
-     let ob = ErrorConstants.validateException(result);
-      if (ob.isSuccess) {
-        let cityData = [];
-        result.data.responseData.forEach(element => {
-          cityData.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
-        });
-        this.cityList = JSON.parse(JSON.stringify(cityData));
-      }else {
-        this.cityList = [];
-        this.tosterService.error(ob.message);
-      }
-      this.spinner.hide();
+      result => {
+        let ob = ErrorConstants.validateException(result);
+          if (ob.isSuccess) {
+            let cityData = [];
+            result.data.responseData.forEach(element => {
+              cityData.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
+            });
+            this.cityList = JSON.parse(JSON.stringify(cityData));
+          }else {
+            this.cityList = [];
+            this.tosterService.error(ob.message);
+          }
+          this.spinner.hide();
     },
     error=>{
       this.cityList = [];
       this.spinner.hide();
       console.log(error);
       this.tosterService.error(ErrorConstants.getValue(404));
-  }
+    }
 
     )}
 
@@ -1523,7 +1522,7 @@ export class ExcludePinDialogBox {
       } else {
         this.excludedPincodeList.push(element);
     }});
-      }
+  }
 
   changeAllInc(value) {
     if (value === true) {
@@ -1544,8 +1543,8 @@ export class ExcludePinDialogBox {
     } else {
       this.excludedPincodeList.forEach(element => {
         element.isChecked = false;
-    });
-  }
+      });
+    }
   }
   resetAllInc() {
     this.allPincodeList.forEach(element => {
@@ -1567,7 +1566,7 @@ export class ExcludePinDialogBox {
   saveExclusion() {
     this.dialogRef.close(this.excludedPincodeList);
   }
-  
+
   @HostListener('document:keydown', ['$event'])
     handleKeyboardEvent(event: KeyboardEvent) {
       if (event.keyCode === 27) { // esc [Close Dialog]
@@ -1578,7 +1577,7 @@ export class ExcludePinDialogBox {
         }
       }
   }
-  
+
   searchCtrl = '';
   searchCtrlCity = '';
   scrollActiveValue(){

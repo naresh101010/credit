@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener, SecurityContext, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ContractService } from '../contract.service';
 import { AppSetting } from '../../app.setting';
@@ -14,8 +14,6 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { HttpClient } from "@angular/common/http";
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
-import { DomSanitizer } from '@angular/platform-browser';
-import { StepperComponent } from '../stepper/stepper.component';
 
 export interface ccData {
   element: any;
@@ -29,7 +27,7 @@ export interface ccData {
   providers: []
 })
 export class OpportunityComponent implements OnInit {
-  @ViewChild(StepperComponent, null) stepper: StepperComponent;
+  
 
   //FORM VALIDATION
   registerForm: FormGroup;
@@ -43,7 +41,7 @@ export class OpportunityComponent implements OnInit {
   isDataAvailable:boolean;
   constructor(private spinner: NgxSpinnerService,private tosterservice: ToastrService, private formBuilder: FormBuilder, private router: Router, private contractservice: ContractService, private datePipe: DatePipe,
     private acrouter: ActivatedRoute,private dialog: MatDialog, private http: HttpClient,
-    private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService, private dom: DomSanitizer) { }
+    private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
   date: any;
   
   sfdcAccId = AppSetting.sfdcAccId;
@@ -55,11 +53,11 @@ export class OpportunityComponent implements OnInit {
 	searchCtrlSub = '';
   isDisable:boolean;
   // maxNewDate;
-sfxValue='New PRC';
-  SFXTypes = ['New PRC', 'Existing PRC']
+  sfxValue='New SFX';
+  SFXTypes = ['New SFX', 'Existing SFX']
   changeSfxType(type) {
     this.sfxValue = type;
-    if (type === 'Existing PRC') {
+    if (type === 'Existing SFX') {
       this.openDialogSFXSearch(AppSetting.msaCustId,type);
     }
   }
@@ -160,9 +158,6 @@ sfxValue='New PRC';
   }
 
   expDate() {
-    if (this.model.expDt === null) {
-      return;
-    }
     let expYear = parseInt(this.datePipe.transform(this.model.expDt, 'yyyy'))
     if (expYear > 9999) {
       this.model.expDt = "";
@@ -214,7 +209,7 @@ sfxValue='New PRC';
        result.opportunityId = AppSetting.oprtunityId;
        this.serviceAssignOppCntr(result,true);
       }else{
-        this.sfxValue='New PRC';
+        this.sfxValue='New SFX';
       }
       console.log('The dialog was closed');
     });
@@ -406,12 +401,7 @@ sfxValue='New PRC';
             this.model.segmentId= this.oportunity.responseData.contract.segmentId;
             this.model.subsegmentId= this.oportunity.responseData.contract.subsegmentId;
             this.model.desc = this.oportunity.responseData.contract.desc;
-            this.model.rateCardApplicableFlag = this.oportunity.responseData.contract.rateCardApplicableFlag ? 1 : 0;
-            AppSetting.rateCardApplicableFlag = this.model.rateCardApplicableFlag;
-
-            this.stepper.changeStapperlabel();
             if(this.model.effectiveDt){
-
               let a = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
               let e = new Date(a);
               e.setDate(e.getDate()+1);
@@ -436,7 +426,7 @@ sfxValue='New PRC';
           }else{
             this.model.id = null;
             for(let type of this.contractTypeList){
-                if (type.lookupVal == 'PRC') {
+              if(type.lookupVal=='CREDIT'){
                 this.model.cntrType = type.id;
                 this.model.cntrTypeValue = type.descr;
               }
@@ -450,7 +440,6 @@ sfxValue='New PRC';
             }
             this.model.directPickupFlag = 0;
             this.model.dlvryHoldFlag = 0;
-            this.model.rateCardApplicableFlag = 1;
             this.model.expDt=null;
             this.model.effectiveDt=null;
             this.model.cntrSignDt=null;
@@ -569,9 +558,9 @@ this.isDataAvailable=true;
       "lkpBizTypeId": this.model.lkpBizTypeId,
       "msaCustId": AppSetting.msaCustId,
       "opportunityId": AppSetting.oprtunityId,
+      "directPickupFlag": this.model.directPickupFlag,
       "segmentId": this.model.segmentId,
       "subsegmentId": this.model.subsegmentId,
-      "rateCardApplicableFlag": this.model.rateCardApplicableFlag,
     }
     
     if(this.editflow){
@@ -604,7 +593,7 @@ this.isDataAvailable=true;
           let ob = ErrorConstants.validateException(success);
         if (ob.isSuccess) {
           AppSetting.oprtunityId = success.data.responseData
-            this.tosterservice.success("PRC Linked Successfully !");
+          this.tosterservice.success("SFX Linked Successfully !");
           this.getOportunity(this.editflow,isNavigate);
         }
         else {
@@ -635,7 +624,7 @@ this.isDataAvailable=true;
           this.oportunity = {}
           if (this.isDisable) {
             this.tosterservice.info("CONTRACT TERMINATED !")
-            this.router.navigate(['prc-contract/'], { skipLocationChange: true });
+            this.router.navigate(['contract/'], { skipLocationChange: true });
           }else{
             this.tosterservice.success("Saved Successfully");
           }
@@ -664,14 +653,11 @@ this.isDataAvailable=true;
         "lkpBizTypeId": this.model.lkpBizTypeId,
         "msaCustId": AppSetting.msaCustId,
         "opportunityId": AppSetting.oprtunityId,
-        // "directPickupFlag": this.model.directPickupFlag,
+        "directPickupFlag": this.model.directPickupFlag,
         "segmentId": this.model.segmentId,
         "subsegmentId": this.model.subsegmentId,
-        "rateCardApplicableFlag": this.model.rateCardApplicableFlag,
       }
       
-      AppSetting.rateCardApplicableFlag = data.rateCardApplicableFlag;
-
       if(this.editflow){
         data["desc"] = this.model.desc;
         data["cntrCode"] = AppSetting.sfxCode;
@@ -751,9 +737,9 @@ this.isDataAvailable=true;
           this.oportunity = {}
           this.spinner.hide();
           if(this.editflow){
-                  this.router.navigate(['/prc-contract/service', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
-                } else {
-                  this.router.navigate(['/prc-contract/service'], { skipLocationChange: true });
+            this.router.navigate(['/contract/service', { steper:true,'editflow': 'true'}], {skipLocationChange: true});
+          }else{
+          this.router.navigate(['/contract/service'], {skipLocationChange: true});
           }
         }
         else {
@@ -769,7 +755,7 @@ this.isDataAvailable=true;
           this.tosterservice.info(messageForCCError);
         }
   }
-    getSubsegment(segmentId){
+  getSubsegment(segmentId){
     this.model.subsegmentId = null;
     this.contractservice.getSubsefmentBySegmentId(segmentId)
       .subscribe( subsegmentList => {
@@ -847,7 +833,7 @@ this.isDataAvailable=true;
         });
   }
   closeNRedirect(){
-    this.router.navigate(['prc-contract/'], { skipLocationChange: true });
+    this.router.navigate(['contract/'], {skipLocationChange: true});
   }
   submitTermNClose(){
 
@@ -861,9 +847,9 @@ this.isDataAvailable=true;
     });
   
     dialogRefEdit.afterClosed().subscribe(result => {
-      if(result) {
+      if(result){
         this.openDialog = false;
-        this.postOportunity();
+        this.postOportunity()
         this.editflow = false;
       }
       console.log('The dialog was closed with pinocde ' ,result);
@@ -887,35 +873,12 @@ this.isDataAvailable=true;
           console.log('result'+result);
           this.openDialogEditFlow();
         }else{
-        this.router.navigate(['/prc-contract/'], { skipLocationChange: true });
-      }
-        console.log('The dialog was closed');
-    });
-  }
-
-  rateCardAppchange(e) {
-    console.log(e);
-    if (!e && this.model.id !== null && this.model.id > 0) {
-      let temp = `<p class="popContent"> If you change Rate Card Applicable YES to NO , your existing Rate Card will be deleted. <p>
-        <p class="popHead"><strong>Do you want to change this? <strong> </p>`;
-      let dialogRef = this.dialog.open(InnerHtmlDialogComponent, {
-        width: '65rem',
-        disableClose: true,
-        // panelClass: 'creditDialog',
-        // backdropClass: 'backdropBackground'
-      });
-      dialogRef.componentInstance.htmlContent = this.dom.sanitize(SecurityContext.HTML, temp);
-      dialogRef.afterClosed().subscribe(value => {
-        if (value) {
-          this.model.rateCardApplicableFlag = 0;
-        } else {
-          this.model.rateCardApplicableFlag = 1;
-          console.log('Keep Open');
+          this.router.navigate(['contract/'], {skipLocationChange: true});
         }
+        console.log('The dialog was closed');
       });
     }
 
-  }
 }
 
 
@@ -936,53 +899,52 @@ export class SearchContractEdit {
     @Inject(MAT_DIALOG_DATA) public data: PopData, public router: Router,
     private spinner: NgxSpinnerService, private _contractService: ContractService, private tosterservice: ToastrService
     , private route: Router) { }
-  rateCardApplicableFlag =  AppSetting.rateCardApplicableFlag
+
   sfdcAccId = AppSetting.sfdcAccId;
   custName = AppSetting.customerName;
   cntrCode = AppSetting.sfxCode;
- 
   closeDialog() {
-
+    
     const dialogRefConfirm = this.dialog.open(confimationdialog, {
       width: '300px',
-      data: { message: 'Are you sure ?' },
+      data:{message:'Are you sure ?'},
       disableClose: true,
       panelClass: 'creditDialog',
       backdropClass: 'backdropBackground'
     });
 
     dialogRefConfirm.afterClosed().subscribe(value => {
-      if (value) {
+      if(value){
         this.dialogRefEdit.close();
-        this.router.navigate(['/prc-contract/'], { skipLocationChange: true });
-      } else {
+        this.router.navigate(['contract/'], {skipLocationChange: true});
+      }else{
         console.log('Keep Open');
       }
     });
   }
   contractTermRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/prc-contract/opportunity', { steper: true, 'termination': 'true' }], { skipLocationChange: true });
+    this.router.navigate(['/contract/opportunity', {steper:true, 'termination': 'true' }], {skipLocationChange: true});
   }
   newOffRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/prc-contract/service', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+    this.router.navigate(['/contract/service', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
   }
   newRateRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/prc-contract/ratecard', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+    this.router.navigate(['/contract/ratecard', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
   }
   generalEditRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/prc-contract/msa', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+    this.router.navigate(['/contract/msa', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
   }
   billingRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/prc-contract/billing', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+    this.router.navigate(['/contract/billing', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
   }
   docRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/prc-contract/documentupload', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+    this.router.navigate(['/contract/documentupload', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
   }
   ngOnInit() {
     this.spinner.hide();
@@ -1035,20 +997,3 @@ constructor(public contractservice: ContractService,
 }
 
 // dialog box
-
-@Component({
-  selector: 'app-innerhtml-dialog',
-  templateUrl: './areYouSure.html',
-  styleUrls: ['../core.css'],
-})
-export class InnerHtmlDialogComponent {
-  htmlContent: string;
-  constructor(public dialogRefConfirm: MatDialogRef<InnerHtmlDialogComponent>) {
-
-  }
-
-  submit(value) {
-    this.dialogRefConfirm.close(value);
-  }
-}
-

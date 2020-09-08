@@ -1,5 +1,5 @@
 <!-- panal -->
-<mat-card style="padding: .5rem;" class="prcContainer">
+<mat-card style="padding: .5rem;" class="contractContainer">
     <div style="position: relative;">
         <h3 id="h2">State Surcharges 
             <button type="submit" [disabled]="!fState.form.valid" (click)="addCharge()" [style.color]="!fState.form.valid ? '#CCC' : '#27AE60'" 
@@ -19,7 +19,7 @@
                                 <div class="tableBoxState marginBottom parent">
                                 <mat-form-field appearance="outline">
                                     <mat-select disableOptionCentering panelClass="creditSelect creditNgxSelect" [(value)]="element.stateId" required
-                                        (selectionChange)="getCity($event.value,i,false); updateList(i, 'stateId', $event.value)" (blur)="scrollActiveValue()">
+                                        (selectionChange)="getCity($event.value,i,false); updateList(i, 'stateId', $event.value)" (blur)="scrollActiveValue()" >
                                         <ngx-mat-select-search [(ngModel)]="searchCtrl" [placeholderLabel]="'Search...'"
                                         [noEntriesFoundLabel]="'Not found'" name="search">
                                         <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
@@ -97,7 +97,7 @@
                                 <div class="tableBoxState marginBottom" style="width: 18rem !important;">
              <mat-form-field appearance="outline" id="datepick">
                  <input  matInput [matDatepicker]="picker2"  (dateChange)="updateList(i, 'expDt', $event.target.value)" class="date_picker"
-                  placeholder="DD/MM/YYYY" [(value)]="element.expDt" [min]="minDate">
+                  placeholder="DD/MM/YYYY" [(value)]="element.expDt" >
                  <mat-datepicker panelClass="creditDatepicker" #picker2></mat-datepicker>
                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                </mat-form-field>

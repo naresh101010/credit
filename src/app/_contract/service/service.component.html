@@ -3,21 +3,22 @@
 <div class="hero-content">
   <div class="row text-left parent">      
   
-        <div class="breadcrumb">
-          <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-          <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-          <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-          PRC
-      </div>
+    <div class="breadcrumb">
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      CREDIT
+  </div>
       <stepper></stepper>
     </div>
   
-  <h3>PRC Contract</h3>
+  <h3>Credit Contract</h3>
   <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span>
-        <span class="customerName" [matTooltip]="custName" [matTooltipDisabled]="custName.length<30" matTooltipPosition="above">{{custName}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{sfdcAccId}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{sfxCode}}</em></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center salesForceWidth" 
+      [matTooltip]="custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="custName?.length<33">{{custName}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center salesForceWidth">{{sfdcAccId}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center salesForceWidth">{{sfxCode}}</em></div>
+   
     </div>
   
   <mat-card  style="box-shadow: none;">
@@ -28,7 +29,7 @@
           <div class="col-lg-6 col-md-6 label-text">Service Line<span style="color: red;"> *</span></div>
           <div class="col-lg-6 col-md-6 label-text-value">              
           <mat-form-field appearance="outline" style="width: 88%;">
-          <mat-select disableOptionCentering panelClass="creditSelect" required #serLine='ngModel' [disabled]="isDisabled" placeholder="Select Option" name ="lkpServiceLineId" [(ngModel)]="model.lkpServiceLineId" >
+          <mat-select disableOptionCentering panelClass="creditSelect" required #serLine='ngModel' [disabled]="isDisabled"  placeholder="Select Option" name ="lkpServiceLineId" [(ngModel)]="model.lkpServiceLineId" >
             <mat-option (click)=getServiceOfering(item.id,true) *ngFor="let item of servicelinelist | sortBy:'asc':'lookupVal'" [value]="item.id" 
             [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<22" matTooltipPosition="above">
               {{item.lookupVal}}

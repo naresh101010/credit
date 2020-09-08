@@ -6,37 +6,34 @@
   <a (click)="getRateCardDetail()" class="close" data-dismiss="alert" aria-label="close">&times;</a>Copy Rate Card !
 </div>
 <!-- End of blink message -->
-<div class="hero-content prcContainer">
+<div class="hero-content contractContainer">
   <div class="row text-left parent">
     <div class="breadcrumb">
-      <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-      PRC
-    </div>
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      CREDIT
+  </div>
     <stepper></stepper>
   </div>
-  <h3>PRC Contract</h3>
-  <div id="mat-card-heading" fxLayout="row"
-    fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start"
+  <h3>Credit Contract</h3>
+  <div id="mat-card-heading" fxLayout="row"  fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" 
     class="mat-card-header-container">
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span>
-      <span class="customerName" [matTooltip]="custName" [matTooltipDisabled]="custName.length<30" matTooltipPosition="above">{{custName}}</span></div>
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id :
-      </span><span>{{sfdcAccId}}</span></div>
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{sfxCode}}</em>
-    </div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center salesForceWidth" 
+      [matTooltip]="custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="custName?.length<33">{{custName}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center salesForceWidth">{{sfdcAccId}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center salesForceWidth">{{sfxCode}}</em></div>
+   
   </div>
   <mat-card>
     <div>
       <mat-accordion multi="true">
-        <mat-expansion-panel id="box-shadow" *ngIf="rateCardApplicableFlag" #first [disabled]="isExpanded"
-          (opened)="openRateCard()" (closed)="closeRateCard()" [expanded]="true">
+        <mat-expansion-panel id="box-shadow" #first [disabled]="isExpanded" (opened)="openRateCard()" (closed)="closeRateCard()" [expanded]="true">
           <mat-expansion-panel-header (click)="getRateCardDetail()" style="cursor: pointer;">
             <img class="rcIcon" [src]="first.expanded ? '/assets/images/rc_green.png': '/assets/images/rc_gray.png'" alt="Rate Card"> Rate Card {{RateCardName}}
           </mat-expansion-panel-header>
           <mat-card-content>
-            <!-- boxes -->
+            <!-- boxes -->          
             <div class="commercialboxflex" *ngxPermissionsOnly="['RATE CARD_READ']" style="margin-top: 1rem !important;">
               <div *ngIf="rateCardDetails.length>0" class="flexproperty" (clickOutside)="clickBodyElem($event)" [exclude]="'.futureCard'">
               <div *ngFor="let data of rateCardDetails">
@@ -82,16 +79,15 @@
                 <p class="addNewText" >Add New</p>
               </div>
             </div>
-           
+           <!--  -->
           </div>
           </mat-card-content>
         </mat-expansion-panel>
 
         <form name="ratecard" (ngSubmit)="fRatecard.form.valid" #fRatecard="ngForm" novalidate *ngxPermissionsOnly="['RATE CARD_READ']" class="rateCardDetail">
-         <mat-expansion-panel id="box-shadow" [disabled]="isExpanded" *ngIf="rateCardApplicableFlag" #second
-            (opened)="openRateCardDetail()" (closed)="closeRateCardDetail()">
-            <mat-expansion-panel-header (click)="openRateCardDetailClick()" style="cursor: pointer;">
-             <img class="rcIcon" [src]="second.expanded ? '/assets/images/rcd_green.png': '/assets/images/rcd_gray.png'" alt="Rate Card"> Rate Card Detail</mat-expansion-panel-header>
+        <mat-expansion-panel id="box-shadow"  [disabled]="isExpanded" #second (opened)="openRateCardDetail()" (closed)="closeRateCardDetail()">
+          <mat-expansion-panel-header  (click)="openRateCardDetailClick()" style="cursor: pointer;" >
+            <img class="rcIcon" [src]="second.expanded ? '/assets/images/rcd_green.png': '/assets/images/rcd_gray.png'" alt="Rate Card"> Rate Card Detail</mat-expansion-panel-header>
           <mat-card-content>
             <div>
               <div class="row margintop10">
@@ -137,34 +133,38 @@
                         <mat-datepicker panelClass="creditDatepicker" #picker></mat-datepicker>
                         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                       </mat-form-field>
-                      
+                      <span *ngIf="isValidStartDt" class="hasErrorMsgRightSide">
+                        Invalid Start Date&nbsp;!
+                      </span>
                     </div>
                   </div>
 
                   <div class="row">
                     <div class="col-lg-6 col-md-6  "></div>
                     <div class="col-lg-6 col-md-6  ">
-                      <app-validation-msg *ngIf="isValidStartDt && !RCDdatee.errors?.required" [msg]="'Invalid Start Date&nbsp;!'"></app-validation-msg>
                       <app-validation-msg *ngIf="(RCDdatee.errors?.required && RCDdatee.touched)" [msg]="'Required !'"></app-validation-msg>
                     </div>
                   </div>
                  
                   <div class="row">
-                    <div class="col-lg-6 col-md-6 label-text">Rate Card End Date</div>
+                    <div class="col-lg-6 col-md-6 label-text">Rate Card End Date<span class="redMark"> *</span></div>
                     <div class="col-lg-4 col-md-4 label-text-value">
                       <mat-form-field appearance="outline" id="datepickerwidth">
                         <input matInput  autocomplete="true" [matDatepicker]="picker3" name="expDt" class="date_picker"
-                          #RCEdate='ngModel' [(ngModel)]="model.expDt" placeholder="DD/MM/YYYY" [min]="mindateRCExp" [max]="maxDate" (blur)="endDate(model.expDt)" (dateChange)="endDate(model.expDt)">
+                          required #RCEdate='ngModel'  [(ngModel)]="model.expDt" placeholder="DD/MM/YYYY" [min]="mindateRCExp" [max]="maxDate" (blur)="endDate()" (dateChange)="endDate()">
                         <mat-datepicker panelClass="creditDatepicker" #picker3></mat-datepicker>
                         <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
                       </mat-form-field>
+                      <span *ngIf="isValidEndDt" class="hasErrorMsgRightSide">
+                        Invalid End Date&nbsp;!
+                      </span>
                     </div>
                   </div>
 
                   <div class="row">
-                    <div class="col-lg-6 col-md-6"></div>
-                    <div class="col-lg-6 col-md-6">
-                    <app-validation-msg *ngIf="isValidEndDt" [msg]="'Invalid End Date&nbsp;!'"></app-validation-msg>
+                    <div class="col-lg-6 col-md-6  "></div>
+                    <div class="col-lg-6 col-md-6  ">
+                    <app-validation-msg *ngIf="(RCEdate.errors?.required && RCEdate.touched)" [msg]="'Required !'"></app-validation-msg>
                     </div>
                   </div>
                   
@@ -223,8 +223,10 @@
                   <div class="col-lg-6 col-md-6"></div>
                   <div class="row" >
                     <div class="col-lg-6 col-md-6 label-text">Status</div>
-                    <div class="col-lg-6 col-md-6 label-text-value">
-                      ACTIVE</div>
+                    <div class="col-lg-6 col-md-6 label-text-value" *ngIf="model.isStgRc || sfxCode === 'NOT GENERATED YET' || !model.rateCardCode || model.rateCardCode===null">
+                    DRAFT </div>
+                    <div class="col-lg-6 col-md-6 label-text-value" *ngIf="!model.isStgRc && sfxCode !== 'NOT GENERATED YET' && model.rateCardCode && model.rateCardCode !== null">
+                      ACTIVE </div>
                   </div>
                   <!-- Service Offering -->
                   <div class="row margintop10" >
@@ -290,23 +292,9 @@
                     <div class="col-lg-6 col-md-6  "></div>
                     <div class="col-lg-6 col-md-6  ">
                       <p *ngIf="(commandment.errors?.required && commandment.touched)" class="redMark">Required !</p>
+                    </div>
+                  </div>
 
-                      </div>
-                    </div>
-                    <div class="row commandmentspace" style="width: fit-content;">
-                      <div class="col-lg-6 col-md-6 label-text">Payment Mode<span class="redMark"> *</span></div>
-                      <div class="col-lg-6 col-md-6 label-text-value paddingleftzero">
-                        <mat-checkbox  labelPosition="before" name="paidFlag" #paidFlag="ngModel" [(ngModel)]="model.paidFlag" >Paid</mat-checkbox>
-                        <mat-checkbox  labelPosition="before" name="toPayFlag" #toPayFlag="ngModel" [(ngModel)]="model.toPayFlag">To Pay</mat-checkbox>
-                        <mat-checkbox labelPosition="before" name="focFlag" #focFlag="ngModel" [(ngModel)]="model.focFlag">FOC</mat-checkbox>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col-lg-6 col-md-6"></div>
-                      <div class="col-lg-6 col-md-6">
-                        <span  class="redMark" style="font-style: normal !important;" *ngIf="(!model.paidFlag && !model.toPayFlag && !model.focFlag)">Required !</span>
-                      </div>
-                    </div>
                 </div>
               </div>
             </div>
@@ -314,9 +302,9 @@
               <mat-accordion>
                 <div class="example-button-row text-center" style="margin-top: 2%">
                   <button id="rateCardDraftButton" *ngIf="!isCopyRateCard" class="btn1" mat-raised-button color="primary" type="submit"
-                  (click)="postRateCardDetail('save')" [disabled]="!fRatecard.form.valid || (!model.paidFlag && !model.toPayFlag && !model.focFlag)">Save and Create New Rate Card</button>
+                  (click)="postRateCardDetail('save')" [disabled]="!fRatecard.form.valid">Save and Create New Rate Card</button>
                   <button id="rateCardNextButton" class="btn1" type="submit" mat-raised-button color="primary"
-                    (click)="postRateCardDetail('continue')" [disabled]="!fRatecard.form.valid || (!model.paidFlag && !model.toPayFlag && !model.focFlag)">Continue</button>
+                    (click)="postRateCardDetail('continue')" [disabled]="!fRatecard.form.valid">Continue</button>
                 </div>
               </mat-accordion>
             </div>
@@ -325,11 +313,9 @@
 
         </form>
 
-        <mat-expansion-panel id="box-shadow" [disabled]="isExpanded" *ngIf="rateCardApplicableFlag" #third
-          (opened)="openCommercialSurface()" (closed)="closeCommercialSurface()">
-          <mat-expansion-panel-header style="cursor: pointer;" (click)="getCommercialDetail(false)"
-            *ngxPermissionsOnly="['COMMERCIAL_READ']">
-           <img class="rcIcon" [src]="third.expanded ? '/assets/images/com_green.png': '/assets/images/com_gray.png'" alt="commercial"> Commercial {{serviceOfferingName}}
+        <mat-expansion-panel id="box-shadow" [disabled]="isExpanded" #third (opened)="openCommercialSurface()" (closed)="closeCommercialSurface()" *ngxPermissionsOnly="['COMMERCIAL_READ']">
+          <mat-expansion-panel-header style="cursor: pointer;" (click)="getCommercialDetail(false)">
+            <img class="rcIcon" [src]="third.expanded ? '/assets/images/com_green.png': '/assets/images/com_gray.png'" alt="commercial"> Commercial {{serviceOfferingName}}
           </mat-expansion-panel-header>
           <mat-card-content>
             <!-- boxes -->
@@ -367,6 +353,7 @@
                 </div>
               </div>
 
+          <!--  -->
             </div>
             <!-- end boxes -->
 
@@ -431,9 +418,9 @@
                     <div *ngIf="CommercialDataModel.lkpChrgByPiece">
                       <div class="col-lg-6 col-md-6 label-text">Product List<span class="redMark"> *</span></div>
                       <div class="col-lg-6 col-md-6 label-text-value">
-                        <mat-form-field appearance="outline" > 
+                        <mat-form-field appearance="outline" >
                           <mat-select disableOptionCentering panelClass="multiSelect prdtListSelect" (blur)="selectedProductTouch()" required placeholder="select" [formControl]="toppings" multiple name="toppingId">
-                            <mat-option *ngFor="let topping of productList" [value]="topping.id"
+                            <mat-option *ngFor="let topping of productList" [value]="topping.id" 
                             #tooltip="matTooltip"
                             matTooltip="For product with differents Rate create a new commercial"
                             matTooltipPosition="right" (click)="selectedProduct(toppings.value)">{{topping.prdctName}}</mat-option>
@@ -3028,8 +3015,7 @@
         </mat-expansion-panel>
 
         <!-- Commandment Section Starts -->
-        <mat-expansion-panel id="box-shadow" [expanded]='isExpanded' *ngIf="rateCardApplicableFlag" #four
-          (opened)="openCommandment()" (closed)="closeCommandment()">
+        <mat-expansion-panel id="box-shadow" [expanded]='isExpanded' #four (opened)="openCommandment()" (closed)="closeCommandment()" *ngxPermissionsOnly="['COMMANDMENT_READ']">
           <mat-expansion-panel-header style="cursor: pointer;" (click)="opencmdmnt()">
             <img class="rcIcon" [src]="four.expanded ? '/assets/images/cmnd_green.png': '/assets/images/cmnd_gray.png'" alt="COMMANDMENT"> Commandment
           </mat-expansion-panel-header>
@@ -3058,10 +3044,10 @@
           <app-commandment *ngIf="showcmdnt" [inputData]="commandmentInput" (cmdmntSaved)="onCmdmntSaved($event)" (anyCmdmntSaved)="onAnyCmdmntSaved($event)"></app-commandment>
          </mat-card-content>
         </mat-expansion-panel>
-        <form (ngSubmit)="fTerms.form.valid" appRangeTnc *ngIf="rateCardApplicableFlag" #fTerms="ngForm" name="fTerms">
+        <form (ngSubmit)="fTerms.form.valid" appRangeTnc #fTerms="ngForm" name="fTerms">
         <mat-expansion-panel id="box-shadow" [expanded]='isExpanded' #five (opened)="openTerms()" (closed)="closeTerms()">
           <mat-expansion-panel-header style="cursor: pointer;" (click)="getTncDetail()">
-           <img class="rcIcon" [src]="five.expanded ? '/assets/images/tnc_green.png': '/assets/images/tnc_gray.png'" alt="Terms & Conditions">   Terms & Conditions
+            <img class="rcIcon" [src]="five.expanded ? '/assets/images/tnc_green.png': '/assets/images/tnc_gray.png'" alt="Terms & Conditions">   Terms & Conditions
           </mat-expansion-panel-header>
           <mat-card-content>  
                       
@@ -3406,6 +3392,7 @@
                 </div>
               </div>
             
+            <!--  -->
             <div *ngIf="modeltnc.incrClauseFlag==1">         
               <div class="col-lg-12 col-md-12 paddingleftzero">
                 <div class="col-lg-4 col-md-4  ">
@@ -4023,7 +4010,7 @@
       </form>
 
         <mat-expansion-panel *ngIf="businessType!='ANYWHERE TO ANYWHERE'" id="box-shadow" [expanded]='isExpanded' #six (opened)="openBranch()" (closed)="closeBranch()">
-          <mat-expansion-panel-header style="cursor: pointer;" (click)="getAssignBranchdata(rateCardApplicableFlag)">
+          <mat-expansion-panel-header style="cursor: pointer;" (click)="getAssignBranchdata()">
             <img class="rcIcon" [src]="six.expanded ? '/assets/images/branch_green.png': '/assets/images/branch_gray.png'" alt="branch">  Branch
           </mat-expansion-panel-header>
           <form (ngSubmit)="fbranch.form.valid" #fbranch="ngForm" name="fbranch" novalidate *ngxPermissionsOnly="['BRANCH_READ']">
@@ -4032,183 +4019,122 @@
             <h5 class="zonalheading" style="padding-top: 2rem;">Branch Assignment &nbsp;
             <button type="submit"  [disabled]="!fbranch.form.valid" (click)="branchAssignment()" [style.color]="fbranch.invalid ? 'gray' : 'green'" 
               style="color: rgb(33, 110, 36),;width: 2.4rem; position: relative;
-                     left: -1.5rem;cursor: pointer; font-size: 3.2rem; border: none; background: transparent;top: .8rem;" class="material-icons forEdge" *ngxPermissionsOnly="['BRANCH_CREATE']">add_circle</button>
+                     left: -1.5rem; font-size: 3.2rem;cursor: pointer; border: none; background: transparent;top: .8rem;" class="material-icons" *ngxPermissionsOnly="['BRANCH_CREATE']">add_circle</button>
             </h5>               
-              <div style="width: 100%;overflow: scroll;overflow-y: hidden;">
-                <div class="">
-                  <div class="sectionWidth" style="padding: 0 !important;">
-                    <div class="columnWidth zonalheadingbar">BRANCH<span class="redMark">*</span></div>
-                    <div class="columnWidth  zonalheadingbar">EFFECTIVE DATE<span style="color: red;">*</span></div>
-                    <div class="columnWidth zonalheadingbar">EXPIRY DATE</div>
-                    <div class="columnWidth zonalheadingbar">GSTIN NO.</div>
-                    <div class="columnWidth  zonalheadingbar">TAN NO.</div>
-                    <div class="columnWidth zonalheadingbar">BOOKING HOLD</div>
-                    <div class="columnWidth  zonalheadingbar">DELIVERY HOLD</div>
-                    <div class="columnWidth  zonalheadingbar"
-                      *ngxPermissionsOnly="['CUSTOMER LOCATION_CREATE','CUSTOMER LOCATION_UPDATE']">
-                      <div class="subColumWidth  customerLocation" style="width: 12rem !important"> CUSTOMER LOCATION <span style="color: red;">*</span></div>
-                    </div>
-                  </div>
-                  <!-- Default show -->
 
-                  <div class="sectionWidth"
-                    *ngFor="let field of branchAssignModel.assignBranch; let i = index">
-                    <div class="columnWidth">
-                      <a (click)="openBaseLDialogBr(field)" style="cursor: pointer;">
-                        <span class="fa fa-search fa-lg" id="defualtBranchSearch5"
-                          style="top: 2rem !important;"></span>
-                        <input #branch='ngModel' required [ngModel]="field.bkngBranchName"
-                          [readonly]="field.bkngBranchName" autocomplete="true" list="brow1"
-                          class="inputfield3 backgroundWhite form-control input-md" name="bkngBranchName-{{i}}"
-                          (change)="onDefaultBranchChanged(priFilter.bkngBranchName)"
-                          (keydown.enter)="openBaseLDialogBr(field)" placeholder="search"
-                          style="height: 2.7rem; padding-left: 2.3rem;cursor: pointer; position: relative;" /></a>
-                      <span *ngIf="(branch.errors?.required && branch.touched)" class="hasErrorMsgTopSide" style="top: 4rem !important;">Required
-                          !</span>
-                    </div>
-
-                    <div class="columnWidth ">
-                      <mat-form-field appearance="outline" id="datepickerwidth">
-                        <input matInput autocomplete="true" #EffDT='ngModel' required [matDatepicker]="pickereffe2" class="date_picker"
-                          name="effectiveDt-{{i}}" [(ngModel)]="field.effectiveDt" [min]="minDate" [max]="maxDate"
-                          (blur)="dateFormatEffective(field)" (dateChange)="dateFormatEffective(field)"
-                          placeholder="DD/MM/YYYY">
-                        <mat-datepicker panelClass="creditDatepicker" #pickereffe2></mat-datepicker>
-                        <mat-datepicker-toggle matSuffix [for]="pickereffe2"></mat-datepicker-toggle>
-                      </mat-form-field>
-                      <span *ngIf="(EffDT.errors?.required && EffDT.touched)" class="hasErrorMsg" style="top: 4rem !important;">
-                        Required!
-                      </span>
-                      <span *ngIf="field.isValidBranchEffectiveDt && !(EffDT.errors?.required)" class="hasErrorMsg" style="top: 4rem !important;">
-                        Invalid Effective Date!
-                      </span>
-                    </div>
-                    <div class="columnWidth">
-                      <mat-form-field appearance="outline" id="datepickerwidth">
-                        <input matInput autocomplete="true" #ExpDT='ngModel'  [matDatepicker]="pickereffe1" class="date_picker"
-                          name="expDt-{{i}}" [(ngModel)]="field.expDt" [min]="field.effectiveDt" [max]="maxDate"
-                          (blur)="dateFormatExpiry(field)" (dateChange)="dateFormatExpiry(field)"
-                          placeholder="DD/MM/YYYY">
-                        <mat-datepicker panelClass="creditDatepicker" #pickereffe1></mat-datepicker>
-                        <mat-datepicker-toggle matSuffix [for]="pickereffe1"></mat-datepicker-toggle>
-                      </mat-form-field>
-                      <span *ngIf="field.isValidBranchExpiryDt && !(ExpDT.errors?.required)" class="hasErrorMsg" style="top: 4rem !important;">
-                        Invalid Expiry Date!
-                      </span>
-                    </div>
-                    <div class="columnWidth text-center " style="width: 10%;">
-                      <input autocomplete="true" class="form-control gstInput" type="text" name="gstinNum{{i}}"
-                        [(ngModel)]="field.gstinNum" placeholder="Gst Num." #gstNum="ngModel"
-                        pattern="\d{2}[A-Za-z]{3}[abcfghljptfABCFGHLJPTF]{1}[A-Za-z]{1}\d{4}[A-Za-z]{1}[A-Za-z\d]{1}[Zz,Dd]{1}[A-Za-z\d]{1}|\d{2}[A-Za-z]{4}\d{5}[A-Za-z]{1}[A-Za-z\d]{1}[zZ,dD]{1}[A-Za-z\d]{1}$" alphanumeric
-                        maxlength="15" minlength="15" [ngClass]="{ 'is-invalid':gstNum.invalid }" 
-                        style="padding-right: 0;">
-                        <span *ngIf="gstNum.invalid && (gstNum.dirty || gstNum.touched) && !gstNum.errors?.required" class="hasErrorMsg" style="top: 4rem !important;">Invalid GSTIN !</span>
-                    </div>
-                    <div class="columnWidth ">
-                      <input autocomplete="true" class="form-control" type="text" name="tanNum{{i}}"
-                        [(ngModel)]="field.tanNum" placeholder="Tan Num" #tanNum="ngModel"
-                        pattern="^[A-Za-z]{4}\d{5}[A-Za-z]{1}$" minlength="10" maxlength="10" alphanumeric
-                        [ngClass]="{ 'is-invalid':tanNum.invalid }" style="padding-left: .6rem !important;padding-right: .6rem !important;">
-                      <span *ngIf="tanNum.invalid && (tanNum.dirty || tanNum.touched) && !tanNum.errors?.required" class="hasErrorMsg" style="top: 4rem !important;">
-                        Invalid TAN !
-                      </span>
-                    </div>
-                    <!-- STRAT BILL TO ADDRESS -->
-                    
-                    <div class="columnWidth">
-                      <span class="flex-box">
-                        <mat-checkbox style="top: -.5rem;" [(ngModel)]="field.bkngBranchHoldFlag"
-                          [checked]="field.bkngBranchHoldFlag" name="bkngBranchHoldFlag-{{i}}"
-                          (change)="$event.checked==true ?field.lkpBkngBranchHoldRsn=null:field.lkpBkngBranchHoldRsn=null ; field.bkngBranchHoldFlag = $event.checked ? 1 : 0 ;">
-                        </mat-checkbox>
-                        <mat-form-field id="left-margin" appearance="outline"
-                          style="height: 2.7rem; width: 80% !important;">
-                          <mat-select disableOptionCentering panelClass="creditSelect" #bookingHold="ngModel"
-                            [required]='field.bkngBranchHoldFlag==1' name="dlvryHoldRsn-{{i}}"
-                            [(ngModel)]="field.lkpBkngBranchHoldRsn" (selectionChange)="onchangeReasonBkg(field)"
-                            [disabled]="field.bkngBranchHoldFlag==0">
-                            <mat-option *ngFor="let opt of branchAssignModel.referenceList.dlvryHoldRsn | sortBy:'asc':'descr'"
-                              [value]="opt.id" 
-                              [matTooltip]="opt.descr" [matTooltipDisabled]="opt.descr.length<13" matTooltipPosition="above">
-                              {{opt.descr}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-
-                      </span>
-                      <span *ngIf="bookingHold.hasError('required')" class="hasErrorMsg" style="top: 4rem !important; left: 4rem !important;">
-                        Required !
-                      </span>
-                    </div>
-                    <div class="columnWidth">
-                      <span class="flex-box">
-                        <mat-checkbox style="top: -.5rem;" name="dlvryBranchHoldFlag-{{i}}"
-                          [(ngModel)]="field.dlvryBranchHoldFlag" [checked]="field.dlvryBranchHoldFlag"
-                          (change)="$event.checked==true ?field.lkpDlvryBranchHoldRsn=null:field.lkpDlvryBranchHoldRsn=null ; field.dlvryBranchHoldFlag = $event.checked ? 1 : 0 ;">
-                        </mat-checkbox>
-                        <mat-form-field id="left-margin" appearance="outline"
-                          style="height: 2.7rem; width: 80% !important;">
-                          <mat-select disableOptionCentering panelClass="creditSelect" #delevryHold="ngModel"
-                            [required]='field.dlvryBranchHoldFlag==1' name="dlvryHoldRsn2-{{i}}"
-                            [(ngModel)]="field.lkpDlvryBranchHoldRsn" (selectionChange)="onchangeReasonDlvr(field)"
-                            [disabled]="field.dlvryBranchHoldFlag == 0">
-                            <mat-option *ngFor="let opt of branchAssignModel.referenceList.dlvryHoldRsn | sortBy:'asc':'descr'"
-                              [value]="opt.id" 
-                              [matTooltip]="opt.descr" [matTooltipDisabled]="opt.descr.length<13" matTooltipPosition="above">
-                              {{opt.descr}}
-                            </mat-option>
-                          </mat-select>
-                        </mat-form-field>
-                      </span>
-                      <span  *ngIf="delevryHold.hasError('required')" class="hasErrorMsg" style="top: 4rem !important; left: 4rem !important;">
-                        Required !
-                      </span>
-                     
-                    </div>
-                    <div class="columnWidth" style="display: flex !important;"
-                      *ngxPermissionsOnly="['CUSTOMER LOCATION_CREATE','CUSTOMER LOCATION_UPDATE']">
-
-                      <div class="subcolumnWidth" style="width: 12rem !important;"> <span class="text-center"><em
-                            matTooltipPosition="above" class="material-icons" (click)="openCCDialog(field)"
-                            style="cursor: pointer;color: #27AE60;">room</em></span> </div>
-
-                      <div class="subcolumnWidth" style="padding: 1rem !important; padding-top: 0rem !important;"> <span *ngIf="i > 0"
-                          style="padding-left: 2rem;" class="text-center"><em matTooltipPosition="above"
-                            class="material-icons" (click)="deleteBranch(field, i)"
-                            style="cursor: pointer;color: #27AE60;">delete</em></span></div>
-
-
-                    </div>
-                    
-                  </div>
+              <div class="col-lg-12 col-md-12" style="padding: 0 !important;">
+                <div class="col-lg-2 col-md-2   zonalheadingbar">BRANCH<span class="redMark"> *</span></div>
+                <div class="col-lg-2 col-md-2   zonalheadingbar" style="width: 12%;">EFFECTIVE DATE<span class="redMark"> *</span></div>
+                <div class="col-lg-2 col-md-2   zonalheadingbar" style="width: 12%;">EXPIRY DATE</div>
+                <div class="col-lg-1 col-md-1   zonalheadingbar">BILLABLE WEIGHT</div>
+                <div class="col-lg-2 col-md-2   zonalheadingbar">BOOKING HOLD</div>
+                <div class="col-lg-2 col-md-2   zonalheadingbar">DELIVERY HOLD</div>
+                <div class="col-lg-1 col-md-1   zonalheadingbar" style="width: 14%;" *ngxPermissionsOnly="['CUSTOMER LOCATION_CREATE','CUSTOMER LOCATION_UPDATE']">
+                  <div class="col-lg-12 col-md-12  "> <span>CUSTOMER LOCATION<span class="redMark"> *</span></span> </div>
                 </div>
+                
               </div>
+            
+            <!-- Default show -->
+          
+              <div class="col-lg-12 col-md-12"  style="margin-top: 1.5rem;padding: 0 !important;" *ngFor="let field of branchAssignModel.assignBranch; let i = index">
+                <div class="col-lg-2 col-md-2 ">
+                    <a (click)="openBaseLDialogBr(field)" style="cursor: pointer;">
+                    <span class="fa fa-search fa-lg" id="defualtBranchSearch5" style="top: .7rem !important;"></span>
+                    <input #branch='ngModel' required [ngModel]="field.bkngBranchName" [readonly]="field.bkngBranchName" autocomplete="true" list="brow1" class="inputfield3 backgroundWhite form-control input-md"  name="bkngBranchName-{{i}}" 
+                    (change)="onDefaultBranchChanged(priFilter.bkngBranchName)" (keydown.enter)="openBaseLDialogBr(field)" placeholder="search" style="height: 2.7rem; padding-left: 2.3rem;cursor: pointer; position: relative;"/>
+                    </a>
+                    <span *ngIf="(branch.errors?.required && branch.touched)" class="hasErrorMsgTopSide">Required !</span>
+                </div>
+                
+                <div class="col-lg-2 col-md-2  " style="width: 12%;">
+                  <mat-form-field appearance="outline" id="datepickerwidth">
+                    <input matInput  autocomplete="true" #EffDT='ngModel' required  [matDatepicker]="pickereffe2" name="effectiveDt-{{i}}" class="date_picker"
+                    [(ngModel)] = "field.effectiveDt" [min]="minDate" [max]="maxDate" (blur)="dateFormatEffective(field)" (dateChange)="dateFormatEffective(field)"
+                     placeholder="DD/MM/YYYY">
+                    <mat-datepicker panelClass="creditDatepicker" #pickereffe2></mat-datepicker>
+                    <mat-datepicker-toggle matSuffix [for]="pickereffe2"></mat-datepicker-toggle>
+                  </mat-form-field>
+                  <span *ngIf="(EffDT.errors?.required && EffDT.touched)" class="hasErrorMsg">
+                    Required&nbsp;!
+                  </span>
+                  <span *ngIf="field.isValidBranchEffectiveDt && !(EffDT.errors?.required)" class="hasErrorMsg">
+                    Invalid Effective Date&nbsp;!
+                  </span>
+                </div> 
+                <div class="col-lg-2 col-md-2   " style="width: 12%;">
+                  <mat-form-field appearance="outline" id="datepickerwidth">
+                    <input matInput  autocomplete="true" #ExpDT='ngModel' [matDatepicker]="pickereffe1" name="expDt-{{i}}" class="date_picker"
+                      [(ngModel)]="field.expDt" [min]="field.effectiveDt" [max]="maxDate" (blur)="dateFormatExpiry(field)" (dateChange)="dateFormatExpiry(field)" placeholder="DD/MM/YYYY" >
+                    <mat-datepicker panelClass="creditDatepicker" #pickereffe1></mat-datepicker>
+                    <mat-datepicker-toggle matSuffix [for]="pickereffe1"></mat-datepicker-toggle>
+                  </mat-form-field>
+                  <span *ngIf="field.isValidBranchExpiryDt" class="hasErrorMsg">
+                    Invalid Expiry Date!
+                  </span>
+                </div>
+                <div class="col-lg-1 col-md-1   text-center">
+                  <mat-checkbox  style="top: -.5rem;" [(ngModel)]="field.billableWghtFlag" name="billableWghtFlag-{{i}}" [checked]="field.billableWghtFlag" 
+                  (change)="field.billableWghtFlag = $event.checked ? 1 : 0"></mat-checkbox>
+                </div>
+                <div class="col-lg-2 col-md-2   ">
+                  <span class="flex-box">
+                    <mat-checkbox  style="top: -.5rem;"  [(ngModel)]="field.bkngBranchHoldFlag" [checked]="field.bkngBranchHoldFlag" name="bkngBranchHoldFlag-{{i}}"
+                    (change)="$event.checked==true ?field.lkpBkngBranchHoldRsn=null:field.lkpBkngBranchHoldRsn=null ; field.bkngBranchHoldFlag = $event.checked ? 1 : 0 ;" ></mat-checkbox>    
+                    <mat-form-field id="left-margin" appearance="outline" style="height: 2.7rem; width: 70% !important;">
+                      <mat-select disableOptionCentering panelClass="creditSelect" #bookingHold="ngModel" [required]='field.bkngBranchHoldFlag==1' name="dlvryHoldRsn-{{i}}" [(ngModel)]="field.lkpBkngBranchHoldRsn" (selectionChange)="onchangeReasonBkg(field)"
+                      [disabled]="field.bkngBranchHoldFlag==0">
+                        <mat-option *ngFor="let opt of branchAssignModel.referenceList.dlvryHoldRsn | sortBy:'asc':'descr'" [value]="opt.id" 
+                        [matTooltip]="opt.descr" [matTooltipDisabled]="opt.descr.length<17" matTooltipPosition="above">
+                          {{opt.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                
+                    </span>   
+                    <mat-error *ngIf="bookingHold.hasError('required')" class="required_move_rgt">
+                      Required !
+                    </mat-error> 
+                </div>
+                <div class="col-lg-2 col-md-2  ">
+                  <span class="flex-box">
+                    <mat-checkbox style="top: -.5rem;" name="dlvryBranchHoldFlag-{{i}}"  [(ngModel)]="field.dlvryBranchHoldFlag" [checked]="field.dlvryBranchHoldFlag"  
+                    (change)="$event.checked==true ?field.lkpDlvryBranchHoldRsn=null:field.lkpDlvryBranchHoldRsn=null ; field.dlvryBranchHoldFlag = $event.checked ? 1 : 0 ;"></mat-checkbox>
+                    <mat-form-field id="left-margin" appearance="outline" style="height: 2.7rem; width: 70% !important;">
+                      <mat-select disableOptionCentering panelClass="creditSelect" #delevryHold="ngModel"  [required]='field.dlvryBranchHoldFlag==1' name="dlvryHoldRsn2-{{i}}" [(ngModel)]="field.lkpDlvryBranchHoldRsn" (selectionChange)="onchangeReasonDlvr(field)"
+                      [disabled]="field.dlvryBranchHoldFlag == 0">
+                        <mat-option *ngFor="let opt of branchAssignModel.referenceList.dlvryHoldRsn | sortBy:'asc':'descr'" [value]="opt.id" 
+                        [matTooltip]="opt.descr" [matTooltipDisabled]="opt.descr.length<17" matTooltipPosition="above">
+                          {{opt.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>                 
+                  </span> 
+                  <mat-error *ngIf="delevryHold.hasError('required')" class="required_move_rgt">
+                    Required !
+                  </mat-error>
+                </div>
+                <div class="col-lg-1 col-md-1   " style="width: 15%;" *ngxPermissionsOnly="['CUSTOMER LOCATION_CREATE','CUSTOMER LOCATION_UPDATE']">
 
-              <div class="example-button-row text-center" *ngIf="!rateCardApplicableFlag">
-                <button style="margin-top: 5%;" id="branchSaveButton" class="btn1" mat-raised-button color="primary"
-                  *ngxPermissionsOnly="['BRANCH_CREATE','BRANCH_UPDATE']" (click)="postBranch('save')"
-                  [disabled]="!fbranch.form.valid">Save As Draft</button>
-                <button style="margin-top: 5%;" id="branchNextButton" class="btn1" mat-raised-button color="primary"
-                  *ngxPermissionsOnly="['BRANCH_CREATE','BRANCH_UPDATE']" (click)="postBranch('next')"
-                  [disabled]="!fbranch.form.valid">Next</button>
-              </div>
-              <div class="example-button-row text-center" *ngIf="rateCardApplicableFlag">
-                <button style="margin-top: 5%;" id="branchSaveButton" class="btn1" mat-raised-button color="primary"
-                  *ngxPermissionsOnly="['BRANCH_CREATE','BRANCH_UPDATE']" (click)="postBranch('save')"
-                  [disabled]="!fbranch.form.valid">Continue</button>
-
-              </div>
-
-            </mat-card-content>
+                  <div class="col-lg-6 col-md-6  " > <span  class="text-center"><em matTooltipPosition="above" class="material-icons" (click)="openCCDialog(field)" style="cursor: pointer;color: #27AE60;">room</em></span> </div>
+                  <div class="col-lg-6 col-md-6  " > <span *ngIf ="i > 0" style="padding-left: 2rem;"  class="text-center" ><em matTooltipPosition="above" class="material-icons" (click)="deleteBranch(field, i)" style="cursor: pointer;color: #27AE60;">delete</em></span></div>
+                 
+                 
+                </div>
+              </div>      
+            <div class="example-button-row text-center" *ngxPermissionsOnly="['BRANCH_CREATE','BRANCH_UPDATE']">
+              <button style="margin-top: 5%;" id="branchNextButton" class="btn1" mat-raised-button color="primary" (click)="postBranch()"  [disabled]="!fbranch.form.valid">Continue</button>
+            </div>
+           
+          </mat-card-content>
 
           </form>
 
         </mat-expansion-panel>
-        <!-- SLA code starts here -->
-        <mat-expansion-panel id="box-shadow" [expanded]='isExpanded' *ngIf="rateCardApplicableFlag" #seven
-          (opened)="openSLA()" (closed)="closeSLA()">
+          <!-- SLA code starts here -->
+         <mat-expansion-panel id="box-shadow" [expanded]='isExpanded' #seven (opened)="openSLA()" (closed)="closeSLA()">
           <mat-expansion-panel-header style="cursor: pointer;" (click)="getSLAById()" >
-             <img class="rcIcon" [src]="seven.expanded ? '/assets/images/sla_green.png': '/assets/images/sla_gray.png'" alt="Rate Card"> SLA
+            <img class="rcIcon" [src]="seven.expanded ? '/assets/images/sla_green.png': '/assets/images/sla_gray.png'" alt="Rate Card"> SLA
           </mat-expansion-panel-header>
           <mat-card-content>
             <h5 class="zonalheading paddingtopone">SLA Matrix: {{zoneMatrixName}}</h5>
@@ -4432,7 +4358,7 @@
                 </h5>
               </div>
 
-                <div class="col-lg-5 col-md-5 " style="padding-top: 1rem !important;">
+              <div class="col-lg-5 col-md-5" style="padding-top: 1rem !important;">
                    <mat-radio-group  *ngFor="let season of typeList" class="example-radio-group"
                       name="safeextTypeSlaFlag" [(ngModel)]="safextTypeId">
                   <mat-radio-button class="example-radio-button" name="safextTypeFlag"
@@ -4440,8 +4366,8 @@
                         {{season.descr}}
                   </mat-radio-button>
                   </mat-radio-group>
-                </div>
-              </div>
+                </div>              
+            </div>
 
            <form name="safeExtnType" (ngSubmit)="fSafeExtnType.form.valid" #fSafeExtnType="ngForm" novalidate>
             <div *ngIf="safextCustomSlaList.length>0">
@@ -4570,10 +4496,10 @@
             <div style="margin-top: 2%;">
               <mat-accordion>
                 <div class="example-button-row text-center" style="margin-top: 2%">
-                 
-                    <button id="slaNextButton" class="btn1" type="submit" mat-raised-button
-                      (click)="isValidSLA('continue')" color="primary"
-                      *ngxPermissionsOnly="['SLA GROUP_CREATE','SLA GROUP_UPDATE']">Continue</button>
+                  <button id="slaSaveButton" class="btn1" mat-raised-button
+                    (click)="isValidSLA('save')" color="primary" *ngxPermissionsOnly="['SLA GROUP_CREATE','SLA GROUP_UPDATE']">Save And Skip VMI</button>
+                  <button id="slaNextButton" class="btn1" type="submit" mat-raised-button
+                    (click)="isValidSLA('continue')" color="primary" *ngxPermissionsOnly="['SLA GROUP_CREATE','SLA GROUP_UPDATE']">Continue</button>
                 </div>
               </mat-accordion>
             </div>
@@ -4582,13 +4508,113 @@
         </mat-expansion-panel>
         <!-- SLA code ends here -->
 
+<!-- VMI starts here -->
+        <mat-expansion-panel id="box-shadow" [expanded]='isExpanded' #eight (opened)="openVMI()" (closed)="closeVMI()" *ngxPermissionsOnly="['VMI_READ']">
+          <mat-expansion-panel-header style="cursor: pointer;" (click)="getVMIById()">
+            <img class="rcIcon" [src]="eight.expanded ? '/assets/images/vmi_green.png': '/assets/images/vmi_gray.png'" alt="VMI"> VMI
+          </mat-expansion-panel-header>
+          <mat-card-content>
+            <form name="vmiSection" (ngSubmit)="fVmiSection.form.valid" #fVmiSection="ngForm" novalidate>
+            <h5 class="zonalheading" style="padding-top: 2.8rem;">Consignor/ Consignee mapping for VMI
+              <button  [disabled]="!fVmiSection.form.valid" (click)="addVMI()" style="cursor: pointer;" id="plusicon2" mat-icon-button mat-card-avatar aria-label="Example icon" *ngxPermissionsOnly="['VMI_CREATE']">
+                <mat-icon >add_circle</mat-icon>
+              </button>
+            </h5>
+            <div class="row" *ngIf="vmiList.length>0" >
+              <div class="col-lg-6 col-md-6  ">
+                <div class="col-lg-3 col-md-3   zonalheadingbar">CONSIGNOR <span class="redMark"> *</span></div>
+                <div class="col-lg-3 col-md-3   zonalheadingbar">CONSIGNEE <span class="redMark"> *</span></div>
+                <div class="col-lg-3 col-md-3   zonalheadingbar">VMI FLAG <span class="redMark"> *</span></div>
+                <div class="col-lg-3 col-md-3   zonalheadingbar">VMI TYPE <span class="redMark"> *</span></div>
+              </div>
+            </div>
 
+            <div class="row" style="margin-top: 1.5rem !important;display: grid;">
+              <div *ngFor="let vmi of vmiList; let i = index" class="col-lg-6 col-md-6  ">
+                <div class="col-lg-3 col-md-3  ">
+                  <mat-form-field appearance="outline" style="height: 2.7rem; width: 100%;">
+                    <mat-select disableOptionCentering panelClass="creditSelect creditNgxSelect" name="msaCnorList-{{i}}" [(ngModel)]="vmi.cnorId" #cnorVMI="ngModel" required
+                     (selectionChange)='validateDuplicateVMICombination()' (blur)="scrollActiveValue()">
+                     <ngx-mat-select-search [(ngModel)]="searchCtrlCnor" [placeholderLabel]="'Search...'"
+                       [noEntriesFoundLabel]="'Not found'" name="search">
+                       <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
+                     </ngx-mat-select-search>
+                      <mat-option *ngFor="let vm of (vmiDetails.referenceList.msaCnorList | stringFilter:searchCtrlCnor:'name') | sortBy:'asc':'name'" [value]="vm.id" 
+                      [matTooltip]="vm.name" [matTooltipDisabled]="vm.name.length<16" matTooltipPosition="above">
+                        {{vm.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                <span *ngIf="(cnorVMI.errors?.required && (cnorVMI.touched || fVmiSection.submitted))"
+                  class="hasErrorMsg">
+                  Please select consignor&nbsp;!
+                </span>
+                </div>
+                <div class="col-lg-3 col-md-3  ">
+                  <mat-form-field appearance="outline" style="height: 2.7rem; width: 100%;">
+                    <mat-select disableOptionCentering panelClass="creditSelect creditNgxSelect" name="msaCneeList-{{i}}" [(ngModel)]="vmi.cneeId" #cneeVMI="ngModel"
+                    required (selectionChange)='validateDuplicateVMICombination()' (blur)="scrollActiveValue()">
+                    <ngx-mat-select-search [(ngModel)]="searchCtrlCnee" [placeholderLabel]="'Search...'"
+                      [noEntriesFoundLabel]="'Not found'" name="search">
+                      <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
+                    </ngx-mat-select-search>
+                      <mat-option *ngFor="let vm of (vmiDetails.referenceList.msaCneeList | stringFilter:searchCtrlCnee:'name') | sortBy:'asc':'name'" [value]="vm.id" 
+                      [matTooltip]="vm.name" [matTooltipDisabled]="vm.name.length<16" matTooltipPosition="above">
+                        {{vm.name}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span *ngIf="(cneeVMI.errors?.required && (cneeVMI.touched || fVmiSection.submitted))"
+                    class="hasErrorMsg">
+                    Please Select Consignee&nbsp;!
+                  </span>
+                </div>
+                <div class="col-lg-3 col-md-3  ">
+                  <mat-radio-group *ngFor="let vf of vmiFlagList" (ngModelChange)="vmiFlagChange(vmi, vmi.vmiFlag)" class="example-radio-group"
+                   [(ngModel)]="vmi.vmiFlag" name="vmiFlag-{{i}}">
+                  <mat-radio-button class="example-radio-button" [value]="vf.id">{{vf.value}}</mat-radio-button>
+                </mat-radio-group>
+                </div>
+                <div class="col-lg-3 col-md-3  ">
+                  <mat-form-field appearance="outline" style="height: 2.7rem; width: 100%;">
+                    <mat-select disableOptionCentering panelClass="creditSelect" name="vmiTypeList-{{i}}" [(ngModel)]="vmi.lkpVmiTypeId" #vmiType="ngModel" [disabled]="(vmi.vmiFlag == 0)"
+                    required>
+                      <mat-option *ngFor="let vm of vmiDetails.referenceList.vmiTypeList | sortBy:'asc':'descr'" [value]="vm.id" 
+                      [matTooltip]="vm.descr" [matTooltipDisabled]="vm.descr.length<21" matTooltipPosition="above">
+                        {{(vmi.vmiFlag == 0) ? null : vm.descr}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <span *ngIf="(vmiType.errors?.required && (vmiType.touched || fVmiSection.submitted))"
+                    class="hasErrorMsg">
+                    Please Select VMI Type&nbsp;!
+                  </span>
+                </div>
+                <mat-icon (click)="removeVMI(i)" *ngIf="(((vmiList.length - 1) == i) && (vmi.isNewVMI))" id="removeicon" mat-card-avatar aria-label="remove icon" style="
+                color: #27AE60; display: block; cursor: pointer;">delete</mat-icon>
+              </div>
+                <div *ngIf="!vmiMappingFlag" class="invalid-feedback">
+                  <div *ngIf="!vmiMappingFlag" class="error">Duplicate consingor/consignee combination</div>
+              </div>
+            </div>
+            <div style="margin-top: 2%;">
+              <mat-accordion>
+                <div class="example-button-row text-center" style="margin-top: 2%">
+                  <button type="submit" class="btn1" id="vmiNextButton" mat-raised-button color="primary"
+                   (click)="saveVMI()" [disabled]="(vmiList.length == 0) || (!fVmiSection.form.valid)" *ngxPermissionsOnly="['VMI_CREATE','VMI_UPDATE']">Continue</button>
+
+                </div>
+              </mat-accordion>
+            </div>
+          </form>
+          </mat-card-content>
+        </mat-expansion-panel>
+        <!-- VMI Ends here -->
       </mat-accordion>
     </div>
-    <div class="example-button-row text-center" style="margin-top: 5%" *ngIf="rateCardApplicableFlag">
+    <div class="example-button-row text-center" style="margin-top: 5%">
       <button class="btn1" id="rateSubmitButton" style="text-align: center" mat-raised-button color="primary"
-        (click)="openBilling()"
-        *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE','BILLING CONFIG_READ']">Next</button>
+        (click)="openBilling()" *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE','BILLING CONFIG_READ']">Next</button>
 
     </div>
   </mat-card>

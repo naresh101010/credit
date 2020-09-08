@@ -16,16 +16,16 @@ export class SfxDialogComponent implements OnInit {
   ) { }
 
   message:any;
-  messageHeader: any;
+  isNew:any;
   ngOnInit() {
     this.message = this.data.message;
-    this.messageHeader = this.data.messageHeader;
+    this.isNew = this.data.isNew;
     // this.autoRun;
   }
   autoRun:any = setTimeout(() => {
-      this.dialogSfxCode.close();
-      this.router.navigate(['/prc-contract/'], {skipLocationChange : true});
-  }, 15000);
+    this.dialogSfxCode.close();
+    this.router.navigate(['/contract']);
+}, 15000);
 
   stopautoRun(){
     clearTimeout(this.autoRun);

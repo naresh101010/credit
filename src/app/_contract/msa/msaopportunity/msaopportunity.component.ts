@@ -51,7 +51,7 @@ address
       if (ob.isSuccess) {
         console.log(data, "opportunity response")
         this.sharedSearchdata.changeMessage(data);
-        this.router.navigate(['prc-contract'], {skipLocationChange : true});
+      this.router.navigate(['contract'], {skipLocationChange: true});
   
       }else {
         this.tosterservice.error(ob.message);

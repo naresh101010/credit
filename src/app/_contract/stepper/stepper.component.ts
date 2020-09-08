@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from "@angular/router";
 import { CommonService } from 'src/app/core/common.service';
-import { AppSetting } from '../../app.setting';
 
 @Component({
   selector: 'stepper',
   templateUrl: './stepper.component.html',
-  styleUrls: ['../core.css', './stepper.component.css']
+  styleUrls: ['../core.css']
 })
 export class StepperComponent implements OnInit {
 
@@ -14,29 +13,18 @@ export class StepperComponent implements OnInit {
 
   currentState;
   step1; step2; step3; step4; step5; step6; step7;
- flg;
+
   ngOnInit() {
     this.stperIconStyleChange();
-    this.changeStapperlabel();
-    console.log('heloo Stapper');
-  }
-
-  changeStapperlabel(){
-    if(AppSetting.rateCardApplicableFlag==1){
-      this.flg='Rate Card'
-    }
-    else{
-      this.flg='Branch'
-    }
   }
 
   stperIconStyleChange() {
     let urll=this.router.url;
-    if(!urll.includes('/prc-contract')){
+    if(!urll.includes('contract')){
       this.currentState = urll.slice(1).split(";")[0].toLowerCase();
     }
     else{
-      this.currentState = urll.slice(14).split(";")[0].toLowerCase();
+      this.currentState = urll.slice(10).split(";")[0].toLowerCase();
     }
 
     // if (this.currentState == 'msa') {
@@ -99,25 +87,25 @@ export class StepperComponent implements OnInit {
     }
   }
 
-  OnNextClick(url?) {
+  OnNextClick(url) {
     if (url) {
       let exactUrl;
       exactUrl = url.slice(0).split(";")[0].toLowerCase();
       this.CommonService_.steperNextFlg = true;
       if (!url.includes('edit')) {
-        if(!this.router.url.includes('prc-contract')){
-          this.router.navigate([exactUrl], {skipLocationChange : true});
+        if(!this.router.url.includes('contract')){
+          this.router.navigate([exactUrl], {skipLocationChange: true});
         }
         else{
-          this.router.navigate(['/prc-contract'+exactUrl], {skipLocationChange : true});
+          this.router.navigate(['/contract'+exactUrl], {skipLocationChange: true});
         }
       }
       else {
-        if(!this.router.url.includes('prc-contract')){
-          this.router.navigate([exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange : true});
+        if(!this.router.url.includes('contract')){
+          this.router.navigate([exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
         }
         else{
-          this.router.navigate(['/prc-contract'+exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange : true});
+          this.router.navigate(['/contract'+exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
         }
       }
     }

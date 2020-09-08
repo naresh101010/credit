@@ -1,168 +1,744 @@
 <form class="hero-content" name="saveBilling" (ngSubmit)="fBilling.form.valid" #fBilling="ngForm" novalidate>
   <div class="row text-left parent">
     <div class="breadcrumb">
-      <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-      PRC
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      CREDIT
     </div>
- 
     <stepper></stepper>
   </div>
-  <h3>PRC Contract</h3>
-  <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
-    fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name :</span>
-      <span class="customerName" [matTooltip]="customerName" [matTooltipDisabled]="customerName.length<30" matTooltipPosition="above">{{customerName}}</span></div>
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id :
-      </span><span>{{sfdcAccId}}</span></div>
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{sfxCode}}</em>
-    </div>
-  </div>
-  <mat-card>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Payment Terms <span style="color: red;"> *</span>
+  <h3>Credit Contract</h3>
+  <div id="mat-card-heading" fxLayout="row"fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start"
+    class="mat-card-header-container">
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center salesForceWidth" 
+      [matTooltip]="customerName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="customerName?.length<33">{{customerName}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center salesForceWidth">{{sfdcAccId}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center salesForceWidth">{{sfxCode}}</em></div>
+   </div>
+   <mat-card>
+      <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+        <div class=" col-lg-2 col-md-2 col-sm-2 col-xs-2 label-text row">Billing Level</div>
+        <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 ">
+        <mat-radio-group style="padding-left: 2rem !important;" *ngFor="let billingLevel of billingLevelList" (change)="changeLevel()"
+          name="billingLevel" [(ngModel)]="billingData.lkpBillingLevelId">
+          <mat-radio-button [value]="billingLevel.id">
+            {{billingLevel.descr}}
+          </mat-radio-button>
+        </mat-radio-group>
         </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
-          <mat-form-field appearance="outline">
-            <mat-select required disableOptionCentering panelClass="creditSelect"  name="lkpBillingSubtypeId" #selectOff="ngModel" [(ngModel)]="billingData.lkpPaymentTermId"
-              placeholder="Select Option">
-              <mat-option *ngFor = "let payment of prcPymtTermList" [value]=payment.id>
-                {{payment.lookupVal}}
-              </mat-option>
+      </div>
+      <mat-accordion>
+        <!-- below code to be used in case of rate card billing -->        
+        <mat-expansion-panel class="full-width" id="box-shadow " [expanded]="billingLevel=='RATE CARD'" *ngIf="billingLevel=='RATE CARD'" #first>
+          <mat-expansion-panel-header>Billing Level (RATE CARD)</mat-expansion-panel-header>
+          <mat-card-content>
+            <div class="flexproperty" style="margin-top: 1rem !important;">
+              <div class="commercialbox1 rightBottom" *ngFor="let item of rateCardList" (click)="loadRateCard(item.id)" style="cursor:pointer;">
+                <div class="container">
+                  <h6 style="margin-top: 3rem; color: #fff;margin-bottom: 1rem !important;">{{item.rateCardCode}}</h6>
+                  <hr class="divider">
+                  <p>Effective Date:</p><p class="carton-text">{{item.effectiveDt}}</p>
+                </div>
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel class="full-width" id="box-shadow" #second>
+          <mat-expansion-panel-header (click)="openDetails()">Detailed</mat-expansion-panel-header>
+          <mat-card-content>
+            <!-- next -->
+            <div class="row">
+              <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: .4rem;">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row" *ngIf="billingLevel=='MSA'">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">SFX Code Name</div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  paddingtopone">
+                    <mat-form-field appearance="outline">
+                      <input readonly matInput name="sfxCode" [(ngModel)]="sfxCode" autocomplete="true">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row" *ngIf="billingLevel=='SFX' || billingLevel=='RATE CARD'">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Opportunity Name<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  paddingtopone">
+                    <mat-form-field appearance="outline" >
+                      <input readonly matInput name="opprName" [(ngModel)]="opprName" autocomplete="true">
+                    </mat-form-field>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 "></div>
+
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Alias Name<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  paddingtopone">
+                    <mat-form-field appearance="outline" >
+                      <input autocomplete="true" required #aliasname1='ngModel' maxlength="1000" matInput name="aliasName" [(ngModel)]="billingData.aliasName" [disabled]="msaBillingExists"
+                      [matTooltip]="billingData.aliasName" [matTooltipDisabled]="billingData.aliasName && billingData.aliasName.length<17" matTooltipPosition="above">
+                    </mat-form-field>
+                    <span *ngIf="(aliasname1.errors?.required && (aliasname1.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <!-- next -->
+            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf="billingLevel!='RATE CARD'">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 row">
+                  <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4  label-text">Billing Sublevel<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                    <mat-radio-group *ngFor="let item of billingSubLevelList" [disabled]="msaBillingExists" 
+                      name="lkpBillingSublevelId" required #lkpBillingSublevelId="ngModel" [(ngModel)]="billingData.lkpBillingSublevelId" (change)=showOffering(item)>
+                      <mat-radio-button [value]="item.id" >
+                        <span class="">{{item.descr}}</span>
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 " *ngIf="selectOffering">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Select Offering<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" required #serOfferId='ngModel' [(ngModel)]="serviceOfferingId" name="serviceOfferingId" [(value)]='serviceOfferingId'>
+                        <mat-option *ngFor="let item of billingOfferingList | sortBy:'asc':'serviceOffering'" [value]="item.serviceOfferingId" 
+                        [matTooltip]="item.serviceOffering" [matTooltipDisabled]="item.serviceOffering.length<24" matTooltipPosition="above">
+                          {{item.serviceOffering}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(serOfferId.errors?.required && (serOfferId.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+              </div>
               
-            </mat-select>
-          </mat-form-field>
-          <span >
-            <mat-error *ngIf="selectOff.hasError('required') && selectOff.touched">
-              Required!
-            </mat-error>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">GST Invoice to<span style="color: red;"> *</span>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
-          <mat-form-field appearance="outline">
-            <mat-select required disableOptionCentering panelClass="creditSelect"  name="lkpPrcInvToId" #lkpPrcInvToId="ngModel" [(ngModel)]="billingData.lkpPrcInvToId"  (ngModelChange)= "changePrcInv()" 
-              placeholder="Select Option">
-              <mat-option *ngFor = "let invToListobj of prcInvToList" [value]=invToListobj.id>
-                {{invToListobj.lookupVal}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <span>
-            <mat-error *ngIf="lkpPrcInvToId.hasError('required') && lkpPrcInvToId.touched">Required!</mat-error>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf = "billingData.lkpPrcInvToId == thirdPartyId">
-      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Name<span style="color: red;"> *</span>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
-          <mat-form-field appearance="outline">
-            <input required matInput  name="name" #name="ngModel" [(ngModel)]="billingData.name" placeholder="ENTER NAME HERE"
-             maxlength="20" autocomplete="true">
-          </mat-form-field>
-          <span>
-            <mat-error *ngIf="name.hasError('required') && name.touched">
-              Required!
-            </mat-error>
-          </span>
+            <!-- next -->
+            <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: .4rem;">
+              <div class="row col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 label-text">Billing SubType<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" #selectOff='ngModel' required name="lkpBillingSubtypeId" [(ngModel)]="billingData.lkpBillingSubtypeId" placeholder="Select Option" [disabled]="msaBillingExists"
+                      (selectionChange)="changeSubType($event.value,true)">
+                        <mat-option *ngFor="let item of billingSubTypeList | sortBy:'asc':'descr'" [value]="item.id" (click)="changeSubType(item.id,true)" 
+                         [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<24" matTooltipPosition="above">
+                          {{item.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(selectOff.errors?.required && (selectOff.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>                 
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+                  <div *ngIf="(subTypePlaceholder=='ENTER AMOUNT HERE') || (subTypePlaceholder=='ENTER PERIODICITY HERE')" 
+                  class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline" >
+                      <input #amt='ngModel' numeric  decimals="2" required matInput value="inputfiled" name="billingSubtypeInputVal" [placeholder]="subTypePlaceholder"
+                          [(ngModel)]="billingData.billingSubtypeInputVal" maxlength="8" autocomplete="true" [disabled]="msaBillingExists">
+                    </mat-form-field>
+                    <span *ngIf="(amt.errors?.required && (amt.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                    <span *ngIf="(amt.errors?.isNumeric && amt.touched && !amt.errors?.required)"
+                        class="hasErrorMsgRight">
+                        Invalid !
+                    </span>
+                  </div>
+                  <div *ngIf="(subTypePlaceholder=='ENTER WAYBILL COUNT HERE')" 
+                  class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline" >
+                      <input #amt='ngModel' required matInput value="inputfiled" name="billingSubtypeInputVal" [placeholder]="subTypePlaceholder"
+                          [(ngModel)]="billingData.billingSubtypeInputVal" maxlength="8" autocomplete="true" [disabled]="msaBillingExists"
+                          pattern="^[0-9][0-9]*$">
+                    </mat-form-field>
+                    <span *ngIf="(amt.errors?.required && (amt.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                    <span *ngIf="(amt.errors?.pattern && amt.touched && !amt.errors?.required)"
+                        class="hasErrorMsgRight">
+                        Only Numbers Allowed !
+                    </span>
+                  </div>
+              </div>
+              </div>
+            <!-- next -->
+              <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: -.4rem;">
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2  label-text">Bill Date<span class="redMark"> *</span></div>
+                  <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8  ">
+                    <mat-radio-group style="margin-left: -1rem !important;"
+                      class="example-radio-group" *ngFor="let item of billingDtlsList " name="billingDtls"
+                      [(ngModel)]="billingData.billingDtls" [disabled]="msaBillingExists">
+                      <mat-radio-button class="example-radio-button" [value]="item.value">
+                        <span class="">{{item.value}}</span>
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+              </div>
+              <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-top: .4rem;">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Billing Cycle<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" required #lkpBillCycleId='ngModel' name="lkpBillCycleId" [(ngModel)]="billingData.lkpBillingCycleId" [disabled]="msaBillingExists">
+                        <mat-option *ngFor="let item of billingCycleList | sortBy:'asc':'descr'" [value]="item.id" 
+                        [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<24" matTooltipPosition="above">
+                          {{item.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(lkpBillCycleId.errors?.required && (lkpBillCycleId.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 "></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Payment Terms<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" required #lkpPymt='ngModel' name="lkpPymtTermId" [(ngModel)]="billingData.lkpPymtTermId" [disabled]="msaBillingExists">
+                        <mat-option *ngFor="let item of paymentTermList | sortBy:'asc':'descr'" [value]="item.id" 
+                        [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<24" matTooltipPosition="above">
+                          {{item.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(lkpPymt.errors?.required && (lkpPymt.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+              </div>
+            <!-- next -->
+              <div class=" row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">E-billing<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                      <mat-radio-group class="example-radio-group"
+                        *ngFor="let item of ebillingList " name="ebillFlag" [(ngModel)]="billingData.ebillFlag" [disabled]="msaBillingExists">
+                        <mat-radio-button class="example-radio-button" [value]="item.id">
+                          <span class="">{{item.value}}</span>
+                        </mat-radio-button>
+                      </mat-radio-group>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 "></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text"> GSTIN Registered<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                      <mat-radio-group class="example-radio-group"
+                        *ngFor="let item of autoBillingList" name="gstinRegdFlag"
+                        [(ngModel)]="billingData.gstinRegdFlag" [disabled]="msaBillingExists">
+                        <mat-radio-button class="example-radio-button" [value]="item.id">
+                          <span class="">{{item.value}}</span>
+                        </mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                </div>
+              </div>
+            <!-- NEXT -->
+            <!-- next -->
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">TOD<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  ">
+                      <mat-radio-group  class="example-radio-group" *ngFor="let item of todList"
+                        name="todFlag" [(ngModel)]="billingData.todFlag" [disabled]="msaBillingExists">
+                        <mat-radio-button class="example-radio-button" [value]="item.id">
+                          {{item.value}}
+                        </mat-radio-button>
+                      </mat-radio-group>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 "></div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text"> Auto Billing<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                      <mat-radio-group class="example-radio-group"
+                        *ngFor="let item of autoBillingList" name="autoBillingFlag"
+                        [(ngModel)]="billingData.autoBillingFlag" [disabled]="msaBillingExists">
+                        <mat-radio-button class="example-radio-button" [value]="item.id">
+                          <span class="">{{item.value}}</span>
+                        </mat-radio-button>
+                      </mat-radio-group>
+                    </div>
+                </div>
+              </div>
+            <!-- NEXT -->
+              <div *ngIf="billingData.todFlag" class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" style="padding-top: .4rem;">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">TOD Based On<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" required #lkpTod='ngModel' name="lkpTodBasedOnId" [(ngModel)]="billingData.lkpTodBasedOnId" [disabled]="msaBillingExists">
+                        <mat-option *ngFor="let item of todBasedOnList | sortBy:'asc':'descr'" [value]="item.id" 
+                        [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<24" matTooltipPosition="above">
+                          {{item.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(lkpTod.errors?.required && (lkpTod.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 "></div>
 
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Address<span style="color: red;" *ngIf="billingData.lkpPrcInvToId == thirdPartyId"> *</span>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-            <textarea rows="2" style="width: 100%;padding-left: .6rem;"  cols="20" wrap="hard"  maxlength="100" #addr="ngModel" [(ngModel)]="billingData.addr"  class="input-md1 textareaoutline"
-              placeholder="Address" name="addrName" [required]="billingData.lkpPrcInvToId == thirdPartyId" ></textarea>
-          <span>
-            <mat-error *ngIf="addr.hasError('required') && addr.touched && billingData.lkpPrcInvToId == thirdPartyId">
-              Required!
-            </mat-error>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf = "billingData.lkpPrcInvToId == thirdPartyId">
-      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Relationship<span style="color: red;"> *</span>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
-          <mat-form-field appearance="outline">
-            <input required matInput  name="relation" #relation="ngModel" [(ngModel)]="billingData.relation" placeholder="ENTER RELATIONSHIP"
-             maxlength="20" autocomplete="true">
-          </mat-form-field>
-          <span>
-            <mat-error *ngIf="relation.hasError('required') && relation.touched">
-              Required!
-            </mat-error>
-          </span>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text"> Turnover Amount</div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 ">
+                    <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop row">
+                      <mat-form-field appearance="outline">
+                        <input autocomplete="true" #TurnoverAmount='ngModel' numeric  decimals="2" matInput name="todAmt" [(ngModel)]="billingData.todAmt" maxlength="8" [disabled]="msaBillingExists">
+                      </mat-form-field>
+                      <span *ngIf="(TurnoverAmount.errors?.isNumeric && TurnoverAmount.touched)"
+                          class="hasErrorMsg">
+                          Invalid !
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <!-- next -->
+            <hr id="collapsedivider">
+              <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">                
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Billing Format<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" required #lkpBillFormat='ngModel' name="lkpBillingFormat" [(ngModel)]="billingData.lkpBillingFormat" [disabled]="msaBillingExists">
+                        <mat-option *ngFor="let item of billingFormatList | sortBy:'asc':'descr'" [value]="item.id" 
+                        [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<24" matTooltipPosition="above">
+                          {{item.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(lkpBillFormat.errors?.required && (lkpBillFormat.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
+                  </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                </div>
+              </div>
 
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf = "billingData.lkpPrcInvToId == thirdPartyId">
-      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">GST No.<span style="color: red;"> *</span>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
-          <mat-form-field appearance="outline">
-            <input required matInput  name="gstinNum" appGstin alphanumeric  maxlength="15" minlength="15" #gstinNum="ngModel" [(ngModel)]="billingData.gstinNum" placeholder="ENTER GST NO. HERE"
-            pattern="\d{2}[A-Za-z]{3}[abcfghljptfABCFGHLJPTF]{1}[A-Za-z]{1}\d{4}[A-Za-z]{1}[A-Za-z\d]{1}[Zz,Dd]{1}[A-Za-z\d]{1}|\d{2}[A-Za-z]{4}\d{5}[A-Za-z]{1}[A-Za-z\d]{1}[zZ,dD]{1}[A-Za-z\d]{1}$"  autocomplete="true">
-          </mat-form-field>
-          <span *ngIf ="gstinNum.invalid || (gstinNum.touched  || (gstinNum.pristine && gstinNum.dirty)) ">
-            <mat-error *ngIf="(gstinNum.hasError('minlength') || gstinNum.hasError('maxlength') || gstinNum.hasError('pattern') )&& !gstinNum.hasError('required')">
-              Please enter a valid GST No.
-            </mat-error>
-            <mat-error *ngIf="gstinNum.hasError('required') && gstinNum.touched">
-              Required!
-            </mat-error>
-          </span>
-        </div>
-      </div>
-    </div>
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
-      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">GST Invoice Frequency<span style="color: red;"> *</span>
-        </div>
-        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
-          <mat-form-field appearance="outline">
-            <mat-select required disableOptionCentering panelClass="creditSelect"  name="lkpInvFreqId" disableOptionCentering panelClass="creditSelect"  #lkpInvFreqId="ngModel" [(ngModel)]="billingData.lkpInvFreqId" placeholder="Select Option">
-              <mat-option *ngFor = "let invFreq of prcInvFreqList" [value]=invFreq.id>
-                {{invFreq.lookupVal}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <span>
-            <mat-error *ngIf="lkpInvFreqId.hasError('required') && lkpInvFreqId.touched">
-              Required!
-            </mat-error>
-          </span>
-        </div>
-      </div>
-    </div>
+              <div class="row col-lg-12 col-md-12 col-sm-12 col-xs-12">                
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Billing By<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" required #billByLevel='ngModel' name="billingByLevelMapId" [(ngModel)]="billingByLevelMapId"
+                        (selectionChange)="changeBillingBy(billingByLevelMapId)" [disabled]="msaBillingExists">
+                        <mat-option *ngFor="let item of billingByList | sortBy:'asc':'descr'" [value]="item.id" #tooltip="matTooltip"
+                          matTooltip="Changing Billing By will reset all table data" matTooltipPosition="right">
+                          <span [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<24" matTooltipPosition="above">{{item.descr}}</span>
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(billByLevel.errors?.required && (billByLevel.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 ">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6" (click)="addBillingBy()" *ngIf="addBilling==true"> 
+                    <span><em class="material-icons" style="cursor: pointer;" #tooltip="matTooltip"
+                        matTooltip="ADD BILLING BY" matTooltipPosition="right">add_circle</em>
+                      </span></div>
+                  </div>
+                <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Consignor / Consignee Billing<span class="redMark">&nbsp;*</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text ">
+                    <mat-radio-group style="padding-left: 1.5rem !important;" class="example-radio-group" *ngFor="let item of cneeCnorFlagList"
+                        name="cneeCnorFlag" [(ngModel)]="billingData.cneeCnorFlag" [disabled]="msaBillingExists">
+                        <mat-radio-button class="example-radio-button" [value]="item.id">
+                          <span class="">{{item.value}}</span>
+                        </mat-radio-button>
+                      </mat-radio-group>
+                  </div>
+                </div>
+              </div>
+
+              <div class=" row col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 row " *ngIf="billingData.cneeCnorFlag==1">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6  label-text">Category<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6 positionTop">
+                    <mat-form-field appearance="outline">
+                      <mat-select disableOptionCentering panelClass="creditSelect" required #cneeCnorBill='ngModel' name="cneeCnorBillingCateg" [(ngModel)]="billingData.cneeCnorBillingCateg" [disabled]="msaBillingExists">
+                        <mat-option *ngFor="let item of categoryList | sortBy:'asc':'value'" [value]="item.value" (click)="assignConnCnee(item.value)" 
+                        [matTooltip]="item.value" [matTooltipDisabled]="item.value.length<24" matTooltipPosition="above">
+                          {{item.value}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <span *ngIf="(cneeCnorBill.errors?.required && (cneeCnorBill.touched || fBilling.submitted))"
+                        class="hasErrorMsgRight">
+                        Required&nbsp;!
+                    </span>
+                  </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 row " *ngIf="billingData.cneeCnorFlag==1 && billingData.cneeCnorBillingCateg && !msaBillingExists">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-6"> 
+                    <span><em class="material-icons" (click)="assignConnCnee(billingData.cneeCnorBillingCateg)"
+                        style="cursor: pointer;">create</em>
+                      </span></div>
+                  </div>
+              </div>           
+         
+          </div>
+          <hr id="collapsedivider">
+          <!-- next -->       
+
+            <div class="billingby-container example-container mat-elevation-z8 contractContainer" *ngIf="billingByLevelMapId" style="width: 100% !important;">
+                <table mat-table [dataSource]="billingData.billingBy" class="biilingTable" aria-describedby="table"> 
+                  <ng-container matColumnDef="state">
+                    <th mat-header-cell *matHeaderCellDef  scope="row">STATE<span class="redMark"> *</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index" >
+                      <mat-form-field appearance="outline">
+                        <mat-select disableOptionCentering required #stateName='ngModel' panelClass="creditSelect creditNgxSelect" name="stateId" [(ngModel)]="element.stateId" 
+                        [(value)]="element.stateId" (selectionChange)="updateList(i, 'stateId', $event.value)" 
+                        [disabled]="msaBillingExists" (blur)="scrollActiveValue()">
+                        <ngx-mat-select-search [(ngModel)]="searchCtrlState" [placeholderLabel]="'Search...'"
+                          [noEntriesFoundLabel]="'Not found'" name="search">
+                          <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
+                        </ngx-mat-select-search>
+                          <mat-option *ngFor="let item of (stateList | stringFilter:searchCtrlState:'descr') | sortBy:'asc':'descr'" [value]="item.id"
+                          [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<16" matTooltipPosition="above">
+                            {{item.descr}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <span *ngIf="(stateName.errors?.required && (stateName.touched || fBilling.submitted))" class="hasErrorMsg marginBilling">
+                        Required&nbsp;!
+                    </span>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="assignBranchId">
+                    <th mat-header-cell *matHeaderCellDef scope="row" >ASSIGN BRANCH<span class="redMark"> *</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" >
+                        <input autocomplete="true" required #assignBranchId='ngModel' [(ngModel)]="element.assignBranchName" matInput name="assignBranchId-{{i}}" readonly [(value)]="element.assignBranchName" >
+                      </mat-form-field>
+                      <span *ngIf="(assignBranchId.errors?.required && (assignBranchId.touched || fBilling.submitted))"
+                          class="hasErrorMsgRight marginBilling">
+                          Required&nbsp;!
+                      </span>              
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="deleteBilling">
+                    <th mat-header-cell *matHeaderCellDef scope="row" ></th>
+                    <td class="paddingtopone paddingbottomone"  mat-cell *matCellDef="let element; let i = index">
+                        <span (click)="deleteBillingBy(i)" *ngIf="billingData.billingBy.length>1"><em class="material-icons" style="cursor: pointer;" #tooltip="matTooltip"
+                            matTooltip="DELETE BILLING BY" matTooltipPosition="right">delete</em>
+                          </span>        
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="billingBranchId">
+                    <th mat-header-cell *matHeaderCellDef  scope="row">BILLING BRANCH<span class="redMark"> *</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <a class="pincodeText" (click)="searchBillingBranch(element)" style="cursor: pointer !important;">
+                      <mat-form-field appearance="outline" >                        
+                        <span class="fa fa-search fa-lg srch_bill_icon" id="billingSearch" (click)="searchBillingBranch(element)" *ngIf="billingByLevelName !== 'BOOKING BRANCH'"></span>
+                        <input autocomplete="true" [readonly]="element.billingBranchName" class="paddingleft1point5rem" required #billingBranchId='ngModel' [(ngModel)]="element.billingBranchName" matInput name="billingBranchId-{{i}}" [(value)]="element.billingBranchName" (keyup.enter)="searchBillingBranch(element, element.billingBranchName)"
+                        (keyup)="changeValue(i, 'billingBranchName', $event.target.value)" (blur)="updateList(i, 'billingBranchName', $event.target.value)">
+                      </mat-form-field>
+                    </a>
+                      <span *ngIf="(billingBranchId.errors?.required && (billingBranchId.touched || fBilling.submitted)) && !billingBranchError==true"
+                          class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="submsnBranchId">
+                    <th mat-header-cell *matHeaderCellDef  scope="row">SUBMISSION BRANCH<span class="redMark"> *</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index" >
+                      <a class="pincodeText" (click)="searchSubmissionBranch(element)" style="cursor: pointer !important;">
+                      <mat-form-field appearance="outline"> 
+                        <span class="fa fa-search fa-lg srch_bill_icon" id="billingSearch" (click)="searchSubmissionBranch(element, element.submsnBranchName)"></span>                       
+                        <input autocomplete="true" [readonly]="element.submsnBranchName" required #submsnBranchId='ngModel' [(ngModel)]="element.submsnBranchName" class="paddingleft1point5rem" matInput name="submsnBranchId-{{i}}" [(value)]="element.submsnBranchName" (keyup.enter)="searchSubmissionBranch(element, element.submsnBranchName)"
+                        (keyup)="changeValue(i, 'submsnBranchName', $event.target.value)" (blur)="updateList(i, 'submsnBranchName', $event.target.value)">
+                      </mat-form-field>
+                      </a>
+                      <span *ngIf="(submsnBranchId.errors?.required && (submsnBranchId.touched || fBilling.submitted)) && !submissionBranchError==true" class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="billtoAddr">
+                    <th mat-header-cell *matHeaderCellDef scope="row">
+                     <div style="min-width: 21rem !important;">BILL TO ADDRESS<span class="redMark"> *</span></div></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" style="margin-right: .5rem !important;">
+                        <mat-select disableOptionCentering panelClass="creditSelect" required #billtoAddr='ngModel' [(ngModel)]="element.billtoAddr" name="billtoAddr-{{i}}" [(value)]="element.billtoAddr" [disabled]="msaBillingExists">
+                          <mat-option *ngFor="let item of element.billtoAddrList | sortBy:'asc':'item'" [value]="item"
+                          [matTooltip]="item" [matTooltipDisabled]="item.length<21" matTooltipPosition="above" >
+                            {{item}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <span *ngIf="(billtoAddr.errors?.required && (billtoAddr.touched || fBilling.submitted))" class="hasErrorMsg marginBilling">Required&nbsp;!</span>
+                      <strong *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="addAddress(i)" #tooltip="matTooltip" matTooltip="ADD Bill TO ADDRESS"
+                        matTooltipPosition="right" class="material-icons">add</em></strong>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="gstinNum">
+                    <th mat-header-cell *matHeaderCellDef scope="row">GSTIN</th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" >
+                        <input required #gstinNum='ngModel' [(ngModel)]="element.gstinNum" maxlength="15" minlength="15" [disabled]="!billingData.gstinRegdFlag || msaBillingExists"
+                        pattern="\d{2}[A-Za-z]{3}[abcfghljptfABCFGHLJPTF]{1}[A-Za-z]{1}\d{4}[A-Za-z]{1}[A-Za-z\d]{1}[Zz,Dd]{1}[A-Za-z\d]{1}|\d{2}[A-Za-z]{4}\d{5}[A-Za-z]{1}[A-Za-z\d]{1}[zZ,dD]{1}[A-Za-z\d]{1}$" alphanumeric matInput name="gstinNum-{{i}}" [(value)]="element.gstinNum" (keyup)="changeValue(i, 'gstinNum', $event.target.value)" (blur)="updateList(i, 'gstinNum', $event.target.value)">
+                      </mat-form-field>
+                      <span *ngIf="(gstinNum.errors?.required && (gstinNum.touched || fBilling.submitted))"
+                          class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>
+                      <span *ngIf="gstinNum.errors?.pattern" class="hasErrorMsg marginBilling">Invalid GSTIN !</span>
+                      <span *ngIf=" gstinNum.invalid && (gstinNum.dirty || gstinNum.touched) && !gstinNum.errors?.required && !gstinNum.errors?.pattern" class="hasErrorMsg marginBilling">Invalid GSTIN !</span>
+                      
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="collBranchId">
+                    <th mat-header-cell *matHeaderCellDef  scope="row">COLLECTION BRANCH<span class="redMark"> *</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <a class="pincodeText" (click)="searchCollectionBranch(element)" style="cursor: pointer !important;">
+                      <mat-form-field appearance="outline" >
+                        <span class="fa fa-search fa-lg srch_bill_icon" id="billingSearch" (click)="searchCollectionBranch(element)"></span>
+                      <input required #collBranchId='ngModel'  [readonly]="element.collBranchName" [(ngModel)]="element.collBranchName" class="paddingleft1point5rem" matInput name="collBranchId-{{i}}" [(value)]="element.collBranchName" (keyup.enter)="searchCollectionBranch(element, element.collBranchName)"
+                      (keyup)="changeValue(i, 'collBranchName', $event.target.value)" (blur)="updateList(i, 'collBranchName', $event.target.value)">
+                      </mat-form-field></a>
+                      <span *ngIf="(collBranchId.errors?.required && (collBranchId.touched || fBilling.submitted)) && !collectionBranchError==true"
+                          class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>                 
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="minBillingAmt"> 
+                    <th mat-header-cell *matHeaderCellDef scope="row">MIN. BILLING AMOUNT<span class="redMark"> *&nbsp;</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" >
+                        <input required #minBillingAmt='ngModel' numeric maxlength="8" decimals="2" [disabled]="msaBillingExists" [(ngModel)]="element.minBillingAmt" matInput name="minBillingAmt-{{i}}" [(value)]="element.minBillingAmt" (keyup)="changeValue(i, 'minBillingAmt', $event.target.value)" (blur)="updateList(i, 'minBillingAmt', $event.target.value)">
+                      </mat-form-field>
+                      <span *ngIf="(minBillingAmt.errors?.required && (minBillingAmt.touched || fBilling.submitted))"
+                          class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>
+                      <span *ngIf="(minBillingAmt.errors?.isNumeric && minBillingAmt.touched && !minBillingAmt.errors?.required)"
+                          class="hasErrorMsg marginBilling">
+                          Invalid !
+                      </span>
+                    </td>
+                    <td></td>
+                  </ng-container>
+                  <ng-container matColumnDef="excludeBillingFlag">
+                    <th mat-header-cell *matHeaderCellDef scope="row">EXCLUDE BILLING<span class="redMark"> *</span></th>
+                    <td class="paddingtopone" mat-cell *matCellDef="let element; let i = index"><div style="width: 18rem !important;">
+                      <mat-radio-group style="padding-left: 1.5rem !important;" class="example-radio-group" *ngFor="let item of excludeBillingFlagList" (change)="updateList(i, 'excludeBillingFlag', $event.value)"
+                      name="excludeBillingFlag{{i}}" [(value)]="element.excludeBillingFlag" [disabled]="msaBillingExists">
+                      <mat-radio-button class="example-radio-button" [value]="item.id">
+                        {{item.value}}
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="excludeBillingDt">
+                    <th mat-header-cell *matHeaderCellDef scope="row">EXCLUDE BILLING DATE</th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline"  style="width: 13rem !important;">
+                        <input required #excludeBillingDt='ngModel' [(ngModel)]="element.excludeBillingDt" matInput [matDatepicker]="picker2" name="excludeBillingDt-{{i}}" class="date_picker"
+                        [disabled]="!element.excludeBillingFlag || msaBillingExists" [min]="minDate" [max]="maxDate" (dateChange)="updateList(i, 'excludeBillingDt', $event.target.value)" placeholder="DD/MM/YYYY">
+                        <mat-datepicker panelClass="creditDatepicker" #picker2></mat-datepicker>
+                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      </mat-form-field>
+                      <span *ngIf="(excludeBillingDt.errors?.required && (excludeBillingDt.touched || fBilling.submitted))" class="hasErrorMsg marginBilling">
+                        Required&nbsp;!
+                      </span>
+                      <span *ngIf="isValidBillingDt && !(excludeBillingDt.errors?.required)" class="hasErrorMsg marginBilling">
+                        Invalid Billing Date!
+                      </span>
+                    </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="tanNum">
+                    <th mat-header-cell *matHeaderCellDef scope="row">TAN</th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" >
+                   
+                    <input #tanNum='ngModel' [(ngModel)]="element.tanNum"  matInput name="tanNum-{{i}}"  minlength="10" maxlength="10" [disabled]="msaBillingExists"
+                      pattern="^[A-Za-z]{4}\d{5}[A-Za-z]{1}$" alphanumeric [(value)]="element.tanNum" (keyup)="changeValue(i, 'tanNum', $event.target.value)" (blur)="updateList(i, 'tanNum', $event.target.value)">
+                    
+                    </mat-form-field>
+                      <span *ngIf="tanNum.errors?.pattern" class="hasErrorMsg marginBilling">Invalid TAN</span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="lkpGbCtgyId">
+                    <th mat-header-cell *matHeaderCellDef scope="row">GB CATEGORY</th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" >
+                        <mat-select disableOptionCentering panelClass="creditSelect" required #lkpGbCtgyId='ngModel' [(ngModel)]="element.lkpGbCtgyId" name="lkpGbCtgyId-{{i}}" 
+                        [(value)]="element.lkpGbCtgyId" (selectionChange)="updateList(i, 'lkpGbCtgyId', $event.value)" [disabled]="msaBillingExists">
+                          <mat-option *ngFor="let item of gbCategoryList | sortBy:'asc':'descr'" [value]="item.id" 
+                          [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<16" matTooltipPosition="above">
+                            {{item.descr}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <span *ngIf="(lkpGbCtgyId.errors?.required && (lkpGbCtgyId.touched || fBilling.submitted))"
+                          class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="creditRisk">
+                    <th mat-header-cell *matHeaderCellDef scope="row">CREDIT LIMIT<span class="redMark"> *</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" >
+                        <input required #creditRisk='ngModel' [(ngModel)]="element.creditRisk" matInput name="creditRisk-{{i}}" [(value)]="element.creditRisk" 
+                        numeric decimals="2"
+                        (keyup)="changeValue(i, 'creditRisk', $event.target.value)" (blur)="updateList(i, 'creditRisk', $event.target.value)" [disabled]="msaBillingExists">
+                      </mat-form-field>
+                      <span *ngIf="(creditRisk.errors?.required && (creditRisk.touched || fBilling.submitted))"
+                          class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>
+                      <span *ngIf="(creditRisk.errors?.isNumeric && creditRisk.touched && !creditRisk.errors?.required)"
+                      class="hasErrorMsg marginBilling">
+                      Invalid&nbsp;!
+                  </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="mnthPotential">
+                    <th mat-header-cell *matHeaderCellDef scope="row">MONTHLY POTENTIAL<span class="redMark"> *</span></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" >
+                        <input required #mnthPotential='ngModel' [(ngModel)]="element.mnthPotential" matInput name="mnthPotential-{{i}}" [(value)]="element.mnthPotential"
+                        numeric decimals="2"
+                         (keyup)="changeValue(i, 'mnthPotential', $event.target.value)" (blur)="updateList(i, 'mnthPotential', $event.target.value)" [disabled]="msaBillingExists">
+                      </mat-form-field>
+                      <span *ngIf="(mnthPotential.errors?.required && (mnthPotential.touched || fBilling.submitted))"
+                          class="hasErrorMsg marginBilling">
+                          Required&nbsp;!
+                      </span>
+                      <span *ngIf="(mnthPotential.errors?.isNumeric && mnthPotential.touched && !mnthPotential.errors?.required)"
+                      class="hasErrorMsg marginBilling">
+                      Invalid&nbsp;!
+                      </span>
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="ebillEmail">
+                    <th mat-header-cell *matHeaderCellDef scope="row"><div style="min-width: 22rem !important;">E-BILL E-MAIL ID<span class="redMark"> *</span></div></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">     
+               
+
+                      <mat-form-field appearance="outline" style="margin-right: 0 !important;">
+                        <mat-select panelClass="creditSelect" #ebillEmail='ngModel'required [(ngModel)]="element.ebillEmail" matInput name="ebillEmail-{{i}}" [(value)]="element.ebillEmail" [disabled]="msaBillingExists">
+                          <mat-option *ngFor="let item of element.ebillemailList | sortBy:'asc':'item'" [value]="item"
+                          [matTooltip]="item" [matTooltipDisabled]="item.length<21" matTooltipPosition="above">
+                            {{item}}
+                          </mat-option>
+                        </mat-select >
+                      </mat-form-field>
+                      <strong *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="ebillemailAddress(i)" #tooltip="matTooltip" matTooltip="ADD EBILL E-MAIL ID"
+                        matTooltipPosition="right" class="material-icons">add</em></strong>
+                      <span *ngIf="(ebillEmail.errors?.required && (ebillEmail.touched || fBilling.submitted))" class="hasErrorMsg marginBilling">Required&nbsp;!</span>
+
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="bdmEmail">
+                    <th mat-header-cell *matHeaderCellDef scope="row"><div style="min-width: 22rem !important;">BDM E-MAIL ID</div></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+                      <mat-form-field appearance="outline" style="margin-right: 0 !important;">
+                        <mat-select disableOptionCentering panelClass="creditSelect" #bdmEmail='ngModel' [(ngModel)]="element.bdmEmail" matInput name="bdmEmail-{{i}}" [(value)]="element.bdmEmail" [disabled]="msaBillingExists">
+                          <mat-option *ngFor="let item of element.bdmemailList | sortBy:'asc':'item'" [value]="item"
+                          [matTooltip]="item" [matTooltipDisabled]="item.length<21" matTooltipPosition="above">
+                            {{item}}
+                          </mat-option>
+                        </mat-select >
+                      </mat-form-field>
+                      <strong *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="emailAddress(i)" #tooltip="matTooltip" matTooltip="ADD BDM E-MAIL ID"
+                        matTooltipPosition="right" class="material-icons">add</em></strong>
+                  </ng-container>
+                  <ng-container matColumnDef="commBillEmail">
+                    <th mat-header-cell *matHeaderCellDef scope="row"><div style="min-width: 21rem !important;">COMMUNICATION E-MAIL ID<span class="redMark">&nbsp;*</span></div></th>
+                    <td class="paddingtopone paddingbottomone" mat-cell *matCellDef="let element; let i = index">
+      
+
+                      <mat-form-field appearance="outline" style="margin-right: 0 !important;">
+                        <mat-select panelClass="creditSelect" #commBillEmail='ngModel' required [(ngModel)]="element.commBillEmail" matInput name="commBillEmail-{{i}}" [(value)]="element.commBillEmail" [disabled]="msaBillingExists">
+                          <mat-option *ngFor="let item of element.communicationemailList | sortBy:'asc':'item'" [value]="item"
+                          [matTooltip]="item" [matTooltipDisabled]="item.length<21" matTooltipPosition="above">
+                            {{item}}
+                          </mat-option>
+                        </mat-select >
+                      </mat-form-field>
+                      <strong *ngIf="!msaBillingExists"><em style="color: #27AE60; font-size: 3rem; cursor: pointer;" (click)="communicationEmail(i)" #tooltip="matTooltip" matTooltip="ADD COMMUNICATION E-MAIL ID"
+                        matTooltipPosition="right" class="material-icons">add</em></strong>
+                      <span *ngIf="(commBillEmail.errors?.required && (commBillEmail.touched || fBilling.submitted))" class="hasErrorMsg marginBilling">Required&nbsp;!</span>
+                    </td>
+                  </ng-container>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+              </div>
+
+            <!-- next -->
+            <div class="row" *ngIf="billingData.cneeCnorBillingCateg=='CONSIGNEE' && billingData.cneeCnorFlag==1">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" >
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8  label-text">Consignee wise Billing</div></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 zonalheadingbar">Mapped Consignee</div>
+                  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 bottom-border bilingConsinee" *ngFor="let item of billingData.billingCneeCnorMap">
+                    {{item.cneeName}}
+                  </div>
+                </div>              
+            </div>
+
+            <div class="row" *ngIf="billingData.cneeCnorBillingCateg!='CONSIGNEE' && billingData.cneeCnorFlag==1">
+              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                <div class="col-lg-8 col-md-8 col-sm-8 col-xs-8  label-text">Consignor/Consignee wise Billing
+                </div></div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 ">
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2  zonalheadingbar">Name</div>
+                  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10  zonalheadingbar">Mapped with</div>
+                </div>
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 " *ngFor="let item of billingData.billingCneeCnorMap">
+                  <div class="col-lg-2 col-md-2 col-sm-2 col-xs-2 bottom-border bilingConsinee">{{item.cnorName}}</div>
+                  <div class="col-lg-10 col-md-10 col-sm-10 col-xs-10 bottom-border bilingConsinee">{{item.cneeName}}</div>
+                </div>              
+            </div>      
+
+          </mat-card-content>
+        </mat-expansion-panel>
+      </mat-accordion>
+
     <div style="margin-top: 3%;">
       <mat-accordion>
         <div class="example-button-row text-center" style="margin-top: 5%">
-          <button type="submit" id="billingDraftButton" *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE']" [disabled] = "!fBilling.form.valid" class="btn1" mat-raised-button color="primary"
-            (click)="postBillingData(0)">Save As Draft</button>
-          <button type="sumit" id="billingNextButton" *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE']" [disabled] = "!fBilling.form.valid" class="btn1" style="text-align: center" mat-raised-button
-            color="primary" (click)="postBillingData(1)">Next</button>
-        
+          <button *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE']" type="submit" id="billingDraftButton" class="btn1" mat-raised-button color="primary" [disabled]="!fBilling.form.valid" (click)="isValidBillingDraft()">Save As Draft</button>
+          <button *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE']" type="sumit" id="billingNextButton" class="btn1" style="text-align: center" mat-raised-button color="primary" [disabled]="!fBilling.form.valid" (click)="isValidBilling()">Next</button>
+          <button *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE']" type="button" id="billingResetButton" class="btn1" mat-raised-button color="primary" (click)="ngOnInit()">Reset</button>
         </div>
       </mat-accordion>
     </div>
   </mat-card>
 </form>
-<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"> </ngx-spinner>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">  </ngx-spinner>

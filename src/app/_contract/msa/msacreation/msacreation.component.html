@@ -1,13 +1,13 @@
-<div class="hero-content prcContainer">
+<div class="hero-content contractContainer">
   <div class="row text-left parent">
-        <div class="breadcrumb">
-            <a  routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-            <a  routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-            <a  routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-            MSA
-        </div>
+    <div class="breadcrumb">
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      MSA
+  </div>
     </div>
-    <h3> PRC Contract</h3>
+    <h3> Credit Contract</h3>
     <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
         fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
         <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>&nbsp;</span><span>&nbsp;</span>
@@ -182,10 +182,10 @@
                 <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4"></div>        
                   <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
                       <div class="row" style="padding-top:1rem;">
-                        <div class="col-lg-6 col-md-6 label-text">SLA(%)</div>
+                        <div class="col-lg-6 col-md-6 label-text">SLA(%)<span class="redMark"> *</span></div>
                         <div class="col-lg-6 col-md-6 label-text-value">              
                             <mat-form-field appearance="outline" style="width: 88%;">
-                            <input autocomplete="true" pattern="^[0-9][0-9]*$" matInput name="sla" #sla="ngModel" 
+                            <input autocomplete="true" pattern="^[0-9][0-9]*$" matInput name="sla" required #sla="ngModel" 
                             maxlength="4" [(ngModel)]="msaSelectedData.sla">
                           </mat-form-field>
                          </div>
@@ -204,6 +204,7 @@
             <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">
               <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6"></div>
               <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+                <app-validation-msg  *ngIf="(sla.errors?.required && sla.touched)" [msg]="'Required&nbsp;!'"></app-validation-msg>
                 <app-validation-msg  *ngIf="(sla.errors?.pattern && (sla.dirty || sla.touched) && !sla.errors?.required)" [msg]="'Only Numbers Allowed !'"></app-validation-msg>
               </div>
             </div> 
@@ -231,7 +232,6 @@
                     bindValue="pincodeId"
                     appendTo="body"
                     id="pincodeId"
-                    (blur)="onBlur()"
                     (search) ='pincodeSearch($event)'
                     (keypress)='numberOnly($event)'
                     [(ngModel)]="regAddress.pincodeId"
@@ -343,7 +343,7 @@
           <div class="row" style="padding-left: 0;">
             <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
                 <div class="row" style="padding-top:1rem;">
-                  <div class="col-lg-6 col-md-6 label-text">Customer Sub-Segment<span class="redMark"> *</span></div>
+                  <div class="col-lg-6 col-md-6 label-text">Customer Sub-Segment<span class="redMark">&nbsp;*</span></div>
                   <div class="col-lg-6 col-md-6 ">  
                      <mat-form-field appearance="outline" style="width: 88%;">             
                         <mat-select disableOptionCentering panelClass="creditSelect creditNgxSelect" required #subseg="ngModel" name="subsegment" [(ngModel)]="msaSelectedData.subsegment" 
@@ -397,7 +397,7 @@
    <table  mat-table  [dataSource]="dataSource" matSort aria-describedby="table">
 
     <ng-container matColumnDef="name">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>
       <span class="service-fonts-checkbox fontWeight">NAME</span>
       </th>
       <td mat-cell  *matCellDef="let element; let j = index;">
@@ -407,40 +407,40 @@
            </td>
     </ng-container>
     <ng-container matColumnDef="lkpConsigntypeName">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>TYPE </th>
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>TYPE </th>
       <td mat-cell *matCellDef="let element"> <div class="row_center">{{element.lkpConsigntypeName}}</div> </td>
     </ng-container>
     <ng-container matColumnDef="panNum">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO.</th >
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> PAN NO.</th >
       <td mat-cell *matCellDef="let element"><div class="row_center"> {{element.panNum | uppercase}}</div> </td>
     </ng-container>
     <ng-container matColumnDef="gstinNum">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> GST NO. </th>
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> GST NO. </th>
       <td mat-cell *matCellDef="let element"><div class="row_center">{{element.gstinNum | uppercase}} </div></td>
     </ng-container>
     <ng-container matColumnDef="tanNum">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> TAN NO. </th>
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> TAN NO. </th>
       <td mat-cell *matCellDef="let element"><div class="row_center">{{element.tanNum | uppercase}} </div></td >
     </ng-container>
     <ng-container matColumnDef="mob">
-      <th scope="row" mat-header-cell *matHeaderCellDef  mat-sort-header> MOBILE NO. </th >
+      <th  scope="row" mat-header-cell *matHeaderCellDef  mat-sort-header> MOBILE NO. </th >
       <td mat-cell *matCellDef="let element"><div class="row_center">{{element.mob | uppercase}}</div> </td>
     </ng-container>
     <ng-container matColumnDef="addr1">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> ADDRESS </th >
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> ADDRESS </th >
       <td mat-cell *matCellDef="let element" ><div class="row_center1" [matTooltip]="element.address | uppercase"
         matTooltipPosition="above"> {{element.address | uppercase }}</div> </td>
     </ng-container>
     <ng-container matColumnDef="city">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> CITY </th >
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header> CITY </th >
       <td mat-cell *matCellDef="let element"><div class="row_center"> {{element.city | uppercase}} </div></td>
     </ng-container>
     <ng-container matColumnDef="pincode">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>PINCODE  </th>
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>PINCODE  </th>
       <td mat-cell *matCellDef="let element"> <div class="row_center">{{element.pincode}}</div> </td>
     </ng-container>
     <ng-container matColumnDef="dealerCode">
-      <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>DEALER CODE  </th>
+      <th  scope="row" mat-header-cell *matHeaderCellDef mat-sort-header>DEALER CODE  </th>
       <td mat-cell *matCellDef="let element"><div class="row_center"> {{element.dealerCode | uppercase}}</div> </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

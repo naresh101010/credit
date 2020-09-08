@@ -59,7 +59,7 @@ export class ExistingsafexlistComponent implements OnInit {
   dataSource = new MatTableDataSource(this.sfxCodeList);
   getSFXCodeBySFXId(code){
     if(!code.trim()){
-      this.tosterservice.info('Please input PRC Code !');
+      this.tosterservice.info('Please input SFX Code !');
       this.dialogRefEdit.close();
       this.spinner.hide();
       return;
@@ -184,7 +184,7 @@ export class ExistingsafexlistComponent implements OnInit {
       if(this.isEditflow){
         this.dialogRefEdit.close();
         AppSetting.oprtunityId=data.opportunityId;
-        this.router.navigate(['/prc-contract/opportunity',{'openDialog':'true'}], {skipLocationChange : true});
+        this.router.navigate(['contract/opportunity',{'openDialog':'true'}], {skipLocationChange: true});
       }else{
         this.dialogRefEdit.close(data);
       }

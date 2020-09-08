@@ -1,21 +1,21 @@
 
 <form class="hero-content">
   <div *ngIf="!isDisable" class="row text-left parent">      
-      <div class="breadcrumb">
-        <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-        <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-        <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-        PRC
-    </div>
+    <div class="breadcrumb">
+      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      CREDIT
+  </div>
     <stepper></stepper>
   </div>
 
-<h3>PRC Contract</h3>
+<h3>Credit Contract</h3>
 <div *ngIf="isDataAvailable" id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span>
-      <span class="customerName" [matTooltip]="custName" [matTooltipDisabled]="custName?.length<30" matTooltipPosition="above">{{custName}}</span></div>
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{sfdcAccId}}</span></div>
-    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{cntrCode}}</em></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center salesForceWidth" [matTooltip]="custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="custName?.length<33">{{custName}}</span></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center salesForceWidth">{{sfdcAccId}}</span></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center salesForceWidth">{{cntrCode}}</em></div>
+  
   </div>
 
 <mat-card>
@@ -64,8 +64,6 @@
           <div class="col-lg-4 col-md-4  "></div>
           <div class="col-lg-4 col-md-4  ">
             <div class="col-lg-6 col-md-6  "></div>
-            <div class="col-lg-6 col-md-6  ">
-            </div>
           </div>
         </div>
   
@@ -89,16 +87,16 @@
       </div>
       <div class="col-lg-4 col-md-4  "></div>
         <div class="col-lg-4 col-md-4  ">            
-        <div class="col-lg-6 col-md-6 label-text paddingleftzero">Rate Card Applicable</div>
-        <div class="col-lg-6 col-md-6 label-text-value">                            
-                <mat-radio-group style="padding-left: 1rem !important;" [disabled]="isDisable" *ngFor="let season of gst" class="example-radio-group" name="rateCardApplicableFlag" (change) = "rateCardAppchange(model.rateCardApplicableFlag)" [(ngModel)]="model.rateCardApplicableFlag" >
-                    <mat-radio-button class="example-radio-button" [value]="season.id">
-                      {{season.value}}
-                    </mat-radio-button>
-                  </mat-radio-group>
-          </div>
-          </div>      
-  </div>
+              <div class="col-lg-6 col-md-6 label-text paddingleftzero">Direct Pick Up</div>
+              <div class="col-lg-6 col-md-6 label-text-value">                            
+                      <mat-radio-group style="padding-left: 1rem !important;" [disabled]="isDisable" *ngFor="let season of gst" class="example-radio-group" name="directPickupFlag" [(ngModel)]="model.directPickupFlag" >
+                          <mat-radio-button class="example-radio-button" [value]="season.id">
+                            {{season.value}}
+                          </mat-radio-button>
+                        </mat-radio-group>
+                </div>
+                </div>      
+    </div>
 
 <!-- First Row end -->
 
@@ -251,7 +249,7 @@
           <div class="col-lg-4 col-md-4  ">						
             <div class="row">
               <div class="col-lg-6  col-md-6   label-text">Contract Sign Date <span class="redMark"> *</span></div>
-              <div class="col-lg-4 col-md-4   label-text-value div-space rightpadding" >
+              <div class="col-lg-5 col-md-5   label-text-value div-space rightpadding" >
                 <mat-form-field  appearance="outline"  id="datepickerwidth" style="width: 55%">
                   <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                   <mat-datepicker panelClass="creditDatepicker" #picker></mat-datepicker>
@@ -275,7 +273,7 @@
         <div class="col-lg-4 col-md-4  ">
             <div class="row">
               <div class="col-lg-6 col-md-6 label-text">Contract Start Date<span class="redMark"> *</span></div>
-              <div class="col-lg-4 col-md-4   label-text-value div-space rightpadding">
+              <div class="col-lg-5 col-md-5   label-text-value div-space rightpadding">
                 <mat-form-field appearance="outline" id="datepickerwidth">
                   <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
                   <mat-datepicker panelClass="creditDatepicker" #pickerTo></mat-datepicker>   
@@ -295,17 +293,20 @@
             </div>
             <div class="col-lg-4 col-md-4  ">						
                 <div class="row">
-                  <div class="col-lg-6 col-md-6 label-text">Contract End Date</div>
-                  <div class="col-lg-4 col-md-4 label-text-value rightpadding">              
+                  <div class="col-lg-6 col-md-6 label-text">Contract End Date<span class="redMark">*</span></div>
+                  <div class="col-lg-5 col-md-5 label-text-value rightpadding">              
                     <mat-form-field  appearance="outline"  id="datepickerwidth">
                       <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                       <mat-datepicker panelClass="creditDatepicker" #picker2></mat-datepicker>
-                      <input  #expDt="ngModel" [disabled]="disableExp" (dateChange)="expDate()" (blur)="expDate()" [ngClass]="{ 'is-invalid': expDt.invalid }"
+                      <input  #expDt="ngModel" required [disabled]="disableExp" (dateChange)="expDate()" (blur)="expDate()" [ngClass]="{ 'is-invalid': expDt.invalid }"
                        matInput [matDatepicker]="picker2"  placeholder="DD/MM/YYYY" name ="expDt" [(ngModel)]="model.expDt" class="date_picker"
                        [min]="minDate">
                     </mat-form-field>
-                   <br> 
-                   <span *ngIf="isValidExpDt && !(expDt.errors?.required)" class="hasErrorMsg">Invalid End Date!</span>
+                    <br>
+                    <app-validation-msg *ngIf="(expDt.errors?.required && expDt.touched)" [msg]="'Required !'"></app-validation-msg>
+                    <span *ngIf="isValidExpDt && !(expDt.errors?.required)" class="hasErrorMsgRightSide">
+                      Invalid End Date!
+                    </span>
                   </div>
                 </div>
                 </div>

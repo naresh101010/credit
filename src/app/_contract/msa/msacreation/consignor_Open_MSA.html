@@ -1,13 +1,13 @@
-  <div style="padding: 1.8rem !important;" class="prcContainer cDetails">
+  <div style="padding: 1.8rem !important;" class="contractContainer">
   <div style="position: relative;">
     <h3 id="h3">Consignor & Consignee Details</h3>
     <button class="close_button" id="signCloseButton" (click)="closeDialog()">
-      <em class="fa fa-times fa-2x" aria-hidden="true"></em>
+      <i class="fa fa-times fa-2x" aria-hidden="true"></i>
     </button>
   </div> 
   <hr id="popup-hr">  
   <div layout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start center">            
-  <div style="width: 136rem;" class="prcContainer">              
+  <div style="width: 136rem;" class="contractContainer">              
   <form name="form" (ngSubmit)="addElement(f.form.valid, f)" #f="ngForm" novalidate>
     <div class="input-row" fxLayout="row" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%" [style.margin-top]="'2rem'">
       <div fxFlex>
@@ -43,11 +43,13 @@
     </div>
     <div class="input-row" fxLayout="row" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%" [style.margin-top]="'2rem'">
       <div fxFlex>
-      <div fxFlex class="fonts">GSTIN</div>
+      <div fxFlex class="fonts">GSTIN<span class="redMark"> *</span></div>
       <div fxFlex>
         <input autocomplete="true" (input)="onGstinChange(model.gstinNum)" class="form-control inputWidth" type="text" name="gstinNum" [(ngModel)]="model.gstinNum" placeholder="Gst Num." minlength="15" maxlength="15"
-         #gstNum="ngModel" alphanumeric [ngClass]="{ 'is-invalid':gstNum.invalid }">
-      <app-validation-msg *ngIf='!GstinChk && gstLength' [msg]="'Invalid GSTIN !'"></app-validation-msg> 
+         #gstNum="ngModel" alphanumeric required [ngClass]="{ 'is-invalid':gstNum.invalid }">
+      <app-validation-msg *ngIf="(gstNum.errors?.required && gstNum.touched)" [msg]="'Required !'"></app-validation-msg>
+      <app-validation-msg *ngIf="gstNum.invalid && (gstNum.dirty || gstNum.touched) && !gstNum.errors?.required" [msg]="'invalid GSTIN !'"></app-validation-msg>
+      <app-validation-msg *ngIf='!GstinChk && !gstNum.errors?.required && !gstNum.invalid' [msg]="'Invalid GSTIN !'"></app-validation-msg> 
       </div>
     </div>
     <div fxFlex>
@@ -80,7 +82,7 @@
       </div>
       <div fxFlex></div><div fxFlex></div>
       <div fxFlex></div><div fxFlex></div>    
-    </div>
+      </div>
 
 
 
@@ -135,25 +137,24 @@
        <div class="input-row" fxLayout="row" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%" [style.margin-top]="'2rem'">
          <div fxFlex>
            <div fxFlex class="fonts">Pincode <span class="redMark"> *</span>
-            <app-validation-msg class="errorText" *ngIf=" (pincodeError===true) && !isAddressChecked" [msg]="'Enter min. 4 character'"></app-validation-msg>
+            <app-validation-msg class="errorText" *ngIf="(pincodeError==true)  && !isAddressChecked" [msg]="'Enter min. 4 character'"></app-validation-msg>
           </div>
            <div fxFlex class="pincodeColor" placeholder="PINCODE" (clickOutside)="clickBodyElem($event)">
             <ng-select [items]="pincodeData" id="pincodeSearch" style="max-width: 18rem !important;"
-            name="pincodeName"
+            name="pincode"
             bindLabel="pincode"
             class="creditNgDropdown"
             bindValue="pincodeId"
             appendTo="body"
-            (blur)='onBlur()'
             (keypress)='numberOnly($event)'
             (search) ='pincodeSearch($event)'
             [(ngModel)]="model.pincode"
             (click)="onClear()"
             (clear)="emptyPincodeData()"
-             required #pincode="ngModel" placeholder="PINCODE"
+            required #pincode="ngModel" placeholder="PINCODE"
             [disabled]="isAddressChecked">
-            </ng-select>
-            <app-validation-msg *ngIf="(pincode.errors?.required && pincode.touched) && (pincodeError!==true)" [msg]="'Required !'"></app-validation-msg>
+            </ng-select>  
+            <app-validation-msg *ngIf="(pincode.errors?.required && pincode.touched) && !(pincodeError==true)" [msg]="'Required !'"></app-validation-msg>
 
            </div>
          </div>
@@ -165,7 +166,7 @@
            </div>
          </div>
          <div fxFlex>                
-           <button type="submit" [disabled]="!f.form.valid || !PanChk || !GstinChk"  [style.color]="f.invalid || !PanChk || !GstinChk ? 'gray' : '#27AE60'" style="cursor: pointer;color: rgb(33, 110, 36),;width: 2.4rem; position: relative;
+           <button type="submit" [disabled]="!f.form.valid || !GstinChk"  [style.color]="f.invalid || !GstinChk ? 'gray' : '#27AE60'" style="cursor: pointer;color: rgb(33, 110, 36),;width: 2.4rem; position: relative;
            left: 0%;font-size: 3.2rem; border: none; background: transparent;
            top: .3rem;" class="material-icons">add_circle</button>
          </div>

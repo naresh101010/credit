@@ -28,11 +28,6 @@ export class VersionpreviewComponent implements OnInit {
     elementIdOrContent: 'printPreview', // the id of html/table element
   }
 
-  expendPanel: boolean = false;
-  expandToggle(){
-    this.expendPanel = true;
-  }
-  
   constructor(
     private contractService:ContractService,
     public dialogRefVersionPreview: MatDialogRef<VersionpreviewComponent>,
@@ -63,22 +58,6 @@ version:string
             let ob = ErrorConstants.validateException(result);
             if (ob.isSuccess) {
               this.dataPreview=result.data.responseData;
-              if(this.dataPreview && this.dataPreview.isRatecardApplicable == 0){
-                this.dataPreview.serviceOfferings[0]['rateCards'] = [] ;
-                let temp = {
-                  branchDTOs : [], 
-                  ratecardDTO: {}, 
-                  commercialDTOs: [], 
-                  commandmentChargeDTOs: [], 
-                  tncDTO : {}, 
-                  safextSlaDTOs: [], 
-                  zmSlaDTOs: [], 
-                  safextCustomSlaDTOs: [], 
-                  zmCustomSlaDTOs: [] }
-                 temp.branchDTOs = this.dataPreview.branchDTOs;
-                this.dataPreview.serviceOfferings[0]['rateCards'].push(temp);
-              }
-
               this.spinner.hide();
               /**
                * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
@@ -122,22 +101,6 @@ version:string
      if (ob.isSuccess) {
 
       this.dataPreview=result.data.responseData;
-      if(this.dataPreview && this.dataPreview.isRatecardApplicable == 0){
-        this.dataPreview.serviceOfferings[0]['rateCards'] = [] ;
-        let temp = {
-          branchDTOs : [], 
-          ratecardDTO: {}, 
-          commercialDTOs: [], 
-          commandmentChargeDTOs: [], 
-          tncDTO : {}, 
-          safextSlaDTOs: [], 
-          zmSlaDTOs: [], 
-          safextCustomSlaDTOs: [], 
-          zmCustomSlaDTOs: [] }
-         temp.branchDTOs = this.dataPreview.branchDTOs;
-        this.dataPreview.serviceOfferings[0]['rateCards'].push(temp);
-      }
-      
       /**
        * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
        * and set the same at commercial level

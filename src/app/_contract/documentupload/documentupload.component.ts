@@ -245,7 +245,9 @@ export class DocumentuploadComponent implements OnInit {
             "docSubtype": "",
             "expDt": "",
             "docPathRef": "",
-            'signedUrl': ''
+            'signedUrl': '',
+            'msaCustId': '',
+            'id': ''
           };
           //set all values in doc object
           docObj.docRef=obj.docRef;
@@ -262,6 +264,8 @@ export class DocumentuploadComponent implements OnInit {
             }
           }
           docObj.signedUrl = obj.signedUrl;
+          docObj.msaCustId = obj.msaCustId;
+          docObj.id = obj.id;
           this.docList.push(docObj);
         }
         //
@@ -269,7 +273,7 @@ export class DocumentuploadComponent implements OnInit {
       },
     error => {
       this.spinner.hide();
-      console.log(error)
+      console.log(error);
     });
   }
 
@@ -291,12 +295,10 @@ export class DocumentuploadComponent implements OnInit {
           this.subTypeList=resData.data.responseData;
           console.log(data, "sub Document list");
         },
-        error => {
-          console.log(error,"Inside Error")
-        }
-        );
     
-   
+      error => {
+        console.log(error,"Inside Error")
+      });
 
     }
   }
@@ -307,11 +309,11 @@ export class DocumentuploadComponent implements OnInit {
   downloadDocument(item) {
     console.log(item.docPathRef);
     let fName = item.docPathRef.substr(item.docPathRef.lastIndexOf('/') + 1, item.docPathRef.length);
-    console.log(fName,'name of file');
+    console.log(fName, 'name of file');
     let a = document.createElement('a');
     a.href = item.signedUrl;
-        a.download = fName;
-        a.click();
+    a.download = fName;
+    a.click();
     this.toaster.success('Download Successfully !');
   }
 
@@ -395,12 +397,12 @@ validateFileSize() {
     }else{return true}
   }
 
-  navigateToPreview($event){
+  navigateToPreview($event) {
     $event.preventDefault();
     if(this.editflow){
-      this.router.navigate(['/prc-contract/preview',{steper:true,'editflow':'true'}], {skipLocationChange : true});
+      this.router.navigate(['/contract/preview',{steper:true,'editflow':'true'}], {skipLocationChange: true});
     }else{
-      this.router.navigate(['/prc-contract/preview'], {skipLocationChange : true});
+      this.router.navigate(['/contract/preview'], {skipLocationChange: true});
     }
   }
 
@@ -433,18 +435,27 @@ validateFileSize() {
   docExpiryDt(){
     let docYear = parseInt(this.datePipe.transform(this.docExpiryDate, 'yyyy'))
       if (docYear > 9999) {
-        this.docExpiryDate = "";
-      } 
-  // else {
-  //   this.docExpiryDate = this.datePipe.transform(this.docExpiryDate, 'yyyy-MM-dd')
-
-  //   if (this.docExpiryDate < this.minDate || this.docExpiryDate > this.maxDate) {
-  //     this.isValidDocExpiryDate = true;
-  //   }
-  //   else {
-  //     this.isValidDocExpiryDate = false;
-  //   }
-  // }
+        this.docExpiryDate = '';
+      }
   }
 
+  deleteFile(item) {
+    this.spinner.show();
+    console.log (item);
+    const deactivateData = {key:'id',value:[item.id]};
+    this.contractservice.deactivateDocument(deactivateData).subscribe(result => {
+      let ob = ErrorConstants.validateException(result);
+      if(ob.isSuccess) {
+      this.docformupload.resetForm();
+      this.getDocumentDetailbyId();
+      } else {
+        this.toaster.error(ob.message);
+        this.spinner.hide();
+      }
+    },error => {
+      this.toaster.error(ErrorConstants.errorNotFound);
+      console.log(error);
+      this.spinner.hide();
+    });
+  }
 }

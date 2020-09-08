@@ -2,12 +2,12 @@
   <div style="position: relative;">
     <h3 id="h3">Consignor & Consignee Details</h3>
     <button class="close_button" id="signCloseButton" (click)="closeDialog()">
-      <em class="fa fa-times fa-2x" aria-hidden="true"></em>
+      <i class="fa fa-times fa-2x" aria-hidden="true"></i>
     </button>
   </div>
   <hr id="popup-hr">  
   <div layout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start start">            
-  <div style="width: 136rem;" class="prcContainer">
+  <div style="width: 136rem;" class="contractContainer">
   <form name="form" (ngSubmit)=" f.form.valid"  #f="ngForm" novalidate>
 
 
@@ -45,11 +45,13 @@
     </div>
     <div class="input-row" fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%"  fxLayoutAlign.xs="start start" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
       <div fxFlex>
-      <div fxFlex class="fonts">GSTIN</div>
+      <div fxFlex class="fonts">GSTIN<span class="redMark"> *</span></div>
       <div fxFlex>
         <input autocomplete="off" class="form-control inputWidth" type="text" name="gstinNum" [(ngModel)]="model.gstinNum" placeholder="Gst Num."
-         #gstNum="ngModel" alphanumeric  maxlength="15" minlength="15" [ngClass]="{ 'is-invalid':gstNum.invalid }" (input)="onGstnChange(model.gstinNum)">
-        <app-validation-msg *ngIf='!gstnChk && gstLength' [msg]="'Invalid GSTIN !'"></app-validation-msg>
+         #gstNum="ngModel" alphanumeric  maxlength="15" minlength="15" required [ngClass]="{ 'is-invalid':gstNum.invalid }" (input)="onGstnChange(model.gstinNum)">
+        <app-validation-msg *ngIf="(gstNum.errors?.required && gstNum.touched)" [msg]="'Required !'"></app-validation-msg>
+        <app-validation-msg *ngIf="gstNum.invalid && (gstNum.dirty || gstNum.touched) && !gstNum.errors?.required" [msg]="'invalid GSTIN !'"></app-validation-msg>
+        <app-validation-msg *ngIf='!gstnChk && !gstNum.errors?.required && !gstNum.invalid' [msg]="'Invalid GSTIN !'"></app-validation-msg>
       </div>
     </div>
     <div fxFlex>
@@ -138,7 +140,6 @@
             class="creditNgDropdown"
             bindValue="pincodeId"
             appendTo="body"
-            (blur)='onBlur()'
             (keypress)='numberOnly($event)'
             (search) ='pincodeSearch($event)'
             [(ngModel)]="model.pincode"
@@ -159,7 +160,7 @@
            </div>           
          </div>
          <div fxFlex>                
-           <button type="submit" [disabled]="!f.form.valid" (click)="addElement(f.form.valid, f)" [style.color]="f.invalid? 'gray' : '#27AE60'" 
+           <button type="submit" [disabled]="!f.form.valid || !gstnChk" (click)="addElement(f.form.valid, f)" [style.color]="f.invalid || !gstnChk ? 'gray' : '#27AE60'" 
            style="cursor: pointer !important;color: rgb(33, 110, 36),;width: 2.4rem; left: 0%;font-size: 3.2rem; border: none; background: transparent;position: relative;
            top: .3rem;" class="material-icons">add_circle</button>
          </div>

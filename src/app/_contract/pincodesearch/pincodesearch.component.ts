@@ -13,7 +13,7 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 
 export interface PincodeElement {
-  pincode:string;
+  pincode: string;
   city:string;
 }
 
@@ -58,7 +58,7 @@ export class PincodesearchComponent implements OnInit {
     selectedPinList = [];
     
     type:any;
-  ngOnInit() {
+    ngOnInit() {
     this.type = this.data.type;
     if(this.data.isSafexttype.length>0){
       console.log('call')

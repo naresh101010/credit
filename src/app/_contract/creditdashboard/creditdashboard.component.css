@@ -12,7 +12,7 @@
 }
 .customiconclass{
     background-color: green;
-    
+
     color: white;
      border-radius: 15px;
      font-size: 15px;
@@ -79,8 +79,8 @@ justify-content: center;
 align-items: center;
 display: flex;
 flex-direction: column;
-margin-right: 2rem; 
-margin-top: 3rem;
+margin-right: 2rem;
+margin-top: 1rem;
 background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px .3rem .6rem #00000029;
 opacity: 1;
@@ -97,8 +97,8 @@ cursor: pointer !important;
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin-right: 2rem; 
-  margin-top: 3rem;
+  margin-right: 2rem;
+  margin-top: 1rem;
   background: #27AE60;
   box-shadow: 0px .3rem .6rem #00000029;
   opacity: 1;
@@ -112,10 +112,10 @@ cursor: pointer !important;
 .white {
   color: #fff !important;
 }
+
 .red {
   color: #B00020 !important;
 }
-
 
 .black {
   color: black !important;
@@ -135,7 +135,7 @@ cursor: pointer !important;
   }
 
   .mo_float_left {
-     float: left; 
+     float: left;
   }
 }
 
@@ -162,8 +162,8 @@ h2{margin-top: 0rem !important;}
  .fontSizeDashboard{font-size: 1.8rem !important; border-bottom: 0 !important;font-weight: bold;margin-top: 1rem !important;}
  .iconSize{font-size: 2.5rem !important;}
  .heartIcon{float: right !important; color: #B00020}
- .heartIcon1{float:right !important;  columns: #27AE60 !important;}
- .matCardBottom{border-radius: 1rem; margin-right: 1rem;height: 18rem;}
+ .heartIcon1{float:right !important;  }
+ .matCardBottom{border-radius: 1rem; margin-right: 1rem;height: 18rem; position: relative}
  .cardAroundSpace{padding-right: 0 !important; margin-bottom: 2rem !important;}
  .topCircle{width: 11rem;height: 17rem;position: absolute;right: 0;top: 1.8rem;background: rgba(0,0,0,.02);z-index: 0;border-top-left-radius: 60px;
   border-bottom-left-radius: 60px;border-top-right-radius: 7%;border-bottom-right-radius: 7%;}
@@ -175,13 +175,26 @@ h2{margin-top: 0rem !important;}
 
 .border{
   border: 1px solid gray;
-  height: 300px;
+  height: 495px;
 }
 
 .favourite_block {
   border: 1px solid gray;
   padding: 20px;
+
+}
+
+.drag_drop_box_without_border {
+  border: none;
+  height: 495px;
+
 }
 
 .bottomMargin{margin-bottom: 2rem;}
- 
+
+.iconImage{float: right;
+  width: 6.5rem;
+  height: 6.5rem;
+  position: absolute;
+  top: 3.2rem;
+  right: 1.2rem;}
