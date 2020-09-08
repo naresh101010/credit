@@ -2493,20 +2493,22 @@ console.log(this.zonalrategroup,"zonalrate group")
       }
     }
     this.contractservice.getCommandmentDetail('RATECARD', this.model.id, serviceOfferingId, this.businessTypeId, this.customerTypeId, this.editflow)
-      .subscribe(resultData => {
-        let ob = ErrorConstants.validateException(resultData);
-        console.log(resultData);
-        if (ob.isSuccess) {
-          if(resultData.data.responseData.length>0)
-            this.isCommandmentAlreadyExist = true;
-        }else{
-          this.isCommandmentAlreadyExist = false;
-        }
-      },
+      .subscribe(
+        resultData => {
+          let ob = ErrorConstants.validateException(resultData);
+          console.log(resultData);
+          if (ob.isSuccess) {
+            if(resultData.data.responseData.length>0)
+              this.isCommandmentAlreadyExist = true;
+          }else{
+            this.isCommandmentAlreadyExist = false;
+          }
+        },
         error => {
           this.spinner.hide();
-        });
-    error => { }
+        }
+      );
+    
   }
   createDlvrBkgList(){
     if(this.successDataForCommer && this.successDataForCommer.safextCharge.length>0){
@@ -6120,13 +6122,13 @@ getFuelPriceAndDate()
   getAllAddress(){
     let tempdata;
     this.contractservice.getAddrByState()
-    .subscribe(data => {
-      tempdata = data;
-      this.stateAddrSla = tempdata.data.responseData;
-      this.stateAddrSla.forEach((ele) => ele.id= ele.id.toString());
-      console.log(this.stateAddrSla, "state")
-    });
-    error => { }
+    .subscribe(
+      data => {
+        tempdata = data;
+        this.stateAddrSla = tempdata.data.responseData;
+        this.stateAddrSla.forEach((ele) => ele.id= ele.id.toString());
+        console.log(this.stateAddrSla, "state")
+      })   
   }
 
   changeRRFlagPP(rrFlag,fielddata){
