@@ -63,6 +63,7 @@ export class UserdetailsComponent implements OnInit {
           var re = /^[0-9]+$/;
           var pastedText = event.clipboardData.getData('text');
           if(re.test(pastedText)){
+            console.log('run')
           }
           else{
             event.preventDefault();
@@ -132,12 +133,12 @@ maxdateForList:any;
     public route: ActivatedRoute,
     public router: Router,
     public dialog: MatDialog,
-    private AuthorizationService:AuthorizationService,
+    private AuthorizationService_:AuthorizationService,
    private permissionsService:NgxPermissionsService,
    private usercreateservice:UsercreateService,
   ) {
     this.IsCheckedpriv = true;
-    this.AuthorizationService.getTimeStamp().subscribe(date=>{
+    this.AuthorizationService_.getTimeStamp().subscribe(date=>{
       this.todayDt = new Date(date.data.responseData.split("[")[0])
     })
   }
@@ -602,7 +603,7 @@ maxdateForList:any;
     this.role();
     this.RoleData();
     this.DepartmentList();
-    this.permissionsService.loadPermissions(this.AuthorizationService.getPermissions('user'));
+    this.permissionsService.loadPermissions(this.AuthorizationService_.getPermissions('user'));
       //end permission
     this.SpinnerService.show();
     var userId: any;
@@ -2351,7 +2352,7 @@ export class popforPriviBranchDetails  {
     public router: Router,
     private toast: ToastrService,
     private SpinnerService: NgxSpinnerService,
-    private authService:AuthorizationService
+    private authService:AuthorizationService_
   ) {
     this.authService.getTimeStamp().subscribe( date => {
       this.today = new Date(date.data.responseData.split("[")[0])
