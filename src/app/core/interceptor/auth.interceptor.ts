@@ -11,7 +11,6 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Injectable } from "@angular/core";
 import "rxjs/add/operator/do";
 
-import { AppSetting } from "../../app.setting";
 import { ToastrService } from "ngx-toastr";
 import { Router } from "@angular/router";
 import { AuthorizationService } from "../services/authorization.service";

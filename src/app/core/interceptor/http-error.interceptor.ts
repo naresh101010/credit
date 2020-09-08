@@ -2,17 +2,14 @@ import {
  HttpEvent,
  HttpInterceptor,
  HttpHandler,
- HttpRequest,
- HttpResponse,
- HttpErrorResponse
+ HttpRequest
 } from '@angular/common/http';
 import {ToastrService} from 'ngx-toastr';
-import { Observable, throwError } from 'rxjs';
-import { retry, catchError, tap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import {  tap } from 'rxjs/operators';
 import { Injectable } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
-import { AppSetting } from 'src/app/app.setting';
-import { stringToKeyValue } from '@angular/flex-layout/extended/typings/style/style-transforms';
+
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
 constructor(private toast: ToastrService, public SpinnerService: NgxSpinnerService){

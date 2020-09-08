@@ -1,4 +1,4 @@
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule, Routes} from "@angular/router";
@@ -11,10 +11,6 @@ import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
 import { ToasterComponent } from './core/component/toster/toaster.component';
 import { LoaderComponent } from './userModule/loader/loader.component';
-// import { LoaderService } from './core/services/loader.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AppConfigService } from './AppConfigService.service';
-// import { LoaderInterceptorService } from './core/interceptor/loader.interceptor';
 import { CommonModule, APP_BASE_HREF } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CustomMaterialModule } from "./angMatModule/material.module";
