@@ -15,66 +15,66 @@ import { NgxSpinnerService } from 'ngx-spinner';
 
 
 export interface PeriodicElement {
-    moduleId: Number,
-    objectId: Number,
-    entityId: Number,
-    moduleName: String,
-    entityName: String,
-    subEntityName: String,
-    channel: String,
-    id: Number,
-    isPublic: Number,
-    permissionId: Number,
-    channelId: Number,
+    moduleId: number,
+    objectId: number,
+    entityId: number,
+    moduleName: string,
+    entityName: string,
+    subEntityName: string,
+    channel: string,
+    id: number,
+    isPublic: number,
+    permissionId: number,
+    channelId: number,
     attributeExclutionList: [
       {
-        attributeName: String,
-        createdBy: String,
-        updatedBY: String,
-        description: String,
-        permissionId: Number,
-        objectId: Number,
-        objectattribute_id: Number,
-        obj_role_perm_map_id: Number,
-        effectiveDate: String,
-        id: Number
+        attributeName: string,
+        createdBy: string,
+        updatedBY: string,
+        description: string,
+        permissionId: number,
+        objectId: number,
+        objectattribute_id: number,
+        obj_role_perm_map_id: number,
+        effectiveDate: string,
+        id: number
       },
       {
-        attributeName: String,
-        createdBy: String,
-        updatedBY: String,
-        description: String,
-        permissionId: Number,
-        objectId: Number,
-        objectattribute_id: Number,
-        obj_role_perm_map_id: Number,
-        effectiveDate: String,
-        id: Number
+        attributeName: string,
+        createdBy: string,
+        updatedBY: string,
+        description: string,
+        permissionId: number,
+        objectId: number,
+        objectattribute_id: number,
+        obj_role_perm_map_id: number,
+        effectiveDate: string,
+        id: number
       },
       {
-        attributeName: String,
-        createdBy: String,
-        updatedBY: String,
-        permissionId: Number,
-        objectId: Number,
-        objectattribute_id: Number,
-        obj_role_perm_map_id: Number,
-        effectiveDate: String,
-        id: Number
+        attributeName: string,
+        createdBy: string,
+        updatedBY: string,
+        permissionId: number,
+        objectId: number,
+        objectattribute_id: number,
+        obj_role_perm_map_id: number,
+        effectiveDate: string,
+        id: number
       },
       {
-        attributeName: String,
-        createdBy: String,
-        updatedBY: String,
-        permissionId: Number,
-        objectId: Number,
-        objectattribute_id: Number,
-        obj_role_perm_map_id: Number,
-        effectiveDate: String,
-        id: Number
+        attributeName: string,
+        createdBy: string,
+        updatedBY: string,
+        permissionId: number,
+        objectId: number,
+        objectattribute_id: number,
+        obj_role_perm_map_id: number,
+        effectiveDate: string,
+        id: number
       }
     ],
-    status: Number
+    status: number
 }
  const ELEMENT_DATA: PeriodicElement[] = [
   {
