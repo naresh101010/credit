@@ -43,7 +43,7 @@
 
 <hr class="green-border-heading">
 <div class="table_scroll" style="max-height: 41rem ; overflow-y: scroll;" mat-elevation-z8 #TABLE>
- <table mat-table [dataSource]="dataSource" #table matSort >
+ <table aria-describedby="table" mat-table [dataSource]="dataSource" #table matSort >
 
    <!-- Position Column -->
    <ng-container matColumnDef="roleName">

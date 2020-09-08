@@ -38,7 +38,7 @@
         <input maxlength="50" class="banner-input1" placeholder="SEARCH BY OBJECT NAME... LIST IN TOP 10" autocomplete="true" (keypress)="validInput($event)" (keyup.enter)="applyFilter($event.target.value)">
     <hr class="green-border-heading">
     <div class="table_scroll" mat-elevation-z8  #TABLE>
-        <table mat-table [dataSource]="dataSource" #table matSort >
+        <table aria-describedby="table" mat-table [dataSource]="dataSource" #table matSort >
           <ng-container matColumnDef="subEntityName">
             <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header><p class="th-text">Object Name</p></th>
             <td mat-cell *matCellDef="let element"><p class="th-text">{{ element.subEntityName | uppercase}}</p></td>

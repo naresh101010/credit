@@ -49,7 +49,7 @@
       <hr class="green-border-heading">
 
       <div class="table_scroll" style="max-height: 60%; overflow-y: scroll" mat-elevation-z8 #TABLE>
-        <table  mat-table [dataSource]="dataSource" #table matSort>
+        <table aria-describedby="table"  mat-table [dataSource]="dataSource" #table matSort>
           <!-- Position Column -->
           <ng-container matColumnDef="userId"  >
             <th scope="row" mat-header-cell *matHeaderCellDef mat-sort-header style="width: 10%;"><p class="th-text"> User ID </p></th>
