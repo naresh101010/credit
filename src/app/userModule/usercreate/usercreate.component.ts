@@ -52,6 +52,7 @@ export class UsercreateComponent implements OnInit {
       var re = /^[0-9]+$/;
       var pastedText = event.clipboardData.getData('text');
       if(re.test(pastedText)){
+        console.log('run')
       }
       else{
         event.preventDefault();
@@ -221,8 +222,8 @@ checkInPriviArryP = (objArray, val) => {
   expiryDateFlag:boolean = false;
   effectiveDateFlag:boolean = true;
   isEditRoleFlag:boolean = true;
-  expiryDateErrorMessage: String;
-  effectiveDateErrorMessage: String;
+  expiryDateErrorMessage: string;
+  effectiveDateErrorMessage: string;
 
   dateChange(event, oldValue, effectiveDate,j, priviarr){
     this.expiryDateErrorMessage='';
@@ -473,11 +474,11 @@ ngOnDestroy(){
     if (event.ctrlKey && (event.keyCode === 83)) {
       event.preventDefault();
       if(document.getElementById('branchSubmit')){
-      let element: HTMLElement = document.getElementById('branchSubmit') as HTMLElement;
+      let element = document.getElementById('branchSubmit');
       element.click();
       }
       else{
-      let element: HTMLElement = document.getElementById('submitButton') as HTMLElement;
+      let element = document.getElementById('submitButton');
       element.click();
       }
     }
@@ -698,8 +699,7 @@ validateAdUser(value){
 //category Details
 
 Catddl(){
-  this.SpinnerService.show();
-  var headers = new HttpHeaders({ 'correlationId': '1','branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
+  this.SpinnerService.show();  
   this.httpservice.get<any>(AppSetting.API_ENDPOINT+'secure/v1/roles/lookup/USER_CTGY',).subscribe(
     data => {
       this.CatData=data.data;
@@ -716,7 +716,6 @@ DefaultData(){
 
 RoleData(){
   this.SpinnerService.show();
-  var headers = new HttpHeaders({ 'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
   this.httpservice.get<any>(AppSetting.API_ENDPOINT+'secure/v1/roles',).subscribe(
     data => {
       this.RoleD=data.data;
