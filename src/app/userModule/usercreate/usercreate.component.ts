@@ -646,15 +646,17 @@ DepartmentList(){
 }
 
 getMenuHierarchy(){
-  this.usercreateservice.getMenuHierarchList().subscribe((res:any ) => {
-      if(res.status == "SUCCESS"){
-      this.DepartmentHierarchyMenu = res.data.responseData;
-      this.newdata.menuHierarchyId = this.DepartmentHierarchyMenu[0].id;
-    }else if(res.status == "FAILURE"){
-        this.toast.error(`${res.error.error[0].code} : ${res.error.error[0].description}`);
-    }
-  })
-  error => this.toast.error(`${error.error[0].code} : ${error.error[0].description}`);
+  this.usercreateservice.getMenuHierarchList().subscribe(
+    (res:any ) => {
+          if(res.status == "SUCCESS"){
+          this.DepartmentHierarchyMenu = res.data.responseData;
+          this.newdata.menuHierarchyId = this.DepartmentHierarchyMenu[0].id;
+        }else if(res.status == "FAILURE"){
+            this.toast.error(`${res.error.error[0].code} : ${res.error.error[0].description}`);
+        }
+      },
+    error => {this.toast.error(`${error.error[0].code} : ${error.error[0].description}`)}
+  )
 }
 
 
@@ -748,8 +750,8 @@ roleSrchData=[];
 userRoles=[];
 selectedRole : any;
 onroleBranchChanged(obj){
-this.selectedRole;
-obj.value
+// this.selectedRole;
+// obj.value
   let val = obj.roleName;
   for (let i = 0; i < this.RoleD.responseData.length; i++) {
     if(this.RoleD.responseData[i].roleName == val){
@@ -1428,7 +1430,7 @@ advanceSearchList:any=[
 ];
 
 onChangeValue(val){
-  this.model.search;
+  // this.model.search;
 }
 
 //for input box change
@@ -1440,7 +1442,7 @@ if(this.model.serach=='NAME'){
 }
 
 onChangeValueforBranch(){
-  this.branchWild;
+  // this.branchWild;
 }
 filterEntity() {
   let userBranch:any;
@@ -2084,7 +2086,7 @@ if(this.model.serach=='NAME'){
 }
 
 onChangeValueforBranch(){
-  this.branchWild;
+  // this.branchWild;
 }
 filterEntity() {
   let userBranch:any;

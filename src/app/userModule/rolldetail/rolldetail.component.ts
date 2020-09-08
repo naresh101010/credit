@@ -907,9 +907,11 @@ export class DialogContentExampleDialogEdit implements OnInit {
                              }
             }
 
-        this.dataSource =  this.allFilteredObjects;//new MatTableDataSource(this.allFilteredObjects);
-        error => console.log(error);
-      });
+          this.dataSource =  this.allFilteredObjects;//new MatTableDataSource(this.allFilteredObjects);
+        
+      },
+      error => console.log(error)
+    );
 }
 
   panelOpenState = false;
@@ -1054,7 +1056,7 @@ export class DialogContentExampleDialogEdit implements OnInit {
                   ['READ']: {permissionId: Number, permissionType: "READ", id: Number, checked: false},
                   ['UPDATE']: {permissionId: Number, permissionType: "UPDATE", id: Number, checked: false}
                                                          } };
-      this.model1.wentity;
+      // this.model1.wentity;
       if ($event.checked == true) {
         data['permission'] = object.permission;
         data["isAddOrRemoveOrUpdate"] = 'ADD';

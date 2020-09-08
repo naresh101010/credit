@@ -682,14 +682,18 @@ maxdateForList:any;
   }
 // Hirarchy Menu
 getMenuHierarchy(){
-  this.usercreateservice.getMenuHierarchList().subscribe((res:any ) => {
+  this.usercreateservice.getMenuHierarchList().subscribe(
+    (res:any ) => {
       if(res.status == "SUCCESS"){
-      this.DepartmentHierarchyMenu = res.data.responseData;
-    }else if(res.status == "FAILURE"){
-        this.toast.error(`${res.error.error[0].code} : ${res.error.error[0].description}`);
-    }
-  })
-  error => this.toast.error(`${error.error[0].code} : ${error.error[0].description}`);
+          this.DepartmentHierarchyMenu = res.data.responseData;
+      }else if(res.status == "FAILURE"){
+          this.toast.error(`${res.error.error[0].code} : ${res.error.error[0].description}`);
+      }
+  },
+  error => {
+    this.toast.error(`${error.error[0].code} : ${error.error[0].description}`)
+  }
+  )  
 }
 
 validNameFlag: boolean = false;
