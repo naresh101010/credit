@@ -1,0 +1,378 @@
+
+<form class="hero-content">
+  <div *ngIf="!isDisable" class="row text-left parent">      
+      <div class="breadcrumb">
+        <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+        <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+        <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+        PRC
+    </div>
+    <stepper></stepper>
+  </div>
+
+<h3>PRC Contract</h3>
+<div *ngIf="isDataAvailable" id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span>
+      <span class="customerName" [matTooltip]="custName" [matTooltipDisabled]="custName?.length<30" matTooltipPosition="above">{{custName}}</span></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{sfdcAccId}}</span></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{cntrCode}}</em></div>
+  </div>
+
+<mat-card>
+    <form form name="form" (ngSubmit)="f.form.valid && onSubmit()" #f="ngForm" novalidate *ngIf="isDataAvailable">
+  <!--custom code START-->
+  
+      <div class="row paddingleftzero" >
+      <div class="col-lg-4 col-md-4  ">						
+          <div class="row ">
+            <div class="col-lg-6 col-md-6 label-text">Business Type<span class="redMark"> *</span></div>
+            <div class="col-lg-6 col-md-6 label-text-value">              
+                  <mat-form-field appearance="outline" style="width: 88%;">
+                    <mat-select panelClass="creditSelect" disableOptionCentering required #businessType='ngModel'  [disabled]="isDisable || editflow" (selectionChange)="changeBusinessType()" name ="lkpBizTypeId" [(ngModel)]="model.lkpBizTypeId">
+                      <mat-option *ngFor="let b of businessTypeList | sortBy:'asc':'lookupVal'"[value]="b.id"
+                      [matTooltip]="b.lookupVal" [matTooltipDisabled]="b.lookupVal.length<21" matTooltipPosition="above">
+                       {{b.lookupVal}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field> 
+                </div>
+          </div>
+          </div>
+          <div class="col-lg-4 col-md-4  "></div>
+  
+            <div class="col-lg-4 col-md-4  ">						
+                <div class="">
+                  <div class="col-lg-6 col-md-6 label-text paddingleftzero">Folio No.</div>
+                  <div class="col-lg-6 col-md-6 label-text-value">              
+                      <mat-form-field class="selectwidth" appearance="outline" style="width: 89%;" >
+                        <input id="contract-input" [disabled]="isDisable" [ngClass]="{ 'is-invalid':folio.invalid }"
+                         name="folio" #folio="ngModel" autocomplete="true" matInput name ="folioNum" [(ngModel)]="model.folioNum" maxlength="8" pattern="^[0-9][0-9]*$">
+                      </mat-form-field> 
+                      <span *ngIf="(folio.errors?.pattern && (folio.dirty || folio.touched))" style="display: block;" class="hasErrorMsgRight">Only Numbers Allowed !</span>
+                    </div>
+                </div>
+            </div>
+          </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-4  ">
+            <div class="col-lg-6 col-md-6  "></div>
+            <div class="col-lg-6 col-md-6  ">
+              <app-validation-msg *ngIf="(businessType.errors?.required && businessType.touched)" [msg]="'Required !'"></app-validation-msg>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4  "></div>
+          <div class="col-lg-4 col-md-4  ">
+            <div class="col-lg-6 col-md-6  "></div>
+            <div class="col-lg-6 col-md-6  ">
+            </div>
+          </div>
+        </div>
+  
+
+<!-- First Row -->
+
+  <div class="row">
+    <div class="col-lg-4 col-md-4  ">						
+      <div class="row ">
+        <div class="col-lg-6 col-md-6 label-text">Contract Status </div>
+        <div class="col-lg-6 col-md-6 label-text-value">
+          <mat-form-field appearance="outline" style="width: 88%;">
+            <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="true" name ="status" [(ngModel)]="model.status" (selectionChange)="setExpiryDate()">
+              <mat-option *ngFor="let b of statusList | sortBy:'asc':'lookupVal'"[value]="b.id" 
+              [matTooltip]="b.lookupVal" [matTooltipDisabled]="b.lookupVal.length<21" matTooltipPosition="above">{{b.lookupVal}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      </div>
+      <div class="col-lg-4 col-md-4  "></div>
+        <div class="col-lg-4 col-md-4  ">            
+        <div class="col-lg-6 col-md-6 label-text paddingleftzero">Rate Card Applicable</div>
+        <div class="col-lg-6 col-md-6 label-text-value">                            
+                <mat-radio-group style="padding-left: 1rem !important;" [disabled]="isDisable" *ngFor="let season of gst" class="example-radio-group" name="rateCardApplicableFlag" (change) = "rateCardAppchange(model.rateCardApplicableFlag)" [(ngModel)]="model.rateCardApplicableFlag" >
+                    <mat-radio-button class="example-radio-button" [value]="season.id">
+                      {{season.value}}
+                    </mat-radio-button>
+                  </mat-radio-group>
+          </div>
+          </div>      
+  </div>
+
+<!-- First Row end -->
+
+<!-- Second Row -->
+<div>
+  <div class="row">
+      <div class="col-lg-4 col-md-4  ">						
+          <div class="row ">
+            <div class="col-lg-6 col-md-6 label-text">Opportunity Type</div>
+            <div *ngIf="oportunity.responseData" class="col-lg-6 col-md-6 label-text-value">{{oportunity.responseData.lkpOpprType}}</div>
+          </div>
+          </div>
+          <div class="col-lg-4 col-md-4  "></div>
+          <!-- Delivery Hold -->
+          <div class="col-lg-4 col-md-4  " *ngIf="model.lkpBizTypeValue=='ANYWHERE TO ANYWHERE'" >	
+            <div class="col-lg-6 col-md-6   label-text paddingleftzero">Delivery Hold</div>
+            <div class="col-lg-6 col-md-6  ">
+                <mat-radio-group [disabled]="isDisable" style="padding-left: 1rem !important;" *ngFor="let season of gst" class="example-radio-group"
+                 name = "dlvryHoldFlag" [(ngModel)]="model.dlvryHoldFlag" >
+                  <mat-radio-button class="example-radio-button" [value]="season.id">
+                    {{season.value}}
+                  </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+  </div>
+  
+    <div class="row">
+      <div class="col-lg-6 col-md-6  ">						
+        <div class="row">
+          <div class="col-lg-4 col-md-4 label-text paddingrightzero">Salesforce Opportunity&nbsp;No.
+            <em *ngIf='editflow && oportunity.referenceData.allSfxOpportunities' matTooltipPosition="above" class="material-icons" (click)="openCCDialog(oportunity.referenceData.allSfxOpportunities)" style="cursor: pointer;color: #27AE60;">open_in_new</em>
+          </div>
+          <div *ngIf="oportunity.responseData" style="overflow: hidden !important;"  class="col-lg-8 col-md-8 label-text-value">{{oportunity.responseData.sfdcOpprId}}<span [matTooltip]="oportunity.responseData.opprName"  matTooltipPosition="above">({{oportunity.responseData.opprName}})</span></div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 paddingrightzero"></div>
+          <div *ngIf="!model.id" class="col-lg-4 col-md-4 label-text-value">
+            <div class="col-lg-12 col-md-12 label-text-value">
+            <mat-radio-group [disabled]="isDisable" aria-label="Select an option" [(ngModel)]="sfxValue" [value]='SFXTypes[0]' name="sfxtype" *ngFor="let type of SFXTypes"
+            (change)="changeSfxType(type)">
+              <mat-radio-button class="example-radio-button" [value]="type">
+                {{type}}
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </div>
+        </div>     
+        </div>
+         <div class="col-lg-2 col-md-2  "></div>
+         <div class="col-lg-4 col-md-4  " >	
+          <div class="col-lg-6 col-md-6   label-text paddingleftzero" >Segment<span class="redMark"> *</span> </div>
+          <div class="col-lg-6 col-md-6  ">
+
+
+
+
+
+
+          <mat-form-field appearance="outline" class="inputBox">
+            <mat-select disableOptionCentering panelClass="creditSelect creditNgxSelect" required #segment='ngModel' [disabled]="isDisable" name ="segmentId" placeholder="Select Segment" 
+            [(ngModel)]="model.segmentId" (selectionChange)=getSubsegment(model.segmentId) (blur)="scrollActiveValue()">
+              <ngx-mat-select-search [(ngModel)]="searchCtrl" [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'" name="search">
+                <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
+              </ngx-mat-select-search>
+              <mat-option *ngFor="let item of (segmentList | stringFilter:searchCtrl:'segmentName') | sortBy:'asc':'segmentName'" [value]="item.id"
+              [matTooltip]="item.segmentName" [matTooltipDisabled]="item.segmentName.length<24" matTooltipPosition="above">
+                {{item.segmentName}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field> 
+
+
+
+          
+          </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-6 col-md-6  ">	</div>
+      <div class="col-lg-2 col-md-2  "></div>
+         <div class="col-lg-4 col-md-4  " >	
+          <div class="col-lg-6 col-md-6  "></div>
+          <div class="col-lg-6 col-md-6  ">
+            <app-validation-msg *ngIf="(segment.errors?.required && segment.touched)" [msg]="'Required !'"></app-validation-msg>              
+          </div>
+         </div>
+
+    </div>
+  </div>
+  <!-- End of Second Row -->
+  <div class="row">
+  <div class=" col-lg-4 col-md-4  ">						
+    <div class="row">
+      <div class="col-lg-6 col-md-6 label-text">Opportunity Address</div>
+      <div class="col-lg-6 col-md-6 label-text-value" style="overflow: hidden !important;" [matTooltip]="data.addr"  matTooltipPosition="above"  *ngFor="let data of opprAddr"> {{data.addr}}</div>
+    </div>
+    </div>
+    <div class="col-lg-4 col-md-4  " ></div>
+      
+    <div class="col-lg-4 col-md-4  " >	
+      <div class="col-lg-6 col-md-6   label-text paddingleftzero">Sub Segment <span class="redMark"> *</span></div>
+      <div class="col-lg-6 col-md-6  ">
+      <mat-form-field appearance="outline" class="inputBox">
+        <mat-select disableOptionCentering panelClass="creditSelect creditNgxSelect" required #subSegment='ngModel' name ="subsegmentId" 
+        [disabled]="isDisable" placeholder="Select Subsegment" [(ngModel)]="model.subsegmentId" (blur)="scrollActiveValue()">
+        <ngx-mat-select-search [(ngModel)]="searchCtrlSub" [placeholderLabel]="'Search...'"
+          [noEntriesFoundLabel]="'Not found'" name="search">
+          <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
+        </ngx-mat-select-search>
+          <mat-option *ngFor="let item of (subSegmentList | stringFilter:searchCtrlSub:'subsegmentName') | sortBy:'asc':'subsegmentName'" [value]="item.id" 
+          [matTooltip]="item.subsegmentName" [matTooltipDisabled]="item.subsegmentName.length<24" matTooltipPosition="above">
+            {{item.subsegmentName}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>   
+       </div>
+  </div>    
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4 col-md-4  "></div>
+    <div class="col-lg-4 col-md-4  "></div>
+    <div class="col-lg-4 col-md-4  ">
+      <div class="col-lg-6 col-md-6  "></div>
+      <div class="col-lg-6 col-md-6  ">
+        <app-validation-msg *ngIf="(subSegment.errors?.required && subSegment.touched)" [msg]="'Required !'"></app-validation-msg>      </div>
+    </div>
+  </div>
+  <!-- Third Row -->
+
+      <div class="row">  
+          <div class="col-lg-4 col-md-4  ">	
+             <div class="row" >
+                  <div class="col-lg-6 col-md-6 label-text">Contract Type</div>
+                  <div class="col-lg-6 col-md-6 label-text-value">              
+                      <div  class="col-lg-6 col-md-6 label-text-value paddingleftzero"> {{model.cntrTypeValue}}</div>
+                      </div>
+                </div>
+              </div>
+              <div class="col-lg-4 col-md-4  "></div>         
+      </div>
+
+
+  <!-- Third Row end -->
+
+  <!-- Fourth Row start -->
+      <div class="row">
+          <div class="col-lg-4 col-md-4  ">						
+            <div class="row">
+              <div class="col-lg-6  col-md-6   label-text">Contract Sign Date <span class="redMark"> *</span></div>
+              <div class="col-lg-4 col-md-4   label-text-value div-space rightpadding" >
+                <mat-form-field  appearance="outline"  id="datepickerwidth" style="width: 55%">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker panelClass="creditDatepicker" #picker></mat-datepicker>
+                  <input  required #cntrSignDt="ngModel"  [disabled]="isDisable || editflow" (blur)="signDate()" (dateChange)="signDate()" required [ngClass]="{ 'is-invalid': cntrSignDt.invalid }"
+                   matInput [matDatepicker]="picker"  placeholder="DD/MM/YYYY" name ="cntrSignDt" [(ngModel)]="model.cntrSignDt" class="date_picker"
+                    [max]="maxdate">   
+                  </mat-form-field>
+                  <app-validation-msg *ngIf="(cntrSignDt.errors?.required && cntrSignDt.touched)" [msg]="'Required !'"></app-validation-msg>
+                 <span *ngIf="isValidSignDt && !(cntrSignDt.errors?.required)" class="hasErrorMsgRightSide">
+                  Invalid Sign Date!
+                </span>
+              </div>
+            </div>
+            </div>
+        </div>
+  <!-- End of fourth row -->
+
+  <!-- start of Fifth Row -->
+  <div>
+    <div class="row">
+        <div class="col-lg-4 col-md-4  ">
+            <div class="row">
+              <div class="col-lg-6 col-md-6 label-text">Contract Start Date<span class="redMark"> *</span></div>
+              <div class="col-lg-4 col-md-4   label-text-value div-space rightpadding">
+                <mat-form-field appearance="outline" id="datepickerwidth">
+                  <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+                  <mat-datepicker panelClass="creditDatepicker" #pickerTo></mat-datepicker>   
+                  <input  #effectiveDt="ngModel" required [disabled]="isDisable" (dateChange)="effectiveDate(true)" (focusout)="effectiveDate(true)" [ngClass]="{'is-invalid': effectiveDt.invalid }"
+                  matInput [matDatepicker]="pickerTo" name ="effectiveDt" [(ngModel)]="model.effectiveDt" placeholder="DD/MM/YYYY" class="date_picker"
+                  [min]="model.cntrSignDt" [max]="maxdate">   
+                </mat-form-field>
+                 <!-- validation -->
+                 <br>
+                 <app-validation-msg *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" [msg]="'Required !'"></app-validation-msg>
+                 <span *ngIf="isValidEffectiveDt && !(effectiveDt.errors?.required)" class="hasErrorMsg">
+                  Invalid Start Date!
+                </span>
+                <!-- validation -->
+              </div>
+            </div>
+            </div>
+            <div class="col-lg-4 col-md-4  ">						
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 label-text">Contract End Date</div>
+                  <div class="col-lg-4 col-md-4 label-text-value rightpadding">              
+                    <mat-form-field  appearance="outline"  id="datepickerwidth">
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                      <mat-datepicker panelClass="creditDatepicker" #picker2></mat-datepicker>
+                      <input  #expDt="ngModel" [disabled]="disableExp" (dateChange)="expDate()" (blur)="expDate()" [ngClass]="{ 'is-invalid': expDt.invalid }"
+                       matInput [matDatepicker]="picker2"  placeholder="DD/MM/YYYY" name ="expDt" [(ngModel)]="model.expDt" class="date_picker"
+                       [min]="minDate">
+                    </mat-form-field>
+                   <br> 
+                   <span *ngIf="isValidExpDt && !(expDt.errors?.required)" class="hasErrorMsg">Invalid End Date!</span>
+                  </div>
+                </div>
+                </div>
+            </div>
+
+            <div *ngIf="isDisable">
+              <div class="row margintop20">
+                <div class="col-lg-2 col-md-2  ">						
+                    <div class="label-text">Reason For Termination<span class="redMark"> *</span></div>
+                </div>
+                <div class="col-lg-2 col-md-2  ">
+                  <mat-form-field appearance="outline">
+                    <mat-select required #reasonName='ngModel' disableOptionCentering panelClass="creditSelect" name ="reasonId" placeholder="Select Reason" [(ngModel)]="reasonId">
+                      <mat-option *ngFor="let item of reasonList" [value]="item.id">
+                        {{item.lookupVal}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <app-validation-msg *ngIf="(reasonName.errors?.required && reasonName.touched)" [msg]="'Required !'"></app-validation-msg>
+                </div>
+              </div>
+              <div class="row margintop20">
+                <div class="col-lg-12 col-md-12  ">						
+                  <div class="row">
+                    <div class="col-lg-2 col-md-2 label-text">Remarks</div>
+                    <div class="col-lg-6 col-md-6  ">
+                      <textarea name="desc" [(ngModel)]="model.desc" style="width: 50%;height: 6.0rem;"></textarea>
+                    </div>
+                    </div>
+                </div>
+              </div>
+              </div>
+  </div>
+
+  <!-- End of Fifth row -->
+<!-- end sfx -->  
+
+<div style="margin-top: 3%;">
+  <div *ngIf="!isDisable">
+  <mat-accordion>       
+    <div class="example-button-row text-center" style="margin-top: 5%">
+      <button class="btn1" id="secondry-button" [disabled]='!f.form.valid'  mat-raised-button color="primary"(click)="postOportunity()">Save As Draft</button> 
+      <button class="btn1" id="opportunityNextButton" style="text-align: center" [disabled]='!f.form.valid'  mat-raised-button color="primary" (click)="opportunityNext()">Next</button>
+      </div>
+  </mat-accordion>
+</div>
+<div *ngIf="isDisable">
+  <div class="row">
+  <div class="col-lg-3 col-lg-3  col-md-3 text-right">
+    <div class="example-button-row text-center" style="margin-top: 5%;margin-bottom: 20% !important">
+      <button id="opportunityCloseButton" style="margin-bottom: 20% !important" type="button" class="btn1" mat-raised-button color="primary" 
+      (click)="closeNRedirect()">Close</button></div>
+  </div>
+  <div class="col-lg-6 col-lg-6  col-md-6"></div>
+  <div class="col-lg-3 col-lg-3  col-md-3 text-right">
+    <div class="example-button-row text-center" style="margin-top: 5%;margin-bottom: 20% !important" *ngxPermissionsOnly="['CONTRACT_UPDATE']">
+      <button id="opportunityNextButton" style="margin-bottom: 20% !important" type="button" class="btn1" mat-raised-button color="primary" 
+      (click)="submitTermNClose()" [disabled]='!f.form.valid'>SUBMIT</button>
+</div>
+  </div>
+  </div>
+</div>
+</div>
+    </form>
+</mat-card>
+</form>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"></ngx-spinner>
+
+

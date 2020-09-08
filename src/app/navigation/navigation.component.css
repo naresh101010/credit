@@ -1,0 +1,29 @@
+#search_icon {color: #585757; opacity: 0.5;position: relative;top: .4rem;left: -.2rem;}
+.example-container {font-family: "Open Sans", sans-serif !important;}
+.example-icon {padding: 0 3.4rem;}
+.example-spacer {flex: 1 1 auto;}
+.left {float: left;}
+.right {float: right;}
+.center {text-align: center;}
+.wrapper {margin: 1.5rem .8rem .4rem .2rem;padding: 0;text-align: center;width: 100%;height: 6.0rem;}
+.mat-icon-button {right: .3rem !important;}
+.burger-menu {font-size: 3.5rem;color: #575555 !important;height: 0;line-height: 0;margin-top: .3rem;}
+.navbutton.mat-icon-button{top: 0rem !important;}
+.user-profile {align-self: auto;position: relative;right: 3rem;text-align: center;bottom: .3rem;}
+.mat-sidenav {background-color: #27ae60 !important;width: 20rem;font-size: 1.5rem;}
+.mat-sidenav-content {background: #f1f1f1;font-family: "Open Sans", sans-serif !important;}
+#mat-toolbar {background: white;color: black;font-family: "Open Sans", sans-serif !important;}  
+/* naresh */
+span.main {display: block;}
+.parent {cursor: pointer;background: #1b904d;display: block;border-left: .5rem solid #01632a;padding-left: 1.2rem; 
+  line-height: 5rem;font-size: 1.6rem;}
+.mat-drawer-content{height: 100vh !important;}
+.mat-toolbar.mat-primary{position: fixed !important; z-index: 999999 !important;}
+#fa-down{margin-left: 1.0rem;}
+.mat-toolbar-multiple-rows{min-height: 0 !important;}
+.mat-toolbar-row, .mat-toolbar-single-row{height: 6.4rem !important;}
+.mat-menu-item{line-height: 4.8rem !important;height: 4.8rem !important;padding: 0 1.6rem !important;
+font-size: 1.4rem !important; font-family:  "Open Sans", sans-serif !important;}
+.nav-default-branch-name{font-size: 1.4rem; margin: 0; position: relative; bottom: 1.5rem; font-weight: bold;}
+span.parent.openMenu ~ .child.section {display: block;}  
+

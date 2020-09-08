@@ -1,164 +1,146 @@
+import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgxPermissionsModule } from 'ngx-permissions';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule, Routes} from "@angular/router";
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { NgxSpinnerModule } from "ngx-spinner";
-
-
-
-import { CoreModule } from './core/core.module';
 import { AppComponent } from './app.component';
-import { ToasterComponent } from './core/component/toster/toaster.component';
-import { LoaderComponent } from './userModule/loader/loader.component';
-import { CommonModule, APP_BASE_HREF } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { CustomMaterialModule } from "./angMatModule/material.module";
-import { NgSelectModule } from '@ng-select/ng-select';
-import { FlexLayoutModule } from '@angular/flex-layout';
-import { FilterPipeModule } from 'ngx-filter-pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NavigationComponent } from './navigation/navigation.component';
+import {RouterModule, Routes} from "@angular/router";
+import {CustomMaterialModule} from "./core/material.module";
 import { LayoutModule } from '@angular/cdk/layout';
-
-import { DateAdapter, MAT_DATE_FORMATS } from "@angular/material";
-
-import { AppDateAdapter, APP_DATE_FORMATS} from './userModule/date_formate/date.adapter';
-
-import { UserComponent } from './userModule/user/user.component';
-import { DialogContentExampleDialog, HomeComponent } from './userModule/role/role.component';
-import { RolemanagementComponent } from './userModule/rolemanagement/rolemanagement.component';
-import { RolldetailComponent, DialogContentExampleDialogEdit } from './userModule/rolldetail/rolldetail.component';
-import { ObjectmanagementComponent } from './userModule/objectmanagement/objectmanagement.component';
-import { ObjectcreateComponent } from './userModule/objectcreate/objectcreate.component';
-import { ObjectdetailComponent } from './userModule/objectdetail/objectdetail.component';
-import { UsercreateComponent, popforDefaultBranch, popforPriviBranch } from './userModule/usercreate/usercreate.component';
-import { UserdetailsComponent, popforDefaultBranchDetails, popforPriviBranchDetails } from './userModule/userdetails/userdetails.component';
-import { NavigationComponent, trackwayBill } from './userModule/navigation/navigation.component';
-import { RepeatChildItemComponent } from './userModule/navigation/repeat-child-item/repeat-child-item.component';
-import { NavDirective } from './userModule/navigation/nav.directive'
-import { NumericDirective } from './userModule/numeric.directive';
-import { TrackWayBillViewComponent } from './userModule/trackWayBill/track-way-bill-view/track-way-bill-view.component';
-import { polyfill as keyboardEventKeyPolyfill } from 'keyboardevent-key-polyfill';
-import { TextInputAutocompleteModule } from 'angular-text-input-autocomplete';
-import { UserWithoutPermiComponent } from './userModule/user-without-permi/user-without-permi.component';
-import { NavPipe } from './userModule/navigation/repeat-child-item/nav.pipe';
+import {DatePipe, APP_BASE_HREF} from '@angular/common';
+import { NgSelectModule } from '@ng-select/ng-select';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { CreditdashboardComponent } from './_contract/creditdashboard/creditdashboard.component';
+import { OpportunityComponent, SearchContractEdit, InnerHtmlDialogComponent } from './_contract/opportunity/opportunity.component';
+import { ServiceComponent } from './_contract/service/service.component';
+import { MsaComponent, ConsignorUploadFile, DownloadErrorFile } from './_contract/msa/msa.component';
+import { RatecardComponent, SearchCcDialogBox,BaseLocationSearchB} from './_contract/ratecard/ratecard.component';
+import { BillingComponent,CneeCnorDialogBox, BranchDialogBox, AddressDialogBox } from './_contract/billing/billing.component';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { StepperComponent } from './_contract/stepper/stepper.component';
+import { MsaOprationComponent,DownloadReportFile } from './_contract/msa/msa-opration/msa-opration.component';
+import { MsacreationComponent,ConsignorAddition,BaseLocationSearchMSA } from './_contract/msa/msacreation/msacreation.component';
+import { PreviewComponent, EditPreview,EmailDialogBoxP } from './_contract/preview/preview.component';
+import { DocumentuploadComponent } from './_contract/documentupload/documentupload.component';
+import { MsaopportunityComponent } from './_contract/msa/msaopportunity/msaopportunity.component';
+import { CommandmentComponent, SlabDialogBox, ExcludePinDialogBox, GeoWiseChargeDialogBox } from './_contract/commandment/commandment.component';
+import { PincodesearchComponent } from './_contract/pincodesearch/pincodesearch.component';
+import { CitysearchComponent } from './_contract/citysearch/citysearch.component';
+import { StatesearchComponent } from './_contract/statesearch/statesearch.component';
+import { ExistingsafexlistComponent } from './_contract/existingsafexlist/existingsafexlist.component';
+import { ContractversionComponent } from './_contract/contractversion/contractversion.component';
+import { confimationdialog } from './_contract/confirmationdialog/confimationdialog';
+import { VersionpreviewComponent } from './_contract/versionpreview/versionpreview.component';
+import {SearchAllOppertunityDialogBox} from './_contract/opportunity/opportunity.component'
+import { CompareversionsComponent } from './_contract/compareversions/compareversions.component';
+import { NumericDirective } from './shared/numeric.directive';
+import { AlphanumericDirective} from './shared/alphanumeric.directive';
+import { DatepickerDirective} from './shared/datepicker.directive';
+import { ValidationMsgComponent } from './validation-msg/validation-msg.component';
+import { GreaterZeroDirective } from './shared/greater-zero.directive';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
+import { AppDateFormatAdapter, APP_DATE_FORMATS} from './_contract/date_formate/date.adapter';
+import { NgxPrintModule } from 'ngx-print';
+import { SortByPipe } from './_contract/pincodesearch/sort-by.pipe';
+import { NgpSortModule } from "ngp-sort-pipe";
+import { SfxDialogComponent } from './_contract/sfx-dialog/sfx-dialog.component';
 import { EmptyRouteComponent } from './empty-route/empty-route.component';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { AuthGuard } from './core/auth.guard';
-import { EmptyComponentComponent } from './empty-component/empty-component.component';
-import { BroadcastMessageComponent,BroadCastDialog, NewBroadCastMessage} from './userModule/user/broadcast-message/broadcast-message.component';
-keyboardEventKeyPolyfill();
-
-const appRoutes: Routes =      [
-  {
-    path: 'user-management',  component: NavigationComponent, canActivate: [AuthGuard],
-        children: [
-            { path: '', component:EmptyComponentComponent, data: { title: 'EmptyComponentComponent Component' } },
-            { path: 'role', component: RolemanagementComponent, data: { title: 'Role Component' } },
-            { path: 'home', component: HomeComponent, data: { title: 'Home Component' } },
-            { path: 'roledetail/:roleId/:roleName/:description/:status', component: RolldetailComponent, data: { title: 'Role Component' } },
-            { path: 'roledetail/:roleId', component: RolldetailComponent, data: { title: 'Role Component' } },
-            { path: 'objectcreate', component: ObjectcreateComponent, data: { title: 'Role Component' } },
-            { path: 'object', component: ObjectmanagementComponent, data: { title: 'Role Component' } },
-            { path: 'objectdetail/:subEntityName', component:ObjectdetailComponent, data: {title: 'Object Details'}},
-            { path: 'user', component: UserComponent, data: { title: 'Role Component' } },
-            { path: 'userdetail/:userId', component: UserdetailsComponent, data: { title: 'Role Component' } },
-            { path: 'usercreate', component: UsercreateComponent, data: { title: 'Role Component' } },
-            { path: 'navigation', component: NavigationComponent, data: {title: 'navigation'}},
-            { path: 'track-waybill', component: TrackWayBillViewComponent, data: {title: 'navigation'}},
-            { path: 'waybill-tracking', component: UserWithoutPermiComponent, data: {title: 'tracking'}},
-            { path: 'broadcast', component: BroadcastMessageComponent, data: {title: 'broadcast'}}
-        ]
-  },
+import { AuthInterceptor } from './core/interceptor/auth.interceptor';
+import { ClickOutsideModule } from 'ng-click-outside';
+import { AlphabetOnlyDirective } from './shared/alphabet.directive';
+import { StringFilterPipe } from './shared/string-filter.pipe';
+import { rangeTncDirective } from './shared/rangeTnc.directive';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ReportsComponent } from './_contract/reports/reports.component';
+import { NumberOnlyDirective } from './shared/number-only.directive';
+import { ExportAsModule } from 'ngx-export-as';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 
-]
 
+const appRoutes: Routes = [
+  {path:'prc-contract', canActivate:[AuthGuard], children:[
+    { path: '', component: CreditdashboardComponent, data: { title: 'Home Component' }},
+    { path:'prc', component: CreditdashboardComponent, data: {title: 'Credit Dashboard'}},
+    { path: 'msa', component: MsaComponent, data: {title: 'MSA'}},
+    { path: 'opportunity', component: OpportunityComponent, data: {title: 'Oppertunity'}},
+    { path: 'service', component: ServiceComponent, data: {title: 'service'}},
+    { path: 'ratecard', component: RatecardComponent, data: {title: 'service'}},
+    { path: 'ratecard', component: RatecardComponent, data: {title: 'ratecard'}},
+    {path: 'billing', component: BillingComponent, data: {title: 'billing'}},
+    {path:'msaoperation',component:MsaOprationComponent ,data:{title:'msa'}},
+    {path:'msacreation',component:MsacreationComponent ,data:{title:'createmsa'}},
+    {path:'preview',component:PreviewComponent ,data:{title:'preview'}},
+    { path: 'documentupload', component: DocumentuploadComponent, data: {title: 'documentupload'}},
+    { path: 'msaopportunity', component: MsaopportunityComponent, data: {title: 'msaopportunity'}},
+    { path: 'commandment', component: CommandmentComponent, data: {title: 'commandment'}},
+    { path: 'pincodesearch', component: PincodesearchComponent, data: {title: 'pincodesearch'}},
+    { path: 'citysearch', component: CitysearchComponent, data: {title: 'citysearch'}},
+    { path: 'statesearch', component: StatesearchComponent, data: {title: 'statesearch'}},
+    { path: 'existingsafexlist', component: ExistingsafexlistComponent, data: {title: 'existingsafexlist'}},
+    { path: 'contractversion', component: ContractversionComponent, data: {title: 'contractversion'}},
+    { path: 'versionpreview', component: VersionpreviewComponent, data: {title: 'versionpreview'}},
+    { path: 'compareversion', component: CompareversionsComponent, data: {title: 'compareversion'}},
+    { path: "report", component: ReportsComponent, data: { title: "report" }   },
+    { path: '**', component: EmptyRouteComponent}
+  ]} 
+];
 
 @NgModule({
-  declarations: [
-    AppComponent, ToasterComponent,LoaderComponent, DialogContentExampleDialogEdit,
-    DialogContentExampleDialog,
-    NavigationComponent,
-    trackwayBill,
-    HomeComponent,
-    RolemanagementComponent,
-    RolldetailComponent,
-    ObjectmanagementComponent,
-    ObjectcreateComponent,
-    ObjectdetailComponent,
-    UserComponent,
-    UsercreateComponent,
-    UserdetailsComponent,popforDefaultBranch,popforPriviBranch,
-     popforDefaultBranchDetails, popforPriviBranchDetails,RepeatChildItemComponent,
-     NumericDirective,
-     NavDirective,
-     TrackWayBillViewComponent,
-     UserWithoutPermiComponent,
-     NavPipe,
-     EmptyRouteComponent,
-     EmptyComponentComponent,
-     BroadcastMessageComponent,
-     BroadCastDialog,
-     NewBroadCastMessage
+  declarations: [PreviewComponent,NumericDirective,AlphanumericDirective,DatepickerDirective,
+    AppComponent,AlphabetOnlyDirective,
+    NavigationComponent,MsaComponent,ConsignorUploadFile,
+    CreditdashboardComponent, OpportunityComponent, ServiceComponent,  RatecardComponent,
+    BillingComponent, SearchCcDialogBox,SearchAllOppertunityDialogBox,
+    // BaseLocationSearchR,
+    BaseLocationSearchB, StepperComponent
+    ,CneeCnorDialogBox,BranchDialogBox, MsaOprationComponent, MsacreationComponent, DocumentuploadComponent,ConsignorAddition, MsaopportunityComponent,SearchContractEdit,BaseLocationSearchMSA,
+    DownloadErrorFile,AddressDialogBox, PincodesearchComponent,CitysearchComponent,StatesearchComponent, ExistingsafexlistComponent, CommandmentComponent, SlabDialogBox, ExcludePinDialogBox, GeoWiseChargeDialogBox, ContractversionComponent, VersionpreviewComponent,
+    ValidationMsgComponent,confimationdialog,EditPreview,CompareversionsComponent, GreaterZeroDirective, rangeTncDirective, SortByPipe, SfxDialogComponent,EmptyRouteComponent,DownloadReportFile, InnerHtmlDialogComponent,
+    StringFilterPipe,ReportsComponent,NumberOnlyDirective,EmailDialogBoxP
   ],
-
-  imports:
-  [
-    BrowserAnimationsModule,
-    MatProgressSpinnerModule,
-    NgxPermissionsModule.forRoot(),
+   
+  imports: [LayoutModule,FlexLayoutModule,NgSelectModule,
+    BrowserModule, NgxSpinnerModule,NgxPrintModule,
+    BrowserAnimationsModule,FormsModule, ReactiveFormsModule,HttpClientModule,DragDropModule,
+    NgpSortModule, ClickOutsideModule, NgxMatSelectSearchModule,
     RouterModule.forRoot(
-      appRoutes //, { useHash: true }
+      appRoutes // <-- debugging purposes only
     ),
-    CoreModule,
-    NgxSpinnerModule,
     CustomMaterialModule,
-    CommonModule,
-    FormsModule,
-    NgxSpinnerModule,
-    NgSelectModule,
-    FlexLayoutModule,
-    FilterPipeModule,
-    MatProgressSpinnerModule,
-    LayoutModule,
-    NgxPermissionsModule.forChild(),
-    TextInputAutocompleteModule
+    ToastrModule.forRoot({
+      positionClass :'toast-top-right',
+      preventDuplicates: true,
+      timeOut: 5000
+    }),
+    NgxPermissionsModule.forRoot(),
+    ExportAsModule
   ],
-  entryComponents: [
-    HomeComponent, DialogContentExampleDialog,RolldetailComponent,DialogContentExampleDialogEdit, UsercreateComponent, popforDefaultBranch,popforPriviBranch, UserdetailsComponent,popforDefaultBranchDetails,popforPriviBranchDetails, NavigationComponent,
-    trackwayBill, BroadcastMessageComponent, BroadCastDialog, NewBroadCastMessage
- ],
-    providers: [
-      // {
-      //   provide: APP_INITIALIZER,
-      //   multi: true,
-      //   deps: [AppConfigService],
-      //   useFactory: (appConfigService: AppConfigService) => {
-      //     return () => {
-      //       return appConfigService.loadAppConfig();
-      //     };
-      //   },
-
-      // },
-      {
-        provide: DateAdapter, useClass: AppDateAdapter
-    },
+entryComponents: [
+   RatecardComponent,SearchCcDialogBox,
+   OpportunityComponent,SearchAllOppertunityDialogBox,
+   BaseLocationSearchB,
+MsaComponent,ConsignorUploadFile,
+CneeCnorDialogBox,BranchDialogBox,ConsignorAddition,
+MsaopportunityComponent,SearchContractEdit,AddressDialogBox,BaseLocationSearchMSA,DownloadErrorFile,SlabDialogBox
+, ExcludePinDialogBox, GeoWiseChargeDialogBox,confimationdialog,EditPreview, SfxDialogComponent,DownloadReportFile,InnerHtmlDialogComponent,EmailDialogBoxP],
+  providers: [DatePipe,
+    {provide: DateAdapter, useClass: AppDateFormatAdapter},
+    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
     {
-        provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS
-    },
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,      
+      multi: true,
+      },
     { provide: APP_BASE_HREF, useValue: '/' }
-    ],
-   bootstrap: [AppComponent]
- })
+  ],
+  bootstrap: [AppComponent]
+})
 export class AppModule { }
-
-
-
-
-
-
-
-
-
 
 
 

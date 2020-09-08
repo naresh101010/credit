@@ -1,0 +1,40 @@
+<mat-card style="padding: .5rem;">
+        <div style="position: relative;">
+          <h3 id="h2">Consignee/Consignor Mapping</h3>
+          <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
+        </div>
+    <hr id="popup-hr">  
+    <mat-card-content>
+        <div style="margin-top: 1.2rem;" class="prcContainer">
+          <div *ngIf="cneecnor.length>0">
+            <div class="col-lg-12 col-md-12 col-sm-12">
+              <div *ngIf="branchName != null" class="col-lg-6 col-md-6 col-sm-6 font-size" name="branchName"> For Branch: &nbsp; &nbsp; {{branchName}}</div>
+              <div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="col-lg-1 col-md-1 col-sm-1 zonalheadingbar"></div>
+            <div class="col-lg-2 col-md-3 col-sm-3 zonalheadingbar fonts">Name</div>
+            <div class="col-lg-6 col-md-6 col-sm-6 zonalheadingbar fonts">Address</div>
+            <div class="col-lg-2 col-md-2 col-sm-2 zonalheadingbar fonts">Type</div>
+            </div> 
+            <div class="col-lg-12 col-md-12 col-sm-12" *ngFor="let ccData of cneecnor; let i = index">
+              <div class="col-lg-1 col-md-1 col-sm-1 border-bottom">
+                      <mat-checkbox name="ischecked" [(ngModel)]="ccData.ischecked" [checked]=ccData.ischecked></mat-checkbox>
+              </div>
+              <div class="col-lg-2 col-md-3 col-sm-3 border-bottom consiText" [matTooltip]="ccData.name | uppercase" matTooltipPosition="above" [matTooltipDisabled]="ccData.name?.length<14">{{ccData.name | uppercase}}</div>
+              <div class="col-lg-6 col-md-6 col-sm-6 border-bottom consiText" 
+              [matTooltip]="ccData.addrBook.addr1 + ' ' + ccData.addrBook.addr2 + ' ' + ccData.addrBook.addr2 + ' ' + ccData.addrBook.pincodeId | uppercase"
+              [matTooltipDisabled]="(ccData.addrBook.addr1+ccData.addrBook.addr2+ccData.addrBook.addr2+ccData.addrBook.pincodeId)?.length<64"
+              matTooltipPosition="above">
+                {{ccData.addrBook.addr1 | uppercase}}&nbsp;{{ccData.addrBook.addr2 | uppercase}}&nbsp;{{ccData.addrBook.addr2 | uppercase}}&nbsp;{{ccData.addrBook.pincodeId}}</div>
+              <div class="col-lg-2 col-md-2 col-sm-2 border-bottom consiText" [matTooltip]="ccData.ctype | uppercase" matTooltipPosition="above" [matTooltipDisabled]="ccData.ctype?.length<16">{{ccData.ctype}}</div>
+            </div>
+            </div> 
+            </div> 
+          </div>
+
+          <div class="example-button-row text-center">
+                  <button mat-button  class="btn1" style="text-align: center; margin-top: 5%; margin-bottom: 2%;" mat-raised-button
+                  [mat-dialog-close]="data" (click)="changeCheckProp()" color="primary">SUBMIT</button>
+          </div>
+      
+    </mat-card-content>
+</mat-card>

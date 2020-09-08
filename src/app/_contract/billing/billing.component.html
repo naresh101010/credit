@@ -1,0 +1,168 @@
+<form class="hero-content" name="saveBilling" (ngSubmit)="fBilling.form.valid" #fBilling="ngForm" novalidate>
+  <div class="row text-left parent">
+    <div class="breadcrumb">
+      <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      PRC
+    </div>
+ 
+    <stepper></stepper>
+  </div>
+  <h3>PRC Contract</h3>
+  <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+    fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name :</span>
+      <span class="customerName" [matTooltip]="customerName" [matTooltipDisabled]="customerName.length<30" matTooltipPosition="above">{{customerName}}</span></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id :
+      </span><span>{{sfdcAccId}}</span></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{sfxCode}}</em>
+    </div>
+  </div>
+  <mat-card>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Payment Terms <span style="color: red;"> *</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+          <mat-form-field appearance="outline">
+            <mat-select required disableOptionCentering panelClass="creditSelect"  name="lkpBillingSubtypeId" #selectOff="ngModel" [(ngModel)]="billingData.lkpPaymentTermId"
+              placeholder="Select Option">
+              <mat-option *ngFor = "let payment of prcPymtTermList" [value]=payment.id>
+                {{payment.lookupVal}}
+              </mat-option>
+              
+            </mat-select>
+          </mat-form-field>
+          <span >
+            <mat-error *ngIf="selectOff.hasError('required') && selectOff.touched">
+              Required!
+            </mat-error>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">GST Invoice to<span style="color: red;"> *</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+          <mat-form-field appearance="outline">
+            <mat-select required disableOptionCentering panelClass="creditSelect"  name="lkpPrcInvToId" #lkpPrcInvToId="ngModel" [(ngModel)]="billingData.lkpPrcInvToId"  (ngModelChange)= "changePrcInv()" 
+              placeholder="Select Option">
+              <mat-option *ngFor = "let invToListobj of prcInvToList" [value]=invToListobj.id>
+                {{invToListobj.lookupVal}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <span>
+            <mat-error *ngIf="lkpPrcInvToId.hasError('required') && lkpPrcInvToId.touched">Required!</mat-error>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf = "billingData.lkpPrcInvToId == thirdPartyId">
+      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Name<span style="color: red;"> *</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+          <mat-form-field appearance="outline">
+            <input required matInput  name="name" #name="ngModel" [(ngModel)]="billingData.name" placeholder="ENTER NAME HERE"
+             maxlength="20" autocomplete="true">
+          </mat-form-field>
+          <span>
+            <mat-error *ngIf="name.hasError('required') && name.touched">
+              Required!
+            </mat-error>
+          </span>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Address<span style="color: red;" *ngIf="billingData.lkpPrcInvToId == thirdPartyId"> *</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <textarea rows="2" style="width: 100%;padding-left: .6rem;"  cols="20" wrap="hard"  maxlength="100" #addr="ngModel" [(ngModel)]="billingData.addr"  class="input-md1 textareaoutline"
+              placeholder="Address" name="addrName" [required]="billingData.lkpPrcInvToId == thirdPartyId" ></textarea>
+          <span>
+            <mat-error *ngIf="addr.hasError('required') && addr.touched && billingData.lkpPrcInvToId == thirdPartyId">
+              Required!
+            </mat-error>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf = "billingData.lkpPrcInvToId == thirdPartyId">
+      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">Relationship<span style="color: red;"> *</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+          <mat-form-field appearance="outline">
+            <input required matInput  name="relation" #relation="ngModel" [(ngModel)]="billingData.relation" placeholder="ENTER RELATIONSHIP"
+             maxlength="20" autocomplete="true">
+          </mat-form-field>
+          <span>
+            <mat-error *ngIf="relation.hasError('required') && relation.touched">
+              Required!
+            </mat-error>
+          </span>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row" *ngIf = "billingData.lkpPrcInvToId == thirdPartyId">
+      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">GST No.<span style="color: red;"> *</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+          <mat-form-field appearance="outline">
+            <input required matInput  name="gstinNum" appGstin alphanumeric  maxlength="15" minlength="15" #gstinNum="ngModel" [(ngModel)]="billingData.gstinNum" placeholder="ENTER GST NO. HERE"
+            pattern="\d{2}[A-Za-z]{3}[abcfghljptfABCFGHLJPTF]{1}[A-Za-z]{1}\d{4}[A-Za-z]{1}[A-Za-z\d]{1}[Zz,Dd]{1}[A-Za-z\d]{1}|\d{2}[A-Za-z]{4}\d{5}[A-Za-z]{1}[A-Za-z\d]{1}[zZ,dD]{1}[A-Za-z\d]{1}$"  autocomplete="true">
+          </mat-form-field>
+          <span *ngIf ="gstinNum.invalid || (gstinNum.touched  || (gstinNum.pristine && gstinNum.dirty)) ">
+            <mat-error *ngIf="(gstinNum.hasError('minlength') || gstinNum.hasError('maxlength') || gstinNum.hasError('pattern') )&& !gstinNum.hasError('required')">
+              Please enter a valid GST No.
+            </mat-error>
+            <mat-error *ngIf="gstinNum.hasError('required') && gstinNum.touched">
+              Required!
+            </mat-error>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 row">
+      <div class="row col-lg-7 col-md-7 col-sm-7 col-xs-7">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 label-text">GST Invoice Frequency<span style="color: red;"> *</span>
+        </div>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 ">
+          <mat-form-field appearance="outline">
+            <mat-select required disableOptionCentering panelClass="creditSelect"  name="lkpInvFreqId" disableOptionCentering panelClass="creditSelect"  #lkpInvFreqId="ngModel" [(ngModel)]="billingData.lkpInvFreqId" placeholder="Select Option">
+              <mat-option *ngFor = "let invFreq of prcInvFreqList" [value]=invFreq.id>
+                {{invFreq.lookupVal}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <span>
+            <mat-error *ngIf="lkpInvFreqId.hasError('required') && lkpInvFreqId.touched">
+              Required!
+            </mat-error>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top: 3%;">
+      <mat-accordion>
+        <div class="example-button-row text-center" style="margin-top: 5%">
+          <button type="submit" id="billingDraftButton" *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE']" [disabled] = "!fBilling.form.valid" class="btn1" mat-raised-button color="primary"
+            (click)="postBillingData(0)">Save As Draft</button>
+          <button type="sumit" id="billingNextButton" *ngxPermissionsOnly="['BILLING CONFIG_CREATE','BILLING CONFIG_UPDATE']" [disabled] = "!fBilling.form.valid" class="btn1" style="text-align: center" mat-raised-button
+            color="primary" (click)="postBillingData(1)">Next</button>
+        
+        </div>
+      </mat-accordion>
+    </div>
+  </mat-card>
+</form>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"> </ngx-spinner>

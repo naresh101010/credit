@@ -1,0 +1,106 @@
+<form name="fservice" (ngSubmit)="serviceForm.form.valid " #serviceForm="ngForm" >
+
+<div class="hero-content">
+  <div class="row text-left parent">      
+  
+        <div class="breadcrumb">
+          <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+          <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+          <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+          PRC
+      </div>
+      <stepper></stepper>
+    </div>
+  
+  <h3>PRC Contract</h3>
+  <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span>
+        <span class="customerName" [matTooltip]="custName" [matTooltipDisabled]="custName.length<30" matTooltipPosition="above">{{custName}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span>{{sfdcAccId}}</span></div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>PRC Code : </span><em>{{sfxCode}}</em></div>
+    </div>
+  
+  <mat-card  style="box-shadow: none;">
+  <div>
+    <div class="row">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+        <div class="row" style="padding-top:10px;">
+          <div class="col-lg-6 col-md-6 label-text">Service Line<span style="color: red;"> *</span></div>
+          <div class="col-lg-6 col-md-6 label-text-value">              
+          <mat-form-field appearance="outline" style="width: 88%;">
+          <mat-select disableOptionCentering panelClass="creditSelect" required #serLine='ngModel' [disabled]="isDisabled" placeholder="Select Option" name ="lkpServiceLineId" [(ngModel)]="model.lkpServiceLineId" >
+            <mat-option (click)=getServiceOfering(item.id,true) *ngFor="let item of servicelinelist | sortBy:'asc':'lookupVal'" [value]="item.id" 
+            [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<22" matTooltipPosition="above">
+              {{item.lookupVal}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <app-validation-msg *ngIf="(serLine.errors?.required && serLine.touched)" [msg]="'Required !'"></app-validation-msg>
+          </div>
+       </div>
+  
+        <div class="row">
+            <div class="col-lg-6 col-md-6 label-text"></div>
+            <div class="col-lg-6 col-md-6 label-text-value">
+              </div>
+          </div>
+  
+        <div class="row" *ngIf="offeringFlag==true">
+          <div class="col-lg-6 col-md-6 label-text">Service Offering<span style="color: red;"> *</span></div>
+          <div class="col-lg-6 col-md-6 label-text-value">
+            <div  *ngFor="let item of serviceofering ">
+            <mat-checkbox [ngModelOptions]="{standalone: true}" [(ngModel)]="item.isChecked" [disabled]="item.isDisabled" [checked]="item.isChecked" (change)= "selectOffering(item);chkvalidation()"  [value]="item.id" >
+              <span class="service-fonts-checkbox">{{item.serviceOffering}}</span> 
+            </mat-checkbox></div><br>
+        </div>
+     </div>  
+     <div class="row" *ngIf="offeringFlag==true">
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6"></div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+        <app-validation-msg *ngIf="!IsValid" [msg]="'Required !'"></app-validation-msg>
+      </div>
+
+     </div>   
+      </div> 
+    <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4"></div>
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">          
+        <div class="col-lg-6 col-md-6"></div>
+        <div class="col-lg-6 col-md-6"></div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="row" *ngIf="isWmsPercRequired">
+      <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4"  >
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 label-text paddingleftzero">WMS Percentage<span style="color: red;"> *</span></div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 label-text-value">          
+        <mat-form-field appearance="outline" style="height: 27px; width: 95%;" id="datepick">
+          <input matInput name="wmsPct" #WMSPer='ngModel' required numeric decimals="2" (keyup)="selectOffering(null);chkvalidation()" (blur)="selectOffering(null);chkvalidation();"
+          pattern="^100$|^\d{0,2}(\.\d{1,2})?%?$|^0\.\d{1,2}?$" [(ngModel)]="model.wmsPct" maxlength="5">
+        </mat-form-field>
+        <app-validation-msg class="blockDisplay" *ngIf="(WMSPer.errors?.required && WMSPer.touched)" [msg]="'Required !'"></app-validation-msg>     
+        <app-validation-msg class="blockDisplay" *ngIf="(WMSPer.errors?.pattern && (WMSPer.dirty || WMSPer.touched) && !WMSPer.errors?.required)" [msg]="'Not a valid Percentage !'"></app-validation-msg>
+      </div>
+      </div>
+    </div>  
+
+  <div style="margin-top: 3%;">
+    <mat-accordion>       
+      <div class="example-button-row text-center" style="margin-top: 5%" *ngxPermissionsOnly="['SERVICE_CREATE','SERVICE_UPDATE']">
+        <button class="btn1" id="secondry-button" mat-raised-button color="primary"(click)= "postServices(false, $event)" [disabled]=' (!serviceForm.form.valid || !IsValid )&& !isDisabled'>Save As Draft</button> 
+          <button class="btn1" id="serviceNextButton" style="text-align: center" (click)="postServices(true, $event)" mat-raised-button color="primary" [disabled]='(!serviceForm.form.valid || !IsValid )&& !isDisabled'>Next</button>
+        </div>
+    </mat-accordion>
+  </div>
+  </mat-card>
+  </div>
+  
+  </form>
+  
+  
+  
+  
+  <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">  
+  
+  </ngx-spinner>

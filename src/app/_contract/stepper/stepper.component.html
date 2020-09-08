@@ -1,0 +1,158 @@
+
+ <div id="stepper" fxLayout="row" fxLayoutAlign="end center">  
+  <div class="line stepperLine"></div>
+  <mat-horizontal-stepper  labelPosition="bottom">      
+    <mat-step  > 
+        <ng-template matStepLabel matStepperIcon="edit" > 
+          <p name='msa' *ngIf='(currentState === "msa")' routerLink="/prc-contract/msa"  skipLocationChange  (click)="OnNextClick()" [ngClass]="currentState === 'msa' ? 'darkGreenColorText' : ''">MSA</p>    
+          <p name='msa' *ngIf='(step1 === "msaEdit")' (click)="OnNextClick('/msa;edit')">MSA</p>   
+          <p name='msa'  *ngIf='(step1 === "msa")'  routerLink="/prc-contract/msa"  skipLocationChange  (click)="OnNextClick()">MSA</p>  
+          <p name='msa' *ngIf='(step1 != "msa" && step1 !="msaEdit" && currentState != "msa")'>MSA</p>  
+
+          <div class="whiteRound" *ngIf='(currentState === "msa")'>
+          <div class="round" *ngIf='(currentState === "msa")'  [ngClass]="currentState === 'msa' ? 'darkGreenColor' : 'roundGreyColor'  " name='msa' routerLink="/prc-contract/msa"  skipLocationChange  (click)="OnNextClick()"></div>
+          </div>
+          <div class="whiteRound" *ngIf='(step1 === "msaEdit")'>
+          <div class="round" *ngIf='(step1 === "msaEdit")'  [ngClass]="step1 === 'msaEdit' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='msa' (click)="OnNextClick('/msa;edit')"></div>
+          </div>
+          <div class="whiteRound" *ngIf='(step1 === "msa")'>
+          <div class="round" *ngIf='(step1 === "msa")'  [ngClass]="step1 === 'msa' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='msa' routerLink="/prc-contract/msa"  skipLocationChange  (click)="OnNextClick()"></div>
+          </div>
+          <div class="whiteRound" *ngIf='(step1 != "msa" && step1 !="msaEdit" && currentState != "msa")'>
+          <div class="round" *ngIf='(step1 != "msa" && step1 !="msaEdit" && currentState != "msa")' name='msa'></div></div>
+        </ng-template>
+    </mat-step>         
+    <mat-step >  
+        <ng-template matStepLabel >
+          <p name='opportunity' *ngIf='(currentState === "msaopportunity")' [ngClass]="currentState === 'msaopportunity' || currentState === 'opportunity' ? 'darkGreenColorText' : ''">Opportunity</p>  
+          <p name='opportunity' *ngIf='(currentState === "opportunity")'>Opportunity</p>  
+          <p name='opportunity' *ngIf='(step2 === "opportunityEdit")' (click)="OnNextClick('/opportunity;edit')">Opportunity</p>  
+          <p name='opportunity' *ngIf='(step2 === "opportunity")' routerLink="/prc-contract/opportunity"  skipLocationChange  (click)="OnNextClick()">Opportunity</p>  
+          <p name='opportunity' *ngIf='(step2 != "opportunity" && step2 !="opportunityEdit"  && currentState != "opportunity" && currentState != "msaopportunity")'>Opportunity</p> 
+
+          <div class="whiteRound" *ngIf='(currentState === "msaopportunity")'>          
+          <div class="round" *ngIf='(currentState === "msaopportunity")' [ngClass]="currentState === 'msaopportunity' ? 'darkGreenColor' : 'roundGreyColor' " name='msaopportunity'></div>
+          </div>
+          <div class="whiteRound" *ngIf='(currentState === "opportunity")'>
+          <div class="round" *ngIf='(currentState === "opportunity")' [ngClass]="currentState === 'opportunity' ? 'darkGreenColor' : 'roundGreyColor' " name='opportunity'></div>
+          </div>
+          <div class="whiteRound" *ngIf='(step2 === "opportunityEdit")'>
+          <div class="round" *ngIf='(step2 === "opportunityEdit")'  [ngClass]="step2 === 'opportunityEdit' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='opportunity' (click)="OnNextClick('/opportunity;edit')"></div>
+          </div>
+          <div class="whiteRound" *ngIf='(step2 === "opportunity")'>
+          <div class="round" *ngIf='(step2 === "opportunity")'  [ngClass]="step2 === 'opportunity' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='opportunity' routerLink="/prc-contract/opportunity"  skipLocationChange  (click)="OnNextClick()"></div>
+          </div>
+          <div class="whiteRound" *ngIf='(step2 != "opportunity" && step2 !="opportunityEdit"  && currentState != "opportunity" && currentState != "msaopportunity")'>
+          <div class="round" *ngIf='(step2 != "opportunity" && step2 !="opportunityEdit"  && currentState != "opportunity" && currentState != "msaopportunity")' name='opportunity' ></div>
+        </div>
+        </ng-template>
+    </mat-step>        
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel   >
+        <p  name='service' *ngIf='(currentState === "service")' [ngClass]="currentState === 'service' ? 'darkGreenColorText' : ''">Services</p>   
+        <p  name='service' *ngIf='(step3 === "serviceEdit")' (click)="OnNextClick('/service;edit')">Services</p>   
+        <p  name='service' *ngIf='(step3 === "service")' routerLink="/prc-contract/service"  skipLocationChange (click)="OnNextClick()">Services</p>   
+        <p  name='service' *ngIf='(step3 != "service" && step3 !="serviceEdit"  && currentState != "service")'>Services</p>   
+
+
+        <div class="whiteRound" *ngIf='(currentState === "service")'>
+        <div class="round" *ngIf='(currentState === "service")'  [ngClass]="currentState === 'service' ? 'darkGreenColor' : 'roundGreyColor' " name='service'></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step3 === "serviceEdit")'>
+        <div class="round" *ngIf='(step3 === "serviceEdit")'  [ngClass]="step3 === 'serviceEdit' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='service' (click)="OnNextClick('/service;edit')"></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step3 === "service")'>
+        <div class="round" *ngIf='(step3 === "service")'  [ngClass]="step3 === 'service' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='service' routerLink="/prc-contract/service"  skipLocationChange (click)="OnNextClick()"></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step3 != "service" && step3 !="serviceEdit"  && currentState != "service")'>
+        <div class="round" *ngIf='(step3 != "service" && step3 !="serviceEdit"  && currentState != "service")' name='service' ></div>
+      </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]=""  >
+    <ng-template matStepLabel>
+      <p  name='ratecard' *ngIf='(currentState === "ratecard")' [ngClass]="currentState === 'ratecard' ? 'darkGreenColorText' : ''">{{flg}}</p>   
+      <p  name='ratecard' *ngIf='(step4 === "ratecardEdit")'  (click)="OnNextClick('/ratecard;edit')">{{flg}}</p>   
+      <p  name='ratecard' *ngIf='(step4 === "ratecard")' routerLink="/prc-contract/ratecard"  skipLocationChange (click)="OnNextClick()">{{flg}}</p>   
+      <p  name='ratecard' *ngIf='(step4 != "ratecard" && step4 != "ratecardEdit" && currentState != "ratecard")'>{{flg}}</p>   
+
+      <div class="whiteRound" *ngIf='(currentState === "ratecard")'>
+      <div class="round" *ngIf='(currentState === "ratecard")'  [ngClass]="currentState === 'ratecard' ? 'darkGreenColor' : 'roundGreyColor' " name='ratecard'></div>
+      </div>
+      <div class="whiteRound" *ngIf='(step4 === "ratecardEdit")'>
+      <div class="round" *ngIf='(step4 === "ratecardEdit")'  [ngClass]="step4 === 'ratecardEdit' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='ratecard' ></div>
+      </div>
+      <div class="whiteRound" *ngIf='(step4 === "ratecard")'>
+      <div class="round" *ngIf='(step4 === "ratecard")'  [ngClass]="step4 === 'ratecard' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='ratecard' routerLink="/prc-contract/ratecard"  skipLocationChange (click)="OnNextClick()"></div>
+     </div>
+     <div class="whiteRound" *ngIf='(step4 != "ratecard" && step4 != "ratecardEdit" && currentState != "ratecard")'>
+      <div class="round" *ngIf='(step4 != "ratecard" && step4 != "ratecardEdit" && currentState != "ratecard")' name='ratecard' ></div>
+    </div>
+    </ng-template>
+      </mat-step>
+    <mat-step [stepControl]=""  >
+    <ng-template matStepLabel>
+      <p name='billing' *ngIf='(currentState === "billing")' [ngClass]="currentState === 'billing' ? 'darkGreenColorText' : ''">Billing</p> 
+      <p name='billing' *ngIf='(step5 === "billingEdit")' (click)="OnNextClick('/billing;edit')">Billing</p> 
+      <p name='billing' *ngIf='(step5 === "billing")'  routerLink="/prc-contract/billing"  skipLocationChange (click)="OnNextClick()">Billing</p> 
+      <p name='billing' *ngIf='(step5 != "billing" && step5 !="billingEdit" && currentState != "billing")'>Billing</p> 
+
+      <div class="whiteRound" *ngIf='(currentState === "billing")'>
+      <div class="round" *ngIf='(currentState === "billing")' [ngClass]="currentState === 'billing' ? 'darkGreenColor' : 'roundGreyColor' " name='billing'></div>
+      </div>
+      <div class="whiteRound"  *ngIf='(step5 === "billingEdit")'>
+      <div class="round" *ngIf='(step5 === "billingEdit")'  [ngClass]="step5 === 'billingEdit' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='billing' (click)="OnNextClick('/billing;edit')"></div>
+      </div>
+      <div class="whiteRound" *ngIf='(step5 === "billing")'>
+      <div class="round" *ngIf='(step5 === "billing")'  [ngClass]="step5 === 'billing' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='billing' routerLink="/prc-contract/billing"  skipLocationChange (click)="OnNextClick()"></div>
+      </div>
+      <div class="whiteRound" *ngIf='(step5 != "billing" && step5 !="billingEdit" && currentState != "billing")'>
+      <div class="round" *ngIf='(step5 != "billing" && step5 !="billingEdit" && currentState != "billing")' name='billing'></div>
+   </div>
+    </ng-template>
+      </mat-step>
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel>
+        <p  name='documentupload' *ngIf='(currentState === "documentupload")' [ngClass]="currentState === 'documentupload' ? 'darkGreenColorText' : ''">Document&nbsp;Upload</p> 
+        <p  name='documentupload' *ngIf='(step6 === "documentuploadEdit")' (click)="OnNextClick('/documentupload;edit')">Document&nbsp;Upload</p> 
+        <p  name='documentupload' *ngIf='(step6 === "documentupload")' routerLink="/prc-contract/documentupload"  skipLocationChange (click)="OnNextClick()">Document&nbsp;Upload</p> 
+        <p  name='documentupload' *ngIf='(step6 != "documentupload" && step6 !="documentuploadEdit" && currentState != "documentupload")'>Document&nbsp;Upload</p> 
+
+
+        <div class="whiteRound" *ngIf='(currentState === "documentupload")'>
+        <div class="round" *ngIf='(currentState === "documentupload")' [ngClass]="currentState === 'documentupload' ? 'darkGreenColor' : 'roundGreyColor' " name='documentupload'></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step6 === "documentuploadEdit")'>
+        <div class="round" *ngIf='(step6 === "documentuploadEdit")'  [ngClass]="step6 === 'documentuploadEdit' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='documentupload' (click)="OnNextClick('/documentupload;edit')"></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step6 === "documentupload")'>
+        <div class="round" *ngIf='(step6 === "documentupload")'  [ngClass]="step6 === 'documentupload' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='documentupload' routerLink="/prc-contract/documentupload"  skipLocationChange (click)="OnNextClick()"></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step6 != "documentupload" && step6 !="documentuploadEdit" && currentState != "documentupload")'>
+        <div class="round" *ngIf='(step6 != "documentupload" && step6 !="documentuploadEdit" && currentState != "documentupload")' name='documentupload'></div>
+     </div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel>
+        <p  name='preview' *ngIf='(currentState === "preview")' [ngClass]="currentState === 'preview' ? 'darkGreenColorText' : ''">Success</p> 
+        <p  name='preview' *ngIf='(step7 === "previewEdit")' (click)="OnNextClick('/previewEdit;edit')">Success</p> 
+        <p  name='preview' *ngIf='(step7 === "preview")' routerLink="/prc-contract/preview"  skipLocationChange (click)="OnNextClick()">Success</p> 
+        <p  name='preview' *ngIf='(step7 != "preview" && step7 !="previewEdit" && currentState != "preview")'>Success</p> 
+
+        <div class="whiteRound" *ngIf='(currentState === "preview")'>
+        <div class="round" *ngIf='(currentState === "preview")' [ngClass]="currentState === 'preview' ? 'darkGreenColor' : 'roundGreyColor' " name='preview'></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step7 === "previewEdit")'>
+        <div class="round" *ngIf='(step7 === "previewEdit")'  [ngClass]="step7 === 'previewEdit' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='preview' (click)="OnNextClick('/previewEdit;edit')"></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step7 === "preview")'>
+        <div class="round" *ngIf='(step7 === "preview")'  [ngClass]="step7 === 'preview' ? 'ligtGreenColor fa fa-check' : 'roundGreyColor' " name='preview' routerLink="/prc-contract/preview"  skipLocationChange (click)="OnNextClick()"></div>
+        </div>
+        <div class="whiteRound" *ngIf='(step7 != "preview" && step7 !="previewEdit" && currentState != "preview")'>
+        <div class="round" *ngIf='(step7 != "preview" && step7 !="previewEdit" && currentState != "preview")' name='preview'></div>
+        </div>
+      </ng-template>
+    </mat-step>
+</mat-horizontal-stepper>
+</div>

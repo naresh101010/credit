@@ -1,0 +1,99 @@
+<div class="">
+  <div class="row text-left parent">
+        <div class="breadcrumb">
+            <a routerLink="/prc-contract/prc" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+            <a routerLink="/prc-contract/prc" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+            <a routerLink="/prc-contract/prc" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+            MSA
+        </div>
+    </div>
+
+    <h3> PRC Contract</h3>
+    <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center"
+        fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
+        <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>&nbsp;</span><span>&nbsp;</span>
+        </div>
+
+    </div>
+
+<mat-card>
+  <form name="form" #f="ngForm" novalidate>
+    <div>
+        <div class="row" style="padding-left: 0;">
+            <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                <div class="row" style="padding-top:10px;">
+                  <div class="col-lg-6 col-md-6 label-text">Contract Status:</div>
+                  <div class="col-lg-6 col-md-6 ">              
+                                 <input autocomplete="true" name="contractStatus" readonly value="Pending" style="border: none;"/>
+                    </div>
+                </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                  </div>        
+                 <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">				
+                   </div>
+                </div>
+                <div class="row" style="padding-left: 0;">
+                    <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                        <div class="row" style="padding-top:10px;">
+                          <div class="col-lg-6 col-md-6 label-text">Opportunity Type:</div>
+                          <div class="col-lg-6 col-md-6 ">           
+                                
+                                    <input autocomplete="true" name="oppType" readonly value="NEW" style="border: none;"/>
+                                  
+                              </div>
+                        </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                          </div>        
+                         <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">				
+                           </div>
+                        </div>
+                        <div class="row" style="padding-left: 0;">
+                            <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                                <div class="row" style="padding-top:10px;">
+                                  <div class="col-lg-6 col-md-6 label-text">Opportunity Address:</div>
+                                  <div class="col-lg-6 col-md-6 ">              
+                                        <mat-form-field appearance="outline" style="width: 88%;">
+                                            <input autocomplete="true" style="overflow: hidden !important;" [matTooltip]="address | uppercase"  matTooltipPosition="above"
+                                             matInput name="address" [(ngModel)]=address />
+                                          </mat-form-field>
+                                      </div>
+                                </div>
+                                </div>
+                                <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                                  </div>        
+                                 <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">				
+                                   </div>
+                                </div>
+                                <div class="row" style="padding-left: 0;">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                                        <div class="row" style="padding-top:10px;">
+                                          <div class="col-lg-6 col-md-6 label-text">Opportunity Name: <span class="redMark"> *</span></div>
+                                          <div class="col-lg-6 col-md-6 ">              
+                                                <mat-form-field appearance="outline" style="width: 88%;">
+                                                    <input autocomplete="true"  style="overflow: hidden !important;" [matTooltip]="opportunityPostData.opprName | uppercase"  matTooltipPosition="above"
+                                                    matInput name="oppName" #oppName="ngModel" maxlength="500" [(ngModel)]=opportunityPostData.opprName required />
+                                                  </mat-form-field>
+                                                  <app-validation-msg  *ngIf="(oppName.errors?.required && oppName.touched)" [msg]="'Required&nbsp;!'"></app-validation-msg>
+                                              </div>
+                                        </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">						
+                                          </div>        
+                                         <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">				
+                                           </div>
+                                        </div>                          
+                        
+    </div>
+    <div style="margin-top: 3%;">
+        <mat-accordion>       
+          <div class="example-button-row text-center" style="margin-top: 5%">
+                <button class="btn1" style="text-align: center" mat-raised-button color="primary" [disabled]='!f.form.valid' (click)="postOpportunity()">Submit</button>
+        </div>
+        </mat-accordion>
+      </div>
+    </form>
+</mat-card>
+</div>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"></ngx-spinner>

@@ -1,7 +1,8 @@
 
-
 import { enableProdMode, NgZone } from '@angular/core';
+
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { Router } from '@angular/router';
 import { ɵAnimationEngine as AnimationEngine } from '@angular/animations/browser'; 
 import { AppModule } from './app/app.module';
 import { environment } from './environments/environment';
@@ -18,6 +19,7 @@ const lifecycles = singleSpaAngular({
     return platformBrowserDynamic().bootstrapModule(AppModule);
   },
   template: '<app-root />',
+  Router,
   NgZone: NgZone,
   AnimationEngine: AnimationEngine,
 });

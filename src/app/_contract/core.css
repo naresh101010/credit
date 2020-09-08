@@ -1,0 +1,141 @@
+.displayBlock{display: block !important;}
+.paddingleftwo{padding-left: 2rem !important;}
+.paddingtoptwo{padding-top: 2rem !important;}
+.marginbottomone{margin-bottom: 1rem !important;}
+
+.padding17left{padding-left: 2.2rem !important;}
+.margintop30{margin-top: 3rem !important;}
+.pincode_input{padding-left: 12px; color: #1a1a1a !important;}
+.fontZizePreview{font-size: 1.3rem !important;}
+.borderLeftRight{border-left: .2rem solid #fff !important; border-right: .2rem solid #fff !important;overflow-wrap: break-word !important;
+  word-break: inherit;padding-left: .8rem !important;}
+.commercialPreviewHeading{background-color: #515457 !important;color: #fff !important;padding: 1rem 2rem; font-size: 1.6rem !important; margin-top: 1rem !important;font-weight: bold !important;}
+.h3heading{margin-top: 3rem !important; position: relative !important; left: 4% !important;}
+.h3HeadingStyle{margin-top: 3rem !important; position: relative !important;}
+.scrollPreview{overflow-y: scroll;height: 55rem !important;}
+.previewHeading2{margin-top: 2%;width: 90%;margin-left: 8%;background-color: #fff !important;padding-bottom: 5rem !important;}
+.text-heading-bar{word-break: break-all !important; background-color: #ccc;font-size: 1.8rem;border-left: .2rem solid #fff;border-bottom: .2rem solid #fff;display: flex;align-items: center;min-height: 6.6rem !important;}
+/* ============================Advance Search ================ */
+
+/*  At 28/04/2020 Preview Page CSS Change*/
+
+.previewPage {position: relative;}
+
+
+
+
+
+
+
+
+@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+  /* IE10+ CSS styles go here */
+  /** IE 11 fixes */
+  .cdk-overlay-pane {
+    display: block;
+  }
+  body{background: #f2f2f2;}
+  .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane .mat-select-panel.ng-animating {display: block !important;}
+  .mat-paginator, .mat-paginator-page-size .mat-select-trigger {    
+    padding-top: 8px!important;
+  }
+
+  .inputfield3{
+    padding-top: 0.2rem;
+  }
+  .contractContainer #plusicon{
+    top:-.2rem;
+  }
+  .creditDialog .form-control{
+    line-height: 0;
+  }
+  .pincode_input{
+    color:rgba(106, 104, 104, 1)
+  }
+  .contractContainer .inputBox{
+    line-height: 0;
+  }
+  .mat-datepicker-toggle .mat-icon-button{
+    top:1.8rem !important;
+  }
+  .contractContainer .mat-input-element.date_picker{
+    margin-top:-1.6rem !important;
+  } 
+
+  .contractContainer .mat-form-field-appearance-outline .mat-form-field-suffix{
+    top:-4rem !important;
+  }
+
+
+
+  .contractContainer .inputBox .mat-select-value-text{
+    top:0.4rem;
+  }
+  .mat-select-value{
+    overflow:visible!important;
+  }
+  .slaAddIcon{ margin-top:-2rem;  } 
+  .slaAddIcon.two{  
+    line-height: 24px;
+    margin-left: 8px;
+    margin-top: -2rem;
+  }
+  .cdk-overlay-container {
+    
+    
+    z-index: 2147483647!important;
+}
+
+
+}
+
+
+ /* IE10+ CSS styles go here */
+  @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+    .prcContainer .hasErrorMsg{margin-bottom:0!important}
+    .cdk-overlay-pane{display:block}
+  body{background:#f2f2f2; position:relative!important}
+    .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane .mat-select-panel.ng-animating{display:block!important}
+    .mat-paginator,.mat-paginator-page-size .mat-select-trigger{padding-top:8px!important}
+    .inputfield3{padding-top:.2rem}
+    .prcContainer #plusicon{top:-.2rem}
+    .creditDialog .form-control{line-height:0}
+    .pincode_input{color:rgba(106,104,104,1)}
+    .prcContainer .inputBox{line-height:0}
+    .mat-datepicker-toggle .mat-icon-button{top: 0rem !important}
+    .prcContainer .mat-input-element.date_picker{margin-top:-1.6rem!important}
+    .prcContainer .mat-form-field-appearance-outline .mat-form-field-suffix{top:-4rem!important}
+    .prcContainer .inputBox .mat-select-value-text{top:.4rem}
+    .mat-select-value{overflow:visible!important}
+    .slaAddIcon{margin-top:-2rem}
+    .slaAddIcon.two{line-height:24px;margin-left:8px;margin-top:-2rem}
+    .cdk-overlay-container{z-index:2147483647!important}
+    .ng-dropdown-panel{box-sizing:border-box;position:absolute;opacity:1!important;z-index:2147483647!important;-webkit-overflow-scrolling:touch;top:50%!important;left:50%!important}
+  
+    .cDetails .row_center{margin-right:2rem}
+  }
+  
+  
+  /* for Edge 16+ CSS */
+  @supports (-ms-ime-align: auto) {
+      body{background:#f2f2f2}
+    .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane .mat-select-panel.ng-animating{display:block!important}
+    .mat-datepicker-toggle .mat-icon-button{top: 0rem !important}
+    .mat-select-value{overflow:scroll}
+    .prcContainer .inputBox .mat-select-value-text{top:0}
+    .slaAddIcon{margin-top:-2rem}
+    .mNo{color:#000!important;text-decoration:none}
+  }
+  
+  /* for Mozilla */
+  @-moz-document url-prefix() {
+      .slaAddIcon.two {margin-left: 120px;  margin-top: -12px; }
+      .prcContainer .billingby-container {scrollbar-color: #828282 #000;}
+  }
+  .prcContainer .disabled_input{
+    background-color: #eee;
+    caret-color: #eee;
+  }
+.wordWrap{
+  word-break: break-word;
+}
