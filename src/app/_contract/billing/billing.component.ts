@@ -1,13 +1,11 @@
-import { Component, OnInit, ViewChild, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { ContractService } from '../contract.service';
-import { MatExpansionPanel} from '@angular/material';
 import { AppSetting } from '../../app.setting';
-import * as billing from '../models/billingModel';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+import {DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
 import { AppDateAdapter, APP_DATE_FORMATS } from './format-datepicker';
 import { FormBuilder } from '@angular/forms';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';

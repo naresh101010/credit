@@ -13,7 +13,7 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 
 export interface CityElement {
-  cityName: String;
+  cityName: string;
   id: number;
 }
 
