@@ -2074,7 +2074,7 @@ advanceSearchList:any=[
   {value:"PINCODE", criteriaValue:"PINCODE"}
 ];
 onChangeValue(val){
-  this.model.search;
+  // this.model.search;
 }
 
 //for input box change

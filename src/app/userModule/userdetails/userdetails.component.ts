@@ -1541,11 +1541,7 @@ roleDateChange(event, oldValue, effectiveDate, priviarr, modelExp){
         let d4 = new Date(priviarr.expiryDate).getTime() ;
         let d3 = new Date(priviarr.expiryDateOld).getTime();
         let d1 = new Date(priviarr.effectiveDate).getTime();
-         if(d4 == d3 && d1 < d4 ){
-          // this.expiryDateFlag = true;
-         }else{
-          // this.expiryDateFlag = false;
-         }
+      
        }
 
 
@@ -2274,7 +2270,7 @@ export class popforDefaultBranchDetails {
     { value: "PINCODE", criteriaValue: "branchtype" }
   ];
   onChangeValue(val) {
-    this.model.search;
+    // this.model.search;
   }
 
   //for input box change
@@ -2287,7 +2283,7 @@ export class popforDefaultBranchDetails {
 
   onChangeValueforBranch() {
 
-    this.branchWild;
+    // this.branchWild;
   }
   filterEntity() {
 
@@ -2957,7 +2953,7 @@ if(this.tableData.responseData && this.tableData.responseData.length>=0){
 
   onChangeValueforBranch() {
 
-    this.branchWild;
+    // this.branchWild;
   }
   filterEntity() {
 
@@ -2997,9 +2993,6 @@ if(this.tableData.responseData && this.tableData.responseData.length>=0){
       let apiEndPoint ='';
       if(this.model.search == "AREA"){
       apiEndPoint = AppSetting.API_ENDPOINT + `secure/v1/branches/${this.model.search}/` + this.model.searchByArea.branchId
-      }
-      else{
-      AppSetting.API_ENDPOINT + `secure/v1/branches/${this.model.search}/` + this.model.searchByRegion.branchId
       }
         var headers = new HttpHeaders({
           branchCode: "B1",

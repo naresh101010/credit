@@ -270,8 +270,7 @@ export class HomeComponent implements OnInit {
   onGet() {
     this.SpinnerService.show();
     this.rolecreate.getroles().subscribe((users: any) => {
-      this.SpinnerService.hide();
-      error => console.log(error);
+      this.SpinnerService.hide();    
     });
   }
 
