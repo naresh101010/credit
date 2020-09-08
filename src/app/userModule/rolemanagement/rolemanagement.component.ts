@@ -40,7 +40,7 @@ var rolelist:any
   styleUrls: ['../../core.user.css']
 })
 export class RolemanagementComponent implements OnInit {
-  constructor(private toast: ToastrService,private permissionsService:NgxPermissionsService, private ref: ChangeDetectorRef, private httpservice:HttpClient,private SpinnerService: NgxSpinnerService,public roleservice:RolecreateService, public router:Router, private AuthorizationService:AuthorizationService ) { }
+  constructor(private toast: ToastrService,private permissionsService:NgxPermissionsService, private ref: ChangeDetectorRef, private httpservice:HttpClient,private SpinnerService: NgxSpinnerService,public roleservice:RolecreateService, public router:Router, private AuthorizationService_:AuthorizationService ) { }
 userName = JSON.parse(sessionStorage.getItem("all")).data.responseData.user.username;
     //start Greeting Message
       greeting(){
@@ -59,7 +59,7 @@ userName = JSON.parse(sessionStorage.getItem("all")).data.responseData.user.user
    //End Greeting Message
 ngOnInit() {
   this.onGet();
-  this.permissionsService.loadPermissions(this.AuthorizationService.getPermissions('role'))
+  this.permissionsService.loadPermissions(this.AuthorizationService_.getPermissions('role'))
 }
 
 // pagination
@@ -77,11 +77,11 @@ showHidePagination(){
       if (event.ctrlKey && (event.keyCode === 83)) {
         event.preventDefault();
         if(document.getElementById('objectSubmit')){
-        let element: HTMLElement = document.getElementById('objectSubmit') as HTMLElement;
+        let element = document.getElementById('objectSubmit');
         element.click();
         }
         else{
-          let element: HTMLElement = document.getElementById('submitButton') as HTMLElement;
+          let element = document.getElementById('submitButton');
           element.click();
         }
          }

@@ -693,9 +693,7 @@ let createMapData =[];
                         this.finalObjectAttributePermissions[removeAttrIndex].attributeExclutionList=[];}
                         }
         let permissionIds =[2,3];
-          if(data.isAddOrRemoveOrUpdate == undefined || data.isAddOrRemoveOrUpdate != 'ADD'){
-
-               }
+      
 
         data["isAddOrRemoveOrUpdate"] = 'UPDATE';
         data.status=1;

@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatDialogRef, MAT_DIALOG_DATA, MatDatepickerInputEvent } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import * as _ from 'lodash';
 
 import { RolecreateService } from "./rolecreate.service";
@@ -113,11 +113,11 @@ export class HomeComponent implements OnInit {
       if (event.ctrlKey && (event.keyCode === 83)) {
         event.preventDefault();
         if(document.getElementById('objectSubmit')){
-        let element: HTMLElement = document.getElementById('objectSubmit') as HTMLElement;
+        let element = document.getElementById('objectSubmit');
         element.click();
         }
         else{
-        let element: HTMLElement = document.getElementById('submitButton') as HTMLElement;
+        let element = document.getElementById('submitButton');
         element.click();
         }
         }
@@ -599,7 +599,7 @@ checkInPermissionArray(objArray, val, objectPermission) {
       }
   }
   return false;
-};
+}
 existingAttributeExclusion=[];
 attributeExistingIndex=0;
 checkIfObjectExclusionExist(objArray, attribute, object) {
@@ -616,7 +616,7 @@ checkIfObjectExclusionExist(objArray, attribute, object) {
         }
     }
     return false;
-};
+}
 
 
 
