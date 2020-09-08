@@ -7,7 +7,7 @@ import { HttpModule } from '@angular/http'
 import { MatPaginator, MatSort } from "@angular/material";
 import { NgxPermissionsService } from 'ngx-permissions';
 import { ToastrService } from 'ngx-toastr';
-import { AuthorizationService } from 'src/app/core/services/authorization.service';
+import { AuthorizationService } from 'src/app/core/services/authorization.service;
 import { ErrorConstants }  from '../../../core/interceptor/ErrorHnadle';
 import { NgxSpinnerService } from 'ngx-spinner';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
@@ -35,7 +35,7 @@ export interface PeriodicElement {name: string;userId: number;status: string;sym
 
 export class BroadcastMessageComponent implements OnInit {
   selectedStatus: any;
-  searchUserPlaceHolder : String ='';
+  searchUserPlaceHolder : string ='';
   Hold_UserSearchData:[];
   userName = JSON.parse(sessionStorage.getItem("all")).data.responseData.user.username;
    //start Greeting Message
@@ -70,7 +70,7 @@ export class BroadcastMessageComponent implements OnInit {
 constructor(private permissionsService: NgxPermissionsService,private toast: ToastrService,
 private ref: ChangeDetectorRef, private SpinnerService: NgxSpinnerService,
 private httpservice:HttpClient, public router:Router,
-public http:HttpModule, private AuthorizationService:AuthorizationService,
+public http:HttpModule, private AuthorizationService_:AuthorizationService,
 private ren:Renderer2,public dialog: MatDialog) {
 }
 
@@ -114,7 +114,7 @@ messageDialog(): void {
 
 ngOnInit() {
   const perm = [];
-  this.permissionsService.loadPermissions(this.AuthorizationService.getPermissions('user'));
+  this.permissionsService.loadPermissions(this.AuthorizationService_.getPermissions('user');
   this.selectedStatus=3;
   this.UserList();
   //this.dataSource.sort = this.sort;

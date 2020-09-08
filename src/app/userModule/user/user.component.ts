@@ -11,12 +11,10 @@ import {ToastrService} from 'ngx-toastr';
 
 
 import { AuthorizationService } from 'src/app/core/services/authorization.service';
-import { element } from 'protractor';
 import { ErrorConstants }  from '../../core/interceptor/ErrorHnadle';
-import { type } from 'os';
 import { NgxSpinnerService } from 'ngx-spinner';
 
-import { throwError as observableThrowError, Observable } from 'rxjs';
+import { throwError as observableThrowError } from 'rxjs';
 import 'rxjs/add/operator/catch';
 import { catchError } from 'rxjs/operators';
 
@@ -33,7 +31,7 @@ export interface PeriodicElement {name: string;userId: number;status: string;sym
 
 export class UserComponent implements OnInit {
   selectedStatus: any;
-  searchUserPlaceHolder : String ='';
+  searchUserPlaceHolder : string ='';
   Hold_UserSearchData:[];
   userName = JSON.parse(sessionStorage.getItem("all")).data.responseData.user.username;
 
@@ -71,22 +69,22 @@ export class UserComponent implements OnInit {
 constructor(private permissionsService: NgxPermissionsService,private toast: ToastrService,
 private ref: ChangeDetectorRef, private SpinnerService: NgxSpinnerService,
 private httpservice:HttpClient, public router:Router,
-public http:HttpModule, private AuthorizationService:AuthorizationService,
+public http:HttpModule, private AuthorizationService_:AuthorizationService,
 private ren:Renderer2,
 
 ) { }
   pinnedObjects : any;
-  favouriteObjects : any[] = [];;
+  favouriteObjects : any[] = [];
   menuHierarchy : any;
   moduleCards : any;
   userId : any;
 ngOnInit() {
   const perm = [];
-  this.permissionsService.loadPermissions(this.AuthorizationService.getPermissions('user'));
+  this.permissionsService.loadPermissions(this.AuthorizationService_.getPermissions('user'));
   this.selectedStatus=3;
   this.UserList();
   this.userId = JSON.parse(sessionStorage.getItem("all")).data.responseData.user.userId;
-  this.menuHierarchy = this.AuthorizationService.getMenuHierarchyId("USER");
+  this.menuHierarchy = this.AuthorizationService_.getMenuHierarchyId("USER");
   this.getCardDetails(this.menuHierarchy.id).subscribe(cards=> {
   this.getDragDropData().subscribe(data => {
   this.moduleCards = cards.data;
