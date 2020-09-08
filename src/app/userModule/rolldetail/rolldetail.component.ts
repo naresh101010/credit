@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, ɵConsole , HostListener} from "@angular/core";
+import { Component, OnInit, Inject, HostListener} from "@angular/core";
 import { MatDialog } from "@angular/material/dialog";
 import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material";
 import { Router, ActivatedRoute } from "@angular/router";
@@ -106,7 +106,7 @@ originalObjectPermissionList :any;
     private router: Router,
     private roleservice: RolecreateService,
     public dialog: MatDialog,
-    private AuthorizationService:AuthorizationService,
+    private AuthorizationService_:AuthorizationService,
     private permissionsService:NgxPermissionsService,
     private toast: ToastrService,
   ) {
@@ -125,7 +125,7 @@ originalObjectPermissionList :any;
     this.IsCheckedmau = false;
     this.IsCheckedmar = false;
 
-    this.AuthorizationService.getTimeStamp().subscribe(date=>{
+    this.AuthorizationService_.getTimeStamp().subscribe(date=>{
       this.todayDt = new Date(date.data.responseData.split("[")[0])
     })
   }
@@ -276,7 +276,7 @@ originalObjectPermissionList :any;
   ngOnInit() {
     //permission
     const perm = [];
-    this.permissionsService.loadPermissions(this.AuthorizationService.getPermissions('role'));
+    this.permissionsService.loadPermissions(this.AuthorizationService_.getPermissions('role'));
     //end permission
 
       let webList=[];

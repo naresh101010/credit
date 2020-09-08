@@ -20,7 +20,7 @@ export class ObjectcreateComponent implements OnInit {
     handleKeyboardEvent(event: KeyboardEvent) {
       if (event.ctrlKey && (event.keyCode === 83)) {
         event.preventDefault();
-        let element: HTMLElement = document.getElementById('submitButton') as HTMLElement;
+        let element = document.getElementById('submitButton');
          element.click();
          }
     }

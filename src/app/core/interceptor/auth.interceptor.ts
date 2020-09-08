@@ -17,7 +17,7 @@ import { AuthorizationService } from "../services/authorization.service";
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private toast: ToastrService, private router: Router, private SpinnerService: NgxSpinnerService, private AuthorizationService:AuthorizationService) {}
+  constructor(private toast: ToastrService, private router: Router, private SpinnerService: NgxSpinnerService, private AuthorizationService_:AuthorizationService) {}
   intercept(
     request: HttpRequest<any>,
     next: HttpHandler
@@ -62,7 +62,7 @@ export class AuthInterceptor implements HttpInterceptor {
               ) {
                     if(err.url.indexOf('permissions') == -1 && err.url.indexOf('logout') == -1  ){ // show toster except permissions and logout
                       this.toast.warning(err.error.message, err.status.toString());
-                      this.AuthorizationService.navigateToLogin();
+                      this.AuthorizationService_.navigateToLogin();
                       setTimeout(()=>{this.SpinnerService.hide() }, 4000)
                     }
 

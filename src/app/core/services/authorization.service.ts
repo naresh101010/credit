@@ -14,7 +14,7 @@ export class AuthorizationService {
   constructor(
     private router: Router,
     private spinnerService: NgxSpinnerService,
-    private HttpClient: HttpClient,
+    private HttpClient_: HttpClient,
     private toast: ToastrService
   ) {
   }
@@ -61,7 +61,7 @@ const extractedPerm = sessionStorage.getItem("extracted_permissions");
 
   // get time stamp
   getTimeStamp() {
-    return this.HttpClient.get<any>(
+    return this.HttpClient_.get<any>(
       AppSetting.API_ENDPOINT+ 'secure/v1/users/serverTime'
     );
   }

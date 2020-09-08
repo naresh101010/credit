@@ -49,7 +49,7 @@ editRole(data:any) {
     this.SpinnerService.show();
     const header = new Headers();
     header.append('Content-Type', 'application/json');
-   var headers =new HttpHeaders ({ 'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
+  
 
     return this.http.get(AppSetting.API_ENDPOINT+'secure/v1/roles/lastUpdated/10',)
     .map(
@@ -68,8 +68,7 @@ editRole(data:any) {
 }
 
   objectList() {
-    this.SpinnerService.show();
-    var headers =new HttpHeaders ({ 'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
+    this.SpinnerService.show();  
     return this.http.get(AppSetting.API_ENDPOINT+'secure/v1/objects',)
     .map(
       (response: Response) => {
@@ -88,8 +87,6 @@ editRole(data:any) {
 
 objectIdList(data) {
   this.SpinnerService.show();
-  var headers =new HttpHeaders ({ 'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
-
   return this.http.get(AppSetting.API_ENDPOINT+'secure/v1/roles/'+ data+'/permissions',)
   .map(
     (response: Response) => {

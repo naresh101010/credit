@@ -232,9 +232,9 @@ maxdateForList:any;
   roleExpiryDateFlag:boolean= true;
   roleEffectiveDateFlag:boolean= true;
   editDate = true;
-  effectiveDateMessage:String
-  expiryDateMessage:String
-  saveRevertButton:String = 'Save dates';
+  effectiveDateMessage:string
+  expiryDateMessage:string
+  saveRevertButton:string = 'Save dates';
   dateChange(event, oldValue, effectiveDate,index, priviarr){
   if(this.expiryDateFlag && this.effectiveDateFlag){
   priviarr.saveRevertButton = 'Save dates';
@@ -275,6 +275,7 @@ maxdateForList:any;
 
        if((d1.getTime() >= d2.getTime()) || (d1.getTime() >= d3.getTime())){
          if((priviarr.newExpiryDate < priviarr.newEffectiveDate)){
+           console.log('1')
          this.expiryDateFlag = false;
          this.saveRevertButton ='Revert invalid dates';
          priviarr['saveRevertButton'] = 'Revert invalid dates';
@@ -282,6 +283,7 @@ maxdateForList:any;
          priviarr['expiryDateFlag']= false;
          }
          else if(priviarr.newExpiryDate < d3){
+           console.log('2')
          this.expiryDateFlag = false;
          this.saveRevertButton ='Revert invalid dates';
          priviarr['saveRevertButton'] = 'Revert invalid dates';

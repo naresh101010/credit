@@ -607,7 +607,6 @@ createUser(){
     else{
   this.newdata.isAdmin = (this.newdata.isAdmin) ? 1 : 0;}
   console.log(this.newdata);
-  var headers =({ 'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
 
   for (var i = 0; i < this.userDepartmentList.length; i++) {
       if (this.userDepartmentList[i].lookupVal == this.newdata.userDepartment) {
@@ -672,7 +671,6 @@ validateAdUser(value){
   value = value.trim();
  if(value.length > 2){
   this.SpinnerService.show();
-  var headers =({ 'branchCode':'B1','journeyId':'A1', 'userId': 'User1'});
   this.httpservice.get<any>(AppSetting.API_ENDPOINT+`secure/v1/users/${value}/AD`).subscribe(
     data => {
       let ob = ErrorConstants.validateException(data);

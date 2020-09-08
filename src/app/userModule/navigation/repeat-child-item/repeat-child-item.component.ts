@@ -1,5 +1,4 @@
 import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import { AuthorizationService } from 'src/app/core/services/authorization.service';
 
 @Component({
   selector: 'app-repeat-child-item',
@@ -10,7 +9,7 @@ export class RepeatChildItemComponent implements OnInit {
   @ViewChild('childMenu', {static:false}) public childMenu;
   @Input() mainSection = "";
   @Input() subSection = "";
-  constructor(private AuthorizationService:AuthorizationService) {   }
+  constructor() {   }
   ngOnInit() {  }
 
   run(v){
