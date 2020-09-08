@@ -2940,7 +2940,7 @@ if(this.tableData.responseData && this.tableData.responseData.length>=0){
     { value: "PINCODE", criteriaValue: "branchtype" }
   ];
   onChangeValue(val) {
-    this.model.search;
+    // this.model.search;
   }
 
   //for input box change
