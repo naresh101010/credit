@@ -1,5 +1,5 @@
-import { Injectable, HostListener } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
 import { AppSetting } from "../../app.setting";
 import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
@@ -12,7 +12,6 @@ export class AuthorizationService {
 
   // end Roles permission
   constructor(
-    private httpservice: HttpClient,
     private router: Router,
     private spinnerService: NgxSpinnerService,
     private HttpClient: HttpClient,

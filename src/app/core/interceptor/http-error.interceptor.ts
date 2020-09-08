@@ -20,6 +20,7 @@ return next.handle(request)
 .pipe(
       tap((event:any) => {
         if(request.url.includes("REGION")){
+          console.log('region')
         }
         })
 
