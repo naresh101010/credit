@@ -1778,8 +1778,8 @@ insuValidDate(modeltnc) {
         //  this.getAssignBranchdata(this.rateCardApplicableFlag);
         for (var item of this.carddetail) {
           item["showRctoggle"] = this.showRctoggle;
-          item["baseLocnBranchName"]= item.baseLocnBranchName;
-          item["baseLocnBranchId"] = item.baseLocnBranchId;
+          // item["baseLocnBranchName"]= item.baseLocnBranchName;
+          // item["baseLocnBranchId"] = item.baseLocnBranchId;
                     this.rateCardDetails.push(item)
                   }
         this.rateCardDetails.sort((a, b) => a.id - b.id); 
@@ -2599,21 +2599,22 @@ console.log(this.zonalrategroup,"zonalrate group")
   getAllStatesList() {
     this.contractservice.getAddrByState()
 
-      .subscribe(success => {
+      .subscribe(
+      success => {
         this.spinner.hide();
         this.stateAddr = success.data.responseData;
         this.stateMap = new Map();
-        this.stateAddr.forEach((ele) => {
-        ele.id = ele.id.toString()
-        this.stateMap.set(ele.id,ele.stateName);
-      });
+          this.stateAddr.forEach((ele) => {
+            ele.id = ele.id.toString()
+            this.stateMap.set(ele.id,ele.stateName);
+          });       
         
-        console.log(this.stateAddr, "state")
       },
-        error => {
+      error => {
           this.spinner.hide();
-        });
-    error => { }
+      }
+      );
+   
 
   }
 

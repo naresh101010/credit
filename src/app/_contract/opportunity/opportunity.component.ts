@@ -558,7 +558,7 @@ this.isDataAvailable=true;
   postOportunity() {
     this.spinner.show();
 
-    this.model
+    // this.model
     let data = {
       "cntrSignDt": this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd'),
       "cntrType": this.model.cntrType,

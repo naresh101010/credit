@@ -107,7 +107,7 @@
         <div class="row mt15">
           <div class="table-responsive" style="margin-bottom: 30px; ">
 
-    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" *ngxPermissionsOnly="['CONTRACT_READ']">
+    <table mat-table matSortDisableClear [dataSource]="dataSource" matSort class="mat-elevation-z8 dashboardTable" *ngxPermissionsOnly="['CONTRACT_READ']" aria-describedby="table">
 
               <!-- Position Column -->
               <ng-container matColumnDef="custName">
