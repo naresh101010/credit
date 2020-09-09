@@ -239,7 +239,10 @@ export class GlobalMsaComponent implements OnInit {
             delete this.msaSelectedData.effectiveDt;
             delete this.msaSelectedData.expDt;
           }
-          this.msaSelectedData.sla == '' ? this.msaSelectedData.sla = null : '';
+          // this.msaSelectedData.sla == '' ? this.msaSelectedData.sla = null : '';
+          if (this.msaSelectedData.sla == "") {
+            this.msaSelectedData.sla = null;
+          }
           this.msaForm.controls.custLevel.enable();
 
           this.contractService.postMSARetailCustomer(this.msaSelectedData)

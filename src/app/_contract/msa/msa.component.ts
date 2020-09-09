@@ -472,31 +472,33 @@ console.log('event', event )
     console.log("inside download Template");
     var fName="Consigner_consignee.xls";
     
-    this._contractService.postDownloadDocument(this.templateRefPath)
-      .subscribe(data => {
+    this._contractService.postDownloadDocument(this.templateRefPath).subscribe(
+      (data) => {
         console.log("inside downloadDocument response");
-        console.log(data,"download file");
+        console.log(data, "download file");
         var a = document.createElement("a");
-        var blob = new Blob([data], {type: "octet/stream"});
+        var blob = new Blob([data], { type: "octet/stream" });
 
-          // for edge
-          console.log('naresh dofds')
-          if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-            window.navigator.msSaveOrOpenBlob(blob, fName);
-            return;
-          } 
+        // for edge
+        console.log("naresh dofds");
+        if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+          window.navigator.msSaveOrOpenBlob(blob, fName);
+          return;
+        }
         var url = window.URL.createObjectURL(blob);
         a.href = url;
         a.download = fName;
         a.click();
         window.URL.revokeObjectURL(url);
         this.tosterservice.Success("Template downloaded");
-      });
-    
-      error => {
-        console.log(error,"Error in download")
+      },
+      (error) => {
+        console.log(error, "Error in download");
         this.tosterservice.Error("Something went wrong");
-      } 
+      }
+    );
+    
+      
   }
 
   selFlag: Boolean=false;
