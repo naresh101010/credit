@@ -1,17 +1,16 @@
-<div style="position: relative;">
-  <h3 class="paddingleftwo" id="h3">Contract Update</h3>
-  <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+<div style="position: relative;" class="retailContainer">
+  <h3 id="h3" style="margin-top: 1rem !important;padding-left: 1rem !important;">Contract Update </h3>
+  <em style="position: absolute;right: .7rem;top: 0px;cursor: pointer;" class="fa fa-times fa-2x" aria-hidden="true" (click)="close()"></em>
+  <hr style="margin-top: 0 !important; margin-bottom: 1rem !important;">
 </div>
-<hr id="popup-hr">
 
-<div style="margin: .3rem;border-radius: .3rem;" id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container contractContainer">
-  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center contractWidth" [matTooltip]="custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="custName?.length<25">{{custName}}</span></div>
-  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center contractWidth">{{sfdcAccId}}</span></div>
-  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center contractWidth">{{cntrCode}}</em></div>
+<div style="margin: .3rem;border-radius: .3rem;" id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container retailContainer">
+  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>MSA Level : </span><span style="margin-left: 10px;">{{msaLevel}}</span></div>
+  <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Retail Code : </span><span style="margin-left: 10px;">{{retailCode}}</span></div>
 </div>
-<mat-card>
+<mat-card style="padding-top: 0 !important;">
     <mat-card-content >
-        <div class="commercialboxflex">
+        <div class="commercialboxflex retailContainer">
           <div >
             <div class="commercialbox1 dropdown" style="margin-right: 1rem;" (click)="contractTermRoute()">
                <h6 style="padding-top: 3rem;cursor: pointer;padding-left: 1.9rem;font-size: 1.2rem;">Contract Termination</h6>
@@ -38,22 +37,9 @@
               </div>
             </div>
           </div>
-          <div >
-            <div >
-              <div class="commercialbox1 dropdown" style="margin-right: 1rem; " (click)="billingRoute()">
-                 <h6 style="padding-top: 3rem;cursor: pointer;padding-left: 1.9rem;font-size: 1.2rem;">Billing</h6>
-              </div>
-            </div>
-          </div>
-          <div >
-            <div >
-              <div class="commercialbox1 dropdown" style="margin-right: 1rem; " (click)="docRoute()">
-                 <h6 style="padding-top: 3rem;cursor: pointer;padding-left: 1.9rem;font-size: 1.2rem; padding-right: 1rem;">KYC Document Update</h6>
-              </div>
-            </div>
-          </div>
+   
         </div>
     </mat-card-content>
 </mat-card>
 
-
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"></ngx-spinner>

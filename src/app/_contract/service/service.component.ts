@@ -9,6 +9,8 @@ import { Lookup } from '../models/billingModel';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
 
+import { DataService } from '../msa/sharedata.service';
+
 
 
 @Component({
@@ -22,7 +24,7 @@ export class ServiceComponent implements OnInit {
   services: any = {}
   servicelinelist=[]
   constructor(private spinner: NgxSpinnerService,private router: Router, private contractservice: ContractService,public tosterservice: ToastrService
-    ,private acrouter: ActivatedRoute, private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
+    ,private acrouter: ActivatedRoute,private sharedSearchdata: DataService, private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
   sfdcAccId =AppSetting.sfdcAccId
   custName  =AppSetting.customerName
   sfxCode = AppSetting.sfxCode
@@ -35,22 +37,40 @@ export class ServiceComponent implements OnInit {
   offeringFlag:boolean=false
   oldOfferingList = [];
   statusList : Lookup[] = [];
+  msaLevel : string;
+  retailCode : string;
+  perList: any = [];
+     
   @ViewChild("serviceForm", null) fservice: any;
 
   ngOnInit() {
     this.authorizationService.setPermissions('SERVICE OFFERING');
-    this.permissionsService.loadPermissions(this.authorizationService.getPermissions('SERVICE OFFERING'));
+    this.perList = this.authorizationService.getPermissions('SERVICE OFFERING') == null ? [] : this.authorizationService.getPermissions('SERVICE OFFERING');
+    this.permissionsService.loadPermissions(this.perList);
     this.isDisabled = false;
     this.editflow = false;
+
+    this.sharedSearchdata.currentMSALevel.subscribe(level =>  this.msaLevel = level);
+ 
+	  this.sharedSearchdata.currentRetailCode.subscribe(code => this.retailCode = code);
+
     this.acrouter.params.subscribe(params => {
       if (params['editflow']) { 
         this.editflow = params['editflow'];
         this.isDisabled = true;
       }
     });
-    this.getServices()
+
+    if(this.editflow){
+      this.contractservice.getContractByMSAIdInEditFlow(AppSetting.msaId).subscribe(response => {
+       AppSetting.contractId = response.data.responseData.id;
+       this.getServices();
+      })
+    } else {
+      this.getServices();
+    }
+
   }
-  
   getServices() {
     this.spinner.show();
     this.contractservice.getServices(AppSetting.contractId,this.editflow)
@@ -58,6 +78,7 @@ export class ServiceComponent implements OnInit {
         success => {
         let ob = ErrorConstants.validateException(success);
         if(ob.isSuccess){
+          this.spinner.hide();
           if(success.data.responseData){
             this.services.offerings = success.data.responseData;
             this.servicelinelist= success.data.referenceData.serviceLineList;
@@ -68,17 +89,12 @@ export class ServiceComponent implements OnInit {
             this.model.wmsPct= this.services.offerings[0].wmsPct;
             AppSetting.offeringId= this.services.offerings[0].id
             this.servicesId=this.services.offerings[0].id
-                this.getServiceOfering(this.model.lkpServiceLineId, false);
-              }
-              else { this.spinner.hide(); }
-            } else {
-              this.spinner.hide();
+            this.getServiceOfering(this.model.lkpServiceLineId,false);}
             }
-          } else {
-            this.tosterservice.error(ob.message);
-            this.spinner.hide();
-          }
-        },
+      }else{
+        this.tosterservice.error(ob.message);
+        this.spinner.hide();
+      }},
     error => {
       this.tosterservice.error(ErrorConstants.getValue(404));
       this.spinner.hide();
@@ -206,7 +222,6 @@ else{
       }
     });
 
-    console.log("this.offeringList", this.offeringList);
     if (this.offeringList.length > 0) {
       this.spinner.show();
       this.offeringList.forEach(element => {
@@ -221,13 +236,12 @@ else{
               this.servicesId = success.data.responseData;
               AppSetting.offeringId = this.servicesId
               this.getServices();
-              console.log(this.servicesId);
-              this.tosterservice.success("Offering Saved successfully");
+              this.tosterservice.success("Save Successfully");
               if (nextFlag == true) {
                 if (this.editflow) {
-                  this.router.navigate(['/contract/ratecard', {steper:true, 'editflow': 'true' }], {skipLocationChange: true});
+                  this.router.navigate(['/retail-contract/ratecard', {steper:true,'editflow': 'true' }],{skipLocationChange: true});
                 } else {
-                  this.router.navigate(['/contract/ratecard'], {skipLocationChange: true});
+                  this.router.navigate(['/retail-contract/ratecard'], {skipLocationChange: true});
                 }
               }
             } else {
@@ -243,9 +257,9 @@ else{
     } else {
       if (nextFlag == true) {
         if (this.editflow) {
-          this.router.navigate(['/contract/ratecard', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
+          this.router.navigate(['/retail-contract/ratecard', {steper:true,'editflow': 'true' }],{skipLocationChange: true});
         } else {
-          this.router.navigate(['/contract/ratecard'], {skipLocationChange: true});
+          this.router.navigate(['/retail-contract/ratecard'], {skipLocationChange: true});
         }
       }
     }
@@ -254,8 +268,6 @@ else{
  
   
   isWmsPercRequired:boolean=false;
-  offeringIdwithNewRc:any;
-  offeringIdwithOldRc:any;
   getServiceOfering(offering,isChange) {
     this.spinner.show();
     let isChangeServiceLine = false;
@@ -276,81 +288,41 @@ else{
     this.offeringList=[]
     AppSetting.serviceOfering=[]
     this.serviceofering = [];
-    this.offeringIdwithNewRc = [];
-    this.offeringIdwithOldRc = [];
     this.contractservice.getServiceOfering(offering)
       .subscribe(
         success => {
           let ob = ErrorConstants.validateException(success);
-          if (ob.isSuccess) {
-            this.serviceofering = success.data.responseData;
-            if (this.serviceofering.length > 0) {
-              this.contractservice.getRateCardDetail(AppSetting.contractId, this.editflow)
-                .subscribe(successRC => {
-                  let obRc = ErrorConstants.validateException(successRC);
-                  let rcData = successRC.data.responseData;
-                  let rcRefData = successRC.data.referenceData;
-                  for(let rc of rcData){
-                    if(rc.isStgRc){
-                      for(let serOff of rcRefData.offerings){
-                        if(serOff.id==rc.offeringId){
-                          this.offeringIdwithNewRc.push(serOff.serviceOfferingId);
-                        }
-                      }
-                    }else{
-                      for(let serOff of rcRefData.offerings){
-                        if(serOff.id==rc.offeringId){
-                          this.offeringIdwithOldRc.push(serOff.serviceOfferingId);
-                        }
-                      }
-                    }
-                  }
-                  if (obRc.isSuccess) {
-                    this.offeringFlag = true
-                    for (var i = 0; i < this.serviceofering.length; i++) {
-                      for (var j = 0; j < this.services.offerings.length; j++) {
-                        if (this.serviceofering[i].id == this.services.offerings[j].serviceOfferingId) {
-                          if (!isChangeServiceLine || !isChange) {
-                            this.serviceofering[i].isChecked = true;
-                            if (this.isDisabled) {
-                              if (this.offeringIdwithNewRc.includes(this.serviceofering[i].id)) {
-                                this.serviceofering[i]["isDisabled"] = true;
-                              } else if (this.offeringIdwithOldRc.includes(this.serviceofering[i].id)){
-                                this.serviceofering[i]["isDisabled"] = true;
-                              }else{
-                                this.serviceofering[i]["isDisabled"] = false;
-                              }
-                            }
-                          } else {
-                            this.serviceofering[i].isChecked = false;
-                          }
-                        }
-                      }
-                    }
-                    this.chkvalidation();
-                  } else {
-                    this.tosterservice.error(ob.message);
-                    this.spinner.hide();
-                  }
-                  this.spinner.hide();
-                },
-                  error => {
-                    this.tosterservice.error(ErrorConstants.getValue(404));
-                    this.spinner.hide();
-                  });
-            } else {
-              this.offeringFlag = false;
-              this.tosterservice.info("No Offering Available For Selected Serviceline.");
-              this.chkvalidation();
-              this.spinner.hide();
+        if(ob.isSuccess){
+          this.serviceofering = success.data.responseData;
+          if(this.serviceofering.length>0){
+          this.offeringFlag = true
+          for(var i=0;i<this.serviceofering.length;i++){
+            for(var j=0;j<this.services.offerings.length;j++){
+              if(this.serviceofering[i].id==this.services.offerings[j].serviceOfferingId){
+                if(!isChangeServiceLine || !isChange){
+                this.serviceofering[i].isChecked=true;
+                if(this.isDisabled){
+                this.serviceofering[i]["isDisabled"]=true;
+                }
+               }else{
+                this.serviceofering[i].isChecked=false;
+               }
+              }
             }
-          } else {
-            this.offeringFlag = false;
-            this.tosterservice.error(ob.message);
-            this.chkvalidation();
-            this.spinner.hide();
           }
-        },
+          this.chkvalidation();
+        }else{
+          this.offeringFlag= false;
+          this.tosterservice.info("No Offering Available For Selected Serviceline.");
+          this.chkvalidation();
+        }
+        this.spinner.hide();
+       }else{
+        this.offeringFlag= false;
+        this.tosterservice.error(ob.message);
+        this.chkvalidation();
+        this.spinner.hide();
+      }},
     error => {
       this.offeringFlag= false;
       for(let serviceLine of this.servicelinelist){
@@ -361,7 +333,6 @@ else{
         this.fservice.IsValid = true;
       }
       this.spinner.hide();
-      console.log(this.IsValid);
     });
 
   }

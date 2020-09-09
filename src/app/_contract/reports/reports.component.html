@@ -1,14 +1,15 @@
-<div class="hero-content contractContainer report">
+<div class="hero-content retailContainer report">
   <div class="row text-left parent">
     <div class="breadcrumb">
-      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span> CREDIT </div>
+      <a routerLink="/retail-contract/retail" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/retail-contract/retail" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/retail-contract/retail" target="_self">Customer</a><span class="fa fa-caret-right"></span> RETAIL
+    </div>
   </div>
   <div class="msaOperation">
     <h3>Customer Contract Report </h3>
   </div>
-  <mat-card>    
+  <mat-card>
     <form #f="ngForm">
       <div class="row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
@@ -27,7 +28,7 @@
               *ngIf="reqMsgSearchBran && (searchByVal == 'MSA BASE LOCATION' || searchByVal == 'RC BASE LOCATION' || searchByVal == 'BOOKING BRANCH' || searchByVal == 'ALL')"
               style="color:red; font-weight: normal; font-size: 1.4rem;"> Required ! </span>
           </div>
-          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mg" id="advanceSerach">
+          <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4 mg" style="margin-top: .3rem !important;" id="advanceSerach">
             <!-- advance select search -->
             <mat-form-field appearance="outline" style="width: 100%;"
               *ngIf="searchByVal == 'MSA BASE LOCATION' || searchByVal == 'RC BASE LOCATION' || searchByVal == 'BOOKING BRANCH' || searchByVal == 'ALL'">
@@ -35,9 +36,9 @@
                 disableOptionCentering panelClass="creditNgxSelect advanceSearch" #doctype='ngModel' required
                 name="searchArrValue" [(ngModel)]="searchArrValue" placeholder="SEARCH {{finalObj.searchBy}} ">
                 <ngx-mat-select-search (change)="manualSel($event); validateField()" (keyup)="manualSearch($event); validateField()" [(ngModel)]="searchVal"
-                  [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'" name="search">
-                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
-                </ngx-mat-select-search>
+                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'" name="search">
+                <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
+              </ngx-mat-select-search>
                 <mat-option [value]="" style="display: none;">Select Option</mat-option>
                 <mat-option *ngFor="let item of (searchArr | stringFilter:searchVal:'branchName')"
                   [value]="item.branchId" [matTooltip]="item.branchName" matTooltipPosition="above"> {{item.branchName}}

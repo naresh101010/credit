@@ -11,16 +11,20 @@ import { NgSelectModule } from '@ng-select/ng-select';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { CreditdashboardComponent } from './_contract/creditdashboard/creditdashboard.component';
+import { FilterPipeModule } from 'ngx-filter-pipe';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { CreditdashboardComponent, EditFlowDataComponent } from './_contract/creditdashboard/creditdashboard.component';
+import { GlobalMsaComponent } from './_contract/msa/global-msa/global-msa.component';
+import { ContractComponent } from './_contract/contract/contract.component';
 import { OpportunityComponent, SearchContractEdit } from './_contract/opportunity/opportunity.component';
 import { ServiceComponent } from './_contract/service/service.component';
-import { MsaComponent, ConsignorUploadFile, DownloadErrorFile } from './_contract/msa/msa.component';
-import { RatecardComponent, SearchCcDialogBox,BaseLocationSearchB} from './_contract/ratecard/ratecard.component';
-import { BillingComponent,CneeCnorDialogBox, BranchDialogBox, AddressDialogBox, EmailDialogBox, EbillEmailDialogBox, CommunicationEmailDialogBox} from './_contract/billing/billing.component';
+import {  ConsignorUploadFile,MsaComponent,DownloadErrorFile } from './_contract/msa/msa.component';
+import { RatecardComponent, SearchCcDialogBox, BaseLocationSearchB} from './_contract/ratecard/ratecard.component';
+import { BillingComponent,CneeCnorDialogBox, BranchDialogBox, AddressDialogBox } from './_contract/billing/billing.component';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { StepperComponent } from './_contract/stepper/stepper.component';
-import { MsaOprationComponent,DownloadReportFile } from './_contract/msa/msa-opration/msa-opration.component';
+import { MsaOprationComponent } from './_contract/msa/msa-opration/msa-opration.component';
 import { MsacreationComponent,ConsignorAddition,BaseLocationSearchMSA } from './_contract/msa/msacreation/msacreation.component';
 import { PreviewComponent, EditPreview,EmailDialogBoxP } from './_contract/preview/preview.component';
 import { DocumentuploadComponent } from './_contract/documentupload/documentupload.component';
@@ -33,12 +37,12 @@ import { ExistingsafexlistComponent } from './_contract/existingsafexlist/existi
 import { ContractversionComponent } from './_contract/contractversion/contractversion.component';
 import { confimationdialog } from './_contract/confirmationdialog/confimationdialog';
 import { VersionpreviewComponent } from './_contract/versionpreview/versionpreview.component';
-import {SearchAllOppertunityDialogBox} from './_contract/opportunity/opportunity.component'
-import { CompareversionsComponent } from './_contract/compareversions/compareversions.component';
 import { NumericDirective } from './shared/numeric.directive';
+import{rangeTncDirective} from './shared/rangeTnc.directive';
 import { AlphanumericDirective} from './shared/alphanumeric.directive';
 import { DatepickerDirective} from './shared/datepicker.directive';
 import { ValidationMsgComponent } from './validation-msg/validation-msg.component';
+import { BranchComponent,ConsignorDialog ,BaseLocationAdvanceSearch,BranchConsignorMapplingDialog} from './_contract/branch/branch.component';
 import { GreaterZeroDirective } from './shared/greater-zero.directive';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { AppDateFormatAdapter, APP_DATE_FORMATS} from './_contract/date_formate/date.adapter';
@@ -46,102 +50,190 @@ import { NgxPrintModule } from 'ngx-print';
 import { SortByPipe } from './_contract/pincodesearch/sort-by.pipe';
 import { NgpSortModule } from "ngp-sort-pipe";
 import { SfxDialogComponent } from './_contract/sfx-dialog/sfx-dialog.component';
+import { SubmitbtnComponent } from './_contract/submitbtn/submitbtn.component';
 import { EmptyRouteComponent } from './empty-route/empty-route.component';
-import { NgxPermissionsModule } from 'ngx-permissions';
+import { CompareversionsComponent } from './_contract/compareversions/compareversions.component';
+import { SearchAllOppertunityDialogBox } from './_contract/opportunity/opportunity.component';
 import { AuthGuard } from './core/auth.guard';
 import { AuthInterceptor } from './core/interceptor/auth.interceptor';
 import { ClickOutsideModule } from 'ng-click-outside';
 import { AlphabetOnlyDirective } from './shared/alphabet.directive';
 import { StringFilterPipe } from './shared/string-filter.pipe';
-import { rangeTncDirective } from './shared/rangeTnc.directive';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { NgxPermissionsModule } from 'ngx-permissions';
 import { ReportsComponent } from './_contract/reports/reports.component';
 import { NumberOnlyDirective } from './shared/number-only.directive';
 import { ExportAsModule } from 'ngx-export-as';
-import { DragDropModule } from '@angular/cdk/drag-drop';
-
-
-
-
+import { NotepadSortPipe } from './shared/notepadId-filter.pipe';
 
 const appRoutes: Routes = [
-  {path:'contract', canActivate: [AuthGuard], children:[
-    { path: '', component: CreditdashboardComponent, data: { title: 'Home Component' }},
-    { path:'credit', component: CreditdashboardComponent, data: {title: 'Credit Dashboard'}},
-    { path: 'msa', component: MsaComponent, data: {title: 'MSA'}},
-    { path: 'opportunity', component: OpportunityComponent, data: {title: 'Oppertunity'}},
-    { path: 'service', component: ServiceComponent, data: {title: 'service'}},
-    { path: 'ratecard', component: RatecardComponent, data: {title: 'service'}},
-    { path: 'ratecard', component: RatecardComponent, data: {title: 'ratecard'}},
-    {path: 'billing', component: BillingComponent, data: {title: 'billing'}},
-    {path:'msaoperation',component:MsaOprationComponent ,data:{title:'msa'}},
-    {path:'msacreation',component:MsacreationComponent ,data:{title:'createmsa'}},
-    {path:'preview',component:PreviewComponent ,data:{title:'preview'}},
-    { path: 'documentupload', component: DocumentuploadComponent, data: {title: 'documentupload'}},
-    { path: 'msaopportunity', component: MsaopportunityComponent, data: {title: 'msaopportunity'}},
-    { path: 'commandment', component: CommandmentComponent, data: {title: 'commandment'}},
-    { path: 'pincodesearch', component: PincodesearchComponent, data: {title: 'pincodesearch'}},
-    { path: 'citysearch', component: CitysearchComponent, data: {title: 'citysearch'}},
+{path:'retail-contract', canActivate: [AuthGuard],  children:[
+  { path: 'retail', component: CreditdashboardComponent, data: { title: 'Home Component' }},
+  { path:'creditdashboard', component: CreditdashboardComponent, data: {title: 'Credit Dashboard'}},
+ // { path: 'msa', component: MsaComponent, data: {title: 'MSA'}},
+  { path: 'opportunity', component: OpportunityComponent, data: {title: 'Oppertunity'}},
+  { path: 'service', component: ServiceComponent, data: {title: 'service'}},
+  { path: 'ratecard', component: RatecardComponent, data: {title: 'service'}},
+  { path: 'ratecard', component: RatecardComponent, data: {title: 'ratecard'}},
+  {path: 'billing', component: BillingComponent, data: {title: 'billing'}},
+  //{path:'msaoperation',component:MsaOprationComponent ,data:{title:'msa'}},
+  {path:'msacreation',component:MsacreationComponent ,data:{title:'createmsa'}},
+  {path:'preview',component:PreviewComponent ,data:{title:'preview'}},
+  { path: 'documentupload', component: DocumentuploadComponent, data: {title: 'documentupload'}},
+  { path: 'msaopportunity', component: MsaopportunityComponent, data: {title: 'msaopportunity'}},
+  { path: 'commandment', component: CommandmentComponent, data: {title: 'commandment'}},
+  { path: 'pincodesearch', component: PincodesearchComponent, data: {title: 'pincodesearch'}},
+  { path: 'citysearch', component: CitysearchComponent, data: {title: 'citysearch'}},
     { path: 'statesearch', component: StatesearchComponent, data: {title: 'statesearch'}},
-    { path: 'existingsafexlist', component: ExistingsafexlistComponent, data: {title: 'existingsafexlist'}},
-    { path: 'contractversion', component: ContractversionComponent, data: {title: 'contractversion'}},
-    { path: 'versionpreview', component: VersionpreviewComponent, data: {title: 'versionpreview'}},
-    { path: 'compareversion', component: CompareversionsComponent, data: {title: 'compareversion'}},
-    { path: "report", component: ReportsComponent, data: { title: "report" }   }
-  ]}
+  { path: 'existingsafexlist', component: ExistingsafexlistComponent, data: {title: 'existingsafexlist'}},
+  { path: 'contractversion', component: ContractversionComponent, data: {title: 'contractversion'}},
+  { path: 'versionpreview', component: VersionpreviewComponent, data: {title: 'versionpreview'}},
+  { path: 'msa', component: GlobalMsaComponent, data: { title: 'msa' } },
+  { path: 'msa/:id', component: GlobalMsaComponent, data: { title: 'msa' } },
+ // { path: 'contract/:id', component: ContractComponent, data: { title: 'contract' } },
+  { path: 'contract', component: ContractComponent, data: { title: 'contract' } },
+  { path: 'branch', component: BranchComponent, data: { title: 'branch' } },
+  { path: "report", component: ReportsComponent, data: { title: "report" }   },
+  { path: '**', component: EmptyRouteComponent }
+]}
+
+ 
+
 ];
 
 @NgModule({
-  declarations: [PreviewComponent,NumericDirective,AlphanumericDirective,DatepickerDirective,
-    AppComponent,AlphabetOnlyDirective,
-    NavigationComponent,MsaComponent,ConsignorUploadFile,
-    CreditdashboardComponent, OpportunityComponent, ServiceComponent,  RatecardComponent,
-    BillingComponent, SearchCcDialogBox,SearchAllOppertunityDialogBox,
-    // BaseLocationSearchR,
-    BaseLocationSearchB, StepperComponent
-    ,CneeCnorDialogBox,BranchDialogBox, MsaOprationComponent, MsacreationComponent, DocumentuploadComponent,ConsignorAddition, MsaopportunityComponent,SearchContractEdit,BaseLocationSearchMSA,
-    DownloadErrorFile,AddressDialogBox, PincodesearchComponent,CitysearchComponent,StatesearchComponent, ExistingsafexlistComponent, CommandmentComponent, SlabDialogBox, ExcludePinDialogBox, GeoWiseChargeDialogBox, ContractversionComponent, VersionpreviewComponent,
-    ValidationMsgComponent,confimationdialog,EditPreview,CompareversionsComponent, GreaterZeroDirective, rangeTncDirective, SortByPipe, SfxDialogComponent,EmailDialogBox,EbillEmailDialogBox,CommunicationEmailDialogBox, EmptyRouteComponent,DownloadReportFile,
-    StringFilterPipe,ReportsComponent,NumberOnlyDirective,EmailDialogBoxP
+  declarations: [
+  StatesearchComponent,
+  CitysearchComponent,
+    EmptyRouteComponent,
+    SfxDialogComponent,
+    GreaterZeroDirective,
+    SortByPipe,
+    PreviewComponent,
+    NumericDirective,
+    AlphanumericDirective,
+    DatepickerDirective,
+    AppComponent,
+    NavigationComponent,
+    MsaComponent,
+    ConsignorUploadFile,
+    CreditdashboardComponent,
+    OpportunityComponent, 
+    ServiceComponent,  
+    RatecardComponent,
+    BillingComponent, 
+    SearchCcDialogBox,
+    BaseLocationSearchB, 
+    StepperComponent,
+    CneeCnorDialogBox,
+    BranchDialogBox, 
+    BranchConsignorMapplingDialog,
+    MsaOprationComponent, 
+    MsacreationComponent, 
+    DocumentuploadComponent,
+    ConsignorAddition, 
+    MsaopportunityComponent,
+    SearchContractEdit,
+    BaseLocationSearchMSA,
+    DownloadErrorFile,
+    AddressDialogBox, 
+    PincodesearchComponent, 
+    ExistingsafexlistComponent, 
+    CommandmentComponent, 
+    SlabDialogBox, 
+    ExcludePinDialogBox, 
+    GeoWiseChargeDialogBox, 
+    ContractversionComponent, 
+    VersionpreviewComponent,
+    ValidationMsgComponent, 
+    confimationdialog,
+    EditPreview,
+    GlobalMsaComponent,
+    ContractComponent, 
+    BranchComponent,
+    ConsignorDialog,
+    BaseLocationAdvanceSearch,
+    EditFlowDataComponent,
+    SubmitbtnComponent,
+    CompareversionsComponent,
+    SearchAllOppertunityDialogBox,
+    AlphabetOnlyDirective,
+    StringFilterPipe,
+    rangeTncDirective,
+    NotepadSortPipe,
+    ReportsComponent,
+    NumberOnlyDirective,
+    EmailDialogBoxP
   ],
-
-  imports: [LayoutModule,FlexLayoutModule,NgSelectModule,
-    BrowserModule, NgxSpinnerModule,NgxPrintModule,
-    BrowserAnimationsModule,FormsModule, ReactiveFormsModule,HttpClientModule,
-    NgpSortModule, ClickOutsideModule, NgxMatSelectSearchModule,
+   
+  imports: [
+  ExportAsModule,
+    NgpSortModule,
+    NgxPrintModule,
+    FilterPipeModule,
+    LayoutModule,
+    FlexLayoutModule,
+    NgSelectModule,
+    BrowserModule, 
+    NgxSpinnerModule,
+    BrowserAnimationsModule,
+    FormsModule, 
+    ReactiveFormsModule,
+    HttpClientModule,
+     ClickOutsideModule,
+     NgxMatSelectSearchModule,
     RouterModule.forRoot(
-      appRoutes
-
-      // { useHash: true } // <-- debugging purposes only
+      appRoutes     
+     
     ),
     CustomMaterialModule,
-    ToastrModule.forRoot({
-      positionClass :'toast-top-right',
+     ToastrModule.forRoot({
+      positionClass :'toast-bottom-right',
       preventDuplicates: true,
       timeOut: 5000
     }),
-    NgxPermissionsModule.forRoot(),
-    ExportAsModule,
-    DragDropModule
+    DragDropModule,
+    NgxPermissionsModule.forRoot()
   ],
 entryComponents: [
-   RatecardComponent,SearchCcDialogBox,
-   OpportunityComponent,SearchAllOppertunityDialogBox,
-   BaseLocationSearchB,
-MsaComponent,ConsignorUploadFile,
-CneeCnorDialogBox,BranchDialogBox,ConsignorAddition,
-MsaopportunityComponent,SearchContractEdit,AddressDialogBox,BaseLocationSearchMSA,DownloadErrorFile,SlabDialogBox
-, ExcludePinDialogBox, GeoWiseChargeDialogBox,confimationdialog,EditPreview, SfxDialogComponent,EmailDialogBox,EbillEmailDialogBox,CommunicationEmailDialogBox, DownloadReportFile,EmailDialogBoxP],
+  EmailDialogBoxP,
+  CompareversionsComponent,
+  ContractversionComponent,
+  SfxDialogComponent,
+  BaseLocationAdvanceSearch,
+  BranchComponent,  
+  ConsignorDialog,
+  RatecardComponent,
+  SearchCcDialogBox,
+  BaseLocationSearchB,
+  MsaComponent,
+  ConsignorUploadFile,
+  CneeCnorDialogBox,
+  BranchDialogBox,
+  BranchConsignorMapplingDialog,
+  ConsignorAddition,
+  MsaopportunityComponent,
+  SearchContractEdit,
+  AddressDialogBox,
+  BaseLocationSearchMSA,
+  DownloadErrorFile,
+  SlabDialogBox,
+  ExcludePinDialogBox,
+  GeoWiseChargeDialogBox,
+  confimationdialog,EditPreview,
+  EditFlowDataComponent],
   providers: [DatePipe,
-    {provide: DateAdapter, useClass: AppDateFormatAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-      },
-    { provide: APP_BASE_HREF, useValue: '/' }
-  ],
+      {provide: DateAdapter, useClass: AppDateFormatAdapter},
+      {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
+      { provide: APP_BASE_HREF, useValue: '/' },
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: AuthInterceptor,      
+        multi: true,
+        },
+      
+    ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

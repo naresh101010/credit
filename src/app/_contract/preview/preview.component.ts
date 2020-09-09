@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener,Inject, ViewChild, ElementRef} from '@angular/core';
+import { Component, OnInit, HostListener,Inject, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit, AfterViewChecked} from '@angular/core';
 import { ContractService } from '../contract.service';
 import { AppSetting } from 'src/app/app.setting';
 import { ToastrService } from 'ngx-toastr';
@@ -41,10 +41,11 @@ export class PreviewComponent implements OnInit {
     private permissionsService: NgxPermissionsService,
     private authorizationService: AuthorizationService,private exportAsService: ExportAsService) { }
   
-  customerName : string= AppSetting.customerName;
+  customerName : String= AppSetting.customerName;
   sfdcAccId= AppSetting.sfdcAccId;
   editflow = false;
   isDisable:boolean;
+  item1;
   ngOnInit() {
     this.authorizationService.setPermissions('CONTRACT');
     this.permissionsService.loadPermissions(this.authorizationService.getPermissions('CONTRACT'));
@@ -55,27 +56,17 @@ export class PreviewComponent implements OnInit {
         this.isDisable = true;
       }
     });
-    this.getPreviewData();
+    this.getPreviewData();  
   }
-
-  closePreview($event){
-    $event.preventDefault();
-    if (this.editflow) {
-      this.router.navigate(['/contract/documentupload', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
-    } else {
-      this.router.navigate(['/contract/documentupload'], { skipLocationChange: true });
-    }
-  }
-
 
   /**
    * get preview data
    */
   data:any={};
-  loadingFlag: boolean=true;
+  loadingFlag: Boolean=true;
   getPreviewData(){
-    console.log("Getting Preview Data...");
-    this.spinner.show();
+    this.spinner.show();//1156,1160
+   // this.contractService.getPreview(AppSetting.contractId,this.editflow)
     this.contractService.getPreview(AppSetting.contractId,this.editflow)
       .subscribe(result => {
 
@@ -83,7 +74,6 @@ export class PreviewComponent implements OnInit {
             let ob = ErrorConstants.validateException(result);
             if (ob.isSuccess) {
     
-              console.log(result,"get preview response");
               this.data=result.data.responseData;
               
               /**
@@ -117,7 +107,7 @@ export class PreviewComponent implements OnInit {
       error => {
         this.spinner.hide();
         this.tosterservice.error(ErrorConstants.getValue(404));
-        console.log(ErrorConstants.getValue(404));
+      //  console.log(ErrorConstants.getValue(404));
       });
   }
 
@@ -188,31 +178,52 @@ export class PreviewComponent implements OnInit {
     });
 
    }
+  closePreview($event){
+    if (this.editflow) {
+          if(this.data.retailCustomerDTO.custLevel=="MSA CLUSTER")
+          {
+            this.router.navigate(['/retail-contract/branch', {steper:true,'editflow': 'true' }],{skipLocationChange: true});
+            }else{
+              this.router.navigate(['/retail-contract/ratecard', {steper:true,'editflow': 'true' }],{skipLocationChange: true});
+            }
+      
+    } else {
+          if(this.data.retailCustomerDTO.custLevel=="MSA CLUSTER"){ 
+            this.router.navigate(['/retail-contract/branch'], {skipLocationChange: true});
+            }else{
+              this.router.navigate(['/retail-contract/ratecard'], {skipLocationChange: true});
+            }
+     
+    }
+  }
   
   generateSFXCode(){
-    this.spinner.show();
-    this.contractService.generateSFXCode(AppSetting.contractId,this.editflow).subscribe(result =>{
+    this.spinner.show();//AppSetting.contractId
+    this.contractService.generateSFXCode(AppSetting.contractId,this.editflow).subscribe(result=>{
       let ob = ErrorConstants.validateException(result);
       if (ob.isSuccess) {
         console.log(result);
         this.spinner.hide();
-        this.dialog.open(SfxDialogComponent, {
+        const dialogSfxCode = this.dialog.open(SfxDialogComponent, {
         data:{message:result.data.responseData.sfxCode,isNew:true},
           disableClose: true,
           panelClass: 'creditDialog',
           width: '400px'
         });
-      } else {
+  
+      }else {
         this.tosterservice.error(ob.message);
         this.spinner.hide();
       }
-    }, error => {
+    },error=>{
+    //  this.tosterservice.error("Issue in generating SFX code");
       this.spinner.hide();
       this.tosterservice.error('Issue in generating SFX code. Kindly verfiy SFDC Oppr Id and MSA Account Id.');
     });
   }
 
   openDialogForEditPreview(): void {
+   
     const dialogRef = this.dialog.open(EditPreview, {disableClose: true,
       panelClass: 'creditDialog',
       width: '90%',
@@ -251,7 +262,7 @@ export class PreviewComponent implements OnInit {
 
 export class EditPreview implements OnInit{
   @ViewChild('previewContent', null) previewContent:ElementRef;
-
+  perList: any = [];
 
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
@@ -259,19 +270,25 @@ export class EditPreview implements OnInit{
   }
 
   constructor(
-    public dialogRef: MatDialogRef<EditPreview>,
+    public dialogRef: MatDialogRef<EditPreview>, 
     public dialog: MatDialog,
     private contractService: ContractService,
     private spinner: NgxSpinnerService,
     private router: Router,
     private tosterservice: ToastrService,
-    private exportAsService: ExportAsService) {}
+     private exportAsService: ExportAsService,
+    private permissionsService: NgxPermissionsService,
+    private authorizationService: AuthorizationService) {}
+    
 
     ngOnInit(){
+      this.authorizationService.setPermissions('CONTRACT');
+      this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
+      this.permissionsService.loadPermissions(this.perList);
       this.getEditPreviewData();
     }
 
-    customerName : string= AppSetting.customerName;
+    customerName : String= AppSetting.customerName;
     sfdcAccId= AppSetting.sfdcAccId;
   /**
    * get preview from stage for edited data
@@ -323,15 +340,14 @@ export class EditPreview implements OnInit{
 
    }
   getEditPreviewData(){
-    console.log("Getting Edit Preview Data...");
     this.spinner.show();
     this.contractService.getEditPreview(AppSetting.contractId)
       .subscribe(result => {
+        this.spinner.hide();
             let ob = ErrorConstants.validateException(result);
             if (ob.isSuccess) {
-              console.log(result,"get preview response");
               this.data=result.data.responseData;
-              this.spinner.hide();
+             // this.spinner.hide();
               /**
                * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
                * and set the same at commercial level
@@ -361,7 +377,6 @@ export class EditPreview implements OnInit{
       error => {
         this.spinner.hide();
         this.tosterservice.error(ErrorConstants.getValue(404));
-        console.log(ErrorConstants.getValue(404));
       });
   }
 
@@ -378,7 +393,6 @@ export class EditPreview implements OnInit{
       if(value){
         this.dialogRef.close();
       }else{
-        console.log('Keep Open');
       }
     });
   }
@@ -387,19 +401,26 @@ export class EditPreview implements OnInit{
   }
 
   generateSFXCodeSTGEdit(){
+    this.onNoClick();
     this.spinner.show();
+    console.log(AppSetting.contractId,'contract id')
     this.contractService.generateSFXCode(AppSetting.contractId,true).subscribe(result=>{
-      this.spinner.hide();
+
       let ob = ErrorConstants.validateException(result);
       if (ob.isSuccess) {
-        this.dialogRef.close();
-        console.log(result);
-        this.dialog.open(SfxDialogComponent, {
+        this.spinner.hide();
+      const successDialog =  this.dialog.open(SfxDialogComponent, {
         data:{message:result.data.responseData.sfxCode,isNew:false},
           disableClose: true,
           panelClass: 'creditDialog',
           width: '400px'
         });
+
+        successDialog.afterClosed().subscribe(data => {
+          if(data){
+            this.dialogRef.close(false);
+          }
+        })
   
       }else {
         this.tosterservice.error(ob.message);

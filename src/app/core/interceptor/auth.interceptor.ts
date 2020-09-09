@@ -59,7 +59,8 @@ export class AuthInterceptor implements HttpInterceptor {
                             err.error.message,
                             err.status.toString()
                         );
-                        window.location.href = '/login';
+                        //this.router.navigate(["/login"]);
+                        window.location.href = "/login"; 
                         setTimeout(() => {
                             this.SpinnerService.hide();
                         }, 4000);

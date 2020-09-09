@@ -5,14 +5,14 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-sfx-dialog',
   templateUrl: './sfx-dialog.component.html',
-  styleUrls: ['../core.css']
+  styleUrls: ['./sfx-dialog.component.css']
 })
 export class SfxDialogComponent implements OnInit {
 
   constructor(
     private dialogSfxCode: MatDialogRef<SfxDialogComponent>,
-    private router: Router,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private router : Router
   ) { }
 
   message:any;
@@ -21,13 +21,17 @@ export class SfxDialogComponent implements OnInit {
     this.message = this.data.message;
     this.isNew = this.data.isNew;
     // this.autoRun;
+
   }
+
   autoRun:any = setTimeout(() => {
     this.dialogSfxCode.close();
-    this.router.navigate(['/contract']);
+    this.router.navigate(['/retail-contract/retail'],{skipLocationChange: true}); 
 }, 15000);
 
-  stopautoRun(){
+  goToDashboard() {    
+    this.dialogSfxCode.close();
+    this.router.navigate(['/retail-contract/retail'],{skipLocationChange: true}); 
     clearTimeout(this.autoRun);
   }
 

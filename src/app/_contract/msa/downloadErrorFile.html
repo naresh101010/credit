@@ -5,11 +5,10 @@
   </div>
 <hr id="popup-hr">
 
-<div class="row contractContainer"*ngFor="let item of docList">
-    <div class="col-lg-5 col-md-5 label-text row_center" [matTooltip]="item.docRef"  [matTooltipDisabled]="item.docRef?.length<36" matTooltipPosition="above">{{item.docRef}}</div>
-    <div class="col-lg-5 col-md-5 label-text row_center" [matTooltip]="item.updDt"  [matTooltipDisabled]="item.updDt?.length<36" matTooltipPosition="above">{{item.updDt}}</div>
-    <div class="col-lg-2 col-md-2 rightalign">
-        <i class="download-error-icon" class="fa fa-download" aria-hidden="true" (click)="downloadDocument(item)"></i>
+<div class="row retailContainer"*ngFor="let item of docList">
+    <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6 label-text">{{item.docRef}}</div>
+    <div class="col-lg-6 col-sm-6 col-md-4 col-xs-6 rightalign">
+        <i class="download-error-icon" class="fa fa-download" aria-hidden="true" (click)="downloadDocument(item.docPathRef)"></i>
     </div>
 </div>
 

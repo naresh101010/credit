@@ -1,0 +1,213 @@
+{
+  "message": "Request Completed Successfully",
+  "data": {
+    "responseData": [
+      {
+        "id": 399,
+        "lkpBillingLevelId": 11,
+        "entityId": 1057,
+        "contractId": 1519,
+        "aliasName": "ALIAS11",
+        "lkpBillingSubtypeId": 17,
+        "lkpBillingSublevelId": 14,
+        "billingSubtypeInputVal": "123",
+        "billingDtls": "BILLING CYCLE FLAG",
+        "lkpBillingCycleId": 10,
+        "lkpPymtTermId": 102,
+        "ebillFlag": 1,
+        "lkpBillingFormat": 329,
+        "todFlag": 1,
+        "lkpTodBasedOnId": 205,
+        "todAmt": 2.00,
+        "cneeCnorFlag": 1,
+        "cneeCnorBillingCateg": "CONSIGNOR TO CONSIGNEE",
+        "autoBillingFlag": 1,
+        "billingBy": [
+          {
+            "id": 366,
+            "billingByLevelMapId": 328,
+            "billingBranchId": 3,
+            "submsnBranchId": 4,
+            "collBranchId": 1,
+            "billingBranchName": "ABOHAR-03",
+            "submsnBranchName": "ABOHAR-04",
+            "collBranchName": "ABOHAR-01",
+            "excludeBillingFlag": 1,
+            "excludeBillingDt": "2020-02-01",
+            "billtoAddr": "ADDRESS123",
+            "bdmEmail": "TEST@GMAIL.COM",
+            "commBillEmail": "TEST@GMAIL.COM",
+            "minBillingAmt": 10.00,
+            "ebillEmail": "TEST@GMAIL.COM",
+            "gstinNum": "12CBCDE1234F2Z5",
+            "tanNum": "PDES03028F",
+            "mnthPotential": 1.00,
+            "creditRisk": 11.00,
+            "lkpGbCtgyId": 79
+          },
+          {
+            "id": 367,
+            "billingByLevelMapId": 328,
+            "billingBranchId": 3,
+            "submsnBranchId": 4,
+            "collBranchId": 1,
+            "billingBranchName": "ABOHAR-01",
+            "submsnBranchName": "ABOHAR-02",
+            "collBranchName": "ABOHAR-03",
+            "excludeBillingFlag": 0,
+            "excludeBillingDt": "2020-02-02",
+            "billtoAddr": "ADDRESS12344",
+            "bdmEmail": "1TEST@GMAIL.COM",
+            "commBillEmail": "1TEST@GMAIL.COM",
+            "minBillingAmt": 110.00,
+            "ebillEmail": "1TEST@GMAIL.COM",
+            "gstinNum": "112CBCDE1234F2Z5",
+            "tanNum": "1PDES03028F",
+            "mnthPotential": 11.00,
+            "creditRisk": 111.00,
+            "lkpGbCtgyId": 80
+          }
+        ],
+        "billingCneeCnorMap": [
+          {
+            "id": 335,
+            "cnorId": 7021,
+            "cneeId": 7020
+          }
+        ],
+        "billingOfferingMap": [
+          {
+            "id": 334,
+            "serviceOfferingId": 1
+          }
+        ]
+      }
+    ],
+    "referenceData": {
+      "billingLevelList": [
+        {
+          "id": 11,
+          "lookupVal": "MSA"
+        },
+        {
+          "id": 12,
+          "lookupVal": "SFX"
+        },
+        {
+          "id": 13,
+          "lookupVal": "RATE CARD"
+        }
+      ],
+      "billingSubLevelList": [
+        {
+          "id": 14,
+          "lookupVal": "OFFERING WISE "
+        },
+        {
+          "id": 15,
+          "lookupVal": "ALL"
+        }
+      ],
+      "billingSubTypeList": [
+        {
+          "id": 16,
+          "lookupVal": "AMOUNT WISE"
+        },
+        {
+          "id": 17,
+          "lookupVal": "NO. OF WAYBILLS"
+        },
+        {
+          "id": 18,
+          "lookupVal": "PERIODIC"
+        }
+      ],
+      "paymentTermList": [
+        {
+          "id": 102,
+          "lookupVal": "WITHIN 15 DAYS"
+        },
+        {
+          "id": 103,
+          "lookupVal": "WITHIN 30 DAYS"
+        }
+      ],
+      "billingCycleList": [
+        {
+          "id": 9,
+          "lookupVal": "EVERY 15 DAYS"
+        },
+        {
+          "id": 10,
+          "lookupVal": "EVERY 30 DAYS"
+        }
+      ],
+      "billingByList": [
+        {
+          "id": 328,
+          "lookupVal": "CONSOLIDATION"
+        },
+        {
+          "id": 4,
+          "lookupVal": "BOOKING BRANCH"
+        },
+        {
+          "id": 5,
+          "lookupVal": "SUBMISSION BRANCH"
+        },
+        {
+          "id": 6,
+          "lookupVal": "COLLECTION BRANCH"
+        },
+        {
+          "id": 7,
+          "lookupVal": "DESTINATION BRANCH WISE"
+        },
+        {
+          "id": 8,
+          "lookupVal": "DESTINATION STATE WISE"
+        }
+      ],
+      "todBasedOnList": [
+        {
+          "id": 204,
+          "lookupVal": "PERCENTAGE"
+        },
+        {
+          "id": 205,
+          "lookupVal": "AMOUNT"
+        }
+      ],
+      "billingFormatList": [
+        {
+          "id": 329,
+          "lookupVal": "ACTIVE BILLING FORMAT"
+        }
+      ],
+      "gbCategoryList": [
+        {
+          "id": 78,
+          "lookupVal": "GB1"
+        },
+        {
+          "id": 79,
+          "lookupVal": "GB2"
+        },
+        {
+          "id": 80,
+          "lookupVal": "GB3"
+        }
+      ],
+      "offerings": [
+        {
+          "id": 925,
+          "lkpServiceLineId": 128,
+          "serviceOfferingId": 1,
+          "contractId": 1519,
+          "serviceOffering": "SURFACE"
+        }
+      ]
+    }
+  },
+  "status": "SUCCESS"
+}

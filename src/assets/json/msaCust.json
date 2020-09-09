@@ -1,0 +1,371 @@
+{
+  "message": "Request Completed Successfully",
+  "data": {
+      "responseData": [
+          {
+              "id": 167,
+              "custName": "RETAILTEST0322",
+              "custLevel": "MSA CLUSTER",
+              "descr": "safex retail customer",
+              "status": 196,
+              "sla": 20,
+              "effectiveDt": "2020-03-23",
+              "expDt": "2020-04-07",
+              "crtdDt": "2020-03-23 12:30:48.295",
+              "crtdBy": "1",
+              "updDt": "2020-03-23 12:30:48.295",
+              "updBy": "user123"
+          },
+          {
+              "id": 337,
+              "custName": "DEVELOPERSMSATEST01",
+              "custLevel": "MSA CLUSTER",
+              "descr": "",
+              "status": 196,
+              "sla": 67,
+              "effectiveDt": "2020-04-02",
+              "expDt": "2021-01-04",
+              "crtdDt": "2020-04-02 11:26:05.131",
+              "crtdBy": "user123",
+              "updDt": "2020-04-02 11:26:05.131",
+              "updBy": "user123",
+              "attr1": "RC200",
+              "attr2": "1"
+          },
+          {
+              "id": 67,
+              "custName": "IBM_RETAIL01",
+              "custLevel": "MSA CLUSTER",
+              "descr": "IBM retail customer",
+              "status": 196,
+              "sla": 0,
+              "effectiveDt": "2020-03-11",
+              "expDt": "2020-03-11",
+              "crtdDt": "2020-03-11 15:17:55.810",
+              "crtdBy": "1",
+              "updDt": "2020-03-11 15:17:55.810",
+              "updBy": "user123",
+              "attr1": "RC34",
+              "attr2": "2"
+          },
+          {
+              "id": 166,
+              "custName": "RETAILTEST0323-TEST255",
+              "custLevel": "MSA CLUSTER",
+              "descr": "safex retail customer",
+              "status": 196,
+              "sla": 20,
+              "effectiveDt": "0017-07-13",
+              "expDt": "0013-09-13",
+              "crtdDt": "2020-03-23 12:25:16.057",
+              "crtdBy": "1",
+              "updDt": "2020-03-23 17:55:16.057",
+              "updBy": "user123",
+              "attr1": "RC67",
+              "attr2": "2"
+          },
+          {
+              "id": 232,
+              "custName": "IBMSAFEXRETAIL0329",
+              "custLevel": "MSA CLUSTER",
+              "descr": "safex retail customer",
+              "status": 196,
+              "sla": 0,
+              "effectiveDt": "2020-03-30",
+              "expDt": "2020-04-13",
+              "crtdDt": "2020-03-30 15:52:52.663",
+              "crtdBy": "1",
+              "updDt": "2020-03-30 15:52:52.663",
+              "updBy": "user123",
+              "attr1": "RC166",
+              "attr2": "2"
+          },
+          {
+              "id": 265,
+              "custName": "TEST01",
+              "custLevel": "MSA CLUSTER",
+              "descr": "",
+              "status": 196,
+              "sla": 78,
+              "effectiveDt": "2020-03-10",
+              "expDt": "2020-03-16",
+              "crtdDt": "2020-03-31 13:04:35.838",
+              "crtdBy": "user123",
+              "updDt": "2020-03-31 13:04:35.838",
+              "updBy": "user123",
+              "attr1": "RC233",
+              "attr2": "3,2,1"
+          },
+          {
+              "id": 169,
+              "custName": "RETAILTEST0321",
+              "custLevel": "MSA CLUSTER",
+              "descr": "safex retail customer",
+              "status": 196,
+              "sla": 20,
+              "effectiveDt": "2020-03-23",
+              "expDt": "2020-04-02",
+              "crtdDt": "2020-03-23 12:53:49.657",
+              "crtdBy": "1",
+              "updDt": "2020-03-23 12:53:49.657",
+              "updBy": "user123",
+              "attr1": "RC133",
+              "attr2": "2"
+          },
+          {
+              "id": 133,
+              "custName": "IBMSAFEXRETAIL0316",
+              "custLevel": "MSA CLUSTER",
+              "descr": "safex retail customer",
+              "status": 196,
+              "sla": 0,
+              "effectiveDt": "2020-03-16",
+              "expDt": "2020-04-27",
+              "crtdDt": "2020-03-16 15:40:20.229",
+              "crtdBy": "1",
+              "updDt": "2020-03-16 15:40:20.229",
+              "updBy": "user123",
+              "attr1": "RC100",
+              "attr2": "2"
+          },
+          {
+              "id": 298,
+              "custName": "DEMO123",
+              "custLevel": "MSA GLOBAL",
+              "descr": "",
+              "status": 196,
+              "sla": 32,
+              "effectiveDt": "2020-04-03",
+              "crtdDt": "2020-04-01 06:07:27.831",
+              "crtdBy": "user123",
+              "updDt": "2020-04-01 06:07:27.831",
+              "updBy": "user123",
+              "attr2": "1"
+          },
+          {
+              "id": 199,
+              "custName": "RETAILTEST012",
+              "custLevel": "MSA CLUSTER",
+              "descr": "safex retail customer",
+              "status": 196,
+              "sla": 20,
+              "effectiveDt": "2020-03-25",
+              "expDt": "2020-04-13",
+              "crtdDt": "2020-03-25 07:53:18.583",
+              "crtdBy": "1",
+              "updDt": "2020-03-25 07:53:50.299",
+              "updBy": "user123"
+          },
+          {
+              "id": 364,
+              "custName": "TEST12",
+              "custLevel": "MSA CLUSTER",
+              "descr": "",
+              "status": 196,
+              "sla": 78,
+              "effectiveDt": "2020-04-15",
+              "expDt": "2020-04-30",
+              "crtdDt": "2020-04-04 12:53:38.611",
+              "crtdBy": "user123",
+              "updDt": "2020-04-04 12:53:38.611",
+              "updBy": "user123",
+              "attr1": "RC265",
+              "attr2": "2,1"
+          },
+          {
+              "id": 338,
+              "custName": "DEV MSA 2 APRIL",
+              "custLevel": "MSA BRANCH",
+              "descr": "",
+              "status": 196,
+              "sla": 56,
+              "effectiveDt": "2020-04-06",
+              "crtdDt": "2020-04-02 14:42:05.971",
+              "crtdBy": "user123",
+              "updDt": "2020-04-02 14:42:05.971",
+              "updBy": "user123",
+              "attr1": "RC201",
+              "attr2": "2"
+          },
+          {
+              "id": 336,
+              "custName": "DEMO123TEST",
+              "custLevel": "MSA BRANCH",
+              "descr": "",
+              "status": 196,
+              "sla": 35,
+              "effectiveDt": "2020-04-06",
+              "crtdDt": "2020-04-02 10:08:22.091",
+              "crtdBy": "user123",
+              "updDt": "2020-04-02 10:08:22.091",
+              "updBy": "user123",
+              "attr1": "RC199",
+              "attr2": "3,2,2,1"
+          },
+          {
+              "id": 397,
+              "custName": "TEST90",
+              "custLevel": "MSA CLUSTER",
+              "descr": "",
+              "status": 196,
+              "sla": 78,
+              "effectiveDt": "2020-04-05",
+              "expDt": "2020-04-18",
+              "crtdDt": "2020-04-06 12:48:46.340",
+              "crtdBy": "user123",
+              "updDt": "2020-04-06 12:48:46.340",
+              "updBy": "user123",
+              "attr1": "RC299,RC364,RC300,RC298",
+              "attr2": "2,1"
+          },
+          {
+              "id": 100,
+              "custName": "IBM RETAIL TEST 02",
+              "custLevel": "MSA CLUSTER",
+              "descr": "safex retail customer",
+              "status": 196,
+              "sla": 56,
+              "effectiveDt": "2020-04-03",
+              "expDt": "2020-04-07",
+              "crtdDt": "2020-03-12 07:28:24.093",
+              "crtdBy": "1",
+              "updDt": "2020-03-12 07:28:24.093",
+              "updBy": "user123",
+              "attr1": "RC331",
+              "attr2": "2,1"
+          },
+          {
+              "id": 335,
+              "custName": "TEST98",
+              "custLevel": "MSA BRANCH",
+              "descr": "",
+              "status": 196,
+              "sla": 35,
+              "effectiveDt": "2020-04-09",
+              "crtdDt": "2020-04-02 09:12:43.409",
+              "crtdBy": "user123",
+              "updDt": "2020-04-02 09:12:43.409",
+              "updBy": "user123",
+              "attr1": "RC232",
+              "attr2": "2,1"
+          },
+          {
+              "id": 2,
+              "custName": "RETAILTEST01",
+              "custLevel": "MSA GLOBAL",
+              "descr": "TEST DESC",
+              "status": 197,
+              "sla": 0,
+              "effectiveDt": "2020-02-26",
+              "crtdDt": "2020-02-26 14:39:27.077",
+              "crtdBy": "1",
+              "updDt": "2020-02-26 14:39:27.077",
+              "updBy": "1",
+              "attr1": "RC5"
+          },
+          {
+              "id": 42,
+              "custName": "SRETAIL022701",
+              "custLevel": "MSA BRANCH",
+              "descr": "safex retail customer",
+              "status": 197,
+              "sla": 0,
+              "effectiveDt": "2020-04-07",
+              "crtdDt": "2020-02-27 15:16:59.754",
+              "crtdBy": "1",
+              "updDt": "2020-02-27 15:16:59.754",
+              "updBy": "user123",
+              "attr1": "RC4",
+              "attr2": "1"
+          },
+          {
+              "id": 38,
+              "custName": "sretail022701",
+              "custLevel": "MSA BRANCH",
+              "descr": "safex retail customer",
+              "status": 195,
+              "sla": 0,
+              "effectiveDt": "2020-02-27",
+              "crtdDt": "2020-02-27 14:39:50.055",
+              "crtdBy": "1",
+              "updDt": "2020-02-27 14:39:50.055",
+              "updBy": "1",
+              "attr1": "RC3",
+              "attr2": "2",
+              "cntrCode": "RCG34"
+          }
+      ],
+      "referenceData": {
+          "statusList": [
+              {
+                  "id": 194,
+                  "lookupVal": "INACTIVE",
+                  "descr": "INACTIVE"
+              },
+              {
+                  "id": 195,
+                  "lookupVal": "ACTIVE",
+                  "descr": "ACTIVE"
+              },
+              {
+                  "id": 196,
+                  "lookupVal": "PENDING",
+                  "descr": "PENDING"
+              },
+              {
+                  "id": 197,
+                  "lookupVal": "DRAFT",
+                  "descr": "DRAFT"
+              },
+              {
+                  "id": 524,
+                  "lookupVal": "DELETED",
+                  "descr": "DELETED"
+              }
+          ],
+          "serviceOfferingList": [
+              {
+                  "id": 1,
+                  "serviceOffering": "SURFACE"
+              },
+              {
+                  "id": 5,
+                  "serviceOffering": "SAINIK"
+              },
+              {
+                  "id": 2,
+                  "serviceOffering": "AIR"
+              },
+              {
+                  "id": 3,
+                  "serviceOffering": "EXPRESS"
+              },
+              {
+                  "id": 299,
+                  "serviceOffering": "EXPRESS1"
+              },
+              {
+                  "id": 766,
+                  "serviceOffering": "SO13"
+              },
+              {
+                  "id": 760,
+                  "serviceOffering": "SO19"
+              },
+              {
+                  "id": 628,
+                  "serviceOffering": "TEST21"
+              },
+              {
+                  "id": 562,
+                  "serviceOffering": "TEST04/04/2020"
+              },
+              {
+                  "id": 661,
+                  "serviceOffering": "TESTDISTRIBUTION"
+              }
+          ]
+      }
+  },
+  "status": "SUCCESS"
+}

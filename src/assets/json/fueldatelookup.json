@@ -1,0 +1,19 @@
+[
+  {
+    "id": 101,
+    "lkpFuelIndexId": 71,
+    "lkpFuelTypeId": 76,
+    "fuelbaseDt": "2019-11-18T05:55:41.665+0000",
+    "fuelbasePrice": 10,
+    "assocFuelbasePrice": 70
+  },
+  {
+    "id": 101,
+    "lkpFuelIndexId": 72,
+    "lkpFuelTypeId": 75,
+    "fuelbaseDt": "2019-11-25T05:55:41.665+0000",
+    "fuelbasePrice": 10,
+    "assocFuelbasePrice": 80
+  }
+
+]

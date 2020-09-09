@@ -1,0 +1,20 @@
+{
+	"message": "Request Completed Successfully",
+	"data": {
+		"responseData": [{
+			"id": 1,
+			"serviceOffering": "SURFACE"
+		}, {
+			"id": 2,
+			"serviceOffering": "AIR"
+		}, {
+			"id": 496,
+			"serviceOffering": "STR"
+		}, {
+			"id": 3,
+			"serviceOffering": "EXPRESS"
+		}],
+		"referenceData": {}
+	},
+	"status": "SUCCESS"
+}

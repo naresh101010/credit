@@ -1,0 +1,105 @@
+<div class="hero-content retailContainer">
+  <div class="row text-left parent">
+    <div class="breadcrumb">
+      <a routerLink="/retail-contract/retail" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/retail-contract/retail" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+      <a routerLink="/retail-contract/retail" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+      RETAIL
+    </div>
+    <stepper></stepper>
+  </div>
+  <h3>Retail Contract</h3>
+  <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign.xs="space-between start"
+    class="mat-card-header-container">
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span class="fw600">MSA Level :
+      </span><span style="margin-left: 10px"> {{msaLevel}}</span></div>
+    <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span class="fw600">Retail Code : </span>
+      <span style="margin-left: 10px"> <em>{{retailCode}}</em></span></div>
+  </div>
+  <mat-card style="box-shadow: none;">
+    <form [formGroup]="contractForm">
+      <div>
+        <div class="row">
+          <div class="col-lg-7 col-md-4 col-sm-4 col-xl-4">
+            <div class="row" style="padding-top:10px; margin-bottom: 30px;">
+              <div class="col-lg-6 col-md-6 p0">
+                <div class="col-lg-6 col-md-6 label-text fw600">Rate Card Status</div>
+                <div class="col-lg-6 col-md-6 label-text-value">
+                  {{rateCardStatus}}
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6 p0">
+                <div class="col-lg-6 col-md-6 label-text fw600">Rate Card Start Date<span class="redMark"> *</span></div>
+                <div class="col-lg-6 col-md-6 label-text-value">
+                  <mat-form-field appearance="outline">
+                    <input placeholder="DD/MM/YY" matInput [matDatepicker]="pickerstart" formControlName="effectiveDt"
+                      (dateChange)="effectiveDate()" (blur)="effectiveDate()" class="date_picker">
+                    <mat-datepicker-toggle matSuffix [for]="pickerstart"></mat-datepicker-toggle>
+                    <mat-datepicker panelClass="creditDatepicker" #pickerstart></mat-datepicker>
+                  </mat-form-field>
+                   <!-- validation -->
+                <div *ngIf="(contractForm.controls.effectiveDt.errors?.required && contractForm.controls.effectiveDt.touched)" class="redMark">Required !</div>
+                <div *ngIf="isValidEffectiveDt && !(contractForm.controls.effectiveDt.errors?.required)" class="redMark">
+                 Invalid Start Date!
+                </div>
+               <!-- validation -->
+
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-6 p0">
+                <div class="col-lg-6 col-md-6 label-text fw600">Rate Card End Date<span class="redMark"> *</span></div>
+                <div class="col-lg-6 col-md-6 label-text-value">
+                  <mat-form-field appearance="outline">
+                    <input placeholder="DD/MM/YY" matInput [matDatepicker]="pickerstartend" formControlName="expDt"
+                      (dateChange)="expDate()" (blur)="expDate()" [min]="minDate" class="date_picker">
+                    <mat-datepicker-toggle matSuffix [for]="pickerstartend"></mat-datepicker-toggle>
+                    <mat-datepicker panelClass="creditDatepicker" #pickerstartend></mat-datepicker>
+                  </mat-form-field>
+                  <div *ngIf="(contractForm.controls.expDt.errors?.required && contractForm.controls.expDt.touched)" class="redMark">Required !</div>
+                  <div *ngIf="isValidExpDt && !(contractForm.controls.expDt.errors?.required)" class="redMark">
+                    Invalid End Date!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 pull-right col-md-4 col-sm-4 col-xl-4">
+            <div class="col-lg-6 col-md-6"></div>
+            <div class="col-lg-12 col-md-6">
+              <div class="col-lg-6 col-md-6 text-right label-text fw600">Folio no.<span class="redMark"> </span></div>
+              <div class="col-lg-6 col-md-6 label-text-value">
+                <mat-form-field appearance="outline">
+                  <input type="text" numeric matInput formControlName="folioNum" maxlength="8" autocomplete="true" pattern="^[0-9][0-9]*$">
+                </mat-form-field>
+               
+              </div>
+              <app-validation-msg style="margin-left: 27rem !important;" *ngIf="(contractForm.controls.folioNum.errors?.pattern && contractForm.controls.folioNum.touched && !contractForm.controls.folioNum.errors?.required)" [msg]="'Only Numbers Allowed !'"></app-validation-msg>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top: 3%;">
+        <mat-accordion *ngxPermissionsOnly="['CONTRACT_CREATE','CONTRACT_UPDATE']">
+          <div *ngIf="!cnractTermination" class="example-button-row text-center" style="margin-top: 5%">
+            <button class="btn1" id="secondry-button" mat-raised-button color="primary" (click)="save(0)" [disabled]="contractForm.invalid || isSaved || isValidEffectiveDt || isValidExpDt">Save As
+              Draft</button>
+            <button class="btn1" style="text-align: center" (click)="save(1)" mat-raised-button color="primary"
+              [disabled]="contractForm.invalid || isSaved || isValidEffectiveDt || isValidExpDt">Next</button>
+          </div>
+
+          <div *ngIf="cnractTermination" class="example-button-row text-center" style="margin-top: 5%">
+            <button class="btn1" id="secondry-button" mat-raised-button color="primary"
+              (click)="closeNRedirect()">Close</button>
+            <button class="btn1" style="text-align: center" mat-raised-button color="primary"
+              (click)="saveCnractTermination()" [disabled]="isSaved">SUBMIT</button>
+          </div>
+        </mat-accordion>
+      </div>
+    </form>
+  </mat-card>
+</div>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

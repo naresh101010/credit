@@ -10,13 +10,16 @@
      font-size: 10px;
 
 }
+.dragPosition{position: relative !important;}
 .customiconclass{
-    background-color: green;
-
+    background-color: green;    
     color: white;
      border-radius: 15px;
      font-size: 15px;
 
+}
+.orange {
+  color: orange !important;
 }
 .backgroundGren{background-color: #e4ffe4 !important;}
 .green{
@@ -79,8 +82,8 @@ justify-content: center;
 align-items: center;
 display: flex;
 flex-direction: column;
-margin-right: 2rem;
-margin-top: 1rem;
+margin-right: 2rem; 
+margin-top: 3rem;
 background: #FFFFFF 0% 0% no-repeat padding-box;
 box-shadow: 0px .3rem .6rem #00000029;
 opacity: 1;
@@ -97,8 +100,8 @@ cursor: pointer !important;
   align-items: center;
   display: flex;
   flex-direction: column;
-  margin-right: 2rem;
-  margin-top: 1rem;
+  margin-right: 2rem; 
+  margin-top: 3rem;
   background: #27AE60;
   box-shadow: 0px .3rem .6rem #00000029;
   opacity: 1;
@@ -107,22 +110,16 @@ cursor: pointer !important;
 }
 .greenBlock h3{margin-bottom: 0 !important;}
 .redTextColor{color: #B00020;display: block;text-align: center;margin-top: .5rem;margin-bottom: .5rem;}
-.whiteTextColor{color: #fff;display: block;text-align: center;margin-top: .5rem;margin-bottom: .5rem;}
+.whiteTextColor{color: #fff !important;display: block;text-align: center;margin-top: .5rem;margin-bottom: .5rem;}
 
 .white {
   color: #fff !important;
 }
-
 .red {
   color: #B00020 !important;
 }
-
 .black {
   color: black !important;
-}
-
-.orange {
-  color: orange !important;
 }
 
 @media only screen and (max-width: 767px){
@@ -135,35 +132,38 @@ cursor: pointer !important;
   }
 
   .mo_float_left {
-     float: left;
+     float: left; 
   }
 }
 
 .cardPointer{cursor: pointer;font-weight: bold;font-size: 3.5rem;color: #27AE60;}
 .cardPointerRed{cursor: pointer;color:#B00020;font-weight: bold;font-size: 3.5rem;}
 .greetingcontainer{width: 100%; margin-top: -5rem;margin-bottom: -5rem;}
+
+
 .count_card {background: #fff; padding: 4rem 4.5rem;border-radius: 8px;height: 20rem;}
 .cardMarginTop{margin-top: 26rem !important;}
+
 h2{margin-top: 0rem !important;}
 .header{position: fixed;
   height: 34rem;
   background: #27AE60;
   border-bottom-left-radius: 55% 45%;
   border-bottom-right-radius: 55% 45%;
-  margin-top: 6rem !important;
+  margin-top: 3% !important;
   top: 0;
   left: 0;
   width: 100%;
   z-index: -1;}
- .countCard{margin-top: -15rem !important;width: 100% !important;}
+ .countCard{margin-top: -22rem !important;width: 100% !important;}
  .bookingContainer .container{width: 100% !important;}
  .containerWidth{width: 100%;}
  .row_center_width{width: 10rem;margin-right: 1rem;}
  .fontSizeDashboard{font-size: 1.8rem !important; border-bottom: 0 !important;font-weight: bold;margin-top: 1rem !important;}
  .iconSize{font-size: 2.5rem !important;}
  .heartIcon{float: right !important; color: #B00020}
- .heartIcon1{float:right !important;  }
- .matCardBottom{border-radius: 1rem; margin-right: 1rem;height: 18rem; position: relative}
+ .heartIcon1{float:right !important;  columns: #27AE60 !important;}
+ .matCardBottom{border-radius: 1rem; margin-right: 1rem;height: 18rem;}
  .cardAroundSpace{padding-right: 0 !important; margin-bottom: 2rem !important;}
  .topCircle{width: 11rem;height: 17rem;position: absolute;right: 0;top: 1.8rem;background: rgba(0,0,0,.02);z-index: 0;border-top-left-radius: 60px;
   border-bottom-left-radius: 60px;border-top-right-radius: 7%;border-bottom-right-radius: 7%;}
@@ -175,26 +175,13 @@ h2{margin-top: 0rem !important;}
 
 .border{
   border: 1px solid gray;
-  height: 495px;
+  height: 300px;
 }
 
 .favourite_block {
   border: 1px solid gray;
   padding: 20px;
-
-}
-
-.drag_drop_box_without_border {
-  border: none;
-  height: 495px;
-
 }
 
 .bottomMargin{margin-bottom: 2rem;}
-
-.iconImage{float: right;
-  width: 6.5rem;
-  height: 6.5rem;
-  position: absolute;
-  top: 3.2rem;
-  right: 1.2rem;}
+ 

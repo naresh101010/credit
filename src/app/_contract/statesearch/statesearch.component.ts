@@ -13,7 +13,7 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 
 export interface StateElement {
-  stateName: string;
+  stateName: String;
   id: number;
 }
 

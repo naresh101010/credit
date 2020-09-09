@@ -255,7 +255,7 @@ export class ReportsComponent implements OnInit {
         this.searchBy = res.searchByList.sort(this.compare_lookup);
         this.report_type = res.reportTypeList
           .filter((v) => {
-            return v.lookupVal.indexOf("CREDIT") !== -1;
+            return v.lookupVal.indexOf("RETAIL") !== -1;
           })
           .sort(this.compare_lookup);
         this.service_line = res.serviceLineList.sort(this.compare_lookup);
@@ -286,7 +286,7 @@ export class ReportsComponent implements OnInit {
       )
       .subscribe(
         (data: any) => {
-          let filename = `cc_${
+          let filename = `retail_${
             this.finalObj.reportTypeName
           }__report_${new Date().getTime()}.${
             this.finalObj.reportFormat

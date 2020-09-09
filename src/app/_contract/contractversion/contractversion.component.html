@@ -1,16 +1,16 @@
-<div  *ngIf="isEnabled">
+<div  *ngIf="isEnabled" class="retailContainer"> 
 
   <div style="position: relative;">
-    <h3 class="paddingleftwo" id="h3">View Contract</h3>
+    <h3 class="paddingleftwo" id="h3">View Contracts</h3> 
     <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
   </div>
 <hr id="popup-hr">
 
-    <mat-card style="margin-bottom: 5%;" class="marginbottomone paddingtopzero">
+    <mat-card style="margin-bottom: 5%;" class="marginbottomone paddingtopzero">  
       <div>     
-          <div *ngxPermissionsOnly="['CONTRACT_READ']">
+          <div *ngxPermissionsOnly="['CONTRACT_READ']" style="margin-bottom: .6rem !important;">
             <button class="btn1 marginRight marginbottomone" id="secondry-button" mat-raised-button color="primary" (click)="openDialogVersionpreview()" [disabled]="!isPreview"  >Preview</button> 
-            <button class="btn1 marginRight" id="secondry-button" mat-raised-button color="primary" [disabled]="!isPreview" >Share</button> 
+            <button class="btn1 marginRight" id="secondry-button" mat-raised-button color="primary" >Share</button> 
             <button class="btn1" style="text-align: right" mat-raised-button color="primary"  (click)="openDialogCompareVersions()" [disabled]="!isCompare"  >Compare</button>
             </div>
       </div>

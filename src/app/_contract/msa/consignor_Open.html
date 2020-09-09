@@ -1,170 +1,120 @@
-  <div style="padding: 1.8rem;" class="cDetails">
+  <div style="padding: 1.8rem;" class="cDetails retailContainer">
   <div style="position: relative;">
     <h3 id="h3">Consignor & Consignee Details</h3>
-    <button class="close_button" id="signCloseButton" (click)="closeDialog()">
-      <i class="fa fa-times fa-2x" aria-hidden="true"></i>
-    </button>
+    <i class="fa fa-times fa-2x" aria-hidden="true" (click)="closeDialog()"></i>
   </div>
   <hr id="popup-hr">  
-  <div layout="row" fxLayout.xs="column" fxLayoutAlign="center center" fxLayoutAlign.xs="start start">            
-  <div style="width: 136rem;" class="contractContainer">
-  <form name="form" (ngSubmit)=" f.form.valid"  #f="ngForm" novalidate>
-
-
-    <div class="input-row" fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%" fxLayoutAlign.xs="start start" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
+  <div layout="row" fxLayout.xs="column" fxLayoutAlign="center center">            
+  <div>              
+  <form name="form" (ngSubmit)="addElement(f.form.valid, f)" #f="ngForm" novalidate>
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10%" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
       <div fxFlex>
-      <div fxFlex class="fonts">Name<span class="redMark"> *</span></div>
+      <div fxFlex class="fonts">Name<span style="color: red;"> *</span></div>
       <div fxFlex >
-        <input autocomplete="off" class="form-control inputWidth" type="text"  name="name" [(ngModel)]="model.name" placeholder="Name"    
-        #name="ngModel" required [ngClass]="{ 'is-invalid':   name.invalid }" maxlength="50">
+        <input class="form-control" type="text"  name="name" [(ngModel)]="model.name" placeholder="Name"    
+        #name="ngModel" required alphanumeric [ngClass]="{ 'is-invalid':   name.invalid }" maxlength="100">
         <app-validation-msg *ngIf="(name.errors?.required && name.touched)" [msg]="'Required !'"></app-validation-msg>
       </div>
     </div>
     <div fxFlex>
-      <div fxFlex class="fonts">Type<span class="redMark">*</span></div>
-      <div fxFlex="50">
-        <mat-form-field appearance="outline" class="inputWidth">
-          <mat-select disableOptionCentering panelClass="creditSelect" required #lkpConsigntypeId="ngModel" name="lkpConsigntypeId" #lkpConsigntypeId="ngModel" required  [(ngModel)]="model.lkpConsigntypeId" style="top: 0 !important;" (selectionChange)="updateTypeName()">
-            <mat-option matOption *ngFor="let data of AddressType | sortBy:'asc':'lookupVal'" [value]="data.id" selected 
-            [matTooltip]="data.lookupVal" [matTooltipDisabled]="data.lookupVal.length<18" matTooltipPosition="above">
-              {{data.lookupVal}}
-            </mat-option>
-            </mat-select>
-        </mat-form-field> 
-        <app-validation-msg *ngIf="(lkpConsigntypeId.errors?.required && lkpConsigntypeId.touched)" [msg]="'Required !'" class="selectValidation"></app-validation-msg>
+      <div fxFlex class="fonts">Select<span style="color: red;"> *</span></div>
+      <div fxFlex>
+        <select required #lkpConsigntypeId="ngModel" name="lkpConsigntypeId" #lkpConsigntypeId="ngModel" required class="form-control"  [(ngModel)]="model.lkpConsigntypeId">
+          <option *ngFor="let data of AddressType" [value]="data.value">{{data.value}}</option>      
+          </select>
+            <app-validation-msg *ngIf="(lkpConsigntypeId.errors?.required && lkpConsigntypeId.touched)" [msg]="'Required !'"></app-validation-msg>
       </div>
     </div>
     <div fxFlex>
-      <div fxFlex class="fonts">PAN No.</div>
+      <div fxFlex class="fonts">Pan No.<span style="color: red;"> *</span></div>
       <div fxFlex>
-        <input autocomplete="off" class="form-control inputWidth" alphanumeric minlength="10" maxlength="10" type="text" name="panNum" [(ngModel)]="model.panNum" placeholder="Pan Num."
-        #panNum="ngModel" [ngClass]="{ 'is-invalid':panNum.invalid }" (input)="onPanChange(model.panNum)" >
-      <app-validation-msg *ngIf='!panChk && panLength' [msg]="'Invalid PAN !'"></app-validation-msg>
+        <input class="form-control" alphanumeric minlength="10" maxlength="10" type="text" name="panNum" [(ngModel)]="model.panNum" placeholder="Pan Num."
+        #panNum="ngModel" required appPancard [ngClass]="{ 'is-invalid':panNum.invalid }" (input)="onPanChange(model.panNum)" >
+      <app-validation-msg *ngIf="(panNum.errors?.required && panNum.touched)" [msg]="'Required !'"></app-validation-msg>
+      <app-validation-msg *ngIf="panNum.invalid && (panNum.dirty || panNum.touched) && !panNum.errors?.required" [msg]="'Invalid PAN !'"></app-validation-msg>
+      <app-validation-msg *ngIf='panChk && !panNum.errors?.required && !panNum.invalid' [msg]="'Invalid PAN !'"></app-validation-msg>
     </div>
     </div>
     </div>
-    <div class="input-row" fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%"  fxLayoutAlign.xs="start start" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10%" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
       <div fxFlex>
-      <div fxFlex class="fonts">GSTIN<span class="redMark"> *</span></div>
+      <div fxFlex class="fonts">GSTIN<span style="color: red;"> *</span></div>
       <div fxFlex>
-        <input autocomplete="off" class="form-control inputWidth" type="text" name="gstinNum" [(ngModel)]="model.gstinNum" placeholder="Gst Num."
-         #gstNum="ngModel" alphanumeric  maxlength="15" minlength="15" required [ngClass]="{ 'is-invalid':gstNum.invalid }" (input)="onGstnChange(model.gstinNum)">
+        <input class="form-control" type="text" name="gstinNum" [(ngModel)]="model.gstinNum" placeholder="Gst Num."
+        #gstNum="ngModel" appGstin alphanumeric  maxlength="15" minlength="15" required [ngClass]="{ 'is-invalid':gstNum.invalid }">
         <app-validation-msg *ngIf="(gstNum.errors?.required && gstNum.touched)" [msg]="'Required !'"></app-validation-msg>
         <app-validation-msg *ngIf="gstNum.invalid && (gstNum.dirty || gstNum.touched) && !gstNum.errors?.required" [msg]="'invalid GSTIN !'"></app-validation-msg>
-        <app-validation-msg *ngIf='!gstnChk && !gstNum.errors?.required && !gstNum.invalid' [msg]="'Invalid GSTIN !'"></app-validation-msg>
       </div>
     </div>
     <div fxFlex>
-      <div fxFlex class="fonts">TAN No.</div>
+      <div fxFlex class="fonts">TAN No.<span style="color: red;"> *</span></div>
       <div fxFlex>
-        <input autocomplete="off" class="form-control inputWidth" type="text" name="tanNum" [(ngModel)]="model.tanNum" placeholder="Tan Num" (input)="onTanChange(model.tanNum)"
-           #tanNum="ngModel" minlength="10" maxlength="10" alphanumeric [ngClass]="{ 'is-invalid':tanNum.invalid }">
-        <app-validation-msg *ngIf='!tanChk && tanLength' [msg]="'Invalid TAN !'"></app-validation-msg>
+        <input class="form-control" type="text" name="tanNum" [(ngModel)]="model.tanNum" placeholder="Tan Num" (input)="onTanChange(model.tanNum)"
+        required #tanNum="ngModel" minlength="10" maxlength="10" alphanumeric appTan [ngClass]="{ 'is-invalid':tanNum.invalid }">
+        <app-validation-msg *ngIf="(tanNum.errors?.required && tanNum.touched)" [msg]="'Required !'"></app-validation-msg>
+        <app-validation-msg *ngIf="tanNum.invalid && (tanNum.dirty || tanNum.touched) && !tanNum.errors?.required" [msg]="'invalid TAN !'"></app-validation-msg>
+        <app-validation-msg *ngIf='tanChk && !tanNum.errors?.required && !tanNum.invalid' [msg]="'Invalid TAN !'"></app-validation-msg>
       </div>
     </div>
     <div fxFlex>
-      <div fxFlex class="fonts">Mobile No.<span class="redMark">*</span></div>
+      <div fxFlex class="fonts">Mobile No.<span style="color: red;"> *</span></div>
       <div fxFlex>
-        <input  required autocomplete="off" (paste)="onPaste($event)" class="form-control inputWidth" type="text" (keypress)="numberOnly($event)"  name="mob" [(ngModel)]="model.mob" placeholder="Mobile Number" 
-          #mob="ngModel" maxlength="10" minlength="10" [ngClass]="{ 'is-invalid':mob.invalid }">
+        <input class="form-control" type="text" (keypress)="numberOnly($event)"  name="mob" [(ngModel)]="model.mob" placeholder="MobileNumber" 
+        required  numeric #mob="ngModel" maxlength="10" minlength="10" [ngClass]="{ 'is-invalid':mob.invalid }">
         <app-validation-msg *ngIf="(mob.errors?.required && mob.touched)" [msg]="'Required !'"></app-validation-msg>
-        <app-validation-msg *ngIf="mob.invalid && (mob.dirty || mob.touched) && !(mob.errors?.required && mob.touched)" [msg]="'Mobile should be 10 digits !'"></app-validation-msg>
+        <app-validation-msg *ngIf="mob.invalid && (mob.dirty || mob.touched) && !mob.errors?.required" [msg]="'Mobile should be 10 digits !'"></app-validation-msg>
       </div>
     </div>
     </div>
-
-    <div class="input-row" fxLayout="row" fxLayout.xs="column" fxLayout.md="row"  fxLayoutGap.xs="1%" fxLayoutGap.md="1%" fxLayoutAlign.xs="start start" fxLayoutGap.lt-md="0px">
-    <div fxFlex="14"></div>
-    <div fxFlex="15" class="consignorButton">
-      <mat-checkbox name="isAddressChecked" [(ngModel)]="isAddressChecked" [checked]=isAddressChecked (click)="clearAddresValues()">
-      </mat-checkbox> Search Address
-    </div>
-    <div fxFlex></div><div fxFlex></div>
-    <div fxFlex></div><div fxFlex></div>    
-    </div>
-
-    <div class="input-row" fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%" fxLayoutAlign.xs="start start" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
+    <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10%" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
       <div fxFlex>
-      <div fxFlex class="fonts">Address line 1<span class="redMark">*</span></div>
+      <div fxFlex class="fonts">Address line 1<span style="color: red;"> *</span></div>
       <div fxFlex>
-        <div  *ngIf="isAddressChecked">
-      <ng-select style="max-width: 18rem !important;"
-       [items]="addressData" id="address" class="creditNgDropdown"
-        name="Address"
-        bindLabel="addr1"
-        bindValue="addr1"
-        (change)="onChange($event)"
-        appendTo="body"                          
-        (search) ='searchAddress($event)'
-        [(ngModel)]="model.Address"
-        required
-        [matTooltip]="model.Address" matTooltipPosition="above"
-        #Address="ngModel">  
-        </ng-select> 
-        <app-validation-msg *ngIf="( Address.errors?.required && Address.touched)" [msg]="'Required !'"></app-validation-msg>
+        <input class="form-control" type="text" name="Address" [(ngModel)]="model.Address" placeholder="Address"
+        required #Address="ngModel" maxlength="100">
+        <app-validation-msg *ngIf="(Address.errors?.required && Address.touched)" [msg]="'Required !'"></app-validation-msg>
       </div>
-      <div *ngIf="!isAddressChecked">
-      <input 
-      autocomplete="off" class="form-control inputWidth text_wrap" type="text" name="Address" [(ngModel)]="model.Address" placeholder="Address"
-      required #Address="ngModel" maxlength="100" [matTooltip]="model.Address" matTooltipPosition="above"> 
-      <app-validation-msg *ngIf="( Address.errors?.required && Address.touched)" [msg]="'Required !'"></app-validation-msg>
-    </div>
-    </div>
     </div>
     <div fxFlex>
       <div fxFlex class="fonts">Address line 2</div>
       <div fxFlex>
-        <input autocomplete="off" class="form-control inputWidth text_wrap" type="text" name="addressone" [(ngModel)]="model.addressone" placeholder="Address"
-        [ngClass]="{ 'is-invalid':   addressone.invalid }"  #addressone="ngModel" maxlength="100" [matTooltip]="model.addressone" matTooltipPosition="above"
-        [readonly]="isAddressChecked">
+        <input class="form-control" type="text" name="addressone" [(ngModel)]="model.addressone" placeholder="Address"
+        [ngClass]="{ 'is-invalid':   addressone.invalid }"  #addressone="ngModel" maxlength="100">
       </div>
     </div>
        <div fxFlex>
          <div fxFlex class="fonts">Address line 3</div>
          <div fxFlex>
-          <input autocomplete="off" class="form-control inputWidth text_wrap" type="text" name="addresstwo" [(ngModel)]="model.addresstwo" placeholder="Address"
-          [ngClass]="{ 'is-invalid':   addresstwo.invalid }"  #addresstwo="ngModel" maxlength="100" [matTooltip]="model.addresstwo" matTooltipPosition="above"
-          [readonly]="isAddressChecked">
+          <input class="form-control" type="text" name="addresstwo" [(ngModel)]="model.addresstwo" placeholder="Address"
+          [ngClass]="{ 'is-invalid':   addresstwo.invalid }"  #addresstwo="ngModel" maxlength="100">
           </div>
        </div>
        </div>
-       <div class="input-row" fxLayout="row" fxLayout.xs="column" fxLayout.md="row" fxLayoutGap="10%" fxLayoutGap.xs="1%" fxLayoutGap.md="1%" fxLayoutAlign.xs="start start" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
+       <div class="input-row" fxLayout="row" fxLayout.lt-md="column" fxLayoutGap="10%" fxLayoutGap.lt-md="0px" [style.margin-top]="'2rem'">
          <div fxFlex>
-           <div fxFlex class="fonts">Pincode<span class="redMark"> *</span>          
-            <app-validation-msg  class="errorText" *ngIf="(pincodeError==true) && !isAddressChecked" [msg]="'Enter min. 4 character !'"></app-validation-msg>
-          </div>
-           <div fxFlex class="pincodeColor" placeholder="PINCODE" (clickOutside)="clickBodyElem($event)">
-            <ng-select [items]="pincodeData" id="pincodeSearch" style="max-width: 18rem !important;"
-            name="pincode"
-            bindLabel="pincode"
-            class="creditNgDropdown"
-            bindValue="pincodeId"
-            appendTo="body"
-            (keypress)='numberOnly($event)'
-            (search) ='pincodeSearch($event)'
-            [(ngModel)]="model.pincode"
-            (click)="onClear()"
-            (clear)="emptyPincodeData()"
-            required #pincode="ngModel" placeholder="PINCODE"
-            [disabled]="isAddressChecked">
-            </ng-select>  
-            <app-validation-msg class="errorText" *ngIf="(pincode.errors?.required && pincode.touched) && !(pincodeError==true)" [msg]="'Required !'"></app-validation-msg>
-
+           <div fxFlex class="fonts">Pincode No.<span style="color: red;"> *</span></div>
+           <div fxFlex>
+             <input class="form-control" type="text" name="pincode" (keypress)="numberOnly($event)" #pincode="ngModel" maxlength="6" minlength="6" required
+             [(ngModel)]="model.pincode" placeholder="Pincode" [ngClass]="{ 'is-invalid':   pincode.invalid }"/>      
+            <app-validation-msg *ngIf="(pincode.errors?.required && pincode.touched)" [msg]="'Required !'"></app-validation-msg>
+            <app-validation-msg *ngIf="pincode.invalid && (pincode.dirty || pincode.touched) && !pincode.errors?.required" [msg]="'Pin should be 6 digits !'"></app-validation-msg>
            </div>
          </div>
          <div fxFlex>
            <div fxFlex class="fonts">Dealer Code</div>
            <div fxFlex>
-             <input autocomplete="off" class="form-control inputWidth" alphanumeric type="text" name="dealerCode"[(ngModel)]="model.dealerCode" placeholder="Dealer Code"
-               #dealerCode="ngModel" maxlength="20">
+             <input class="form-control" alphanumeric type="text" name="dealerCode"[(ngModel)]="model.dealerCode" placeholder="DealerCode"
+             [ngClass]="{ 'is-invalid':   dealerCode.invalid }" ng-required="true" #dealerCode="ngModel" maxlength="20">
+             <app-validation-msg *ngIf="(dealerCode.errors?.required && dealerCode.touched)" [msg]="'Required !'"></app-validation-msg>
            </div>           
          </div>
          <div fxFlex>                
-           <button type="submit" [disabled]="!f.form.valid || !gstnChk" (click)="addElement(f.form.valid, f)" [style.color]="f.invalid || !gstnChk ? 'gray' : '#27AE60'" 
-           style="cursor: pointer !important;color: rgb(33, 110, 36),;width: 2.4rem; left: 0%;font-size: 3.2rem; border: none; background: transparent;position: relative;
+           <button type="submit" [disabled]="!f.form.valid" [style.color]="f.invalid ? 'gray' : 'green'" 
+           style="cursor: pointer;color: rgb(33, 110, 36),;width: 2.4rem;
+           left: 0%;cursor: pointer; font-size: 3.2rem;cursor: pointer; border: none; background: transparent;position: relative;
            top: .3rem;" class="material-icons">add_circle</button>
          </div>
-        </div> 
+        </div>
      </form>
              
    <div class="example-container mat-elevation-z8" style="margin-top: 1.5rem; width: 136rem;">    
@@ -172,54 +122,51 @@
        <ng-container matColumnDef="name">
        <mat-header-cell *matHeaderCellDef> NAME </mat-header-cell>
        <mat-header-cell *matHeaderCellDef></mat-header-cell>
-       <mat-cell *matCellDef="let element"> <div class="row_center" [matTooltip]="element.name"  [matTooltipDisabled]="element.name.length<25" matTooltipPosition="above">{{element.name | uppercase}} </div></mat-cell>
+       <mat-cell *matCellDef="let element"> {{element.name | uppercase}} </mat-cell>
      </ng-container>
-       <ng-container matColumnDef="lkpConsigntypeName">
-       <mat-header-cell *matHeaderCellDef> TYPE </mat-header-cell> 
-       <mat-cell *matCellDef="let element"><div class="row_center">{{element.lkpConsigntypeName | uppercase }}</div> </mat-cell>
+       <ng-container matColumnDef="lkpConsigntypeId">
+       <mat-header-cell *matHeaderCellDef> ADDRESS TYPE </mat-header-cell>
+       <mat-cell *matCellDef="let element"> {{element.lkpConsigntypeId | uppercase }} </mat-cell>
      </ng-container>
         
             <ng-container matColumnDef="panNum">
               <mat-header-cell *matHeaderCellDef> PAN NO. </mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center">{{element.panNum | uppercase}}</div> </mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.panNum | uppercase}} </mat-cell>
             </ng-container>
         
             <ng-container matColumnDef="gstNum">
               <mat-header-cell *matHeaderCellDef> GST NO.</mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center" [matTooltip]="element.gstinNum | uppercase"
-                matTooltipPosition="above">{{element.gstinNum | uppercase}} </div></mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.gstinNum | uppercase}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="tanNum">
               <mat-header-cell *matHeaderCellDef> TAN NO. </mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center">{{element.tanNum | uppercase}}</div> </mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.tanNum | uppercase}} </mat-cell>
             </ng-container> 
             <ng-container matColumnDef="mob">
               <mat-header-cell *matHeaderCellDef> MOBILE NO. </mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center">{{element.mob | uppercase}} </div></mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.mob | uppercase}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="address">
               <mat-header-cell *matHeaderCellDef> ADDRESS </mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center" [matTooltip]="element.address | uppercase"
-                matTooltipPosition="above">{{element?.address | uppercase}}</div> </mat-cell>
+              <mat-cell *matCellDef="let element"> {{element?.address | uppercase}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="city">
               <mat-header-cell *matHeaderCellDef> CITY </mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center">{{element.city | uppercase}} </div></mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.city | uppercase}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="pincode">
               <mat-header-cell *matHeaderCellDef>PINCODE  </mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center">{{element.pincode | uppercase}} </div></mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.pincode | uppercase}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="dealercode">
               <mat-header-cell *matHeaderCellDef>DEALER CODE  </mat-header-cell>
-              <mat-cell *matCellDef="let element"><div class="row_center" [matTooltip]="element.dealerCode | uppercase"
-                matTooltipPosition="above">{{element.dealerCode | uppercase}} </div></mat-cell>
+              <mat-cell *matCellDef="let element"> {{element.dealerCode | uppercase}} </mat-cell>
             </ng-container>        
             <ng-container matColumnDef="delete">
                 <mat-header-cell *matHeaderCellDef> DELETE </mat-header-cell>
                 <mat-cell *matCellDef="let element; let j = index;">
-                  <button mat-button color="warn" (click)="removeData(element,j)" class="msaDeleteButton">
-                    <mat-icon class="material-icons">delete</mat-icon>
+                  <button mat-button color="warn" (click)="removeData(element,j)">
+                    <mat-icon class="example-icon">delete</mat-icon>
                   </button></mat-cell>                
               </ng-container>        
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

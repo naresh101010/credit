@@ -1,4 +1,4 @@
-<div class="contractContainer" style="min-height: 120px">
+<div class="retailContainer" style="min-height: 120px">
     <div style="position: relative;">
       <h3 id="h2">Search Branch</h3>
       <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
@@ -15,7 +15,7 @@
                 <!-- validation -->
                    <div *ngIf="searchbyname.invalid && (searchbyname.dirty || searchbyname.touched)">                      
                     <div *ngIf="advanceSearch==true" class="error">
-                      Enter minimum 3 character !
+                      Enter Minimum 3 Characters !
                     </div>             
                   </div>
           </div>      
@@ -32,8 +32,8 @@
       </div>
     </div>
 </div>
-    <!-- panal -->
-    <div class="row-margin" *ngIf="tabledataLength > 0" style="width: 100rem;">
+    <!-- panal --> 
+    <div class="row-margin retailContainer" *ngIf="tabledataLength > 0" style="width: 100rem;">
           <div class="col-lg-12 col-md-12">
             <div class="row removeRowMargin">
               <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 ">
@@ -49,14 +49,12 @@
               <div class="col-lg-12 col-md-12 branchfonts">
                   <div class="col-lg-2 col-md-2 bar width">
                   <div class="col-lg-6 col-md-6 margin-row" style="width: 0;">
-                    <mat-radio-button *ngIf="!branch.isDisabled" (click)="filterDataByAreaList(branch)" name="chk"></mat-radio-button>
+                    <mat-checkbox (click)="filterDataByAreaList(branch)" name="chk" [(ngModel)]="branch.checked"></mat-checkbox>
+               
 
-                    <div matTooltip="Branch already exists !!" matTooltipPosition="above">
-                    <mat-radio-button *ngIf="branch.isDisabled" [disabled]="branch.isDisabled" name="chk"></mat-radio-button>
-
-                  </div>                 
                   </div>
-                  <div class="col-lg-6 col-md-6margin-row">{{ branch.branchCode }}</div>
+                  <div class="col-lg-6 col-md-6margin-row branchCode" 
+                  [matTooltip]="branch.branchCode" [matTooltipDisabled]="branch.branchCode?.length<18" matTooltipPosition="above">{{ branch.branchCode }}</div>
                 </div>
                   <div class="col-lg-2 col-md-2 bar width">{{branch.branchName }}</div>
                   <div class="col-lg-2 col-md-2 bar width">
@@ -69,9 +67,10 @@
           
           </div>
         </div>
+      
           <div class="example-button-row text-center col-md-12" style="margin-bottom: 3%;">
             <button mat-button  class="btn1" style="text-align: center;  margin-top: 4%;" mat-raised-button
-                  [mat-dialog-close]="data" color="primary">SAVE</button>
+                  [mat-dialog-close]="filterCheckData(tableData)" color="primary">SAVE</button>
             </div>
         </div>
   

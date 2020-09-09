@@ -49,16 +49,12 @@ export class OpportunityComponent implements OnInit {
   cntrCode = AppSetting.sfxCode;
   editflow = false;
   openDialog = false;
-	searchCtrl = '';
-	searchCtrlSub = '';
   isDisable:boolean;
   // maxNewDate;
-  sfxValue='New SFX';
   SFXTypes = ['New SFX', 'Existing SFX']
   changeSfxType(type) {
-    this.sfxValue = type;
     if (type === 'Existing SFX') {
-      this.openDialogSFXSearch(AppSetting.msaCustId,type);
+      this.openDialogSFXSearch(AppSetting.msaCustId);
     }
   }
 
@@ -103,12 +99,12 @@ export class OpportunityComponent implements OnInit {
     this.minDate = e;
   }
   }
-  this.effectiveDate(false);
+  this.effectiveDate();
   this.expDate();
   
   }
 
-  effectiveDate(isExpToUpdate) {
+  effectiveDate() {
     let effYear = parseInt(this.datePipe.transform(this.model.effectiveDt, 'yyyy'))
     if (effYear > 9999) {
       this.model.effectiveDt = "";
@@ -145,13 +141,6 @@ export class OpportunityComponent implements OnInit {
       let e = new Date(b);
       e.setDate(e.getDate()+1);
       this.minDate = e;
-    }
-
-    // increment exp date by one year
-    if(isExpToUpdate && b && !this.isValidEffectiveDt){
-      let f = new Date(b);
-      f.setFullYear(f.getFullYear()+1);
-      this.model.expDt = f;
     }
   }
   this.expDate();
@@ -193,12 +182,12 @@ export class OpportunityComponent implements OnInit {
 
   
   // dialog
-  openDialogSFXSearch(msadata,type): void {
+  openDialogSFXSearch(msadata): void {
 
     const dialogRefEdit = this.dialog.open(ExistingsafexlistComponent, {
       width: '1000px',
       data: { msaId: msadata, isEditflow: false },
-      panelClass: 'creditDialog',
+      panelClass: 'retailContainer',
       disableClose: true,
       backdropClass: 'backdropBackground'
     });
@@ -208,8 +197,6 @@ export class OpportunityComponent implements OnInit {
       this.spinner.show();
        result.opportunityId = AppSetting.oprtunityId;
        this.serviceAssignOppCntr(result,true);
-      }else{
-        this.sfxValue='New SFX';
       }
       console.log('The dialog was closed');
     });
@@ -272,7 +259,8 @@ export class OpportunityComponent implements OnInit {
     });
     this.model={};
     this.isDataAvailable =false;
-    this.getMsa();
+    
+    this.getOportunity(this.editflow,false);
     //VALIDATION
     this.registerForm = this.formBuilder.group({
       Folio: ['', Validators.required],
@@ -330,6 +318,7 @@ export class OpportunityComponent implements OnInit {
           this.oportunity = success.data;
           console.log(this.oportunity.responseData, "oportunity data");
           this.model = this.oportunity.responseData;
+         
            for (var item of this.oportunity.referenceData.businessTypeList) {
             //  console.log(item.lookupVal, "testing");
             this.businessTypeList.push(item)
@@ -365,7 +354,6 @@ export class OpportunityComponent implements OnInit {
             this.segmentList.push(item);
           }
           if (this.oportunity.referenceData.subSegmentList && this.oportunity.referenceData.subSegmentList.length > 0) {
-            this.subSegmentList =[];
             for (var item of this.oportunity.referenceData.subSegmentList) {
               this.subSegmentList.push(item);
             }
@@ -413,16 +401,6 @@ export class OpportunityComponent implements OnInit {
               e.setDate(e.getDate()-1);
               this.maxdate = e;
             }
-            // check if subsegment exist 
-            let ifSubSegmentExist = true;
-            for(let subseg of this.subSegmentList){
-              if(subseg.id==this.model.subsegmentId){
-                ifSubSegmentExist = false;
-                break;}
-            }
-            if(ifSubSegmentExist){
-              this.model.subsegmentId= null;
-            }
           }else{
             this.model.id = null;
             for(let type of this.contractTypeList){
@@ -432,7 +410,7 @@ export class OpportunityComponent implements OnInit {
               }
             }
             for (let type of this.businessTypeList) {
-              if (type.descr == 'OUTBOUND') {
+              if (type.descr == 'INBOUND') {
                 this.model.lkpBizTypeId = type.id;
                 this.model["lkpBizTypeValue"] = type.descr; 
                 AppSetting.businessType = type.descr;
@@ -463,37 +441,12 @@ export class OpportunityComponent implements OnInit {
           // }
 this.isDataAvailable=true;
 
-          // if(this.openDialog){
-          // }
-          if(!this.oportunity.responseData.contract){
-            for(let seg of  this.segmentList){
-              if(seg.segmentName==this.segmentName){
-                 this.model.segmentId = seg.id;
-              }
-             
-            }
-            for(let subseg of this.subSegmentList){
-              if(subseg.subsegmentName==this.subsegmentName){
-                 this.model.subsegmentId = subseg.id;
-              }
-             
-            }
+          if(this.openDialog){
+            this.getMsa();
           }
           if(isNavigate){
-            this.openConfirmationDialogEdit();
+            this.openConfirmationDialog();
          }
-         if(!isNavigate){
-          for (let data of this.msa.responseData) {
-            AppSetting.customerName = data.custName
-            AppSetting.sfdcAccId = data.sfdcAccId
-            this.sfdcAccId = AppSetting.sfdcAccId;
-            this.custName = AppSetting.customerName;
-            this.cntrCode = AppSetting.sfxCode
-            if(this.openDialog){
-            this.openDialogEditFlow();
-          }
-          }
-       }
          if(this.editflow){
            this.reasonList = this.oportunity.referenceData.cntrTermRsn;
          }
@@ -515,7 +468,7 @@ this.isDataAvailable=true;
   openCCDialog(field): void {
     const dialogCCRef = this.dialog.open(SearchAllOppertunityDialogBox, {
       width: '110rem',
-      panelClass: 'creditDialog',
+      panelClass: 'retailContainer',
       data: {element:field},
     });
 
@@ -577,11 +530,11 @@ this.isDataAvailable=true;
       data["id"] = this.oportunity.responseData.contract.id
     }
     for (let type of this.businessTypeList) {
-      if (type.lookupVal == 'ANYWHERE TO ANYWHERE') {
+      if (type.lookupVal == 'INBOUND') {
         data["dlvryHoldFlag"] = this.model.dlvryHoldFlag
       }
     }
-       this.servicePostOppCntr(data,false);
+    this.servicePostOppCntr(data,false);
 
   }
 
@@ -614,20 +567,16 @@ this.isDataAvailable=true;
         success => {
           let ob = ErrorConstants.validateException(success);
         if (ob.isSuccess) {
+          this.spinner.hide();
           this.postOprtunityData = success.data.responseData
           AppSetting.contractId = this.postOprtunityData
+          this.tosterservice.success("Saved Successfully");
           console.log(this.postOprtunityData, "oportunity data")
           this.model = {}
           this.businessTypeList = []
           this.contractTypeList = []
           this.opprAddr = []
           this.oportunity = {}
-          if (this.isDisable) {
-            this.tosterservice.info("CONTRACT TERMINATED !")
-            this.router.navigate(['contract/'], { skipLocationChange: true });
-          }else{
-            this.tosterservice.success("Saved Successfully");
-          }
           this.getOportunity(this.editflow,isNavigate);
         }
         else {
@@ -636,13 +585,14 @@ this.isDataAvailable=true;
         }
       },
         error => {
+          this.tosterservice.error(ErrorConstants.getValue(404));
           this.spinner.hide();
-          this.tosterservice.error('Issue In Creating Contract. Kindly verfiy SFDC Oppr Id and MSA Account Id.');
         });
   }
   
   opportunityNext() {
     this.spinner.show();
+    if (!this.postOprtunityData) { 
       let data = {
         "cntrSignDt": this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd'),
         "cntrType": this.model.cntrType,
@@ -670,58 +620,10 @@ this.isDataAvailable=true;
         data["id"] = this.oportunity.responseData.contract.id
       }
       for (let type of this.businessTypeList) {
-        if (type.lookupVal == 'ANYWHERE TO ANYWHERE') {
+        if (type.lookupVal == 'INBOUND') {
           data["dlvryHoldFlag"] = this.model.dlvryHoldFlag
         }
       }
-    
-      // Con Cnee Check 
-
-      let isConCneeFound= false;
-      let messageForCCError:any;
-      let lookupName:any;
-      for (let type of this.businessTypeList) {
-          if(type.id==this.model.lkpBizTypeId){
-            lookupName = type.lookupVal;
-          }
-      }
-        if (lookupName == 'INBOUND') {
-          for (let data of this.msa.responseData) {
-            for (let data1 of data.cneeCnor) {
-                let cneeID ;
-                let bothTypeId;
-                for(let cc of this.consignType){
-                  if(cc.lookupVal=='CONSIGNEE') cneeID = cc.id
-                  if(cc.lookupVal=='BOTH') bothTypeId = cc.id
-                }
-                if(data1.lkpConsigntypeId==cneeID || data1.lkpConsigntypeId==bothTypeId){
-                  isConCneeFound= true;
-                }
-            }
-            if(!isConCneeFound)messageForCCError = 'No Consignee Exists! Please Add On MSA Page.'
-          }
-        }
-        if (lookupName == 'OUTBOUND') {
-          for (let data of this.msa.responseData) {
-            for (let data1 of data.cneeCnor) {
-                let cneeID ;
-                let bothTypeId;
-                for(let cc of this.consignType){
-                  if(cc.lookupVal=='CONSIGNOR') cneeID = cc.id
-                  if(cc.lookupVal=='BOTH') bothTypeId = cc.id
-                }
-                if(data1.lkpConsigntypeId==cneeID || data1.lkpConsigntypeId==bothTypeId){
-                  isConCneeFound= true;
-                }
-            }
-            if(!isConCneeFound)messageForCCError = 'No Consignor Exists! Please Add On MSA Page.'
-          }
-        }
-        if (lookupName == 'ANYWHERE TO ANYWHERE') {
-          isConCneeFound= true;
-        }
-
-      if(isConCneeFound){
       this.contractservice.postOportunity(data,this.editflow,this.isDisable)
       .subscribe(
         success => {
@@ -748,15 +650,29 @@ this.isDataAvailable=true;
         }
       },
         error => {
+          this.tosterservice.error(ErrorConstants.getValue(404));
           this.spinner.hide();
-          this.tosterservice.error('Issue In Creating Contract. Kindly verfiy SFDC Oppr Id and MSA Account Id.');
-        });}else{
-          this.spinner.hide();
-          this.tosterservice.info(messageForCCError);
-        }
+        });
+    }
+
+    if (this.postOprtunityData) {
+      if(this.editflow){
+        this.router.navigate(['/contract/service', { steper:true,'editflow': 'true'}], {skipLocationChange: true});
+      }else{
+      AppSetting.contractId = this.postOprtunityData
+      this.router.navigate(['contract/service'], {skipLocationChange: true});
+      }
+    }
+
+
   }
+  segmentFlg(){
+    this.subSegmentFlage=false;
+  }
+
+  subSegmentFlage=false;
   getSubsegment(segmentId){
-    this.model.subsegmentId = null;
+    this.subSegmentFlage=true;
     this.contractservice.getSubsefmentBySegmentId(segmentId)
       .subscribe( subsegmentList => {
         let ob = ErrorConstants.validateException(subsegmentList);
@@ -779,21 +695,12 @@ this.isDataAvailable=true;
 
   }
 
-  scrollActiveValue(){
-    let selectItem = document.getElementsByClassName('mat-selected')[0];
-    setTimeout(()=>{  
-        if(selectItem){
-          selectItem.scrollIntoView(false);
-        }
-    },500)
-  }
-
   // dialog
   openDialogEditFlow(): void {
 
     const dialogRefEdit = this.dialog.open(SearchContractEdit, {     
       data: {msa: 'hi'},
-      panelClass: 'creditDialog',
+      panelClass: 'retailContainer',
       disableClose: true,
       backdropClass: 'backdropBackground'
     });
@@ -804,11 +711,7 @@ this.isDataAvailable=true;
     });
   }
   msa:any = {}
-  consignType:any = []
-  segmentName:any;
-  subsegmentName:any;
   getMsa() {
-    this.consignType= [];
     this.spinner.show();
     this.contractservice.getMsa(AppSetting.msaCustId)
       .toPromise()
@@ -817,11 +720,14 @@ this.isDataAvailable=true;
           let ob = ErrorConstants.validateException(success);
           if (ob.isSuccess) {
             this.msa = success.data;
-            this.consignType = this.msa.referenceData.consignType;
-            this.segmentName = this.msa.responseData[0].segment;
-            this.subsegmentName = this.msa.responseData[0].subsegment;
-            this.subSegmentList = this.msa.referenceData.subSegmentList;
-            this.getOportunity(this.editflow,false);
+            for (let data of this.msa.responseData) {
+              AppSetting.customerName = data.custName
+              AppSetting.sfdcAccId = data.sfdcAccId
+              this.sfdcAccId = AppSetting.sfdcAccId;
+              this.custName = AppSetting.customerName;
+              this.cntrCode = AppSetting.sfxCode
+              this.openDialogEditFlow();
+            }
           } else {
             this.tosterservice.error(ob.message);
             this.spinner.hide();
@@ -842,7 +748,7 @@ this.isDataAvailable=true;
 
       data: { message: "Are you sure you want to terminate contract ?" },
       disableClose: true,
-      panelClass: 'creditDialog',
+      panelClass: 'retailContainer',
       width: '300px'
     });
   
@@ -851,6 +757,8 @@ this.isDataAvailable=true;
         this.openDialog = false;
         this.postOportunity()
         this.editflow = false;
+        this.tosterservice.info("CONTRACT TERMINATED !")
+        this.router.navigate(['contract/'], {skipLocationChange: true});
       }
       console.log('The dialog was closed with pinocde ' ,result);
     });
@@ -858,12 +766,12 @@ this.isDataAvailable=true;
   }
 
     // dialog 
-    openConfirmationDialogEdit(): void {
+    openConfirmationDialog(): void {
 
       const dialogRefConfirm = this.dialog.open(confimationdialog, {
         width: '300px',
-        data:{message:'Do you want to edit the contract ?'},
-        panelClass: 'creditDialog',
+        data:{message:'Are you sure ?'},
+        panelClass: 'retailContainer',
         disableClose: true,
         backdropClass: 'backdropBackground'
       });
@@ -895,21 +803,22 @@ this.isDataAvailable=true;
 export class SearchContractEdit {
   constructor(public contractservice: ContractService,
     public dialogRefEdit: MatDialogRef<SearchContractEdit>,
-    public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: PopData, public router: Router,
     private spinner: NgxSpinnerService, private _contractService: ContractService, private tosterservice: ToastrService
-    , private route: Router) { }
+    , private route: Router,private dialog: MatDialog,) { }
 
   sfdcAccId = AppSetting.sfdcAccId;
   custName = AppSetting.customerName;
   cntrCode = AppSetting.sfxCode;
+  msaLevel : string;
+  retailCode : string;
   closeDialog() {
     
     const dialogRefConfirm = this.dialog.open(confimationdialog, {
       width: '300px',
       data:{message:'Are you sure ?'},
       disableClose: true,
-      panelClass: 'creditDialog',
+      panelClass: 'retailContainer',
       backdropClass: 'backdropBackground'
     });
 
@@ -922,29 +831,33 @@ export class SearchContractEdit {
       }
     });
   }
+
+  close() {
+    
+  }
   contractTermRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/contract/opportunity', {steper:true, 'termination': 'true' }], {skipLocationChange: true});
+    this.router.navigate(['/retail-contract/opportunity', { 'termination': 'true' }]);
   }
   newOffRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/contract/service', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
+    this.router.navigate(['/retail-contract/service', { 'editflow': 'true' }]);
   }
   newRateRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/contract/ratecard', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
+    this.router.navigate(['/retail-contract/ratecard', { 'editflow': 'true' }]);
   }
   generalEditRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/contract/msa', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
+    this.router.navigate(['/retail-contract/msa', { 'editflow': 'true' }]);
   }
   billingRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/contract/billing', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
+    this.router.navigate(['/retail-contract/billing', { 'editflow': 'true' }]);
   }
   docRoute() {
     this.dialogRefEdit.close();
-    this.router.navigate(['/contract/documentupload', { steper:true,'editflow': 'true' }], {skipLocationChange: true});
+    this.router.navigate(['/retail-contract/documentupload', { 'editflow': 'true' }]);
   }
   ngOnInit() {
     this.spinner.hide();
@@ -956,15 +869,13 @@ export class SearchContractEdit {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let element = document.getElementById('closeButton');
           element.click();
         }
       }
   }
 
-
 }
-
 
 export interface PopData {
   msa: object;

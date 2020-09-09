@@ -1,6 +1,6 @@
 
-<form > 
-<form >
+
+<form class="retailContainer">
   <div style="position: relative;">
     <h3 id="h2">Existing SFX</h3>
     <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
@@ -15,8 +15,6 @@
         <a  style="cursor: pointer;" (click)="showSfxCodeData(element)">{{element.cntrCode}} </a>
       </td>
     </ng-container>
-
-    
     <ng-container matColumnDef="lkpBizTypeId">
       <th scope="row" mat-header-cell *matHeaderCellDef> BUSINESS TYPE </th>
       <td mat-cell *matCellDef="let element"> {{element.businessType}} </td>

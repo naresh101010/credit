@@ -51,7 +51,7 @@ export class Modeltnc {
     securityProvidedBy: string
     securityRefNum: string
     bankname: string
-    fuelCalcBasedOn:string
-    descr:string
+    fuelCalcBasedOn:String
+    descr:String
   
 }

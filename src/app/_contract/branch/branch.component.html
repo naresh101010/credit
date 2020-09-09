@@ -1,0 +1,138 @@
+<div class="hero-content retailContainer">
+    <div class="row text-left parent">
+        <div class="breadcrumb">
+            <a routerLink="/retail-contract/retail" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+            <a routerLink="/retail-contract/retail" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+            <a routerLink="/retail-contract/retail" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+            RETAIL
+        </div>
+        <stepper></stepper>
+    </div>
+    <h3>Retail Contract</h3>
+    <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign.xs="space-between start"
+        class="mat-card-header-container">
+        <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span class="fw600">MSA Level :
+        </span><span style="margin-left: 10px"> MSA CLUSTER </span></div>
+        <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span class="fw600">Retail Code : </span>
+                <span style="margin-left: 10px"> <em>{{retailCode}}</em></span>
+            </div>
+    </div>
+    <mat-card style="box-shadow: none;">
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle>
+                <mat-expansion-panel-header style="cursor: pointer;">
+                    Branch
+                </mat-expansion-panel-header>
+                <form (ngSubmit)="fbranch.form.valid" #fbranch="ngForm" novalidate *ngxPermissionsOnly="['BRANCH_READ']">
+                    <mat-card-content>
+                        <h5 class="zonalheading" style="padding-top: 2rem;">Branch Assignment &nbsp;
+                            <button  *ngxPermissionsOnly="['BRANCH_CREATE']" 	[style.color]="fbranch.invalid ? 'gray' : '#27AE60'"  style="width: 2.4rem; position: relative;
+                           left: -1.5rem;cursor: pointer; font-size: 3.2rem;cursor: pointer; border: none; background: transparent;
+                           top: .8rem;" class="material-icons" (click)="branchAssignment()" [disabled]="isValid" >add_circle</button>
+                        </h5>
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12" style="padding: 0 !important;">
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 zonalheadingbar">BRANCH<span style="color: red;"> *</span></div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 zonalheadingbar" style="width: 12%;">EFFECTIVE DATE<span style="color: red;"> *</span></div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 zonalheadingbar" style="width: 12%;">EXPIRY DATE</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 zonalheadingbar" style="width: 12%;">REASON</div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 zonalheadingbar" style="width: 12%;">CONSIGNOR<span style="color: red;"> *</span>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12"
+                            style="margin-top: 1.5rem;padding: 0 !important;"
+                            *ngFor="let field of branchAssignModel.assignBranch; let i = index">
+                            <div class="col-lg-2 col-md-2 col-sm-2">
+                                <a (click)="openBaseLDialogBr(field,i)" style="cursor: pointer;">
+                                    <span class="fa fa-search fa-lg" id="defualtBranchSearch5"
+                                        style="top: .7rem !important;"></span>
+                                    <input #branch='ngModel' required [ngModel]="field.bkngBranchName"
+                                        [readonly]="field.bkngBranchName" autocomplete="true" list="brow1"
+                                        class="inputfield3 form-control input-md" name="bkngBranchName-{{i}}"
+                                        (change)="onDefaultBranchChanged(priFilter.bkngBranchName)" placeholder="search"
+                                        style="height: 2.7rem; padding-left: 2.3rem;cursor: pointer; position: relative;" />
+                                </a>
+                             
+                      <span *ngIf="(branch.errors?.required && branch.touched)" class="hasErrorMsgTopSide">Required&nbsp;!</span>
+                            </div>
+
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 " style="width: 12%;">
+                                <mat-form-field appearance="outline" id="datepickerwidth">
+                                    <input matInput autocomplete="true" #EffDT='ngModel' required
+                                        [matDatepicker]="pickereffe2" name="effectiveDt-{{i}}"
+                                        [(ngModel)]="field.effectiveDt"
+                                        [min]="minDate" [max]="maxDate" (blur)="dateFormatEffective(field)" (dateChange)="dateFormatEffective(field)"
+                            
+                                        placeholder="DD/MM/YYYY" class="date_picker">
+                                    <mat-datepicker panelClass="creditDatepicker" #pickereffe2></mat-datepicker>
+                                    <mat-datepicker-toggle matSuffix [for]="pickereffe2"></mat-datepicker-toggle>
+                                </mat-form-field>
+                               
+                                <span *ngIf="(EffDT.errors?.required && EffDT.touched)" class="hasErrorMsg">
+                                    Required&nbsp;!
+                                  </span>
+                                  <span *ngIf="field.isValidBranchEffectiveDt && !(EffDT.errors?.required)" class="hasErrorMsg">
+                                    Invalid Effective Date!
+                                  </span>
+                            </div>
+                            <div class="col-lg-2 col-md-2 col-sm-2 col-xl-2 " style="width: 12%;">
+                                <mat-form-field appearance="outline" id="datepickerwidth">
+                                    <input matInput autocomplete="true" #ExpDT='ngModel' 
+                                        [matDatepicker]="pickereffe1" name="expDt-{{i}}" [(ngModel)]="field.expDt"
+                                        [min]="field.effectiveDt" [max]="maxDate" (blur)="dateFormatExpiry(field)" (dateChange)="dateFormatExpiry(field)" placeholder="DD/MM/YYYY" class="date_picker">
+                                    <mat-datepicker panelClass="creditDatepicker" #pickereffe1></mat-datepicker>
+                                    <mat-datepicker-toggle matSuffix [for]="pickereffe1"></mat-datepicker-toggle>
+                                </mat-form-field>
+                               
+                                <span *ngIf="field.isValidBranchExpiryDt" class="hasErrorMsg">
+                                    Invalid Expiry Date!
+                                  </span>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 " style="width: 12%;">
+                                <mat-form-field  appearance="outline" style="width: 100%;">
+                                    <mat-select panelClass="creditSelect2" name="lkpBkngBranchHoldRsn-{{i}}" #lkpBkngBranchHoldRsn='ngModel' [value]="field.expDt ? field.lkpBkngBranchHoldRsn : ''"
+                                    [(ngModel)]="field.lkpBkngBranchHoldRsn" [required]="field.expDt ? true : false" [disabled]="!(field.expDt)">
+                                        <mat-option *ngFor="let opt of branchAssignModel.referenceList.bkngHoldRsn"
+                                            [value]="opt.id">
+                                            {{opt.lookupVal}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <span *ngIf="(lkpBkngBranchHoldRsn.errors?.required && field.expDt)" class="hasErrorMsg" style="top: 2.5rem !important;">
+                                    Required&nbsp;!
+                                  </span>
+                            </div>
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 text-center" style="width: 12%;">
+                                <button  name="addConsgner-{{i}}"  [disabled]="(branch.errors?.required || EffDT.errors?.required || field?.isValidBranchExpiryDt || field?.isValidBranchEffectiveDt)" style="color: rgb(33, 110, 36),;width: 2.4rem; position: relative; 
+                                left: -1.5rem;cursor: pointer; font-size: 3.2rem;cursor: pointer; border: none; background: transparent;"
+                                *ngxPermissionsOnly="['CONSIGNOR_CREATE']" class="material-icons" (click)="openCCDialog(field)">add_circle</button>   
+                            </div>
+                            <div class="col-lg-1 col-md-1 text-left  " style="width: 15%;"> 
+                            <span  *ngIf ="i > 0" style="padding-left: 2rem;"  class="text-left" ><em  class="material-icons" (click)="deleteBranch(field,i)" style="cursor: pointer;color: #27AE60;">delete</em></span>          
+                              </div>
+
+                              
+                        </div>
+                        <div class="example-button-row text-center">
+                            <button style="margin-top: 5%;"  id="branchNextButton" class="btn1" mat-raised-button [disabled]="checkbranch()"
+                                color="primary" (click)="postBranch(fbranch)" *ngxPermissionsOnly="['BRANCH_CREATE','BRANCH_UPDATE']"
+                                >Save</button>                           
+                        </div>
+
+                    </mat-card-content>
+                </form>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </mat-card>
+
+    <div class="example-button-row text-center" style="margin-top: 2%"  class="row">
+        <div class="col-md-12">
+        <button  *ngxPermissionsOnly="['CONTRACT_READ']" [disabled]="checkbranch()"
+         class="btn1" style="text-align: center" mat-raised-button color="primary" (click)="previewData()">Preview</button>
+      </div>
+    </div>
+</div>
+
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

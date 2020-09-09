@@ -4,7 +4,9 @@ import { ContractService } from '../contract.service';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from 'ngx-toastr';
-import { Router} from '@angular/router';
+import { Router } from '@angular/router';
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core';
+import { AppDateAdapter, APP_DATE_FORMATS } from '../billing/format-datepicker';
 import { FormBuilder, FormControl } from '@angular/forms';
 import { ErrorConstants } from '../models/constants';
 import { AppSetting } from "../../app.setting";
@@ -12,6 +14,7 @@ import { Lookup } from '../models/billingModel';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
+import { DataService } from "../msa/sharedata.service";
 import { DatePipe } from '@angular/common';
 
 
@@ -23,9 +26,8 @@ import { DatePipe } from '@angular/common';
 })
 export class CommandmentComponent implements OnChanges {
 
-  constructor(private contractservice: ContractService, private dialog: MatDialog, private spinner: NgxSpinnerService,
-    private tosterService: ToastrService, private router: Router, private formBuilder: FormBuilder,
-    private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
+  constructor(private contractservice: ContractService, private sharedSearchdata: DataService, private dialog: MatDialog, private spinner: NgxSpinnerService,
+    private tosterService: ToastrService, private router: Router, private formBuilder: FormBuilder, private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
 
   cmdmntCharge: models.Commandment[];
   commandmentResult: models.CommandmentResult;
@@ -229,13 +231,14 @@ export class CommandmentComponent implements OnChanges {
 
   getCommandment() {
     this.spinner.show();
-    this.contractservice.getOportunity(AppSetting.oprtunityId, this.editflow).subscribe(success => {
-
+    //    this.contractservice.getOportunity(AppSetting.oprtunityId, this.editflow).subscribe(success => {
+    this.sharedSearchdata.currentMessage.subscribe(msacustId => { console.log(msacustId) });
+    this.contractservice.getContractByMSAId(AppSetting.msaId).subscribe(success => {
       let ob = ErrorConstants.validateException(success);
       if (ob.isSuccess) {
-        this.businessTypeId = success.data.responseData.contract.lkpBizTypeId;
-        this.customerTypeId = success.data.responseData.contract.cntrType;
-        this.contractId = success.data.responseData.contract.id;
+        this.businessTypeId = success.data.responseData[0].lkpBizTypeId;
+        this.customerTypeId = success.data.responseData[0].cntrType;
+        this.contractId = success.data.responseData[0].id;
         let entityIdtoFetch: any;
         if (this.inputData.isCopyRateCard) {
           if (this.inputData.level == 'RATECARD' && !this.isAnyCmdSaved) {
@@ -355,7 +358,7 @@ export class CommandmentComponent implements OnChanges {
 
                     }
                   }
-                  this.cmdmntCharge = this.cmdmntCharge.sort((ele1,ele2) => ele1.commandmentOrder - ele2.commandmentOrder);
+                  this.cmdmntCharge.sort((ele1,ele2) => ele1.commandmentOrder - ele2.commandmentOrder);
                 }
                 if (!exists) {
                   let cmdmntChargeNew = new models.Commandment();
@@ -397,7 +400,7 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.defaultLkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId
                     cmdmntChargeNew.minFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
                     cmdmntChargeNew.minCalcFlag = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
-                    cmdmntChargeNew.defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
+                    cmdmntChargeNew.defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg
                     cmdmntChargeNew.fieldDisabled = true;
                     if (cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList && cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.length > 0) {
                       cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.forEach(element => {
@@ -417,26 +420,6 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.lkpCalcTypeName = null;
                     cmdmntChargeNew.minVal = null;
                     cmdmntChargeNew.maxVal = null;
-                    if (cmdmntData.cmdmntRrsList && cmdmntData.cmdmntRrsList.length > 0) {
-                    cmdmntChargeNew.defaultPrice = cmdmntData.cmdmntRrsList[0].rrValue;
-                    cmdmntChargeNew.defaultLkpCalcMeasureId = cmdmntData.cmdmntRrsList[0].calculationMeasureId;
-                    cmdmntChargeNew.defaultLkpCalcUnitId = cmdmntData.cmdmntRrsList[0].calculationUnitId;
-                    cmdmntChargeNew.defaultLkpCalcTypeId = cmdmntData.cmdmntRrsList[0].calculationTypeId;
-                    cmdmntChargeNew.defaultLkpCalcTypeName = this.getNameFromLookup(cmdmntChargeNew.calcTypeList, cmdmntChargeNew.lkpCalcTypeId);
-                    cmdmntChargeNew.defaultMinVal = cmdmntData.cmdmntRrsList[0].minValue;
-                    cmdmntChargeNew.defaultMaxVal = cmdmntData.cmdmntRrsList[0].maxValue;
-                    cmdmntChargeNew.defaultLkpChrgOnId = cmdmntData.cmdmntRrsList[0].cmdntChrgOnId;
-                    cmdmntChargeNew.defaultMinFrieghtFlg = cmdmntData.cmdmntRrsList[0].minFrieghtFlg;
-                    if (cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList && cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.length > 0) {
-                      cmdmntData.cmdmntRrsList[0].cmdmntRrSlabList.forEach(element => {
-                        let cmdmntSlabCharge = new models.CommandmentSlabChargeDTO();
-                        cmdmntSlabCharge.price = element.rrValue;
-                        cmdmntSlabCharge.slabFrom = element.slabFrom;
-                        cmdmntSlabCharge.slabTo = element.slabTo;
-                        cmdmntChargeNew.defaultCmdmntSlabCharge.push(cmdmntSlabCharge);
-                      });
-                    }
-                    } else {
                     cmdmntChargeNew.defaultPrice = null;
                     cmdmntChargeNew.defaultLkpCalcMeasureId = null;
                     cmdmntChargeNew.defaultLkpCalcUnitId = null;
@@ -444,9 +427,8 @@ export class CommandmentComponent implements OnChanges {
                     cmdmntChargeNew.defaultLkpCalcTypeName = null;
                     cmdmntChargeNew.defaultMinVal = null;
                     cmdmntChargeNew.defaultMaxVal = null;
-                    cmdmntChargeNew.defaultLkpChrgOnId = null;
-                    }
                     cmdmntChargeNew.fieldDisabled = false;
+                    cmdmntChargeNew.defaultLkpChrgOnId = null;
                   }
                   if (cmdmntData.rrFlag === 2) {
                     cmdmntChargeNew.fieldDisabled = true;
@@ -536,7 +518,7 @@ export class CommandmentComponent implements OnChanges {
         this.geoCmdmntCharge[index].lkpCalcMeasureId = null;
         this.geoCmdmntCharge[index].lkpCalcUnitId = null;
         this.geoCmdmntCharge[index].lkpCalcTypeId = null;
-        this.geoCmdmntCharge[index].lkpCalcTypeName = null;
+        this.geoCmdmntCharge[index].defaultLkpCalcTypeName = null;
         this.geoCmdmntCharge[index].minVal = null;
         this.geoCmdmntCharge[index].maxVal = null;
         this.geoCmdmntCharge[index].lkpChrgOnId = null;
@@ -764,13 +746,14 @@ export class CommandmentComponent implements OnChanges {
             this.nonGeoCmdmntCharge[index]['slabErrorFlag'] = false;
           }
         }
-          if (geo && (!this.geoCmdmntCharge[index].cmdmntSlabCharge ||
-            this.geoCmdmntCharge[index].cmdmntSlabCharge.length === 0)) {
+	 if (geo && (!this.geoCmdmntCharge[index].cmdmntSlabCharge || 
+	 this.geoCmdmntCharge[index].cmdmntSlabCharge.length === 0)) {
             this.geoCmdmntCharge[index]['slabErrorFlag'] = true;
           } else if (!geo && (!this.nonGeoCmdmntCharge[index].cmdmntSlabCharge ||
             this.nonGeoCmdmntCharge[index].cmdmntSlabCharge.length === 0)) {
             this.nonGeoCmdmntCharge[index]['slabErrorFlag'] = true;
-          }
+          
+        }
       });
     } else {
       if (geo) {
@@ -942,6 +925,7 @@ export class GeoWiseChargeDialogBox {
   stateList: Lookup[];
   cityList: Lookup[] = [];
   calcUnitList: Lookup[] = [];
+  minDate = new Date();
 
 
     @ViewChild('bottmScrollEl', null) bottmScrollEl: ElementRef;
@@ -1177,7 +1161,7 @@ getCityStart(stateId,index){
 
       if (validate && ((!element.stateId || element.stateId === null)
         || (!element.lkpCalcUnitId || element.lkpCalcUnitId === null)
-        || ((!element.price && element.price !== 0) || element.price === null || (element.price && !element.price.toString().trim()))
+        || (!element.price || element.price === null || (element.price && !element.price.toString().trim()))
         || (!element.disableCity && (!element.selectedCityList || element.selectedCityList.length === 0)))) {
         validate = false;
         this.tosterService.error('Some Required Fields Missing/Invalid !');
@@ -1194,7 +1178,7 @@ getCityStart(stateId,index){
       } else {
         stateList.push(element.stateId);
       }
-      if ((element.price || element.price === 0) && element.validPrice) {
+      if (element.price && element.validPrice) {
         element.price = Number(element.price.toString().trim()); }
     });
 
@@ -1397,30 +1381,27 @@ export class ExcludePinDialogBox {
 
   getCityList() {
     this.spinner.show();
-    this.contractservice.getCityByStateNPinFeatureId(this.stateId,this.data.geoFeatureId).subscribe(
-      
-      result => {
-        let ob = ErrorConstants.validateException(result);
-          if (ob.isSuccess) {
-            let cityData = [];
-            result.data.responseData.forEach(element => {
-              cityData.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
-            });
-            this.cityList = JSON.parse(JSON.stringify(cityData));
-          }else {
-            this.cityList = [];
-            this.tosterService.error(ob.message);
-          }
-          this.spinner.hide();
-    },
-    error=>{
+    this.contractservice.getCityByStateNPinFeatureId(this.stateId,this.data.geoFeatureId).subscribe(result => {
+     let ob = ErrorConstants.validateException(result);
+      if (ob.isSuccess) {
+        let cityData = [];
+        result.data.responseData.forEach(element => {
+          cityData.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
+        });
+        this.cityList = JSON.parse(JSON.stringify(cityData));
+      }else {
+        this.cityList = [];
+        this.tosterService.error(ob.message);
+      }
+      this.spinner.hide();
+    }
+    ),error=>{
       this.cityList = [];
       this.spinner.hide();
       console.log(error);
       this.tosterService.error(ErrorConstants.getValue(404));
-    }
-
-    )}
+    };
+  }
 
   closeDialog(): void {
     
@@ -1489,10 +1470,10 @@ export class ExcludePinDialogBox {
         this.tosterService.error(ob.message);
       }
       this.spinner.hide();
-    }, error => {
+    }), error => {
       this.spinner.hide();
       this.tosterService.error(ErrorConstants.getValue(404));
-    });
+    };
   }
 
   addToExcludeList() {

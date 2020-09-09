@@ -1,0 +1,155 @@
+{
+    "message": "Request Completed Successfully",
+    "data": {
+      "responseData": {
+        "id": 38,
+        "custName": "sretail022701",
+        "custLevel": "MSA BRANCH",
+        "descr": "safex retail customer",
+        "status": 197,
+        "effectiveDt": "2020-02-27",
+        "crtdDt": "27-02-2020 09:09:50.055",
+        "crtdBy": "1",
+        "updDt": "27-02-2020 09:09:50.055",
+        "updBy": "1",
+        "sla":35,
+        "notepadTrans": [
+          {
+            "id": 9,
+            "notepadId": 100,
+            "notepadInputVal": "TESTDATA",
+            "entityRefId": 38
+          },
+          {
+            "id": 10,
+            "notepadId": 101,
+            "notepadInputVal": "TESTDATA1",
+            "entityRefId": 38
+          }
+        ]
+      },
+      "referenceData": {
+        "securityTypeList": [
+          {
+            "id": 177,
+            "lookupVal": "MSA GLOBAL"
+          },
+          {
+            "id": 178,
+            "lookupVal": "MSA BRANCH"
+          },
+          {
+            "id": 179,
+            "lookupVal": "MSA CLUSTER"
+          }
+        ],
+        "notepadAttributesList": [
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 4,
+            "id": 69,
+            "notepadName": "newNote_test", 
+            "attributeTypeId": 6,
+            "attributeValue": "aaa",
+            "notepadOrder": 2
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 1,
+            "id": 2,
+            "notepadName": "note111",
+            "attributeTypeId": 2,
+            "attributeValue": "11",
+            "notepadOrder": 7
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 2,
+            "id": 100,
+            "notepadName": "TestNote",
+            "attributeTypeId": 3,
+            "attributeValue": "11",
+            "notepadOrder": 4
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 1,
+            "id": 1,
+            "notepadName": "note1",
+            "attributeTypeId": 2,
+            "attributeValue": "11",
+            "notepadOrder": 6
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 0,
+            "id": 133,
+            "notepadName": "test update",
+            "attributeTypeId": 3,
+            "attributeValue": "string",
+            "notepadOrder": 20
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 88,
+            "id": 232,
+            "notepadName": "yuwqueuq",
+            "attributeTypeId": 3,
+            "attributeValue": "3",
+            "notepadOrder": 9
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 7,
+            "id": 67,
+            "notepadName": "string",
+            "attributeTypeId": 1,
+            "attributeValue": "string",
+            "notepadOrder": 2
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 2,
+            "id": 4,
+            "notepadName": "Textbox Test",
+            "attributeTypeId": 3,
+            "attributeValue": "3",
+            "notepadOrder": 8
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 2,
+            "id": 101,
+            "notepadName": "Radio Test",
+            "attributeTypeId": 1,
+            "attributeValue": "YES,NO",
+            "notepadOrder": 4
+          },
+          {
+            "moduleGroupId": 0,
+            "moduleEntityMapId": 10,
+            "id": 166,
+            "notepadName": "Dropdown Test",
+            "attributeTypeId": 2,
+            "attributeValue": "VALUE1,VALUE2",
+            "notepadOrder": 0
+          }
+        ],
+        "attrTypeList": [
+          {
+            "id": 1,
+            "lookupVal": "RADIO BUTTON"
+          },
+          {
+            "id": 3,
+            "lookupVal": "TEXT"
+          },
+          {
+            "id": 2,
+            "lookupVal": "DROP DOWN"
+          }
+        ]
+      }
+    },
+    "status": "SUCCESS"
+  }

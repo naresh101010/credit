@@ -1,5 +1,4 @@
-<mat-card style="padding: .5rem;">
-
+<mat-card style="padding: .5rem;" class="retailContainer">  
     <div style="position: relative;">
         <h3 id="h2">Excluded Pincode</h3>
         <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
@@ -13,15 +12,15 @@
                     <div class="col-lg-6 col-md-8 paddingtophalf">
                         <mat-form-field appearance="outline">
                             <mat-select disableOptionCentering panelClass="creditSelect creditNgxSelect" name="stateId" [(value)]="stateId" 
-                            (selectionChange)="getCityList()" (blur)="scrollActiveValue()">
-                            <ngx-mat-select-search [(ngModel)]="searchCtrl" [placeholderLabel]="'Search...'"
-                              [noEntriesFoundLabel]="'Not found'" name="search">
+							(selectionChange)="getCityList()" (blur)="scrollActiveValue()">
+                             <ngx-mat-select-search [(ngModel)]="searchCtrl" [placeholderLabel]="'Search...'" 
+							 [noEntriesFoundLabel]="'Not found'" name="search">
                               <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search</mat-icon>
-                            </ngx-mat-select-search>
+                              </ngx-mat-select-search>
                                 <mat-option *ngFor="let item of (stateList | stringFilter:searchCtrl:'lookupVal') | sortBy:'asc':'lookupVal'" [value]="item.id" 
                                 [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<13" matTooltipPosition="above">
-                                    {{item.lookupVal}}
-                                </mat-option>
+								{{item.lookupVal}}
+								</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -37,8 +36,8 @@
                                 </ngx-mat-select-search>
                                 <mat-option *ngFor="let item of (cityList | stringFilter:searchCtrlCity:'lookupVal') | sortBy:'asc':'lookupVal'" [value]="item.id" 
                                 [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<13" matTooltipPosition="above">
-                                    {{item.lookupVal}}
-                                </mat-option>
+								{{item.lookupVal}}
+								</mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
@@ -59,32 +58,33 @@
                 <div class="col-lg-12 col-md-12 row-margin" >
                     <div class="col-lg-5 col-md-5 row-margin">
                         <div class="col-lg-1 col-md-1 zonalheadingbar">
-                            <mat-checkbox name="allCheckedInc" [(ngModel)]="allCheckedInc" [checked]="allCheckedInc" (change)="changeAllInc($event.checked)">
-                            </mat-checkbox>
-                        </div>
+			     <mat-checkbox name="allCheckedInc" [(ngModel)]="allCheckedInc" [checked]="allCheckedInc" (change)="changeAllInc($event.checked)">
+                            </mat-checkbox>			
+						
+						</div>
                         <div class="col-lg-3 col-md-3 zonalheadingbar fonts">PINCODE</div>
                         <div class="col-lg-8 col-md-6 zonalheadingbar fonts">CITY</div>
                     </div>
                     <div class="col-lg-2 col-md-2 row-margin"></div>
                     <div class="col-lg-5 col-md-5 row-margin">
-                        <div class="col-lg-1 col-md-1 zonalheadingbar">
-                            <mat-checkbox name="allCheckedEx" [(ngModel)]="allCheckedEx" [checked]="allCheckedEx" (change)="changeAllEx($event.checked)">
+                        <div class="col-lg-1 col-md-1 zonalheadingbar"> 
+						<mat-checkbox name="allCheckedEx" [(ngModel)]="allCheckedEx" [checked]="allCheckedEx" (change)="changeAllEx($event.checked)">
                             </mat-checkbox>
-                        </div>
+							</div>
                         <div class="col-lg-3 col-md-3 zonalheadingbar fonts">PINCODE</div>
                         <div class="col-lg-8 col-md-6 zonalheadingbar fonts">CITY</div>
                     </div>
                 </div>
-                <div class="col-lg-12 col-md-12 row-margin">
+                <div class="col-lg-12 col-md-12 row-margin ">
                     <div class="col-lg-5 col-md-5 row-margin pincode_scroll">
-                        <div class="col-lg-12 col-md-12  paddingleft1point5"
-                            *ngFor="let ccData of allPincodeList; let i = index">
-                            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 border-bottom paddingleftzero">
-                                <mat-checkbox name="isChecked" (change)="resetAllInc()" [(ngModel)]="ccData.isChecked" [checked]=ccData.isChecked>
+                        <div class="col-lg-12 col-md-12 paddingleft1four"
+                            *ngFor="let ccData of allPincodeList | sortBy:'asc':'pincode'; let i = index">
+                            <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 border-bottom row-margin paddingleftzero">
+                                <mat-checkbox name="isChecked" (change)="resetAllInc()"  [(ngModel)]="ccData.isChecked" [checked]=ccData.isChecked>
                                 </mat-checkbox>
                             </div>
-                            <div class="col-lg-3 col-md-3 border-bottom row-margin">{{ccData.pincode}}</div>
-                            <div class="col-lg-8 col-md-8 border-bottom paddingleftone">{{ccData.city}}</div>
+                            <div class="col-lg-3 col-md-3 border-bottom paddingleftone">{{ccData.pincode}}</div>
+                            <div class="col-lg-8 col-md-8 border-bottom">{{ccData.city}} </div>
                         </div>
                     </div>
                     <div class="col-lg-2 col-md-2 row-margin">
@@ -94,15 +94,17 @@
                             </div>
                         <div class="col-lg-12 col-md-12 row-margin">
                             <mat-icon (click)="removeFromExcludeList()" id="backIcon" mat-card-avatar
-                                aria-label="Add to excluded list" style="font-size: xxx-large; margin-left: 25%; cursor: pointer; font-weight: bold;">arrow_back</mat-icon>                             
+                                aria-label="Add to excluded list" style="font-size: xxx-large; margin-left: 25%; cursor: pointer; font-weight: bold;">arrow_back</mat-icon>
+                            
                         </div>
-                     </div>
-                    <div class="col-lg-5 col-md-5 pincode_scroll">
-                        <div class="col-lg-12 col-md-12" style="padding-left: 0 !important;" *ngFor="let ccData of excludedPincodeList; let i = index">    
+                    </div>
+                    <div class="col-lg-5 col-md-5 paddingleftzero pincode_scroll">
+                        <div class="col-lg-12 col-md-12"
+                            *ngFor="let ccData of excludedPincodeList | sortBy:'asc':'pincodeId'; let i = index">    
                         <div class="col-lg-1 col-md-1 border-bottom paddingleftzero ">
                             <mat-checkbox name="isChecked" (change)="resetAllEx()" [(ngModel)]="ccData.isChecked" [checked]=ccData.isChecked></mat-checkbox>
                         </div>
-                        <div class="col-lg-3 col-md-3 border-bottom paddingleftzero">{{ccData.pincodeId}}</div>
+                        <div class="col-lg-3 col-md-3 border-bottom paddingleftone">{{ccData.pincodeId}}</div>
                         <div class="col-lg-8 col-md-8 border-bottom ">{{ccData.city}}</div>
                     </div>
                     </div>

@@ -1,24 +1,25 @@
-<form name="fservice" (ngSubmit)="serviceForm.form.valid " #serviceForm="ngForm" >
+<form name="fservice" (ngSubmit)="serviceForm.form.valid " #serviceForm="ngForm">
+  <div class="hero-content retailContainer">
+    <div class="row text-left parent">
 
-<div class="hero-content">
-  <div class="row text-left parent">      
-  
-    <div class="breadcrumb">
-      <a routerLink="/contract/credit" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/contract/credit" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
-      <a routerLink="/contract/credit" target="_self">Customer</a><span class="fa fa-caret-right"></span>
-      CREDIT
-  </div>
+      <div class="breadcrumb">
+        <a routerLink="/retail-contract/retail" target="_self">Dashboard</a><span class="fa fa-caret-right"></span>
+        <a routerLink="/retail-contract/retail" target="_self">Contracts</a><span class="fa fa-caret-right"></span>
+        <a routerLink="/retail-contract/retail" target="_self">Customer</a><span class="fa fa-caret-right"></span>
+        RETAIL
+      </div>
       <stepper></stepper>
     </div>
-  
-  <h3>Credit Contract</h3>
-  <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign="space-between center" fxLayoutAlign.xs="space-between start" class="mat-card-header-container">
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Customer Name : </span><span span class="row_center salesForceWidth" 
-      [matTooltip]="custName | uppercase" matTooltipPosition="above" [matTooltipDisabled]="custName?.length<33">{{custName}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>Salesforce Account Id : </span><span class="row_center salesForceWidth">{{sfdcAccId}}</span></div>
-      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span>SFX Code : </span><em class="row_center salesForceWidth">{{sfxCode}}</em></div>
-   
+
+    <h3>Retail Contract</h3>
+    <div id="mat-card-heading" fxLayout="row" fxLayout.xs="column" fxLayoutAlign.xs="space-between start"
+      class="mat-card-header-container">
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span class="fw600">MSA Level :
+        </span><span style="margin-left: 10px"> {{msaLevel}}</span>
+      </div>
+      <div fxFlex=33 fxFlex.xs=100 fxLayout="row" fxLayoutAlign="start"><span class="fw600">Retail Code : </span>
+        <span style="margin-left: 10px"> <em>{{retailCode}}</em></span>
+      </div>
     </div>
   
   <mat-card  style="box-shadow: none;">
@@ -29,14 +30,14 @@
           <div class="col-lg-6 col-md-6 label-text">Service Line<span style="color: red;"> *</span></div>
           <div class="col-lg-6 col-md-6 label-text-value">              
           <mat-form-field appearance="outline" style="width: 88%;">
-          <mat-select disableOptionCentering panelClass="creditSelect" required #serLine='ngModel' [disabled]="isDisabled"  placeholder="Select Option" name ="lkpServiceLineId" [(ngModel)]="model.lkpServiceLineId" >
+          <mat-select disableOptionCentering panelClass="creditSelect2" required #serLine='ngModel' [disabled]="isDisabled" placeholder="Select Option" name ="lkpServiceLineId" [(ngModel)]="model.lkpServiceLineId" >
             <mat-option (click)=getServiceOfering(item.id,true) *ngFor="let item of servicelinelist | sortBy:'asc':'lookupVal'" [value]="item.id" 
             [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<22" matTooltipPosition="above">
               {{item.lookupVal}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-validation-msg *ngIf="(serLine.errors?.required && serLine.touched)" [msg]="'Required !'"></app-validation-msg>
+        <app-validation-msg *ngIf="(serLine.errors?.required && serLine.touched)" [msg]="'Required !'" style="display: block !important;"></app-validation-msg>
           </div>
        </div>
   
@@ -70,18 +71,16 @@
       </div>
     </div>
   </div>
-  
-  
+    
   <div class="row" *ngIf="isWmsPercRequired">
       <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4"  >
-      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 label-text paddingleftzero">WMS Percentage<span style="color: red;"> *</span></div>
+      <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 label-text" style="padding-left: 0 !important;">WMS Percentage<span style="color: red;"> *</span></div>
       <div class="col-lg-6 col-md-6 col-sm-6 col-xl-6 label-text-value">          
         <mat-form-field appearance="outline" style="height: 27px; width: 95%;" id="datepick">
-          <input matInput name="wmsPct" #WMSPer='ngModel' required numeric decimals="2" (keyup)="selectOffering(null);chkvalidation()" (blur)="selectOffering(null);chkvalidation();"
-          pattern="^100$|^\d{0,2}(\.\d{1,2})?%?$|^0\.\d{1,2}?$" [(ngModel)]="model.wmsPct" maxlength="5">
-        </mat-form-field>
-        <app-validation-msg class="blockDisplay" *ngIf="(WMSPer.errors?.required && WMSPer.touched)" [msg]="'Required !'"></app-validation-msg>     
-        <app-validation-msg class="blockDisplay" *ngIf="(WMSPer.errors?.pattern && (WMSPer.dirty || WMSPer.touched) && !WMSPer.errors?.required)" [msg]="'Not a valid Percentage !'"></app-validation-msg>
+          <input matInput type="number" name="wmsPct" #WMSPer='ngModel' required numeric decimals="2" [(ngModel)]="model.wmsPct" maxlength="8">
+        </mat-form-field>   
+        <app-validation-msg *ngIf="(WMSPer.errors?.required && WMSPer.touched)" [msg]="'Required !'" style="display: block !important;"></app-validation-msg>
+     
       </div>
       </div>
     </div>  

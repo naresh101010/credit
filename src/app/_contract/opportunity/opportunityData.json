@@ -1,0 +1,232 @@
+{
+    "opportunityData": {
+      "id": 958,
+      "msaCustId": 1091,
+      "status": 197,
+      "lkpOpprType": "NEW OPPORTUNITY",
+      "opprName": "OLPER001",
+      "sfdcOpprId": "A06N0000TEKIAD",
+      "sfdcCrtdDt": "2019-10-29",
+      "originatingSrc": "SALESFORCE",
+      "closeDt": "2020-01-06",
+      "gstinNum": "20AAAAA0000A1Z5",
+      "prdctCtgy": "ELECTRONICS",
+      "sfdcStage": "CLOSED WON",
+      "packType": "WSDD",
+      "website": "",
+      "valOfGoodsWaybl": 0,
+      "ver": 0,
+      "descr": "DESCRIPTION",
+      "effectiveDt": "2020-01-06",
+      "expDt": "2019-10-29",
+      "crtdDt": "2020-01-07 04:32:11.246",
+      "crtdBy": "USER1",
+      "updDt": "2020-01-07 04:32:11.246",
+      "updBy": "USER1",
+      "contractId": 1060,
+      "opprAddr": [
+        {
+          "id": 958,
+          "lkpAddrTypeId": 155,
+          "addr": "wqewre",
+          "pincodeId": "110037            ",
+          "ver": 0,
+          "effectiveDt": "2020-01-07",
+          "crtdDt": "2020-01-07 04:32:11.247",
+          "crtdBy": "USER1",
+          "updDt": "2020-01-07 04:32:11.247",
+          "updBy": "USER1",
+          "validValue": false
+        }
+      ],
+      "contract": {
+        "id": 1060,
+        "cntrType": "47",
+        "cntrSignDt": "2020-01-20",
+        "folioNum": 1100,
+        "cntrVersion": 1,
+        "lkpBizTypeId": 19,
+        "msaCustId": 1091,
+        "recIdentifier": 1578578288348,
+        "ver": 0,
+        "effectiveDt": "2020-01-22",
+        "expDt": "2020-01-27",
+        "crtdDt": "2020-01-09 13:58:08.348",
+        "crtdBy": "USER123",
+        "updDt": "2020-01-09 13:58:08.348",
+        "updBy": "USER123",
+        "opportunityId": 958,
+        "directPickupFlag": 1,
+        "dlvryHoldFlag": 1,
+        "segmentId": 3,
+        "subsegmentId": 12
+      }
+    },
+    "refernceList": {
+      "businessTypeList": [
+        {
+          "id": 19,
+          "lookupVal": "INBOUND"
+        },
+        {
+          "id": 20,
+          "lookupVal": "OUTBOUND"
+        },
+        {
+          "id": 21,
+          "lookupVal": "ANYWHERE TO ANYWHERE"
+        }
+      ],
+      "statusList": [
+        {
+          "id": 140,
+          "lookupVal": "ACTIVE"
+        },
+        {
+          "id": 141,
+          "lookupVal": "DRAFT"
+        },
+        {
+          "id": 142,
+          "lookupVal": "INACTIVE"
+        },
+        {
+          "id": 143,
+          "lookupVal": "ONHOLD"
+        },
+        {
+          "id": 144,
+          "lookupVal": "CLOSED"
+        }
+      ],
+      "opporTypeList": [
+        {
+          "id": 198,
+          "lookupVal": "New Opportunity"
+        },
+        {
+          "id": 199,
+          "lookupVal": "Renew Opportunity"
+        }
+      ],
+      "contractTypeList": [
+        {
+          "id": 158,
+          "lookupVal": "3PL"
+        },
+        {
+          "id": 160,
+          "lookupVal": "FTL"
+        },
+        {
+          "id": 159,
+          "lookupVal": "TRANSPORTATION+3PL"
+        },
+        {
+          "id": 47,
+          "lookupVal": "CREDIT"
+        },
+        {
+          "id": 48,
+          "lookupVal": "RETAIL"
+        },
+        {
+          "id": 49,
+          "lookupVal": "PRC"
+        }
+      ],
+      "dlvryHoldRsn": [
+        {
+          "id": 260,
+          "lookupVal": "REASON 1"
+        },
+        {
+          "id": 261,
+          "lookupVal": "REASON 2"
+        }
+      ],
+      "segmentList": [
+        {
+          "id": 2,
+          "segmentName": "APPARELS & LIFESTYLE"
+        },
+        {
+          "id": 3,
+          "segmentName": "PUBLISHING"
+        },
+        {
+          "id": 4,
+          "segmentName": "HI TECH"
+        },
+        {
+          "id": 5,
+          "segmentName": "HEALTHCARE"
+        },
+        {
+          "id": 6,
+          "segmentName": "FMCG/CONSUMER GOODS"
+        },
+        {
+          "id": 7,
+          "segmentName": "ENGINEERING & ELECTRICAL HARDWARE"
+        },
+        {
+          "id": 8,
+          "segmentName": "INSTITUTIONAL"
+        },
+        {
+          "id": 9,
+          "segmentName": "RETAIL SPECIAL SERVICES"
+        },
+        {
+          "id": 134,
+          "segmentName": "Cosmetics"
+        },
+        {
+          "id": 140,
+          "segmentName": "Cosmetics_11"
+        },
+        {
+          "id": 167,
+          "segmentName": "Cosmetics_53"
+        },
+        {
+          "id": 200,
+          "segmentName": "update"
+        },
+        {
+          "id": 233,
+          "segmentName": "jahshajsh"
+        },
+        {
+          "id": 266,
+          "segmentName": "string987"
+        },
+        {
+          "id": 1,
+          "segmentName": "Test segment"
+        },
+        {
+          "id": 103,
+          "segmentName": "string103"
+        }
+      ],
+      "subSegmentList": [
+        {
+          "subsegmentName": "PUBLISHING HOUSES",
+          "segmentId": 3,
+          "id": 11
+        },
+        {
+          "subsegmentName": "PRINTING PRESS",
+          "segmentId": 3,
+          "id": 12
+        },
+        {
+          "subsegmentName": "Stationary",
+          "segmentId": 3,
+          "id": 13
+        }
+      ]
+    }
+  }

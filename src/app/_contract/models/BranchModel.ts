@@ -1,28 +1,35 @@
 
-export class BranchModel{
-    assignBranch :[{
-                    bkngBranchId: number
-                    effectiveDt: Date
-                    billableWghtFlag: number
-                    bkngBranchHoldFlag: number
-                    dlvryBranchHoldFlag: number
-                    lkpBkngBranchHoldRsn: number
-                    lkpDlvryBranchHoldRsn: number
-                    expDt: Date
-                    id: number
-                    branchPinCneeCnorMap: object
-                    ratecardId: number
-                }]
-    referenceList :{
-                    bookingBranchList:[{
-                                        branchId:number
-                                        branchCode:string
-                                        branchName:string
-                                     }]
-                        dlvryHoldRsn:[{
-                                        id:number
-                                        lookupVal:string
-                                        descr:string
-                                     }]
-                }
+export class BranchModel {
+
+    id: number;
+    branchPinCneeCnorMap: object;
+    bkngBranchId: number;
+    bkngBranchName: string;
+    dlvryBranchHoldFlag: number;
+    effectiveDt: Date;
+    lkpBkngBranchHoldRsn: number;
+    entityId: number;
+    expDt: Date;
+    assignBranchLevel: string;
+// assignBranch: [{
+//     id: number
+//     branchPinCneeCnorMap: object
+//     bkngBranchId: number,
+//     bkngBranchName: string,
+//     dlvryBranchHoldFlag: number,
+//     effectiveDt: Date,
+//     lkpBkngBranchHoldRsn: number,
+//     entityId: number,
+//     expDt: Date,
+//     assignBranchLevel: string
+// }]
+referenceList: {
+    bkngHoldRsn: [{
+        id: number
+        lookupVal: string
+        descr: string
+    }]
+
+
+}
 }

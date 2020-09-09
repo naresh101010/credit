@@ -23,7 +23,7 @@ export class AuthorizationService {
     this.attrExclusionMap = new Map();
     if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
       this.data.childMenu.map(item => {
-        if (item.menuLabel === 'CREDIT') {
+        if (item.menuLabel === 'RETAIL') {
           item.permissions.map(permission => {
             if (permission.entityName === entityName && permission.channelId === 33) {
                console.log("1");
@@ -47,16 +47,6 @@ export class AuthorizationService {
       return;
     }
   }
-
-  getMenuHierarchyId(){
-   if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
-      let menu = this.data.childMenu.filter(function (item) {
-                 return item.target === 'CREDIT';
-               });
-     return menu;
-    }
-  }
-
 
   setPermissionMap(permission) {
     let per = this.permissionMap.get(permission.entityName) == null ? [] : this.permissionMap.get(permission.entityName);
@@ -91,5 +81,14 @@ export class AuthorizationService {
       return [];
     }
   }
+  getMenuHierarchyId(){
+    if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
+       let menu = this.data.childMenu.filter(function (item) {
+                  return item.target === 'RETAIL';
+                });
+      return menu;
+     }
+   }
+
 
 }

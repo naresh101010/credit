@@ -49,42 +49,42 @@ export class CompareversionsComponent implements OnInit {
 
   }
 
-  ifRatecardClustBranchCosignObjectChanged( sindex, rindex, cindex, item){
-    let serviceOfferingsObj, rateCardsObj, branchObj, branchPinCneeCnorDtoListObj1;
-    let serviceOfferingsObj2, rateCardsObj2, branchObj2, branchPinCneeCnorDtoListObj2;
+  // ifRatecardClustBranchCosignObjectChanged( sindex, rindex, cindex, item){
+  //   let serviceOfferingsObj, rateCardsObj, branchObj, branchPinCneeCnorDtoListObj1;
+  //   let serviceOfferingsObj2, rateCardsObj2, branchObj2, branchPinCneeCnorDtoListObj2;
 
-    serviceOfferingsObj = this.obj1.serviceOfferings[sindex];
-    rateCardsObj = serviceOfferingsObj.rateCards[rindex];
-    branchObj = rateCardsObj.branchDTOs[cindex];
+  //   serviceOfferingsObj = this.obj1.serviceOfferings[sindex];
+  //   rateCardsObj = serviceOfferingsObj.rateCards[rindex];
+  //   branchObj = rateCardsObj.branchDTOs[cindex];
 
-    serviceOfferingsObj2 = _.find(this.obj2.serviceOfferings, {'serviceLine': serviceOfferingsObj.serviceLine, 'serviceOfferingName': serviceOfferingsObj.serviceOfferingName});
-    if(serviceOfferingsObj2){
-      rateCardsObj2 =  serviceOfferingsObj2.rateCards;     
-      if(rateCardsObj2){
-        rateCardsObj2.filter(obj => {
-         let commercialObjTemp = _.find(obj.branchDTOs, {'id' : branchObj.id}); 
-          if(commercialObjTemp){
-            branchObj2 = commercialObjTemp
-          }
-        });
-        if (branchObj2) {
-          branchPinCneeCnorDtoListObj1 = item;
-          branchPinCneeCnorDtoListObj2 = _.find(branchObj2.branchPinCneeCnorDtoList, { 'cneeCnorId': item.cneeCnorId });
-          if (branchPinCneeCnorDtoListObj2) {
-            return false
-          } else {
-            return true;
-          }
-        } else {
-          return true;
-        }
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
+  //   serviceOfferingsObj2 = _.find(this.obj2.serviceOfferings, {'serviceLine': serviceOfferingsObj.serviceLine, 'serviceOfferingName': serviceOfferingsObj.serviceOfferingName});
+  //   if(serviceOfferingsObj2){
+  //     rateCardsObj2 =  serviceOfferingsObj2.rateCards;     
+  //     if(rateCardsObj2){
+  //       rateCardsObj2.filter(obj => {
+  //        let commercialObjTemp = _.find(obj.branchDTOs, {'id' : branchObj.id}); 
+  //         if(commercialObjTemp){
+  //           branchObj2 = commercialObjTemp
+  //         }
+  //       });
+  //       if (branchObj2) {
+  //         branchPinCneeCnorDtoListObj1 = item;
+  //         branchPinCneeCnorDtoListObj2 = _.find(branchObj2.branchPinCneeCnorDtoList, { 'cneeCnorId': item.cneeCnorId });
+  //         if (branchPinCneeCnorDtoListObj2) {
+  //           return false
+  //         } else {
+  //           return true;
+  //         }
+  //       } else {
+  //         return true;
+  //       }
+  //     }else{
+  //       return true;
+  //     }
+  //   }else{
+  //     return true;
+  //   }
+  // }
 
 
   compareVersions(data: any) {
@@ -124,8 +124,8 @@ export class CompareversionsComponent implements OnInit {
           this.isv1 = true;
 
           this.contractService.getHistoryPreviewContractVersion(this.data.contractId, version2)
-            .subscribe(result_ => {
-              this.obj2 = result_.data.responseData;
+            .subscribe(result => {
+              this.obj2 = result.data.responseData;
               for (let objS of this.obj2.serviceOfferings) {
                 if (objS.rateCards) {
                   for (let objR of objS.rateCards) {
@@ -190,8 +190,8 @@ export class CompareversionsComponent implements OnInit {
           }
           this.enableDialog = true;
           this.contractService.getHistoryPreviewContractVersion(this.data.contractId, version2)
-            .subscribe(result_ => {
-              this.obj2 = result_.data.responseData;
+            .subscribe(result => {
+              this.obj2 = result.data.responseData;
               /**
                * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
                * and set the same at commercial level
@@ -238,9 +238,7 @@ export class CompareversionsComponent implements OnInit {
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
     }
-    else {
-        return false;
-    }
+    else false;
   }
 
   ifBillingCneeorMapObjectChanged(bindex, property) {
@@ -248,9 +246,7 @@ export class CompareversionsComponent implements OnInit {
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
     }
-    else {
-      return false
-    }
+    else false;
   }
 
   ifServiceObjectChanged(sindex, property) {
@@ -259,9 +255,7 @@ export class CompareversionsComponent implements OnInit {
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
     }
-    else {
-      return false;
-    }
+    else false;
   }
 
   ifRatecardObjectChanged(item, sindex, rindex, property) {
@@ -344,47 +338,22 @@ export class CompareversionsComponent implements OnInit {
     }
   }
 
-  ifTncNotePadObjectChanged(sindex, rindex, nindex, obj, property) {  
+  ifTncNotePadObjectChanged(obj, property) {
     // notepadInputVal
-  let serviceOfferingsObj, rateCardsObj, tncObj, notepadOBJ;
-  let serviceOfferingsObj2, rateCardsObj2, tncObj2, notepadOBJ2;
-
-  serviceOfferingsObj = this.obj1.serviceOfferings[sindex];
-  rateCardsObj = serviceOfferingsObj.rateCards[rindex];
-  tncObj = rateCardsObj.tncDTO;
-  notepadOBJ = tncObj.notepadDtoList[nindex];
-
-  serviceOfferingsObj2 = _.find(this.obj2.serviceOfferings, {'serviceLine': serviceOfferingsObj.serviceLine, 'serviceOfferingName': serviceOfferingsObj.serviceOfferingName});
-  if(serviceOfferingsObj2){
-    rateCardsObj2 =  serviceOfferingsObj2.rateCards;     
-    if(rateCardsObj2){
-      let temp =  rateCardsObj2.filter(obj_ => {
-        return obj_.tncDTO.id ==  tncObj.id;
-       }); 
-       if(temp.length > 0){
-         tncObj2 = temp[0].tncDTO;
-       }
-      if(tncObj2){
-        notepadOBJ2 = _.find(tncObj2.notepadDtoList, {'id' : notepadOBJ.id}); 
-        if(notepadOBJ2){
-          if(notepadOBJ2[property] != notepadOBJ[property]){
-            return true
-        }else {
-          return false;
-        }
-        }else{
-          return true;
-        }
-      }else {
-        return true;
+    let notepadOBJ;
+    let notepadOBJ2;
+    notepadOBJ = obj;//tncObj.notepadDtoList[nindex];
+    notepadOBJ2 = _.find(this.obj2.retailCustomerDTO.notepadTrans, { 'id': notepadOBJ.id });
+    if (notepadOBJ2) {
+      if (notepadOBJ2[property] != notepadOBJ[property]) {
+        return true
+      } else {
+        return false;
       }
-    }else{
+    } else {
       return true;
     }
-  }else{
-    return true;
-  }
-  
+
 
 
   }
@@ -462,6 +431,44 @@ export class CompareversionsComponent implements OnInit {
         return true;
       }
     }else{
+      return true;
+    }
+  }
+  // Cluster Branch Start 
+  ifRatecardClustBranchObjectChanged(item, property) {
+   // debugger
+    let branchObj;
+    let branchObj2: any = [];
+    branchObj = item;//this.obj1.branchDTOs[cindex];
+    
+    branchObj2 = _.find(this.obj2.clusterBranchDTOs, { 'id': branchObj.id });
+
+    if (branchObj2) {
+      if (branchObj2[property] != branchObj[property]) {
+        return true
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+  }
+  // Cluster Branch End
+
+  ifRatecardClustBranchCosignObjectChanged(branchItem,b,j,item, property){
+    let branchObj, branchPinCneeCnorDtoListObj1;
+    let branchObj2: any = [], branchPinCneeCnorDtoListObj2;
+    branchObj = branchItem;//this.obj1.branchDTOs[cindex];
+    branchObj2 = _.find(this.obj2.clusterBranchDTOs, { 'id': branchObj.id });
+    if (branchObj2) {
+      branchPinCneeCnorDtoListObj1 = item;
+      branchPinCneeCnorDtoListObj2 = _.find(branchObj2.branchPinCneeCnorDtoList, { 'id': item.cneeCnorId });
+      if (branchPinCneeCnorDtoListObj2) {
+        return true
+      } else {
+        return false;
+      }
+    } else {
       return true;
     }
   }
@@ -1054,42 +1061,6 @@ export class CompareversionsComponent implements OnInit {
     }
   }
 
-  
-  ifRatecardVmiObjectChanged(item, sindex, rindex, cindex, property) {
-    let serviceOfferingsObj, rateCardsObj, branchObj;
-    let serviceOfferingsObj2, rateCardsObj2, branchObj2;
-
-    serviceOfferingsObj = this.obj1.serviceOfferings[sindex];
-    rateCardsObj = serviceOfferingsObj.rateCards[rindex];
-    branchObj = rateCardsObj.vmiDTOs[cindex];
-
-    serviceOfferingsObj2 = _.find(this.obj2.serviceOfferings, {'serviceLine': serviceOfferingsObj.serviceLine, 'serviceOfferingName': serviceOfferingsObj.serviceOfferingName});
-    if(serviceOfferingsObj2){
-      rateCardsObj2 =  serviceOfferingsObj2.rateCards;     
-      if(rateCardsObj2){
-        rateCardsObj2.filter(obj => {
-         let commercialObjTemp = _.find(obj.vmiDTOs, {'id' : branchObj.id}); 
-          if(commercialObjTemp){
-            branchObj2 = commercialObjTemp
-          }
-        });
-        if(branchObj2){
-          if(branchObj2[property] != branchObj[property]){
-              return true
-          }else {
-            return false;
-          }
-        }else {
-          return true;
-        }
-      }else{
-        return true;
-      }
-    }else{
-      return true;
-    }
-  }
-  
   compareVersionDifference(obj1, obj2) {
     const result = {};
     if (Object.is(obj1, obj2)) {

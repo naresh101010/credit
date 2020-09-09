@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, Inject, HostListener, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { ContractService } from '../contract.service';
 import { ViewChild } from '@angular/core'
 import { MatExpansionPanel } from '@angular/material';
@@ -27,11 +27,14 @@ import { customSlaDTO } from '../models/customSlaDTO';
 import { slaDTO } from '../models/slaDTO';
 import { PincodesearchComponent } from '../pincodesearch/pincodesearch.component';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
+import { DataService } from "../msa/sharedata.service";
 import * as _ from 'lodash';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
+import * as moment from "moment";
 import { CitysearchComponent } from '../citysearch/citysearch.component';
 import { StatesearchComponent } from '../statesearch/statesearch.component';
+
 
 //for select
 export interface Food {
@@ -214,9 +217,36 @@ filterDataByAreaList(branch){
   this.data.branchId=branch.branchId;
 }
 
+  filterCheckData(tdata)
+  {
+    let fdata= tdata.map(function(num) {
+          if (num.checked === true) {
+            return {
+            bkngBranchId: num.branchId,
+            bkngBranchName: num.branchName,
+            dlvryBranchHoldFlag: 0,
+            effectiveDt: AppSetting.branchEffectiveDt,
+            lkpBkngBranchHoldRsn: '',
+            entityId: AppSetting.branchentityId,
+            expDt: '',
+            assignBranchLevel: "MSA BRANCH",
+           
+          }
+         
+          }
+          });
 
-@HostListener('document:keydown', ['$event'])
-handleKeyboardEvent(event: KeyboardEvent) {
+    let udata = fdata.filter(function( element ) {
+    return element !== undefined;
+    });
+
+    return udata;
+  }
+
+
+  //retail changes
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardEvent(event: KeyboardEvent) {
     if (event.keyCode === 27) { // esc [Close Dialog]
       event.preventDefault();
       if(document.getElementById('closeButton')){
@@ -234,7 +264,7 @@ handleKeyboardEvent(event: KeyboardEvent) {
   styleUrls: ['../core.css']
 })
 
-export class RatecardComponent implements OnInit {  
+export class RatecardComponent implements OnInit, AfterViewChecked {  
   selectedCommandment:any='RATECARD LEVEL';
   
 // hover flag
@@ -274,10 +304,9 @@ export class RatecardComponent implements OnInit {
   }
 
  addSlabVal(){
-  if(this.zmslabto1>9999999999 || this.zmslabto1<0) {
+  if(this.zmslabto1>99898 || this.zmslabto1<0) {
     this.zmslabto1 = this.prevzmslabto1;
-    this.updateTootlipSlab();
-    this.tosterservice.info('Please enter values between <0 - 9999999999>');
+    this.tosterservice.info('Please enter values between <0 - 99898>');
     return;
    }
    if(this.CommercialDataModel.ZonalSlabCounter===2){
@@ -296,13 +325,11 @@ export class RatecardComponent implements OnInit {
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
-   this.updateTootlipSlab();
  }
  addSlabVal1(){
-  if(this.zmslabto1>9999999999 || this.zmslabto1<0) {
+  if(this.zmslabto1>99898 || this.zmslabto1<0) {
     this.zmslabto1 = this.prevzmslabto1;
-    this.updateTootlipSlab();
-   this.tosterservice.info('Please enter values between <0 - 9999999999>');
+   this.tosterservice.info('Please enter values between <0 - 99898>');
    return;
   }
   if(this.CommercialDataModel.ZonalSlabCounter===2){
@@ -333,13 +360,12 @@ export class RatecardComponent implements OnInit {
    this.zmslabfrom5 = this.zmslabto4 +1
    this.zmslabto5 = this.zmslabfrom5+100;
   }
-  this.updateTootlipSlab();
+
 }
  addSlabVal2(){
-   if(this.zmslabto2<this.zmslabfrom2 || this.zmslabto2>9999999999) {
+   if(this.zmslabto2<this.zmslabfrom2 || this.zmslabto2>99898) {
     this.zmslabto2 = this.prevzmslabto2;
-    this.updateTootlipSlab();
-    this.tosterservice.info('Please enter values between <0 - 9999999999>');
+    this.tosterservice.info('Please enter values between <0 - 99898>');
     return;
    }
   if(this.CommercialDataModel.ZonalSlabCounter===3){
@@ -360,13 +386,12 @@ export class RatecardComponent implements OnInit {
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
-   this.updateTootlipSlab();
+
  }
  addSlabVal3(){
-  if(this.zmslabto3<this.zmslabfrom3 || this.zmslabto3>9999999999) {
+  if(this.zmslabto3<this.zmslabfrom3 || this.zmslabto3>99898) {
     this.zmslabto3 = this.prevzmslabto3;
-    this.updateTootlipSlab();
-    this.tosterservice.info('Please enter values between <0 - 9999999999>');
+    this.tosterservice.info('Please enter values between <0 - 99898>');
     return;
    }
    if(this.CommercialDataModel.ZonalSlabCounter===4){
@@ -379,30 +404,26 @@ export class RatecardComponent implements OnInit {
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
-   this.updateTootlipSlab();
 }
 addSlabVal4(){
-  if(this.zmslabto4<this.zmslabfrom4 || this.zmslabto4>9999999999) {
+  if(this.zmslabto4<this.zmslabfrom4 || this.zmslabto4>99898) {
     this.zmslabto4 = this.prevzmslabto4;
-    this.updateTootlipSlab();
-    this.tosterservice.info('Please enter values between <0 - 9999999999>');
+    this.tosterservice.info('Please enter values between <0 - 99898>');
     return;
    }
    if(this.CommercialDataModel.ZonalSlabCounter===5){
     this.zmslabfrom5 = this.zmslabto4 +1
     this.zmslabto5 = this.zmslabfrom5+100;
    }
-   this.updateTootlipSlab();
-}
+
+  }
 
 addSlabVal5(){
-  if(this.zmslabto5<this.zmslabfrom5 || this.zmslabto5>9999999999) {
+  if(this.zmslabto5<this.zmslabfrom5) {
     this.zmslabto5 = this.prevzmslabto5;
-    this.updateTootlipSlab();
-    this.tosterservice.info('Please enter values between <0 - 9999999999>');
+    this.tosterservice.info('Please enter values between <0 - 99898>');
     return;
    }
-   this.updateTootlipSlab();
 }
 
   showArray2 = false;
@@ -467,32 +488,32 @@ addSlabVal5(){
    addFieldColumn() {
     
     if(this.CommercialDataModel.ZonalSlabCounter==1){
-      if(this.zmslabto1>9999999998){
-        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
+      if(this.zmslabto1>99899){
+        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==2){
-      if(this.zmslabto2>9999999998){
-        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
+      if(this.zmslabto2>99899){
+        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==3){
-      if(this.zmslabto3>9999999998){
-        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
+      if(this.zmslabto3>99899){
+        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==4){
-      if(this.zmslabto4>9999999998){
-        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
+      if(this.zmslabto4>99899){
+        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
         return;
       }
     }
     if(this.CommercialDataModel.ZonalSlabCounter==5){
-      if(this.zmslabto5>9999999998){
-        this.tosterservice.info('You Have Reached Max<9999999999> Slab Value !');
+      if(this.zmslabto5>99899){
+        this.tosterservice.info('You Have Reached Max<99999> Slab Value !');
         return;
       }
     }
@@ -674,12 +695,19 @@ signDate(){
   this.branchPanel = false;
  }
 
- openSLA(){
-  this.slaPanel = true;
- }
- closeSLA(){
-  this.slaPanel = false;
- }
+  submitButnFlag: boolean = false;
+  openSLA() {
+    this.slaPanel = true;
+    if (this.msaCustLevelName == "MSA BRANCH" || this.msaCustLevelName == "MSA GLOBAL") {
+      this.submitButnFlag = true;
+    }
+  }
+  closeSLA() {
+    this.slaPanel = false;
+    if (this.msaCustLevelName == "MSA BRANCH" || this.msaCustLevelName == "MSA GLOBAL") {
+      this.submitButnFlag = false;
+    }
+  }
 
  openVMI(){
   this.vmiPanel = true;
@@ -688,7 +716,10 @@ signDate(){
   this.vmiPanel = false;
  }
 
-
+  expiryMinDate: any;
+  checkForExpiryDate(effectiveDt) {
+    return this.expiryMinDate = moment(effectiveDt, 'YYYY-MM-DD').add(1, "d").format('YYYY-MM-DD');
+  }
 
  @HostListener('document:keydown', ['$event'])
  handleKeyboardEvent(event: KeyboardEvent) {    
@@ -880,6 +911,8 @@ signDate(){
 
   minDate;
   maxDate;
+  msaLevel: string;
+  retailCode: string;
 
   @ViewChild('first',{static: false}) first: MatExpansionPanel;
   @ViewChild('second',{static: false}) second: MatExpansionPanel;
@@ -948,13 +981,22 @@ signDate(){
     if(this.ratecard)this.ratecard.resetForm();
     this.isValidStartDt= false;
     this.isValidEndDt = false;
-    this.isValidSignDt = false;
-    this.contractservice.getOportunity(AppSetting.oprtunityId,this.editflow).subscribe(success => {
-      
-      this.opportunity.opportunityData = success.data.responseData;
-      this.minDate = this.opportunity.opportunityData.contract.effectiveDt;
-      this.maxDate = this.opportunity.opportunityData.contract.expDt;
-      {
+ this.isValidSignDt = false;
+    // this.sharedSearchdata.currentMessage.subscribe(msacustId =>{});
+
+    this.contractservice.getContractByMSAId(AppSetting.msaId)
+    .subscribe(success => {
+      let ob = ErrorConstants.validateException(success);
+      if (ob.isSuccess) {
+        this.opportunity.opportunityData = success.data.responseData;
+        this.spinner.hide();
+        this.model = {};
+        this.model.rateCardSignDt = success.data.responseData[0].cntrSignDt;
+        this.model.effectiveDt = success.data.responseData[0].effectiveDt;
+        this.model.expDt = success.data.responseData[0].expDt;
+        this.minDate = this.model.effectiveDt;
+        this.maxDate = this.model.expDt;
+	   {
       let e = new Date(this.maxDate);
       e.setDate(e.getDate()-1);
       this.maxdateRCStart = e;
@@ -964,37 +1006,30 @@ signDate(){
         e.setDate(e.getDate()+1);
         this.mindateRCExp = e;
         }
-      let ob = ErrorConstants.validateException(success);
-        if(ob.isSuccess){
-      this.opportunity.opportunityData = success.data.responseData;
-      this.spinner.hide();
-      this.model = {};
-      this.model.rateCardSignDt = this.opportunity.opportunityData.contract.cntrSignDt;
-      this.model.effectiveDt = this.opportunity.opportunityData.contract.effectiveDt;
-      this.model.expDt = this.opportunity.opportunityData.contract.expDt;
-      this.model.cmdmntLevel='RATECARD LEVEL';
+        this.model.cmdmntLevel = 'RATECARD LEVEL';
       this.rcCmdLevel = 'RATECARD LEVEL';
       this.tableDataLocSearch = this.defaultableDataLocSearch;
       this.model.baseLocnBranchId = this.defaultBaseLocId;
-      if(this.offerings.length==1){
-        this.model.offeringId = this.offerings[0].id;
-      }
-       
-      if (this.first.expanded) {
-        this.first.close();
-        this.second.open();
+        if (this.offerings.length == 1) {
+          this.model.offeringId = this.offerings[0].id;
+        }
+
+        if (this.first.expanded) {
+          this.first.close();
+          this.second.open();
+        } else {
+          this.second.open();
+        }
       } else {
-        this.second.open();
+        this.tosterservice.error(ob.message);
+        this.spinner.hide();
       }
-   }else{
-    this.tosterservice.error(ob.message);
-    this.spinner.hide();
-  }},
-error => {
-  this.tosterservice.error(ErrorConstants.getValue(404));
-  this.spinner.hide();
-});
-  
+    },
+      error => {
+        this.tosterservice.error(ErrorConstants.getValue(404));
+        this.spinner.hide();
+      });
+
   }
 
   myFilter = (d: Date): boolean => {
@@ -1003,9 +1038,11 @@ error => {
     return day !== 0 && day !== 6;
   }
 
-  constructor(private spinner: NgxSpinnerService, private contractservice: ContractService, private dialog: MatDialog,
-     private tosterservice: ToastrService, private datePipe: DatePipe,private router: Router, private acrouter: ActivatedRoute,
-     private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService) { }
+  constructor(private spinner: NgxSpinnerService, private sharedSearchdata: DataService, private contractservice: ContractService, private dialog: MatDialog,
+    private tosterservice: ToastrService, private datePipe: DatePipe, private router: Router, private acrouter: ActivatedRoute,
+    private permissionsService: NgxPermissionsService, private authorizationService: AuthorizationService,
+    private cd : ChangeDetectorRef) { }
+  
 
      showData: any = [];
      tableDataLocSearch: any = [];
@@ -1073,7 +1110,8 @@ error => {
   };
 
   openCCDialog(field): void {
-    const dialogCCRef = this.dialog.open(SearchCcDialogBox, {disableClose: true,
+    const dialogCCRef = this.dialog.open(SearchCcDialogBox, {
+      disableClose: true,
       width: '750px',
       panelClass: 'creditDialog',
       data: {element:field, referenceList: this.branchAssignModel.referenceList,editflow: this.editflow,businessType: this.businessType},
@@ -1085,30 +1123,61 @@ error => {
          if(item.bkngBranchId == result.element.bkngBranchId){
           item=result.element;
          }
-      }}
+      }
+      }
     });
   }
 
-openBaseLDialogBr(field): void {
-  let branchName = ""
-  let brIdList = []
-  for(let data of this.branchAssignModel){
-    if(data.bkngBranchId){
-    brIdList.push(data.bkngBranchId);}
-  }
-  const dialogBaseLRefB = this.dialog.open(BaseLocationSearchB, {disableClose: true,
-    panelClass: 'creditDialog',
-    data: {branchName:field.bkngBranchName,branchIdList:brIdList}
-  });
-
-  dialogBaseLRefB.afterClosed().subscribe(result => {
-    console.log(result,'The dialog was closed');
-    if(result){
-      field.bkngBranchName=result.branchName
-      field.bkngBranchId=result.branchId
+  checkInPriviArry = (objArray, val) => {
+    for (var i = 0; i < objArray.length; i++) {
+        if (objArray[i].bkngBranchName.toUpperCase() == val.bkngBranchName.toUpperCase()) {
+            return true;
+        }
     }
-  });
-}
+    return false;
+  };
+  openBaseLDialogBr(field,id): void {
+    let branchName = ""
+    let brIdList = []
+    for (let data of this.branchAssignModel) {
+      if (data.bkngBranchId) {
+        brIdList.push(data.bkngBranchId);
+      }
+    }
+    const dialogBaseLRefB = this.dialog.open(BaseLocationSearchB, {disableClose: true,
+      panelClass: 'creditDialog',
+      data: { branchName: field.bkngBranchName, branchIdList: brIdList }
+    });
+
+    dialogBaseLRefB.afterClosed().subscribe(result => {
+      // console.log(result,'branch in rate card',this.branchAssignModel);
+      if (result && result.length != 0) {
+       
+       this.branchAssignModel.splice(id, 1);
+      let dublicateData=[];
+      for (let i = 0; i < result.length; i++) {
+        const element = result[i];
+       
+          if(this.checkInPriviArry(this.branchAssignModel,element)==true){
+           
+            dublicateData.push(element.bkngBranchName);
+          }
+          else{
+            this.branchAssignModel.push(element);
+          }
+      }
+      if(dublicateData.length>0){
+         let fname=" ";
+        dublicateData.forEach(x =>  fname=fname +','+x );
+
+         this.tosterservice.info("Branch "+ fname+" already exists in List !");
+    
+      }
+
+      }
+
+    });
+  }
 
   carddetail: any = {}
   // commerical 
@@ -1132,121 +1201,100 @@ openBaseLDialogBr(field): void {
   serviceOfferingName;
   RateCardName;
   editflow = false;
-  isDisable:boolean;
-  isDisableZm:boolean;
-  oldAssignBranchList= [];
+  isDisable: boolean;
+  isDisableZm: boolean;
+  oldAssignBranchList = [];
+  msaCustLevelName: string;
 
+  //oldAssignBranchList= [];
+  perList:any=[];
+  defaultBaseLocId:any;
+  defaultableDataLocSearch:any=[];
   ngOnInit() {
-    let perList = [];
+    
     this.authorizationService.setPermissions('RATE CARD');
-    perList = perList.concat(this.authorizationService.getPermissions('RATE CARD'));
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('RATE CARD'));
     this.authorizationService.setPermissions('COMMERCIAL');
-    perList = perList.concat(this.authorizationService.getPermissions('COMMERCIAL'));
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('COMMERCIAL'));
     this.authorizationService.setPermissions('COMMANDMENT');
-    perList = perList.concat(this.authorizationService.getPermissions('COMMANDMENT'));
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('COMMANDMENT'));
     this.authorizationService.setPermissions('TNC');
     let tncPermission = [];
     tncPermission = this.authorizationService.getPermissions('TNC');
+    console.log('tncPermission',tncPermission)
     if (tncPermission.includes('FUEL DETAILS_CREATE') && tncPermission.includes('FLFC_CREATE')
-      && tncPermission.includes('INCREMENT_CREATE') && tncPermission.includes('INSURANCE_CREATE')
-      && tncPermission.includes('SECURITY_CREATE') && tncPermission.includes('NOTEPAD_CREATE')) {
+      && tncPermission.includes('INCREMENT_CREATE')) {
       tncPermission.push('TNC_CREATE');
       tncPermission.push('TNC_UPDATE');
     } else if (tncPermission.includes('FUEL DETAILS_UPDATE') && tncPermission.includes('FLFC_UPDATE')
-      && tncPermission.includes('INCREMENT_UPDATE') && tncPermission.includes('INSURANCE_UPDATE')
-      && tncPermission.includes('SECURITY_UPDATE') && tncPermission.includes('NOTEPAD_UPDATE')) {
+      && tncPermission.includes('INCREMENT_UPDATE')
+      ) {
       tncPermission.push('TNC_UPDATE');
     }
-    perList = perList.concat(tncPermission);
+    this.perList = this.perList.concat(tncPermission);
     this.authorizationService.setPermissions('BRANCH');
-    perList = perList.concat(this.authorizationService.getPermissions('BRANCH'));
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
     this.authorizationService.setPermissions('SLA');
-    perList = perList.concat(this.authorizationService.getPermissions('SLA'));
-    this.authorizationService.setPermissions('VMI');
-    perList = perList.concat(this.authorizationService.getPermissions('VMI'));
-    this.authorizationService.setPermissions('BILLING');
-    perList = perList.concat(this.authorizationService.getPermissions('BILLING'));
-    this.authorizationService.setPermissions('COMMANDMENT');
-    perList = perList.concat(this.authorizationService.getPermissions('COMMANDMENT'));
-    this.permissionsService.loadPermissions(perList);
-
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('SLA'));
+     this.authorizationService.setPermissions('COMMANDMENT');
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('COMMANDMENT'));
+    this.authorizationService.setPermissions('CONTRACT');
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('CONTRACT'));
+   
+    this.permissionsService.loadPermissions(this.perList);
 
     this.isDisable = false;
     this.isDisableZm = false;
     this.acrouter.params.subscribe(params => {
-      if (params['editflow']) { 
+      if (params['editflow']) {
         this.editflow = params['editflow'];
         this.isDisable = true;
         this.isDisableZm = true;
       }
     });
-    this.getMsa();
-    this.getRateCardDetail();
-    this.getOpportunityDetails();
+
+    this.sharedSearchdata.currentMSALevel.subscribe(level => this.msaLevel = level);
+
+    this.sharedSearchdata.currentRetailCode.subscribe(code => this.retailCode = code);
+
+    this.getRateCardDetail()
+      this.getOpportunityDetails();
+    this.contractservice.getMsa({ id: AppSetting.msaId }).subscribe(success => {
+      console.log(success,'rate card with msa id')
+      this.msaCustLevelName = success.data.responseData.custLevel;
+    });
+
 
   }
-  msa:any;
-  defaultBaseLocId:any;
-  defaultableDataLocSearch:any=[];
-  getMsa() {
-    this.contractservice.getMsa(AppSetting.msaCustId)
-      .toPromise()
-      .then(
-        success => {
-          let ob = ErrorConstants.validateException(success);
-          if (ob.isSuccess) {
-            this.msa = success.data;
-            for (let data of this.msa.responseData) { 
-            if(data.baseLocation){
-              let val={};
-              val["baseLocnBranchName"]= data.baseLocation;
-              val["baseLocnBranchId"] = data.baseLocationBranchId;
-              this.defaultBaseLocId = data.baseLocationBranchId;
-              this.defaultableDataLocSearch.push(val);
-            }
-          }
-          } else {
-            this.tosterservice.error(ob.message);
-            this.spinner.hide();
-          }
-        },
-        error => {
-          this.tosterservice.error(ErrorConstants.getValue(404));
-          this.spinner.hide();
-        });
+  ngAfterViewChecked() {
+      this.cd.detectChanges();
   }
-
   businessType:any;
   businessTypeId:any;
   customerTypeId:any;
   getOpportunityDetails() {
-    this.contractservice.getOportunity(AppSetting.oprtunityId,this.editflow).subscribe(opprResult => {
-
-      this.opportunity.opportunityData = opprResult.data.responseData;
-      this.minDate = this.opportunity.opportunityData.contract.effectiveDt;
-      this.maxDate = this.opportunity.opportunityData.contract.expDt;
-
-      var result = opprResult.data;
-      this.businessTypeId= result.responseData.contract.lkpBizTypeId;
-      this.customerTypeId = result.responseData.contract.cntrType;
-      result.referenceData.businessTypeList.forEach(element => {
-        if (element.id == result.responseData.contract.lkpBizTypeId) {
-          this.businessType = element.lookupVal;
-        }
-      });
-    },error=>{
+    this.contractservice.getContractByMSAId(AppSetting.msaId).subscribe(success => {
+      let ob = ErrorConstants.validateException(success);
+      if (ob.isSuccess) {
+        this.businessTypeId = success.data.responseData[0].lkpBizTypeId;
+        this.customerTypeId = success.data.responseData[0].cntrType;
+     
+      }
+     }, error => {
       this.spinner.hide();
       this.tosterservice.error("Error in fetching opportunity");
     });
+
   }
 
-  removeAllBranchIdsForCopy(data){
-    for(let d of data){
-      d.id=null;
-     for(let child of d.branchPinCneeCnorMap){
-      child.id=null;
-     }
-     d.ratecardId = this.model.id;
+  removeAllBranchIdsForCopy(data) {
+    for (let d of data) {
+      d.id = null;
+      for (let child of d.branchPinCneeCnorMap) {
+        child.id = null;
+      }
+      d.entityId = this.model.id;
+      d.ratecardId = this.model.id;
     }
   }
   getAssignBranchdata() {
@@ -1270,89 +1318,82 @@ openBaseLDialogBr(field): void {
     }else{
       id=this.model.id;
     }
-    console.log('ratecardID :: ', id);
-    this.contractservice.getAssignBranchDetail(id,this.editflow)
+    //  this.contractservice.getAssignBranchDetail(id, this.editflow)
+    this.contractservice.getAssignBranchEntity("MSA BRANCH", id, this.editflow)
       .subscribe(
         success => {
           let ob = ErrorConstants.validateException(success);
-        if(ob.isSuccess){
-          this.spinner.hide();
-          this.branchAssignModel = success.data.responseData;
-          if(this.isCopyRateCard && this.isBranchCopy){
+          if (ob.isSuccess) {
+            this.spinner.hide();
+            if (this.isCopyRateCard) {
+              this.tosterservice.info('Copied All Branches !');
+            }
+            this.branchAssignModel = success.data.responseData;
+	    
+            if(this.isCopyRateCard && this.isBranchCopy){
             this.tosterservice.info('Save To Copy All Branches !');
             this.removeAllBranchIdsForCopy(this.branchAssignModel);
           }
-          this.branchAssignModel.assignBranch = success.data.responseData;
-          this.branchAssignModel.assignBranch.forEach(obj => {
-            obj['newBranch'] = false;
-            obj['isValidBranchExpiryDt'] = false;
-            obj['isValidBranchEffectiveDt'] = false;
-          })
-          this.oldAssignBranchList = JSON.parse(JSON.stringify(success.data.responseData));
-          this.branchAssignModel.referenceList=success.data.referenceData;
-          if (this.branchAssignModel) {
-            if (this.branchAssignModel.length < 1) {
-              this.branchAssignment();
+            //   this.branchAssignModel.assignBranch = success.data.responseData;
+            this.oldAssignBranchList = JSON.parse(JSON.stringify(success.data.responseData));
+            this.branchAssignModel.referenceList = success.data.referenceData;
+            if (this.branchAssignModel) {
+              if (this.branchAssignModel.length < 1) {
+                this.branchAssignment();
+              }
             }
+          } else {
+            this.tosterservice.error(ob.message);
+            this.spinner.hide();
           }
-        }else{
-          this.tosterservice.error(ob.message);
+        },
+        error => {
+          this.tosterservice.error(ErrorConstants.getValue(404));
           this.spinner.hide();
-        }},
-      error => {
-        this.tosterservice.error(ErrorConstants.getValue(404));
-        this.spinner.hide();
-      });
+        });
   }
+  branchDelList:any=[];
+  deleteBranch(field, i){
+    this.branchAssignModel.splice(i,1);
+    field.status=AppSetting.deleteId;
+    this.branchDelList.push(field);
+   }
 
-postBranch() {
-  let postData = [];
-  console.log('postData before validation',this.branchAssignModel);
-  let isCCAddedInLastBranch=true;
-  for(let data of this.branchAssignModel){
-    if(data.bkngBranchId){
-    if(this.validationChecksBr(data)){
-      postData.push(data);
-    }}
-    if(data.branchPinCneeCnorMap.length==0){
-      isCCAddedInLastBranch=false;
-      break;
-    }
-  }
-    if(isCCAddedInLastBranch){
-      let inputData = this.deactivateOrphanBranchChild(postData);
-      this.spinner.show();
-      this.contractservice.postBranch(inputData,this.editflow,AppSetting.contractId)
-      .subscribe(success => {
-        let ob = ErrorConstants.validateException(success);
-        if(ob.isSuccess){
-        console.log(success.data.responseData, "branch status")
-        this.tosterservice.success('Saved Successfully');
-        this.isBranchCopy = false;
-        this.six.close();
-        this.first.close();
-        this.seven.open();
-        this.getSLAById();
-      }else{
-        this.tosterservice.error(ob.message);
-        this.spinner.hide();
-      }},
-    error => {
-      this.tosterservice.error(ErrorConstants.getValue(404));
-      this.spinner.hide();
-    });}else{
-      this.spinner.hide();
-      let branchName:any;
-      branchName = [];
-      for(let brdata of this.branchAssignModel){
-        if(brdata.branchPinCneeCnorMap.length==0){
-          branchName.push(brdata.bkngBranchName);
+  postBranch() {
+    let postData = [];
+    this.spinner.show();
+    for (let data of this.branchAssignModel) {
+      if (data.bkngBranchId) {
+        if (this.validationChecksBr(data)) {
+          if(!data.expDt){
+            data.lkpBkngBranchHoldRsn = '';
+          }
+          postData.push(data);
         }
       }
-      this.tosterservice.info('Please Map Customer Location For '+ branchName.toString());
     }
-  
-}
+    postData.push.apply(postData,this.branchDelList);
+    this.contractservice.postBranch(postData, this.editflow, AppSetting.contractId)
+      .subscribe(success => {
+        let ob = ErrorConstants.validateException(success);
+        this.branchDelList=[];
+        if (ob.isSuccess) {
+          this.tosterservice.success('Save Successfully');
+          this.isBranchCopy = false;
+          this.six.close();
+          this.seven.open();
+          this.getSLAById();
+        } else {
+          this.tosterservice.error(ob.message);
+          this.spinner.hide();
+        }
+      },
+        error => {
+          this.tosterservice.error(ErrorConstants.getValue(404));
+          this.spinner.hide();
+        });
+
+  }
 
   deactivateOrphanBranchChild(newAssignBranchList): any {
     var inactiveStatus = 0;
@@ -1387,27 +1428,6 @@ postBranch() {
           }
         }
       });
-
-      // deactivating branch
-      for (let old of this.oldAssignBranchList) {
-        let isFound: boolean = false;
-        for (let latest of newAssignBranchList) {
-          if (latest.id) {
-            if (old.id == latest.id) {
-              isFound = true
-            }
-          }
-        }
-        if (!isFound) {
-          old['status'] = inactiveStatus;
-          if (old.id) {
-            old.branchPinCneeCnorMap.forEach(oldCneeCnor => {
-              oldCneeCnor.status = inactiveStatus;
-            });
-            newAssignBranchList.push(old);
-          }
-        }
-      }
     }
     return newAssignBranchList;
   }
@@ -1424,48 +1444,38 @@ validationChecksBr(data){
 
 //branch assignment
 
-onchangeReasonBkg(value){
-  console.log(value);
-  value.bkngBranchHoldFlag=1;}
-
-  onchangeReasonDlvr(value){
-    console.log(value);
-    value.dlvryBranchHoldFlag=1;}
-
-branchAssignment() {
-  console.log("this.model.id",this.model.id);
-  let assignBranch: any = {
-    ratecardId:this.model.id,
-    billableWghtFlag:0,
-    bkngBranchHoldFlag:0,
-    dlvryBranchHoldFlag:0,
-    effectiveDt:this.model.effectiveDt,
-    expDt:'',
-    branchPinCneeCnorMap: [],
-    newBranch: true,
-    isValidBranchEffectiveDt: false,
-    isValidBranchExpiryDt: false
-  };
-  if(!this.branchAssignModel)
-    this.branchAssignModel=[];
-  
-  let isCCAddedInLastBranch=false;
-  if(this.branchAssignModel.length>0){
-    if(this.branchAssignModel[this.branchAssignModel.length-1].branchPinCneeCnorMap.length>0){
-      isCCAddedInLastBranch=true;
-    }
-  }else{
-    isCCAddedInLastBranch=true;
+  onchangeReasonBkg(value) {
+    value.bkngBranchHoldFlag = 1;
   }
 
-    if(isCCAddedInLastBranch) {this.branchAssignModel.push(assignBranch);}else{
-      this.tosterservice.info('Please Map Customer Location For ' +this.branchAssignModel[this.branchAssignModel.length-1].bkngBranchName);
-    }
-}
+  onchangeReasonDlvr(value) {
+    value.dlvryBranchHoldFlag = 1;
+  }
 
-isValidflfcDate:boolean = false;
-isValidIncrDate:boolean = false;
-isValidInsuranceDate:boolean = false;
+  branchAssignment() {
+    AppSetting.branchEffectiveDt=this.model.effectiveDt;
+    AppSetting.branchentityId=this.model.id;
+    let branchAssign: any = {
+      bkngBranchId: 0,
+      bkngBranchName: '',
+      dlvryBranchHoldFlag: 0,
+      effectiveDt: this.model.effectiveDt,
+      lkpBkngBranchHoldRsn:'',
+      entityId: this.model.id,
+      expDt: '',
+      assignBranchLevel: "MSA BRANCH",
+    };
+    if (!this.branchAssignModel) {
+      this.branchAssignModel = [];
+    }
+    this.branchAssignModel.push(branchAssign);
+  }
+
+  isValidBranchEffectiveDt: boolean = false;
+  isValidBranchExpiryDt: boolean = false;
+  isValidflfcDate: boolean = false;
+  isValidIncrDate: boolean = false;
+  isValidInsuranceDate: boolean = false;
 
 dateFormatEffective(field){
   let effYear = parseInt(this.datePipe.transform(field.effectiveDt, 'yyyy'))
@@ -1509,6 +1519,7 @@ flfcDate(modeltnc) {
   modeltnc.flfcAppcblDt = this.datePipe.transform(modeltnc.flfcAppcblDt, 'yyyy-MM-dd')
 }
 }
+
 priceFound:boolean=false;
 BaseFuelDate(modeltnc) {
   if(!modeltnc.baseFuelDt) return;
@@ -1702,10 +1713,10 @@ insuValidDate(modeltnc) {
          this.spinner.hide();
         for (var item of this.carddetail) {
           item["showRctoggle"] = false;
-          // item["baseLocnBranchName"]= item.baseLocnBranchName;
-          // item["baseLocnBranchId"] = item.baseLocnBranchId;
-              this.rateCardDetails.push(item)
-        }
+          item["baseLocnBranchName"]= item.baseLocnBranchName;
+          item["baseLocnBranchId"] = item.baseLocnBranchId;
+                    this.rateCardDetails.push(item)
+                  }
         this.rateCardDetails.sort((a, b) => a.id - b.id); 
         for (var item of success.data.referenceData.zoneMatrixList) {
           this.zoneMatrix.push(item)
@@ -1917,7 +1928,7 @@ putRatecard(data){
         if(this.isCopyRateCard){
           this.isRCCopyDone = false;
         }
-        this.tosterservice.success('Saved Successfully');
+        this.tosterservice.success('Save Successfully');
         let id = success.data.responseData
         this.rateCardId = id;
         this.model.id = id;
@@ -2099,7 +2110,8 @@ createFreshSafexChargeBkg(isType){
                 data.attrName = atr.lookupVal
               }
               if(pp.priceParameterResponseDTO.attrVal){
-                data.pricingParamValArr= pp.priceParameterResponseDTO.attrVal.split(",").map(Number);}
+                data.pricingParamValArr= pp.priceParameterResponseDTO.attrVal.split(",").map(Number);
+		}
           if(data.pricingParamValArr && data.pricingParamValArr.length>0 ){
                       data.attributeList =[];
                     data.pricingParamValArr.forEach(element => {
@@ -2108,7 +2120,8 @@ createFreshSafexChargeBkg(isType){
                           data.attributeList.push(element1);
                         }
                       });
-                    });}
+                    });
+		    }
             }
           }
         }
@@ -2123,14 +2136,14 @@ createFreshSafexChargeBkg(isType){
             data.calUnitName = unit.lookupVal
           }
         }
-      //   for(let ppData of this.ReferenceDataModel.pricingParam){
+        for(let ppData of this.ReferenceDataModel.pricingParam){
           
-      // }
+      }
       this.changeRRFlagPPEdit(data.rrFlag,data);
 
-    }
-      console.log("this.CommercialDataModel.pricingParamTrans", this.CommercialDataModel.pricingParamTrans);
-    } else{
+      }
+
+    } else {
       this.CommercialDataModel.pricingParamTrans = [];
      
       for(let data of this.ReferenceDataModel.pricingParam){
@@ -2276,7 +2289,7 @@ zonalRateGroup(){
     this.zonalrategroupAttribute.price = item.price
     this.zonalrategroupAttribute.name=item.name
     this.zonalrategroup.push(Object.assign({}, this.zonalrategroupAttribute))
-console.log(this.zonalrategroup,"zonalrate group")
+
 
   }
 
@@ -2305,10 +2318,9 @@ console.log(this.zonalrategroup,"zonalrate group")
      this.contractservice.getCommercialDetail(id,this.editflow)
       .subscribe(success => {
         let ob = ErrorConstants.validateException(success);
-        if(ob.isSuccess){
-        this.commercial = success.data.responseData;
-        this.commercialRef = success.data.referenceData;
-        console.log(this.commercial, 'print commercial surface')
+        if (ob.isSuccess) {
+          this.commercial = success.data.responseData;
+          this.commercialRef = success.data.referenceData;
           if (callFromCmdmnt) {
             if (this.commercial.length == 0 && this.rcCmdLevel == "COMMERCIAL LEVEL") {
               this.tosterservice.error('No Commercial exists !!')
@@ -2343,14 +2355,12 @@ console.log(this.zonalrategroup,"zonalrate group")
               comm["oldComm"]=false;
             }
             for (let ref of success.data.referenceData.chargeByList) {
-              console.log(ref, 'print chargebyname')
               if (comm.lkpChrgById == ref.id) {
                 comm["chargeByName"] = ref.lookupVal;
               }
             }
             if (comm.lkpPackTypeId) {
               for (let ref of success.data.referenceData.packagingTypeList) {
-                console.log(ref, 'print reference value')
                 if (comm.lkpPackTypeId == ref.id) {
                   comm["packageName"] = ref.lookupVal;
                 }
@@ -2404,20 +2414,22 @@ console.log(this.zonalrategroup,"zonalrate group")
       }
     }
     this.contractservice.getCommandmentDetail('RATECARD', this.model.id, serviceOfferingId, this.businessTypeId, this.customerTypeId, this.editflow)
-      .subscribe(resultData => {
-        let ob = ErrorConstants.validateException(resultData);
-        console.log(resultData);
-        if (ob.isSuccess) {
-          if(resultData.data.responseData.length>0)
-            this.isCommandmentAlreadyExist = true;
-        }else{
-          this.isCommandmentAlreadyExist = false;
-        }
-      },
+      .subscribe(
+        resultData => {
+          let ob = ErrorConstants.validateException(resultData);
+          console.log(resultData);
+          if (ob.isSuccess) {
+            if(resultData.data.responseData.length>0)
+              this.isCommandmentAlreadyExist = true;
+          }else{
+            this.isCommandmentAlreadyExist = false;
+          }
+        },
         error => {
           this.spinner.hide();
-        });
-    // error => { }
+        }
+      );
+    
   }
   createDlvrBkgList(){
     if(this.successDataForCommer && this.successDataForCommer.safextCharge.length>0){
@@ -2510,21 +2522,22 @@ console.log(this.zonalrategroup,"zonalrate group")
   getAllStatesList() {
     this.contractservice.getAddrByState()
 
-      .subscribe(success => {
+      .subscribe(
+      success => {
         this.spinner.hide();
         this.stateAddr = success.data.responseData;
         this.stateMap = new Map();
-        this.stateAddr.forEach((ele) => {
-        ele.id = ele.id.toString()
-        this.stateMap.set(ele.id,ele.stateName);
-      });
+          this.stateAddr.forEach((ele) => {
+            ele.id = ele.id.toString()
+            this.stateMap.set(ele.id,ele.stateName);
+          });       
         
-        console.log(this.stateAddr, "state")
       },
-        error => {
+      error => {
           this.spinner.hide();
-        });
-    // error => { }
+      }
+      );
+   
 
   }
 
@@ -2548,9 +2561,8 @@ console.log(this.zonalrategroup,"zonalrate group")
       field['lkpDestTypeName'] = srcType
     }
     if(srcType=='STATE' && from == 'src'){
-      if(field.srcId){
-        field.stateNamesfrom = this.covertStateIdToStateName(field.srcId);
-      }
+      if(field.srcId)
+      field.stateNamesfrom = this.covertStateIdToStateName(field.srcId);
     }
     if(srcType=='STATE' && from == 'desc'){
       if(field.destId){
@@ -2607,7 +2619,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.zmCustomPrice){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 9999999999
+        zmp.slabTo = 99999
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -2616,7 +2628,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zmp);
         let zm2 = new ZmCustomPrice();
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 9999999999;
+        zm2.slabTo = 99999;
         zm2.minFreight = zmp.minFreight2;
         zm2.price = zmp.price2;
         zm2.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2647,7 +2659,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm2);
         let zm3 = new ZmCustomPrice();
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 9999999999;
+        zm3.slabTo = 99999;
         zm3.minFreight = zmp.minFreight3;
         zm3.price = zmp.price3;
         zm3.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2691,7 +2703,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm3);
         let zm4 = new ZmCustomPrice();
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 9999999999;
+        zm4.slabTo = 99999;
         zm4.minFreight = zmp.minFreight4;
         zm4.price = zmp.price4;
         zm4.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2748,7 +2760,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm4);
         let zm5 = new ZmCustomPrice();
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 9999999999;
+        zm5.slabTo = 99999;
         zm5.minFreight = zmp.minFreight5;
         zm5.price = zmp.price5;
         zm5.lkpDestTypeId = zmp.lkpDestTypeId;
@@ -2768,7 +2780,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.zmPrice){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 9999999999
+        zmp.slabTo = 99999
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -2778,7 +2790,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zmp);
         let zm2 = new ZmPrice();
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 9999999999;
+        zm2.slabTo = 99999;
         zm2.minFreight = zmp.minFreight2;
         zm2.price = zmp.price2;
         zm2.zmRgMapId = zmp.zmRgMapId;
@@ -2804,7 +2816,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm2);
         let zm3 = new ZmPrice();
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 9999999999;
+        zm3.slabTo = 99999;
         zm3.minFreight = zmp.minFreight3;
         zm3.price = zmp.price3;
         zm3.zmRgMapId = zmp.zmRgMapId;
@@ -2839,7 +2851,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm3);
         let zm4 = new ZmPrice();
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 9999999999;
+        zm4.slabTo = 99999;
         zm4.minFreight = zmp.minFreight4;
         zm4.price = zmp.price4;
         zm4.zmRgMapId = zmp.zmRgMapId;
@@ -2884,7 +2896,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         arr.push(zm4);
         let zm5 = new ZmPrice();
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 9999999999;
+        zm5.slabTo = 99999;
         zm5.minFreight = zmp.minFreight5;
         zm5.price = zmp.price5;
         zm5.zmRgMapId = zmp.zmRgMapId;
@@ -2902,7 +2914,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.safextBkngCustomCharge ){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 9999999999
+        zmp.slabTo = 99999
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -2914,7 +2926,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm2.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm2.toId = zmp.toId
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 9999999999;
+        zm2.slabTo = 99999;
         zm2.minAmt = zmp.minAmt2;
         zm2.price = zmp.price2;
         if(zmp.id2){
@@ -2942,7 +2954,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm3.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm3.toId = zmp.toId
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 9999999999;
+        zm3.slabTo = 99999;
         zm3.minAmt = zmp.minAmt3;
         zm3.price = zmp.price3;
         if(zmp.id3){
@@ -2980,7 +2992,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm4.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm4.toId = zmp.toId
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 9999999999;
+        zm4.slabTo = 99999;
         zm4.minAmt = zmp.minAmt4;
         zm4.price = zmp.price4;
         if(zmp.id4){
@@ -3029,7 +3041,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm5.lkpSrcTypeId = zmp.lkpSrcTypeId
         zm5.toId = zmp.toId
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 9999999999;
+        zm5.slabTo = 99999;
         zm5.minAmt = zmp.minAmt5;
         zm5.price = zmp.price5;
         if(zmp.id5){
@@ -3046,7 +3058,7 @@ console.log(this.zonalrategroup,"zonalrate group")
     for(let zmp of this.CommercialDataModel.safextDlvryCustomCharge ){
       if(this.CommercialDataModel.ZonalSlabCounter==1){
         zmp.slabFrom = this.zmslabfrom1
-        zmp.slabTo = 9999999999;
+        zmp.slabTo = 99999;
         arr.push(zmp);
       }
       else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -3058,7 +3070,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm2.lkpDestTypeId = zmp.lkpDestTypeId
         zm2.fromId = zmp.fromId
         zm2.slabFrom = this.zmslabfrom2;
-        zm2.slabTo = 9999999999;
+        zm2.slabTo = 99999;
         zm2.minAmt = zmp.minAmt2;
         zm2.price = zmp.price2;
         if(zmp.id2){
@@ -3086,7 +3098,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm3.lkpDestTypeId = zmp.lkpDestTypeId
         zm3.fromId = zmp.fromId
         zm3.slabFrom = this.zmslabfrom3;
-        zm3.slabTo = 9999999999;
+        zm3.slabTo = 99999;
         zm3.minAmt = zmp.minAmt3;
         zm3.price = zmp.price3;
         if(zmp.id3){
@@ -3124,7 +3136,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm4.lkpDestTypeId = zmp.lkpDestTypeId
         zm4.fromId = zmp.fromId
         zm4.slabFrom = this.zmslabfrom4;
-        zm4.slabTo = 9999999999;
+        zm4.slabTo = 99999;
         zm4.minAmt = zmp.minAmt4;
         zm4.price = zmp.price4;
         if(zmp.id4){
@@ -3173,7 +3185,7 @@ console.log(this.zonalrategroup,"zonalrate group")
         zm5.lkpDestTypeId = zmp.lkpDestTypeId
         zm5.fromId = zmp.fromId
         zm5.slabFrom = this.zmslabfrom5;
-        zm5.slabTo = 9999999999;
+        zm5.slabTo = 99999;
         zm5.minAmt = zmp.minAmt5;
         zm5.price = zmp.price5;
         if(zmp.id5){
@@ -3189,7 +3201,7 @@ console.log(this.zonalrategroup,"zonalrate group")
       for(let zmp of this.CommercialDataModel.safextCharge){
         if(this.CommercialDataModel.ZonalSlabCounter==1){
           zmp.slabFrom = this.zmslabfrom1
-          zmp.slabTo = 9999999999
+          zmp.slabTo = 99999
           arr.push(zmp);
         }
         else if(this.CommercialDataModel.ZonalSlabCounter==2){
@@ -3202,7 +3214,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm2.safextCtgy = zmp.safextCtgy;
           zm2.safextEntityId = zmp.safextEntityId
           zm2.slabFrom = this.zmslabfrom2;
-          zm2.slabTo = 9999999999;
+          zm2.slabTo = 99999;
           zm2.minAmt = zmp.minAmt2;
           zm2.price = zmp.price2;
           if(zmp.id2){
@@ -3232,7 +3244,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm3.safextCtgy = zmp.safextCtgy;
           zm3.safextEntityId = zmp.safextEntityId
           zm3.slabFrom = this.zmslabfrom3;
-          zm3.slabTo = 9999999999;
+          zm3.slabTo = 99999;
           zm3.minAmt = zmp.minAmt3;
           zm3.price = zmp.price3;
           if(zmp.id3){
@@ -3273,7 +3285,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm4.safextCtgy = zmp.safextCtgy;
           zm4.safextEntityId = zmp.safextEntityId
           zm4.slabFrom = this.zmslabfrom4;
-          zm4.slabTo = 9999999999;
+          zm4.slabTo = 99999;
           zm4.minAmt = zmp.minAmt4;
           zm4.price = zmp.price4;
           if(zmp.id4){
@@ -3326,7 +3338,7 @@ console.log(this.zonalrategroup,"zonalrate group")
           zm5.safextCtgy = zmp.safextCtgy;
           zm5.safextEntityId = zmp.safextEntityId
           zm5.slabFrom = this.zmslabfrom5;
-          zm5.slabTo = 9999999999;
+          zm5.slabTo = 99999;
           zm5.minAmt = zmp.minAmt5;
           zm5.price = zmp.price5;
           if(zmp.id5){
@@ -3722,19 +3734,6 @@ if(postData.safextDlvryCustomCharge.length>0){
   zmslabfrom4:number
   zmslabto5:number
   zmslabfrom5:number
-  zmToolTip1:string;
-  zmToolTip2:string;
-  zmToolTip3:string;
-  zmToolTip4:string;
-  zmToolTip5:string;
-
-  updateTootlipSlab(){
-    this.zmToolTip1=this.zmslabfrom1+'-'+this.zmslabto1;
-    this.zmToolTip2=this.zmslabfrom2+'-'+this.zmslabto2;
-    this.zmToolTip3=this.zmslabfrom3+'-'+this.zmslabto3;
-    this.zmToolTip4=this.zmslabfrom4+'-'+this.zmslabto4;
-    this.zmToolTip5=this.zmslabfrom5+'-'+this.zmslabto5;
-  }
 
   zonalGroupName(){
     if(this.CommercialDataModel.id && this.CommercialDataModel.zmPrice.length>0){
@@ -4467,7 +4466,7 @@ if(postData.safextDlvryCustomCharge.length>0){
         chargeBy= chargeby.lookupVal;
       }
     }
-    for(let procat of this.commercialRef.productCategoryList){
+    for(let procat of this.commercialRef.productCategoryList){ 
       if(procat.id==data.prdctCtgyId){
         productCtg = procat.prdctCtgy;
       }
@@ -4503,7 +4502,6 @@ if(postData.safextDlvryCustomCharge.length>0){
             });
         }
       }
-      console.log('The dialog was closed with pinocde ' ,result);
     });
   }
   removeAllIdsForCopy(d) {
@@ -4551,7 +4549,8 @@ if(postData.safextDlvryCustomCharge.length>0){
    var serviceofferingid
    for(let data of this.offerings){
     if(data.id==this.model.offeringId){     
-       serviceofferingid=data.serviceOfferingId}
+       serviceofferingid=data.serviceOfferingId
+      }
    }
     if(!this.model.id){
       this.tosterservice.error('No Rate Card Selected !!')
@@ -4836,7 +4835,7 @@ if(postData.safextDlvryCustomCharge.length>0){
         this.showCommercialData=true;
         this.changeSlabProtion();
         this.spinner.hide();
-        this.updateTootlipSlab();
+       
     }else {
       this.tosterservice.error(ob.message);
       this.spinner.hide();
@@ -4934,7 +4933,7 @@ if(postData.safextDlvryCustomCharge.length>0){
       "copiedRcId":this.copiedRcId,
       "commercialList":this.commercial,
     };
-    console.log(this.commandmentInput);
+
   }
 
   onCmdmntSaved(iscmdmntsaved: boolean){
@@ -4950,16 +4949,17 @@ if(postData.safextDlvryCustomCharge.length>0){
       if(this.isCopyRateCard){
         this.isCommandmentCopy = false;
       }
-  }}
+    }
+  }
   
 
   //terms and condition
   removeAllTncIdsForCopy(data){
     let tncData = data.responseData;
-    tncData.id=null;
-    for(let child of tncData.notepadTrans){
-      child.id=null;
-    }
+    tncData.id = null;
+    // for (let child of tncData.notepadTrans) {
+    //   child.id = null;
+    // }
   }
 
   incrementModeList = []
@@ -4973,6 +4973,9 @@ if(postData.safextDlvryCustomCharge.length>0){
   attrTypeListTnc=[]
   modeltnc:Modeltnc = new Modeltnc();
   
+  
+  noFuelData=false
+
   flfcAppDtType: any[] = [{value: 'FORTNIGHTLY'},
   {value: 'MONTHLY'},{value: 'QUARTERLY'},
   {value: 'HALF YEARLY'},{ value: 'ANNUALLY'}
@@ -4997,8 +5000,7 @@ if(postData.safextDlvryCustomCharge.length>0){
     }else{
       pRateCardId= this.model.id;
     }
-   // pRateCardId= 860;
-   console.log( "ratecard id printing:"+pRateCardId);
+    // pRateCardId= 860;
 
    this. incrementModeList = []
    this.incrementBasedOnList = []
@@ -5015,81 +5017,76 @@ if(postData.safextDlvryCustomCharge.length>0){
    this.contractservice.getTncdetail(pRateCardId,this.editflow)
       .subscribe(success => {
         let ob = ErrorConstants.validateException(success);
-        if(ob.isSuccess){
-        this.tnc = success.data;
-         this.modeltnc = this.tnc.responseData
-         if(this.modeltnc.id==undefined)
-         {
-          this.modeltnc.fuelDtlsFlag=0;
-          this.modeltnc.flfcFlag=0;
-          this.modeltnc.flfcAsOnDtFlag=0;
-          this.modeltnc.incrClauseFlag=0;
-          this.modeltnc.customAmtFlag=0;
-          this.modeltnc.insuFlag=0;
-          this.modeltnc.excessClauseFlag=0;
-          this.modeltnc.securityFlag=0;
-          this.modeltnc.pnltyFlag=0;
-         }
-         this.modeltnc.ratecardId=this.model.id
-         this.modeltnc["contractId"] = AppSetting.contractId;
-         for(let ft of this.tnc.referenceData.fuelTypeList){
-           if(ft.lookupVal=='DIESEL'){
-           this.modeltnc.lkpFuelTypeId=ft.id
-           }
-         }
-         if(this.modeltnc.baseFuelDt){
-           this.priceFound=true;
-         }
-        for (var item of this.tnc.referenceData.incrementModeList) {
-
-          this.incrementModeList.push(item)
-        }
-        for (var item of this.tnc.referenceData.incrementBasedOnList) {
-          this.incrementBasedOnList.push(item)
-        }
-        for (var item of this.tnc.referenceData.attrTypeList) {
-          this.attrTypeListTnc.push(item)
-        }
-        for (var item of this.tnc.referenceData.securityTypeList) {
-          this.securityTypeList.push(item)
-        }
-        for (var item of this.tnc.referenceData.notepadAttributesList) {
-          if (item.attributeTypeId === 3) {
-            item.notepadInputVal = item.attributeValue;
-        }
-              for (var notepadData of this.modeltnc.notepadTrans){
-            if(item.id==notepadData.notepadId && notepadData.notepadInputVal!=undefined){
-              item.notepadInputVal=notepadData.notepadInputVal.trim()
-              }
+        if (ob.isSuccess) {
+          this.tnc = success.data;
+          this.modeltnc = this.tnc.responseData
+          if (this.modeltnc.id == undefined)
+	   {
+            this.modeltnc.fuelDtlsFlag = 0;
+            this.modeltnc.flfcFlag = 0;
+            this.modeltnc.flfcAsOnDtFlag = 0;
+            this.modeltnc.incrClauseFlag = 0;
+            this.modeltnc.customAmtFlag = 0;
+            this.modeltnc.insuFlag = 0;
+            this.modeltnc.excessClauseFlag = 0;
+            this.modeltnc.securityFlag = 0;
+            this.modeltnc.pnltyFlag = 0;
+          }
+ 
+          this.modeltnc.ratecardId = this.model.id
+          this.modeltnc["contractId"] = AppSetting.contractId;
+          for (let ft of this.tnc.referenceData.fuelTypeList) {
+            if (ft.lookupVal == 'DIESEL') {
+              this.modeltnc.lkpFuelTypeId = ft.id
             }
-            if(item.attributeTypeId==1 || item.attributeTypeId==2){
-                if(item.attributeValue){
-                      item.attributeValue = item.attributeValue.toUpperCase().split(',').map(function(item) {
-                      return item.trim();
-                });
-                }
-              
-            }
-          this.notepadAttributesList.push(item)
-        }
-        for (var item of this.tnc.referenceData.incrementTypeList) {
-          this.incrementTypeList.push(item)
-        }
 
-        if(this.modeltnc.lkpIncrTypeId){
+          }
+          if (this.modeltnc.baseFuelDt) {
+          
+    this.priceFound=true;
+          }
+   
+          for (var item of this.tnc.referenceData.incrementModeList) {
+
+            this.incrementModeList.push(item)
+          }
+          for (var item of this.tnc.referenceData.incrementBasedOnList) {
+            this.incrementBasedOnList.push(item)
+          }
+          ///////
+          // for (var item of this.tnc.referenceData.attrTypeList) {
+          //   this.attrTypeListTnc.push(item)
+          // }
+          // for (var item of this.tnc.referenceData.securityTypeList) {
+          //   this.securityTypeList.push(item)
+          // }
+          // for (var item of this.tnc.referenceData.notepadAttributesList) {
+          //       for (var notepadData of this.modeltnc.notepadTrans){
+          //     if(item.id==notepadData.notepadId && notepadData.notepadInputVal!=undefined){
+          //       item.notepadInputVal=notepadData.notepadInputVal.trim()
+          //       }
+          //     }
+          //     if(item.attributeTypeId==1 || item.attributeTypeId==2){
+          //         item.attributeValue = item.attributeValue.toUpperCase().split(',');
+          //     }
+          //   this.notepadAttributesList.push(item)
+          // }
+          for (var item of this.tnc.referenceData.incrementTypeList) {
+            this.incrementTypeList.push(item)
+          }
+  if(this.modeltnc.lkpIncrTypeId){
           this.abc(this.modeltnc.lkpIncrTypeId,'onload');
         }
-
-        for (var item of this.tnc.referenceData.fuelTypeList) {
-          this.fuelTypeList.push(item)
-        }
-        for (var item of this.tnc.referenceData.baseFuelIndexList) {
-          this.baseFuelIndexList.push(item)
-        }
+          for (var item of this.tnc.referenceData.fuelTypeList) {
+            this.fuelTypeList.push(item)
+          }
+          for (var item of this.tnc.referenceData.baseFuelIndexList) {
+            this.baseFuelIndexList.push(item)
+          }
         if(this.modeltnc.lkpFuelIndexId)
           this.getFuelPriceAndDate();
-        this.notepadData();
-        this.spinner.hide();
+          //  this.notepadData();
+          this.spinner.hide();
           if(this.isCopyRateCard && this.isTncCopy){
             this.tosterservice.info('Save To Copy All TNCs ! ');
             this.removeAllTncIdsForCopy(this.tnc);
@@ -5133,22 +5130,21 @@ if(postData.safextDlvryCustomCharge.length>0){
         let data = this.notepadAttributesList.filter(function (filt) {
           return filt.attributeTypeId == 1;
         })
-        this.radioButtontncData=data
-        console.log("Radio button data filtered here",this.radioButtontncData)
+        this.radioButtontncData = data
+
       }
       if (item.id == 2) {
         let data = this.notepadAttributesList.filter(function (filt) {
           return filt.attributeTypeId == 2;
         })
-        this.selectortncData=data
-        console.log("Selector data filtered here",this.selectortncData)
+        this.selectortncData = data
+
       }
       if (item.id == 3) {
         let data = this.notepadAttributesList.filter(function (filt) {
           return filt.attributeTypeId == 3;          
         })
-        this.stringtncData =data
-        console.log("String data filtered here",this.stringtncData)
+        this.stringtncData = data
       }
 
     }
@@ -5237,7 +5233,7 @@ if(postData.safextDlvryCustomCharge.length>0){
       this.modeltnc.fuelSurchrgMeasure=null;
     } else {
       for(let ft of this.tnc.referenceData.fuelTypeList){
-        if(ft.lookupVal=='DIESEL'){
+        if(ft.lookupVal=='PETROL'){
         this.modeltnc.lkpFuelTypeId=ft.id
         }
       }
@@ -5273,8 +5269,7 @@ if(postData.safextDlvryCustomCharge.length>0){
 
   postTncDetail() {
     //delete this.modeltnc.notepadTrans;
-console.log("modeltnc post data"+this.modeltnc)
-    var notepadTrans=[]
+    var notepadTrans = []
     this.spinner.show();
    for(let item of this.radioButtontncData){
      let data1={};
@@ -5298,45 +5293,33 @@ console.log("modeltnc post data"+this.modeltnc)
       data1["notepadInputVal"]=item.notepadInputVal;
      notepadTrans.push(data1);
     }
-    
+    var data = this.modeltnc
 
-      for(let i=0; i<this.modeltnc.notepadTrans.length;i++) {
-    for (let j = 0; j < notepadTrans.length; j++) {
-    if(this.modeltnc.notepadTrans[i].notepadId==notepadTrans[j].notepadId)
-        {
-          notepadTrans[j]["id"]=this.modeltnc.notepadTrans[i].id;
-        console.log("i value:",notepadTrans[j]);
-          }
-          }
-}
-    this.modeltnc["notepadTrans"] = notepadTrans
-      
-      var data = this.modeltnc
-      console.log(data)
-      this.contractservice.postTncdetail(data,this.editflow)
+    this.contractservice.postTncdetail(data, this.editflow)
       .subscribe(success => {
         let ob = ErrorConstants.validateException(success);
-        if(ob.isSuccess){
-        console.log(success.data.responseData, "tncdetail")
-        this.tosterservice.success('Saved Successfully');
-        this.isTncCopy = false;
+        if (ob.isSuccess) {
+          this.tosterservice.success('Saved Successfully');
+          this.isTncCopy = false;
           this.five.close();
-          if(this.businessType=='ANYWHERE TO ANYWHERE'){
+          //   if((this.msaCustLevelName == "MSA CLUSTER")&&(this.businessType=='ANYWHERE TO ANYWHERE'))
+          if (this.msaCustLevelName == "MSA CLUSTER" || this.msaCustLevelName == "MSA GLOBAL") {
             this.seven.open();
             this.getSLAById();
-          }else{
+          } else {
             this.six.open();
             this.getAssignBranchdata();
           }
           this.spinner.hide();
-      }else{
-        this.tosterservice.error(ob.message);
-        this.spinner.hide();
-      }},
-    error => {
-      this.tosterservice.error(ErrorConstants.getValue(404));
-      this.spinner.hide();
-    });
+        } else {
+          this.tosterservice.error(ob.message);
+          this.spinner.hide();
+        }
+      },
+        error => {
+          this.tosterservice.error(ErrorConstants.getValue(404));
+          this.spinner.hide();
+        });
 
 
   }
@@ -5355,6 +5338,8 @@ getFuelPriceAndDate()
          this.fuelData=success.data.responseData;
          if(this.fuelData == undefined || this.fuelData.length==0){
             this.modeltnc.fuelPrice=null;
+         }
+         else{
          }
          //if(value)this.BaseFuelDate(this.modeltnc);
          this.spinner.hide();
@@ -5475,7 +5460,7 @@ getFuelPriceAndDate()
       return
     }
     this.clearAllSlaList();
-    if(this.isCopyRateCard && this.isBranchCopy){
+    if(this.isCopyRateCard && this.isBranchCopy && this.msaCustLevelName == "MSA BRANCH"){
       this.tosterservice.error('Branch is Not Saved !!')
       this.seven.close();
       this.spinner.hide();
@@ -5629,7 +5614,8 @@ getFuelPriceAndDate()
                 }
               });
               this.changeRRFlagSLA(index, sla.slaRrFlag);
-            });}
+            });
+	    }
             else{
               // create 
               this.slaDetails.data.referenceData.rateGroupList.forEach((rateGroup,index)=>{ 
@@ -5647,7 +5633,6 @@ getFuelPriceAndDate()
                 this.changeRRFlagSLA(index, arr.slaRrFlag);
               });
             }
-            console.log(this.slaDetails);
             this.spinner.hide();
             if(this.isCopyRateCard && this.isSlaCopy){
               this.tosterservice.info('Save To Copy All SLA ! ');
@@ -5656,7 +5641,8 @@ getFuelPriceAndDate()
           }else{
             this.tosterservice.error(ob.message);
             this.spinner.hide();
-          }},
+          }
+        },
         error => {
           this.tosterservice.error(ErrorConstants.getValue(404));
           this.spinner.hide();
@@ -5782,48 +5768,68 @@ getFuelPriceAndDate()
     saveSlaDTO.zmCustomSlaDTO = this.customSlaList;
 
 
-    console.log('saveSlaDTO',saveSlaDTO);
     this.validateSLAList();
     this.validateSafextTypeSlaList(saveSlaDTO);
 	  if(this.slaValidationFlag == true && this.safextTypeValidationFlag == true){
       this.spinner.show();
       let postData = JSON.parse(JSON.stringify(saveSlaDTO));
+      postData = this.deactiveSLAOrphanChild(postData);
+       this.contractservice.saveSLA(postData, this.editflow, AppSetting.contractId)
+        .subscribe(data => {
+          let ob = ErrorConstants.validateException(data);
+          this.tosterservice.success('Saved Successfully');
+          if (ob.isSuccess) {
+            this.spinner.hide();
+          } else {
+            this.tosterservice.error(ob.message);
+            this.spinner.hide();
+          }
+        },
+          error => {
+            this.tosterservice.error(ErrorConstants.getValue(404));
+            this.spinner.hide();
+          });
 
-      // check if active childs needs to be deactivated
-         postData = this.deactiveSLAOrphanChild(postData);
+    }
+  }
 
-	    this.contractservice.saveSLA(postData,this.editflow,AppSetting.contractId)
-	    .subscribe(data => {
-        let ob = ErrorConstants.validateException(data);
-        this.tosterservice.success('Saved Successfully');
-        if(ob.isSuccess){
-        console.log(data, "SLA status")
-        this.isSlaCopy = false;
-        if(type=='save'){
-          this.isCopyRateCard = false;
-          this.seven.close();
-          this.openBilling();
-          this.slaForm.resetForm();
+  previewData(){
+    this.contractservice.validateContract(AppSetting.contractId,this.editflow).subscribe(result => {
+      let ob = ErrorConstants.validateException(result);
+      if (ob.isSuccess) {
+        var validationMessages = '';
+        if (result.data.responseData)
+          validationMessages = JSON.stringify(result.data.responseData);
+        validationMessages = validationMessages.replace("{", "").replace("}", "");
+        validationMessages = validationMessages.split(",").join(". \n");
+        validationMessages = validationMessages.split("\"").join("");
+        console.log(validationMessages);
+        if (validationMessages && validationMessages != "") {
+          this.tosterservice.error(validationMessages);
+          this.spinner.hide();
+        } else {
+          if(this.editflow){
+            this.router.navigate(['/retail-contract/preview',{editflow : this.editflow}],{skipLocationChange: true});  
+          } else {
+            this.router.navigate(['/retail-contract/preview'], {skipLocationChange: true});  
+          }
+      
         }
-        else if(type=='continue'){
-          this.seven.close();
-          this.getVMIById();
-          this.eight.open();
-        }
-	    }else{
+      } else {
         this.tosterservice.error(ob.message);
         this.spinner.hide();
-      }},
-    error => {
+      }
+    }, error => {
       this.tosterservice.error(ErrorConstants.getValue(404));
       this.spinner.hide();
-    });
-	  }
-	}
+    });  
+  
 
-  deactiveSLAOrphanChild(data){
-    if(this.updateSlaStatusIds.responseData && !this.isCopyRateCard){
-      let deleteStatusId:number
+  }
+
+  deactiveSLAOrphanChild(data) {
+    if (this.updateSlaStatusIds.responseData && !this.isCopyRateCard) {
+      let deleteStatusId: number
       for (let status of this.updateSlaStatusIds.referenceData.statusList) {
         if (status.lookupVal == 'DELETED') {
           deleteStatusId = status.id
@@ -6031,15 +6037,13 @@ getFuelPriceAndDate()
   getAllAddress(){
     let tempdata;
     this.contractservice.getAddrByState()
-    .subscribe(data => {
-      tempdata = data;
-      this.stateAddrSla = tempdata.data.responseData;
-      this.stateAddrSla.forEach((ele) => ele.id= ele.id.toString());
-      console.log(this.stateAddrSla, "state")
-    },
-    error => { 
-      
-    });
+    .subscribe(
+      data => {
+        tempdata = data;
+        this.stateAddrSla = tempdata.data.responseData;
+        this.stateAddrSla.forEach((ele) => ele.id= ele.id.toString());
+        console.log(this.stateAddrSla, "state")
+      })   
   }
 
   changeRRFlagPP(rrFlag,fielddata){
@@ -6103,8 +6107,7 @@ getFuelPriceAndDate()
       }
     });
   }
-  changeRRFlagSLA(index,rrFlag){
-    console.log(index,rrFlag);
+  changeRRFlagSLA(index, rrFlag) {
     this.RRFlagList.forEach(rr => {
       if(rr.id == rrFlag){
         if(rr.value == 'RR'){
@@ -6117,7 +6120,7 @@ getFuelPriceAndDate()
         this.slaList[index]['slaRrFlag'] = rrFlag;
       }
     });
-    console.log('inside change SLA RR flag');
+
   }
 
 
@@ -6243,7 +6246,6 @@ getFuelPriceAndDate()
   validateDuplicateVMICombination(){
     this.vmiCombination = [];
     this.vmiMappingFlag = true;
-    console.log()
     this.vmiList.forEach((vm, index) => {
       if (this.vmiCombination.indexOf(vm.cnorId+"-"+vm.cneeId) > -1) {
         this.vmiMappingFlag = false;
@@ -6287,26 +6289,27 @@ getFuelPriceAndDate()
         obj.lkpVmiTypeId = 0;
       }
     })
-	  if(this.vmiValidationFlag == true && this.vmiMappingFlag == true){
-	    this.contractservice.saveVMI(this.vmiList,this.editflow,AppSetting.contractId)
-	    .subscribe(success => {
-        let ob = ErrorConstants.validateException(success);
-        if(ob.isSuccess){
-        console.log(success.data.responseData, "branch status");
-        this.isCopyRateCard = false;
-        this.isVmiCopy = false;
-        this.spinner.hide();
-        this.eight.close()
-        this.tosterservice.success("Saved Successfully");
-	    }else{
-        this.tosterservice.error(ob.message);
-        this.spinner.hide();
-      }},
-    error => {
-      this.tosterservice.error(ErrorConstants.getValue(404));
-      this.spinner.hide();
-    });
-	  }else{
+    if (this.vmiValidationFlag == true && this.vmiMappingFlag == true) {
+      this.contractservice.saveVMI(this.vmiList, this.editflow, AppSetting.contractId)
+        .subscribe(success => {
+          let ob = ErrorConstants.validateException(success);
+          if (ob.isSuccess) {
+
+            this.isCopyRateCard = false;
+            this.isVmiCopy = false;
+            this.spinner.hide();
+            this.eight.close()
+            this.tosterservice.success("Saved Successfully");
+          } else {
+            this.tosterservice.error(ob.message);
+            this.spinner.hide();
+          }
+        },
+          error => {
+            this.tosterservice.error(ErrorConstants.getValue(404));
+            this.spinner.hide();
+          });
+    } else {
       this.tosterservice.error('Invalid Input !!');
       this.spinner.hide();
     }
@@ -6329,10 +6332,11 @@ getFuelPriceAndDate()
     this.vmiSection.submitted = false;
     this.vmiList.splice(index,1);
     this.vmiMappingFlag = true;
-    }	
-
-  openBilling() {
+  }
+  openClusterBranch() {
+    
     this.spinner.show();
+
     this.contractservice.validateContract(AppSetting.contractId,this.editflow).subscribe(result => {
       let ob = ErrorConstants.validateException(result);
       if (ob.isSuccess) {
@@ -6347,10 +6351,11 @@ getFuelPriceAndDate()
           this.tosterservice.error(validationMessages);
           this.spinner.hide();
         } else {
+          this.spinner.hide();
           if (this.editflow) {
-            this.router.navigate(['/contract/billing', {steper:true, 'editflow': 'true' }], {skipLocationChange: true});
+            this.router.navigate(['/retail-contract/branch', { editflow: this.editflow }], { skipLocationChange: true });
           } else {
-            this.router.navigate(['/contract/billing'], {skipLocationChange: true});
+            this.router.navigate(['/retail-contract/branch'], { skipLocationChange: true });
           }
         }
       } else {
@@ -6360,8 +6365,8 @@ getFuelPriceAndDate()
     }, error => {
       this.tosterservice.error(ErrorConstants.getValue(404));
       this.spinner.hide();
-    });  
-    
+    });
+
   }
 
 
@@ -6599,9 +6604,8 @@ openDialogStateSearch(element,name,isSFXStateList): void {
   });
 }
 
-  deleteBranch(field, i){
-    this.branchAssignModel.assignBranch.splice(i,1);
-   }
+
+
 }
 
 // dialog box
@@ -6617,129 +6621,129 @@ export class SearchCcDialogBox {
     public dialogCCRef: MatDialogRef<SearchCcDialogBox>,
     public dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: ccData,
-    private spinner: NgxSpinnerService, private _contractService: ContractService,private tosterservice: ToastrService) {
-      this.getCCDataByMsaId();
-     }
-     editflow: false
-     ngOnInit() {
-       this.editflow = this.data.editflow;
-     }
+    private spinner: NgxSpinnerService, private _contractService: ContractService, private tosterservice: ToastrService) {
+    this.getCCDataByMsaId();
+  }
+  editflow: false
+  ngOnInit() {
+    this.editflow = this.data.editflow;
+  }
   cneeCnor: any;
   branchName: any;
   onNoClick(): void {
     this.dialogCCRef.close();
   }
   closeDialog(): void {
+    // this.dialogCCRef.close();
     const dialogRefConfirm = this.dialog.open(confimationdialog, {
       width: '300px',
-      data:{message:'Are you sure ?'},
+      data: { message: 'Are you sure ?' },
       panelClass: 'creditDialog',
       disableClose: true,
       backdropClass: 'backdropBackground'
     });
 
     dialogRefConfirm.afterClosed().subscribe(value => {
-      if(value){
+      if (value) {
         this.dialogCCRef.close();
-      }else{
-        console.log('Keep Open');
+      } else {
       }
     });
   }
-  cneecnor: any = {
-  }
-  getCCDataByMsaId(){
-      this.spinner.show();
-      this.branchName = this.data.element.bkngBranchName;
-      this.contractservice.getMsa(AppSetting.msaCustId)
+  cneecnor: any = {}
+  getCCDataByMsaId() {
+ this.spinner.show();
+    this.branchName = this.data.element.bkngBranchName;
+    this.contractservice.getMsa(AppSetting.msaCustId)
       .subscribe(result => {
         let ob = ErrorConstants.validateException(result);
-        if(ob.isSuccess){
-        var successData: any = result.data.responseData;
-        successData.msaData = result.data.responseData;
-        let consignType = result.data.referenceData.consignType;
-        this.cneecnor = successData[0].cneeCnor
-        let arrayCCList = [];
-        for (let element of this.cneecnor) {
-          let ccTypeName = '';
-          for(let typecc of consignType){
-            if(element.lkpConsigntypeId==typecc.id){
-              ccTypeName=typecc.lookupVal;
-              break;
+        if (ob.isSuccess) {
+          var successData: any = result.data.responseData;
+          successData.msaData = result.data.responseData;
+          let consignType = result.data.referenceData.consignType;
+          this.cneecnor = successData[0].cneeCnor
+          let arrayCCList = [];
+          for (let element of this.cneecnor) {
+            let ccTypeName = '';
+            for (let typecc of consignType) {
+              if (element.lkpConsigntypeId == typecc.id) {
+                ccTypeName = typecc.lookupVal;
+                break;
+              }
             }
-          }
-          if(ccTypeName=='CONSIGNEE'){
-            if(this.data.businessType=='OUTBOUND'){
-              // dont add to this ::::::::::
-            }else{
-              element.ctype="CONSIGNEE";
-              arrayCCList.push(element);
-                }
-          }else if(ccTypeName=='CONSIGNOR'){
-            if(this.data.businessType=='INBOUND'){
-              // dont add to this ::::::::::
-            }else{
-              element.ctype="CONSIGNOR";
-              arrayCCList.push(element);
+            if (ccTypeName == 'CONSIGNEE') {
+              if (this.data.businessType == 'OUTBOUND') {
+                // dont add to this ::::::::::
+              } else {
+                element.ctype = "CONSIGNEE";
+                arrayCCList.push(element);
+              }
+            } else if (ccTypeName == 'CONSIGNOR') {
+              if (this.data.businessType == 'INBOUND') {
+                // dont add to this ::::::::::
+              } else {
+                element.ctype = "CONSIGNOR";
+                arrayCCList.push(element);
+              }
             }
-          }
-          
-          else{
-            element.ctype="BOTH";
-            arrayCCList.push(element);
-          }
-        }
-        this.cneecnor = arrayCCList;
-        for (var check of this.data.element.branchPinCneeCnorMap) {
-          for (var item of this.cneecnor) {  
-            if(check.cneeCnorId==item.id){
-              item.ischecked= true;
-              item.cneeCnorId= check.cneeCnorId;
-            }
-          }
-        }
-        this.spinner.hide();
-  }else{
-    this.tosterservice.error(ob.message);
-    this.spinner.hide();
-  }},
-error => {
-  this.tosterservice.error(ErrorConstants.getValue(404));
-  this.spinner.hide();
-});
-    }
-    changeCheckProp(){
-      
-      for (var item of this.cneecnor) {
-        if(item.cneeCnorId && !item.ischecked){
-          for (var j=0; j<this.data.element.branchPinCneeCnorMap.length; j++){
-            if(this.data.element.branchPinCneeCnorMap[j].cneeCnorId==item.id){
-              this.data.element.branchPinCneeCnorMap.splice(j,1);
-            }
-          }
-        }
 
-        if(item.ischecked && !item.cneeCnorId){
-          let newItem = {
-            cneeCnorId:item.id,
-            pincode:item.pincode,
-            ischecked:item.ischecked
-          };
-          this.data.element.branchPinCneeCnorMap.push(newItem);
+            else {
+              element.ctype = "BOTH";
+ arrayCCList.push(element);
+            }
+          }
+          this.cneecnor = arrayCCList;
+          for (var check of this.data.element.branchPinCneeCnorMap) {
+            for (var item of this.cneecnor) {
+              if (check.cneeCnorId == item.id) {
+                item.ischecked = true;
+                item.cneeCnorId = check.cneeCnorId;
+              }
+            }
+          }
+this.spinner.hide();
+        } else {
+          this.tosterservice.error(ob.message);
+          this.spinner.hide();
+        }
+      },
+        error => {
+          this.tosterservice.error(ErrorConstants.getValue(404));
+          this.spinner.hide();
+        });
+  }
+  changeCheckProp() {
+
+    for (var item of this.cneecnor) {
+      if (item.cneeCnorId && !item.ischecked) {
+        for (var j = 0; j < this.data.element.branchPinCneeCnorMap.length; j++) {
+          if (this.data.element.branchPinCneeCnorMap[j].cneeCnorId == item.id) {
+            this.data.element.branchPinCneeCnorMap.splice(j, 1);
+          }
         }
       }
-    }
 
-    
+      if (item.ischecked && !item.cneeCnorId) {
+        let newItem = {
+          cneeCnorId: item.id,
+          pincode: item.pincode,
+          ischecked: item.ischecked
+        };
+        this.data.element.branchPinCneeCnorMap.push(newItem);
+      }
+    }
+  }
+
+
   @HostListener('document:keydown', ['$event'])
   handleKeyboardEvent(event: KeyboardEvent) {
-      if (event.keyCode === 27) { // esc [Close Dialog]
-        event.preventDefault();
-        if(document.getElementById('closeButton')){
-          let element = document.getElementById('closeButton')  ;
-          element.click();
-        }
+    if (event.keyCode === 27) { // esc [Close Dialog]
+      event.preventDefault();
+      if (document.getElementById('closeButton')) {
+        let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+        element.click();
       }
+    }
   }
 
 }

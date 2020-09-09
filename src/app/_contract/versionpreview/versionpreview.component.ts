@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
+import { AppSetting } from 'src/app/app.setting';
 import { ErrorConstants } from '../models/constants';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { AuthorizationService } from '../services/authorization.service';
@@ -53,7 +54,7 @@ version:string
     this.isDisable = false;
     this.spinner.show();
     if(this.versionIndex==0){
-      this.contractService.getPreview(this.data.contractId,true)
+      this.contractService.getPreview(AppSetting.contractId,true)
       .subscribe(result => {
             let ob = ErrorConstants.validateException(result);
             if (ob.isSuccess) {

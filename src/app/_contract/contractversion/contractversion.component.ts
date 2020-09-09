@@ -10,6 +10,7 @@ import { CompareversionsComponent } from '../compareversions/compareversions.com
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { AuthorizationService } from '../services/authorization.service';
+import { AppSetting } from 'src/app/app.setting';
 
 @Component({
   selector: 'app-contractversion',
@@ -40,6 +41,8 @@ export class ContractversionComponent implements OnInit {
 
   ngOnInit() {
     this.authorizationService.setPermissions('CONTRACT');
+   // this.permissionsService.loadPermissions(this.authorizationService.getPermissions('CONTRACT'));
+    
     this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
     this.authorizationService.setPermissions('MSA');
     this.perList = this.perList.concat(this.authorizationService.getPermissions('MSA'));
@@ -49,8 +52,9 @@ export class ContractversionComponent implements OnInit {
     this.versions=[];
     this.contractVersionData=[];
     if (this.data) {
-      this.displayedColumns = ['checked', 'cntrVer','updDt'];
+      this.displayedColumns = ['checked', 'cntrVer'];
       this.getContractVersions(this.data.contractId);
+      AppSetting.contractId=this.data.contractId;
     }
   }
   displayedColumns: string[];
@@ -69,10 +73,6 @@ export class ContractversionComponent implements OnInit {
             }
           }
           this.contractVersionData.forEach(item => {
-            // item.updDt = new Date(item.updDt);
-            let res = item.updDt.split(" ");
-            item.updDt = res[0]; // new Date( Date.parse(res[0]) );
-            console.log('item.updDt', item);
             item.checked = false;
             item.disabled = false;
             item.index=0;

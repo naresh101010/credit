@@ -48,7 +48,6 @@ export class ErrorConstants {
 
   public static UM_VAL_ERR_400 = "You already have 5 favourite objects";
 
-  public static AUTH = 'ACCESS Denied. Kindly check your roles and permissions.';
 
   constructor() { }
 
@@ -100,7 +99,6 @@ map.set("VAL_ERR-532",ErrorConstants.VAL_ERR_532);
 
 map.set("UM_VAL_ERR-400",ErrorConstants.UM_VAL_ERR_400);
 
-map.set('AUTH', ErrorConstants.AUTH);
 
     return map.get(key);
   }

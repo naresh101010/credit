@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild,Inject, HostListener } from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient, HttpHeaders,HttpParams } from '@angular/common/http';
 import {MatTableDataSource} from '@angular/material/table';
 import {SelectionModel} from '@angular/cdk/collections';
 import {MatPaginator, MatSort } from '@angular/material';
@@ -13,13 +13,13 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 
 export interface PincodeElement {
-  pincode: string;
-  city:string;
+  pincode: String;
+  city:String;
 }
 
 export interface PlaceClickedElement {
-  id: number;
-  pincode:string;
+  id: Number;
+  pincode:String;
 }
 
 @Component({

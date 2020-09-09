@@ -1,7 +1,7 @@
-    <div class="slab_dialog contractContainer" >
+    <div class="slab_dialog retailContainer" >
         <form name="form" (ngSubmit)="slab.form.valid" #slab="ngForm" novalidate>
         <div class="row" style="position: relative">
-            <h4 class="consignor-heading"> {{commmandmentName}} SLAB 
+            <h4 class="consignor-heading" style="padding-left: 1rem !important;"> {{commmandmentName}} SLAB 
                 <button type="submit" *ngIf="rrFlag===2" [disabled]="!slab.form.valid" (click)="addSlab()" [style.color]="slab.invalid ? '#CCC' : '#27AE60'" 
            class="material-icons addButtonSlab">add_circle</button>
             </h4>
