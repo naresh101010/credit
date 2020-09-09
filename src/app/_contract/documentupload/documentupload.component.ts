@@ -275,17 +275,17 @@ export class DocumentuploadComponent implements OnInit {
       this.subTypeList=[];
       this.subTypeId='';
     }else{
-      this.contractservice.getSubDocTypeData(this.docTypeId)
-        .subscribe(data => {
-          var resData: any=data;
-          this.subTypeList=resData.data.responseData;
+      this.contractservice.getSubDocTypeData(this.docTypeId).subscribe(
+        (data) => {
+          var resData: any = data;
+          this.subTypeList = resData.data.responseData;
           console.log(data, "sub Document list");
-        });
-    
-      error => {
-        console.log(error,"Inside Error")
-      }
-
+        },
+        (error) => {
+          console.log(error, "Inside Error");
+        }
+      
+      );
     }
   }
 
@@ -322,9 +322,7 @@ export class DocumentuploadComponent implements OnInit {
         this.toaster.success("Saved Successfully");
       });
   
-    error => {
-      console.log(error,"Error in download")
-    } 
+   
   }
 
 /**diseable all date before current date in angular*/

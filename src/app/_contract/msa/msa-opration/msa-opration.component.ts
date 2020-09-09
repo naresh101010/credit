@@ -29,7 +29,7 @@ export class MsaOprationComponent implements OnInit {
         this.isDisable = true;
       }
     });
-    this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata)
+    // this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata)
     this.referenceData=this.getMSAReferences();
   }
   msaSearchResult;

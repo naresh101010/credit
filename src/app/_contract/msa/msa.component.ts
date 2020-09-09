@@ -148,7 +148,7 @@ console.log('event', event )
     }
 
     this.getMsa();
-    this.model
+
 
     //VALIDATION
     this.registerForm = this.formBuilder.group({
@@ -439,7 +439,8 @@ console.log('event', event )
     }
     if (validExt) {
         this._contractService.postBulkUploadConsignee(AppSetting.msaCustId,this.conModuleEntitiId,this.fileToUpload)
-        .subscribe(data => {
+        .subscribe(
+          data => {
           //console.log(data, "postBulkUploadConsignee");
           var a = document.createElement("a");
           var blob = new Blob([data], { type: "octet/stream" });
@@ -457,10 +458,7 @@ console.log('event', event )
           this.tosterservice.Success("File uploaded");
           this.getMsa();
           this.uploadedBFileName = '';
-        });
-      error => {
-        console.log(error)
-      }
+        });      
     } else {
       this.uploadedBFileName='';
       this.tosterservice.Error("Please upload valid file i.e .xls");
@@ -558,20 +556,23 @@ console.log('event', event )
           cc.lkpConsigntypeId=44
         }
       }
-      this._contractService.putDeactivateCneeCor(postData)
-      .subscribe(data => {
-        //var response:any=data;
-        console.log(data,"deactivateCneeCor response ");
-        this.tosterservice.Success("Deleted successfully");
-        this.usersForDeactivate=[];
-        this.getMsa();
-        this.selFlag=false;
-      });
+      this._contractService.putDeactivateCneeCor(postData).subscribe(
+        (data) => {
+          //var response:any=data;
+          console.log(data, "deactivateCneeCor response ");
+          this.tosterservice.Success("Deleted successfully");
+          this.usersForDeactivate = [];
+          this.getMsa();
+          this.selFlag = false;
+        },
+        (error) => {
+          console.log(error, "Error in delete");
+          this.tosterservice.Error("Something went wrong");
+        }
+      
+        );
     
-      error => {
-        console.log(error,"Error in delete");
-        this.tosterservice.Error("Something went wrong");
-      } 
+   
     }else{
       this.tosterservice.Info("No Consignor or Consignee is selected");
     }
@@ -858,20 +859,22 @@ getErrorFiles(moduleEntityId)
   };
                     
   console.log("request JSON for get ErrorFiles: "+JSON.stringify(requesData));
-  this._contractService.postSearchDocuments(requesData)
-    .subscribe(data => {
+  this._contractService.postSearchDocuments(requesData).subscribe(
+    (data) => {
       console.log("Inside search document success");
-     var docData: any = {}
-      docData=data;
-      console.log(data, "getErrorFiles")
-      
-      this.docList=docData.data.responseData;
-    });
+      var docData: any = {};
+      docData = data;
+      console.log(data, "getErrorFiles");
 
-  error => {
-    console.log(error)
-    this.tosterservice.Error("Something went wrong");
-  }  
+      this.docList = docData.data.responseData;
+    },
+    (error) => {
+      console.log(error);
+      this.tosterservice.Error("Something went wrong");
+    }
+  );
+
+ 
 }
 
 /*
@@ -883,31 +886,33 @@ console.log(fileName, "ref path");
 var fName=fileName.substr(fileName.lastIndexOf('/')+1,fileName.length);
 console.log(fName,'name of file');
 
-this._contractService.postDownloadDocument(fileName)
-  .subscribe(data => {
+this._contractService.postDownloadDocument(fileName).subscribe(
+  (data) => {
     console.log("inside downloadDocument response");
-    console.log(data,"download file");
+    console.log(data, "download file");
     var a = document.createElement("a");
     //var json = JSON.stringify(data);
-    var blob = new Blob([data], {type: "octet/stream"});
-      // for edge
-      console.log('naresh dofds')  
-      if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-          window.navigator.msSaveOrOpenBlob(blob, fName);
-          return;
-        } 
+    var blob = new Blob([data], { type: "octet/stream" });
+    // for edge
+    console.log("naresh dofds");
+    if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+      window.navigator.msSaveOrOpenBlob(blob, fName);
+      return;
+    }
     var url = window.URL.createObjectURL(blob);
     a.href = url;
     a.download = fName;
     a.click();
     window.URL.revokeObjectURL(url);
     this.tosterservice.Success("File downloaded");
-  });
-
-  error => {
-    console.log(error,"Error in download");
+  },
+  (error) => {
+    console.log(error, "Error in download");
     this.tosterservice.Error("Something went wrong");
-  } 
+  }
+);
+
+ 
 }
 }
 //Download Component Ends
