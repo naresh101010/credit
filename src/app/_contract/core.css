@@ -596,8 +596,7 @@ display: flex; align-items: center; text-align: left; color: #fff;font-size: 1.5
 * {
   outline: none;
   color-adjust: exact;
-  -webkit-print-color-adjust: exact;
-  color-adjust: exact;
+  -webkit-print-color-adjust: exact; 
 }
 @media print{
   ::ng-deep .mat-expansion-panel-content
