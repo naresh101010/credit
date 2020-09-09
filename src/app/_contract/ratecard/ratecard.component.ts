@@ -1713,8 +1713,6 @@ insuValidDate(modeltnc) {
          this.spinner.hide();
         for (var item of this.carddetail) {
           item["showRctoggle"] = false;
-          item["baseLocnBranchName"]= item.baseLocnBranchName;
-          item["baseLocnBranchId"] = item.baseLocnBranchId;
                     this.rateCardDetails.push(item)
                   }
         this.rateCardDetails.sort((a, b) => a.id - b.id); 

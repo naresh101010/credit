@@ -15,7 +15,7 @@
 #mat-toolbar {background: white;color: black;font-family: "Open Sans", sans-serif !important;}  
 /* naresh */
 span.main {display: block;}
-.parent {cursor: pointer;display: block;background: #1b904d;display: block;border-left: .5rem solid #01632a;padding-left: 1.2rem; 
+.parent {cursor: pointer;background: #1b904d;display: block;border-left: .5rem solid #01632a;padding-left: 1.2rem; 
   line-height: 5rem;font-size: 1.6rem;}
 /* ::ng-deep .mat-drawer-content{height: 100vh !important;} */
 ::ng-deep .mat-drawer-content{height: 100vh !important;}

@@ -49,7 +49,7 @@ constructor(private sharedSearchdata: DataService,
   msadata:any
     ngOnInit() {
       ELEMENT_POST_DATA=[];
-       this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata)
+      //  this.sharedSearchdata.currentMessage.subscribe(msadata => msadata = msadata)
       
         this.msabehaviour["_value"]={}
         this.msabehaviour=this.sharedSearchdata.currentMessage.source;
