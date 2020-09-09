@@ -27,7 +27,7 @@
                     <mat-card-content>
                         <h5 class="zonalheading" style="padding-top: 2rem;">Branch Assignment &nbsp;
                             <button  *ngxPermissionsOnly="['BRANCH_CREATE']" 	[style.color]="fbranch.invalid ? 'gray' : '#27AE60'"  style="width: 2.4rem; position: relative;
-                           left: -1.5rem;cursor: pointer; font-size: 3.2rem;cursor: pointer; border: none; background: transparent;
+                           left: -1.5rem;cursor: pointer; font-size: 3.2rem;border: none; background: transparent;
                            top: .8rem;" class="material-icons" (click)="branchAssignment()" [disabled]="isValid" >add_circle</button>
                         </h5>
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12" style="padding: 0 !important;">
@@ -104,7 +104,7 @@
                             </div>
                             <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 text-center" style="width: 12%;">
                                 <button  name="addConsgner-{{i}}"  [disabled]="(branch.errors?.required || EffDT.errors?.required || field?.isValidBranchExpiryDt || field?.isValidBranchEffectiveDt)" style="color: rgb(33, 110, 36),;width: 2.4rem; position: relative; 
-                                left: -1.5rem;cursor: pointer; font-size: 3.2rem;cursor: pointer; border: none; background: transparent;"
+                                left: -1.5rem;cursor: pointer; font-size: 3.2rem; border: none; background: transparent;"
                                 *ngxPermissionsOnly="['CONSIGNOR_CREATE']" class="material-icons" (click)="openCCDialog(field)">add_circle</button>   
                             </div>
                             <div class="col-lg-1 col-md-1 text-left  " style="width: 15%;"> 

@@ -1381,26 +1381,27 @@ export class ExcludePinDialogBox {
 
   getCityList() {
     this.spinner.show();
-    this.contractservice.getCityByStateNPinFeatureId(this.stateId,this.data.geoFeatureId).subscribe(result => {
-     let ob = ErrorConstants.validateException(result);
-      if (ob.isSuccess) {
-        let cityData = [];
-        result.data.responseData.forEach(element => {
-          cityData.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
-        });
-        this.cityList = JSON.parse(JSON.stringify(cityData));
-      }else {
-        this.cityList = [];
-        this.tosterService.error(ob.message);
-      }
-      this.spinner.hide();
-    }
-    ),error=>{
-      this.cityList = [];
-      this.spinner.hide();
-      console.log(error);
-      this.tosterService.error(ErrorConstants.getValue(404));
-    };
+    this.contractservice.getCityByStateNPinFeatureId(this.stateId,this.data.geoFeatureId).subscribe(
+      result => {
+          let ob = ErrorConstants.validateException(result);
+          if (ob.isSuccess) {
+            let cityData = [];
+            result.data.responseData.forEach(element => {
+              cityData.push({ id: element.id, lookupVal: element.cityName,descr: element.cityName });
+            });
+            this.cityList = JSON.parse(JSON.stringify(cityData));
+          }else {
+            this.cityList = [];
+            this.tosterService.error(ob.message);
+          }
+          this.spinner.hide();
+        }, error=>{
+          this.cityList = [];
+          this.spinner.hide();
+          console.log(error);
+          this.tosterService.error(ErrorConstants.getValue(404));
+        }
+  );
   }
 
   closeDialog(): void {
@@ -1426,7 +1427,8 @@ export class ExcludePinDialogBox {
   getPincode(flag) {
     this.spinner.show();
     this.allPincodeList = [];
-    this.contractservice.getPincodeByFeature(this.stateId, this.cityId, this.data.geoFeatureId).subscribe(resultData => {
+    this.contractservice.getPincodeByFeature(this.stateId, this.cityId, this.data.geoFeatureId).subscribe(      
+      resultData => {
       let ob = ErrorConstants.validateException(resultData);
       if (ob.isSuccess) {
         if (this.excludedPincodeList && this.excludedPincodeList.length > 0 && flag != 1) {
@@ -1470,10 +1472,12 @@ export class ExcludePinDialogBox {
         this.tosterService.error(ob.message);
       }
       this.spinner.hide();
-    }), error => {
+    }, 
+    error => {
       this.spinner.hide();
       this.tosterService.error(ErrorConstants.getValue(404));
-    };
+    }
+    );
   }
 
   addToExcludeList() {

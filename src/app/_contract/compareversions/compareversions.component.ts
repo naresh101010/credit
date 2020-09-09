@@ -237,16 +237,18 @@ export class CompareversionsComponent implements OnInit {
     let changedObject = this.versionDifference.billingPrevDTO.billingBy[bindex];
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
+    } else {
+        return false;
     }
-    else false;
   }
 
   ifBillingCneeorMapObjectChanged(bindex, property) {
     let changedObject = this.versionDifference.billingPrevDTO.billingCneeCnorMap[bindex];
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
+    }else {
+      return false;
     }
-    else false;
   }
 
   ifServiceObjectChanged(sindex, property) {
@@ -254,8 +256,9 @@ export class CompareversionsComponent implements OnInit {
     let changedObject = this.versionDifference.serviceOfferings[sindex];
     if (changedObject && changedObject.hasOwnProperty(property)) {
       return true;
+    } else {
+      return false;
     }
-    else false;
   }
 
   ifRatecardObjectChanged(item, sindex, rindex, property) {
