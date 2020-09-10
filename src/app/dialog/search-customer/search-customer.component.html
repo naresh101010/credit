@@ -1,11 +1,11 @@
 <div class="modal-container">
-    <h4 class="sub_heading"><strong>Search Customer</strong></h4>
+    <h4 class="sub_heading"><b>Search Customer</b></h4>
     <mat-icon class="modals_cancel_btn" [mat-dialog-close]="false">close</mat-icon>
     <hr class="border_row">
   </div>
   <div class="row">
     <div class="col-md-4">
-      <mat-label><strong>Select Customers Type </strong></mat-label>
+      <mat-label><b>Select Customers Type </b></mat-label>
     </div>
     <div class="col-md-8">
       <div class="module_area">
@@ -18,7 +18,7 @@
   </div>
   <div class="row">
     <div class="col-md-3">
-      <mat-label><strong>Search Customer</strong></mat-label>
+      <mat-label><b>Search Customer</b></mat-label>
     </div>
     <div class="col-md-4">
       <div class="search_bar_mdm2d searchbar_mdm2">
@@ -39,7 +39,7 @@
     
             <!-- Position Column -->
             <ng-container matColumnDef="customerName">
-              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header><strong>CUSTOMER NAME</strong></th>
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header><b>CUSTOMER NAME</b></th>
               <td mat-cell *matCellDef="let element">
                   <a>
                     <div class="row_center row_center_width" matTooltipPosition="above"><mat-checkbox name="check_{{element.msaId}}" [(ngModel)] ="element.checked"></mat-checkbox>  {{element.customerName}}</div>
@@ -49,7 +49,7 @@
     
             <!-- Name Column -->
             <ng-container matColumnDef="contractCode">
-              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>{{custType ? "PRC" : "SFX"}} CODE</strong></th>
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <b>{{custType ? "PRC" : "SFX"}} CODE</b></th>
               <td mat-cell *matCellDef="let element">
                   <div class="row_center row_center_width" matTooltipPosition="above">{{element.contractCode}}</div>
               </td>
@@ -57,7 +57,7 @@
     
             <!-- Weight Column -->
             <ng-container matColumnDef="Abranch">
-              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>ASSIGN BRANCH</strong></th>
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <b>ASSIGN BRANCH</b></th>
               <td mat-cell *matCellDef="let element">
                 <div class="row_center row_center_width"> <span *ngFor="let branch of element.branches">{{branch?.branchName ? branch?.branchName : element}} </span></div>
               </td>

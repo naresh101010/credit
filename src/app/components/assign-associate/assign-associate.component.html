@@ -119,7 +119,7 @@
         <div class="row mt_15" *ngxPermissionsOnly="['VIEW CONTRACT_READ']">
           <div class="col-md-2 grey_card_width col-sm-6"  *ngFor="let contract of associateResData">
             <div class="gray_card_msa1" [ngStyle]="(selectedContractId == contract.id) ?  {'background': '#27AE60', 'color': '#fff'} : ''" >
-              <h3 class="type_date_msa1">{{contract.cntrCode}} <i class="fa fa-info" aria-hidden="true" (click)="openViewBranchesModal(contract)"></i></h3>
+              <h3 class="type_date_msa1">{{contract.cntrCode}} <em class="fa fa-info" aria-hidden="true" (click)="openViewBranchesModal(contract)"></em></h3>
               <div >
                 <p>Type: Booking</p>
                 <p>Start Date: {{contract.effectiveDt | date: 'dd/MM/yyyy'}}</p>
