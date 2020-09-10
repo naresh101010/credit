@@ -1,0 +1,243 @@
+{
+  "data": {
+    "responseData": {
+      "assocName": "CONT F NAME CONTACT M NAME CONT L NAME",
+      "asscoCtrgy": "BOOKING",
+      "cntrCode": "MAP39",
+      "wefDate": "2020-05-08",
+      "effectiveDt": "2020-05-08",
+      "expDt": "2020-05-09",
+      "billingCyle": "EVERY 30 DAYS",
+      "cntrctStatus": "ACTIVE",
+      "branchAllocationPrev": [
+        {
+          "branchName": "ABOHAR-01",
+          "branchType": "CORPORATE",
+          "efftvDate": "2020-05-25",
+          "exprDate": "2020-05-25",
+          "assignedVehicle": [
+            "ab009"
+          ]
+        },
+        {
+          "branchName": "ABOHAR-03",
+          "branchType": "AREA",
+          "efftvDate": "2020-05-26",
+          "exprDate": "2020-05-26",
+          "assignedVehicle": [
+            "ab009",
+            "VJK02345"
+          ]
+        },
+        {
+          "branchName": "ABOHAR-02",
+          "branchType": "REGION",
+          "efftvDate": "2020-05-26",
+          "exprDate": "2020-05-26",
+          "assignedVehicle": [
+            "VJ8D2345",
+            "VJK02345"
+          ]
+        }
+      ],
+      "paymentTermsPrev": {
+        "id": 144,
+        "addtnlExpnsFlag": 0,
+        "addtnlExpnsRemark": "CORE TEST",
+        "addtnlParamFlag": 1,
+        "addtnlParamVal": 123,
+        "custPymtFlag": 1,
+        "effectiveDt": "2020-05-28",
+        "exgratiaFlag": 1,
+        "lkpAssocAddtnlParamId": "ACTUAL WEIGHT",
+        "lkpAssocBkngExpnsTypeName": "PER PACKAGE",
+        "lkpAssocBkngPayoutCtgyName": "BOOKING",
+        "maxAmtPerWaybl": 0,
+        "minGuaranteeFlag": 0,
+        "minAmtPerWaybl": 0,
+        "serviceOffrnPrev": [
+          {
+            "price": 125,
+            "serviceOfferingId": 1,
+            "branchModType": 789,
+            "lkpCargoCapacityId": 1
+          },
+          {
+            "price": 126,
+            "serviceOfferingId": 1,
+            "branchModType": 788,
+            "lkpCargoCapacityId": 1
+          },
+          {
+            "price": 127,
+            "serviceOfferingId": 1,
+            "branchModType": 790,
+            "lkpCargoCapacityId": 1
+          },
+          {
+            "price": 127,
+            "serviceOfferingId": 2,
+            "branchModType": 790,
+            "lkpCargoCapacityId": 1
+          },
+          {
+            "price": 127,
+            "serviceOfferingId": 2,
+            "branchModType": 790,
+            "lkpCargoCapacityId": 1
+          }
+        ],
+        "bookingBranchCommerciaList": [
+          {
+            "branchName": "ABOHAR-02",
+            "efftvDate": "2020-05-28",
+            "exprDate": "2020-05-27",
+            "amt": 15000,
+            "reason": "testing",
+            "type": "MG"
+          },
+          {
+            "branchName": "ABOHAR-01",
+            "efftvDate": "2021-05-27",
+            "exprDate": "2020-05-27",
+            "amt": 15000,
+            "reason": "TESTING",
+            "type": "EX-GRACIA"
+          }
+        ],
+        "mdmNotePadlist": [
+          {
+            "id": 9,
+            "notepadName": "SAMPLE RADIO",
+            "attributeValue": "test_notepad"
+          }
+        ]
+      },
+      "bookingCommercialCustomerPrev": [
+        {
+          "addtnlExpnsFlag": 1,
+          "addtnlParamFlag": 1,
+          "addtnlParamVal": 1,
+          "effectiveDt": "2020-05-29",
+          "expDt": "2020-05-29",
+          "lkpAssocAddtnlParamId": "ACTUAL WEIGHT",
+          "lkpAssocBkngExpnsTypeName": "PER PACKAGE",
+          "lkpAssocBkngPayoutCtgyName": "PERTRIP",
+          "maxAmtPerWaybl": 1,
+          "minAmtPerWaybl": 1,
+          "serviceOffrnPrev": [
+            {
+              "price": 23,
+              "serviceOfferingId": 1,
+              "branchModType": 788
+            }
+          ],
+          "attr1": "test cust name",
+          "msaCustId": 1
+        }
+      ],
+      "bookingDeductionPrev": {
+        "slaFlag": 1,
+        "wrongDimFlag": 1,
+        "wrongWayblFlag": 1,
+        "wrongWtFlag": 1,
+        "lateArrFlag": 1,
+        "advncDedctnAmt": 42,
+        "advncDedctnAmtFlag": 1,
+        "advncDedctnAmtFromDt": "2020-04-11",
+        "advncDedctnAmtToDt": "2020-04-12",
+        "vehicleDeductionList": [
+          {
+            "branchName": "ABOHAR-03",
+            "efftvDate": "2020-09-12",
+            "exprDate": "2020-10-12",
+            "amt": 0,
+            "type": "STRING",
+            "vehicleName": "VJK02345"
+          },
+          {
+            "branchName": "ABOHAR-02",
+            "efftvDate": "2020-09-12",
+            "exprDate": "2020-10-12",
+            "amt": 0,
+            "type": "STRING",
+            "vehicleName": "VJK02345"
+          },
+          {
+            "branchName": "ABOHAR-03",
+            "efftvDate": "2020-04-11",
+            "exprDate": "2020-04-11",
+            "amt": 10,
+            "type": "EMI",
+            "vehicleName": "VJK02345"
+          },
+          {
+            "branchName": "ABOHAR-02",
+            "efftvDate": "2020-04-11",
+            "exprDate": "2020-04-11",
+            "amt": 10,
+            "type": "EMI",
+            "vehicleName": "VJK02345"
+          }
+        ]
+      }
+    },
+    "referenceData": {
+      "paymentModeList": [
+        {
+          "id": 788,
+          "lookupVal": "CREDIT",
+          "descr": "CREDIT"
+        },
+        {
+          "id": 789,
+          "lookupVal": "PAID",
+          "descr": "PAID"
+        },
+        {
+          "id": 790,
+          "lookupVal": "TOPAY",
+          "descr": "TOPAY"
+        }
+      ],
+      "vehicleCargoCapacityList": [
+        {
+          "id": 31,
+          "lookupVal": "8 TONNES",
+          "descr": "8 TONNES"
+        },
+        {
+          "id": 32,
+          "lookupVal": "9 TONNES",
+          "descr": "9 TONNES"
+        }
+      ],
+      "serviceOfferingList": [
+        {
+          "id": 1,
+          "serviceOffering": "SURFACE",
+          "lkpServiceLineId": 128,
+          "status": 1
+        },
+        {
+          "id": 3,
+          "serviceOffering": "EXPRESS",
+          "lkpServiceLineId": 128,
+          "status": 1
+        },
+        {
+          "id": 2,
+          "serviceOffering": "AIR",
+          "lkpServiceLineId": 128,
+          "status": 1
+        },
+        {
+          "id": 1123,
+          "serviceOffering": "SAMPLE555",
+          "lkpServiceLineId": 128,
+          "status": 1
+        }
+      ]
+    }
+  }
+}

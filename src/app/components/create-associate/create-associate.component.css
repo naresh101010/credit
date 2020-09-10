@@ -1,0 +1,20 @@
+.is-invalid {
+    border-color: red !important;
+}
+
+.mat-select-disabled {
+    background-color: #fff !important;
+    border-bottom: 1.8px solid #6a6868 !important;;
+}
+
+::ng-deep.mat-form-field-disabled .mat-select-value
+    { 
+     color: #6a6868 !important;
+    position: relative !important;
+    top: 3px !important;
+    } 
+
+::ng-deep.mat-form-field-disabled .mat-select-arrow
+    {
+        color: #6a6868 !important;
+    }

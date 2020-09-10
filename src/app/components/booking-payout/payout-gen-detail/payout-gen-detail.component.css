@@ -1,0 +1,35 @@
+.tableRow {
+    height: 4.5rem;
+    background: #f1f1f1;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-weight: bold;
+    padding-left: 3rem;
+}
+.tblDataRow{
+    height: 4.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.tableDataComman{
+    height: 6.5rem !important;
+    display: flex !important;
+    align-items: center;
+}
+/* .tableHead .tableRowItm{
+    background: red;
+} */
+
+.pd_zero{
+    padding: 0 !important;
+}
+
+.allc .mat-select-value {
+    padding-top: 0rem! important;
+}
+.prefixCom .mat-input-element {
+    padding-left: 6.5rem !important;
+}

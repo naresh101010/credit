@@ -1,0 +1,605 @@
+<div class="modal-container">
+    <div class="row">
+        <div class="col-md-2">
+            <h5 class="sub_heading"><strong>Preview For Edited Data</strong></h5>
+        </div>
+        <div class="col-md-3">
+            <div class="row">
+                <div class="col-md-6" (click)="sendEmail()">
+                    <p><img class="preview_email_icon" src="../assets/images/envelope.png" alt="email">
+                        <strong>Email</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <button style="cursor: pointer !important;width: 12rem;font-size: 2.8rem; border: none; background: transparent;left:0; top: 0.7rem; display: flex;" [useExistingCss]="true"
+                  printTitle="{{previewList?.assocName}}" printSectionId="previewContent" ngxPrint>   <img style="margin-right: 7px;" src="../assets/images/printer.png"> <p style="font-weight: bold;">Print</p></button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1 col-md-offset-5 text-right" *ngxPermissionsOnly="['VIEW CONTRACT_CREATE','VIEW CONTRACT_UPDATE']">
+            <button mat-button class="theme-button" (click)="submitContract()">Submit</button>
+        </div>
+    </div>
+    <mat-icon class="modals_cancel_btn" (click)="onCloseEditPreview()">close</mat-icon>
+    <hr class="border_row">
+</div>
+<section class="preview_sec preview_popup">
+    <div id="previewContent" #previewContent>
+        <div class="preview_main_card">
+            <section class="mgsg_print_sec">
+            </section>
+            <section class="preview_sec_1">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h2><strong>Booking Associate Contract</strong></h2>
+                    </div>
+                    <div class="col-md-6 text-right">
+                        <h3>Preview Generated on: {{this.currDate | date: 'dd MMM yy'}}</h3>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h3><strong>Associate Name:</strong> {{previewList?.assocName}}</h3>
+                        <h3><strong>Associate Category:</strong> {{previewList?.asscoCtrgy}}</h3>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="pull-right">
+                            <h3><strong>Contract Code:</strong> {{previewList?.cntrCode}}</h3>
+                            <h3><strong>W.E.F:</strong> {{previewList?.wefDate | date: 'dd/MM/yyyy'}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_3">
+                <h3><strong>Contract Details</strong></h3>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Start Date</strong></div>
+                                <div class="mat-cell preview_table_bg_2">{{previewList?.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Billing Cycle</div>
+                                <div class="mat-cell preview_table_bg_2">{{previewList?.billingCyle}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>End Date</strong></div>
+                                <div class="mat-cell preview_table_bg_2">{{previewList?.expDt | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Status</div>
+                                <div class="mat-cell preview_table_bg_2">{{previewList?.cntrctStatus}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_3 preview_sec_4" *ngIf="previewList?.branchAllocationPrev.length > 0">
+                <h3><strong>Allocation</strong></h3>
+                <h3 style="font-weight: bold;"> <img src="../assets/images/component 1.png" alt="add"> Branch</h3>
+                <div class="row">
+                    <div class="col-md-11">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">Branch Name</div>
+                                <div class="mat-cell pab_table_head">Branch Type</div>
+                                <div class="mat-cell pab_table_head">Effective Date</div>
+                                <div class="mat-cell pab_table_head">Expiry Date</div>
+                                <div class="mat-cell pab_table_head">Vehicle Assigned</div>
+                            </div>
+                            <div class="mat-row border_none"
+                                *ngFor="let branch of previewList?.branchAllocationPrev; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">{{branch.branchName}}</div>
+                                <div class="mat-cell pab_table_dis1">{{branch.branchType}}</div>
+                                <div class="mat-cell pab_table_dis1">{{branch.efftvDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{branch.exprDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{branch.assignedVehicle}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_3 preview_sec_4" *ngIf="previewList?.paymentTermsPrev?.id || graciaList.length > 0 || mgList.length > 0">
+                <h3><strong>Payment Terms</strong></h3>
+                <div class="row payment_base_t" *ngIf="previewList?.paymentTermsPrev?.id">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Payment Based On</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.lkpAssocBkngPayoutCtgyName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Expense Type</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.lkpAssocBkngExpnsTypeName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- If payout based on BOOKING start-->
+                <div class="row" *ngIf="previewList?.paymentTermsPrev?.lkpAssocBkngPayoutCtgyName === 'BOOKING' && uniqueOfferings.length > 0">
+                    <div class="col-md-9">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">Service Offering</div>
+                                <div class="mat-cell pab_table_head">Credit</div>
+                                <div class="mat-cell pab_table_head">Paid</div>
+                                <div class="mat-cell pab_table_head">To Day</div>
+                            </div>
+                            <div class="mat-row border_none" *ngFor="let data of uniqueOfferings; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">{{data?.serviceLookup}}</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{data?.creditAmt}} /PCKG</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{data?.paidAmt}} /PCKG</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{data?.toPayAmt}} /PCKG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- If payout based on BOOKING end-->
+
+                <!-- If payout based on PERTRIP start-->
+                <div class="row" *ngIf="previewList?.paymentTermsPrev?.lkpAssocBkngPayoutCtgyName === 'PERTRIP' && previewList?.paymentTermsPrev?.serviceOffrnPrev.length > 0">
+                    <div class="col-md-9">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">VEHICLE MODEL</div>
+                                <div class="mat-cell pab_table_head">RATE</div>
+                            </div>
+                            <div class="mat-row border_none"
+                                *ngFor="let trip of previewList?.paymentTermsPrev?.serviceOffrnPrev; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">
+                                    {{trip.lkpCargoCapacityId | lookupValue : "lookupVal" : previewRefList.vehicleCargoCapacityList}}
+                                </div>
+                                <div class="mat-cell pab_table_dis1">{{trip.price}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- If payout based on PERTRIP end-->
+
+                <!-- If payout based on OFFERING start-->
+                <div class="row" *ngIf="previewList?.paymentTermsPrev?.lkpAssocBkngPayoutCtgyName === 'OFFERING' && previewList?.paymentTermsPrev?.serviceOffrnPrev.length > 0">
+                    <div class="col-md-12">
+                        <div class="mat-table preview_table_2 dynmc_tbl">
+                            <div class="mat-row border_none row">
+                                <div class="mat-cell pab_table_head col-print-2">EXPENSE TYPE</div>
+                                <div class="mat-cell pab_table_head col-print-1"
+                                    *ngFor="let offer of previewList?.paymentTermsPrev?.serviceOffrnPrev; let i = index">
+                                    {{offer.serviceOfferingId | lookupValue : "serviceOffering" : previewRefList.serviceOfferingList}}
+                                </div>
+                            </div>
+                            <div class="mat-row border_none row">
+                                <div class="mat-cell pab_table_dis1 col-print-2 pab_table_dis2">
+                                    {{previewList?.paymentTermsPrev?.lkpAssocBkngExpnsTypeName}}</div>
+                                <div class="mat-cell pab_table_dis1 col-print-1"
+                                    *ngFor="let offering of previewList?.paymentTermsPrev?.serviceOffrnPrev; let i = index">
+                                    {{offering.price}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- If payout based on OFFERING end-->
+
+                <div class="row payment_base_t" *ngIf="previewList?.paymentTermsPrev?.id">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Per Waybill Min</div>
+                                <div class="mat-cell preview_table_bg_2">Rs.
+                                    {{previewList?.paymentTermsPrev?.minAmtPerWaybl}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Additional Parameter</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.addtnlParamFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Amount</div>
+                                <div class="mat-cell preview_table_bg_2">RS.
+                                    {{previewList?.paymentTermsPrev?.addtnlParamVal}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">End Date</div>
+                                <div class="mat-cell preview_table_bg_2">{{previewList?.paymentTermsPrev?.expDt | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Per Waybill Max</div>
+                                <div class="mat-cell preview_table_bg_2">Rs.
+                                    {{previewList?.paymentTermsPrev?.maxAmtPerWaybl}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Parameter</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.lkpAssocBkngPayoutCtgyName}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Start Date</div>
+                                <div class="mat-cell preview_table_bg_2">{{previewList?.paymentTermsPrev?.effectiveDt | date: 'dd/MM/yyyy'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_3 preview_sec_4 preview_sec_5" *ngIf="graciaList.length > 0 || previewList?.paymentTermsPrev?.id">
+                <h3><strong>Ex - Gratia</strong></h3>
+                <div class="row pb_15" *ngIf="previewList?.paymentTermsPrev?.id">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Ex - Gratia Applicable</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.exgratiaFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="graciaList.length > 0">
+                    <div class="col-md-11">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">Branch</div>
+                                <div class="mat-cell pab_table_head">Ex - Gratia Amount</div>
+                                <div class="mat-cell pab_table_head">Reason</div>
+                                <div class="mat-cell pab_table_head">Start Date</div>
+                                <div class="mat-cell pab_table_head">End Date</div>
+                            </div>
+                            <div class="mat-row border_none" *ngFor="let gratia of graciaList; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">{{gratia.branchName}}</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{gratia.amt}}</div>
+                                <div class="mat-cell pab_table_dis1">{{gratia.reason}}</div>
+                                <div class="mat-cell pab_table_dis1">{{gratia.efftvDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{gratia.exprDate | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row payment_base_t" *ngIf="previewList?.paymentTermsPrev?.id">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Promotion Applicable</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.addtnlParamFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Customer Specific Payment</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.custPymtFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Additional Expense</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.addtnlExpnsFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Remarks</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.addtnlExpnsRemark}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_3 preview_sec_4 preview_sec_5" *ngIf="previewList?.bookingCommercialCustomerPrev.length > 0">
+                <div  *ngFor="let custData of previewList?.bookingCommercialCustomerPrev; let j=index">
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="customer_preview" style="margin: 2rem,0;">
+                            <p><strong>Customer:</strong> <span
+                                    style="text-transform: uppercase;">{{custData?.customerName}}</span></p>
+                            <p><strong>SFX/ PRC Code:</strong> {{custData?.cntrCode}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row payment_base_t">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Payout Based On</strong></div>
+                                <div class="mat-cell preview_table_bg_2">{{custData?.lkpAssocBkngPayoutCtgyName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Expense Type</strong></div>
+                                <div class="mat-cell preview_table_bg_2">{{custData?.lkpAssocBkngExpnsTypeName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BOOKING Start -->
+                <div class="row" *ngIf="custData?.lkpAssocBkngPayoutCtgyName === 'BOOKING' && uniqueOfferingsForCustomer[j].length > 0">
+                    <div class="col-md-9">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">Service Offering</div>
+                                <div class="mat-cell pab_table_head">Credit</div>
+                                <div class="mat-cell pab_table_head">Paid</div>
+                                <div class="mat-cell pab_table_head">To Day</div>
+                            </div>
+                            <div class="mat-row border_none"
+                                *ngFor="let custService of uniqueOfferingsForCustomer[j]; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">{{custService.serviceLookup}}</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{custService.creditAmt}} / PCKG</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{custService.paidAmt}} / PCKG</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{custService.toPayAmt}} / PCKG</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- BOOKING End -->
+
+                <!-- If payout based on PERTRIP start-->
+                <div class="row" *ngIf="custData?.lkpAssocBkngPayoutCtgyName === 'PERTRIP' && custData?.serviceOffrnPrev.length > 0">
+                    <div class="col-md-9">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">VEHICLE MODEL</div>
+                                <div class="mat-cell pab_table_head">RATE</div>
+                            </div>
+                            <div class="mat-row border_none"
+                                *ngFor="let trip of custData?.serviceOffrnPrev; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">
+                                    {{trip?.lkpCargoCapacityId | lookupValue : "lookupVal" : previewRefList.vehicleCargoCapacityList}}
+                                </div>
+                                <div class="mat-cell pab_table_dis1">{{trip?.price}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- If payout based on PERTRIP end-->
+
+                <!-- If payout based on OFFERING start-->
+                <div class="row" *ngIf="custData?.lkpAssocBkngPayoutCtgyName === 'OFFERING' && custData?.serviceOffrnPrev.length > 0">
+                    <div class="col-md-12">
+                        <div class="mat-table preview_table_2 dynmc_tbl">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">EXPENCE TYPE</div>
+                                <div class="mat-cell pab_table_head"
+                                    *ngFor="let offer of custData?.serviceOffrnPrev; let i = index">
+                                    {{offer?.serviceOfferingId | lookupValue : "serviceOffering" : previewRefList.serviceOfferingList}}
+                                </div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">
+                                    {{previewList?.paymentTermsPrev?.lkpAssocBkngExpnsTypeName}}</div>
+                                <div class="mat-cell pab_table_dis1"
+                                    *ngFor="let offering of custData?.serviceOffrnPrev; let i = index">
+                                    {{offering?.price}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- If payout based on OFFERING end-->
+
+                <div class="row payment_base_t">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Per Waybill Min</div>
+                                <div class="mat-cell preview_table_bg_2">Rs. {{custData?.minAmtPerWaybl}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Additional Parameter</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{custData?.addtnlParamFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Amount</div>
+                                <div class="mat-cell preview_table_bg_2">RS. {{custData?.addtnlParamVal}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">End Date</div>
+                                <div class="mat-cell preview_table_bg_2">{{custData?.expDt | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Per Waybill Max</div>
+                                <div class="mat-cell preview_table_bg_2">Rs. {{custData?.maxAmtPerWaybl}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Parameter</div>
+                                <div class="mat-cell preview_table_bg_2">{{custData?.lkpAssocAddtnlParamId}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Start Date</div>
+                                <div class="mat-cell preview_table_bg_2">{{custData?.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            </section>
+            <section class="preview_sec_3 preview_sec_4 preview_sec_5" *ngIf="previewList?.paymentTermsPrev?.id || mgList.length > 0">
+                <h3><strong>Minimum Guarantee</strong></h3>
+                <div class="row pb_15" *ngIf="previewList?.paymentTermsPrev?.id">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>MG Applicable</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.paymentTermsPrev?.minGuaranteeFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" *ngIf="mgList.length > 0">
+                    <div class="col-md-11">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">Branch</div>
+                                <div class="mat-cell pab_table_head">MG Amount</div>
+                                <div class="mat-cell pab_table_head">Reason</div>
+                                <div class="mat-cell pab_table_head">Start Date</div>
+                                <div class="mat-cell pab_table_head">End Date</div>
+                            </div>
+                            <div class="mat-row border_none" *ngFor="let gratia of mgList; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">{{gratia.branchName}}</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{gratia.amt}}</div>
+                                <div class="mat-cell pab_table_dis1">{{gratia.reason}}</div>
+                                <div class="mat-cell pab_table_dis1">{{gratia.efftvDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{gratia.exprDate | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_3 preview_sec_4" *ngIf="previewList?.bookingDeductionPrev?.id
+            || emiList.length > 0 || insuranceList.length > 0">
+                <h3><strong>Deductions</strong></h3>
+                <div class="row payment_base_t" *ngIf="previewList?.bookingDeductionPrev?.id">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>SLA Applicable</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.slaFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Penalty Against Wrong
+                                        Dimensions</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.wrongDimFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Sla Deduction For Late Arrival To
+                                        Hub</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.lateArrFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Penalty Against Wrong Weight</strong>
+                                </div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.wrongWtFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Penalty Against Waybill</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.wrongWayblFlag === 1 ? 'Yes' : 'No'}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1"><strong>Market Vehicle Expense</strong></div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.mktVehicleExpenseFlag === 1 ? 'Yes' : 'No'}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="preview_sec_3 preview_sec_4 preview_sec_5" *ngIf="emiList.length > 0">
+                <h3><strong>EMI Deduction Calculation</strong></h3>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">Vehicle No.</div>
+                                <div class="mat-cell pab_table_head">Emi Amount</div>
+                                <div class="mat-cell pab_table_head">Start Date</div>
+                                <div class="mat-cell pab_table_head">End Date</div>
+                                <div class="mat-cell pab_table_head">Branch ID</div>
+                            </div>
+                            <div class="mat-row border_none" *ngFor="let vehicle of emiList; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">{{vehicle.vehicleName}}</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{vehicle.amt}}</div>
+                                <div class="mat-cell pab_table_dis1">{{vehicle.efftvDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{vehicle.exprDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{vehicle.branchName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="preview_sec_3 preview_sec_4 preview_sec_5" *ngIf="insuranceList.length > 0">
+                <h3><strong>Insurance Deduction Calculation</strong></h3>
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="mat-table preview_table_2">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell pab_table_head">Vehicle No.</div>
+                                <div class="mat-cell pab_table_head">Amount</div>
+                                <div class="mat-cell pab_table_head">Start Date</div>
+                                <div class="mat-cell pab_table_head">End Date</div>
+                                <div class="mat-cell pab_table_head">Branch ID</div>
+                            </div>
+                            <div class="mat-row border_none" *ngFor="let vehicle of insuranceList; let i = index">
+                                <div class="mat-cell pab_table_dis1 pab_table_dis2">{{vehicle.vehicleName}}</div>
+                                <div class="mat-cell pab_table_dis1">Rs. {{vehicle.amt}}</div>
+                                <div class="mat-cell pab_table_dis1">{{vehicle.efftvDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{vehicle.exprDate | date: 'dd/MM/yyyy'}}</div>
+                                <div class="mat-cell pab_table_dis1">{{vehicle.branchName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="preview_sec_3 preview_sec_4 preview_sec_5" *ngIf="previewList?.bookingDeductionPrev?.id">
+                <h3><strong>Advance Amount Applicable</strong></h3>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Advance Amount Applicable</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.advncDedctnAmtFlag===1 ? 'YES' : 'NO'}}</div>
+                            </div>
+                            <div class="mat-row border_none"
+                                *ngIf="previewList?.bookingDeductionPrev?.advncDedctnAmtFlag==1">
+                                <div class="mat-cell preview_table_bg_1">Start Date</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.advncDedctnAmtFromDt | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2"
+                        *ngIf="previewList?.bookingDeductionPrev?.advncDedctnAmtFlag==1">
+                        <div class="mat-table preview_table_1">
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">Advance Amount to be Deducted</div>
+                                <div class="mat-cell preview_table_bg_2">RS.
+                                    {{previewList?.bookingDeductionPrev?.advncDedctnAmt}}</div>
+                            </div>
+                            <div class="mat-row border_none">
+                                <div class="mat-cell preview_table_bg_1">end Date</div>
+                                <div class="mat-cell preview_table_bg_2">
+                                    {{previewList?.bookingDeductionPrev?.advncDedctnAmtToDt | date: 'dd/MM/yyyy'}}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</section>
