@@ -169,7 +169,7 @@
             <div class="col-md-10">
               <div class="table-responsive create_new_tale_mdm2" *ngIf="emiDeductionArray?.length > 0">
 
-                <table mat-table [dataSource]="emiDatasource" class="mat-elevation-z8">
+                <table aria-describedby="table" mat-table [dataSource]="emiDatasource" class="mat-elevation-z8">
 
                   <ng-container matColumnDef="Vnumber">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong>VEHICLE NUMBER</strong></th>
@@ -239,7 +239,7 @@
             <div class="col-md-10">
               <div class="table-responsive create_new_tale_mdm2" *ngIf="insuranceDeductionArray?.length > 0">
 
-                <table mat-table [dataSource]="insuranceDatasource" class="mat-elevation-z8">
+                <table aria-describedby="table" mat-table [dataSource]="insuranceDatasource" class="mat-elevation-z8">
 
                   <ng-container matColumnDef="Vnumber">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong>VEHICLE NUMBER</strong></th>

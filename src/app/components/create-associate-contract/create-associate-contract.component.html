@@ -54,7 +54,7 @@
         <div class="col-md-12">
         <div class="table-responsive" style="margin-bottom: 30px; overflow: hidden !important;">
 
-          <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="updDt" matSortDirection="desc" 
+          <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" matSortActive="updDt" matSortDirection="desc" 
           matSortDisableClear *ngxPermissionsOnly="['CREATE ASSOCIATE_READ']">
 
               <ng-container matColumnDef="contactFname">

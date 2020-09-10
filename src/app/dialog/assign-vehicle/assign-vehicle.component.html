@@ -15,7 +15,7 @@
     <div class="col-md-12">
       <div class="table-responsive create_new_tale_mdm2">
 
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   
           <!-- Position Column -->
           <ng-container matColumnDef="vehicleNumber" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('VEHICLE NUMBER'))">

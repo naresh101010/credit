@@ -122,7 +122,7 @@
         <div class="row">
           <div class="table-responsive" style="margin-bottom: 30px; overflow: hidden !important;">
 
-            <table mat-table [dataSource]="dataSource" matSort matSortActive="contractCreationDate"
+            <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort matSortActive="contractCreationDate"
               matSortDirection="desc" class="mat-elevation-z8" *ngxPermissionsOnly="['CREATE CONTRACT_READ']" >
               <!-- <caption></caption> -->
               <!-- Position Column -->

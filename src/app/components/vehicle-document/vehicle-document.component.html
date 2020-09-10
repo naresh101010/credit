@@ -132,7 +132,7 @@
           <div class="col-md-12">
             <div class="table-responsive create_new_tale_mdm2">
 
-              <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngxPermissionsOnly="['VEHICLEDOC_READ']">
+              <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngxPermissionsOnly="['VEHICLEDOC_READ']">
 
                 <ng-container matColumnDef="Kname">
                   <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>NAME</strong></th>
@@ -185,7 +185,7 @@
             <div class="col-md-12">
               <div class="table-responsive create_new_tale_mdm2">
 
-                <table mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
+                <table aria-describedby="table" mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
 
                   <ng-container matColumnDef="name">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong>NAME</strong></th>
