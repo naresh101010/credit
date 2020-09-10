@@ -2,7 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { timer, Subscription } from "rxjs";
 import { Router } from '@angular/router';
 import { AppSetting } from '../../app.setting';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-success',
