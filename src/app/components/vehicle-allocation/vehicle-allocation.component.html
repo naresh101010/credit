@@ -121,7 +121,7 @@
                     <td mat-cell *matCellDef="let element">
                       <div class="row_center row_center_width" matTooltipPosition="above">
                         <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['ADD VEHICLE_UPDATE']" (click)="addEditVehicle(element.id)" style="cursor: pointer;">create</em>
-                        <img src="/assets/images/documen.png" alt="Document" *ngxPermissionsOnly="['VEHICLEDOC_READ']" (click)="addVehicleDocument(element)">
+                        <img alt="img"src="/assets/images/documen.png" alt="Document" *ngxPermissionsOnly="['VEHICLEDOC_READ']" (click)="addVehicleDocument(element)">
                       </div>
                     </td>
                   </ng-container>

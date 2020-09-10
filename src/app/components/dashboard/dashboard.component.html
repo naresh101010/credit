@@ -233,7 +233,7 @@
     <div class="col-md-2">
       <div class="mo_float_left pull-right top_block" *ngxPermissionsOnly="['DRAFT CONTRACTS_READ']"
         [ngClass]="selectedValue === 'DRAFT' ? 'greenBlock' : 'whiteBlock'" (click)="onSelectBlock('DRAFT')">
-        <img [src]="selectedValue === 'DRAFT' ? '/assets/images/draft_white.png' :'/assets/images/inDraftMode_icon.png'"
+        <img alt="img"[src]="selectedValue === 'DRAFT' ? '/assets/images/draft_white.png' :'/assets/images/inDraftMode_icon.png'"
           width="26px" alt="inDraftMode_icon">
         <h3 class="fontSizeDashboard" [ngClass]="selectedValue === 'DRAFT' ? 'white' : 'green'">Draft Mode <span
             [ngClass]="selectedValue === 'DRAFT' ? 'whiteTextColor' : 'redTextColor'">({{dashboardTotalCount.draftCount}})
@@ -247,7 +247,7 @@
 
       <div *ngxPermissionsOnly="['EXPIRING SOON CONTRACTS_READ']" class="pull-right" [ngClass]="selectedValue === 'EXPIRING' ? 'greenBlock' : 'whiteBlock'"
         (click)="onSelectBlock('EXPIRING')" style="cursor: pointer;">
-        <img width="26px" alt="img"
+        <img alt="img"width="26px" alt="img"
           [src]="selectedValue === 'EXPIRING' ? '/assets/images/expiring_white.png' : '/assets/images/expiring_icon.png'">
         <h3 class="fontSizeDashboard">Expiring Soon <span
             [ngClass]="selectedValue === 'EXPIRING' ? 'whiteTextColor' : 'redTextColor'">({{dashboardTotalCount.expCount}})</span>
@@ -297,7 +297,7 @@
       <div class="pull-right" *ngFor="let item of bookemarkedArray; let j=index"
         [ngClass]="selectedValue === item.value ? 'greenBlock' : 'whiteBlock'" (click)="onSelectBlock(item.value)"
         cdkDrag>
-        <img style="margin-bottom: 7px;" width="26px" alt="" />
+        <img alt="img"style="margin-bottom: 7px;" width="26px" alt="" />
         <p style="font-size: 1.8rem;text-align: center;line-height: 1.2; font-weight: 600;"
           [ngClass]="selectedValue === item.value ? 'white' : 'green'"> hello </p>
         <div>
@@ -322,7 +322,7 @@
             <mat-icon style="padding-top:2px;color:black">turned_in_not</mat-icon>
             <mat-icon class="heartIcon1 ">favorite</mat-icon>
             <h3 style="color: #27AE60;font-size: 2rem !important;margin-top: 0;font-weight: 600;">Associate <br>Master
-              <img src="../assets/images/associatemaster.png" class="cardImageIcon" width="35px"
+              <img alt="img"src="../assets/images/associatemaster.png" class="cardImageIcon" width="35px"
                 alt="associatemaster" />
             </h3>
           </mat-card-content>
@@ -334,7 +334,7 @@
             <mat-icon style="padding-top:2px;color:black">turned_in_not</mat-icon>
             <mat-icon class="heartIcon1 ">favorite</mat-icon>
             <h3 style="color: #27AE60;font-size: 2rem !important;margin-top: 0;font-weight: 600;">Report
-              <img src="../assets/images/terminal.png" class="cardImageIcon" width="35px" alt="terminal" />
+              <img alt="img"src="../assets/images/terminal.png" class="cardImageIcon" width="35px" alt="terminal" />
             </h3>
           </mat-card-content>
         </mat-card>

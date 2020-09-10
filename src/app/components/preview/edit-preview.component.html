@@ -6,12 +6,12 @@
         <div class="col-md-3">
             <div class="row">
                 <div class="col-md-6" (click)="sendEmail()">
-                    <p><img class="preview_email_icon" src="../assets/images/envelope.png" alt="email">
+                    <p><img alt="img"class="preview_email_icon" src="../assets/images/envelope.png" alt="email">
                         <strong>Email</strong></p>
                 </div>
                 <div class="col-md-6">
                     <button style="cursor: pointer !important;width: 12rem;font-size: 2.8rem; border: none; background: transparent;left:0; top: 0.7rem; display: flex;" [useExistingCss]="true"
-                  printTitle="{{previewList?.assocName}}" printSectionId="previewContent" ngxPrint>   <img style="margin-right: 7px;" src="../assets/images/printer.png"> <p style="font-weight: bold;">Print</p></button>
+                  printTitle="{{previewList?.assocName}}" printSectionId="previewContent" ngxPrint>   <img alt="img"style="margin-right: 7px;" src="../assets/images/printer.png"> <p style="font-weight: bold;">Print</p></button>
                 </div>
             </div>
         </div>
@@ -82,7 +82,7 @@
             </section>
             <section class="preview_sec_3 preview_sec_4" *ngIf="previewList?.branchAllocationPrev.length > 0">
                 <h3><strong>Allocation</strong></h3>
-                <h3 style="font-weight: bold;"> <img src="../assets/images/component 1.png" alt="add"> Branch</h3>
+                <h3 style="font-weight: bold;"> <img alt="img"src="../assets/images/component 1.png" alt="add"> Branch</h3>
                 <div class="row">
                     <div class="col-md-11">
                         <div class="mat-table preview_table_2">
