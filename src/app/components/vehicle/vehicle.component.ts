@@ -276,6 +276,8 @@ export class VehicleComponent implements OnInit {
    vehicleData = this.vehicleForm.value;
    vehicleData.regUpto = this.datePipe.transform(this.vehicleForm.value.regUpto, 'yyyy-MM-dd');
    vehicleData.insuUpto = this.datePipe.transform(this.vehicleForm.value.insuUpto, 'yyyy-MM-dd');
+
+   
    vehicleData.taxPaidFlag == 1 ? vehicleData.taxPaidDt = this.datePipe.transform(this.vehicleForm.value.taxPaidDt, 'yyyy-MM-dd') : '';
    vehicleData.taxPaidFlag == 1 ? vehicleData.taxPaidValidity = this.datePipe.transform(this.vehicleForm.value.taxPaidValidity, 'yyyy-MM-dd'):'';
    vehicleData.pollutionCheckFlag == 1 ? vehicleData.pollutionCheckDt = this.datePipe.transform(this.vehicleForm.value.pollutionCheckDt, 'yyyy-MM-dd'):'';

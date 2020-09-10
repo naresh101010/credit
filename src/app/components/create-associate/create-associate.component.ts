@@ -486,7 +486,6 @@ export class CreateAssociateComponent implements OnInit {
               return;
             }
             for (let val of this.resPincodeData) {
-              val["pincode"] = val.pincode;
               val["pincodeId"] = val.pincode;
               //val["city"] = val.city.cityName;
             }
@@ -525,7 +524,6 @@ export class CreateAssociateComponent implements OnInit {
               return;
             }
             for (let val of this.offcPincodeData) {
-              val["pincode"] = val.pincode;
               val["pincodeId"] = val.pincode;
             }
           }

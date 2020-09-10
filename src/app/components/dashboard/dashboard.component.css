@@ -45,8 +45,7 @@ header {
 
 h1 {
   margin: 0;
-  padding: 100px 0;
-  font: 44px "Arial";
+  padding: 100px 0;  
   text-align: center;
 }
 
@@ -392,7 +391,6 @@ tr.mat-row {
 
 .mat-row {
    height: auto !important;
-  border-bottom: none !important;
   background: #fff !important;
   border-bottom: 1px solid #eee !important;
 }

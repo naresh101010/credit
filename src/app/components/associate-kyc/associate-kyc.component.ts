@@ -310,7 +310,7 @@ export class AssociateKycComponent implements OnInit {
   /**toggle button action */
   swapOffToggleButton() {
     this.uploadedFileName = '';
-    this.noRecdFundMsg;
+
     if (!this.isToggle) {
       console.log("on");
       this.isToggle = true;
