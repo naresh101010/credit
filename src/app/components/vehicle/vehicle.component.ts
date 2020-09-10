@@ -278,17 +278,30 @@ export class VehicleComponent implements OnInit {
    vehicleData.insuUpto = this.datePipe.transform(this.vehicleForm.value.insuUpto, 'yyyy-MM-dd');
 
    
-   vehicleData.taxPaidFlag == 1 ? vehicleData.taxPaidDt = this.datePipe.transform(this.vehicleForm.value.taxPaidDt, 'yyyy-MM-dd') ;
-   vehicleData.taxPaidFlag == 1 ? vehicleData.taxPaidValidity = this.datePipe.transform(this.vehicleForm.value.taxPaidValidity, 'yyyy-MM-dd');
-   vehicleData.pollutionCheckFlag == 1 ? vehicleData.pollutionCheckDt = this.datePipe.transform(this.vehicleForm.value.pollutionCheckDt, 'yyyy-MM-dd');
-   vehicleData.pollutionCheckFlag == 1 ? vehicleData.pollutionValidity = this.datePipe.transform(this.vehicleForm.value.pollutionValidity, 'yyyy-MM-dd');
-   vehicleData.fitnessCheckFlag == 1 ? vehicleData.fitnessCheckDt = this.datePipe.transform(this.vehicleForm.value.fitnessCheckDt, 'yyyy-MM-dd') ;
-   vehicleData.fitnessCheckFlag == 1 ? vehicleData.fitnessCheckValidity = this.datePipe.transform(this.vehicleForm.value.fitnessCheckValidity, 'yyyy-MM-dd') ;
-   vehicleData.paintedLogoFlag == 1 ? vehicleData.bodyPaintDt = this.datePipe.transform(this.vehicleForm.value.bodyPaintDt, 'yyyy-MM-dd');
+   if(vehicleData.taxPaidFlag == 1){
+     vehicleData.taxPaidDt = this.datePipe.transform(this.vehicleForm.value.taxPaidDt, 'yyyy-MM-dd') 
+   }
+    
+  if(vehicleData.taxPaidFlag == 1){
+     vehicleData.taxPaidValidity = this.datePipe.transform(this.vehicleForm.value.taxPaidValidity, 'yyyy-MM-dd')
+   }
+   
+   if(vehicleData.pollutionCheckFlag == 1){
+     vehicleData.pollutionCheckDt = this.datePipe.transform(this.vehicleForm.value.pollutionCheckDt, 'yyyy-MM-dd')
+   }
+   if(vehicleData.pollutionCheckFlag == 1){
+     vehicleData.pollutionValidity = this.datePipe.transform(this.vehicleForm.value.pollutionValidity, 'yyyy-MM-dd')
+   }
 
-
-
-
+   if(vehicleData.fitnessCheckFlag == 1){
+     vehicleData.fitnessCheckDt = this.datePipe.transform(this.vehicleForm.value.fitnessCheckDt, 'yyyy-MM-dd') 
+   }
+   if(vehicleData.fitnessCheckFlag == 1){
+     vehicleData.fitnessCheckValidity = this.datePipe.transform(this.vehicleForm.value.fitnessCheckValidity, 'yyyy-MM-dd') 
+   }
+   if(vehicleData.paintedLogoFlag == 1){
+     vehicleData.bodyPaintDt = this.datePipe.transform(this.vehicleForm.value.bodyPaintDt, 'yyyy-MM-dd')
+   }
   //  vehicleData.taxPaidFlag == 1 ? vehicleData.taxPaidDt = this.datePipe.transform(this.vehicleForm.value.taxPaidDt, 'yyyy-MM-dd') : '';
   //  vehicleData.taxPaidFlag == 1 ? vehicleData.taxPaidValidity = this.datePipe.transform(this.vehicleForm.value.taxPaidValidity, 'yyyy-MM-dd'):'';
   //  vehicleData.pollutionCheckFlag == 1 ? vehicleData.pollutionCheckDt = this.datePipe.transform(this.vehicleForm.value.pollutionCheckDt, 'yyyy-MM-dd'):'';
