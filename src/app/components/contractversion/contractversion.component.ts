@@ -44,7 +44,7 @@ export class ContractversionComponent implements OnInit {
     elementIdOrContent: 'previewContent', // the id of html/table element
   }
 
-  customerName : String= AppSetting.customerName;
+  customerName : string= AppSetting.customerName;
 
   ngOnInit() {
     this.versions=[];

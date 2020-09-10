@@ -13,7 +13,7 @@ export class AppSetting {
 
     static vehicleId: any;
     static associateDepartment : any;
-    static vehicleNumber : string;
+    static vehiclenumber : string;
 
     public static sfdcAccId;
     public static customerName;

@@ -53,7 +53,7 @@ export class PreviewComponent implements OnInit {
     elementIdOrContent: 'previewContent', // the id of html/table element
   }
 
-  customerName : String= AppSetting.customerName;
+  customerName : string= AppSetting.customerName;
   ngOnInit() {
     this.authorizationService.setPermissions('CONTRACT');
     this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
@@ -291,7 +291,7 @@ export class EditPreviewComponent implements OnInit {
     elementIdOrContent: 'previewContent', // the id of html/table element
   }
 
-  customerName : String= AppSetting.customerName;
+  customerName : string= AppSetting.customerName;
   constructor( public dialogRef: MatDialogRef<EditPreviewComponent>,
     private spinner: NgxSpinnerService,
     private apiService: ApiService,

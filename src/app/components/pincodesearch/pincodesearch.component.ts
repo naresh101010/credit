@@ -13,13 +13,13 @@ import { ErrorConstants } from 'src/app/core/models/constants';
 
 
 export interface PincodeElement {
-  pincode: String;
-  city:String;
+  pincode: string;
+  city:string;
 }
 
 export interface PlaceClickedElement {
   id: Number;
-  pincode:String;
+  pincode:string;
 }
 
 @Component({
