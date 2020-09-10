@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppSetting } from '../../app.setting';
 import { ApiService } from '../../core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -45,7 +45,7 @@ export class AssociateKycComponent implements OnInit {
   noRecdFundMsg: boolean;
   pengingListDataSource : any;
   minDate : Date;
-  assocType: String;
+  assocType: string;
   fileToUpload: File = null;
   uploadedFileName: string = '';
   fileBrowseflag: boolean = false;
@@ -161,7 +161,7 @@ export class AssociateKycComponent implements OnInit {
       * Required Date format: yyyy-MM-dd
       * User input date formate: mm/dd/yyyy
       */
-      var formattedDate = this.datePipe.transform(this.fileModel.docExpiryDate, 'yyyy-MM-dd');;
+      var formattedDate = this.datePipe.transform(this.fileModel.docExpiryDate, 'yyyy-MM-dd');
 
       let requestData: any;
 
@@ -354,7 +354,7 @@ export class AssociateKycComponent implements OnInit {
   }
 
   validFileExtensions = [".jpg", ".jpeg", ".png", ".doc", ".pdf", ".docx"];
-  validFormatsMgs: String = 'Allowed file formats are ' + this.validFileExtensions.join(', ');
+  validFormatsMgs: string = 'Allowed file formats are ' + this.validFileExtensions.join(', ');
   // fileName
   validateFileExt(fileName) {
     if (fileName && fileName.length < 51) {

@@ -3,7 +3,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AppSetting } from 'src/app/app.setting';
 import { Router } from '@angular/router';
-import { MatDialog, MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthorizationService } from '../../core/services/authorization.service';
@@ -11,8 +11,8 @@ import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-associate-staff',
-  templateUrl: './associate-staff.component.html',
-  styleUrls: ['./associate-staff.component.css']
+  templateUrl: './associate-staff.component.html'
+ 
 })
 export class AssociateStaffComponent implements OnInit {
   minchar:boolean= false;

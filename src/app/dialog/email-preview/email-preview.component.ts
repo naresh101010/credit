@@ -38,7 +38,7 @@ export class EmailPreviewComponent implements OnInit {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement   = document.getElementById('closeButton')  ;
           escElement.click();
         }
       }

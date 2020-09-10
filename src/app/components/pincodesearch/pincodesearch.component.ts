@@ -232,7 +232,7 @@ export class PincodesearchComponent implements OnInit {
     if (event.keyCode === 27) { // esc [Close Dialog]
       event.preventDefault();
       if(document.getElementById('closeButton')){
-        let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+        let element   = document.getElementById('closeButton')  ;
         element.click();
       }
     }

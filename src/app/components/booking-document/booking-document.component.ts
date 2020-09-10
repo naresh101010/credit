@@ -365,7 +365,7 @@ export class BookingDocumentComponent implements OnInit {
     if (event.altKey && (event.keyCode === 80)) { // alt+p [Preview]
       event.preventDefault();
       if (document.getElementById('previewButton')) {
-        let element: HTMLElement = document.getElementById('previewButton') as HTMLElement;
+        let element   = document.getElementById('previewButton')  ;
         element.click();
       }
     }

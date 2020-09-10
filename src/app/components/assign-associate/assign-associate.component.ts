@@ -17,8 +17,8 @@ import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-assign-associate',
-  templateUrl: './assign-associate.component.html',
-  styleUrls: ['./assign-associate.component.css'],
+  templateUrl: './assign-associate.component.html'
+
   providers: [ApiService, DatePipe]
 })
 export class AssignAssociateComponent implements OnInit {

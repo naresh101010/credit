@@ -11,8 +11,7 @@ import { ViewBranchesComponent } from 'src/app/dialog/view-branches/view-branche
 
 @Component({
   selector: 'app-booking-associate-contract',
-  templateUrl: './booking-associate-contract.component.html',
-  styleUrls: ['./booking-associate-contract.component.css']
+  templateUrl: './booking-associate-contract.component.html'
 })
 export class BookingAssociateContractComponent implements OnInit {
 
