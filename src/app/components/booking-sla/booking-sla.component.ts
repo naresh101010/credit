@@ -17,8 +17,7 @@ import { AuthorizationService } from '../../core/services/authorization.service'
 
 @Component({
   selector: 'app-booking-sla',
-  templateUrl: './booking-sla.component.html',
-  styleUrls: ['./booking-sla.component.css'],
+  templateUrl: './booking-sla.component.html'
   providers : [DatePipe]
 })
 export class BookingSlaComponent implements OnInit {

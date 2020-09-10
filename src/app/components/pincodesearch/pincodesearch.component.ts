@@ -18,7 +18,7 @@ export interface PincodeElement {
 }
 
 export interface PlaceClickedElement {
-  id: Number;
+  id: number;
   pincode:string;
 }
 

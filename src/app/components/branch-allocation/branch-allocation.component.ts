@@ -15,8 +15,8 @@ import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimation
 
 @Component({
   selector: 'app-branch-allocation',
-  templateUrl: './branch-allocation.component.html',
-  styleUrls: ['./branch-allocation.component.css'],
+  templateUrl: './branch-allocation.component.html'
+  
   providers: [ApiService, DatePipe]
 })
 export class BranchAllocationComponent implements OnInit {

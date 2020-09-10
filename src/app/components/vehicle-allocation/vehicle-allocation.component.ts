@@ -6,7 +6,7 @@ import { MatSort } from '@angular/material/sort';
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AppSetting } from '../../app.setting';
-import { AppService } from '../../core/services/app.service';
+
 import { ApiService } from '../../core/services/api.service';
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';

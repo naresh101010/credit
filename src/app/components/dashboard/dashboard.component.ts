@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Inject, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild,  Input, Output, EventEmitter } from '@angular/core';
 import{ ContractversionComponent } from './../contractversion/contractversion.component';
 import { MatDialog } from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';

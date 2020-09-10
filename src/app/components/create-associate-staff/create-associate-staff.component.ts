@@ -13,8 +13,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-create-associate-staff',
-  templateUrl: './create-associate-staff.component.html',
-  styleUrls: ['./create-associate-staff.component.css'],
+  templateUrl: './create-associate-staff.component.html'
   providers : [DatePipe]
 })
 export class CreateAssociateStaffComponent implements OnInit {

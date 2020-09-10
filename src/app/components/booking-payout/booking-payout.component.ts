@@ -1,10 +1,10 @@
-import { HostListener, Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { MatDialog, MatTableDataSource } from "@angular/material";
 import { SearchCustomerComponent } from "src/app/dialog/search-customer/search-customer.component";
 import { ApiService } from "src/app/core/services/api.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
-import { NavigationStart, Router, ActivatedRoute } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { AppSetting } from "src/app/app.setting";
 import { PaymentCommercialGen} from "src/app/core/models/paymentTermsModel";
 import { PayoutGenDetailComponent } from "./payout-gen-detail/payout-gen-detail.component";

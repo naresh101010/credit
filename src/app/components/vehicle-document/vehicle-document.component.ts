@@ -111,7 +111,7 @@ export class VehicleDocumentComponent implements OnInit {
   }
   clearDate() {
     this.fileModel.docExpiryDate = '';
-  };
+  }
 
   postDocumentUploadDetail() {
     this.spinner.show();
@@ -121,7 +121,7 @@ export class VehicleDocumentComponent implements OnInit {
       * Required Date format: yyyy-MM-dd
       * User input date formate: mm/dd/yyyy
       */
-      var formattedDate = this.datePipe.transform(this.fileModel.docExpiryDate, 'yyyy-MM-dd');;
+      var formattedDate = this.datePipe.transform(this.fileModel.docExpiryDate, 'yyyy-MM-dd');
 
       let requestData: any;
 
@@ -225,15 +225,17 @@ export class VehicleDocumentComponent implements OnInit {
       this.fileModel.subTypeId = '';
     } else {
       this.spinner.show()
-      this.apiSer.getSubDocTypeData(this.fileModel.docTypeId).subscribe(data => {
+      this.apiSer.getSubDocTypeData(this.fileModel.docTypeId).subscribe(
+        data => {
           var resData: any = data;
           this.subTypeList = resData.data.responseData;
           this.spinner.hide();
           console.log(data, "sub Document list");
-        }),(error) => {
+        },
+        error => {
           this.spinner.hide();
           this.toaster.error(ErrorConstants.getValue(404));
-      }
+        }
 
     }
   }

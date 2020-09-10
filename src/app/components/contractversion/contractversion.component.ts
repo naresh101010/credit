@@ -13,8 +13,7 @@ import { AppSetting } from 'src/app/app.setting';
 
 @Component({
   selector: 'app-contractversion',
-  templateUrl: './contractversion.component.html',
-  styleUrls: ['./contractversion.component.css']
+  templateUrl: './contractversion.component.html'
 })
 export class ContractversionComponent implements OnInit {
   isEnabled:boolean=false;

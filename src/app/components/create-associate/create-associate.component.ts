@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { AppSetting } from 'src/app/app.setting';
 import { PincodesearchComponent } from '../pincodesearch/pincodesearch.component';
 import { MatDialog } from '@angular/material/dialog';

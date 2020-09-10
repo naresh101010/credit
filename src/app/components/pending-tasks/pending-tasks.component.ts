@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-pending-tasks',
-  templateUrl: './pending-tasks.component.html',
-  styleUrls: ['./pending-tasks.component.css']
+  templateUrl: './pending-tasks.component.html'
 })
 export class PendingTasksComponent implements OnInit {
   showBCreate

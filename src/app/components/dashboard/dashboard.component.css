@@ -20,9 +20,6 @@
 
 }
 
-.green {
-  color: green !important;
-}
 
 
 .buttonround {
@@ -93,9 +90,6 @@ header h1 {
 
 
 
-.whiteBlock h3 {
-  margin-bottom: 0 !important;
-}
 
 .whiteBlock {
   border-radius: 50%;
@@ -118,9 +112,7 @@ header h1 {
 .whiteBlock .material-icons.heart_icon {
   color: #b00020!important;
 }
-.heartIcon1 {
-  color: #b00020!important;
-}
+
   .greenBlock {
     border-radius: 50%;
     width: 16rem;
@@ -246,6 +238,7 @@ h2 {
 .heartIcon1 {
   float: right !important;
   columns: #27AE60 !important;
+  color: #b00020!important;
 }
 
 .matCardBottom {
@@ -302,9 +295,7 @@ h2 {
   border-bottom: 0 !important;
 }
 
-.mat-table {
-  font-family: "Open Sans", sans-serif !important;
-}
+
 
 td.mat-cell,
 td.mat-footer-cell,
@@ -352,15 +343,11 @@ th.mat-header-cell {
   border-bottom-color: rgba(0,0,0,.12) !important;
 }
 
-.mat-row {
-  background: #eeeeee6e;
-  height: auto !important;
-  border-bottom: none !important;
-  margin-bottom: 2px;
-}
+
 
 .mat-table {
   border-bottom: 1px solid #eee !important;
+   font-family: "Open Sans", sans-serif !important;
 }
 
 .mat-elevation-z8 {
@@ -400,7 +387,12 @@ tr.mat-row {
   color: rgba(0,0,0,.54);
 }
 
+
+
+
 .mat-row {
+   height: auto !important;
+  border-bottom: none !important;
   background: #fff !important;
   border-bottom: 1px solid #eee !important;
 }

@@ -1,4 +1,4 @@
-import {Directive, ElementRef, HostListener, Input} from '@angular/core';
+import {Directive, Input} from '@angular/core';
 import { AbstractControl, NG_VALIDATORS } from '@angular/forms';
 import { NumericValidator } from './numeric.validator';
 
