@@ -3,8 +3,7 @@ import { MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-view-branches',
-  templateUrl: './view-branches.component.html',
-  styleUrls: ['./view-branches.component.css']
+  templateUrl: './view-branches.component.html'
 })
 export class ViewBranchesComponent implements OnInit {
   displayedColumns: string[] = ['Bname', 'Btype', 'BstartDate', 'BendDate'];
@@ -14,7 +13,7 @@ export class ViewBranchesComponent implements OnInit {
 
   ngOnInit() {
     console.log('data', this.data);
-    this.dataSource = new MatTableDataSource(this.data.branchData);;
+    this.dataSource = new MatTableDataSource(this.data.branchData);
   }
   
 

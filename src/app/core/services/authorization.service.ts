@@ -29,11 +29,13 @@ export class AuthorizationService {
                 this.setPermissionMap(permission);
                 if (permission.attributeExclutionList && permission.attributeExclutionList.length > 0) {
                   this.setAttributeExclusion(permission);
+                  console.log(' 1')
                 }
               } else if (entityName === 'ALL' && permission.channelId === 33) {
                 this.setPermissionMap(permission);
                 if (permission.attributeExclutionList && permission.attributeExclutionList.length > 0) {
                   this.setAttributeExclusion(permission);
+                  console.log('2')
                 }
               }
             });

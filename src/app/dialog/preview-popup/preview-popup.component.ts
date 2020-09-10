@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ApiService } from '../../core/services/api.service';
 import { AppSetting } from '../../app.setting';
 import { ErrorConstants } from '../../core/models/constants';
@@ -7,7 +7,6 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
 import { DatePipe } from '@angular/common';
 import { SuccessComponent } from 'src/app/components/success/success.component';
-import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { EmailPreviewComponent } from '../email-preview/email-preview.component';
 
@@ -45,7 +44,7 @@ export class PreviewPopupComponent implements OnInit {
     public dialog: MatDialog,
     private spinner: NgxSpinnerService) { }
 
-  customerName : String= AppSetting.customerName;
+  customerName : string= AppSetting.customerName;
   ngOnInit() {
 
     this.versionIndex = this.data.versionIndex;

@@ -52,7 +52,7 @@ export class CompareVersionComponent implements OnInit {
     private exportAsService: ExportAsService,
     private confirmDialog : MatDialog) { }
 
-  customerName : String= AppSetting.customerName;
+  customerName : string= AppSetting.customerName;
   ngOnInit() {
 
     this.spinner.show();

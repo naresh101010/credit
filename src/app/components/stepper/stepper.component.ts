@@ -10,7 +10,7 @@ import { CommonService } from 'src/app/core/services/common.service';
 })
 export class StepperComponent implements OnInit {
 
-  constructor(private router: Router, private CommonService: CommonService) { }
+  constructor(private router: Router, private CommonService_: CommonService) { }
 
 
   ngOnInit() {
@@ -93,7 +93,7 @@ export class StepperComponent implements OnInit {
     if (url) {
       let exactUrl;
       exactUrl = url.slice(0).split(";")[0].toLowerCase();
-      this.CommonService.steperNextFlg = true;
+      this.CommonService_.steperNextFlg = true;
       if (!url.includes('edit')) {
         if(!this.router.url.includes('asso_booking-contract')){
           this.router.navigate([exactUrl], {skipLocationChange: true});
@@ -112,7 +112,7 @@ export class StepperComponent implements OnInit {
       }
     }
     else {
-      this.CommonService.steperNextFlg = true;
+      this.CommonService_.steperNextFlg = true;
     }
   }
 

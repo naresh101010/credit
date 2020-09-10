@@ -3,7 +3,6 @@ import {  HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable  } from 'rxjs';
 
 import { AppSetting } from '../../app.setting';
-import { MSA } from '../models/msa';
 // import { JwtService } from './jwt.service';
 
 @Injectable()
@@ -114,7 +113,7 @@ export class ApiService {
     });
   }
 
-  postDownloadDocument(fileName: String) {
+  postDownloadDocument(fileName: string) {
     var headers = new HttpHeaders(this.headerData);
     console.log("calling download service..");
     return this.http.post<any>(AppSetting.API_ENDPOINT + "secure/v1/document/download", fileName, { responseType: 'blob' as 'json', headers: headers }).catch((error: Response) => {

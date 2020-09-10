@@ -2,7 +2,7 @@ import { Component, OnInit,Inject, HostListener } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
-import { confimationdialog } from '../confirmationdialog/confimationdialog';
+
 
 @Component({
   selector: 'app-email-preview',

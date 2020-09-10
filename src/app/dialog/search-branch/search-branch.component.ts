@@ -12,8 +12,7 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-search-branch',
-  templateUrl: './search-branch.component.html',
-  styleUrls: ['./search-branch.component.css'],
+  templateUrl: './search-branch.component.html'
   providers: [ApiService]
 })
 export class SearchBranchComponent implements OnInit {

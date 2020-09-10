@@ -5,8 +5,7 @@ import { BookingAssociateContractUpdateComponent } from '../booking-associate-co
 
 @Component({
   selector: 'app-contract-update',
-  templateUrl: './contract-update.component.html',
-  styleUrls: ['./contract-update.component.css']
+  templateUrl: './contract-update.component.html'
 })
 export class ContractUpdateComponent implements OnInit {
 

@@ -9,9 +9,7 @@ import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-assign-vehicle',
-  templateUrl: './assign-vehicle.component.html',
-  styleUrls: ['./assign-vehicle.component.css']
-})
+  templateUrl: './assign-vehicle.component.html'
 export class AssignVehicleComponent implements OnInit {
   displayedColumns: string[] = ['vehicleNumber', 'vehicleModel', 'vehicleTonnge'];
   dataSource: any;
