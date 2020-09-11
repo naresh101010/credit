@@ -126,7 +126,7 @@ export class PincodeBranchSearchComponent implements OnInit {
 
 	isChecked(pincodeId) {
 
-		if (!this.selectedPincodeList || !this.selectedPincodeList) return;
+		if (!this.selectedPincodeList) {return};
 
 		let index = this.selectedPincodeList.findIndex(elem => elem.id == pincodeId.id && elem.status == 1);
 
@@ -139,7 +139,7 @@ export class PincodeBranchSearchComponent implements OnInit {
 
 
 	pincodeChecked(type, event, index = null) {
-		this.cityList.map(elem => {
+		this.cityList.forEach(elem => {
 			if (elem.id == this.cityId) {
 				this.selectedcityName = elem.cityName
 			}

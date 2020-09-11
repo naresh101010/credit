@@ -82,7 +82,7 @@ export class AddProductMasterComponent implements OnInit {
 	isType: string;
 
 	getcategoryDate(catId) {
-		this.prodCategoryList.map(elem => {
+		this.prodCategoryList.forEach(elem => {
 			if (elem.id == catId) {
 				this.productObj.effectiveDt = elem.effectiveDt;
 				if (elem.expDt) {
@@ -98,7 +98,7 @@ export class AddProductMasterComponent implements OnInit {
 			this.prodCategoryList = response.responseData;
 			this.lineOfBusinessList = response.referenceData.lobList;
 			if (prodCatId) {
-				this.prodCategoryList.map(elem => {
+				this.prodCategoryList.forEach(elem => {
 					if (elem.id == prodCatId) {
 						this.productObj.effectiveDt = elem.effectiveDt;
 						if (elem.expDt) {
@@ -109,7 +109,7 @@ export class AddProductMasterComponent implements OnInit {
 				})
 			}
 			else if (this.data.obj.prodCat) {
-				this.prodCategoryList.map(elem => {
+				this.prodCategoryList.forEach(elem => {
 					if (elem.id == this.data.obj.prodCat) {
 						this.productObj.effectiveDt = elem.effectiveDt;
 						if (elem.expDt) {

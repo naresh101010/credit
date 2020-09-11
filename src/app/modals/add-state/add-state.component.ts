@@ -46,7 +46,7 @@ export class AddStateComponent implements OnInit {
         this.$logistic.getStates(this.selectedCountry).subscribe(response => {
             this.$spinner.hide();
             this.stateList = response;
-            this.stateList.map(elem => {
+            this.stateList.forEach(elem => {
                 if (this.disabledStates.findIndex(el => el.id == elem.id) != -1 && this.stateSelected.findIndex(el => el.id == elem.id)==-1) {
                     elem.isDisabled = true;
                 }

@@ -115,7 +115,7 @@ export class BranchAdvanceSearchComponent implements OnInit {
 				this.tableBranchList.forEach((elem) => {
 					this.getPincodeNameArr.push(elem.pincodeId)
 				})
-				this.tableBranchList.map(elem => elem.checked = false);
+				this.tableBranchList.forEach(elem => elem.checked = false);
 				this.getPincodes();
 
 			})
@@ -136,7 +136,7 @@ export class BranchAdvanceSearchComponent implements OnInit {
 
 	selectedName() {
 
-		this.tableBranchList.map(elem => {
+		this.tableBranchList.forEach(elem => {
 			if (elem.checked == true) {
 				this.dialogRef.close(elem);
 			}
@@ -170,7 +170,7 @@ export class BranchAdvanceSearchComponent implements OnInit {
 				this.tableBranchList.forEach((elem) => {
 					this.getPincodeNameArr.push(elem.pincodeId)
 				})
-				this.tableBranchList.map(elem => elem.checked = false);
+				this.tableBranchList.forEach(elem => elem.checked = false);
 				this.getPincodes();
 			} else {
 				this.branchDropdown = response.responseData;

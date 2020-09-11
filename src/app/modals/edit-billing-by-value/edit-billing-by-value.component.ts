@@ -86,14 +86,14 @@ export class EditBillingByValueComponent implements OnInit {
 
   submitData(type = null) {
     this.isVar = false;
-    this.spinner.show;
+    // this.spinner.show;
     this.$billingByValue.saveBillingByLevelMaster(this.editBilingObj).subscribe(response => {
 
       // this.billingForm.submitted = false;
       this.editBilingObj.id = response;
       let editBilingObj = { ...this.editBilingObj };
       this.dialogRef.close(editBilingObj);
-      this.spinner.hide;
+      // this.spinner.hide;
       this.billingForm.reset();
 
     })

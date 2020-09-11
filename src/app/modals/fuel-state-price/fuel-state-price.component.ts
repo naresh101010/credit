@@ -33,9 +33,9 @@ export class FuelStatePriceComponent implements OnInit {
     else {
       this.statePriceObj = statePriceObj;
     }
-    if (this.statePriceObj.status == null) {
-      this.statePriceObj.status == 0;
-    }
+    // if (this.statePriceObj.status == null) {
+    //   this.statePriceObj.status == 0;
+    // }
     this.getFuelPrice();
 
   }
@@ -56,7 +56,7 @@ export class FuelStatePriceComponent implements OnInit {
       this.fuelStateList = response.referenceData.stateList;
       this.fuelFuelTypeList = response.referenceData.fuelTypeList;
       if (this.statePriceObj.contractType) {
-        this.fuelContractTypeList.map(elem => {
+        this.fuelContractTypeList.forEach(elem => {
           if (elem.descr == this.statePriceObj.contractType) {
             this.statePriceObj.contractTypeId = elem.id;
           }

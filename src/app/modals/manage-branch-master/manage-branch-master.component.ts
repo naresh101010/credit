@@ -41,7 +41,7 @@ export class ManageBranchMasterComponent implements OnInit {
 	}
 
 	selectFeature(index) {
-		this.newList.map(elem => elem.isSelected = false);
+		this.newList.forEach(elem => elem.isSelected = false);
 		this.newList[index].isSelected = true;
 	}
 
