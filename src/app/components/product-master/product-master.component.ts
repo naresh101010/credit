@@ -178,7 +178,7 @@ isChecked(line) {
         }
     this.spinner.show();
     this.isVar = false;
-    this.prodCategoryList.map(elem=>{
+    this.prodCategoryList.forEach(elem=>{
         if(elem.id==this.productId){
         this.productAllObj.prdctCtgy=elem.prdctCtgy;
         }
@@ -315,7 +315,7 @@ isChecked(line) {
     })
   }
 getHsnDate(hsnId){
-    this.hsnCodeList.map(elem=>{
+    this.hsnCodeList.forEach(elem=>{
         if(elem.id==hsnId){
             this.productAllObj.effectiveDt=elem.effectiveDt;
             this.productAllObj.expDt=elem.expDt;

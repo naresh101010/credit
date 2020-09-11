@@ -95,7 +95,7 @@ export class ViewZoneMatrixComponent implements OnInit {
     }
 
     checkForSelectedRG(o1: any, o2: any): boolean {
-        if (o2 && o2) {
+        if (o2) {
             return o1.zmRgMapId === o2.zmRgMapId;
         }
     }
@@ -129,7 +129,7 @@ export class ViewZoneMatrixComponent implements OnInit {
                 }
             })
 
-            countryIds.map(elem => {
+            countryIds.forEach(elem => {
                 this.getAllStates(elem)
             })
 

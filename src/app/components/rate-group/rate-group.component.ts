@@ -133,7 +133,7 @@ serviceOfferCtrl= <string>'';
             this.isExpand = true;
             this.addSla = true;
             this.rateGroupObj.serviceOfferingSlaList = response.responseData;
-            this.rateGroupObj.serviceOfferingSlaList.map(elem => {
+            this.rateGroupObj.serviceOfferingSlaList.forEach(elem => {
                 let obj = response.referenceData.serviceOfferingList.find(el => el.id == elem.serviceOfferingId)
                 if (obj) {
                     elem.serviceOffering = obj.serviceOffering
@@ -325,7 +325,7 @@ serviceOfferCtrl= <string>'';
         
         let rateGroupData = { ...this.rateGroupObj };
         
-        rateGroupData.serviceOfferingSlaList.map(elem=>{
+        rateGroupData.serviceOfferingSlaList.forEach(elem=>{
 				if(typeof(elem.id)=="string"){
 					elem.id = 0
 				}
