@@ -192,7 +192,7 @@ export class BranchPinMapComponent implements OnInit {
             }
             this.pincodeList = response;
             var pincode = '';
-            this.pincodeList.map(elem => {
+            this.pincodeList.forEach(elem => {
                 pincode = pincode + `${elem.pincode},`;
             })
             this.pincodeSelected = pincode.replace(/,+$/, "");
@@ -209,7 +209,7 @@ export class BranchPinMapComponent implements OnInit {
             // }, 1500);
             
             this.branchPinList = response.responseData;
-            this.branchPinList.map(elem => elem.isVisible = false)
+            this.branchPinList.forEach(elem => elem.isVisible = false)
             this.getPincodeList(this.branchPinList)
         })
     }
@@ -242,7 +242,9 @@ export class BranchPinMapComponent implements OnInit {
     }
 
     isChecked(line) {
-        if (!this.selectedPincodeList || !this.selectedPincodeList) return;
+        if (!this.selectedPincodeList) {
+            return;
+        };
 
         let index = this.selectedPincodeList.findIndex(elem => elem.id == line.id && elem.status == 1);
 
@@ -311,7 +313,7 @@ export class BranchPinMapComponent implements OnInit {
             this.selectedPincodeList.splice(index, 1);
         }
         var pincode = '';
-        this.pincodeList.map(elem => {
+        this.pincodeList.forEach(elem => {
             pincode = pincode + `${elem.pincode},`;
         })
         this.pincodeSelected = pincode.replace(/,+$/, "");
@@ -347,7 +349,7 @@ export class BranchPinMapComponent implements OnInit {
         this.isChange2 = false;
         this.pincodeList
         
-        this.pincodeList.map(elem=>{
+        this.pincodeList.forEach(elem=>{
             let isPresent = this.AllpincodeList.find(elm=>elm.id == elem.id);
             if(!isPresent){
                 this.AllpincodeList.push(elem);
@@ -366,7 +368,7 @@ export class BranchPinMapComponent implements OnInit {
             }
             this.branchPinObj.effectiveDate = moment(this.branchPinObj.effectiveDate).format("YYYY-MM-DD");
             this.branchPinObj.pincodes = [];
-            this.selectedPincodeList.map(elem => {
+            this.selectedPincodeList.forEach(elem => {
                 this.branchPinObj.pincodes.push(elem.id);
             })
 
@@ -387,7 +389,7 @@ export class BranchPinMapComponent implements OnInit {
             this.branchPinObj.effectiveDate = moment(this.branchPinObj.effectiveDate).format("YYYY-MM-DD");
 
             this.branchPinObj.pincodes = [];
-            this.selectedPincodeList.map(elem => {
+            this.selectedPincodeList.forEach(elem => {
                 this.branchPinObj.pincodes.push(elem.id);
             })
 
@@ -408,12 +410,12 @@ export class BranchPinMapComponent implements OnInit {
                     type: type
                 };
                 this.selectedPincodeList = [];
-                this.pincodeList.map(elem => elem.checked = 0);
+                this.pincodeList.forEach(elem => elem.checked = 0);
 
             }
             else {
                 this.selectedPincodeList = [];
-                this.pincodeList.map(elem => elem.checked = 0);
+                this.pincodeList.forEach(elem => elem.checked = 0);
 
             }
 
@@ -425,7 +427,7 @@ export class BranchPinMapComponent implements OnInit {
     checkIfduplicateExists() {
         let isPresent = false;
         if (this.branchPinObj.type == "BOOKING") {
-            this.branchPincodeList.map(elem => {
+            this.branchPincodeList.forEach(elem => {
                 if (elem.lkpbranchType == this.branchPinObj.lkpbranchType && elem.branchId == this.branchPinObj.branchId) {
                     isPresent = true;
                 }
@@ -433,7 +435,7 @@ export class BranchPinMapComponent implements OnInit {
             })
         } else {
             // section for DELIVERY VALIDATION CHECK
-            this.branchPincodeList.map(elem => {
+            this.branchPincodeList.forEach(elem => {
                 if (elem.serviceOfferingId == this.branchPinObj.serviceOfferingId && elem.branchId == this.branchPinObj.branchId && elem.slabId == this.branchPinObj.slabId) {
                     isPresent = true;
                 }
@@ -518,7 +520,7 @@ export class BranchPinMapComponent implements OnInit {
         }
 
         if (this.branchPinObj.pincodes) {
-            this.pincodeList.map(elem => elem.checked = false)
+            this.pincodeList.forEach(elem => elem.checked = false)
             this.branchPinObj.pincodes.map(elem => {
                 let pincode = this.AllpincodeList.find(elm => elm.id == elem);
                 if (pincode) {
@@ -548,7 +550,7 @@ export class BranchPinMapComponent implements OnInit {
         }
 
         let pincode = '';
-        this.pincodeList.map(elem => {
+        this.pincodeList.forEach(elem => {
             pincode = pincode + `${elem.pincode},`;
         })
 

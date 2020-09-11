@@ -584,7 +584,7 @@ export class BranchDetailsComponent implements OnInit {
                 }
                 if (response.responseData.branchManagers) {
                     this.branchManagers = [...response.responseData.branchManagers.filter(elem => elem.status)];
-                    this.branchManagers.map(elem => {
+                    this.branchManagers.forEach(elem => {
                         elem.userId = parseInt(elem.userId);
                         if (typeof (elem.userId) == "number") {
                             elem.userSearch = elem.userId
@@ -595,7 +595,7 @@ export class BranchDetailsComponent implements OnInit {
                     }
 
                 }
-                this.branchObj.branchFeatureMaps.map(elem => {
+                this.branchObj.branchFeatureMaps.forEach(elem => {
                     let feature: any;
 
                     if (elem.branchFeatureId) {
@@ -614,7 +614,7 @@ export class BranchDetailsComponent implements OnInit {
                     }
                 })
 
-                this.branchObj.branchModeOfPayments.map(elem => {
+                this.branchObj.branchModeOfPayments.for(elem => {
                     let mop: any;
                     if (elem.lkpBranchMopId) {
                         mop = this.modeOfPayments.find(mopElm => mopElm.id == elem.lkpBranchMopId)
@@ -680,6 +680,8 @@ getreportingbranchBybranchId(branchId){
             }
 
             this.featuresList.concat(response);
+            let j = this.featuresList.concat(response); 
+            console.log(j)
 
         })
     }

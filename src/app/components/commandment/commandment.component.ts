@@ -319,7 +319,7 @@ if(this.submitPermission == true){
             }
         }
         if (!this.commandmentObj.id) {
-            this.commandmentTypeList.map(elemType => {
+            this.commandmentTypeList.forEach(elemType => {
                 if (elemType.id == this.loadObj.commandmentType) {
                     this.concatCommandmentTypeList.push(
                         {
@@ -332,7 +332,7 @@ if(this.submitPermission == true){
             })
         }
         if (!this.commandmentObj.id) {
-            this.commandmentGeoTypeList.map(elemType => {
+            this.commandmentGeoTypeList.forEach(elemType => {
                 if (elemType.id == this.loadObj.geoType) {
                     this.concatGeoTypeList.push(
                         {
@@ -700,7 +700,7 @@ if(this.submitPermission == true){
 
 
         if (notValid) return;
-        this.commandmentRrTableList.map(elem => {
+        this.commandmentRrTableList.forEach(elem => {
             if (parseFloat(elem.commandmentRrRequestDTO.maxValue) && (parseFloat(elem.commandmentRrRequestDTO.maxValue) < parseFloat(elem.commandmentRrRequestDTO.minValue))) {
                 notValid = true;
             } else {
@@ -709,7 +709,7 @@ if(this.submitPermission == true){
         })
         this.spinner.show();
         this.commandmentRRList = [];
-        this.commandmentRrTableList.map(elem => {
+        this.commandmentRrTableList.forEach(elem => {
             if (elem.cmdmntRrsList) {
                 delete elem.cmdmntRrsList;
                 delete elem.createdBy;
@@ -802,7 +802,7 @@ if(this.submitPermission == true){
 
     getSubTypeByGeoType(geoId) {
         var geoName;
-        this.commandmentGeoTypeList.map(elem => {
+        this.commandmentGeoTypeList.forEach(elem => {
             if (geoId == elem.id) {
                 geoName = elem.descr;
             }
@@ -813,15 +813,15 @@ if(this.submitPermission == true){
             this.businessTypeList = response.businessTypeList;
             if (geoName == "PINCODE") {
                 this.subGeoList = response.geoFeatureDto.pinCodeFeatureList;
-                this.subGeoList.map(elem => elem.geosubName = elem.pincodeFeature)
+                this.subGeoList.forEach(elem => elem.geosubName = elem.pincodeFeature)
             }
             else if (geoName == "STATE") {
                 this.subGeoList = response.geoFeatureDto.stateFeatureList;
-                this.subGeoList.map(elem => elem.geosubName = elem.stateFeature)
+                this.subGeoList.forEach(elem => elem.geosubName = elem.stateFeature)
             }
             else if (geoName == "ADDRESS") {
                 this.subGeoList = response.geoFeatureDto.addressFeatureList;
-                this.subGeoList.map(elem => elem.geosubName = elem.addressFeatureName)
+                this.subGeoList.forEach(elem => elem.geosubName = elem.addressFeatureName)
 
             }
 
