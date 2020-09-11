@@ -145,7 +145,7 @@ greeting(){
         }
         this.spinner.show();
         this.notepadObj.notepadOrder = 12;
-        this.notepadmoduleByEntityList.map(elem => {
+        this.notepadmoduleByEntityList.forEach(elem => {
             if (elem.entityId == this.moduleobj.moduleEntityId.entityId) {
                 this.notepadObj.moduleEntityMapId = elem.entityId;
             }
@@ -251,7 +251,7 @@ greeting(){
     isChange=true;
 
     viewNotepadList(index = null) {
-        this.notepadList.map((elem,i) => {
+        this.notepadList.forEach((elem,i) => {
             if(index!=i){
                 elem.isVisible = false
             }
@@ -354,7 +354,7 @@ greeting(){
         if (this.notepadEntityList.length) {
             this.notepadList = this.notepadEntityList;
             this.p = 1;
-            this.notepadList.map(elem => elem.isVisible = false);
+            this.notepadList.forEach(elem => elem.isVisible = false);
         }
         else {
             this.appComp.showMessage(`Record Doesn't Exist In Propel-I`, "danger");
