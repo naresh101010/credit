@@ -121,7 +121,7 @@ export class AddLookupModalComponent implements OnInit {
 	// }
 
 	selectParentCompare(o1: any, o2: any): boolean {
-		if (o2 && o2) {
+		if (o2) {
 			return o1 === o2;
 		}
 	}

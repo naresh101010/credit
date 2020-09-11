@@ -150,8 +150,8 @@ export class AddDistrictComponent implements OnInit {
                 this.districtObj.expDt = moment(this.districtObj.expDt).format("YYYY-MM-DD");
             }
         }
-this.countryList.map(elem=> elem.countryName=elem.nameWithStatus);
-this.countryList.map(elm=>{
+this.countryList.forEach(elem=> elem.countryName=elem.nameWithStatus);
+this.countryList.forEach(elm=>{
      if(elm.id==this.countryId.id){
         this.districtObj.state.country={...elm};
     }

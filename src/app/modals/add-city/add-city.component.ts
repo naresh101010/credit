@@ -85,12 +85,12 @@ export class AddCityComponent implements OnInit {
         setTimeout(() => {
             this.cityObj.district = data.district;
             if (data.country && data.state) {
-                this.countryList.map(elem => {
+                this.countryList.forEach(elem => {
                     if (elem.id == data.country) {
                         this.countryId = elem.id
                     }
                 })
-                this.stateList.map(elem => {
+                this.stateList.forEach(elem => {
                     if (elem.id == data.state) {
                         this.stateId = elem.id
                     }

@@ -40,7 +40,7 @@ export class AddMetroComponent implements OnInit {
 			this.metroObj = { ...this.dataObj.editObj };
 			let selectedCities = [...this.metroObj.cities.filter(elem => elem.status == 1)]
 			this.metroObj.cities = [];
-			selectedCities.map(elem => {
+			selectedCities.forEach(elem => {
 				let city = this.cityList.find(elm => elm.id == elem.cityId);
                 if(!city) return;
 				this.metroObj.cities.push(city);
@@ -71,7 +71,7 @@ export class AddMetroComponent implements OnInit {
 
 		if (this.isEdit) {
 
-			this.preSelectedCities.map(elem => {
+			this.preSelectedCities.forEach(elem => {
 				let cityObj = this.metroObj.cities.find(elm => elm.id == elem.cityId);
 				if (cityObj) {
 					elem.status = 1;

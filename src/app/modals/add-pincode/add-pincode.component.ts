@@ -98,18 +98,18 @@ export class AddPincodeComponent implements OnInit {
             // this.pincodeObj.city = data.city.id;
 
             if (data.country && data.state && data.district) {
-                this.countryList.map(elem => {
+                this.countryList.forEach(elem => {
                     if (elem.id == data.country) {
                         this.countryId = elem.id
                     }
                 })
-                this.stateList.map(elem => {
+                this.stateList.forEach(elem => {
                     if (elem.id == data.state) {
                         this.stateId = elem.id
                     }
                 })
 
-                this.districtList.map(elem => {
+                this.districtList.forEach(elem => {
                     if (elem.id == data.district) {
                         this.districtId = elem.id
                     }
@@ -150,7 +150,7 @@ export class AddPincodeComponent implements OnInit {
 
     selectedFeature(o1: any, o2: any): boolean {
 
-        if (o2 && o2) {
+        if (o2) {
             return o1.id === o2.id;
         }
     }

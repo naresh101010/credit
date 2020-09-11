@@ -347,7 +347,7 @@ element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0];
         let zmLzMapDTO = _.cloneDeep(this.zmLzMapDTO);
         let zmRGMapDTO = _.cloneDeep(this.zmRGMapDTO);
 
-        this.zoneObj.zmLzMapDTO.map(elem => {
+        this.zoneObj.zmLzMapDTO.forEach(elem => {
             let obj = this.zmLzMapDTO.find(ele => ele.id == elem.zoneId);
             elem.status = 1;
             if (!obj) {
@@ -355,7 +355,7 @@ element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0];
             }
         })
 
-        this.zoneObj.zmRGMapDTO.map(elem => {
+        this.zoneObj.zmRGMapDTO.forEach(elem => {
             let obj = this.zmRGMapDTO.find(ele => ele.id == elem.rateGroupId);
 
             elem.status = 1;
@@ -365,7 +365,7 @@ element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0];
         })
 
 
-        zmLzMapDTO.map(elem => {
+        zmLzMapDTO.forEach(elem => {
             let obj = this.zoneObj.zmLzMapDTO.find(ele => ele.zoneId == elem.id);
             if (!obj) {
                 this.zoneObj.zmLzMapDTO.push({
@@ -521,7 +521,7 @@ element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0].id;
             let zoneObj = this.zoneMatrixList.find(elem => elem.id == result.id);
             zoneObj.states = result.data
             this.stateList = [];
-            this.zoneMatrixList.map(elem => {
+            this.zoneMatrixList.forEach(elem => {
                 if (!elem.states) return;
                 elem.states.map(elm => {
                     this.stateList.push(elm);
@@ -535,7 +535,7 @@ element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0].id;
 
         let data = [];
         let stateMaped = false;
-        this.zoneMatrixList.map(elem => {
+        this.zoneMatrixList.forEach(elem => {
             stateMaped = false;
             if (elem.states) {
                 stateMaped = true;
@@ -558,7 +558,7 @@ element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0].id;
 
 
         let disabledState = this.stateCodeMappingList.filter(stateElm => data.findIndex(qwe => stateElm.stateId == qwe.stateId) == -1);
-        disabledState.map(el => {
+        disabledState.forEach(el => {
             el.status = 0;
             data.push(el);
         })
@@ -616,7 +616,7 @@ element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0].id;
         let data = [];
 
         let isValid = true;
-        this.logisticZoneComb.map(elem => {
+        this.logisticZoneComb.forEach(elem => {
             if (elem.zmLzRgMapDTO) {
                 let dataObj: any = {
                     fromZoneId: elem.zmLzMapId,
