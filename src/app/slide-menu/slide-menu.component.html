@@ -1,0 +1,23 @@
+<div class="nav show" >
+  <span *ngIf="flg" id="disLink"></span>
+    <span style="color: white" mat-list-item  class="main"  *ngFor="let item of navItems">
+
+          <!-- Handle branch node buttons here -->
+          <span *ngIf="item.childMenu && item.childMenu.length > 0" >
+              <span (click)="togleMenuSection($event)" class="parent" toggleMe  [ngClass]="{'deflt' : activeMenuGroup == item.menuLabel }">
+                    {{item.menuLabel}}
+              </span>         
+               <app-repeat-child-item #menu [items]="item.childMenu" [mainSection]="item.target" class="sectionGroup"></app-repeat-child-item>
+          </span>
+
+          
+          <!-- Leaf node buttons here -->
+          <span *ngIf="!item.childMenu || item.childMenu.length === 0" class="parent" toggleMe >
+            <button>
+              {{item.menuLabel}}
+            </button>
+            <mat-divider></mat-divider>
+          </span>
+
+    </span>
+</div>

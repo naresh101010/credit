@@ -1,9 +1,0 @@
-.mdmContainer mat-select.mat-select-invalid .mat-select-arrow {
-  color: red !important;
-}
-
-.btn_back {
-  position: absolute;
-  top: -8px;
-  right: 3%;
-}

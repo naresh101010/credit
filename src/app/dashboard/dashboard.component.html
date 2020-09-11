@@ -1,128 +1,205 @@
-<div class="container">
-  <mat-toolbar class="breadcrumbs_nav">
-    <mat-toolbar-row class="breadcrumbs">
-      <span><a>Dashboard</a></span>
-      <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">arrow_right
-      </mat-icon>
-      <span><a>MDM</a></span>
-      <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">arrow_right
-      </mat-icon>
-      <span>Search Organisation</span>
-    </mat-toolbar-row>
-  </mat-toolbar>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <a mat-list-item [routerLink]="['/mdm/geography']">
-            <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-            <p>Geography</p>
-            <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-          </a>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <a mat-list-item [routerLink]="['/mdm/lookup']">
-            <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-            <p>Lookup And Others</p>
-            <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-          </a>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <a mat-list-item [routerLink]="['/mdm/commandment']">
-            <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-            <p>Commandment</p>
-            <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-          </a>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <a mat-list-item [routerLink]="['/mdm/branch']">
-            <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-            <p>Branch</p>
-            <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-          </a>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <a mat-list-item [routerLink]="['/mdm/notepad']">
-            <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-            <p>Notepad</p>
-            <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-          </a>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
+<section class="dashboard header">
+  <div class="container">
 
-          <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-          <p>Associate</p>
-          <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-    <div fxFlex="25%">
-      <a [routerLink]="['/zone-matrix']">
-        <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-          <mat-grid-tile>
-            <a mat-list-item [routerLink]="['/mdm/zone-matrix']">
-              <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-              <p>Zone Matrix</p>
-              <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-            </a>
-          </mat-grid-tile>
-        </mat-grid-list>
-      </a>
-    </div>
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <a mat-list-item [routerLink]="['/mdm/route']">
-            <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-            <p>Route</p>
-            <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-          </a>
-        </mat-grid-tile>
-      </mat-grid-list>
-    </div>
-  </div>
-  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <a mat-list-item [routerLink]="['/mdm/vehicle']">
-            <em _ngcontent-diw-c0="" class="material-icons dashboard_icon">dashboard</em>
-            <p>Vehicle</p>
 
-            <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-          </a>
-        </mat-grid-tile>
-      </mat-grid-list>
+    <div class="row ">
+      <div class="col-md-1"></div>
+      <div class="col-md-8 ">
+        <p class="Morning">{{greetMsg}}, <strong style="padding-left: 8px;">{{userName}}!</strong></p>
+      </div>
+
     </div>
-    <div fxFlex="25%">
-      <mat-grid-list cols="1" rowHeight="113px" class="card_white">
-        <mat-grid-tile>
-          <p>User Roles</p>
-          <em _ngcontent-diw-c0="" class="material-icons location_icon">add_location</em>
-        </mat-grid-tile>
-      </mat-grid-list>
+    <div class="row ">
+      <div class="col-md-1"></div>
+      <div class="col-md-2 update">
+        <p>LATEST UPDATE</p>
+      </div>
+      <div class="col-md-8 paddingleftzero paddingrightzero">
+        <mat-form-field class="lendingInput" appearance="outline" style="width: 100%;">
+          <mat-select panelClass="dropPanel"
+                      placeholder="THIS IS A TEST MESSAGE. LATEST UPDATE WILL BE SHOWN HERE AND ONE CAN EXPAND THIS TAB BY CLICKING ON THE ARROW."
+                      style="padding: 0;">
+            <mat-option class="dropPanel" *ngFor="let message of broadCast">
+              <div class="col-md-12" style="padding-left: 0;padding-right: 0;">
+                <div class="col-md-6" style="padding-left: 0;opacity: .5;font-size: 1.6rem;">{{message.broadcastMessage}} </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-4 text-right" style="padding-right: 0;">
+                  <a class="dateText">{{message.effectiveDate}}  </a>
+                </div>
+              </div>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-2 paddingleftzero">
+      </div>
     </div>
   </div>
+</section>
+<!-- added by priyanka --start -->
+<div class="bookingContainer containerWidth container ">
+
+  <div *ngIf="favoriteCard?.length >0"  class="row countCard">
+    <div class="col-md-2" *ngFor="let favorite of favoriteCard">
+      <mat-card class="count_card" style="border-radius: 1rem">
+        <mat-card-content>
+          <div class="topRow">
+
+            <mat-icon title="Mark the object as pin/unpin"  class="iconSize" class="bookMark" (click)="addToPinnedObj(favorite, true)"
+                      [ngClass]="favorite.isPinned ? 'orange' : 'deselected_bookmark'">{{ favorite.bookMarkicon}}</mat-icon>
+            <mat-icon title="Mark the object as favourite" class="heartIcon" (click)="addToFavorite(favorite, true)"
+            >{{favorite.heartIcon}} </mat-icon>
+          </div>
+          <div style="cursor:pointer; display:block; height:68px;" (click)="onSelectBlock(favorite)">
+            <div *ngIf="favorite.value != 'MDM' && favorite.value != 'MSA' && favorite.value != 'PRC'"  class="secondRow"><p   >{{ favorite.value | titlecase}}</p></div>
+            <div *ngIf="favorite.value == 'MDM' || favorite.value == 'MSA' || favorite.value == 'PRC'"  class="secondRow"><p   >{{ favorite.value}}</p></div>
+            <img class="iconImage" [src]="favorite.img" alt="icon">
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </div>
+</div>
+
+
+<!-- added by priyanka --end -->
+<div class="dashboard counterWidth container arrange">
+  <div class="col-md-3 columnPadding">
+    <div class="column" *ngFor="let item of dashboardCard; let i = index">
+      <div *ngIf="item && (i == first  || i == first+4 || i == first+8 || i == first+12)" class="cardMargintop" style="position: relative;">
+        <div class="greenAdd" *ngIf="item.toggleFlg" (click)="toggle(item)" [@fadeInOut]>
+          <mat-icon class="addIcon" (click)="addToExpandedMenu(item)">add</mat-icon>
+        </div>
+        <div [ngClass]="item.toggleFlg ? 'clickcount_card' : 'count_card2' " (click)="toggle(item)">
+          <div class="topRow1">
+            <img class="cardIconBox" src="../assets/images/{{item.target.toString().replace(' ','-') | lowercase}}.png"
+                 alt="image">
+            <!-- if mdm then write in upper case -->
+            <p *ngIf="item.target != 'MDM'">{{item.target | titlecase}}</p>
+            <p *ngIf="item.target == 'MDM'">{{item.target }}</p>
+            <!-- end if mdm then write in upper case -->
+          </div>
+        </div>
+        <div [ngClass]="item.target==='ASSOCIATE' || item.target==='BOOKING' ? 'lendingDropDown' : 'lendingDropDownabsolute' "
+          *ngIf="item.toggleFlg" [@fadeInOut]>
+          <div class="dropO" *ngFor="let innerItem of item.childMenu">
+            <my-app-cards [item]="item" [innerItem]="innerItem"></my-app-cards>
+
+            <mat-icon title="Mark the object as pin/unpin" class="dropoHeart" (click)="addToPinnedObj(innerItem, false)"
+                      [ngClass]="innerItem.isPinned ? 'orange' : 'deselected_bookmark'">{{ innerItem.bookMarkicon }}</mat-icon>
+            <mat-icon title="Mark the object as favourite" class="dropOfavro" (click)="addToFavorite(innerItem, false)"
+                      [ngClass]="innerItem.isFavourite ? 'red' : 'green'">{{ innerItem.favouriteIcon }}</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 columnPadding">
+    <div class="column" *ngFor="let item of dashboardCard; let i = index">
+      <div *ngIf="item && (i == second || i == second+4 || i == second+8 || i == second+12)" class="cardMargintop" style="position: relative;">
+        <div class="greenAdd" *ngIf="item.toggleFlg" (click)="toggle(item)" [@fadeInOut]>
+          <mat-icon class="addIcon" (click)="addToExpandedMenu(item)">add</mat-icon>
+        </div>
+        <div [ngClass]="item.toggleFlg ? 'clickcount_card' : 'count_card2' " (click)="toggle(item)">
+          <div class="topRow1">
+            <img class="cardIconBox" src="../assets/images/{{item.target.toString().replace(' ','-') | lowercase}}.png"
+                 alt="image">
+            <!-- if mdm then write in upper case -->
+            <p *ngIf="item.target != 'MDM'">{{item.target | titlecase}}</p>
+            <p *ngIf="item.target == 'MDM'">{{item.target }}</p>
+            <!-- end if mdm then write in upper case -->
+          </div>
+        </div>
+        <div
+          [ngClass]="item.target==='ASSOCIATE' || item.target==='BOOKING' ? 'lendingDropDown' : 'lendingDropDownabsolute' "
+          *ngIf="item.toggleFlg" [@fadeInOut]>
+          <div class="dropO" *ngFor="let innerItem of item.childMenu">
+
+            <my-app-cards [item]="item" [innerItem]="innerItem"></my-app-cards>
+
+
+            <mat-icon title="Mark the object as pin/unpin" class="dropoHeart" (click)="addToPinnedObj(innerItem, false)"
+                      [ngClass]="innerItem.isPinned ? 'orange' : 'deselected_bookmark'">{{ innerItem.bookMarkicon }}</mat-icon>
+            <mat-icon title="Mark the object as favourite" class="dropOfavro" (click)="addToFavorite(innerItem, false)"
+                      [ngClass]="innerItem.isFavourite ? 'red' : 'green'">{{ innerItem.favouriteIcon }}</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 columnPadding">
+    <div class="column" *ngFor="let item of dashboardCard; let i = index">
+      <div *ngIf="item && (i == third || i == third+4 || i == third+8  || i == third+12)" class="cardMargintop" style="position: relative;">
+        <div class="greenAdd" *ngIf="item.toggleFlg" (click)="toggle(item)" [@fadeInOut]>
+          <mat-icon class="addIcon" (click)="addToExpandedMenu(item)">add</mat-icon>
+        </div>
+        <div [ngClass]="item.toggleFlg ? 'clickcount_card' : 'count_card2' " (click)="toggle(item)">
+          <div class="topRow1">
+            <img class="cardIconBox" src="../assets/images/{{item.target.toString().replace(' ','-') | lowercase}}.png"
+                 alt="image">
+            <!-- if mdm then write in upper case -->
+            <p *ngIf="item.target != 'MDM'">{{item.target | titlecase}}</p>
+            <p *ngIf="item.target == 'MDM'">{{item.target }}</p>
+            <!-- end if mdm then write in upper case -->
+          </div>
+        </div>
+        <div
+          [ngClass]="item.target==='ASSOCIATE' || item.target==='BOOKING' ? 'lendingDropDown' : 'lendingDropDownabsolute' "
+          *ngIf="item.toggleFlg" [@fadeInOut]>
+          <div class="dropO" *ngFor="let innerItem of item.childMenu">
+
+            <my-app-cards [item]="item" [innerItem]="innerItem"></my-app-cards>
+            <mat-icon title="Mark the object as pin/unpin" class="dropoHeart" (click)="addToPinnedObj(innerItem, false)"
+                      [ngClass]="innerItem.isPinned ? 'orange' : 'deselected_bookmark'">{{ innerItem.bookMarkicon }}</mat-icon>
+            <mat-icon title="Mark the object as favourite" class="dropOfavro" (click)="addToFavorite(innerItem, false)"
+                      [ngClass]="innerItem.isFavourite ? 'red' : 'green'">{{ innerItem.favouriteIcon }}</mat-icon>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-3 columnPadding">
+    <div class="column" *ngFor="let item of dashboardCard; let i = index">
+      <div *ngIf="item && (i == fourth || i == fourth+4 || i == fourth+8 || i == fourth+12)" class="cardMargintop" style="position: relative;">
+        <div class="greenAdd" *ngIf="item.toggleFlg" (click)="toggle(item)" [@fadeInOut]>
+          <mat-icon class="addIcon" (click)="addToExpandedMenu(item)">add</mat-icon>
+        </div>
+        <div [ngClass]="item.toggleFlg ? 'clickcount_card' : 'count_card2' " (click)="toggle(item)">
+          <div class="topRow1">
+            <img class="cardIconBox" src="../assets/images/{{item.target.toString().replace(' ','-') | lowercase}}.png"
+                 alt="image">
+            <!-- if mdm then write in upper case -->
+            <p *ngIf="item.target != 'MDM'">{{item.target | titlecase}}</p>
+            <p *ngIf="item.target == 'MDM'">{{item.target }}</p>
+            <!-- end if mdm then write in upper case -->
+          </div>
+        </div>
+        <div
+          [ngClass]="item.target==='ASSOCIATE' || item.target==='BOOKING' ? 'lendingDropDown' : 'lendingDropDownabsolute' "
+          *ngIf="item.toggleFlg" [@fadeInOut]>
+          <div class="dropO" *ngFor="let innerItem of item.childMenu">
+
+            <my-app-cards [item]="item" [innerItem]="innerItem"></my-app-cards>
+
+            <!-- MANIPULATE TARGET PATH -->
+            <mat-icon title="Mark the object as pin/unpin" class="dropoHeart" (click)="addToPinnedObj(innerItem, false)"
+                      [ngClass]="innerItem.isPinned ? 'orange' : 'deselected_bookmark'">{{ innerItem.bookMarkicon }}</mat-icon>
+            <mat-icon title="Mark the object as favourite" class="dropOfavro" (click)="addToFavorite(innerItem, false)"
+                      [ngClass]="innerItem.isFavourite ? 'red' : 'green'">{{ innerItem.favouriteIcon }}</mat-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<div class="dashboard counterWidth container" style="margin-top: 0 !important;">
 </div>

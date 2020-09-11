@@ -1,0 +1,73 @@
+a.child {
+  color: #fff;
+  font-size: 1.5rem;
+}
+
+a.child span {
+  padding-left: 19px;
+  display: inline-block;
+  width: 200px;
+}
+
+a.child span:hover {
+  background: #119d4d;
+  transform: rotateY(4deg);
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+a.child a.child {
+  margin-left: 1.2rem;
+  display: inline-block;
+}
+
+app-repeat-child-item.sectionGroup {
+  margin-left: 2rem !important;
+  display: block;
+}
+
+button.parent.active+.sectionGroup {
+  display: block;
+}
+
+button.parent.deactive+.sectionGroup {
+  display: none;
+}
+
+button.parent.mat-menu-item {
+  background: #27ae60;
+  border-bottom: 1px solid #1b904d !important;
+  /* border-top: 1px solid #1b904d; */
+}
+
+app-repeat-child-item.sectionGroup {
+  border-left: 1px solid #077637;
+}
+
+span.itemGroup {
+  border-bottom: 1px solid #1da155;
+  display: block;
+}
+
+button.active{
+  background-color: #05662e;
+  color: #fff;
+  border: 0!important;
+}
+
+span.active {
+  background: #14773e;
+  display: block;
+  
+}
+
+
+span.active span {
+  color: #fff;
+}
+
+button{
+  cursor:pointer
+}
