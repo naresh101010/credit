@@ -320,9 +320,6 @@ greeting(){
         if (moduleEntityId.entityId) {
             moduleEntityId = moduleEntityId.entityId;
         }
-        else{
-            moduleEntityId = moduleEntityId;
-        }
         this.$notepad.getByModuleEntityId(moduleEntityId).subscribe(response => {
             this.notepadEntityList = response;
             this.spinner.hide();

@@ -148,7 +148,7 @@ export class ViewZoneMatrixComponent implements OnInit {
 
     responseStateCodeMapping() {
         this.spinner.show();
-        this.stateCodeMappingList.map(elm => {
+        this.stateCodeMappingList.forEach(elm => {
             this.spinner.hide();
             if (!elm.status) return;
             let zoneObj = this.zoneMatrixList.find(zone => zone.zmLzMapId == elm.zmLzMapId)
@@ -194,12 +194,12 @@ export class ViewZoneMatrixComponent implements OnInit {
 element.zmLzRgMapDTO=this.rateGroupWithMatrixList[0];
             })
             }
-            this.logisticZoneComb.map(elem => {
+            this.logisticZoneComb.forEach(elem => {
 
                 let zoneMap = null;
                 // this.zmLzRgMapList.find(elm=>elm.fromZoneId == elem.zmLzMapId);
 
-                this.zmLzRgMapList.map(mapElm => {
+                this.zmLzRgMapList.forEach(mapElm => {
                     if (elem.zmLzMapId == mapElm.fromZoneId && elem.secondObj.zmLzMapId == mapElm.toZoneId) {
                         zoneMap = mapElm
                     }

@@ -232,8 +232,6 @@ export class LookUpComponent implements OnInit {
 		if (data.parentLookupTypeId) {
 			if (data.parentLookupTypeId.id) {
 				data.parentLookupTypeId = data.parentLookupTypeId.id
-			} else {
-				data.parentLookupTypeId = data.parentLookupTypeId
 			}
 		}
 

@@ -187,7 +187,7 @@ export class StateComponent implements OnInit {
 		let stateFeature = [];
 		if(stateObj.id){
 
-			this.selectedFeatureType.map(elem => {
+			this.selectedFeatureType.forEach(elem => {
                 let obj = stateObj.features.find(elm => elem.stateFeatureId == elm.id)
                 if (!obj) {
 				    elem.status = 0;

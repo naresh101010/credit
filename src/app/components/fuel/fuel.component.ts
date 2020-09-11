@@ -266,7 +266,7 @@ export class FuelComponent implements OnInit {
     getStatesMultiple() {
         let states = [];
 
-        this.selectedState.map(elem => {
+        this.selectedState.forEach(elem => {
             let state = this.fuelPriceObj.fuelStateMaps.find(elm => elm.stateId == elem.id);
             if (state) {
                 state.status = 1;
@@ -576,7 +576,7 @@ let fuelIndexArr = [];
 
     checkSelectedState(o1, o2): boolean {
 
-        if (o2 && o2) {
+        if (o2) {
             return o1.id === o2.id
         }
     }
@@ -592,7 +592,7 @@ let fuelIndexArr = [];
     getFuelMapDetails(lkpFuelIndexId) {
 
         this.IsDisabledState = false;
-        this.fuelIndexList.map(elem => {
+        this.fuelIndexList.forEach(elem => {
             if (lkpFuelIndexId == elem.id) {
                 if (elem.descr.trim() == "STATE") {
                     this.isCityShow = true;
