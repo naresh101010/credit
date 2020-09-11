@@ -185,7 +185,7 @@ export class PricingParameterComponent implements OnInit {
 
         this.pricingObj.pricingParamOfferingMapRequestDTOs = [...this.pricingParamOfferingMapRequestDTOs];
         this.pricingObj.pricingParamOfferingMapRequestDTOs.forEach(element => {
-            element
+            console.log(element)
         });
         if (this.pricingObj.status == 0) {
             this.pricingParamOfferingMapRequestDTOs.forEach(elem => {

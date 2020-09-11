@@ -990,7 +990,7 @@ if(this.submitPermission == true){
             this.commandmentObj.commandmentOfferingRequestDTOs = [...obj.commandmentOfferingList];
         }
 
-        this.localName == this.commandmentObj.commandmentName;
+        // this.localName == this.commandmentObj.commandmentName;
         if (obj.status == 0) {
             this.isDisableInput = false;
         }

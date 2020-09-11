@@ -679,9 +679,7 @@ getreportingbranchBybranchId(branchId){
                 return;
             }
 
-            this.featuresList.concat(response);
-            let j = this.featuresList.concat(response); 
-            console.log(j)
+         
 
         })
     }
