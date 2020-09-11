@@ -27,7 +27,7 @@ export class AddCountryComponent implements OnInit {
     today = moment(new Date()).format("YYYY-MM-DD");
     disableEffectiveDate = false as any;
     ngOnInit() {
-        debugger
+        
         let countryObj = this.data;
         if (this.data.type) {
             this.orgVar = this.data.type;

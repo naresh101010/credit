@@ -181,7 +181,7 @@ export class BranchAdvanceSearchComponent implements OnInit {
 	}
 branchDropdown2=[]
 	searchByType() {
-        debugger
+        
 		this.onload = false;
 		this.spinner.show();
 		this.$branch.getSearchBranchTypes().subscribe((response) => {

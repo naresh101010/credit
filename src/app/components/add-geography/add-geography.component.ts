@@ -68,7 +68,7 @@ export class AddGeographyComponent implements OnInit {
         this.$country.getAll().subscribe(response => {
             this.countryList = response.responseData;
 
-            this.countryList.map(elem => {
+            this.countryList.forEach(elem => {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.countryName}  (${status})`;
             })
@@ -86,7 +86,7 @@ export class AddGeographyComponent implements OnInit {
         this.pincodeList = [];
         this.$pincode.getByCityId(this.cityId).subscribe(response => {
             this.pincodeList = response;
-            this.pincodeList.map(elem => {
+            this.pincodeList.forEach(elem => {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.pincode}  (${status})`;
             })
@@ -110,7 +110,7 @@ export class AddGeographyComponent implements OnInit {
         this.districtList = [];
         this.$state.getByCountryId(this.countryId).subscribe(response => {
             this.stateList = response;
-            this.stateList.map(elem => {
+            this.stateList.forEach(elem => {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.stateName}  (${status})`;
             })
@@ -132,7 +132,7 @@ export class AddGeographyComponent implements OnInit {
         this.pincodeList = [];
         this.$district.getByStateId(this.stateId).subscribe(response => {
             this.districtList = response;
-            this.districtList.map(elem => {
+            this.districtList.forEach(elem => {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.districtName}  (${status})`;
             })
@@ -152,7 +152,7 @@ export class AddGeographyComponent implements OnInit {
         this.pincodeList = [];
         this.$city.getByDistrictId(this.districtId).subscribe(response => {
             this.cityList = response;
-            this.cityList.map(elem => {
+            this.cityList.forEach(elem => {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.cityName}  (${status})`;
             })
@@ -203,7 +203,7 @@ export class AddGeographyComponent implements OnInit {
                 if (!countryId) {
                     this.countryList.push(response);
                     this.countryId = response.id;
-                    this.countryList.map(elem => {
+                    this.countryList.forEach(elem => {
                         if (elem.id == this.countryId) {
                             let status = this.getStatus(elem);
                             elem.nameWithStatus = `${elem.countryName}  (${status})`;
@@ -224,7 +224,7 @@ export class AddGeographyComponent implements OnInit {
                     let index = this.countryList.findIndex(elem => elem.id == response.id);
                     this.countryList[index] = response;
                     this.countryId = response.id;
-                    this.countryList.map(elem => {
+                    this.countryList.forEach(elem => {
                         if (elem.id == this.countryId) {
                             let status = this.getStatus(elem);
                             elem.nameWithStatus = `${elem.countryName}  (${status})`;
@@ -281,13 +281,13 @@ export class AddGeographyComponent implements OnInit {
                 if (!stateId) {
                     this.stateList.push(response);
                     this.stateId = response.id;
-                    this.stateList.map(elem => {
+                    this.stateList.forEach(elem => {
                         if (elem.id == this.stateId) {
                             let status = this.getStatus(elem);
                             elem.nameWithStatus = `${elem.stateName}  (${status})`;
                         }
                     })
-                    this.countryList.map(elem => {
+                    this.countryList.forEach(elem => {
                         if (response.country) {
                             if (elem.id == response.country.id) {
                                 this.countryId = response.country.id;
@@ -308,7 +308,7 @@ export class AddGeographyComponent implements OnInit {
                     let index = this.stateList.findIndex(elem => elem.id == response.id);
                     this.stateList[index] = response;
                     this.stateId = response.id;
-                    this.stateList.map(elem => {
+                    this.stateList.forEach(elem => {
                         if (elem.id == this.stateId) {
                             let status = this.getStatus(elem);
                             elem.nameWithStatus = `${elem.stateName}  (${status})`;
@@ -373,13 +373,13 @@ export class AddGeographyComponent implements OnInit {
                     this.districtList.push(response);
                     this.districtId = response.id;
                     this.stateList = response.stateList;
-                    this.districtList.map(elem => {
+                    this.districtList.forEach(elem => {
                         if (elem.id == this.districtId) {
                             let status = this.getStatus(elem);
                             elem.nameWithStatus = `${elem.districtName}  (${status})`;
                         }
                     })
-                    this.countryList.map(elem => {
+                    this.countryList.forEach(elem => {
                         if (response.state.country.id) {
                             if (elem.id == response.state.country.id) {
                                 this.countryId = response.state.country.id;
@@ -387,7 +387,7 @@ export class AddGeographyComponent implements OnInit {
                         }
 
                     })
-                    this.stateList.map(elem => {
+                    this.stateList.forEach(elem => {
                         if (response.state.id) {
                             if (elem.id == response.state.id) {
                                 this.stateId = response.state.id;
@@ -408,18 +408,18 @@ export class AddGeographyComponent implements OnInit {
                     this.districtList[index] = response;
                     this.districtId = response.id;
                     this.stateList = response.stateList;
-                    this.districtList.map(elem => {
+                    this.districtList.forEach(elem => {
                         if (elem.id == this.districtId) {
                             let status = this.getStatus(elem);
                             elem.nameWithStatus = `${elem.districtName}  (${status})`;
                         }
                     })
-                    this.countryList.map(elem => {
+                    this.countryList.forEach(elem => {
                         if (elem.id == response.state.country.id) {
                             this.countryId = response.state.country.id;
                         }
                     })
-                    this.stateList.map(elem => {
+                    this.stateList.forEach(elem => {
                         if (elem.id == response.state.id) {
                             this.stateId = response.state.id;
                             let status = this.getStatus(elem);
@@ -490,13 +490,13 @@ export class AddGeographyComponent implements OnInit {
                     this.cityId = response.id;
                     this.stateList = response.stateList;
                     this.districtList = response.districtList;
-                    this.cityList.map(elem => {
+                    this.cityList.forEach(elem => {
                         if (elem.id == this.cityId) {
                             let status = this.getStatus(elem);
                             elem.nameWithStatus = `${elem.cityName}  (${status})`;
                         }
                     })
-                    this.countryList.map(elem => {
+                    this.countryList.forEach(elem => {
                         if (response.district.state.country.id) {
                             if (elem.id == response.district.state.country.id) {
                                 this.countryId = response.district.state.country.id;
@@ -506,7 +506,7 @@ export class AddGeographyComponent implements OnInit {
                         }
 
                     })
-                    this.stateList.map(elem => {
+                    this.stateList.forEach(elem => {
                         if (response.district.state.id) {
                             if (elem.id == response.district.state.id) {
                                 this.stateId = response.district.state.id;
@@ -516,7 +516,7 @@ export class AddGeographyComponent implements OnInit {
                         }
 
                     })
-                    this.districtList.map(elem => {
+                    this.districtList.forEach(elem => {
                         if (response.district.id) {
                             if (elem.id == response.district.id) {
                                 this.districtId = response.district.id;
@@ -553,7 +553,7 @@ export class AddGeographyComponent implements OnInit {
     setDropdownNames() {
 
 
-        this.countryList.map(elem => {
+        this.countryList.forEach(elem => {
             if (!elem.nameWithStatus) {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.countryName}  (${status})`;
@@ -567,21 +567,21 @@ export class AddGeographyComponent implements OnInit {
             }
         })
 
-        this.stateList.map(elem => {
+        this.stateList.forEach(elem => {
             if (!elem.nameWithStatus) {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.stateName}  (${status})`;
             }
         })
 
-        this.districtList.map(elem => {
+        this.districtList.forEach(elem => {
             if (!elem.nameWithStatus) {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.districtName}  (${status})`;
             }
         })
 
-        this.pincodeList.map(elem => {
+        this.pincodeList.forEach(elem => {
             if (!elem.nameWithStatus) {
                 let status = this.getStatus(elem);
                 elem.nameWithStatus = `${elem.pincode}  (${status})`;

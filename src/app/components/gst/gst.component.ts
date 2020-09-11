@@ -137,7 +137,7 @@ export class GstComponent implements OnInit {
 	}
 editGst(gstName){
     this.spinner.show();
-    debugger
+    
     this.$gst.getGstByName(gstName).subscribe(res=>{
           this.spinner.hide();
         if(res){

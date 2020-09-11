@@ -145,7 +145,7 @@ export class RrValueComponent implements OnInit {
             data: { title: 'this combination', heading: "RR Slab" }
         });
         dialog.beforeClose().subscribe(response => {
-            debugger
+            
 
             if (response === "cancel") {
                 return;

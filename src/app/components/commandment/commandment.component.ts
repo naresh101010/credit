@@ -667,7 +667,7 @@ if(this.submitPermission == true){
 
     clickOnCommandmentRRSubmit = <boolean>true;
     saveCommandmentRR() {
-        debugger
+        
         let isValid = true;
 
         // return; 

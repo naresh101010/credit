@@ -642,7 +642,7 @@ export class BranchDetailsComponent implements OnInit {
     }
 
 getreportingbranchBybranchId(branchId){
-    debugger
+    
      this.$spinner.show();
      this.$branchService.getBranchTypeByBranchId(branchId).subscribe(response => {
           this.$spinner.hide();

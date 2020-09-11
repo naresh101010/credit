@@ -22,7 +22,7 @@ export class EditLookupValueModalComponent implements OnInit {
   ) { }
   @ViewChild("f", null) lookupForm: any;
   ngOnInit() {
-debugger    
+    
     let lookupValueObj = { ... this.data };
     this.lookupValueObj = lookupValueObj;
     this.getLookupList();

@@ -201,7 +201,7 @@ export class LookUpComponent implements OnInit {
 	}
 
 	getLookupList() {
-        debugger
+        
 		this.spinner.show();
 		this.$lookup.getLookup().subscribe(response => {
 			this.lookupList = response;
@@ -321,7 +321,7 @@ export class LookUpComponent implements OnInit {
 	}
 
 	editLookupType(lookupTypeObj, type) {
-debugger
+
 		if (type == 0) {
 			this.submitPermission = false;
 		}

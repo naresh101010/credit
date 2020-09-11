@@ -27,7 +27,7 @@ export class AddLookupModalComponent implements OnInit {
 	@ViewChild("f", null) lookupForm: any;
 
 	ngOnInit() {
-debugger
+
 		var lookupTempObj = { ...this.data };
 		if (lookupTempObj.permissionType == 1) {
 			this.permissionType = lookupTempObj.permissionType;
@@ -127,7 +127,7 @@ debugger
 	}
 
 	getLookupList() {
-debugger
+
 		this.$lookup.getLookup().subscribe(response => {
 
 			this.lookupList = response;

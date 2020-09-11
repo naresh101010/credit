@@ -6,7 +6,7 @@ import { Pipe, PipeTransform } from '@angular/core';
     export class SortByPipe implements PipeTransform {
 
         transform(arrList:Array<any>, key?: any): any {
-            debugger
+            
             if(arrList.length ==0) return ;
             let sortedList = arrList.sort((a, b) => {
                 if(!a[key]) return ;

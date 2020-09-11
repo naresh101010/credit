@@ -55,7 +55,7 @@ export class PincodeBranchSearchComponent implements OnInit {
 		setTimeout(() => {
 			this.spinner.show();
 		}, 100);
-        debugger
+        
 		this.districtList = [];
 		this.cityList = [];
 		this.pincodeList = [];

@@ -26,7 +26,7 @@ export class SegmentComponent implements OnInit {
     ) { }
 
     ngOnInit() {
-debugger
+
         if (this.segmentObj.segment) {
             this.getSubSegmentBySegmentId(this.segmentObj.segment);
         }
@@ -199,7 +199,7 @@ if(type==5){
     }
 
 getLodaList(){
-    debugger
+    
         this.spinner.show();
         this.$segment.getLoadList().subscribe(response => {
             this.p = 1;

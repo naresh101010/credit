@@ -22,7 +22,7 @@ export class AddSubSegmentComponent implements OnInit {
   ) { }
   @ViewChild("f", null) segmentForm: any;
   ngOnInit() {
-debugger
+
     this.getsubSegment();
     this.obj = { ...this.data };
     if (!(this.data.obj == null)) {
