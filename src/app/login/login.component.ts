@@ -9,7 +9,6 @@ import { ToasterService } from "../core/services/toaster.service";
 import { AppSetting } from "../app.setting";
 import { ErrorConstants } from "../core/interceptor/ErrorHnadle";
 import { CommonService } from "../common.service";
-// import { AppConfigService } from "src/app/AppConfigService.service";
 
 @Component({
   selector: "login",
@@ -31,13 +30,13 @@ export class LoginComponent implements OnInit {
     private SpinnerService: NgxSpinnerService,
     public router: Router,
     public toster: ToasterService,
-    private AuthorizationService: AuthorizationService,
+    private AuthorizationService_: AuthorizationService,
     private toast: ToastrService,
     private commonService:CommonService
   ) {}
   ngOnInit() {
     console.log('check deployment status', new Date())
-    this.AuthorizationService.clearsessionStroage();
+    this.AuthorizationService_.clearsessionStroage();
     //check if credentials persist in sessionStorage then fill it in form --naresh
     this.credentilFromLocalSt();
     this.commonService.hidemenu()
@@ -74,11 +73,11 @@ export class LoginComponent implements OnInit {
           this.loginCreate = data;
           sessionStorage.setItem("access-token", token);
           this.loginCreate = data;
-          this.AuthorizationService.setUserDetails({
+          this.AuthorizationService_.setUserDetails({
             userId: this.holdCredential.username,
             token: token,
           });
-          this.AuthorizationService.getPermi(
+          this.AuthorizationService_.getPermi(
             this.holdCredential.username,
             token
           );
@@ -102,7 +101,7 @@ export class LoginComponent implements OnInit {
   // strore credentials in sessionStorage
   rememberme() {
     //encr credential
-    const u = this.AuthorizationService.encreptIt(this.holdCredential.username);
+    const u = this.AuthorizationService_.encreptIt(this.holdCredential.username);
 
     sessionStorage.setItem(
       "RememberMe",
@@ -115,7 +114,7 @@ export class LoginComponent implements OnInit {
   credentilFromLocalSt() {
     let remMe = JSON.parse(sessionStorage.getItem("RememberMe"));
     if (remMe !== null) {
-      this.holdCredential.username = this.AuthorizationService.dencreptIt(
+      this.holdCredential.username = this.AuthorizationService_.dencreptIt(
         remMe.catchX
       );
     }

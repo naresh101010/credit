@@ -9,7 +9,7 @@
         class="parent"
         toggleMe        
       >
-        <span >{{ child.menuLabel }} {{ child | nvaPipe }}</span>
+        <span >{{ child.menuLabel }} {{ child }}</span>
       </button>
       <app-repeat-child-item
         #menu
@@ -28,7 +28,7 @@
       routerLink="{{mainSection | nvaUrlPipe}}/{{child.target | nvaUrlPipe}}"  
       class="menuBtn" id="{{mainSection | nvaUrlPipe}}/{{child.target | nvaUrlPipe}}"
       >
-      <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child | nvaPipe }}</span>
+      <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child  }}</span>
     </button>
    <!-- end for credit only -->
 
@@ -41,7 +41,7 @@
       routerLink="{{child.target | nvaUrlPipe}}-{{mainSection | nvaUrlPipe}}/{{child.target | nvaUrlPipe}}"  
       class="menuBtn" id="{{mainSection | nvaUrlPipe}}/{{child.target | nvaUrlPipe}}"
     >
-      <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child | nvaPipe }}</span>
+      <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child  }}</span>
     </button>
 
    
@@ -54,7 +54,7 @@
     (click)="navigateTo(mainSection, child.target, $event)"  
     class="menuBtn" id="{{mainSection | nvaUrlPipe}}/{{child.target | nvaUrlPipe}}"
     >
-     <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child | nvaPipe }}</span>
+     <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child  }}</span>
    </button>  
 
   
@@ -70,7 +70,7 @@
 
 
 
-  <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child | nvaPipe }}</span>
+  <span style="line-height: 1.5rem;">{{ child.menuLabel }} {{ child  }}</span>
 </button> 
 
 

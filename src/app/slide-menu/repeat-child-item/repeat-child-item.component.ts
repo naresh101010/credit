@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from "@angular/core";
-import { Router, NavigationStart, Event } from "@angular/router";
+import { Router } from "@angular/router";
 import { NgxSpinnerService } from "ngx-spinner";
 @Component({
   selector: "app-repeat-child-item",

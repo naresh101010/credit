@@ -26,6 +26,7 @@ a.child a.child {
 .sectionGroup {
   margin-left: 2rem !important;
   display: block;
+  border-left: 1px solid #077637;
 }
 
 button.parent.active+.sectionGroup {
@@ -42,9 +43,6 @@ button.parent.mat-menu-item {
   /* border-top: 1px solid #1b904d; */
 }
 
-.sectionGroup {
-  border-left: 1px solid #077637;
-}
 
 span.itemGroup {
   border-bottom: 1px solid #1da155;
