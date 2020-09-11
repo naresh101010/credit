@@ -37,12 +37,11 @@ span.main {
   cursor: pointer;
   display: block;
   background: #1b904d;
-  display: block;
   border-left: 0.5rem solid #01632a;
   padding-left: 1.2rem;
   line-height: 5rem;
   font-size: 1.6rem;
-  cursor: pointer;
+ 
 }
 #fa-down {
   margin-left: 1rem;
@@ -74,7 +73,7 @@ span.parent.openMenu ~ .child.section {
   display: block;
 }
 
-app-repeat-child-item.child.ng-star-inserted {
+.child.ng-star-inserted {
   display: none;
 }
 
