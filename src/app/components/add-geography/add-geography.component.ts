@@ -246,7 +246,7 @@ export class AddGeographyComponent implements OnInit {
             data = { ... this.stateList.find(elem => elem.id == stateId) };
             data.type = isType;
         }
-        data.country = country,
+        data.country = country;
             data.countryList = this.countryList
 
         let dialog = this.dialog.open(StateComponent, {
