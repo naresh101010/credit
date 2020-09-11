@@ -32,12 +32,8 @@
   display: block;
 }
 
-/* naresh */
 
-span.main {
-  display: block;
-  /* border-bottom: 1px solid #585757; */
-}
+
 
 
 
@@ -130,9 +126,7 @@ span.main {
 
 
 
-#fa-down {
-  margin-left: 1rem;
-}
+
 ::ng-deep .mat-toolbar-multiple-rows {
   min-height: 0 !important;
 }

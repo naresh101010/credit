@@ -12,8 +12,6 @@
 .login-input{cursor:pointer}
 html body .contractContainer .mat-datepicker-toggle .mat-icon-button{top:2rem!important}
 html body .contractContainer .slaAddIcon.two{margin-top:-4rem;margin-left:18rem}
-html body .contractContainer .mat-datepicker-toggle .mat-icon-button{top:2rem!important}
-html body .contractContainer .slaAddIcon.two{margin-top:-4rem;margin-left:18rem}
 .shared .upload .mat-form-field-appearance-outline .mat-form-field-outline-end{border-radius:0!important;min-width:0!important}
 .shared .upload .mat-focused .mat-form-field-label{color:green!important}
 .shared .upload .mat-input-element{position:absolute;top:-.5rem!important;margin-top:.4rem!important}

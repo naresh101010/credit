@@ -37,8 +37,8 @@ export class RepeatChildItemComponent implements OnInit {
       // console.log(v.innerHTML)
       v.addEventListener("click", function () {
         // console.log('fdf')
-        document.querySelectorAll(".parent").forEach((v) => {
-          v.classList.remove("active");
+        document.querySelectorAll(".parent").forEach((e) => {
+          e.classList.remove("active");
         });
         v.classList.add("active");
       });
@@ -74,7 +74,7 @@ export class RepeatChildItemComponent implements OnInit {
                 this.router.navigate([this.currentUrl], { skipLocationChange: false });  
              }, 500)
             }
-          });;
+          })
     } else {
       this.router.navigate([this.currentUrl]);
     }

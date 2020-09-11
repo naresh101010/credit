@@ -30,8 +30,8 @@ export class TopbarComponent implements OnInit {
   toggleLogoutScreen:boolean = false;
 
   constructor(
-    private AuthorizationService: AuthorizationService, public dialog: MatDialog,    
-    public CommonService: CommonService
+    private AuthorizationService_: AuthorizationService, public dialog: MatDialog,    
+    public CommonService_: CommonService
   ) {}
 
   openDialog(): void {   
@@ -64,7 +64,7 @@ export class TopbarComponent implements OnInit {
     this.user = JSON.parse(
       sessionStorage.getItem("all")
     ).data.responseData.user.username;
-    this.navItems = this.AuthorizationService.getMenu();
+    this.navItems = this.AuthorizationService_.getMenu();
     }else{
       this.tstUser = true;
     }
@@ -77,7 +77,7 @@ export class TopbarComponent implements OnInit {
   }
 
   logout() {    
-    this.AuthorizationService.logout();
+    this.AuthorizationService_.logout();
   }
 
 
@@ -89,7 +89,7 @@ export class TopbarComponent implements OnInit {
   //this will run on window resize -- and hide menu if width is small 1024
   @HostListener('window:resize', ['$event']) onResize(event) {
       if(window.innerWidth < 1024){
-        this.CommonService.hidemenu();  
+        this.CommonService_.hidemenu();  
           let element = document.getElementById("feature_holder");
           element.classList.remove("menu");
       }
