@@ -1,0 +1,1387 @@
+<div *ngxPermissionsOnly="['CREATE' , 'UPDATE' , 'READ']">
+    <section>
+    </section>
+    <section *ngIf="addCommandment" style="background-color: #fff;">
+        <form autocomplete="off" name="commandmentForm" (ngSubmit)="f.form.valid && saveCommandment()" #f="ngForm"
+            novalidate>
+            <div class="">
+                <h3 class="zone_title" style="margin: 7px 0;">{{FormatType}} Commandment</h3>
+                <mat-card class="">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="100%">
+
+                            <div class="add_branch_main">
+                                <div class="create_branch">
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Commandment Type <sup class="mandatory">*</sup> </strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && commandmentType.invalid }">
+                                                <mat-select disableOptionCentering
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22" name="commandmentType"
+                                                    [dataArr]="commandmentTypeList" appAutoSelectFirstOption
+                                                    [(ngModel)]="loadObj.commandmentType" #commandmentType="ngModel"
+                                                    required [disabled]="commandmentObj.id">
+                                                    <ngx-mat-select-search [(ngModel)]="CommandmentNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="Commandment.id"
+                                                        *ngFor="let Commandment of commandmentTypeList | stringFilter:CommandmentNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                        matTooltip="{{Commandment.descr}}"
+                                                        [matTooltipPosition]="'above'">
+                                                        {{Commandment.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div *ngIf="commandmentType.touched || (f.submitted && commandmentType.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="commandmentType.errors?.required">Commandment Type is
+                                                        required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Commandment Name <sup class="mandatory">*</sup> </strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%" class="pos_relative input_height">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && commandmentName.invalid }">
+                                                <input matInput class="form-control" name="commandmentName"
+                                                    [(ngModel)]="commandmentObj.commandmentName" maxlength="50"
+                                                    #commandmentName="ngModel" required
+                                                    (input)="commandmentObj.commandmentName=$event.target.value.toUpperCase()">
+                                            </mat-form-field>
+                                            <div *ngIf="commandmentName.touched || (f.submitted && commandmentName.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="commandmentName.errors?.required">Commandment Name is
+                                                    required</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                        *ngIf="checkCommandmentType(loadObj.commandmentType)">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Geo Type <sup class="mandatory">*</sup> </strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && a.invalid }">
+                                                <mat-select disableOptionCentering
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22" [(ngModel)]="loadObj.geoType"
+                                                    name="a" (selectionChange)="getSubTypeByGeoType(loadObj.geoType)"
+                                                    #a="ngModel" required [disabled]="commandmentObj.id">
+                                                    <ngx-mat-select-search [(ngModel)]="geoTypeNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="geoType.id"
+                                                        *ngFor="let geoType of commandmentGeoTypeList | stringFilter:geoTypeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                        matTooltip="{{geoType.descr}}" [matTooltipPosition]="'above'">
+                                                        {{geoType.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                                <div *ngIf="a.touched || (f.submitted && a.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="a.errors?.required">Geo Type is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Geo Sub - Type <sup class="mandatory">*</sup> </strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && geoFeatureId.invalid }">
+                                                <mat-select disableOptionCentering
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22"
+                                                    [(ngModel)]="commandmentObj.geoFeatureId" name="geoFeatureId"
+                                                    #geoFeatureId="ngModel" required [disabled]="commandmentObj.id">
+                                                    <ngx-mat-select-search [(ngModel)]="subGeoNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="subGeo.id" matTooltip="{{subGeo.geosubName}}"
+                                                        *ngFor="let subGeo of subGeoList | stringFilter:subGeoNameSearchCtrl:'geosubName' | sortBy:'geosubName'"
+                                                        matTooltip="{{subGeo.geosubName}}"
+                                                        [matTooltipPosition]="'above'">
+                                                        {{subGeo.geosubName}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                                <div *ngIf="geoFeatureId.touched || (f.submitted && geoFeatureId.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="geoFeatureId.errors?.required">Geo Sub - Type is
+                                                        required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Calculation Type <sup class="mandatory">*</sup> </strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && b.invalid }">
+                                                <mat-select disableOptionCentering
+                                                    panelClass="anyClass multipleAnyClass_search_2" multiple
+                                                    [dataArr]="calculationTypeList" appAutoSelectFirstOption
+                                                    class="search_select_branch mr_top_22"
+                                                    [compareWith]="calculationType"
+                                                    [(ngModel)]="selectedCalculationTypeList" name="b" #b="ngModel"
+                                                    required [disabled]="isdisableCommandment">
+                                                    <ngx-mat-select-search [(ngModel)]="calculationNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="calculation"
+                                                        *ngFor="let calculation of calculationTypeList | stringFilter:calculationNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                        matTooltip="{{calculation.descr}}"
+                                                        [matTooltipPosition]="'above'">
+                                                        {{calculation.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <!--<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass" multiple
+                                                    [compareWith]="calculationType" class="mat_select" name="b"
+                                                    [(ngModel)]="selectedCalculationTypeList" #b="ngModel" required
+                                                    [disabled]="isdisableCommandment">
+                                                    <mat-option [value]="calculation" matTooltip="{{calculation.descr}}"
+                                                        [matTooltipPosition]="'above'"
+                                                        *ngFor="let calculation of calculationTypeList  | sortBy:'descr'">
+                                                        {{calculation.descr}}
+                                                    </mat-option>
+                                                </mat-select>-->
+                                                <div *ngIf="b.touched || (f.submitted && b.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="b.errors?.required">Calculation Type is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Calculation Unit <sup class="mandatory">*</sup> </strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && c.invalid }">
+                                                <mat-select disableOptionCentering multiple
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22"
+                                                    [compareWith]="calculationUnit" [dataArr]="calculationUnitList"
+                                                    appAutoSelectFirstOption [(ngModel)]="selectedCalculationUnitList"
+                                                    name="c" #c="ngModel" required [disabled]="isdisableCommandment">
+                                                    <ngx-mat-select-search [(ngModel)]="calculationUnitNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="calculationUnit"
+                                                        *ngFor="let calculationUnit of calculationUnitList | stringFilter:calculationUnitNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                        matTooltip="{{calculationUnit.descr}}"
+                                                        [matTooltipPosition]="'above'">
+                                                        {{calculationUnit.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div *ngIf="c.touched || (f.submitted && c.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="c.errors?.required">Calculation Unit is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Calculation Measure <sup class="mandatory">*</sup>
+                                                </strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && d.invalid }">
+                                                <mat-select disableOptionCentering
+                                                    panelClass="anyClass multipleAnyClass_search_2" multiple
+                                                    class="search_select_branch mr_top_22"
+                                                    [compareWith]="calculationMeasure"
+                                                    [dataArr]="calculationMeasureList" appAutoSelectFirstOption
+                                                    [(ngModel)]="selectionCalculationMeasureList" name="d" #d="ngModel"
+                                                    required [disabled]="isdisableCommandment">
+                                                    <ngx-mat-select-search
+                                                        [(ngModel)]="calculationMeasureNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="calculationMeasure"
+                                                        *ngFor="let calculationMeasure of calculationMeasureList | stringFilter:calculationMeasureNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                        matTooltip="{{calculationMeasure.descr}}"
+                                                        [matTooltipPosition]="'above'">
+                                                        {{calculationMeasure.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div *ngIf="d.touched || (f.submitted && d.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="d.errors?.required">Calculation Measure is Required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Business Type <sup class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && e.invalid }">
+                                                <mat-select disableOptionCentering multiple
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22" [compareWith]="businessType"
+                                                    [dataArr]="businessTypeList" appAutoSelectFirstOption
+                                                    [(ngModel)]="selectedBusinessTypeList" name="e" #e="ngModel"
+                                                    required>
+                                                    <ngx-mat-select-search [(ngModel)]="businessNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="business"
+                                                        *ngFor="let business of businessTypeList | stringFilter:businessNameSearchCtrl:'descr' | sortBy:'descr';let i=index"
+                                                        [disabled]="isBussinessChecked(business)"
+                                                        matTooltip="{{business.descr}}" [matTooltipPosition]="'above'">
+                                                        {{business.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                                <div *ngIf="e.touched || (f.submitted && e.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="e.errors?.required">Business Type is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Service Offering<sup class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && w.invalid }">
+                                                <mat-select disableOptionCentering multiple
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22"
+                                                    [compareWith]="serviceOffering" appAutoSelectFirstOption
+                                                    [(ngModel)]="selectedServiceOfferingList" name="w" #w="ngModel"
+                                                    required>
+                                                    <ngx-mat-select-search [(ngModel)]="OfferingNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="Offering"
+                                                        *ngFor="let Offering of serviceOffeingList | stringFilter:OfferingNameSearchCtrl:'serviceOffering' | sortBy:'serviceOffering'"
+                                                        [disabled]="isServiceOfferingChecked(Offering)"
+                                                        matTooltip="{{Offering.serviceOffering}}"
+                                                        [matTooltipPosition]="'above'">
+                                                        {{Offering.serviceOffering}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <!--<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass" multiple
+                                                    [compareWith]="serviceOffering" class="mat_select" name="w"
+                                                    [(ngModel)]="selectedServiceOfferingList" #w="ngModel" required>
+                                                    <mat-option [value]="Offering"
+                                                        matTooltip="{{Offering.serviceOffering}}"
+                                                        [matTooltipPosition]="'above'"
+                                                        *ngFor="let Offering of serviceOffeingList  | sortBy: 'serviceOffering'">
+                                                        {{Offering.serviceOffering}}
+                                                    </mat-option>
+                                                </mat-select>-->
+                                                <div *ngIf="w.touched || (f.submitted && w.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="w.errors?.required">Service Offering is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Contract Type <sup class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && g.invalid }">
+                                                <mat-select disableOptionCentering multiple
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22" [compareWith]="contractType"
+                                                    [dataArr]="customerTypeList" appAutoSelectFirstOption
+                                                    [(ngModel)]="selectedCustomerTypeList" name="g" #g="ngModel"
+                                                    required>
+                                                    <ngx-mat-select-search [(ngModel)]="contractNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="contract"
+                                                        *ngFor="let contract of customerTypeList | stringFilter:contractNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                        matTooltip="{{contract.descr}}"
+                                                        [disabled]="isContractTypeChecked(contract)"
+                                                        [matTooltipPosition]="'above'">
+                                                        {{contract.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+
+                                                <div *ngIf="g.touched || (f.submitted && g.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="g.errors?.required">Contract Type is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Charges On <sup class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && h.invalid }">
+                                                <mat-select disableOptionCentering multiple
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22" [compareWith]="chargesOn"
+                                                    [dataArr]="commandmentChargesOnList" appAutoSelectFirstOption
+                                                    [(ngModel)]="selectedChargesList" name="h" #h="ngModel" required>
+                                                    <ngx-mat-select-search [(ngModel)]="chargesNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="charges"
+                                                        [disabled]="isChargesOnChecked(charges)"
+                                                        *ngFor="let charges of commandmentChargesOnList | stringFilter:chargesNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                        matTooltip="{{charges.descr}}" [matTooltipPosition]="'above'">
+                                                        {{charges.descr}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div *ngIf="h.touched || (f.submitted && h.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="h.errors?.required">Charges On is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%"></div>
+                                    </div>
+
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                        class="radio_btn_margin">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>RR Flag <sup class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && rrFlag.invalid }">
+                                                <mat-radio-group [(ngModel)]="commandmentObj.rrFlag" name="rrFlag"
+                                                    #rrFlag="ngModel" required>
+                                                    <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+                                                    </mat-radio-button>
+                                                    <mat-radio-button [value]="0">No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div *ngIf="rrFlag.touched || (f.submitted && rrFlag.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="rrFlag.errors?.required">RR Flag is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Status <sup class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="select_box_dropwodn pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                                <mat-select disableOptionCentering panelClass="anyClass"
+                                                    class="mat_select" name="status" (selectionChange)="getStatus()"
+                                                    [(ngModel)]="commandmentObj.status" #status="ngModel" required
+                                                    uppercase>
+                                                    <mat-option [value]="1">
+                                                        ACTIVE
+                                                    </mat-option>
+                                                    <mat-option [value]="0">
+                                                        INACTIVE
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div *ngIf="status.touched || (f.submitted && status.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="status.errors?.required">Status is Required</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                        class="radio_btn_margin">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Minimum Amount Flag <sup
+                                                        class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && minAmountFlag.invalid }">
+                                                <mat-radio-group [(ngModel)]="commandmentObj.minAmountFlag"
+                                                    name="minAmountFlag" #minAmountFlag="ngModel" required>
+                                                    <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+                                                    </mat-radio-button>
+                                                    <mat-radio-button [value]="0">No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div *ngIf="minAmountFlag.touched || (f.submitted && minAmountFlag.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="minAmountFlag.errors?.required">Minimum Amount Flag is
+                                                        Required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Maximum Amount Flag <sup
+                                                        class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <div class="pos_relative input_height"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && maxAmountFlag.invalid }">
+                                                <mat-radio-group [(ngModel)]="commandmentObj.maxAmountFlag"
+                                                    name="maxAmountFlag" #maxAmountFlag="ngModel" required>
+                                                    <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+                                                    </mat-radio-button>
+                                                    <mat-radio-button [value]="0">No</mat-radio-button>
+                                                </mat-radio-group>
+                                                <div *ngIf="maxAmountFlag.touched || (f.submitted && maxAmountFlag.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="maxAmountFlag.errors?.required">Maximum Amount Flag is
+                                                        Required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Description</strong></mat-label>
+                                        </div>
+                                        <div fxFlex="20%">
+                                            <mat-form-field appearance="outline">
+                                                <textarea matInput [(ngModel)]="commandmentObj.description"
+                                                    name="description" maxlength="100"
+                                                    (input)="commandmentObj.description=$event.target.value.toUpperCase()"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%"></div>
+                                    </div>
+
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Effective Date <sup class="mandatory">*</sup></strong>
+                                            </mat-label>
+                                        </div>
+                                        <div fxFlex="20%" class="pos_relative input_height">
+                                            <mat-form-field appearance="outline" class="date_picker_adjust"
+                                                [ngClass]="{ 'mandatory_input': (effectiveDate.errors?.required && (effectiveDate.touched || f.submitted)) }">
+                                                <mat-datepicker #branchEffective panelClass="mdmDatepicker"
+                                                    class="date_picker"></mat-datepicker>
+                                                <input matInput [matDatepicker]="branchEffective"
+                                                    [disabled]="isdisableCommandment" placeholder="DD/MM/YYYY" validDate
+                                                    [(ngModel)]="commandmentObj.effectiveDate" name="effectiveDate"
+                                                    #effectiveDate="ngModel"
+                                                    (click)="checkForExpiryDate(commandmentObj.effectiveDate);"
+                                                    (dateChange)="checkForExpiryDate(commandmentObj.effectiveDate)"
+                                                    required>
+                                                <mat-datepicker-toggle
+                                                    (onMenuOpen)="checkForExpiryDate(commandmentObj.effectiveDate)"
+                                                    matSuffix [for]="branchEffective">
+                                                </mat-datepicker-toggle>
+                                            </mat-form-field>
+                                            <div *ngIf="effectiveDate.touched || (f.submitted && effectiveDate.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="effectiveDate.errors?.required">Effective Date is Required
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="20%"></div>
+                                        <div fxFlex="20%">
+                                            <mat-label><strong>Expiry Date</strong></mat-label>
+                                        </div>
+                                        <div fxFlex="20%" class="pos_relative input_height">
+                                            <mat-form-field appearance="outline" class="date_picker_adjust"
+                                                [ngClass]="{ 'mandatory_input': expiryDate.invalid }">
+                                                <input matInput [matDatepicker]="pickdaser" #expiryDate="ngModel"
+                                                    validDate [(ngModel)]="commandmentObj.expiryDate" name="expiryDate"
+                                                    placeholder="DD/MM/YYYY" [min]="expiryMinDate"
+                                                    [required]="isInactive==true"
+                                                    (dateChange)="changeDateFormat(commandmentObj.effectiveDate,commandmentObj.expiryDate);"
+                                                    (change)="isVar=true">
+                                                <mat-datepicker-toggle matSuffix [for]="pickdaser">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #pickdaser
+                                                    (opened)="checkForExpiryDate(commandmentObj.effectiveDate)"
+                                                    (closed)="removeMinDate(commandmentObj.effectiveDate)"
+                                                    panelClass="mdmDatepicker" class="date_picker">
+                                                </mat-datepicker>
+                                            </mat-form-field>
+                                            <div *ngIf="isVar" class="invalid-feedback">
+                                                <div
+                                                    *ngIf=" commandmentObj.expiryDate <= commandmentObj.effectiveDate && !commandmentObj.id">
+                                                    Must be Greater than Effective
+                                                    Date.</div>
+                                                <div
+                                                    *ngIf="( commandmentObj.expiryDate <= commandmentObj.effectiveDate ||currentDate>commandmentObj.expiryDate) && commandmentObj.id">
+                                                    Must be Greater than
+                                                    Current Date.</div>
+                                            </div>
+                                            <div *ngIf="f.submitted && expiryDate.invalid" class="invalid-feedback">
+                                                <div
+                                                    *ngIf="commandmentObj.expiryDate< currentDate && commandmentObj.expiryDate">
+                                                    Must be Greater than Effective and Current Date</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </mat-card>
+
+            </div>
+            <mat-expansion-panel [expanded]="isExpand" [hideToggle]="isExpand" *ngIf="submitPermission">
+                <mat-expansion-panel-header>
+                    <mat-panel-title style="border-bottom: 1px solid #27ae60;">
+                        Commandment RR
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <mat-card class="card_mb">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="50%">
+                            <div class="pin_branch_mapping">
+                                <h3>Commandment Offering</h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div>
+                        <section>
+                            <div class="">
+                                <mat-card class="padding_0">
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                        <div fxFlex="100%">
+                                            <div class="all_branch_right comm_table_responsive" style="padding: 0px;">
+                                                <div class="mat-table comm_mat_table text-center">
+                                                    <div class="mat-row branch_table_head">
+                                                        <div class="mat-cell text-center"><strong>Service
+                                                                Offering</strong>
+                                                        </div>
+                                                        <div class="mat-cell text-center"><strong>Customer Type</strong>
+                                                        </div>
+                                                        <div class="mat-cell text-center"><strong>Business Type</strong>
+                                                        </div>
+                                                        <div class="mat-cell text-center"><strong>CALC TYPE</strong><sup
+                                                                class="mandatory">*</sup></div>
+                                                        <div class="mat-cell text-center"></div>
+                                                        <div class="mat-cell text-center"><strong>CALC UNIT</strong><sup
+                                                                class="mandatory">*</sup></div>
+                                                        <div class="mat-cell text-center"><strong>CALC
+                                                                MEASURE</strong><sup class="mandatory">*</sup></div>
+                                                        <div class="mat-cell text-center"><strong>Charges
+                                                                On</strong><sup class="mandatory">*</sup></div>
+                                                        <div class="mat-cell text-center">
+                                                            <strong>RR VALUE</strong><sup class="mandatory">*</sup>
+                                                        </div>
+                                                        <div class="mat-cell text-center"
+                                                            *ngIf="commandmentObj.minAmountFlag==1">
+                                                            <strong>MIN VALUE</strong></div>
+                                                        <div class="mat-cell text-center"
+                                                            *ngIf="commandmentObj.maxAmountFlag==1"><strong>MAX
+                                                                VALUE</strong>
+                                                        </div>
+                                                        <div class="mat-cell text-center"><strong>MIN FREIGHT FLAG<sup
+                                                                    class="mandatory">*</sup></strong>
+                                                        </div>
+                                                    </div>
+                                                    <div class="mat-row branch_table_dis"
+                                                        *ngFor="let commandmentRrObj of commandmentRrTableList; let i=index">
+                                                        <div
+                                                            class="mat-cell theme_color mr-top-8 text-center width_mat_cell_1">
+                                                            {{commandmentRrObj.serviceOfferingId | showName : 'serviceOffering' :serviceOffeingList }}
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 text-center width_mat_cell_1">
+                                                            {{commandmentRrObj.customerTypeId | showName : 'descr' :customerTypeList }}
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 text-center width_mat_cell_1">
+                                                            {{commandmentRrObj.businessTypeId | showName : 'descr' :businessTypeList }}
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                            <mat-form-field
+                                                                class="select_box_dropwodn command_dropdown mr--5"
+                                                                [ngClass]="{ 'mandatory_input': f.submitted && calculationTypeId.invalid }">
+                                                                <mat-select disableOptionCentering
+                                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                                    class="search_select_branch mr_top_22"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationTypeId"
+                                                                    name="calculationTypeId-{{i}}"
+                                                                    #calculationTypeId="ngModel" required
+                                                                    [disabled]="commandmentRrObj.isChecked==true || commandmentObj.status==0">
+                                                                    <ngx-mat-select-search
+                                                                        [(ngModel)]="calTypeObjNameSearchCtrl"
+                                                                        [placeholderLabel]="'Search...'"
+                                                                        [noEntriesFoundLabel]="'Not found'"
+                                                                        name="search">
+                                                                        <mat-icon
+                                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                            search
+                                                                        </mat-icon>
+                                                                    </ngx-mat-select-search>
+                                                                    <mat-option [value]="calTypeObj.id"
+                                                                        *ngFor="let calTypeObj of selectedCalculationTypeList | stringFilter:calTypeObjNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                                        matTooltip="{{calTypeObj.descr}}"
+                                                                        [matTooltipPosition]="'above'">
+                                                                        {{calTypeObj.descr}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                            </mat-form-field>
+
+                                                            <div *ngIf="calculationTypeId.touched || (f.submitted && calculationTypeId.invalid )"
+                                                                class="invalid-feedback2 mr-top-5 ">
+                                                                <div *ngIf="calculationTypeId.errors?.required">
+                                                                    Calculation Type is
+                                                                    Required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 width_2_percn">
+                                                            <em class="fa fa-pencil"
+                                                                style="color: #27ae60; font-size: 15px;"
+                                                                (click)="openRRValue(commandmentRrObj,i)"
+                                                                *ngIf="checkForEditBtn(commandmentRrObj.commandmentRrRequestDTO.calculationTypeId)"></em>
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                            <mat-form-field
+                                                                [ngClass]="{ 'mandatory_input': f.submitted && calculationUnitId2.invalid }"
+                                                                class="select_box_dropwodn command_dropdown mr--5">
+                                                                <mat-select disableOptionCentering
+                                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                                    class="search_select_branch mr_top_22"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationUnitId"
+                                                                    name="calculationUnitId2-{{i}}"
+                                                                    #calculationUnitId2="ngModel" required
+                                                                    [disabled]="commandmentRrObj.isChecked==true  || commandmentObj.status==0">
+                                                                    <ngx-mat-select-search
+                                                                        [(ngModel)]="calUnitObjNameSearchCtrl"
+                                                                        [placeholderLabel]="'Search...'"
+                                                                        [noEntriesFoundLabel]="'Not found'"
+                                                                        name="search">
+                                                                        <mat-icon
+                                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                            search
+                                                                        </mat-icon>
+                                                                    </ngx-mat-select-search>
+                                                                    <mat-option [value]="calUnitObj.id"
+                                                                        *ngFor="let calUnitObj of selectedCalculationUnitList | stringFilter:calUnitObjNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                                        matTooltip="{{calUnitObj.descr}}"
+                                                                        [matTooltipPosition]="'above'">
+                                                                        {{calUnitObj.descr}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                                <!-- <mat-select disableOptionCentering panelClass="anyClass"
+                                                                  [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationUnitId"
+                                                                    name="calculationUnitId2-{{i}}"
+                                                                    #calculationUnitId2="ngModel" required
+                                                                    [disabled]="commandmentRrObj.isChecked==true  || commandmentObj.status==0">
+                                                                    <mat-option [value]="calUnitObj.id"
+                                                                        matTooltip="{{calUnitObj.descr}}"
+                                                                        [matTooltipPosition]="'above'"
+                                                                        *ngFor="let calUnitObj of selectedCalculationUnitList">
+                                                                        {{calUnitObj.descr}}
+                                                                    </mat-option>
+                                                                </mat-select> -->
+                                                            </mat-form-field>
+                                                            <div *ngIf="calculationUnitId2.touched || (f.submitted && calculationUnitId2.invalid )"
+                                                                class="invalid-feedback2 mr-top-5">
+                                                                <div *ngIf="calculationUnitId2.errors?.required">
+                                                                    Calculation Unit is
+                                                                    Required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                            <mat-form-field
+                                                                [ngClass]="{ 'mandatory_input': f.submitted && calculationMeasureId.invalid }"
+                                                                class="select_box_dropwodn command_dropdown mr--5">
+                                                                <mat-select disableOptionCentering
+                                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                                    class="search_select_branch mr_top_22"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationMeasureId"
+                                                                    name="calculationMeasureId-{{i}}"
+                                                                    #calculationMeasureId="ngModel" required
+                                                                    [disabled]="commandmentRrObj.isChecked==true  || commandmentObj.status==0">
+                                                                    <ngx-mat-select-search
+                                                                        [(ngModel)]="calMeasureObjNameSearchCtrl"
+                                                                        [placeholderLabel]="'Search...'"
+                                                                        [noEntriesFoundLabel]="'Not found'"
+                                                                        name="search">
+                                                                        <mat-icon
+                                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                            search
+                                                                        </mat-icon>
+                                                                    </ngx-mat-select-search>
+                                                                    <mat-option [value]="calMeasureObj.id"
+                                                                        *ngFor="let calMeasureObj of selectionCalculationMeasureList | stringFilter:calMeasureObjNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                                        matTooltip="{{calMeasureObj.descr}}"
+                                                                        [matTooltipPosition]="'above'">
+                                                                        {{calMeasureObj.descr}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                                <!-- <mat-select disableOptionCentering panelClass="anyClass"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationMeasureId"
+                                                                    name="calculationMeasureId-{{i}}"
+                                                                    #calculationMeasureId="ngModel" required
+                                                                    [disabled]="commandmentRrObj.isChecked==true  || commandmentObj.status==0">
+                                                                    <mat-option [value]="calMeasureObj.id"
+                                                                        matTooltip="{{calMeasureObj.descr}}"
+                                                                        [matTooltipPosition]="'above'"
+                                                                        *ngFor="let calMeasureObj of selectionCalculationMeasureList">
+                                                                        {{calMeasureObj.descr}}
+                                                                    </mat-option>
+                                                                </mat-select>-->
+                                                            </mat-form-field>
+                                                            <div *ngIf="calculationMeasureId.touched || (f.submitted && calculationMeasureId.invalid )"
+                                                                class="invalid-feedback2 mr-top-5">
+                                                                <div *ngIf="calculationMeasureId.errors?.required">
+                                                                    Calculation Measure is
+                                                                    Required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                            <mat-form-field
+                                                                class="select_box_dropwodn command_dropdown mr--5">
+                                                                <mat-select disableOptionCentering
+                                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                                    class="search_select_branch mr_top_22"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.cmdntChrgOnId"
+                                                                    name="cmdntChrgOnId-{{i}}" #cmdntChrgOnId="ngModel"
+                                                                    required
+                                                                    [disabled]="commandmentRrObj.isChecked==true  || commandmentObj.status==0">
+                                                                    <ngx-mat-select-search
+                                                                        [(ngModel)]="chargeObjNameSearchCtrl"
+                                                                        [placeholderLabel]="'Search...'"
+                                                                        [noEntriesFoundLabel]="'Not found'"
+                                                                        name="search">
+                                                                        <mat-icon
+                                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                            search
+                                                                        </mat-icon>
+                                                                    </ngx-mat-select-search>
+                                                                    <mat-option [value]="chargeObj.id"
+                                                                        *ngFor="let chargeObj of selectedChargesList | stringFilter:chargeObjNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                                        matTooltip="{{chargeObj.descr}}"
+                                                                        [matTooltipPosition]="'above'">
+                                                                        {{chargeObj.descr}}
+                                                                    </mat-option>
+                                                                </mat-select>
+                                                                <!-- <mat-select disableOptionCentering panelClass="anyClass"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.cmdntChrgOnId"
+                                                                    name="cmdntChrgOnId-{{i}}" required
+                                                                    #cmdntChrgOnId="ngModel"
+                                                                    [disabled]="commandmentRrObj.isChecked==true  || commandmentObj.status==0">
+                                                                    <mat-option [value]="chargeObj.id"
+                                                                        matTooltip="{{chargeObj.descr}}"
+                                                                        [matTooltipPosition]="'above'"
+                                                                        *ngFor="let chargeObj of selectedChargesList">
+                                                                        {{chargeObj.descr}}
+                                                                    </mat-option>
+                                                                </mat-select> -->
+                                                            </mat-form-field>
+                                                            <div *ngIf="cmdntChrgOnId.touched || (f.submitted && cmdntChrgOnId.invalid )"
+                                                                class="invalid-feedback2 mr-top-5">
+                                                                <div *ngIf="cmdntChrgOnId.errors?.required">
+                                                                    Charges On is
+                                                                    Required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mat-cell  mr-top-8 width_mat_cell_3">
+                                                            <mat-form-field appearance="outline"
+                                                                class="command_dropdown">
+                                                                <input class="form-control" matInput
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.rrValue"
+                                                                    appTwoDigitDecimaNumber decimals="2"
+                                                                    [disabled]="commandmentRrObj.isChecked==true  || commandmentObj.status==0"
+                                                                    name="rrValue-{{i}}" #rrValue="ngModel" required>
+                                                            </mat-form-field>
+                                                            <div *ngIf="rrValue.touched || (f.submitted && rrValue.invalid )"
+                                                                class="invalid-feedback2 mr-top-5">
+                                                                <div *ngIf="rrValue.errors?.required">
+                                                                    RR Value is
+                                                                    Required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 width_mat_cell_3"
+                                                            *ngIf="commandmentObj.minAmountFlag==1">
+                                                            <mat-form-field appearance="outline"
+                                                                class="command_dropdown">
+                                                                <input class="form-control" matInput type="text"
+                                                                    appTwoDigitDecimaNumber decimals="2"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.minValue"
+                                                                    (change)="clearMaxValue(commandmentRrObj.commandmentRrRequestDTO.minValue,commandmentRrObj.commandmentRrRequestDTO.maxValue,i)"
+                                                                    name="minValue-{{i}}">
+                                                            </mat-form-field>
+                                                        </div>
+                                                        <div class="mat-cell mr-top-8 width_mat_cell_3"
+                                                            *ngIf="commandmentObj.maxAmountFlag==1">
+                                                            <mat-form-field appearance="outline"
+                                                                class="command_dropdown">
+                                                                <input class="form-control" matInput
+                                                                    (change)="clearMaxValue(commandmentRrObj.commandmentRrRequestDTO.minValue,commandmentRrObj.commandmentRrRequestDTO.maxValue,i)"
+                                                                    appTwoDigitDecimaNumber decimals="2"
+                                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.maxValue"
+                                                                    #maxValue="ngModel"
+                                                                    [minValue]="commandmentRrObj.commandmentRrRequestDTO.minValue"
+                                                                    type="text" name="maxValue-{{i}}">
+                                                            </mat-form-field>
+                                                            <div *ngIf="maxValue?.touched || (f.submitted && maxValue.invalid )"
+                                                                class="invalid-feedback2">
+                                                            </div>
+                                                            <div *ngIf="commandmentRrObj.isInvalid"
+                                                                class="invalid-feedback2 mr-top-5">
+                                                                <div>
+                                                                    Must be Empty or greater than Min Value
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="mat-cell mr-top-8 rr_command_radio width_mat_cell_1 text-center">
+                                                            <mat-radio-group aria-label="Select an option"
+                                                                name="minFrieghtFlg-{{i}}"
+                                                                [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.minFrieghtFlg"
+                                                                required #minFrieghtFlg="ngModel">
+                                                                <mat-radio-button [value]="1" class="radio_button_pr">
+                                                                    Yes
+                                                                </mat-radio-button>
+                                                                <mat-radio-button [value]="0">No</mat-radio-button>
+                                                            </mat-radio-group>
+                                                            <div *ngIf="minFrieghtFlg.touched || (f.submitted && minFrieghtFlg.invalid )"
+                                                                class="invalid-feedback2 mr-top-5">
+                                                                <div *ngIf="minFrieghtFlg.errors?.required">
+                                                                    Min Freight Flag is
+                                                                    Required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </mat-card>
+                                <br>
+                                <br>
+                            </div>
+                        </section>
+                    </div>
+                </mat-card>
+            </mat-expansion-panel>
+            <br>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="40%"></div>
+                <div fxFlex="20%" class="button_grid_position">
+                    <mat-grid-list cols="1" rowHeight="55px" class="row_height">
+                        <mat-grid-tile class="module_area module_btn">
+
+                            <button mat-flat-button color="primary"
+                                *ngIf="commandmentObj.status==1 && !submitPermission"
+                                class="theme_btn round_btn">Next</button>
+                            <button mat-flat-button color="primary" class="theme_btn round_btn" type="button"
+                                (click)="viewpermission()" *ngIf="submitPermission">Back</button>
+                            <button mat-flat-button color="primary" class="theme_btn round_btn"
+                                *ngIf="commandmentObj.status==0  && !submitPermission"
+                                [disabled]="(commandmentObj.status == 0 && !commandmentObj.id) || isinactive">Submit</button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+                <div fxFlex="40%"></div>
+            </div>
+        </form>
+    </section>
+
+    <section *ngIf="showCommandment">
+        <div class="">
+            <mat-card class="card_mb">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="15%">
+                        <div class="pin_branch_mapping">
+                            <h3>Commandment</h3>
+                        </div>
+                    </div>
+                    <div fxFlex="20%">
+                        <div class="add_branch_main brnach_add_assign route_searchbar">
+                            <em class="material-icons search_bar" (click)="searchCommandment(cmdName)"
+                                style="cursor: pointer; z-index: 9999;">search</em>
+                            <mat-form-field appearance="outline">
+                                <input matInput class="form-control" name="zoneMatrixName"
+                                    (keyup)="clearSearch(cmdName)" (input)="cmdName=$event.target.value.toUpperCase()"
+                                    (keyup.enter)="searchCommandment(cmdName)" [(ngModel)]="cmdName">
+                            </mat-form-field>
+                            <button mat-button class="branch_add_brn" (click)="showcmdTable();"
+                                *ngxPermissionsOnly="['CREATE']"><em
+                                    class="material-icons search_icon">add</em></button>
+                            <div class="invalid-feedback" *ngIf="strLengthValid">
+                                Enter Minimum 3 Characters
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="13%">
+                        <div class="pin_branch_mapping">
+                            <h3>Details</h3>
+                        </div>
+                    </div>
+                    <div fxFlex="78%">
+                        <div class="">
+                            <div class="mat-table">
+                                <div class="mat-row branch_table_head">
+                                    <div class="mat-cell"><strong>Commandment Name</strong></div>
+                                    <div class="mat-cell"><strong>Service Offering</strong></div>
+                                    <div class="mat-cell"><strong>Contract Type</strong></div>
+                                    <div class="mat-cell"></div>
+                                </div>
+                                <div class="mat-row branch_table_dis"
+                                    *ngFor="let Commandment of commandmentList | paginate: { itemsPerPage: 10, currentPage: p }; let i=index">
+                                    <div class="mat-cell text_wrap" [matTooltip]="Commandment.commandmentName"
+                                        [matTooltipPosition]="'above'">{{Commandment.commandmentName}}</div>
+                                    <div class="mat-cell">
+                                        <span
+                                            *ngFor="let state of removeDuplicate(Commandment.commandmentOfferingList,'serviceOfferingId') | slice:0:3; let i = index;">
+                                            {{ state.serviceOfferingId | showName : 'serviceOffering' : serviceOffeingList}}
+                                            <span
+                                                *ngIf="i<2  && i != (removeDuplicate(Commandment.commandmentOfferingList,'serviceOfferingId').length-1) ">
+                                                , </span>
+                                        </span>
+                                        <span
+                                            *ngIf="removeDuplicate(Commandment.commandmentOfferingList,'customerTypeId').length>3">
+                                            <span class="cursor-none"
+                                                [matTooltip]="tooltipNames(removeDuplicate(Commandment.commandmentOfferingList,'serviceOfferingId'),'serviceOffering')"
+                                                [matTooltipPosition]="'above'">....</span></span>
+                                    </div>
+                                    <div class="mat-cell">
+                                        <span
+                                            *ngFor="let state of removeDuplicate(Commandment.commandmentOfferingList,'customerTypeId') | slice:0:3; let i = index;">
+                                            {{ state.customerTypeId | showName : 'descr' : customerTypeList}}
+                                            <span
+                                                *ngIf="i<2  && i != (removeDuplicate(Commandment.commandmentOfferingList,'customerTypeId').length-1) ">
+                                                , </span>
+                                        </span>
+                                        <span
+                                            *ngIf="removeDuplicate(Commandment.commandmentOfferingList,'customerTypeId').length>3">
+                                            <span class="cursor-none"
+                                                [matTooltip]="tooltipNames(removeDuplicate(Commandment.commandmentOfferingList,'customerTypeId'),'descr')"
+                                                [matTooltipPosition]="'above'">....</span></span>
+                                    </div>
+                                    <div class="mat-cell mat_cell_icon">
+                                        <mat-label><em class="material-icons icon_btn_display icon_theme_color"
+                                                (click)="editCommandment(Commandment ,1)">remove_red_eye</em>
+                                        </mat-label>
+                                        <button mat-button (click)="editCommandment(Commandment,0)"><em
+                                                class="material-icons icon_theme_color"
+                                                *ngxPermissionsOnly="['UPDATE','CREATE']">edit</em></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination_area">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </mat-card>
+        </div>
+    </section>
+
+    <div *ngIf="CommandmentRR">
+        <section>
+            <form autocomplete="off" name="commandmentForm" (ngSubmit)="f.form.valid && saveCommandmentRR()" #f="ngForm"
+                novalidate>
+                <div class="">
+                    <h3 class="zone_title" style="margin: 7px 0;">Create Commandment RR</h3>
+                    <mat-card class="card_mb">
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="15%">
+                                <div class="pin_branch_mapping">
+                                    <h3>Commandment</h3>
+                                </div>
+                            </div>
+                            <div fxFlex="20%">
+                                <div class="add_branch_main brnach_add_assign route_searchbar">
+                                    <p class="commnd_txt" [matTooltip]="commandmentObj.commandmentName"
+                                        [matTooltipPosition]="'above'">{{commandmentObj.commandmentName}}</p>
+                                </div>
+                            </div>
+                            <div fxFlex="70%">
+
+                            </div>
+                            <div fxFlex="10%">
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="100%">
+                                <div class="all_branch_right comm_table_responsive" style="padding: 0px;">
+                                    <div class="mat-table comm_mat_table text-center">
+                                        <div class="mat-row branch_table_head">
+                                            <div class="mat-cell text-center" style="width: 9%;">
+                                                <strong>Service Offering</strong>
+                                            </div>
+                                            <div class="mat-cell text-center"><strong>Customer Type<sup
+                                                        class="mandatory">*</sup></strong></div>
+                                            <div class="mat-cell text-center"><strong>Business Type<sup
+                                                        class="mandatory">*</sup></strong></div>
+                                            <div class="mat-cell text-center"><strong>CALC TYPE<sup
+                                                        class="mandatory">*</sup></strong></div>
+                                            <div class="mat-cell text-center"></div>
+                                            <div class="mat-cell text-center"><strong>CALC UNIT<sup
+                                                        class="mandatory">*</sup></strong></div>
+                                            <div class="mat-cell text-center"><strong>CALC MEASURE<sup
+                                                        class="mandatory">*</sup></strong></div>
+                                            <div class="mat-cell text-center"><strong>Charges On<sup
+                                                        class="mandatory">*</sup></strong></div>
+                                            <div class="mat-cell text-center"><strong>RR
+                                                    VALUE<sup class="mandatory">*</sup></strong></div>
+                                            <div class="mat-cell text-center" *ngIf="commandmentObj.minAmountFlag==1">
+                                                <strong> MIN VALUE</strong></div>
+                                            <div class="mat-cell text-center" *ngIf="commandmentObj.maxAmountFlag==1">
+                                                <strong>MAX VALUE</strong></div>
+                                            <div class="mat-cell text-center"><strong>MIN FREIGHT FLAG</strong></div>
+                                        </div>
+                                        <div class="mat-row branch_table_dis"
+                                            *ngFor="let commandmentRrObj of commandmentRrTableList;let i=index">
+                                            <div class="mat-cell theme_color mr-top-8 text-center">
+                                                {{commandmentRrObj.serviceOfferingId | showName : 'serviceOffering' :serviceOffeingList }}
+                                            </div>
+                                            <div class="mat-cell mr-top-8 text-center width_mat_cell_1">
+                                                {{commandmentRrObj.customerTypeId | showName : 'descr' :customerTypeList }}
+                                            </div>
+                                            <div class="mat-cell mr-top-8 text-center width_mat_cell_1">
+                                                {{commandmentRrObj.businessTypeId | showName : 'descr' :businessTypeList }}
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                <mat-form-field
+                                                    class="select_box_dropwodn command_dropdown mr-top-4 mr--5"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && calculationTypeId.invalid }">
+                                                    <mat-select disableOptionCentering
+                                                        panelClass="anyClass multipleAnyClass_search_2"
+                                                        [disabled]="commandmentRrObj.isChecked"
+                                                        class="search_select_branch mr_top_22"
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationTypeId"
+                                                        name="calculationTypeId-{{i}}" #calculationTypeId="ngModel"
+                                                        (selectionChange)="openRRValue(commandmentRrObj,i)" required>
+                                                        <ngx-mat-select-search [(ngModel)]="calTypeObjNameSearchCtrl"
+                                                            [placeholderLabel]="'Search...'"
+                                                            [noEntriesFoundLabel]="'Not found'" name="search">
+                                                            <mat-icon
+                                                                class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                search
+                                                            </mat-icon>
+                                                        </ngx-mat-select-search>
+                                                        <mat-option [value]="calTypeObj.id"
+                                                            *ngFor="let calTypeObj of selectedCalculationTypeList | stringFilter:calTypeObjNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                            matTooltip="{{calTypeObj.descr}}"
+                                                            [matTooltipPosition]="'above'">
+                                                            {{calTypeObj.descr}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <!--<mat-select disableOptionCentering panelClass="anyClass"
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationTypeId"
+                                                        #calculationTypeId="ngModel" required
+                                                        name="calculationTypeId-{{i}}">
+                                                        <mat-option [value]="calTypeObj.id"
+                                                            matTooltip="{{calTypeObj.descr}}"
+                                                            [matTooltipPosition]="'above'"
+                                                            *ngFor="let calTypeObj of selectedCalculationTypeList  | sortBy: 'descr'">
+                                                            {{calTypeObj.descr}}
+                                                        </mat-option>
+                                                    </mat-select>-->
+                                                </mat-form-field>
+                                                <div *ngIf="calculationTypeId.touched || (f.submitted && calculationTypeId.invalid )"
+                                                    class="invalid-feedback2 mr-top-5">
+                                                    <div *ngIf="calculationTypeId.errors?.required">Calculation Type is
+                                                        Required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_2_percn">
+                                                <em class="fa fa-pencil" style="color: #27ae60; font-size: 15px;"
+                                                    (click)="openRRValue(commandmentRrObj,i)"
+                                                    *ngIf="checkForEditBtn(commandmentRrObj.commandmentRrRequestDTO.calculationTypeId)"></em>
+                                                <!-- <em class="fa fa-plus" *ngIf="commandmentRrObj.isChecked" (click)="openRRValue(commandmentRrObj,i)" *ngIf="checkForEditBtn(commandmentRrObj.commandmentRrRequestDTO.calculationTypeId)"></em> -->
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                <mat-form-field
+                                                    class="select_box_dropwodn command_dropdown mr-top-4 mr--5"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && calculationUnitId.invalid }">
+                                                    <mat-select disableOptionCentering
+                                                        [disabled]="commandmentRrObj.isChecked"
+                                                        panelClass="anyClass multipleAnyClass_search_2"
+                                                        class="search_select_branch mr_top_22"
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationUnitId"
+                                                        name="calculationUnitId-{{i}}" #calculationUnitId="ngModel"
+                                                        required>
+                                                        <ngx-mat-select-search [(ngModel)]="calUnitObj2NameSearchCtrl"
+                                                            [placeholderLabel]="'Search...'"
+                                                            [noEntriesFoundLabel]="'Not found'" name="search">
+                                                            <mat-icon
+                                                                class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                search
+                                                            </mat-icon>
+                                                        </ngx-mat-select-search>
+                                                        <mat-option [value]="calUnitObj.id"
+                                                            *ngFor="let calUnitObj of selectedCalculationUnitList | stringFilter:calUnitObj2NameSearchCtrl:'descr' | sortBy:'descr'"
+                                                            matTooltip="{{calUnitObj.descr}}"
+                                                            [matTooltipPosition]="'above'">
+                                                            {{calUnitObj.descr}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <!--<mat-select disableOptionCentering panelClass="anyClass"
+                                                        #calculationUnitId="ngModel" required
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationUnitId"
+                                                        name="calculationUnitId-{{i}}">
+                                                        <mat-option [value]="calUnitObj.id"
+                                                            matTooltip="{{calUnitObj.descr}}"
+                                                            [matTooltipPosition]="'above'"
+                                                            *ngFor="let calUnitObj of selectedCalculationUnitList  | sortBy: 'descr'">
+                                                            {{calUnitObj.descr}}
+                                                        </mat-option>
+                                                    </mat-select>-->
+                                                </mat-form-field>
+                                                <div *ngIf="calculationUnitId.touched || (f.submitted && calculationUnitId.invalid)"
+                                                    class="invalid-feedback2 mr-top-5">
+                                                    <div *ngIf="calculationUnitId.errors?.required">Calculation Unit
+                                                        is
+                                                        Required</div>
+                                                </div>
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                <mat-form-field
+                                                    class="select_box_dropwodn command_dropdown mr-top-4 mr--5"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && calculationMeasureId.invalid }">
+                                                    <mat-select disableOptionCentering
+                                                        panelClass="anyClass multipleAnyClass_search_2"
+                                                        [disabled]="commandmentRrObj.isChecked"
+                                                        class="search_select_branch mr_top_22"
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationMeasureId"
+                                                        name="calculationMeasureId-{{i}}"
+                                                        #calculationMeasureId="ngModel" required>
+                                                        <ngx-mat-select-search
+                                                            [(ngModel)]="calMeasureObj2NameSearchCtrl"
+                                                            [placeholderLabel]="'Search...'"
+                                                            [noEntriesFoundLabel]="'Not found'" name="search">
+                                                            <mat-icon
+                                                                class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                search
+                                                            </mat-icon>
+                                                        </ngx-mat-select-search>
+                                                        <mat-option [value]="calMeasureObj.id"
+                                                            *ngFor="let calMeasureObj of selectionCalculationMeasureList | stringFilter:calMeasureObj2NameSearchCtrl:'descr' | sortBy:'descr'"
+                                                            matTooltip="{{calMeasureObj.descr}}"
+                                                            [matTooltipPosition]="'above'">
+                                                            {{calMeasureObj.descr}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                    <!--<mat-select disableOptionCentering panelClass="anyClass"
+                                                        #calculationMeasureId="ngModel" required
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.calculationMeasureId"
+                                                        name="calculationMeasureId-{{i}}">
+                                                        <mat-option [value]="calMeasureObj.id"
+                                                            matTooltip="{{calMeasureObj.descr}}"
+                                                            [matTooltipPosition]="'above'"
+                                                            *ngFor="let calMeasureObj of selectionCalculationMeasureList  | sortBy: 'descr'">
+                                                            {{calMeasureObj.descr}} {{commandmentRrObj.isChecked}}
+                                                        </mat-option>
+                                                    </mat-select>-->
+                                                </mat-form-field>
+                                                <div *ngIf="calculationMeasureId.touched || (f.submitted && calculationMeasureId.invalid)"
+                                                    class="invalid-feedback2 mr-top-5">
+                                                    <div *ngIf="calculationMeasureId.errors?.required">
+                                                        Calculation Measure is
+                                                        Required</div>
+                                                </div>
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                <mat-form-field
+                                                    class="select_box_dropwodn command_dropdown mr-top-4 mr--5"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && cmdntChrgOnId.invalid }">
+                                                    <mat-select disableOptionCentering panelClass="anyClass"
+                                                        #cmdntChrgOnId="ngModel" required
+                                                        [disabled]="commandmentRrObj.isChecked"
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.cmdntChrgOnId"
+                                                        name="cmdntChrgOnId-{{i}}">
+                                                        <mat-option [value]="chargeObj.id"
+                                                            matTooltip="{{chargeObj.descr}}"
+                                                            [matTooltipPosition]="'above'"
+                                                            *ngFor="let chargeObj of selectedChargesList  | sortBy: 'descr'">
+                                                            {{chargeObj.descr}}
+                                                        </mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                                <div *ngIf="cmdntChrgOnId.touched || (f.submitted && cmdntChrgOnId.invalid)"
+                                                    class="invalid-feedback2 mr-top-5">
+                                                    <div *ngIf="cmdntChrgOnId.errors?.required">
+                                                        Charges On is
+                                                        Required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_mat_cell_2">
+                                                <mat-form-field appearance="outline" class="command_dropdown"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && rrValue.invalid }">
+                                                    <input class="form-control" matInput #rrValue="ngModel" required
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.rrValue"
+                                                        appTwoDigitDecimaNumber decimals="2" name="rrValue-{{i}}"
+                                                        name="rrValue">
+                                                </mat-form-field>
+                                                <div *ngIf="rrValue.touched || (f.submitted && rrValue.invalid)"
+                                                    class="invalid-feedback2 mr-top-5">
+                                                    <div *ngIf="rrValue.errors?.required">RR
+                                                        Value is Required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_mat_cell_2"
+                                                *ngIf="commandmentObj.minAmountFlag==1">
+                                                <mat-form-field appearance="outline" class="command_dropdown">
+                                                    <input class="form-control" matInput type="text"
+                                                        (change)="clearMaxValue(commandmentRrObj.commandmentRrRequestDTO.minValue,commandmentRrObj.commandmentRrRequestDTO.maxValue,i)"
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.minValue"
+                                                        appTwoDigitDecimaNumber decimals="2" name="minValue-{{i}}">
+                                                </mat-form-field>
+                                            </div>
+                                            <div class="mat-cell mr-top-8 width_mat_cell_2"
+                                                *ngIf="commandmentObj.maxAmountFlag==1">
+                                                <mat-form-field appearance="outline" class="command_dropdown">
+                                                    <input class="form-control" matInput type="text"
+                                                        (change)="clearMaxValue(commandmentRrObj.commandmentRrRequestDTO.minValue,commandmentRrObj.commandmentRrRequestDTO.maxValue,i)"
+                                                        [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.maxValue"
+                                                        appTwoDigitDecimaNumber decimals="2" #maxValue2="ngModel"
+                                                        [minValue]="commandmentRrObj.commandmentRrRequestDTO.minValue"
+                                                        name="maxValue2-{{i}}">
+                                                </mat-form-field>
+                                                <div *ngIf="maxValue2?.touched || (f.submitted && maxValue2.invalid )"
+                                                    class="invalid-feedback2">
+                                                </div>
+                                                <div *ngIf="commandmentRrObj.isInvalid"
+                                                    class="invalid-feedback2 mr-top-5">
+                                                    <div>
+                                                        Must be Empty or greater than Min Value
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div
+                                                class="mat-cell mr-top-8 rr_command_radio width_mat_cell_2 text-center">
+                                                <mat-radio-group aria-label="Select an option"
+                                                    [(ngModel)]="commandmentRrObj.commandmentRrRequestDTO.minFrieghtFlg"
+                                                    name="minFrieghtFlg-{{i}}" #minFrieghtFlg="ngModel" required>
+                                                    <mat-radio-button [value]=" 1" class="radio_button_pr">
+                                                        Yes
+                                                    </mat-radio-button>
+                                                    <mat-radio-button [value]="0">No
+                                                    </mat-radio-button>
+                                                </mat-radio-group>
+                                                <div *ngIf="f.submitted && minFrieghtFlg.invalid"
+                                                    class="invalid-feedback2 mr-top-5">
+                                                    <div *ngIf="minFrieghtFlg.errors.required">
+                                                        Min Freight Flag is Required
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card>
+                    <br>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="40%"></div>
+                    <div fxFlex="20%" class="button_grid_position">
+                        <mat-grid-list cols="1" rowHeight="55px" class="row_height">
+                            <mat-grid-tile class="module_area module_btn">
+                                <button mat-flat-button color="primary" class="theme_btn round_btn">Submit</button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="40%"></div>
+                </div>
+            </form>
+        </section>
+    </div>
+</div>

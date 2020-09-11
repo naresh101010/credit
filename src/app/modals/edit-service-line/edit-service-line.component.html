@@ -1,0 +1,126 @@
+<div class="modal-container">
+    <h5 class="sub_heading">{{ModalType}} Service Line</h5>
+    <em class="material-icons modals_cancel_btn" [mat-dialog-close]="true">
+        cancel
+    </em>
+    <hr class="border_row">
+    <br>
+    <div>
+        <div class=" all_form">
+            <form autocomplete="off" name="serviceForm" (ngSubmit)="f.form.valid && UpdateService()" #f="ngForm" novalidate>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Service Name <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field appearance="outline" [ngClass]="{ 'mandatory_input': f.submitted && serviceOffering.invalid }">
+                                    <input matInput name="serviceOffering" id="checkInput" [(ngModel)]="serviceLineObj.serviceOffering" maxlength="50" #serviceOffering="ngModel" class="form-control" (input)="serviceLineObj.serviceOffering=$event.target.value.toUpperCase()" required>
+                                </mat-form-field>
+                                <div *ngIf="serviceOffering.touched || (f.submitted && serviceOffering.invalid)" class="invalid-feedback">
+                                    <div *ngIf="serviceOffering.errors?.required">Service Name is required</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field class="select_box_dropwodn" [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                    <mat-select disableOptionCentering panelClass="anyClass" name="status" #status="ngModel" [(ngModel)]="serviceLineObj.status" required uppercase>
+                                        <mat-option [value]="1">
+                                            ACTIVE
+                                        </mat-option>
+                                        <mat-option [value]="0">
+                                            INACTIVE
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div *ngIf="status.touched || (f.submitted && status.invalid)" class="invalid-feedback">
+                                    <div *ngIf="status.errors?.required">Service Name is required</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="53px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Effective Date <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field appearance="outline" class="date_picker_adjust top_10" [ngClass]="{ 'mandatory_input': (effectiveDt.errors?.required && (effectiveDt.touched || f.submitted)) }">
+                                    <mat-datepicker #picker panelClass="mdmDatepicker" class="date_picker">
+                                    </mat-datepicker>
+                                    <input matInput [matDatepicker]="picker" name="effectiveDt" [disabled]="serviceLineObj.effectiveDt<currentDate && this.serviceLineObj.id && isChange" [min]="today" #effectiveDt="ngModel" class="date_input_height" placeholder="" validDate placeholder="DD/MM/YYYY"
+                                        [min]="minDate" [(ngModel)]="serviceLineObj.effectiveDt" required [min]="currentDate" (change)="isChange=false" (dateChange)="changeDateFormat(serviceLineObj.effectiveDt,serviceLineObj.expDt)" />
+                                    <mat-datepicker-toggle matSuffix [for]="picker" (onMenuOpen)="checkForExpiryDate(serviceLineObj.effectiveDt)"></mat-datepicker-toggle>
+                                </mat-form-field>
+                                <div *ngIf="effectiveDt.touched || (f.submitted && effectiveDt.invalid)" class="invalid-feedback">
+                                    <div *ngIf="effectiveDt.errors?.required">Effective Date is required</div>
+                                    <div *ngIf="serviceLineObj.effectiveDt < currentDate ">Effective date cannot be less than current date</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Expiry Date</strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field appearance="outline" class="date_picker_adjust" [ngClass]="{ 'mandatory_input': isVar && ((serviceLineObj.expDt<=serviceLineObj.effectiveDt && !serviceLineObj.id) || (currentDate>serviceLineObj.expDt && serviceLineObj.id))  }">
+                                    <mat-datepicker #myDatepicker23 panelClass="mdmDatepicker" class="date_picker" (opened)="checkForExpiryDate(serviceLineObj.effectiveDt)" (closed)="removeMinDate(serviceLineObj.effectiveDt)"></mat-datepicker>
+                                    <input matInput [matDatepicker]="myDatepicker23" class="date_input_height" name="expDt" validDate #expDt="ngModel" placeholder="DD/MM/YYYY" [(ngModel)]="serviceLineObj.expDt" [min]="expiryMinDate" [required]="isInactive" (dateChange)="changeDateFormat(serviceLineObj.effectiveDt,serviceLineObj.expDt);"
+                                        (change)="isVar=true">
+                                    <mat-datepicker-toggle matSuffix [for]="myDatepicker23"></mat-datepicker-toggle>
+                                </mat-form-field>
+                                <div *ngIf="isVar" class="invalid-feedback">
+                                    <div *ngIf="serviceLineObj.expDt<=serviceLineObj.effectiveDt">
+                                        Must be Greater than Effective and Current Date.</div>
+                                    <div *ngIf="currentDate>serviceLineObj.expDt && !(serviceLineObj.expDt <= serviceLineObj.effectiveDt) && serviceLineObj.id">Must be Greater than Effective and Current Date.</div>
+                                </div>
+                                <div *ngIf="f.submitted && expDt.invalid && !isVar" class="invalid-feedback">
+                                    <div *ngIf="serviceLineObj.expDt && serviceLineObj.expDt< currentDate">Must be Greater than Effective and Current Date</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Display Value</strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="displayValue" class="form-control" (input)="serviceLineObj.descr=$event.target.value.toUpperCase()" [(ngModel)]="serviceLineObj.descr">
+                                </mat-form-field>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%"></div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                            <mat-grid-tile class="module_area">
+                                <button mat-flat-button class="theme_btn round_btn" *ngIf="submitPermission" [mat-dialog-close]="true">Back</button>
+                                <button mat-flat-button class="theme_btn round_btn" *ngIf="!submitPermission" [disabled]="inActiveFlag && serviceLineObj.status == 0">Submit</button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

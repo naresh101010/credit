@@ -1,0 +1,260 @@
+<div *ngIf="!addLookUp">
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%">
+            <h3 class="grid_title">Lookup Type</h3>
+        </div>
+        <div fxFlex="82%">
+            <form autocomplete="off">
+                <div class="hdr_srch_field">
+                    <span matPrefix><em class="material-icons search_icon"
+                            (click)="searchLookup($event)">search</em></span>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="29%">
+                            <mat-form-field appearance="outline">
+                                <input matInput name="searchLookupName" (keyup)="clearSearch()" (input)="searchLookupName=$event.target.value.toUpperCase()"
+                                    (keyup.enter)="searchLookup($event)" [(ngModel)]="searchLookupName">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="10%">
+                            <button (click)="addLookUp=true ; submitPermission=false; clearObj()" type="button" mat-button class="add_btn"
+                                *ngxPermissionsOnly="['CREATE']"><em class="material-icons">add</em></button>
+                        </div>
+                        <div class="invalid-feedback" *ngIf="strLengthValid">
+                            Enter Minimum 3 Characters
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <mat-card class="card_body">
+                <div class="mat-table mat_table_main">
+                    <div class="mat-row bg bg_light_grey table_main_header">
+                        <div class="mat-cell mat_cell_head">NAME</div>
+                        <div class="mat-cell mat_cell_head">DISPLAY VALUE</div>
+                        <div class="mat-cell"></div>
+                    </div>
+                    <div class="mat-row bg_light_grey"
+                        *ngFor="let lookup of lookupList | paginate: { itemsPerPage: 10, currentPage: p }">
+                        <div class="mat-cell table_color hyperlink upper-case text_wrap"
+                            [matTooltip]="lookup.lookupType" [matTooltipPosition]="'above'">{{lookup.lookupType}}</div>
+                        <div class="mat-cell upper-case text-wrap display_overflow_hidden" [matTooltip]="lookup.desc"  [matTooltipPosition]="'above'">{{lookup.desc}}</div>
+                        <div class="mat-cell mat_cell_icon">
+                            <em class="material-icons icon_btn_display icon_theme_color"
+                                (click)="editLookupType(lookup, 1)">remove_red_eye</em>
+                            <em class="material-icons icon_btn_display icon_theme_color"
+                                *ngxPermissionsOnly="['CREATE','UPDATE']" (click)="editLookupType(lookup, 0);">edit</em>
+                        </div>
+                    </div>
+                    <div class="mat-row bg_light_grey" *ngIf="!lookupList.length">
+                        <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No Data
+                            Present
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination_area">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+
+            </mat-card>
+
+
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="addLookUp">
+    <form autocomplete="off" name="lookupForm" (ngSubmit)="f.form.valid && addAllLookup()" #f="ngForm" novalidate>
+        <div class=" all_form">
+            <h3 class="zone_title">Lookup Details</h3>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="45%">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="50%">
+                            <mat-label><strong>Lookup Type Name <sup class="mandatory">*</sup> </strong></mat-label>
+                        </div>
+                        <div class="module_area" fxFlex="50%">
+                            <mat-form-field appearance="outline"
+                                [ngClass]="{ 'mandatory_input': f.submitted && lookupType.invalid }">
+                                <input matInput  name="lookupType" [(ngModel)]="lookupObj.lookupType" [disabled]="lookupObj.id" (input)="lookupObj.lookupType=$event.target.value.toUpperCase()"
+                                    maxlength="50" #lookupType="ngModel" required class="form-control">
+                            </mat-form-field>
+                            <div *ngIf="lookupType.touched || (f.submitted && lookupType.invalid)"
+                                class="invalid-feedback">
+                                <div *ngIf="lookupType.errors?.required">Lookup Type is required</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="50%">
+                            <mat-label><strong>Is Parent</strong></mat-label>
+                        </div>
+                        <div fxFlex="50%" class="module_area">
+                            <div appearance="outline">
+                                <mat-checkbox (change)="listBusiness($event)" [checked]="lookupObj.isChildFlag" [disabled]="parentDisable">
+                                </mat-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div fxFlex="10%"></div>
+
+                <div fxFlex="45%">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="50%">
+                            <mat-label><strong>Description <sup class="mandatory">*</sup> </strong></mat-label>
+                        </div>
+                        <div fxFlex="50%" class="module_area">
+                            <mat-form-field appearance="outline" [ngClass]="{ 'mandatory_input': f.submitted && desc.invalid }">
+                                <textarea matInput name="desc" [(ngModel)]="lookupObj.desc" rows="5" maxlength="100" #desc="ngModel" required (input)="lookupObj.desc=$event.target.value.toUpperCase()"></textarea>
+                            </mat-form-field>
+                            <div *ngIf="desc.touched || (f.submitted && desc.invalid)"
+                                class="invalid-feedback2 margin--11">
+                                <div *ngIf="desc.errors?.required">Description is required</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="53px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Select Parent</strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field class="select_box_dropwodn">
+                                <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [disabled]="!lookupObj.isChildFlag || parentlookupType"
+                                                [(ngModel)]="lookupObj.parentLookupTypeId" name="id"
+                                                [compareWith]="selectParentCompare">
+                                                <ngx-mat-select-search [(ngModel)]="lookupNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="lookup"
+                                                    *ngFor="let lookup of lookupParentList | stringFilter:lookupNameSearchCtrl:'lookupType' | sortBy:'lookupType'"
+                                                    matTooltip="{{lookup.lookupType}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{lookup.lookupType}}
+                                                </mat-option>
+                                            </mat-select>
+                                    <!--<mat-select disableOptionCentering [disabled]="!lookupObj.isChildFlag"
+                                        panelClass="anyClass" [(ngModel)]="lookupObj.parentLookupTypeId" name="id"
+                                        [compareWith]="selectParentCompare">
+                                        <mat-option [value]="lookup" *ngFor="let lookup of lookupParentList | sortBy: 'lookupType'"
+                                            matTooltip="{{lookup.lookupType}}" [matTooltipPosition]="'above'">
+                                            {{lookup.lookupType}}
+                                        </mat-option>
+                                    </mat-select>-->
+                                </mat-form-field>
+
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%"> </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                <div fxFlex="15%">
+                    <mat-grid-list cols="2" rowHeight="55px">
+                        <mat-grid-tile>
+                            <mat-label *ngIf="!submitPermission"><strong>Add Values</strong></mat-label>
+                        </mat-grid-tile>
+                        <mat-grid-tile>
+                            <button type="button" mat-button class="add_btn" (click)="addLookUpValue(lookupObj)" *ngIf="!submitPermission"><em
+                                    class="material-icons" *ngxPermissionsOnly="['CREATE']">add</em></button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+            </div>
+            <div *ngIf="lookupValueList.length>0">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                    <div fxFlex="80%">
+                        <mat-card class="card_body card_body1">
+                            <div class="mat-table mat_table_main">
+                                <div class="mat-row bg bg_light_grey table_main_header table_fixed">
+                                    <div class="mat-cell mat_cell_head">NAME</div>
+                                    <div class="mat-cell mat_cell_head">Attribute 1</div>
+                                      <div class="mat-cell mat_cell_head">Attribute 2</div>
+                                      <div class="mat-cell mat_cell_head">Attribute 3</div>
+                                    <div class="mat-cell mat_cell_head">Parent Value</div>
+                                    <div class="mat-cell"></div>
+                                </div>
+                                <div *ngFor="let lookupval of lookupValueList;let i=index">
+                                    <div class="mat-row bg_light_grey">
+                                        <div class="mat-cell table_color hyperlink upper-case">
+                                            {{lookupval.descr}} </div>
+                                        <div class="mat-cell table_color hyperlink upper-case">
+                                            {{lookupval.attr1}} </div>
+                                        <div class="mat-cell table_color hyperlink upper-case">
+                                            {{lookupval.attr2}} </div>
+                                        <div class="mat-cell table_color hyperlink upper-case">
+                                            {{lookupval.attr3}} </div>
+										<div class="mat-cell upper-case" *ngIf="!lookupval.parentIdValue">
+											{{lookupval.parentId | showName : 'lookupVal' : lookupValueArray}}
+										</div>
+										<div class="mat-cell upper-case" *ngIf="lookupval.parentIdValue">
+											{{lookupval.parentIdValue }}
+										</div>
+                                        <div class="mat-cell mat_cell_icon">
+
+                                            <mat-label *ngIf="!submitPermission">
+                                                <span class="mat-button-wrapper">
+                                                    <em class="material-icons icon_btn_display icon_theme_color"
+                                                        (click)="editLookUpValue(lookupval, i,2)" >edit</em>
+                                                </span>
+                                            </mat-label>
+                                            <mat-label *ngIf="(!lookupval.id || checkType(lookupval.id)=='string')"><em class="material-icons icon_btn_display icon_theme_color"
+                                                    (click)="deleteLookUpValue(lookupval,i)" >delete</em>
+                                            </mat-label>
+                                            <mat-label *ngIf="submitPermission"><em class="material-icons icon_btn_display icon_theme_color"
+                                                    (click)="editLookUpValue(lookupval,i,1)" >remove_red_eye</em>
+                                            </mat-label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mat-row bg_light_grey" *ngIf="!lookupValueList.length">
+                                    <div class="mat-cell  upper-case text-center"
+                                        style="text-align: center !important;">No Data
+                                        Present
+                                    </div>
+                                </div>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                        <mat-grid-tile class="module_area">
+                            <button mat-flat-button class="theme_btn round_btn" *ngIf="submitPermission"
+                                (click)="addLookUp=false">Back</button>
+                            <button mat-flat-button class="theme_btn round_btn"
+                                *ngIf="!submitPermission">Submit</button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <!-- Add city Section -->
+</div>

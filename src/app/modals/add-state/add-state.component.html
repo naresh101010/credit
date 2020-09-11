@@ -1,0 +1,106 @@
+<div class="modal-container">
+    <h5 class="sub_heading">Add State Code Mapping</h5>
+    <em class="material-icons modals_cancel_btn" [mat-dialog-close]="true">
+        cancel
+    </em>
+    <hr class="border_row">
+    <br>
+    <form autocomplete="off" name="addState" (ngSubmit)="f.form.valid && submitStates()" #f="ngForm" novalidate>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="80%">
+                <mat-grid-list cols="2" rowHeight="55px">
+                    <mat-grid-tile class="text-center">
+                        <mat-label class="text-center"><strong>Search By <sup class="mandatory">*</sup> </strong></mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="module_area mg_left_3 ">
+                        <mat-form-field class="select_box_dropwodn bdr_top_none"
+                            [ngClass]="{ 'mandatory_input': f.submitted && a.invalid }">
+                            <mat-select disableOptionCentering
+                                            panelClass="anyClass multipleAnyClass_search_2"
+                                            class="search_select_branch mr_top_22"  [dataArr]="countryList" appAutoSelectFirstOption
+                                           name="a" (selectionChange)="getStates()" [(ngModel)]="selectedCountry" #a="ngModel"
+                                required>
+                                            <ngx-mat-select-search [(ngModel)]="countryNameSearchCtrl"
+                                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                name="search">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                    search
+                                                </mat-icon>
+                                            </ngx-mat-select-search>
+                                            <mat-option [value]="country.id"
+                                    *ngFor="let country of countryList | stringFilter:countryNameSearchCtrl:'countryName' | sortBy:'countryName'"
+                                                matTooltip=" {{ country.countryName }}"
+                                                [matTooltipPosition]="'above'">
+                                                {{  country.countryName }}
+                                            </mat-option>
+                                        </mat-select>
+                            <!--<mat-select disableOptionCentering panelClass="anyClass" class="multiple_select_style"
+                                name="a" (selectionChange)="getStates()" [(ngModel)]="selectedCountry" #a="ngModel"
+                                required>
+                                <mat-option [value]="country.id"
+                                    *ngFor="let country of countryList  | sortBy:'countryName'" matTooltip="{{country.countryName}}" [matTooltipPosition]="'above'">
+                                    {{country.countryName}}
+                                </mat-option>
+                            </mat-select>-->
+                        </mat-form-field>
+                        <div *ngIf="a.touched || (f.submitted && a.invalid)" class="invalid-feedback">
+                            <div *ngIf="a.errors?.required">Country is required</div>
+                        </div>
+                    </mat-grid-tile>
+                </mat-grid-list>
+
+                <mat-grid-list cols="2" rowHeight="55px" *ngIf="stateList">
+                    <mat-grid-tile class="text-center">
+                        <mat-label>
+                            <strong>State <sup class="mandatory">*</sup> </strong>
+                        </mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="module_area mg_left_3">
+                        <mat-form-field class="select_box_dropwodn"
+                            [ngClass]="{ 'mandatory_input': f.submitted && b.invalid }">
+                            <mat-select disableOptionCentering
+                                            panelClass="anyClass multipleAnyClass_search_2"
+                                            class="search_select_branch mr_top_22"  [dataArr]="stateList" appAutoSelectFirstOption
+                                            multiple [(ngModel)]="stateSelected" [compareWith]="checkSelectedCities" name="b"
+                                #b="ngModel" required>
+                                            <ngx-mat-select-search [(ngModel)]="sateNameSearchCtrl"
+                                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                name="search">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                    search
+                                                </mat-icon>
+                                            </ngx-mat-select-search>
+                                            <mat-option [value]="state" *ngFor="let state of stateList | stringFilter:sateNameSearchCtrl:'stateName' | sortBy:'stateName'"
+                                                matTooltip=" {{ state.stateName }}" [disabled]="state?.isDisabled" 
+                                                [matTooltipPosition]="'above'">
+                                                {{  state.stateName }}
+                                            </mat-option>
+                                        </mat-select>
+                            <!--<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass" class="multiple_select_style"
+                                multiple [(ngModel)]="stateSelected" [compareWith]="checkSelectedCities" name="b"
+                                #b="ngModel" required>
+                                <mat-option [value]="state" *ngFor="let state of stateList | sortBy:'stateName'"
+                                matTooltip="{{state.stateName}}"
+                                [matTooltipPosition]="'above'"
+                                    [disabled]="state?.isDisabled" >
+                                    {{state.stateName}}
+                                </mat-option>
+                            </mat-select>-->
+                        </mat-form-field>
+                        <div *ngIf="b.touched || (f.submitted && b.invalid)" class="invalid-feedback">
+                            <div *ngIf="b.errors?.required">State Name is required</div>
+                        </div>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+
+        </div>
+        <div class="row_height">
+            <div class="module_area mr_top_20">
+                <button mat-flat-button class="theme_btn round_btn">Save</button>
+            </div>
+        </div>
+    </form>
+</div>

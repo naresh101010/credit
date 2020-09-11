@@ -1,0 +1,38 @@
+{
+    "message": "Records fetched successfully.",
+    "data": {
+        "countryList": [
+            {
+                "id": 2,
+                "countryName": "Australia",
+                "descr": "Australia",
+                "status": 1
+            },
+            {
+                "id": 34,
+                "countryName": "TEST",
+                "descr": "MY COUNTRY",
+                "status": 0
+            },
+            {
+                "id": 1,
+                "countryName": "IN",
+                "descr": "India",
+                "status": 1
+            },
+            {
+                "id": 67,
+                "countryName": "Thailand",
+                "descr": "Thailand",
+                "status": 0
+            },
+            {
+                "id": 100,
+                "countryName": "UNITED KINGDOM",
+                "descr": "UNITED KINGDOM I.E. UK",
+                "status": 0
+            }
+        ]
+    },
+    "status": "SUCCESS"
+}

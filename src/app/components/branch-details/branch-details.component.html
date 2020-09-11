@@ -1,0 +1,1269 @@
+<!-- All Branch CommentSection -->
+<section *ngIf="allBranch">
+    <div class="">
+        <mat-card class="card_mb">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <div class="">
+                        <div class="search_branch_name">
+                            <span>Search Branch</span>
+                            <hr>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="10%">
+                                <div class="all_branch_select">
+                                    <mat-select [(ngModel)]="searchObj.searchCriteria" disableOptionCentering
+                                        (selectionChange)="clearSearchBranch()" panelClass="anyClass">
+                                        <mat-option value="branchName">
+                                            Name
+                                        </mat-option>
+                                        <mat-option value="REGION">
+                                            Region
+                                        </mat-option>
+                                        <mat-option value="AREA">
+                                            Area
+                                        </mat-option>
+                                        <mat-option value="type">
+                                            Type
+                                        </mat-option>
+                                        <mat-option value="pincode">
+                                            Pincode
+                                        </mat-option>
+
+                                    </mat-select>
+                                </div>
+                            </div>
+                            <div fxFlex="20%">
+                                <form autocomplete="off">
+                                    <div class="hdr_srch_field">
+                                        <span matPrefix><em class="material-icons search_icon">search</em></span>
+                                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                            <div fxFlex="100%">
+                                                <mat-form-field appearance="outline">
+                                                    <input matInput [ngModel]="searchObj.searchValue"
+                                                        [matTooltip]="searchObj.searchValue"
+                                                        [matTooltipPosition]="'above'" name="searchBranch"
+                                                        (click)="viewBranchAdvanceSearch('branchList')" readonly>
+                                                </mat-form-field>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div fxFlex="10%">
+                                <button mat-button class="add_btn mr-top-4" *ngxPermissionsOnly="['CREATE']"><em
+                                        class="material-icons"
+                                        (click)="initialActive=false;allBranch=false;addBranch=true;clearObj()">add</em></button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+
+                    <div class="all_branch_right">
+                        <div class="search_branch last_update">
+                        </div>
+                        <div class="mat-table">
+                            <div class="mat-row branch_table_head">
+                                <div class="mat-cell"><strong>Branch Name</strong></div>
+                                <div class="mat-cell"><strong>Branch Code</strong></div>
+                                <div class="mat-cell"><strong>Branch Type</strong></div>
+                                <div class="mat-cell"><strong>Effective Date</strong></div>
+                                <div class="mat-cell"><strong>Expiry Date</strong></div>
+                                <div class="mat-cell"></div>
+                            </div>
+                            <div
+                                *ngFor="let branch of branchList| paginate: { itemsPerPage: 10, currentPage: page };let i=index">
+                                <div class="mat-row branch_table_dis bg_branch_geay">
+                                    <div class="mat-cell">{{branch.branchName}}</div>
+                                    <div class="mat-cell">{{branch.branchCode}}</div>
+                                    <div class="mat-cell">{{branch.branchTypeId | showName:'branchType':typesList}}
+                                    </div>
+                                    <div class="mat-cell">{{branch.effectiveDate | dateFormat}}</div>
+                                    <div class="mat-cell">{{branch.expiryDate | dateFormat}}</div>
+                                    <div class="mat-cell mat_cell_icon">
+                                        <button mat-button
+                                            (click)="closeAllBranch(branch.branchId);branchDetails(branch,i,'view');"><em
+                                                class="material-icons icon_theme_color">{{branch.isPreview ? 'visibility_off':'visibility'}}</em></button>
+                                        <button mat-button *ngxPermissionsOnly="['CREATE','UPDATE']"><em
+                                                class="material-icons icon_theme_color"
+                                                (click)="editBranch(branch)">edit</em></button>
+                                    </div>
+                                </div>
+                                <div *ngIf="branch.isPreview">
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Branch Code</strong></div>
+                                        <div class="mat-cell">{{branch.branchCode}}</div>
+                                        <div class="mat-cell"><strong>Branch Name</strong></div>
+                                        <div class="mat-cell">{{branch.branchName}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Description</strong></div>
+                                        <div class="mat-cell">{{branch.descr}}</div>
+                                        <div class="mat-cell">Address</div>
+                                        <div class="mat-cell">
+                                            {{branch.fullAddress ? branch.fullAddress : branch.address }}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis" *ngIf="picodeObj.pincode">
+                                        <div class="mat-cell"><strong>Pin code</strong></div>
+                                        <div class="mat-cell">{{pincode}}
+                                        </div>
+                                        <div class="mat-cell"><strong>Status</strong></div>
+                                        <div class="mat-cell">{{branch.status==1 ? 'ACTIVE':'INACTIVE'}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Phone</strong></div>
+                                        <div class="mat-cell">{{branch.phone}}</div>
+                                        <div class="mat-cell"><strong>Mobile</strong></div>
+                                        <div class="mat-cell">{{branch.mobile}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Email</strong></div>
+                                        <div class="mat-cell">{{branch.email}}</div>
+                                        <div class="mat-cell"><strong>Branch Cutoff Time</strong></div>
+                                        <div class="mat-cell">{{branch.cutoffTime}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Organisation</strong></div>
+                                        <div class="mat-cell">
+                                            {{branch.organisationId | showName:'orgName':organizationList }}</div>
+                                        <div class="mat-cell"><strong>Branch Type</strong></div>
+                                        <div class="mat-cell">{{branch.branchTypeId | showName:'branchType':typesList}}
+                                        </div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Branch Rating</strong></div>
+                                        <div class="mat-cell">
+                                            {{branch.lkpBranchRatingId | showName:'descr':ratingList}}</div>
+                                        <div class="mat-cell"><strong>Reporting Branch</strong></div>
+                                        <div class="mat-cell">
+                                            {{showName(branch.reportingBranchId,'branchName')}}
+                                        </div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Operational Branch</strong></div>
+                                        <div class="mat-cell">{{showName(branch.operationalBranchId,'branchName')}}
+                                        </div>
+                                        <div class="mat-cell"><strong>Pre Booking Lag Time</strong></div>
+                                        <div class="mat-cell">{{branch.preBookingLagTimeFlag==1 ? 'Yes' : 'No'}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Effective Date</strong></div>
+                                        <div class="mat-cell">{{branch.effectiveDate}}</div>
+                                        <div class="mat-cell"><strong>Expiry Date</strong></div>
+                                        <div class="mat-cell">{{branch.expiryDate}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+
+                                        <div class="mat-cell"><strong>GSTIN</strong></div>
+                                        <div class="mat-cell">{{branch.branchGstNum}}</div>
+                                        <div class="mat-cell"><strong>Scanning Enabled</strong></div>
+                                        <div class="mat-cell">{{branch.scanFlag==1 ? 'Yes' : 'No'}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Assign Feature</strong></div>
+                                        <div class="mat-cell">
+                                            <span *ngFor="let feature of branch.branchFeatureMaps;let feIndex=index">
+                                                {{feature.branchFeatureId | showName:'featureName':featuresList}}
+                                                <span *ngIf="feIndex!= (branch.branchFeatureMaps.length-1)">,</span>
+                                            </span>
+                                        </div>
+                                         <div class="mat-cell"><b>Bank Account No (General)</b><strong></strong></div>
+                                        <div class="mat-cell">{{branch.bankAccNumGeneral}}</div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Mode of Payment</strong></div>
+                                        <div class="mat-cell">
+                                            <span *ngFor="let mop of branch.branchModeOfPayments;let branIndex=index">
+                                                {{mop.lkpBranchMopId | showName:'descr':modeOfPayments}}
+                                                <span
+                                                    *ngIf="branIndex!= (branch.branchModeOfPayments.length-1)">,</span>
+                                            </span>
+                                        </div>
+                                        <div class="mat-cell"><strong></strong></div>
+                                        <div class="mat-cell"></div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Assign Manager</strong></div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Manager Type</strong></div>
+                                        <div class="mat-cell">
+                                            <span *ngFor="let manager of branch.branchManagers;let manIndex=index">
+                                                {{manager?.lookupManagerTypeId | showName:'descr':managerTypes}}
+                                                <span *ngIf="manIndex!= (branch.branchManagers.length-1)">,</span>
+                                            </span>
+                                        </div>
+                                        <div class="mat-cell"><strong></strong></div>
+                                        <div class="mat-cell"></div>
+                                    </div>
+                                    <div class="mat-row branch_table_dis">
+                                        <div class="mat-cell"><strong>Employee ID</strong></div>
+                                        <div class="mat-cell">
+                                            <span *ngFor="let manager of branch.branchManagers;let manIndex=index">
+                                                {{manager.userId  | showName:'name':employeeList }}
+                                                <span *ngIf="manIndex!= (branch.branchManagers.length-1)">,</span>
+                                            </span>
+                                        </div>
+                                        <div class="mat-cell"><strong></strong></div>
+                                        <div class="mat-cell"></div>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="mat-row bg_light_grey" *ngIf="!branchList.length">
+                                <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No
+                                    Data
+                                    Present
+                                </div>
+                            </div>
+                            <div class="pagination_area">
+                                <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</section>
+
+<!-- Create Branch CommentSection -->
+<section *ngIf="addBranch">
+    <div class="">
+        <form autocomplete="off" name="branchForm" (ngSubmit)="f.form.valid && assignManagerShow('step2')" #f="ngForm"
+            novalidate>
+            <mat-card class="card_mb">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <div class="add_branch_main">
+                            <div class="create_branch">
+                                <h3>{{branchObj.branchId ? 'Edit':'Create'}} Branch</h3>
+                            </div>
+                            <div class="create_branch">
+                                <h4 class="branch_sub_heading">Branch Details</h4>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Branch Code <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && branchCode.invalid }">
+                                                <input matInput class="form-control" name="branchCode"
+                                                    (input)="branchObj.branchCode=$event.target.value.toUpperCase()"
+                                                    [(ngModel)]="branchObj.branchCode" #branchCode="ngModel" required
+                                                    maxlength="20">
+                                            </mat-form-field>
+                                            <div *ngIf="branchCode.touched || (f.submitted && branchCode.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="branchCode.errors?.required">Branch Details is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Branch Name <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && branchName.invalid }">
+                                                <input matInput class="form-control" name="branchName"
+                                                    [(ngModel)]="branchObj.branchName" #branchName="ngModel"
+                                                    (input)="branchObj.branchName=$event.target.value.toUpperCase()"
+                                                    required maxlength="100">
+                                            </mat-form-field>
+                                            <div *ngIf="branchName.touched || (f.submitted && branchName.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="branchName.errors?.required">Branch Name is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Description</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput uppercase class="form-control" name="descr" maxlength="100"
+                                                (input)="branchObj.descr=$event.target.value.toUpperCase()"
+                                                [(ngModel)]="branchObj.descr">
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Address <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && address.invalid }">
+                                                <input matInput class="form-control" name="address" maxlength="300"
+                                                    #address="ngModel" required [(ngModel)]="branchObj.address"
+                                                    (input)="branchObj.address=$event.target.value.toUpperCase()">
+                                            </mat-form-field>
+                                            <div *ngIf="address.touched || (f.submitted && address.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="address.errors?.required">Address is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Pin Code <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail serach_Pincode">
+                                            <span matPrefix><em class="material-icons search_icon">search</em></span>
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && pincodeA.invalid }">
+                                                <input matInput class="form-control pd_left_20" [(ngModel)]="pincode"
+                                                    #pincodeA="ngModel" [disabled]="branchObj.branchId" name="pincode"
+                                                    readonly (click)="pincodeSearchModalOpen()" required>
+                                            </mat-form-field>
+                                            <div *ngIf="pincodeA.touched || (f.submitted && pincodeA.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="pincodeA.errors?.required">Pincode is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                            <mat-select class="mat_select" [(ngModel)]="branchObj.status" name="status"
+                                                panelClass="anyClass" disableOptionCentering #status="ngModel" required>
+                                                <mat-option [value]="1" selected>
+                                                    ACTIVE
+                                                </mat-option>
+                                                <mat-option [value]="0">
+                                                    INACTIVE
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="status.touched || (f.submitted && status.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="status.errors?.required">Status is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Phone</strong></mat-label>
+
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput uppercase class="form-control" name="phone" maxlength="10"
+                                                minlength="10" appNumbersOnly [(ngModel)]="branchObj.phone">
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Mobile <sup class="mandatory">*</sup></strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && mobile.invalid }">
+                                                <input matInput uppercase class="form-control" name="mobile"
+                                                    minlength="10" appNumbersOnly maxlength="10"
+                                                    [(ngModel)]="branchObj.mobile" #mobile="ngModel" required>
+                                            </mat-form-field>
+                                            <div *ngIf="mobile.touched || (f.submitted && mobile.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="mobile.errors?.required">Mobile is
+                                                    required
+                                                </div>
+                                                <div *ngIf="branchObj.mobile && branchObj.mobile.length!=10">Please
+                                                    provide Valid Mobile
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>GSTIN</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline">
+                                                <input matInput uppercase class="form-control" name="branchGstNum"
+                                                    maxlength="15" [(ngModel)]="branchObj.branchGstNum"
+                                                    #branchGstNum="ngModel"
+                                                    pattern="\d{2}[A-Za-z]{5}\d{4}[A-Za-z]{1}[A-Za-z\d]{1}[Zz]{1}[A-Za-z\d]{1}">
+                                            </mat-form-field>
+                                            <div *ngIf="branchGstNum.touched || branchGstNum.invalid"
+                                                class="invalid-feedback">
+                                                <div *ngIf="branchObj.branchGstNum && branchGstNum.invalid">GSTIN is
+                                                    invalid</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Scanning Enabled</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+
+                                            <mat-radio-group aria-label="Select an option"
+                                                [(ngModel)]="branchObj.scanFlag" name="scanFlag">
+                                                <mat-radio-button [value]="1" class="radio_button_pr">
+                                                    Yes
+                                                </mat-radio-button>
+                                                <mat-radio-button [value]="0">
+                                                    No
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                            <!-- <div *ngIf="mobile.touched || (f.submitted && mobile.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="mobile.errors?.required">Mobile is
+                                                    required
+                                                </div>
+                                                <div *ngIf="branchObj.mobile && branchObj.mobile.length!=10">Please provide Valid Mobile
+                                                </div>
+                                            </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Email <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && email.invalid }">
+                                                <input matInput class="form-control" type="email" name="email"
+                                                    (input)="branchObj.email=$event.target.value.toUpperCase()"
+                                                    maxlength="50" [(ngModel)]="branchObj.email" #email="ngModel"
+                                                    pattern="^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$"
+                                                    required>
+                                            </mat-form-field>
+                                            <div *ngIf="email.touched || (f.submitted && email.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="email.errors?.required">Email is required</div>
+                                                <div *ngIf="branchObj.email && email.invalid">Invalid Email</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Branch Cutoff Time</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput type="time" class="form-control cutoff_time"
+                                                name="cutoffTime" [(ngModel)]="branchObj.cutoffTime" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Organisation <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+
+                                        <div class="search_branch_detail"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && branchTypeId.invalid }">
+
+                                            <mat-select disableOptionCentering [dataArr]="organizationList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="branchObj.organisationId" name="organisationId"
+                                                #organisationId="ngModel" required>
+                                                <ngx-mat-select-search [(ngModel)]="orgNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="organization.id"
+                                                    *ngFor="let organization of organizationList | stringFilter:orgNameSearchCtrl:'orgName' | sortBy:'orgName'"
+                                                    matTooltip="{{organization.orgName}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{organization.orgName}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="organisationId.touched || (f.submitted && organisationId.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="organisationId.errors?.required">Organisation is required
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Branch Type <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && branchTypeId.invalid }">
+                                            <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2" (selectionChange)="getreportingbranchBybranchId(branchObj.branchTypeId)"   
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="branchObj.branchTypeId" name="branchTypeId"
+                                                #branchTypeId="ngModel" required>
+                                                <ngx-mat-select-search [(ngModel)]="typeNameSearchCtrl"  [dataArr]="typesList" appAutoSelectFirstOption
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="type.id"
+                                                    *ngFor="let type of typesList | stringFilter:typeNameSearchCtrl:'branchType' | sortBy:'branchType'"
+                                                    matTooltip="{{type.branchType}}" [matTooltipPosition]="'above'">
+                                                    {{type.branchType}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="branchTypeId.touched || (f.submitted && branchTypeId.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="branchTypeId.errors?.required">Branch Type is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Branch Rating</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-select disableOptionCentering
+                                            panelClass="anyClass multipleAnyClass_search_2"
+                                            class="search_select_branch mr_top_22" 
+                                            [(ngModel)]="branchObj.lkpBranchRatingId" name="lkpBranchRatingId">
+                                            <ngx-mat-select-search [(ngModel)]="lkpBranchSearchCtrl"
+                                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                name="search">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                    search
+                                                </mat-icon>
+                                            </ngx-mat-select-search>
+                                            <mat-option [value]="rate.id"
+                                                *ngFor="let rate of ratingList | stringFilter:lkpBranchSearchCtrl:'descr' | sortBy:'descr'"
+                                                matTooltip="{{rate.descr}}" [matTooltipPosition]="'above'">
+                                                {{rate.descr}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Reporting Branch <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <div
+                                                [ngClass]="{ 'mandatory_input': f.submitted && reportingBranchId.invalid }">
+                                                <mat-select disableOptionCentering   [dataArr]="reportingBranchList" appAutoSelectFirstOption
+                                                    panelClass="anyClass multipleAnyClass_search_2"
+                                                    class="search_select_branch mr_top_22"
+                                                    [(ngModel)]="branchObj.reportingBranchId"
+                                                    #reportingBranchId="ngModel" required name="reportingBranchId">
+                                                    <ngx-mat-select-search [(ngModel)]="reportNameSearchCtrl"
+                                                        [placeholderLabel]="'Search...'"
+                                                        [noEntriesFoundLabel]="'Not found'" name="search">
+                                                        <mat-icon
+                                                            class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                            search
+                                                        </mat-icon>
+                                                    </ngx-mat-select-search>
+                                                    <mat-option [value]="rate.branchId"
+                                                        *ngFor="let rate of reportingBranchList | stringFilter:reportNameSearchCtrl:'branchName' | sortBy:'branchName'"
+                                                        matTooltip="{{rate.branchName}}" [matTooltipPosition]="'above'">
+                                                        {{rate.branchName}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <div *ngIf="reportingBranchId.touched || (f.submitted && reportingBranchId.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="reportingBranchId.errors?.required">Reporting Branch is
+                                                        required
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Pre Booking Lag Time</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-checkbox [(ngModel)]="branchObj.preBookingLagTimeFlag"
+                                            name="preBookingLagTimeFlag">
+                                        </mat-checkbox>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Operational Branch <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && operationalBranchId.invalid }">
+
+                                            <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="branchObj.operationalBranchId"  [dataArr]="tempBranchList" appAutoSelectFirstOption
+                                                #operationalBranchId="ngModel" required name="operationalBranchId">
+                                                <ngx-mat-select-search [(ngModel)]="reportNameSearchCtrl" uppercase
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="rate.branchId"
+                                                    *ngFor="let rate of tempBranchList | stringFilter:reportNameSearchCtrl:'branchName' | sortBy:'branchName'"
+                                                    matTooltip="{{rate.branchName}}" [matTooltipPosition]="'above'">
+                                                    {{rate.branchName}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="operationalBranchId.touched || (f.submitted && operationalBranchId.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="operationalBranchId.errors?.required">Operational Branch is
+                                                    required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Bank Account Number</strong> (Cheque/Cash)</mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput uppercase class="form-control" name="bankAccNumOffline"
+                                                [(ngModel)]="branchObj.bankAccNumOffline" maxlength="50">
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Bank Account Number</strong> (RTGS/NEFT)</mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput uppercase class="form-control" name="bankAccNumOnline"
+                                                [(ngModel)]="branchObj.bankAccNumOnline" maxlength="50">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Effective Date<sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline" class="date_picker_adjust top_10"
+                                                [ngClass]="{ 'mandatory_input': (effectiveDate.errors?.required && (effectiveDate.touched || f.submitted)) }">
+                                                <mat-datepicker #picker panelClass="mdmDatepicker" class="date_picker">
+                                                </mat-datepicker>
+                                                <input matInput [matDatepicker]="picker" name="effectiveDate" validDate
+                                                    class="date_input_height" #effectiveDate="ngModel"
+                                                    [disabled]="branchObj.effectiveDate<today && this.branchObj.branchId && isChange"
+                                                    [(ngModel)]="branchObj.effectiveDate" placeholder="DD/MM/YYYY"
+                                                    required [min]="today" (change)="isChange=false"
+                                                    (dateChange)="changeDateFormat(branchObj.effectiveDate,branchObj.expiryDate)" />
+                                                <mat-datepicker-toggle matSuffix
+                                                    (onMenuOpen)="checkForExpiryDate(branchObj.effectiveDate)"
+                                                    [for]="picker">
+                                                </mat-datepicker-toggle>
+                                            </mat-form-field>
+                                            <div *ngIf="effectiveDate.touched || (f.submitted && effectiveDate.invalid)"
+                                                class="invalid-feedback2 margin--11 width-20vw">
+                                                <div *ngIf="effectiveDate.errors?.required">Effective Date is required
+                                                </div>
+                                                <div *ngIf="branchObj.effectiveDate < today ">Effective Date can not be
+                                                    less
+                                                    than
+                                                    Current Date</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Expiry Date</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="search_branch_detail">
+                                            <mat-form-field appearance="outline" class="date_picker_adjust"
+                                                [ngClass]="{ 'mandatory_input': isVar && ((branchObj.expiryDate<=branchObj.effectiveDate && !branchObj.branchId) || (today>branchObj.expiryDate && branchObj.branchId))  }">
+                                                <mat-datepicker (opened)="checkForExpiryDate(branchObj.effectiveDate)"
+                                                    (closed)="removeMinDate(branchObj.effectiveDate)" #myDatepicker23
+                                                    panelClass="mdmDatepicker" class="date_picker">
+                                                </mat-datepicker>
+                                                <input matInput [matDatepicker]="myDatepicker23" #expiryDate='ngModel'
+                                                    class="date_input_height" name="expiryDate" validDate
+                                                    placeholder="DD/MM/YYYY" [(ngModel)]="branchObj.expiryDate"
+                                                    [min]="expiryMinDate"
+                                                    (dateChange)="changeDateFormat(branchObj.effectiveDate,branchObj.expiryDate);"
+                                                    (change)="isVar=true" [required]="isInactive" />
+                                                <mat-datepicker-toggle matSuffix [for]="myDatepicker23">
+                                                </mat-datepicker-toggle>
+                                            </mat-form-field>
+
+                                            <div *ngIf="isVar" class="invalid-feedback2 input_height  margin--11">
+                                                <div *ngIf="branchObj.expiryDate<=branchObj.effectiveDate">
+                                                    Must be Greater than Effective and Current Date.</div>
+                                                <div
+                                                    *ngIf="today > branchObj.expiryDate && !(branchObj.expiryDate <= branchObj.effectiveDate) && branchObj.branchId">
+                                                    Must be Greater than Effective and Current Date</div>
+                                            </div>
+                                            <div *ngIf="f.submitted && expiryDate.invalid && !isVar"
+                                                class="invalid-feedback">
+                                                <div *ngIf="branchObj.expiryDate && branchObj.expiryDate < currentDate">
+                                                    Must be Greater than Effective and Current Date</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="15%">
+                                        <mat-label><strong>Bank Account Number</strong> (General)</mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput uppercase class="form-control" name="bankAccNumGeneral" [(ngModel)]="branchObj.bankAccNumGeneral"
+                                                maxlength="50">
+                                        </mat-form-field>
+                                    </div>
+                                    <div fxFlex="30%"></div>
+
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="100%">
+                                        <mat-accordion>
+                                            <mat-expansion-panel class="shadow_none" [expanded]="isExpand">
+                                                <mat-expansion-panel-header class="brnch_feature_header">
+                                                    <mat-panel-title class="branch_sub_heading">
+                                                        Branch Feature
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                                    class="assign_feature_pt">
+                                                    <div fxFlex="50%">
+                                                        <div class="branch_feature_heading">
+                                                            <h3>Assign Features <sup class="mandatory">*</sup></h3>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                                    *ngFor="let feature of featuresList;let i=index">
+                                                    <div fxFlex="25%">
+                                                        <div class="">
+                                                            <div>
+                                                                <mat-checkbox [(ngModel)]="feature.isWeight"
+                                                                    name="isWeight-{{i}}">
+                                                                    {{feature.featureName}}</mat-checkbox><br>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div fxFlex="30%">
+                                                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                                            <div *ngIf="feature?.isWeight" class='width_block'>
+                                                                <div fxFlex="40%">
+                                                                    <div class="branch_feature_heading">
+                                                                        <mat-label>Slab Applicable <sup
+                                                                                class="mandatory">*</sup> </mat-label>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="60%">
+                                                                    <div class="">
+                                                                        <mat-radio-group aria-label="Select an option"
+                                                                            [(ngModel)]="feature.isSlabFlag"
+                                                                            #isSlabFlag="ngModel"
+                                                                            name="isSlabFlag-{{i}}">
+                                                                            <mat-radio-button [value]="1"
+                                                                                class="radio_button_pr">
+                                                                                Yes
+                                                                            </mat-radio-button>
+                                                                            <mat-radio-button [value]="0">
+                                                                                No
+                                                                            </mat-radio-button>
+                                                                        </mat-radio-group>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div fxFlex="30%" *ngIf="feature?.isWeight">
+                                                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1%">
+                                                            <div *ngIf="feature.isSlabFlag" class="width_block">
+                                                                <div fxFlex="30%">
+                                                                    <div class="branch_feature_heading">
+                                                                        <mat-label>Weight Slab</mat-label>
+
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="45%">
+                                                                    <div>
+                                                                        <mat-select class="mat_select"
+                                                                            panelClass="anyClass" disableOptionCentering
+                                                                            #slabId="ngModel" name="slabId-{{i}}"
+                                                                            [required]="feature.isWeight==1"
+                                                                            [(ngModel)]="feature.slabId">
+                                                                            <mat-option [value]="slab.id"
+                                                                                *ngFor="let slab of slabsList">
+                                                                                {{slab.lowerVal}} - {{slab.upperVal}}
+                                                                            </mat-option>
+                                                                        </mat-select>
+                                                                        <div *ngIf="slabId.touched || (f.submitted && slabId.invalid)"
+                                                                            class="invalid-feedback2 margin--11">
+                                                                            <div *ngIf="slabId.errors?.required">Weight
+                                                                                Slab is required
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="10%">
+                                                                    <button mat-button class="add_btn"
+                                                                        *ngIf="!feature.addNewSlab"><em
+                                                                            class="material-icons search_icon"
+                                                                            (click)="inputWeightSlabShow(feature.id,true)">add</em></button>
+
+                                                                    <button mat-button class="add_btn"
+                                                                        *ngIf="feature.addNewSlab"><em
+                                                                            (click)="inputWeightSlabShow(feature.id,false)"
+                                                                            class="material-icons search_icon">remove</em></button>
+
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1%"
+                                                            style="margin: 20px 0 0;">
+                                                            <div *ngIf="feature.isWeight" class="width_block">
+                                                                <div fxFlex="30%">
+
+                                                                </div>
+                                                                <div fxFlex="45%">
+                                                                    <div fxLayout="row" fxLayout.xs="column"
+                                                                        style="position: relative;" fxLayoutGap="2%"
+                                                                        *ngIf="feature.addNewSlab">
+                                                                        <div fxFlex="50%">
+                                                                            <div class="">
+                                                                                <mat-form-field appearance="outline">
+                                                                                    <input matInput appNumbersOnly
+                                                                                        maxlength="6"
+                                                                                        class="form-control"
+                                                                                        name="featurelowerVal-{{i}}"
+                                                                                        [(ngModel)]="feature.lowerVal"
+                                                                                        (change)="clearMaxValue(feature.lowerVal,feature.upperVal,i)">
+                                                                                </mat-form-field>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div fxFlex="50%">
+                                                                            <div class="">
+                                                                                <mat-form-field appearance="outline">
+                                                                                    <input matInput appNumbersOnly
+                                                                                        class="form-control"
+                                                                                        maxlength="6"
+                                                                                        name="featureupperVal-{{i}}"
+                                                                                        [(ngModel)]="feature.upperVal"
+                                                                                        (change)="clearMaxValue(feature.lowerVal,feature.upperVal,i)">
+                                                                                </mat-form-field>
+                                                                            </div>
+
+                                                                        </div>
+                                                                        <div *ngIf="feature.isInvalid"
+                                                                            class="invalid-feedback2 pos_absolute mr-top--11">
+                                                                            <div>
+                                                                                Must be greater than Min Value
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="10%">
+                                                                    <button mat-button class="add_btn" type="button"
+                                                                        *ngIf="feature.addNewSlab"><em
+                                                                            class="material-icons search_icon"
+                                                                            (click)="submitSlab(i)">add</em></button>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+
+                                <!-- Mode of Payment CommentSection -->
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="100%">
+                                        <mat-accordion *ngIf="paymentMode">
+                                            <mat-expansion-panel class="shadow_none" [expanded]="true">
+                                                <mat-expansion-panel-header class="brnch_feature_header">
+                                                    <mat-panel-title class="branch_sub_heading">
+                                                        Mode of Payment
+                                                    </mat-panel-title>
+                                                </mat-expansion-panel-header>
+                                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                                    class="assign_feature_pt">
+                                                    <div fxFlex="50%">
+                                                        <div class="branch_feature_heading">
+                                                            <h3>Select MOP <sup class="mandatory">*</sup>
+                                                            </h3>
+
+                                                        </div>
+                                                    </div>
+                                                </div>  
+                                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                                    *ngFor="let mop of modeOfPayments; let i=index">
+                                                    <div fxFlex="100%">
+
+                                                        <div class="">
+                                                            <mat-checkbox [(ngModel)]="mop.status" name="status-{{i}}">
+                                                                {{mop.descr}}
+                                                            </mat-checkbox>
+                                                            <br>
+                                                        </div>
+                                                        <div *ngIf="mop.descr== 'FOC' && mop.status">
+                                                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                                                class="assign_feature_pt">
+                                                                <div fxFlex="15%">
+                                                                    <div class="branch_feature_heading">
+                                                                        <mat-label>Month Wise <sup
+                                                                                class="mandatory">*</sup> </mat-label>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="20%">
+                                                                    <div class="">
+                                                                        <mat-radio-group aria-label="Select an option"
+                                                                            [(ngModel)]="mop.focMnthWise"
+                                                                            #focMnthWise="ngModel" required
+                                                                            name="focMnthWise-{{i}}">
+                                                                            <mat-radio-button [value]="1"
+                                                                                class="radio_button_pr">Yes
+                                                                            </mat-radio-button>
+                                                                            <mat-radio-button [value]="0">No
+                                                                            </mat-radio-button>
+                                                                        </mat-radio-group>
+                                                                        <div *ngIf="focMnthWise.touched || (f.submitted && focMnthWise.invalid)"
+                                                                            class="invalid-feedback2">
+                                                                            <div *ngIf="focMnthWise.errors?.required">
+                                                                                Status is required
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="30%"></div>
+                                                                <div fxFlex="15%">
+                                                                    <div class="branch_feature_heading">
+                                                                        <mat-label>Max WayBill Count <sup
+                                                                                class="mandatory">*</sup> </mat-label>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="20%">
+                                                                    <div class="">
+                                                                        <mat-form-field appearance="outline"
+                                                                            [ngClass]="{ 'mandatory_input': f.submitted && focWayblMaxCnt.invalid }">
+                                                                            <input matInput uppercase maxlength="6"
+                                                                                class="form-control"
+                                                                                name="focWayblMaxCnt-{{i}}"
+                                                                                #focWayblMaxCnt="ngModel" required
+                                                                                appNumbersOnly
+                                                                                [(ngModel)]="mop.focWayblMaxCnt">
+                                                                        </mat-form-field>
+                                                                        <div *ngIf="focWayblMaxCnt.touched || (f.submitted && focWayblMaxCnt.invalid)"
+                                                                            class="invalid-feedback2  margin--11">
+                                                                            <div
+                                                                                *ngIf="focWayblMaxCnt.errors?.required">
+                                                                                Max WayBill Count is required
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                                                class="assign_feature_pt">
+                                                                <div fxFlex="15%">
+                                                                    <div class="branch_feature_heading">
+                                                                        <mat-label>Effective Date <sup
+                                                                                class="mandatory">*</sup> </mat-label>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="20%">
+                                                                    <mat-form-field appearance="outline"
+                                                                        [ngClass]="{ 'mandatory_input': f.submitted && effectiveDt.invalid }"
+                                                                        class="date_picker_adjust">
+                                                                        <mat-datepicker #mopEffective
+                                                                            panelClass="mdmDatepicker"
+                                                                            class="date_picker">
+                                                                        </mat-datepicker>
+                                                                        <input matInput [matDatepicker]="mopEffective"
+                                                                            placeholder="DD/MM/YYYY"
+                                                                            [disabled]="mop.effectiveDt<today"
+                                                                            name="effectiveDt-{{i}}" validDate
+                                                                            [min]="today" #effectiveDt="ngModel"
+                                                                            required [(ngModel)]="mop.effectiveDt">
+                                                                        <mat-datepicker-toggle matSuffix
+                                                                            [for]="mopEffective">
+                                                                        </mat-datepicker-toggle>
+                                                                    </mat-form-field>
+                                                                    <div *ngIf="effectiveDt.touched || (f.submitted && effectiveDt.invalid)"
+                                                                        class="invalid-feedback2  margin--11">
+                                                                        <div *ngIf="effectiveDt.errors?.required">
+                                                                            Effective Date is required
+                                                                        </div>
+                                                                        <div *ngIf="mop.effectiveDt < today">
+                                                                            Effective Date must be greater than current
+                                                                            date
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="30%"></div>
+                                                                <div fxFlex="15%">
+                                                                    <div class="branch_feature_heading">
+                                                                        <mat-label>Valid Upto : <sup
+                                                                                class="mandatory">*</sup> </mat-label>
+                                                                    </div>
+                                                                </div>
+                                                                <div fxFlex="20%">
+                                                                    <mat-form-field appearance="outline"
+                                                                        [ngClass]="{ 'mandatory_input': f.submitted && focValidUpto.invalid }"
+                                                                        class="date_picker_adjust">
+                                                                        <mat-datepicker #mopValidUpTo
+                                                                            panelClass="mdmDatepicker"
+                                                                            class="date_picker">
+                                                                        </mat-datepicker>
+                                                                        <input matInput [matDatepicker]="mopValidUpTo"
+                                                                            placeholder="DD/MM/YYYY"
+                                                                            name="focValidUpto-{{i}}"
+                                                                            #focValidUpto="ngModel" required
+                                                                            [disabled]="mop.focValidUpto<today"
+                                                                            [min]="mop.effectiveDt" validDate
+                                                                            [(ngModel)]="mop.focValidUpto">
+                                                                        <mat-datepicker-toggle matSuffix
+                                                                            [for]="mopValidUpTo">
+                                                                        </mat-datepicker-toggle>
+                                                                    </mat-form-field>
+                                                                    <div *ngIf="focValidUpto.touched || (f.submitted && focValidUpto.invalid)"
+                                                                        class="invalid-feedback2  margin--11">
+                                                                        <div *ngIf="focValidUpto.errors?.required">
+                                                                            Valid Upto Date is required
+                                                                        </div>
+                                                                        <div *ngIf="mop.focValidUpto < mop.effectiveDt">
+                                                                            Must be greater than Effective date
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            </mat-expansion-panel>
+                                        </mat-accordion>
+                                    </div>
+                                </div>
+                                <br>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="100%">
+                                        <div class="branch_next_btn">
+                                            <button mat-button *ngIf="!paymentMode" [disabled]="checkForDisableStatus()"
+                                                type="button" (click)="assignManagerShow('step1')">Next</button>
+                                            <button mat-button *ngIf="paymentMode"
+                                                [disabled]="checkForDisableStatus()">Next</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </form>
+    </div>
+</section>
+
+<section *ngIf="addBranchManager">
+    <div class="">
+        <form autocomplete="off" name="branchForm2" (ngSubmit)="p.form.valid && submitManageMaping()" #p="ngForm"
+            novalidate>
+            <mat-card class="card_mb">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <div class="create_branch">
+                            <h3>{{branchObj.branchId ? 'Edit':'Create'}} Branch</h3>
+                        </div>
+                        <div class="branch_bg_gray">
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                <div fxFlex="150%">
+                                    <h5>Branch Name: {{branchObj.branchName}}</h5>
+                                </div>
+                                <div fxFlex="150%">
+                                    <h5>Branch Code: {{branchObj.branchCode}}</h5>
+                                </div>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="100%">
+                                <mat-accordion class="add_branch_main">
+                                    <mat-expansion-panel class="shadow_none" [expanded]="true">
+                                        <mat-expansion-panel-header class="brnch_feature_header">
+                                            <mat-panel-title class="branch_sub_heading">
+                                                Assign Manager
+                                            </mat-panel-title>
+                                        </mat-expansion-panel-header>
+                                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                                            class="assign_feature_pt">
+                                            <div fxFlex="75%">
+                                                <div *ngFor="let manager of branchManagers;let i=index;" fxLayout="row"
+                                                    fxLayout.xs="column" fxLayoutGap="0.5%" class="assign_feature_pt">
+                                                    <div fxFlex="15%">
+                                                        <div class="branch_feature_heading">
+                                                            <mat-label>Manager Type <sup class="mandatory"
+                                                                    *ngIf="checkManagerRequired()">*</sup>
+                                                            </mat-label>
+                                                        </div>
+                                                    </div>
+                                                    <div fxFlex="20%">
+                                                        <div class="">
+                                                        <!--<mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="manager.lookupManagerTypeId" name="lookupManagerTypeId{{i}}"
+                                                #lookupManagerTypeId="ngModel" [required]="checkManagerRequired()">
+                                                <ngx-mat-select-search [(ngModel)]="managerNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="BillingByObj.id"
+                                                    *ngFor="let manager of managerTypes | stringFilter:managerNameSearchCtrl:'{manager.descr' | sortBy:'{manager.descr'"
+                                                    matTooltip="{{manager.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{manager.descr}}
+                                                </mat-option>
+                                            </mat-select>-->
+                                                            <mat-select class="mat_select"
+                                                                name="lookupManagerTypeId{{i}}"
+                                                                #lookupManagerTypeId="ngModel"
+                                                                [required]="checkManagerRequired()"
+                                                                panelClass="anyClass" disableOptionCentering
+                                                                [(ngModel)]="manager.lookupManagerTypeId">
+                                                                <mat-option [value]="manager.id"
+                                                                    *ngFor="let manager of managerTypes | sortBy:'orgName'">
+                                                                    {{manager.descr}}
+                                                                </mat-option>
+                                                            </mat-select>
+                                                            <div *ngIf="lookupManagerTypeId.touched || (p.submitted && lookupManagerTypeId.invalid)"
+                                                                class="invalid-feedback2 margin--11">
+                                                                <div *ngIf="lookupManagerTypeId.errors?.required">
+                                                                    Manager Type is Required
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div fxFlex="30%"></div>
+                                                    <div fxFlex="15%">
+                                                        <div class="branch_feature_heading">
+                                                            <mat-label>Employee Id <sup class="mandatory"
+                                                                    *ngIf="checkManagerRequired()">*</sup>
+                                                            </mat-label>
+                                                        </div>
+                                                    </div>
+                                                    <div fxFlex="20%">
+                                                        <div class="brnach_add_assign">
+                                                            <mat-form-field appearance="outline">
+                                                                <input matInput uppercase class="form-control"
+                                                                    name="userId{{i}}" [(ngModel)]="manager.userSearch"
+                                                                    #userId="ngModel"
+                                                                    [required]="checkManagerRequired()"
+                                                                    [matAutocomplete]="auto"
+                                                                    (keydown.enter)="$event.preventDefault()">
+                                                            </mat-form-field>
+                                                            <mat-autocomplete #auto="matAutocomplete"
+                                                                [displayWith]="getOptionText">
+                                                                <mat-option
+                                                                    *ngFor="let option of employeeList  | stringFilter:manager.userSearch:'userId'"
+                                                                    [value]="option.id"
+                                                                    (onSelectionChange)="managerSelected(option.id,i)"
+                                                                    [matTooltip]="option.name"
+                                                                    [matTooltipPosition]="'above'">
+                                                                    {{option.name}} </mat-option>
+                                                            </mat-autocomplete>
+                                                            <div *ngIf="userId.touched || (p.submitted && userId.invalid)"
+                                                                class="invalid-feedback2 margin--11">
+                                                                <div *ngIf="userId.errors?.required">
+                                                                    Employee Id is Required
+                                                                </div>
+                                                            </div>
+                                                            <div *ngIf="(p.submitted && !manager.userId && manager.userSearch)"
+                                                                class="invalid-feedback2 margin--11">
+                                                                <div>
+                                                                    Employee Id is Required
+                                                                </div>
+                                                            </div>
+                                                            <button mat-button class="branch_add_brn" type="button"
+                                                                *ngIf="i==0" (click)="addAssignManagerShow(true,i)"><em
+                                                                    class="material-icons search_icon">add</em></button>
+                                                            <button mat-button class="branch_remove_brn" type="button"
+                                                                *ngIf="!manager.isHide"
+                                                                (click)="addAssignManagerShow(false,i)"><em
+                                                                    class="material-icons icon_theme_color font-19">delete</em></button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </mat-expansion-panel>
+                                </mat-accordion>
+                            </div>
+                        </div>
+                        <br>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="100%">
+                                <div class="branch_next_btn">
+                                    <button mat-button type="button" (click)="goBack()">Back</button>
+                                    <button mat-button>Submit</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </form>
+    </div>
+</section>

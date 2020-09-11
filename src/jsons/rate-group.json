@@ -1,0 +1,51 @@
+{
+    "data": [
+        {
+            "id": 1,
+            "rateGroupName": "RG1",
+            "description": "desc upadted",
+            "status": 1,
+            "effectiveDate": "2019-11-26",
+            "expiryDate": "2019-12-17",
+            "serviceOfferingSlaList": [
+                {
+                    "id": 3,
+                    "serviceOfferingId": 1,
+                    "serviceOffering": "1",
+                    "rateGroupId": 4,
+                    "sla": 2,
+                    "description": "test update",
+                    "status": 1,
+                    "effectiveDate": "2019-11-26",
+                    "expiryDate": "2019-12-17",
+                    "price": 10,
+                    "propelRefId": 45
+                }
+            ]
+        },
+        {
+            "id": 4,
+            "rateGroupName": "RG4",
+            "description": "desc upadted",
+            "status": 1,
+            "effectiveDate": "2019-11-26",
+            "expiryDate": "2019-12-17",
+            "serviceOfferingSlaList": [
+                {
+                    "id": 3,
+                    "serviceOfferingId": 1,
+                    "serviceOffering": "1",
+                    "rateGroupId": 4,
+                    "sla": 2,
+                    "description": "test update",
+                    "status": 1,
+                    "effectiveDate": "2019-11-26",
+                    "expiryDate": "2019-12-17",
+                    "price": 10,
+                    "propelRefId": 45
+                }
+            ]
+        }
+    ],
+    "status": "SUCCESS"
+}

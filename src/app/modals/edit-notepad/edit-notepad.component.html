@@ -1,0 +1,250 @@
+<div class="modal-container">
+    <h5 class="sub_heading">Edit Notepad</h5>
+    <em class="material-icons modals_cancel_btn" [mat-dialog-close]="true">
+        cancel
+    </em>
+    <hr class="border_row">
+    <br>
+    <div>
+        <div class="all_form">
+            <form autocomplete="off" name="notepadForm" (ngSubmit)="f.form.valid &&
+            saveNotepad()" #f="ngForm" novalidate>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Notepad Name <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="pos_relative">
+                                <mat-form-field appearance="outline"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && notepadName.invalid }">
+                                    <input matInput name="notepadName" class="form-control"
+                                        [(ngModel)]="notepadObj.notepadName" maxlength="50" #notepadName="ngModel"
+                                        (input)="notepadObj.notepadName=$event.target.value.toUpperCase()" required>
+                                </mat-form-field>
+                                <div *ngIf="notepadName.touched || (f.submitted && notepadName.invalid)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="notepadName.errors?.required">Notepad Name is required</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Attribute Type <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="pos_relative">
+                                <mat-form-field class="select_box_dropwodn"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && attributeTypeId.invalid }">
+                                    <mat-select disableOptionCentering
+                                            panelClass="anyClass multipleAnyClass_search_2"
+                                            class="search_select_branch mr_top_22"
+                                            name="attributeTypeId"
+                                        [(ngModel)]="notepadObj.attributeTypeId" #attributeTypeId="ngModel" uppercase
+                                        (selectionChange)="getAttributeIdentifier()" required>
+                                            <ngx-mat-select-search [(ngModel)]="attributeNameSearchCtrl"  [dataArr]="AttributeList" appAutoSelectFirstOption
+                                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                name="search">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                    search
+                                                </mat-icon>
+                                            </ngx-mat-select-search>
+                                            <mat-option [value]="attribute.id"
+                                                             *ngFor="let attribute of AttributeList | stringFilter:attributeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                matTooltip=" {{ attribute.descr }}"
+                                                [matTooltipPosition]="'above'">
+                                                {{  attribute.descr }}
+                                            </mat-option>
+                                        </mat-select>
+                                    <!--<mat-select disableOptionCentering panelClass="anyClass" name="attributeTypeId"
+                                        [(ngModel)]="notepadObj.attributeTypeId" #attributeTypeId="ngModel" uppercase
+                                        (selectionChange)="getAttributeIdentifier()" required>
+                                        <mat-option [value]="attribute.id" *ngFor="let attribute of AttributeList"
+                                            matTooltip="{{attribute.descr}}" [matTooltipPosition]="'above'">
+                                            {{attribute.descr}}
+                                        </mat-option>
+                                    </mat-select>-->
+                                </mat-form-field>
+                                <div *ngIf="attributeTypeId.touched || (f.submitted && attributeTypeId.invalid)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="attributeTypeId.errors?.required">Attribute Type is required</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Attribute Identifier <sup class="mandatory">*</sup> </strong>
+                                </mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="pos_relative">
+                                <mat-form-field appearance="outline"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && attributeIdentifier.invalid }">
+                                    <input matInput uppercase name="attributeIdentifier" disabled uppercase
+                                        class="form-control" [(ngModel)]="notepadObj.attributeIdentifier"
+                                        #attributeIdentifier="ngModel" maxlength="20" required>
+                                </mat-form-field>
+                                <div *ngIf="attributeIdentifier.touched || (f.submitted && attributeIdentifier.invalid)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="attributeIdentifier.errors?.required">Attribute Identifier is required
+                                    </div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="pos_relative">
+                                <mat-form-field class="select_box_dropwodn"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                    <mat-label>Select Status</mat-label>
+                                    <mat-select disableOptionCentering panelClass="anyClass"
+                                        (selectionChange)="removevalidText(notepadObj.status)"
+                                        [(ngModel)]="notepadObj.status" name="status" #status="ngModel" uppercase
+                                        required>
+                                        <mat-option [value]="1">
+                                            ACTIVE
+                                        </mat-option>
+                                        <mat-option [value]="0">
+                                            INACTIVE
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div *ngIf="status.touched || (f.submitted && status.invalid)" class="invalid-feedback">
+                                    <div *ngIf="status.errors?.required">Status is required</div>
+                                </div>
+                                <div *ngIf="!show" class="invalid-feedback">Change the Status</div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Effective Date <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="pos_relative">
+                                <mat-form-field appearance="outline" class="date_picker_adjust top_10"
+                                    [ngClass]="{ 'mandatory_input': (effectiveDate.errors?.required && (effectiveDate.touched || f.submitted)) }">
+                                    <mat-datepicker #picker panelClass="mdmDatepicker" class="date_picker">
+                                    </mat-datepicker>
+                                    <input matInput [matDatepicker]="picker" name="effectiveDate" validDate
+                                        class="date_input_height" #effectiveDate="ngModel"
+                                        [disabled]="notepadObj.effectiveDate<currentDate && this.notepadObj.id && isChange"
+                                        [(ngModel)]="notepadObj.effectiveDate" placeholder="DD/MM/YYYY" required
+                                        [min]="currentDate" (change)="isChange=false"
+                                        (dateChange)="changeDateFormat(notepadObj.effectiveDate,notepadObj.expDt)" />
+                                    <mat-datepicker-toggle matSuffix
+                                        (onMenuOpen)="checkForExpiryDate(notepadObj.effectiveDate)" [for]="picker">
+                                    </mat-datepicker-toggle>
+                                </mat-form-field>
+                                <div *ngIf="effectiveDate.touched || (f.submitted && effectiveDate.invalid)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="effectiveDate.errors?.required">Effective Date is required
+                                    </div>
+                                    <div *ngIf="notepadObj.effectiveDate < currentDate ">Effective date cannot be less
+                                        than current date</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%">
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="50%" class=" ">
+                                <mat-label><strong>Expiry Date </strong></mat-label>
+                            </div>
+                            <div fxFlex="50%" class="pos_relative">
+                                <mat-form-field appearance="outline" class="date_picker_adjust"
+                                    [ngClass]="{ 'mandatory_input': isVar && ((notepadObj.expiryDate<=notepadObj.effectiveDate && !notepadObj.id) || (currentDate>notepadObj.expiryDate && notepadObj.id))  }">
+                                    <mat-datepicker (opened)="checkForExpiryDate(notepadObj.effectiveDate)"
+                                        (closed)="removeMinDate(notepadObj.effectiveDate)" #myDatepicker23
+                                        panelClass="mdmDatepicker" class="date_picker">
+                                    </mat-datepicker>
+                                    <input matInput [matDatepicker]="myDatepicker23" #expiryDate='ngModel'
+                                        class="date_input_height" name="expiryDate" validDate placeholder="DD/MM/YYYY"
+                                        [required]="isInactive==true" [(ngModel)]="notepadObj.expiryDate"
+                                        [min]="expiryMinDate"
+                                        (dateChange)="changeDateFormat(notepadObj.effectiveDate,notepadObj.expiryDate);"
+                                        (change)="isVar=true" />
+                                    <mat-datepicker-toggle matSuffix [for]="myDatepicker23">
+                                    </mat-datepicker-toggle>
+                                </mat-form-field>
+                                <!-- isVar:{{isVar}} -->
+                                <div *ngIf="isVar" class="invalid-feedback">
+                                    <div *ngIf="notepadObj.expiryDate<=notepadObj.effectiveDate && !notepadObj.id">
+                                        Must be Greater than Effective and Current Date.</div>
+                                    <div
+                                        *ngIf="(currentDate>notepadObj.expiryDate ||notepadObj.effectiveDate>=notepadObj.expiryDate) && notepadObj.id">
+                                        Must be Greater than Effective and Current Date.
+                                    </div>
+                                </div>
+                                <div *ngIf="f.submitted && expiryDate.invalid && !isVar" class="invalid-feedback">
+                                    <div *ngIf="notepadObj.expiryDate && notepadObj.expiryDate< currentDate">Must be
+                                        Greater than Effective and Current Date</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="45px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Attribute Value</strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="pos_relative">
+                                <mat-form-field appearance="outline">
+                                    <input matInput uppercaseOnly name="attributeValue"
+                                        [disabled]="isDisabledAttributeType" (keyup)="textCheck()" class="form-control"
+                                        [(ngModel)]="notepadObj.attributeValue" maxlength="50">
+                                </mat-form-field>
+                                <div *ngIf="isNotValid" class="invalid-feedback">
+                                    <div>Enter Comma Separated Two Value</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="75px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Description</strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="">
+                                <mat-form-field appearance="outline" class="text_area_input">
+                                    <textarea matInput name="description" [(ngModel)]="notepadObj.description"
+                                        maxlength="50"
+                                        (input)="notepadObj.description=$event.target.value.toUpperCase()"></textarea>
+                                </mat-form-field>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <div class="branch_next_btn">
+                            <button mat-flat-button color="primary" class="theme_btn round_btn"
+                                [disabled]="inActiveFlag && notepadObj.status == 0">Save</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

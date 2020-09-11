@@ -1,0 +1,171 @@
+{
+    "data": [
+        {
+            "id": 5,
+            "lkpSafextTypeId": 0,
+            "pincode": "120010",
+            "status": 1,
+            "effectiveDt": "2019-10-15T05:35:04.496+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 6,
+            "descr": "string",
+            "lkpSafextTypeId": 0,
+            "pincode": "120020",
+            "status": 1,
+            "effectiveDt": "2019-10-15T05:35:04.496+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 7,
+            "descr": "string",
+            "lkpSafextTypeId": 124,
+            "pincode": "120030",
+            "status": 1,
+            "effectiveDt": "2019-10-28T06:28:28.649+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 8,
+            "descr": "string",
+            "lkpSafextTypeId": 125,
+            "pincode": "120040",
+            "status": 1,
+            "effectiveDt": "2019-11-05T05:24:15.437+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 1,
+            "lkpSafextTypeId": 124,
+            "pincode": "110034",
+            "status": 1,
+            "effectiveDt": "2019-10-15T05:35:04.496+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "descr": "string",
+            "lkpSafextTypeId": 124,
+            "pincode": "112200",
+            "status": 1,
+            "effectiveDt": "2019-10-15T05:35:04.496+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "descr": "string",
+            "lkpSafextTypeId": 124,
+            "pincode": "110025",
+            "status": 1,
+            "effectiveDt": "2019-10-28T06:28:28.649+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 34,
+            "descr": "string",
+            "lkpSafextTypeId": 0,
+            "pincode": "110036",
+            "status": 1,
+            "effectiveDt": "2019-11-05T05:24:15.437+0000",
+            "pincodeFeature": [],
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        }
+    ],
+    "status": "SUCCESS"
+}

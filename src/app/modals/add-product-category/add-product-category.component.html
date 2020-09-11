@@ -1,0 +1,216 @@
+<div class="modal-container">
+    <h5 class="sub_heading">Add Product Category</h5>
+    <em class="material-icons modals_cancel_btn" [mat-dialog-close]="true">
+        cancel
+    </em>
+    <hr class="border_row">
+    <br>
+    <div>
+        <div class=" all_form">
+            <form autocomplete="off" name="productCategoryForm" (ngSubmit)="f.form.valid && saveProdCategory()"
+                #f="ngForm" novalidate>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="50%">
+                        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                            <div fxFlex="90%">
+                                <mat-grid-list cols="2" rowHeight="55px">
+                                    <mat-grid-tile>
+                                        <mat-label><strong>Name <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field appearance="outline"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && prdctCtgy.invalid }">
+                                            <input matInput uppercase name="prdctCtgy"
+                                                [(ngModel)]="prodCategoryObj.prdctCtgy" #prdctCtgy="ngModel" required
+                                                class="form-control">
+                                        </mat-form-field>
+                                        <div *ngIf="prdctCtgy.touched || (f.submitted && prdctCtgy.invalid)" class="invalid-feedback">
+                                            <div *ngIf="prdctCtgy.errors?.required">Name is required</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+                            <div fxFlex="10%" style="position: relative;">
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="100%">
+                                <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                                    <div fxFlex="45%">
+                                        <mat-label><strong>Line of Business</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="50%">
+                                        <div class=" text-left" name="lineOfBusiness">
+                                            <div *ngFor="let lineObj of lineOfBusinessList; let i=index">
+                                                <mat-checkbox (change)="listBusiness(lineObj,$event)">
+                                                    {{lineObj.lookupVal}}
+                                                </mat-checkbox>
+                                                <br>
+                                            </div>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                            <div fxFlex="90%">
+                                <mat-grid-list cols="2" rowHeight="55px">
+                                    <mat-grid-tile>
+                                        <mat-label><strong>Effective Date <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field appearance="outline" class="date_picker_adjust pd_8 "
+                                            [ngClass]="{ 'mandatory_input': (effectiveDt.errors?.required && (effectiveDt.touched || f.submitted)) }">
+                                            <mat-datepicker #date_picker_rate_group_2 panelClass="mdmDatepicker"
+                                                class="date_picker_rate_group_1">
+                                            </mat-datepicker>
+                                            <mat-datepicker-toggle matSuffix [for]="date_picker_rate_group_2"
+                                                class="date_adjust" (onMenuOpen)="checkForExpiryDate(prodCategoryObj.effectiveDt)">
+                                            </mat-datepicker-toggle>
+                                            <input matInput [matDatepicker]="date_picker_rate_group_2"
+                                            [disabled]="prodCategoryObj.effectiveDt<currentDate && this.prodCategoryObj.id && isChange"
+                                                class="date_input_height date_picker_input" validDate
+                                                name="effectiveDt" #effectiveDt="ngModel" required
+                                                [(ngModel)]="prodCategoryObj.effectiveDt" placeholder="DD/MM/YYYY" [min]="currentDate" (change)="isChange=false"
+                                                (dateChange)="changeDateFormat(prodCategoryObj.effectiveDt,prodCategoryObj.expDt)" />
+                                        </mat-form-field>
+                                        <div *ngIf="effectiveDt.touched || (f.submitted && effectiveDt.invalid)"
+                                            class="invalid-feedback">
+                                            <div *ngIf="effectiveDt.errors?.required">Effective Date is required</div>
+                                            <div *ngIf="prodCategoryObj.effectiveDt < currentDate ">Effective date cannot be less than current date</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div fxFlex="50%">
+
+                        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                            <div fxFlex="90%">
+                                <mat-grid-list cols="2" rowHeight="55px">
+                                    <mat-grid-tile>
+                                        <mat-label><strong>HSN <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field class="select_box_dropwodn"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && hsnCodeId.invalid }">
+                                            <mat-select disableOptionCentering panelClass="anyClass"
+                                                [(ngModel)]="prodCategoryObj.hsnCodeId" name="hsnCodeId"
+                                                #hsnCodeId="ngModel" required>
+                                                <mat-option [value]="hsnObj.id" *ngFor="let hsnObj of hsnCodeList" matTooltip="{{hsnObj.hsncode}}" [matTooltipPosition]="'above'">
+                                                    {{hsnObj.hsncode}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div *ngIf="hsnCodeId.touched || (f.submitted && hsnCodeId.invalid)" class="invalid-feedback">
+                                            <div *ngIf="hsnCodeId.errors?.required">HSN is required</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+                            <div fxFlex="10%" style="position: relative;">
+                                <button mat-button type="button" class="add_btn left_00" (click)="hsnDropdownOpen()"><em
+                                        class="material-icons">add</em></button>
+                            </div>
+                        </div>
+
+                        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                            <div fxFlex="90%">
+                                <mat-grid-list cols="2" rowHeight="55px">
+                                    <mat-grid-tile>
+                                        <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field class="select_box_dropwodn"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                            <mat-select disableOptionCentering panelClass="anyClass" name="status" uppercase
+                                                [(ngModel)]="prodCategoryObj.status" #status="ngModel" required>
+                                                <mat-option [value]="1">
+                                                    ACTIVE
+                                                </mat-option>
+                                                <mat-option [value]="0">
+                                                    INACTIVE
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div *ngIf="status.touched || (f.submitted && status.invalid)" class="invalid-feedback">
+                                            <div *ngIf="status.errors?.required">Status is required</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                            <div fxFlex="90%">
+                                <mat-grid-list cols="2" rowHeight="55px">
+                                    <mat-grid-tile>
+                                        <mat-label><strong>Description</strong></mat-label>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput uppercase name="descr" [(ngModel)]="prodCategoryObj.descr"
+                                                class="form-control" maxlength="50">
+                                        </mat-form-field>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                            <div fxFlex="90%">
+                                <mat-grid-list cols="2" rowHeight="55px">
+                                    <mat-grid-tile>
+                                        <mat-label><strong>Expiry Date</strong></mat-label>
+                                    </mat-grid-tile>
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field appearance="outline" class="date_picker_adjust pd_8 "
+                                        [ngClass]="{ 'mandatory_input': isVar && ((prodCategoryObj.expDt<=prodCategoryObj.effectiveDt && !prodCategoryObj.id) || (currentDate>prodCategoryObj.expDt && prodCategoryObj.id))  }">
+                                            <mat-datepicker #date_picker_rate_group_1 panelClass="mdmDatepicker"
+                                                class="date_picker_rate_group_1" (opened)="checkForExpiryDate(prodCategoryObj.effectiveDt)"
+                                                (closed)="removeMinDate(prodCategoryObj.effectiveDt)">
+                                            </mat-datepicker>
+                                            <mat-datepicker-toggle matSuffix [for]="date_picker_rate_group_1"
+                                                class="date_adjust">
+                                            </mat-datepicker-toggle>
+                                            <input matInput [matDatepicker]="date_picker_rate_group_1" class="date_input_height date_picker_input"
+                                                validDate [(ngModel)]="prodCategoryObj.expDt" #expDt="ngModel" name="expDt"
+                                                placeholder="DD/MM/YYYY" [min]="expiryMinDate"
+                                                (dateChange)="changeDateFormat(prodCategoryObj.effectiveDt,prodCategoryObj.expDt);"
+                                                (change)="isVar=true">
+                                        </mat-form-field>
+                                        <div *ngIf="isVar" class="invalid-feedback">
+                                            <div
+                                                *ngIf="prodCategoryObj.expDt<=prodCategoryObj.effectiveDt">
+                                                Must be Greater than Effective and Current Date.</div>
+                                            <div *ngIf="currentDate>prodCategoryObj.expDt && !(prodCategoryObj.expDt <= prodCategoryObj.effectiveDt) && prodCategoryObj.id">Must be Greater than Effective and Current Date.</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <br>
+                <br>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                            <mat-grid-tile class="module_area">
+                                <button mat-flat-button class="theme_btn round_btn"
+                                    [disabled]="!prodCategoryObj.status && !prodCategoryObj.id">Save</button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <!-- Add city Section -->
+    </div>
+
+</div>

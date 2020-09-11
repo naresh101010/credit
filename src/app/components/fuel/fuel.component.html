@@ -1,0 +1,663 @@
+<div *ngIf="!fuelTab">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+        <div fxFlex="25%">
+            <mat-card class="manage_route_tab route_active line_height_55 mr-top-0"
+                (click)="FuelTab(searchLkpFuelIndexId)"
+                [ngClass]="{'color_dark': showFuel === false && addFuel===false }">
+                <h3>Fuel</h3>
+            </mat-card>
+        </div>
+        <div fxFlex="25%" (click)="getMetroMapping()">
+            <mat-card class="manage_route_tab bg_gray_color line_height_55 mr-top-0"
+                (click)="showFuel=false;showMetro=true;addFuel=false;metroSelected=''"
+                [ngClass]="{'color_dark':showMetro === false, 'route_active':showMetro === true }">
+                <h3>Metro Mapping</h3>
+            </mat-card>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="showFuel">
+    <br>
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%"> <h3 class="grid_title">Fuel</h3></div>
+        <div fxFlex="82%">   <form autocomplete="off">
+                <div class="hdr_srch_field">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="25%">
+                            <mat-grid-list cols="1" rowHeight="43px">
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field class="select_box_dropwodn">
+                                    <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22" [dataArr]="fuelFuelIndexList" appAutoSelectFirstOption
+                                                [(ngModel)]="searchLkpFuelIndexId" name="lkpFuelIndexId"
+                                                (selectionChange)="getFuelIndexList(searchLkpFuelIndexId)"
+                                                >
+                                                <ngx-mat-select-search [(ngModel)]="fuelNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="fuel.id"
+                                                    *ngFor="let fuel of fuelFuelIndexList | stringFilter:fuelNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{fuel.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{fuel.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                    </mat-form-field>
+
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div fxFlex="10%">
+                            <button (click)="addFuelFunc(searchLkpFuelIndexId)" type="button" mat-button
+                                class="add_btn" *ngxPermissionsOnly="['CREATE']"><em
+                                    class="material-icons">add</em></button>
+                        </div>
+                    </div>
+                </div>
+            </form></div>
+        </div>
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%">
+           
+            <h3 class="grid_title mr_top_30">Fuel Details</h3>
+        </div>
+        <div fxFlex="82%">
+
+          
+            <mat-card class="card_body">
+                <div class="mat-table mat_table_main">
+                    <div class="mat-row bg bg_light_grey table_main_header">
+                        <div class="mat-cell mat_cell_head upper-case">Fuel Index</div>
+                        <div class="mat-cell mat_cell_head upper-case">Fuel type</div>
+                        <div class="mat-cell mat_cell_head upper-case">Type</div>
+                        <div class="mat-cell mat_cell_head upper-case">Expiry Date</div>
+                        <div class="mat-cell"></div>
+                    </div>
+                    <div class="mat-row bg_light_grey"
+                        *ngFor="let fuel of fuelPriceList | paginate: { itemsPerPage: 10, currentPage: p }">
+                        <div class="mat-cell upper-case  table_color hyperlink upper-case">
+                            {{fuel.lkpFuelIndexId | showName:'descr':fuelFuelIndexList}}</div>
+                        <div class="mat-cell upper-case">{{fuel.lkpFuelTypeId | showName:'descr':fuelTypeList}}
+                        </div>
+                        <div class="mat-cell upper-case">
+                            {{fuel.lkpCntrTypeId | showName:'descr':fuelContractTypeList}}
+                        </div>
+                        <div class="mat-cell display_overflow_hidden">{{fuel.expDt | dateFormat}}</div>
+                        <div class="mat-cell mat_cell_icon">
+                            <mat-label><em class="material-icons icon_btn_display icon_theme_color"
+                                    (click)="editFuelMaster(fuel,1)">remove_red_eye</em>
+                            </mat-label>
+                            <em class="material-icons icon_btn_display icon_theme_color"
+                                *ngxPermissionsOnly="['CREATE','UPDATE']" (click)="editFuelMaster(fuel,0)">edit</em>
+                        </div>
+                    </div>
+                    <div class="mat-row bg_light_grey" *ngIf="!fuelPriceList.length">
+                        <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No Data
+                            Present
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination_area">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </mat-card>
+
+
+        </div>
+
+    </div>
+</div>
+<div *ngIf="addFuel">
+    <br>
+    <div class="all_form">
+
+        <div *ngIf="defaultForm">
+            <form autocomplete="off" name="gstForm" (ngSubmit)="f.form.valid && saveFuelPrice(fuelConfirmation)" #f="ngForm" novalidate>
+                <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="45%">
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Type<sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="50%">
+                                        <mat-grid-list cols="1" rowHeight="53px">
+                                            <mat-grid-tile class="module_area">
+                                                <mat-form-field class="select_box_dropwodn"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && lkpCntrTypeId.invalid }">
+                                                    <mat-select disableOptionCentering  [dataArr]="fuelContractTypeList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="fuelPriceObj.lkpCntrTypeId" name="lkpCntrTypeId"
+                                                #lkpCntrTypeId="ngModel"[disabled]="fuelPriceObj.id && !submitPermission" required>
+                                                <ngx-mat-select-search [(ngModel)]="contractTypeNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="contractType.id"
+                                                    *ngFor="let contractType of fuelContractTypeList | stringFilter:contractTypeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{contractType.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{contractType.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                              
+                                                </mat-form-field>
+                                                <div *ngIf="lkpCntrTypeId.touched || (f.submitted && lkpCntrTypeId.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="lkpCntrTypeId.errors?.required">Type is required
+                                                    </div>
+                                                </div>
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Fuel Index <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="50%">
+                                        <mat-grid-list cols="1" rowHeight="53px">
+                                            <mat-grid-tile class="module_area">
+                                                <mat-form-field class="select_box_dropwodn"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && lkpFuelIndexId.invalid }">
+                                                    <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"  [dataArr]="fuelFuelIndexList" appAutoSelectFirstOption
+                                                [(ngModel)]="fuelPriceObj.lkpFuelIndexId" name="lkpFuelIndexId"
+                                                (selectionChange)="getFuelMapDetails(fuelPriceObj.lkpFuelIndexId)"
+                                                #lkpFuelIndexId="ngModel" [disabled]="fuelPriceObj.id && !submitPermission" required>
+                                                <ngx-mat-select-search [(ngModel)]="fuelNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="fuel.id"
+                                                    *ngFor="let fuel of fuelFuelIndexList | stringFilter:fuelNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{fuel.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{fuel.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                                
+                                                </mat-form-field>
+                                                <div *ngIf="lkpFuelIndexId.touched || (f.submitted && lkpFuelIndexId.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="lkpFuelIndexId.errors?.required">Fuel Index is required
+                                                    </div>
+                                                </div>
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Effective Date <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div class="module_area" fxFlex="50%">
+                                        <mat-form-field appearance="outline" class="date_picker_adjust top_10"
+                                            [ngClass]="{ 'mandatory_input': (effectiveDt.errors?.required && (effectiveDt.touched || f.submitted)) }">
+                                            <mat-datepicker #picker panelClass="mdmDatepicker" class="date_picker">
+                                            </mat-datepicker>
+                                            <input matInput [matDatepicker]="picker" name="effectiveDt" validDate
+                                                class="date_input_height" #effectiveDt="ngModel"
+                                                [disabled]="fuelPriceObj.effectiveDt<currentDate && this.fuelPriceObj.id && isChange"
+                                                [(ngModel)]="fuelPriceObj.effectiveDt" placeholder="DD/MM/YYYY" required
+                                                [min]="currentDate" (change)="isChange=false"
+                                                (dateChange)="changeDateFormat(fuelPriceObj.effectiveDt,fuelPriceObj.expDt)" />
+                                            <mat-datepicker-toggle matSuffix
+                                                (onMenuOpen)="checkForExpiryDate(fuelPriceObj.effectiveDt)"
+                                                [for]="picker">
+                                            </mat-datepicker-toggle>
+                                        </mat-form-field>
+                                        <div *ngIf="effectiveDt.touched || (f.submitted && effectiveDt.invalid)"
+                                            class="invalid-feedback">
+                                            <div *ngIf="effectiveDt.errors?.required">Effective Date is required</div>
+                                            <div *ngIf="fuelPriceObj.effectiveDt < currentDate ">Effective date cannot be less than current date</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Fuel Base Price <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="50%">
+                                        <div style="position: relative;">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && fuelbasePrice.invalid }">
+                                                <input matInput  [(ngModel)]="fuelPriceObj.fuelbasePrice"
+                                                    appTwoDigitDecimaNumber name="fuelbasePrice" maxlength="6"
+                                                    #fuelbasePrice="ngModel" class="form-control" required>
+                                            </mat-form-field>
+                                            <div *ngIf="fuelbasePrice.touched || (f.submitted && fuelbasePrice.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="fuelbasePrice.errors?.required">Fuel Base Price is
+                                                    required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Base Price Date <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div class="module_area" fxFlex="50%">
+                                        <mat-form-field appearance="outline" class="date_picker_adjust pd_8"
+                                            [ngClass]="{ 'mandatory_input': (fuelbaseDt.errors?.required && (fuelbaseDt.touched || f.submitted)) }">
+                                            <mat-datepicker #date_picker_rate_group_3 panelClass="mdmDatepicker"
+                                                class="date_picker_rate_group_1">
+                                            </mat-datepicker>
+                                            <mat-datepicker-toggle matSuffix [for]="date_picker_rate_group_3"
+                                                class="date_adjust">
+                                            </mat-datepicker-toggle>
+                                            <input matInput [matDatepicker]="date_picker_rate_group_3"
+                                                class="date_input_height" class="date_picker_input"
+                                                [(ngModel)]="fuelPriceObj.fuelbaseDt" validDate name="fuelbaseDt"
+                                                placeholder="DD/MM/YYYY" #fuelbaseDt="ngModel" required>
+
+                                        </mat-form-field>
+                                        <div *ngIf="(fuelbaseDt.errors?.required && (fuelbaseDt.touched || f.submitted))"
+                                            class="invalid-feedback">Base Price Date is required
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div fxFlex="10%"></div>
+                            <div fxFlex="45%">
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Fuel Type <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="50%">
+                                        <mat-grid-list cols="1" rowHeight="53px">
+                                            <mat-grid-tile class="module_area">
+                                                <mat-form-field class="select_box_dropwodn"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && lkpFuelTypeId.invalid }">
+                                                    <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"  [dataArr]="fuelTypeList" appAutoSelectFirstOption
+                                                [(ngModel)]="fuelPriceObj.lkpFuelTypeId" name="lkpFuelTypeId"
+                                                #lkpFuelTypeId="ngModel" [disabled]="fuelPriceObj.id && !submitPermission" required>
+                                                <ngx-mat-select-search [(ngModel)]="fuelTypeNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="fuelType.id"
+                                                    *ngFor="let fuelType of fuelTypeList | stringFilter:fuelTypeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{fuelType.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{fuelType.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                                 
+                                                </mat-form-field>
+                                                <div *ngIf="lkpFuelTypeId.touched || (f.submitted && lkpFuelTypeId.invalid)"
+                                                    class="invalid-feedback">
+                                                    <div *ngIf="lkpFuelTypeId.errors?.required">Fuel Type is required
+                                                    </div>
+                                                </div>
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+                                </div>
+                                <div *ngIf="isStateShow">
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                        <div fxFlex="50%">
+                                            <mat-label><strong>Select State<sup class="mandatory">*</sup> </strong></mat-label>
+                                        </div>
+                                        <div fxFlex="50%">
+                                            <div class="module_area" fxFlex="100%">
+                                                <mat-grid-list cols="1" rowHeight="60px">
+                                                    <mat-grid-tile class="module_area">
+														<mat-form-field class="select_box_dropwodn">
+                            <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [multiple]="true"
+                                                [(ngModel)]="selectedState" name="State1Selected" appAutoSelectFirstOption [dataArr]="fuelStateList"
+                                                #State1Selected="ngModel" required>
+                                                <ngx-mat-select-search [(ngModel)]="stateNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="state"
+                                                    *ngFor="let state of fuelStateList | stringFilter:stateNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{state.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{state.descr}}
+                                                </mat-option>
+                                            </mat-select>
+														
+														  </mat-form-field>
+													</mat-grid-tile>
+													<div *ngIf="State1Selected.touched || (f.submitted && State1Selected.invalid)"
+                                                            class="invalid-feedback">
+														<div *ngIf="State1Selected.errors?.required">State is required
+														</div>
+													</div>
+                                                </mat-grid-list>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Expiry Date</strong></mat-label>
+                                    </div>
+                                    <div class="module_area" fxFlex="50%">
+                                            <mat-form-field appearance="outline" class="date_picker_adjust"
+                                [ngClass]="{ 'mandatory_input': isVar && ((fuelPriceObj.expDt<=fuelPriceObj.effectiveDt && !fuelPriceObj.id) || (currentDate>fuelPriceObj.expDt && fuelPriceObj.id))  }">
+                                <mat-datepicker (opened)="checkForExpiryDate(fuelPriceObj.effectiveDt)"
+                                    (closed)="removeMinDate(fuelPriceObj.effectiveDt)" #myDatepicker23
+                                    panelClass="mdmDatepicker" class="date_picker">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="myDatepicker23" #expDt='ngModel'
+                                    class="date_input_height" name="expDt" validDate placeholder="DD/MM/YYYY"
+                                    [(ngModel)]="fuelPriceObj.expDt" [min]="expiryMinDate" [disabled]="isDisableExpiryDate"
+                                    (dateChange)="changeDateFormat(fuelPriceObj.effectiveDt,fuelPriceObj.expDt);"
+                                    (change)="isVar=true" />
+                                <mat-datepicker-toggle matSuffix [for]="myDatepicker23"></mat-datepicker-toggle>
+                            </mat-form-field>
+                            <div *ngIf="isVar" class="invalid-feedback">
+                                <div
+                                    *ngIf="fuelPriceObj.expDt<=fuelPriceObj.effectiveDt">
+                                    Must be Greater than Effective and Current Date.</div>
+                                <div *ngIf="currentDate > fuelPriceObj.expDt && !(fuelPriceObj.expDt <= fuelPriceObj.effectiveDt) && fuelPriceObj.id">Must be Greater than Effective and Current Date</div>
+                            </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="input_height">
+                                    <div fxFlex="50%">
+                                        <mat-label><strong>Description</strong>
+                                        </mat-label>
+
+                                    </div>
+                                    <div class="module_area" fxFlex="50%">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput  [(ngModel)]="fuelPriceObj.descr"
+                                                name="description"  class="form-control" maxlength="100" (input)="fuelPriceObj.descr=$event.target.value.toUpperCase()">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br>
+
+                    </div>
+                </div>
+                <br>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                            <mat-grid-tile class="module_area" *ngIf="!submitPermission && !isDisableExpiryDate">
+                                <button mat-flat-button class="theme_btn round_btn">{{fuelPriceObj.id ? "Update" : "Save"}}</button>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area" *ngIf="submitPermission || isDisableExpiryDate">
+                                <button mat-flat-button type="button" class="theme_btn round_btn"
+                                    (click)="addFuel=false; showFuel=true; clearObj();">back</button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+
+        <div *ngIf="stateForm">
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="13%">
+                    <mat-label><strong>Fuel Index</strong></mat-label>
+                </div>
+                <div fxFlex="20%">
+                    <mat-grid-list cols="1" rowHeight="53px">
+                        <mat-grid-tile class="module_area">
+                            <mat-form-field class="select_box_dropwodn">
+                            <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="fuelPriceObj.lkpFuelIndexId" name="lkpFuelIndexId"
+                                                (selectionChange)="getFuelIndexList(fuelPriceObj.lkpFuelIndexId)">
+                                                <ngx-mat-select-search [(ngModel)]="fuel3NameSearchCtrl" 
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="fuel.id"
+                                                    *ngFor="let fuel of fuelFuelIndexList | stringFilter:fuel3NameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{fuel.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{fuel.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                       
+                            </mat-form-field>
+
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="14%">
+                    <mat-label><strong>Add Fuel Price</strong></mat-label>
+                </div>
+                <div fxFlex="5%">
+                    <button (click)="saveStateFuel(fuelPriceObj.lkpFuelIndexId)" type="button" mat-button
+                        class="add_btn" *ngxPermissionsOnly="['CREATE']"><em class="material-icons">add</em></button>
+                </div>
+            </div>
+            <br>
+            <mat-card class="card_body">
+                <div class="mat-table mat_table_main">
+                    <div class="mat-row bg bg_light_grey table_main_header">
+                        <div class="mat-cell mat_cell_head upper-case">State</div>
+                        <div class="mat-cell mat_cell_head upper-case">Contract Type</div>
+                        <div class="mat-cell mat_cell_head upper-case">Fuel Base Price</div>
+                        <div class="mat-cell mat_cell_head upper-case">Base Price Date</div>
+                        <div class="mat-cell mat_cell_head upper-case">Effective Date </div>
+                        <div class="mat-cell mat_cell_head upper-case">Expiry Date</div>
+                        <div class="mat-cell"></div>
+                    </div>
+                    <div class="mat-row bg_light_grey" *ngFor="let fuel of fuelPriceList">
+                        <div class="mat-cell upper-case  table_color hyperlink upper-case">
+                            {{fuel.entityId | showName:'descr':fuelStateList}} </div>
+                        <div class="mat-cell upper-case">
+                            {{fuel.contractType}}</div>
+                        <div class="mat-cell">{{fuel.fuelbasePrice}}</div>
+                        <div class="mat-cell">{{fuel.fuelbaseDt | dateFormat}}</div>
+                        <div class="mat-cell">{{fuel.effectiveDt | dateFormat}}</div>
+                        <div class="mat-cell">{{fuel.expDt | dateFormat}}</div>
+                        <div class="mat-cell mat_cell_icon">
+                            <em class="material-icons icon_btn_display icon_theme_color" (click)="saveStateFuel(fuel)"
+                                *ngxPermissionsOnly="['CREATE','UPDATE']">edit</em>
+                        </div>
+                    </div>
+                    <div class="mat-row bg_light_grey" *ngIf="!fuelPriceList.length">
+                        <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No Data
+                            Present
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                        <mat-grid-tile class="module_area">
+                            <button mat-flat-button class="theme_btn round_btn" (click)="showTable()">Save</button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div *ngIf="showMetro">
+    <br>
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%">
+            <h3 class="grid_title">Select Metro</h3>
+            <h3 class="grid_title mr_top_30">Recently Created/ Updated</h3>
+        </div>
+        <div fxFlex="82%">
+            <form autocomplete="off">
+                <div class="hdr_srch_field">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="25%">
+                            <mat-grid-list cols="1" rowHeight="43px">
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field class="select_box_dropwodn">
+                                    <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="metroSelected" name="lkpFuelIndexId"
+                                                (selectionChange)="getMetroListList(metroSelected)">
+                                                <ngx-mat-select-search [(ngModel)]="fuel4NameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="fuel.id"
+                                                    *ngFor="let fuel of fuelMapFuelIndexList | stringFilter:fuel4NameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{fuel.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{fuel.descr}}
+                                                </mat-option>
+                                            </mat-select>
+
+                                        <!--<mat-select disableOptionCentering panelClass="anyClass"
+                                            [(ngModel)]="metroSelected" name="lkpFuelIndexId"
+                                            (selectionChange)="getMetroListList(metroSelected)">
+                                            <mat-option [value]="fuel.id" *ngFor="let fuel of fuelMapFuelIndexList"
+                                                matTooltip="{{fuel.descr}}" [matTooltipPosition]="'above'">
+                                                {{fuel.descr}}
+                                            </mat-option>
+                                        </mat-select>-->
+                                    </mat-form-field>
+
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div fxFlex="10%">
+                            <button type="button" mat-button class="add_btn" *ngxPermissionsOnly="['CREATE']" (click)="addMetro()" [disabled]="listMetroFlag"><em
+                                    class="material-icons">add</em></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <mat-card class="card_body">
+                <div class="mat-table mat_table_main">
+                    <div class="mat-row bg bg_light_grey table_main_header">
+                        <div class="mat-cell mat_cell_head upper-case">Metro</div>
+                        <div class="mat-cell mat_cell_head upper-case">Cities </div>
+                        <div class="mat-cell" *ngxPermissionsOnly="['CREATE','UPDATE']"></div>
+                    </div>
+                    <div *ngFor="let metroMap of metroMapList">
+                        <div class="mat-row bg_light_grey" *ngIf="isMetro(metroMap)">
+                            <div class="mat-cell upper-case  table_color hyperlink upper-case">
+                                {{metroMap.lkpFuelIndexId | showName:'descr':fuelIndexList}} </div>
+                            <div class="mat-cell upper-case">
+                                <span *ngFor="let city of metroMap.cities;let i=index">
+                                    <span *ngIf="city.status">{{city.cityId| showName:'cityName':cityList}}
+                                        <span *ngIf="i!=metroMap.cities.length-1">,</span>
+                                    </span>
+                                </span>
+                            </div>
+                            <div class="mat-cell mat_cell_icon" *ngxPermissionsOnly="['CREATE','UPDATE']">
+                                <em class="material-icons icon_btn_display icon_theme_color"
+                                    (click)="editMapping(metroMap)">edit</em>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<ng-template #fuelConfirmation>
+
+	<div class="modal-container">
+		<h5 class="sub_heading"> </h5>
+		<em class="material-icons modals_cancel_btn" [mat-dialog-close]="'cancel'">
+			cancel
+		</em>
+		<div>
+            <br>
+            <br>
+			<div class="">
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+					<div fxFlex="100%">
+						<mat-grid-list cols="1" rowHeight="85px">
+							<mat-grid-tile>
+								<div class="text-center">
+									<p style="margin: 0px !important;"> If any fuel for the selected combination already exist.It will get affected.</p>
+                                    <p> Do you want to continue?</p>
+								</div>
+							</mat-grid-tile>
+						</mat-grid-list>
+					</div>
+				</div>
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+					<div fxFlex="100%">
+						<mat-grid-list cols="1" rowHeight="55px" class="">
+							<ul class="text-center">
+								<li class="display_inline_model"> <button mat-flat-button class="theme_btn round_btn"
+										[mat-dialog-close]="'cancel'">No</button>
+								</li>
+								<li class="display_inline_model"> <button mat-flat-button class="theme_btn round_btn"
+										[mat-dialog-close]="true">Yes</button>
+
+								</li>
+							</ul>
+                            <br>
+                            <br>
+						</mat-grid-list>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+</ng-template>

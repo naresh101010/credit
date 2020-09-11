@@ -1,0 +1,56 @@
+<div class="modal-container">
+    <h5 class="sub_heading">RR Slab <span> <button mat-button class="add_btn left_00" ><em class="material-icons">add</em></button></span></h5>
+    <em class="material-icons modals_cancel_btn" [mat-dialog-close]="true">
+        cancel
+    </em>
+    <hr class="border_row">
+    <br>
+      <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="80%">
+                <div class="card_body1">
+                    <div class="mat-table mat_table_main">
+                        <div class="mat-row bg bg_light_grey table_main_header table_fixed">
+                            <div class="mat-cell mat_cell_head upper-case">From</div>
+                            <div class="mat-cell mat_cell_head upper-case">To</div>
+                            <div class="mat-cell mat_cell_head upper-case">RR Value</div>
+                            <div class="mat-cell mat_cell_head upper-case"></div>
+
+                            <div class="mat-cell mat_cell_head"></div>
+                        </div>
+                        <div>
+                            <div class="mat-row bg_light_grey">
+                                <div class="mat-cell upper-case">
+                                   <div class="module_area input_height">
+                                            <mat-form-field appearance="outline">
+                                                <input matInput name="segmentName" >
+                                            </mat-form-field>
+                                        </div></div>
+                                <div class="mat-cell upper-case">
+                                      <mat-form-field appearance="outline">
+                                                <input matInput name="segmentName" >
+                                            </mat-form-field></div>
+                                <div class="mat-cell upper-case">
+                                      <mat-form-field appearance="outline">
+                                                <input matInput name="segmentName" >
+                                            </mat-form-field></div>
+                                <div class="mat-cell mat_cell_icon">
+                                    <button mat-button><em class="material-icons icon_theme_color table_color float_right"
+									>delete</em></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <div>
+        <div>
+            <mat-grid-list cols="1" rowHeight="30px" class="row_height">
+                <mat-grid-tile class="module_area">
+                    <button mat-flat-button class="theme_btn round_btn">Save</button>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </div>
+    </div>
+</div>

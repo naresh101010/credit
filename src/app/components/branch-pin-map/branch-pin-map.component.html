@@ -1,0 +1,578 @@
+<div *ngIf="viewPinMapping">
+	<section>
+
+
+		<mat-card class="card_mb">
+			<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+				<div fxFlex="100%">
+					<div class="">
+						<div class="search_branch_name">
+							<span>Search Branch</span>
+							<hr>
+						</div>
+						<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+							<div fxFlex="10%">
+								<div class="all_branch_select">
+									<mat-select disableOptionCentering panelClass="anyClass"
+										[(ngModel)]="searchCriteria" (selectionChange)="clearSearch()">
+										<mat-option value="branchName">
+											Name
+										</mat-option>
+										<mat-option value="REGION">
+											Region
+										</mat-option>
+										<mat-option value="AREA">
+											Area
+										</mat-option>
+										<mat-option value="type">
+											Type
+										</mat-option>
+										<mat-option value="pincode">
+											Pincode
+										</mat-option>
+									</mat-select>
+								</div>
+							</div>
+							<div fxFlex="20%">
+								<form autocomplete="off">
+									<div class="hdr_srch_field">
+										<span matPrefix><em class="material-icons search_icon">search</em></span>
+										<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+											<div fxFlex="100%">
+												<mat-form-field appearance="outline">
+													<input matInput readonly name="searchBranch" [ngModel]="searchValue"  [matTooltip]="searchValue " [matTooltipPosition]="'above'"
+														(click)="viewBranchAdvanceSearch('branchPinList')">
+												</mat-form-field>
+											</div>
+										</div>
+									</div>
+								</form>
+							</div>
+							<div fxFlex="10%">
+								<button mat-button class="add_btn mr-top-4" *ngxPermissionsOnly="['CREATE']"><em
+										class="material-icons" (click)="addNewPinMap();">add</em></button>
+							</div>
+
+						</div>
+					</div>
+				</div>
+			</div>
+			<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+				<div fxFlex="100%">
+
+					<div class="all_branch_right">
+						<div class="search_branch last_update">
+						</div>
+						<div class="mat-table mat_table_main">
+							<div class="mat-row bg branch_table_head table_main_header">
+								<div class="mat-cell mat_cell_head"> BRANCH Name</div>
+								<div class="mat-cell mat_cell_head">TYPE</div>
+								<div class="mat-cell mat_cell_head">SLAB</div>
+								<div class="mat-cell mat_cell_head">BRANCH TYPE</div>
+								<div class="mat-cell mat_cell_head">GATEWAY TYPE</div>
+								<div class="mat-cell mat_cell_head">PINCODES</div>
+								<div class="mat-cell"></div>
+							</div>
+							<div>
+								
+								<div *ngFor="let branchPinMap of branchPinList| paginate: { itemsPerPage: 10, currentPage: page };let i=index">
+									<div class="mat-row branch_table_dis bg_branch_geay">
+										<div class="mat-cell table_color">
+											{{branchPinMap.branchId | showName : "branchName" : branchList:'branchId'}}
+										</div>
+										<div class="mat-cell table_color">
+											{{branchPinMap.type}}
+										</div>
+										<div class="mat-cell table_color" *ngIf="branchPinMap.slabId">
+											{{branchPinMap.slabId | showName : "lowerVal" : slabList}} -
+											{{branchPinMap.slabId | showName : "upperVal" : slabList}}
+										</div>
+										<div class="mat-cell table_color" *ngIf="!branchPinMap.slabId">
+											-
+										</div>
+										<div class="mat-cell">
+											{{branchPinMap.lkpbranchType | showName : "descr" : branchPriorityTypes}}
+										</div>
+										<div class="mat-cell table_color">
+											{{branchPinMap.serviceOfferingId | showName : "serviceOffering" : serviceOfferingList}}
+										</div>
+										<!-- pincodeTooltip(branchPinMap.pincodes) -->
+										<div class="mat-cell table_color"
+											[matTooltip]="branchPinMap.pincodeNames"
+											[matTooltipPosition]="'above'">
+											<em class="material-icons icon_theme_color table_color">room </em>
+										</div>
+										<div class="mat-cell mat_cell_icon">
+											<button mat-button>
+												<em class="material-icons icon_theme_color table_color float_right"
+													(click)="viewBranchPin((10 * (page- 1) + i))">{{branchPinMap.isVisible ? 'visibility_off':'visibility'}}</em>
+											</button>
+											<button mat-button *ngxPermissionsOnly="['CREATE' , 'UPDATE']">
+												<em class="material-icons icon_theme_color table_color float_right"
+													(click)="editPinBranch(branchPinMap,i)">edit</em>
+											</button>
+										</div>
+									</div>
+									<div *ngIf="branchPinMap.isVisible">
+										<div class="mat-row branch_table_dis">
+											<div class="mat-cell"><strong>Type</strong></div>
+											<div class="mat-cell">{{branchPinMap.type}}</div>
+											<div class="mat-cell" *ngIf="branchPinMap.type=='BOOKING'"><strong>Branch TYPE</strong></div>
+											<div class="mat-cell" *ngIf="branchPinMap.type=='BOOKING'">
+												{{branchPinMap.lkpbranchType | showName : "descr" : branchPriorityTypes}}
+											</div>
+											<div class="mat-cell" *ngIf="branchPinMap.type=='DELIVERY'"><strong>Gateway TYPE</strong></div>
+											<div class="mat-cell" *ngIf="branchPinMap.type=='DELIVERY'">
+													{{branchPinMap.serviceOfferingId | showName : "serviceOffering" : serviceOfferingList}}
+											</div>
+										</div>
+										<div class="mat-row branch_table_dis">
+											<div class="mat-cell"><strong>BRANCH NAME</strong></div>
+											<div class="mat-cell">
+												{{branchPinMap.branchId | showName : "branchName" : branchList:'branchId'}}
+											</div>
+											<div class="mat-cell"><strong>Pincode</strong></div>
+											<div class="mat-cell"> {{branchPinMap.pincodeNames}}</div>
+												
+												<!-- <span
+													*ngFor="let pincode of removeDuplicatePincode(branchPinMap.pincodes);let i=index">{{pincode | showName :"pincode" : AllpincodeList}}
+													<span *ngIf="i != (removeDuplicatePincode(branchPinMap.pincodes).length-1) "> , </span></span></div> -->
+										</div>
+										<div class="mat-row branch_table_dis">
+											<div class="mat-cell"><strong>Effective Date</strong></div>
+											<div class="mat-cell">{{branchPinMap.effectiveDate | dateFormat}}
+											</div>
+											<div class="mat-cell"><strong>Expiry Date</strong></div>
+											<div class="mat-cell">{{branchPinMap.expiryDate | dateFormat}}</div>
+										</div>
+                                        <div class="mat-row branch_table_dis" *ngIf="branchPinMap.type=='DELIVERY'">
+											<div class="mat-cell" *ngIf="branchPinMap.type=='DELIVERY'"><strong>Slab</strong></div>
+											<div class="mat-cell" *ngIf="branchPinMap.type=='DELIVERY'">	{{branchPinMap.slabId | showName : "lowerVal" : slabList}} -
+											{{branchPinMap.slabId | showName : "upperVal" : slabList}}
+											</div>
+                                            <div class="mat-cell"></div>
+                                            <div class="mat-cell"></div>
+										</div>
+									</div>
+								</div>
+                                  <div class="mat-row bg_light_grey" *ngIf="!branchList.length">
+                                <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No
+                                    Data
+                                    Present
+                                </div>
+                            </div>
+                            <div class="pagination_area">
+                                <pagination-controls (pageChange)="page = $event"></pagination-controls>
+                            </div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</mat-card>
+
+	</section>
+</div>
+
+<section class="add_branch_main" *ngIf="!viewPinMapping">
+	<div class="container">
+		<mat-card class="card_mb">
+			<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+				<div fxFlex="20%">
+					<div class="pin_branch_mapping pin_branch_pb">
+						<mat-label><strong>Select Type</strong></mat-label>
+
+					</div>
+				</div>
+				<div fxFlex="80%">
+					<div class="pos_relative" [ngClass]="{ 'mandatory_input': f.submitted && type.invalid }">
+						<mat-radio-group aria-label="Select an option" name="type" [(ngModel)]="branchPinObj.type"
+							#type="ngModel" required [disabled]="branchPinObj.branchId || isDisabled">
+							<mat-radio-button [value]="'BOOKING'"  [disabled]="branchPinObj.branchId || isDisabled" class="radio_button_pr" (click)="abc()">Booking</mat-radio-button>
+							<mat-radio-button [value]="'DELIVERY'" [disabled]="branchPinObj.branchId ||  isDisabled" (click)="abc()">Delivery</mat-radio-button>
+						</mat-radio-group>
+						<div *ngIf="type.touched || (f.submitted && type.invalid)" class="invalid-feedback">
+							<div *ngIf="type.errors?.required">Type is required</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<form autocomplete="off" name="branchPinMappingForm" (ngSubmit)="f.form.valid && addbranchMappingList();"
+				#f="ngForm" novalidate>
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" *ngIf="branchPinObj.type=='BOOKING'">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>Add Branch Mapping</strong></mat-label>
+
+						</div>
+					</div>
+				</div>
+
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" *ngIf="branchPinObj.type=='BOOKING'">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>Branch Type <sup class="mandatory"> *</sup></strong></mat-label>
+						</div>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail"
+							[ngClass]="{ 'mandatory_input': f.submitted && lkpbranchType.invalid }">
+
+							<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass_search_2"
+								#lkpbranchType="ngModel" required class="search_select_branch mr_top_22"  [dataArr]="branchPriorityTypes" appAutoSelectFirstOption
+								[(ngModel)]="branchPinObj.lkpbranchType" name="lkpbranchType" [disabled]="checkDisable(branchPinObj.id)"
+								[compareWith]="checkForSelectItem" required>
+								<ngx-mat-select-search [(ngModel)]="branchTypeSearchCtrl"
+									[placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'" name="search">
+									<mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">
+										search
+									</mat-icon>
+								</ngx-mat-select-search>
+								<mat-option [value]="branchType.id"
+									*ngFor="let branchType of branchPriorityTypes | stringFilter:branchTypeSearchCtrl:'descr' | sortBy:'descr'"
+									matTooltip=" {{branchType.descr}}" [matTooltipPosition]="'above'">
+									{{branchType.descr}}
+								</mat-option>
+							</mat-select>
+							<div *ngIf="lkpbranchType.touched || (f.submitted && lkpbranchType.invalid)"
+								class="invalid-feedback">
+								<div *ngIf="lkpbranchType.errors?.required">Branch Type is required</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <br *ngIf="branchPinObj.type=='DELIVERY'">
+                
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"  *ngIf="branchPinObj.type=='BOOKING'">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>{{branchPinObj.type=='BOOKING' ? 'Search Branch' : 'Select Gateway' }} <sup class="mandatory">*</sup></strong></mat-label>
+						</div>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail">
+							<em class="material-icons search_icon">search</em>
+							<mat-form-field appearance="outline"
+								[ngClass]="{ 'mandatory_input': f.submitted && branchSearch.invalid }">
+								<input matInput uppercase class="form-control pd_left_22" name="branchSearch"
+									#branchSearch="ngModel" required (click)="viewBranchAdvanceSearch()" readonly
+									[(ngModel)]="selectedBranch" [disabled]="checkDisable(branchPinObj.id)">
+							</mat-form-field>
+							<div *ngIf="branchSearch.touched || (f.submitted && branchSearch.invalid)"
+								class="invalid-feedback">
+								<div *ngIf="branchSearch.errors?.required">{{branchPinObj.type=='BOOKING' ? 'Branch' : 'Gateway' }} is required</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>Search Pincode <sup class="mandatory"> *</sup></strong></mat-label>
+						</div>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail">
+							<em class="material-icons search_icon">search</em>
+							<mat-form-field appearance="outline" 
+								[ngClass]="{ 'mandatory_input': f.submitted && pincodeSearch.invalid }">
+								<input matInput class="form-control pd_left_22" name="pincodeSearch" [matTooltip]="pincodeSelected" [matTooltipPosition]="'above'"
+									#pincodeSearch="ngModel" [required]="pincodeList.length==0" (click)="pincodeSearchModalOpen()" readonly
+									[(ngModel)]="pincodeSelected" >
+							</mat-form-field>
+							<div *ngIf="pincodeSearch.touched || (f.submitted && pincodeSearch.invalid)"
+								class="invalid-feedback">
+								<div *ngIf="pincodeSearch.errors?.required">Pincode is required</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+					<div fxFlex="20%"></div>
+					<div fxFlex="55%">
+                         <mat-card class="card_body card_body1">
+						<div class="all_branch_right last_update">
+							<div class="">
+								<div class="mat-row branch_table_head" style="margin: 0px 0 8px 0 !important;">
+									<div class="mat-cell"><strong>Pincode</strong></div>
+									<div class="mat-cell"><strong>City </strong></div>
+									<div class="mat-cell"></div>
+								</div>
+								<div class="mat-row branch_table_dis" *ngFor="let pincode of pincodeList;let i =index">
+									<div class="mat-cell">
+										<mat-checkbox (change)="pincodeChecked(pincode,$event)" [checked]="pincode.checked">
+										</mat-checkbox> {{pincode.pincode}}
+									</div>
+									<div class="mat-cell">{{pincode.cityName ? pincode.cityName : '-' }}</div>
+
+									<div class="mat-cell mat_cell_icon">
+										<button mat-button type="button" (click)="deleteConfirmation(pincode,i,'Pincode')"><em class="material-icons icon_theme_color">delete</em></button>
+									</div>
+								</div>
+								<div class="mat-row bg_light_grey" *ngIf="!pincodeList.length">
+									<div class="mat-cell  upper-case text-center"
+										style="text-align: center !important;">No
+										Data
+										Present
+									</div>
+								</div>
+							</div>
+						</div>
+                        </mat-card>
+					</div>
+				</div>
+                  <br *ngIf="branchPinObj.type=='DELIVERY'">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" *ngIf="branchPinObj.type=='DELIVERY'">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>Slab Type <sup class="mandatory"> *</sup></strong></mat-label>
+						</div>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail"
+							[ngClass]="{ 'mandatory_input': f.submitted && slabId.invalid }">
+							<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass_search_2"  [dataArr]="slabList" appAutoSelectFirstOption
+								class="search_select_branch mr_top_22" [(ngModel)]="branchPinObj.slabId" [disabled]="checkDisable(branchPinObj.id)"
+								#slabId="ngModel" required name="slabId">
+								<ngx-mat-select-search [(ngModel)]="slabTypeSearchCtrl" [placeholderLabel]="'Search...'"
+									[noEntriesFoundLabel]="'Not found'" name="search">
+									<mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">
+										search
+									</mat-icon>
+								</ngx-mat-select-search>
+								<mat-option [value]="slab.id"
+									*ngFor="let slab of slabList | stringFilter:slabTypeSearchCtrl:'lowerUpperVal' | sortBy:'lowerVal'"
+									[matTooltip]=" slab.lowerUpperVal" [matTooltipPosition]="'above'">
+									{{slab.lowerUpperVal}}
+								</mat-option>
+							</mat-select>
+							<div *ngIf="slabId.touched || (f.submitted && slabId.invalid)" class="invalid-feedback">
+								<div *ngIf="slabId.errors?.required">Slab Type is required</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			
+				<!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" *ngIf="branchPinObj.type=='DELIVERY'">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>Add Gateway</strong></mat-label>
+
+						</div>
+					</div>
+				</div> -->
+
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" *ngIf="branchPinObj.type=='DELIVERY'">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>Gateway Type <sup class="mandatory"> *</sup></strong></mat-label>
+						</div>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail"
+							[ngClass]="{ 'mandatory_input': f.submitted && serviceOfferingId.invalid }">
+							<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass_search_2" [disabled]="checkDisable(branchPinObj.id)"
+								class="search_select_branch mr_top_22" [(ngModel)]="branchPinObj.serviceOfferingId"  [dataArr]="serviceOfferingList" appAutoSelectFirstOption
+								required #serviceOfferingId="ngModel" name="serviceOfferingId">
+								<ngx-mat-select-search [(ngModel)]="gateTypeSearchCtrl" [placeholderLabel]="'Search...'"
+									[noEntriesFoundLabel]="'Not found'" name="search">
+									<mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">
+										search
+									</mat-icon>
+								</ngx-mat-select-search>
+								<mat-option [value]="serviceoffering.id"
+									*ngFor="let serviceoffering of serviceOfferingList | stringFilter:gateTypeSearchCtrl:'serviceOffering' | sortBy:'serviceOffering'"
+									matTooltip="{{serviceoffering.serviceOffering}}" [matTooltipPosition]="'above'">
+									{{serviceoffering.serviceOffering}}
+								</mat-option>
+							</mat-select>
+							<!-- <mat-select class="mat_select" panelClass="anyClass" disableOptionCentering>
+                                <mat-option [value]="serviceoffering.id" *ngFor="let serviceoffering of serviceOfferingList">
+                                    {{serviceoffering.serviceOffering}}
+                                </mat-option>
+                            </mat-select> -->
+							<div *ngIf="serviceOfferingId.touched || (f.submitted && serviceOfferingId.invalid)"
+								class="invalid-feedback">
+								<div *ngIf="serviceOfferingId.errors?.required">Gateway Type is required</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" *ngIf="branchPinObj.type=='DELIVERY'">
+					<div fxFlex="20%">
+						<div class="pin_branch_mapping pin_branch_pb">
+							<mat-label><strong>{{branchPinObj.type=='BOOKING' ? 'Search Branch' : 'Select Gateway' }} <sup class="mandatory"> *</sup></strong></mat-label>
+						</div>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail">
+							<em class="material-icons search_icon">search</em>
+							<mat-form-field appearance="outline"
+								[ngClass]="{ 'mandatory_input': f.submitted && branchSearch.invalid }">
+								<input matInput uppercase class="form-control pd_left_22" name="branchSearch"
+									#branchSearch="ngModel" required (click)="viewBranchAdvanceSearch()" readonly
+									[(ngModel)]="selectedBranch" [disabled]="checkDisable(branchPinObj.id)">
+							</mat-form-field>
+							<div *ngIf="branchSearch.touched || (f.submitted && branchSearch.invalid)"
+								class="invalid-feedback">
+								<div *ngIf="branchSearch.errors?.required">{{branchPinObj.type=='BOOKING' ? 'Branch' : 'Gateway' }} is required</div>
+							</div>
+						</div>
+					</div>
+					<!-- <div fxFlex="20%">
+						<div class="branch_next_btn text-left">
+							<button mat-button class="btn_with_bdr" *ngxPermissionsOnly="['CREATE']">Add</button>
+						</div>
+					</div> -->
+				</div>
+                <br *ngIf="branchPinObj.type=='BOOKING'">
+                	<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+					<div fxFlex="20%">
+						<mat-label><strong>Effective Date<sup class="mandatory"> *</sup> </strong></mat-label>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail">
+							<mat-form-field appearance="outline" class="date_picker_adjust top_10"
+								[ngClass]="{ 'mandatory_input': (effectiveDate.errors?.required && (effectiveDate.touched || f.submitted)) }">
+								<mat-datepicker #picker panelClass="mdmDatepicker" class="date_picker">
+								</mat-datepicker>
+								<input matInput [matDatepicker]="picker" name="effectiveDate" validDate
+									class="date_input_height" #effectiveDate="ngModel"
+									[disabled]="isChange2"
+									[(ngModel)]="branchPinObj.effectiveDate" placeholder="DD/MM/YYYY" required
+									 (change)="isChange=false" [min]="today"
+									(dateChange)="changeDateFormat(branchPinObj.effectiveDate,branchPinObj.expiryDate)"/>
+								<mat-datepicker-toggle matSuffix
+									(onMenuOpen)="checkForExpiryDate(branchPinObj.effectiveDate)" [for]="picker">
+								</mat-datepicker-toggle>
+							</mat-form-field>
+							<div *ngIf="effectiveDate.touched || (f.submitted && effectiveDate.invalid)"
+								class="invalid-feedback2 margin--11 width-20vw">
+								<div *ngIf="effectiveDate.errors?.required">Effective Date is required
+								</div>
+								<div *ngIf="branchPinObj.effectiveDate < today && !isChange2">Effective Date can not be less
+									than
+									Current Date</div>
+							</div>
+						</div>
+					</div>
+					<div fxFlex="10%"></div>
+					<div fxFlex="20%">
+						<mat-label><strong>Expiry Date</strong></mat-label>
+					</div>
+					<div fxFlex="20%">
+						<div class="search_branch_detail">
+							<mat-form-field appearance="outline" class="date_picker_adjust"
+								[ngClass]="{ 'mandatory_input': isVar && ((branchPinObj.expiryDate<=branchPinObj.effectiveDate && !branchPinObj.branchId) || (today>branchPinObj.expiryDate && branchPinObj.branchId))  }">
+								<mat-datepicker (opened)="checkForExpiryDate(branchPinObj.effectiveDate)"
+									(closed)="removeMinDate(branchPinObj.effectiveDate)" #myDatepicker23
+									panelClass="mdmDatepicker" class="date_picker">
+								</mat-datepicker>
+								<input matInput [matDatepicker]="myDatepicker23" #expiryDate='ngModel'
+									class="date_input_height" name="expiryDate" validDate placeholder="DD/MM/YYYY"
+									[(ngModel)]="branchPinObj.expiryDate" [min]="expiryMinDate"
+									(dateChange)="changeDateFormat(branchPinObj.effectiveDate,branchPinObj.expiryDate);"
+									(change)="isVar=true" />
+								<mat-datepicker-toggle matSuffix [for]="myDatepicker23">
+								</mat-datepicker-toggle>
+							</mat-form-field>
+							<div *ngIf="isVar" class="invalid-feedback2 margin--11">
+								<div *ngIf="branchPinObj.expiryDate<=branchPinObj.effectiveDate">
+									Must be Greater than Effective and Current Date.</div>
+								<div
+									*ngIf="today > branchPinObj.expiryDate && !(branchPinObj.expiryDate <= branchPinObj.effectiveDate) && branchPinObj.branchId">
+									Must be Greater than Effective and Current Date</div>
+							</div>
+						</div>
+					</div>
+				</div>
+                <br>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+					<div fxFlex="20%"></div>
+					<div fxFlex="85%">
+						<div class="branch_next_btn text-left">
+							<button mat-button class="btn_with_bdr"
+								*ngxPermissionsOnly="['CREATE']">{{isEdit !=-1 ? "Update" : "Add"}}</button>
+						</div>
+					</div>
+				</div>
+				<br>
+			</form>
+			<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" >
+				<div fxFlex="95%">
+                     <mat-card class="card_body card_body1">
+					<div class="all_branch_right last_update">
+						<div class="">
+							<div class="mat-row branch_table_head">
+								<div class="mat-cell" *ngIf="branchPinObj.type=='BOOKING'"><strong>Branch Type</strong></div>
+								<div class="mat-cell"  *ngIf="branchPinObj.type=='BOOKING'"><strong>Branch </strong></div>
+                                	<div class="mat-cell"  *ngIf="branchPinObj.type=='DELIVERY'"><strong>GATEWAY Type</strong></div>
+								<div class="mat-cell"  *ngIf="branchPinObj.type=='DELIVERY'"><strong>GATEWAY </strong></div>
+								<div class="mat-cell"  *ngIf="branchPinObj.type=='DELIVERY'"><strong>SLAB </strong></div>
+								<div class="mat-cell"><strong>Pincode</strong></div>
+								<div class="mat-cell">Effective Date</div>
+								<div class="mat-cell">Expiry Date</div>
+								<div class="mat-cell"></div>
+							</div>
+							<div class="mat-row branch_table_dis"
+								*ngFor="let branchPin of branchPincodeList;let i = index">
+
+								<div class="mat-cell" *ngIf="branchPinObj.type=='BOOKING'">
+									<!-- checked:{{branchPin.checked}} -->
+									<!-- (change)="branchPincodeChecked(branchPin,$event)" -->
+									<mat-checkbox  name="branchPinChecked={{i}}"  [(ngModel)]="branchPin.checked">
+									</mat-checkbox>
+									{{branchPin.lkpbranchType |showName : 'descr' : branchPriorityTypes}}
+								</div>
+								<div class="mat-cell" *ngIf="branchPinObj.type=='DELIVERY'">
+									<!-- checked:{{branchPin.checked}} -->
+									<!-- (change)="branchPincodeChecked(branchPin,$event)" -->
+									<mat-checkbox  name="branchPinChecked={{i}}"  [(ngModel)]="branchPin.checked">
+									</mat-checkbox>
+									{{branchPin.serviceOfferingId |showName : 'serviceOffering' : serviceOfferingList}}
+								</div>
+								<div class="mat-cell">{{ branchPin.branchId | showName :'branchName':branchList:'branchId' }}</div>
+								<div class="mat-cell" *ngIf="branchPinObj.type=='DELIVERY'">	{{branchPin.slabId | showName : "lowerVal" : slabList}} -
+											{{branchPin.slabId | showName : "upperVal" : slabList}}</div>
+								<div class="mat-cell" >{{branchPin.pincodeNames | truncateText:20:false:''}}
+									<span *ngIf="branchPin.pincodes.length>3"> <span class="cursor-none"
+                                        [matTooltip]="branchPin.pincodeNames" [matTooltipPosition]="'above'">....</span></span>
+								</div>
+								<div class="mat-cell">
+									{{branchPin.effectiveDate | dateFormat}}
+								</div>
+								<div class="mat-cell">
+									{{branchPin.expiryDate | dateFormat}}
+								</div>
+								<div class="mat-cell mat_cell_icon">
+									<button mat-button><em class="material-icons icon_theme_color"
+										(click)="editBranchPinList(i,branchPin)">edit</em></button>
+										
+									<button mat-button *ngIf="!branchPin.id && !branchPinObj.id"><em class="material-icons icon_theme_color"
+											(click)="deleteConfirmation(branchPin,i,'Pin Mapping')">delete</em></button>
+								</div>
+							</div>
+							<div class="mat-row bg_light_grey" *ngIf="!branchPincodeList.length">
+								<div class="mat-cell  upper-case text-center" style="text-align: center !important;">No
+									Data
+									Present
+								</div>
+							</div>
+						</div>
+					</div>
+                    </mat-card>
+				</div>
+			</div>
+			<br>
+			<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+				<div fxFlex="100%">
+					<div class="branch_next_btn">
+						<button mat-button (click)="saveBranchPinMapping()">Submit</button>
+					</div>
+				</div>
+			</div>
+		</mat-card>
+	</div>
+
+</section>

@@ -1,190 +1,353 @@
+import { LimitToDirective } from './directives/limit-to.directive';
+import { AutoSelectFirstOptionDirective } from './directives/auto-select-first-option.directive';
+import { TruncateTextPipe } from './pipes/truncate-text.pipe';
+import { RrValueComponent } from './modals/rr-value/rr-value.component';
+import { BranchAdvanceSearchComponent } from './modals/branch-advance-search/branch-advance-search.component';
+import { PercentageNumberDirective } from './directives/percentage-number.directive';
+import { StringFilterPipe } from './pipes/string-filter.pipe';
+import { MinValidatorDirective } from './directives/min.directive';
+import { SortByPipe } from './pipes/sortBy.pipe';
+import { ValidDateDirective } from './directives/valid-date.directive';
+import { AuthGuard } from './auth.guard';
+import { AppSetting } from './app.setting';
+import { BranchPinMapComponent } from './components/branch-pin-map/branch-pin-map.component';
+import { ShowNamePipe } from './pipes/show-name.pipe';
+import { NumbersOnlyDirective } from './directives/numbers-only.directive';
+import { TwoDecimalDirective } from './directives/two-decimal.directive';
+import { TextUpperCaseDirective } from './directives/text-upper-case.directive';
+import { TextUpperCaseDirectiveOnly } from './directives/text-upper-case-only.directive';
+import { DateFormatPipe } from './pipes/date-format.pipe';
+import { ViewLogisticComponent } from './components/view-logistic/view-logistic.component';
+import { ViewZoneMatrixComponent } from './components/view-zone-matrix/view-zone-matrix.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { NgSelectModule } from '@ng-select/ng-select';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MaterialModule } from './core/material/material.module';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EmiCalculationComponent } from './dialog/emi-calculation/emi-calculation.component';
-import { ViewBranchesComponent } from './dialog/view-branches/view-branches.component';
-import { SearchBranchComponent } from './dialog/search-branch/search-branch.component';
-import { AdHostDirective } from './core/directives/ad-host.directive';
-import { AssignVehicleComponent } from './dialog/assign-vehicle/assign-vehicle.component';
-import { ContractUpdateComponent } from './dialog/contract-update/contract-update.component';
-import { SearchCustomerComponent } from './dialog/search-customer/search-customer.component';
-import { AddDesignationComponent } from './dialog/add-designation/add-designation.component';
-import { ErrorModalsComponent } from './dialog/error-modals/error-modals.component';
-import { InsuranceDeductionComponent } from './dialog/insurance-deduction/insurance-deduction.component';
-import { EmiDailyCalculationComponent } from './dialog/emi-daily-calculation/emi-daily-calculation.component';
-import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { CreateAssociateContractComponent } from './components/create-associate-contract/create-associate-contract.component';
-import { BranchAllocationComponent } from './components/branch-allocation/branch-allocation.component';
-import { BookingPayoutComponent } from './components/booking-payout/booking-payout.component';
-import { BookingSlaComponent } from './components/booking-sla/booking-sla.component';
-import { BookingDocumentComponent } from './components/booking-document/booking-document.component';
-import { SuccessComponent } from './components/success/success.component';
-import { CreateAssociateComponent } from './components/create-associate/create-associate.component';
-import { AssociateKycComponent } from './components/associate-kyc/associate-kyc.component';
-import { VehicleAllocationComponent } from './components/vehicle-allocation/vehicle-allocation.component';
-import { VehicleDocumentComponent } from './components/vehicle-document/vehicle-document.component';
-import { AssociateStaffComponent } from './components/associate-staff/associate-staff.component';
-import { CreateAssociateStaffComponent } from './components/create-associate-staff/create-associate-staff.component';
-import { PendingTasksComponent } from './components/pending-tasks/pending-tasks.component';
-import { AssignAssociateComponent } from './components/assign-associate/assign-associate.component';
-import { BookingAssociateContractUpdateComponent } from './dialog/booking-associate-contract-update/booking-associate-contract-update.component';
-import { BranchVehicleAllocationComponent } from './components/branch-vehicle-allocation/branch-vehicle-allocation.component';
-import { VehicleComponent } from './components/vehicle/vehicle.component';
-import { PreviewComponent, EditPreviewComponent } from './components/preview/preview.component';
-import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MaterialModule } from './material/material.module';
+import { HeaderComponent } from './header/header.component';
+import { NavSidebarComponent } from './nav-sidebar/nav-sidebar.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ZoneMatrixComponent } from './zone-matrix/zone-matrix.component';
+import { OrganisationComponent } from './organisation/organisation.component';
+import { EditModalComponent } from './edit-modal/edit-modal.component';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { ApiService } from './core/services/api.service';
-import { PincodesearchComponent } from './components/pincodesearch/pincodesearch.component';
-import { confimationdialog } from './dialog/confirmationdialog/confimationdialog';
-import { SortByPipe } from './components/pincodesearch/sort-by.pipe';
-import { NgxSpinnerModule } from 'ngx-spinner';
-import { ToastrModule } from 'ngx-toastr';
-import { BookingAssociateContractComponent } from './components/booking-associate-contract/booking-associate-contract.component';
-import { AuthInterceptor } from './core/services/auth.interceptor';
+import { HeaderInterceptor } from './HeaderInterceptor';
+import { DeleteModalComponent } from './modals/delete-modal/delete-modal.component';
+import { StatusDescPipe } from './pipes/status-desc.pipe';
+import { AddSlaComponent } from './components/add-sla/add-sla.component';
+import { DemoComponent } from './demo/demo.component';
+import { AddStateComponent } from './modals/add-state/add-state.component';
+import { AdHostDirective } from './directives/ad-host.directive';
+import { ManagePinComponent } from './manage-pin/manage-pin.component';
+// import { CustomDateAdapter } from './CustomDateAdapter';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
-import { MatPaginatorModule } from '@angular/material';
+import { RateGroupComponent } from './components/rate-group/rate-group.component';
+import { GeographyComponent } from './geography/geography.component';
+import { AddOrganisationComponent } from './components/add-organisation/add-organisation.component';
+import { AddGeographyComponent } from './components/add-geography/add-geography.component';
+import { BranchComponent } from './branch/branch.component';
+import { EditOrganisationComponent } from './modals/edit-organisation/edit-organisation.component';
+import { AddCountryComponent } from './modals/add-country/add-country.component';
+import { StateComponent } from './modals/state/state.component';
+import { AddDistrictComponent } from './modals/add-district/add-district.component';
+import { AddCityComponent } from './modals/add-city/add-city.component';
+import { AddPincodeComponent } from './modals/add-pincode/add-pincode.component';
+import { PincodeFeatureComponent } from './modals/pincode-feature/pincode-feature.component';
+import { NotepadComponent } from './notepad/notepad.component';
+import { ViewNotepadComponent } from './components/view-notepad/view-notepad.component';
+import { LookupComponent } from './lookup/lookup.component';
+import { LookUpComponent } from './components/look-up/look-up.component';
+import { ServiceLineComponent } from './components/service-line/service-line.component';
+import { ProductMasterComponent } from './components/product-master/product-master.component';
+import { SegmentComponent } from './components/segment/segment.component';
+import { GstComponent } from './components/gst/gst.component';
+import { FuelComponent } from './components/fuel/fuel.component';
+import { AddressFeatureComponent } from './components/address-feature/address-feature.component';
+import { BillingByValueComponent } from './components/billing-by-value/billing-by-value.component';
+import { AddLookupModalComponent } from './modals/add-lookup-modal/add-lookup-modal.component';
+import { EditServiceLineComponent } from './modals/edit-service-line/edit-service-line.component';
+import { AddProductCategoryComponent } from './modals/add-product-category/add-product-category.component';
+import { AddProductMasterComponent } from './modals/add-product-master/add-product-master.component';
+import { AddHsnComponent } from './modals/add-hsn/add-hsn.component';
+import { EditProductMasterComponent } from './modals/edit-product-master/edit-product-master.component';
+import { EditSegmentComponent } from './modals/edit-segment/edit-segment.component';
+import { CreateCommandmentComponent } from './create-commandment/create-commandment.component';
+import { EditGstComponent } from './modals/edit-gst/edit-gst.component';
+import { EditFuelComponent } from './modals/edit-fuel/edit-fuel.component';
+import { CommandmentOfferingsComponent } from './modals/commandment-offerings/commandment-offerings.component';
+import { EditBillingByValueComponent } from './modals/edit-billing-by-value/edit-billing-by-value.component';
+import { EditAddressFeatureComponent } from './modals/edit-address-feature/edit-address-feature.component';
+import { ManageRouteComponent } from './manage-route/manage-route.component';
+import { EditLookupComponent } from './modals/edit-lookup/edit-lookup.component';
+import { VehicleComponent } from './vehicle/vehicle.component';
+import { VehicleMakeComponent } from './components/vehicle-make/vehicle-make.component';
+import { VehicleModelComponent } from './components/vehicle-model/vehicle-model.component';
+import { VehicleMasterComponent } from './components/vehicle-master/vehicle-master.component';
+import { EditVehicleMakeComponent } from './modals/edit-vehicle-make/edit-vehicle-make.component';
+import { EditVehicleModelComponent } from './modals/edit-vehicle-model/edit-vehicle-model.component';
+import { BranchDetailsComponent } from './components/branch-details/branch-details.component';
+import { CommandmentRrComponent } from './commandment-rr/commandment-rr.component';
+import { PincodeSearchComponent } from './modals/pincode-search/pincode-search.component';
+import { ManageBranchMasterComponent } from './modals/manage-branch-master/manage-branch-master.component';
+import { CommandmentOrderComponent } from './modals/commandment-order/commandment-order.component';
+import { CommandmentOrreringComponent } from './modals/commandment-orrering/commandment-orrering.component';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { AddSegmentComponent } from './modals/add-segment/add-segment.component';
+import { AddSubSegmentComponent } from './modals/add-sub-segment/add-sub-segment.component';
+import { EditNotepadComponent } from './modals/edit-notepad/edit-notepad.component';
+import { FuelStatePriceComponent } from './modals/fuel-state-price/fuel-state-price.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { AddFuelStateComponent } from './modals/add-fuel-state/add-fuel-state.component';
+import { EditLookupValueModalComponent } from './modals/edit-lookup-value-modal/edit-lookup-value-modal.component';
 import { EmptyRouteComponent } from './empty-route/empty-route.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { StepperComponent } from './components/stepper/stepper.component';
-import { PayoutGenDetailComponent } from './components/booking-payout/payout-gen-detail/payout-gen-detail.component';
-import{ContractversionComponent}from './components/contractversion/contractversion.component';
-import { LookupValuePipe } from './core/pipes/lookup-value.pipe'
-import { APP_DATE_FORMATS, AppDateFormatAdapter } from './components/date-format/date.adapter';
-import { PreviewPopupComponent } from './dialog/preview-popup/preview-popup.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
-import { EmptyComponetComponent } from './empty-componet/empty-componet.component';
-import { CompareVersionComponent } from './dialog/compare-version/compare-version.component';
-import { HeaderDataComponent } from './components/header-data/header-data.component';
+import { CommandmentComponent } from './components/commandment/commandment.component';
+import { PricingParameterComponent } from './components/pricing-parameter/pricing-parameter.component';
+import { MetroComponent } from './components/metro/metro.component';
+import { AddMetroComponent } from './modals/add-metro/add-metro.component';
+import { AppDateFormatAdapter, APP_DATE_FORMATS } from './date.adapter';
+import { DatePipe } from '@angular/common';
+import { NgxSelectModule, INgxSelectOptions } from 'ngx-select-ex';
+import { CustomToolTipComponent } from './components/custom-tool-tip/custom-tool-tip.component';
+import { CustomTooltipDirective } from './directives/custom-tooltip.directive';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { StringFilterPipe } from './core/pipes/string-filter.pipe';
-import { AlphanumericDirective } from './core/directives/alphanumeric.directive';
-import { NumericDirective } from './core/directives/numeric.directive';
-import { NumberOnlyDirective } from './core/directives/number-only.directive';
-import { GreaterZeroDirective } from './core/directives/greater-zero.directive';
-import { AlphabetOnlyDirective } from './core/directives/alphabet.directive';
-import { AlphaSpecialCharDirective } from './core/directives/alphaspecialchar.directive';
-import { NumericSpecialCharDirective } from './core/directives/numericspecialchar.directive';
-import { OnlyNumber } from './core/directives/onlyNumber.directive';
-import { ExportAsModule } from 'ngx-export-as';
-import { NgxPrintModule } from 'ngx-print';
-import { EmailPreviewComponent } from './dialog/email-preview/email-preview.component';
+import { PincodeBranchSearchComponent } from './modals/pincode-branch-search/pincode-branch-search.component';
+import { GstConfirmationComponent } from './modals/gst-confirmation/gst-confirmation.component';
+import { HubToHubComponent } from './components/hub-to-hub/hub-to-hub.component';
+import { HubToHubAirComponent } from './components/hub-to-hub-air/hub-to-hub-air.component';
+import { HubToHubLocalComponent } from './components/hub-to-hub-local/hub-to-hub-local.component';
+import { BookingHubComponent } from './components/booking-hub/booking-hub.component';
+import { DeliveryLocalRouteComponent } from './components/delivery-local-route/delivery-local-route.component';
+import { TouchPointConfirmationComponent } from './modals/touch-point-confirmation/touch-point-confirmation.component';
+import { EmptymdmcomponentComponent } from './components/emptymdmcomponent/emptymdmcomponent.component';
+
+
+const CustomSelectOptions: INgxSelectOptions = {
+    "optionValueField": 'id',
+    "optionTextField": 'name',
+    "keepSelectedItems": false
+};
 
 @NgModule({
-  declarations: [
-    SortByPipe,
-    confimationdialog,
-    PincodesearchComponent,
-    AppComponent,
-    BookingAssociateContractComponent,
-    EmiCalculationComponent,
-    ViewBranchesComponent,
-    SearchBranchComponent,
-    AdHostDirective,
-    AssignVehicleComponent,
-    ContractUpdateComponent,
-    SearchCustomerComponent,
-    AddDesignationComponent,
-    ErrorModalsComponent,
-    InsuranceDeductionComponent,
-    EmiDailyCalculationComponent,
-    DashboardComponent,
-    CreateAssociateContractComponent,
-    BranchAllocationComponent,
-    BookingPayoutComponent,
-    BookingSlaComponent,
-    BookingDocumentComponent,
-    SuccessComponent,
-    CreateAssociateComponent,
-    AssociateKycComponent,
-    VehicleAllocationComponent,
-    VehicleDocumentComponent,
-    AssociateStaffComponent,
-    CreateAssociateStaffComponent,
-    PendingTasksComponent,
-    AssignAssociateComponent,
-    BookingAssociateContractUpdateComponent,
-    BranchVehicleAllocationComponent,
-    VehicleComponent,
-    PreviewComponent,
-    EmptyRouteComponent,
-    StepperComponent,    
-    PayoutGenDetailComponent,
-    ContractversionComponent,
-    LookupValuePipe,
-    PreviewPopupComponent,
-    EmptyComponetComponent,
-    CompareVersionComponent,
-    HeaderDataComponent,
-    StringFilterPipe,
-    EditPreviewComponent,
-    AlphanumericDirective,
-    NumericDirective,
-    NumberOnlyDirective,
-    GreaterZeroDirective,
-    AlphabetOnlyDirective,
-    AlphaSpecialCharDirective,
-    NumericSpecialCharDirective,
-    OnlyNumber,
-    EmailPreviewComponent
-    
-  ],
-  imports: [
-    NgxPermissionsModule.forRoot(),
-    NgSelectModule,
-    MatPaginatorModule,
-    BrowserModule,
-    AppRoutingModule,
-    NgxPrintModule,
-    BrowserAnimationsModule,
-    MaterialModule,
-    DragDropModule,
-    ExportAsModule,
-    HttpClientModule,
-    FormsModule,
-    ReactiveFormsModule,
-    NgxSpinnerModule,
-    MatSlideToggleModule,
-    NgxMatSelectSearchModule,
-    ToastrModule.forRoot()
-  ],
-  providers: [
-    ApiService,
-    ExportAsModule,   
-    {
-    provide: HTTP_INTERCEPTORS,
-    useClass: AuthInterceptor,      
-    multi: true,
-    },
-    {provide: DateAdapter, useClass: AppDateFormatAdapter},
-    {provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS},
-  ],
-  bootstrap: [AppComponent],
-  entryComponents: [
-    EmiCalculationComponent,
-    ViewBranchesComponent,
-    SearchBranchComponent,
-    AssignVehicleComponent,
-    ContractUpdateComponent,
-    SearchCustomerComponent,
-    AddDesignationComponent,
-    EmailPreviewComponent,
-    ErrorModalsComponent,
-    InsuranceDeductionComponent,
-    EmiDailyCalculationComponent,
-    BookingAssociateContractUpdateComponent,
-    confimationdialog,
-    PincodesearchComponent,
-    ContractversionComponent,
-    PreviewPopupComponent,
-    CompareVersionComponent,
-    SuccessComponent,
-    EditPreviewComponent
-  ]
+    declarations: [
+        AppComponent,
+        MinValidatorDirective,
+        HeaderComponent,
+        NavSidebarComponent,
+        DashboardComponent,
+        ZoneMatrixComponent,
+        AddGeographyComponent,
+        OrganisationComponent,
+        EditModalComponent,
+        DeleteModalComponent,
+        AddSlaComponent,
+        ViewLogisticComponent,
+        ViewZoneMatrixComponent,
+        StatusDescPipe,
+        DateFormatPipe,
+        DemoComponent,
+        AddStateComponent,
+        AdHostDirective,
+        ManagePinComponent,
+        RateGroupComponent,
+        GeographyComponent,
+        AddOrganisationComponent,
+        BranchComponent,
+        EditOrganisationComponent,
+        AddCountryComponent,
+        StateComponent,
+        AddDistrictComponent,
+        AddCityComponent,
+        PercentageNumberDirective,
+        AddPincodeComponent,
+        PincodeFeatureComponent,
+        NotepadComponent,
+        ViewNotepadComponent,
+        LookupComponent,
+        LookUpComponent,
+        ServiceLineComponent,
+        ProductMasterComponent,
+        SegmentComponent,
+        GstComponent,
+        FuelComponent,
+        AddressFeatureComponent,
+        BillingByValueComponent,
+        AddLookupModalComponent,
+        EditServiceLineComponent,
+        AddProductCategoryComponent,
+        AddProductMasterComponent,
+        AddHsnComponent,
+        EditProductMasterComponent,
+        TextUpperCaseDirective,
+        TextUpperCaseDirectiveOnly,
+        EditSegmentComponent,
+        CreateCommandmentComponent,
+        EditSegmentComponent,
+        EditGstComponent,
+        EditFuelComponent,
+        CommandmentOfferingsComponent,
+        EditBillingByValueComponent,
+        EditAddressFeatureComponent,
+        ManageRouteComponent,
+        EditLookupComponent,
+        VehicleComponent,
+        VehicleMakeComponent,
+        VehicleModelComponent,
+        VehicleMasterComponent,
+        EditVehicleMakeComponent,
+        EditVehicleModelComponent,
+        BranchDetailsComponent,
+        CommandmentRrComponent,
+        PincodeSearchComponent,
+        ManageBranchMasterComponent,
+        CommandmentOrderComponent,
+        CommandmentOrreringComponent,
+        TwoDecimalDirective,
+        NumbersOnlyDirective,
+        AddSegmentComponent,
+        AddSubSegmentComponent,
+        ShowNamePipe,
+        EditNotepadComponent,
+        FuelStatePriceComponent,
+        BranchPinMapComponent,
+        AddFuelStateComponent,
+        EditLookupValueModalComponent,
+        EmptyRouteComponent,
+        ValidDateDirective,
+        CommandmentComponent,
+        GstConfirmationComponent,
+        PricingParameterComponent,
+        MetroComponent,
+        AddMetroComponent,
+        SortByPipe,
+        CustomToolTipComponent,
+        CustomTooltipDirective,
+        StringFilterPipe,
+        PincodeBranchSearchComponent,
+        BranchAdvanceSearchComponent,
+        HubToHubComponent,
+        HubToHubAirComponent,
+        HubToHubLocalComponent,
+        BookingHubComponent,
+        DeliveryLocalRouteComponent,
+        RrValueComponent,
+        TouchPointConfirmationComponent,
+        EmptymdmcomponentComponent,
+        TruncateTextPipe,
+        AutoSelectFirstOptionDirective,
+        LimitToDirective
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        BrowserAnimationsModule,
+        MaterialModule,
+        HttpClientModule,
+        FlexLayoutModule,
+        NgxSpinnerModule,
+        NgxPaginationModule,
+        NgxPermissionsModule.forRoot(),
+        NgxMatSelectSearchModule,
+        
+        NgxSelectModule.forRoot(CustomSelectOptions)
+        // TooltipModule.forRoot()
+    ],
+    providers: [
+        AppSetting,
+        AuthGuard,
+        DatePipe,
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: HeaderInterceptor,
+            multi: true
+        },
+        {
+            provide: DateAdapter,
+            useClass: AppDateFormatAdapter
+        },
+        {
+            provide: MAT_DATE_FORMATS,
+            useValue: APP_DATE_FORMATS
+        }
+    ],
+    bootstrap: [AppComponent],
+    entryComponents: [
+        EditModalComponent,
+        BranchAdvanceSearchComponent,
+        DeleteModalComponent,
+        CommandmentOrderComponent,
+        EditLookupValueModalComponent,
+        ViewZoneMatrixComponent,
+        AddSlaComponent,
+        ViewLogisticComponent,
+        AddOrganisationComponent,
+        AddGeographyComponent,
+        EditOrganisationComponent,
+        AddCountryComponent,
+        StateComponent,
+        AddDistrictComponent,
+        AddCityComponent,
+        AddPincodeComponent,
+        PincodeFeatureComponent,
+        LookUpComponent,
+        ServiceLineComponent,
+        ProductMasterComponent,
+        SegmentComponent,
+        GstComponent,
+        FuelComponent,
+        EmptymdmcomponentComponent,
+        AddFuelStateComponent,
+        AddressFeatureComponent,
+        BillingByValueComponent,
+        EditServiceLineComponent,
+        AddLookupModalComponent,
+        AddProductCategoryComponent,
+        AddProductMasterComponent,
+        AddHsnComponent,
+        EditProductMasterComponent,
+        EditSegmentComponent,
+        EditGstComponent,
+        GstConfirmationComponent,
+        EditFuelComponent,
+        CommandmentOfferingsComponent,
+        EditBillingByValueComponent,
+        EditAddressFeatureComponent,
+        VehicleModelComponent,
+        VehicleMakeComponent,
+        VehicleMasterComponent,
+        EditVehicleMakeComponent,
+        EditLookupComponent,
+        EditVehicleModelComponent,
+        BranchDetailsComponent,
+        CommandmentRrComponent,
+        FuelStatePriceComponent,
+        PincodeSearchComponent,
+        ManageBranchMasterComponent,
+        CommandmentOrreringComponent,
+        AddStateComponent,
+        AddSegmentComponent,
+        AddSubSegmentComponent,
+        EditNotepadComponent,
+        BranchDetailsComponent,
+        BranchPinMapComponent,
+        PricingParameterComponent,
+        CommandmentComponent,
+        HubToHubComponent,
+        HubToHubAirComponent,
+        HubToHubLocalComponent,
+        BookingHubComponent,
+        DeliveryLocalRouteComponent,
+        MetroComponent,
+        AddMetroComponent,
+        CustomToolTipComponent,
+        PincodeBranchSearchComponent,
+        RrValueComponent,
+        TouchPointConfirmationComponent
+    ]
 })
+
 export class AppModule { }

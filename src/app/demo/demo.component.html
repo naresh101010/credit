@@ -1,0 +1,113 @@
+<mat-grid-list cols="1" rowHeight="600px">
+    <mat-grid-tile class="ml_grid all_form">
+        <h3 class="zone_title">Create Logistic Zone</h3>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="45%">
+                <mat-grid-list cols="2" rowHeight="55px">
+                    <mat-grid-tile>
+                        <mat-label><strong>Zone Name</strong></mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="module_area">
+                        <mat-form-field appearance="outline">
+                            <input matInput uppercase name="rateCardCode">
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+            <div fxFlex="10%"></div>
+            <div fxFlex="45%">
+                <mat-grid-list cols="2" rowHeight="55px">
+                    <mat-grid-tile>
+                        <mat-label><strong>Status</strong></mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="module_area">
+                        <mat-form-field class="select_box_dropwodn">
+                            <mat-select disableOptionCentering panelClass="anyClass">
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="45%">
+                <mat-grid-list cols="2" rowHeight="55px">
+                    <mat-grid-tile>
+                        <mat-label><strong>Effective Date</strong></mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="module_area">
+                        <mat-form-field appearance="outline" class="date_picker_adjust">
+                            <mat-datepicker #picker panelClass="mdmDatepicker" class="date_picker"></mat-datepicker>
+                            <input matInput uppercase [matDatepicker]="picker" placeholder="DD/MM/YYYY">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+            <div fxFlex="10%"></div>
+            <div fxFlex="45%">
+                <mat-grid-list cols="2" rowHeight="55px">
+                    <mat-grid-tile>
+                        <mat-label><strong>Expiry Date</strong></mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="module_area">
+                        <mat-form-field appearance="outline" class="date_picker_adjust">
+                            <mat-datepicker #myDatepicker23 panelClass="mdmDatepicker" class="date_picker"></mat-datepicker>
+                            <input matInput uppercase [matDatepicker]="myDatepicker23" placeholder="DD/MM/YYYY">
+                            <mat-datepicker-toggle matSuffix [for]="myDatepicker23"></mat-datepicker-toggle>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="45%">
+                <mat-grid-list cols="2" rowHeight="55px">
+                    <mat-grid-tile>
+                        <mat-label><strong>Description</strong></mat-label>
+                    </mat-grid-tile>
+                    <mat-grid-tile class="module_area mg_left_3">
+                        <mat-form-field class="select_box_dropwodn">
+                            <mat-select disableOptionCentering panelClass="anyClass multipleAnyClass" multiple
+                                class="multiple_select_style">
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                                <mat-option value="dfsdgfsgsgsg">
+                                    dfsdgfsgsgsg
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="100%">
+                <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                    <mat-grid-tile class="module_area">
+                        <button mat-flat-button class="theme_btn round_btn">Save</button>
+                    </mat-grid-tile>
+                </mat-grid-list>
+            </div>
+        </div>
+    </mat-grid-tile>
+</mat-grid-list>

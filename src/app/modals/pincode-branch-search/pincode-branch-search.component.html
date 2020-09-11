@@ -1,0 +1,149 @@
+<div class="modal-container">
+    <h5 class="sub_heading">Pin Code</h5>
+    <em class="material-icons modals_cancel_btn" [mat-dialog-close]="true">
+        cancel
+    </em>
+    <hr class="border_row">
+    <div>
+        <div class="add_branch_main">
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="25%">
+                    <mat-label><strong>State</strong></mat-label>
+                </div>
+                <div fxFlex="50%">
+                    <mat-select disableOptionCentering panelClass="anyClass multipleAnyClass_search_2"
+                        class="search_select mr-10" #State1Selected="ngModel" (selectionChange)="getDistricts()" 
+                        [(ngModel)]="stateId" name="State1Selected">
+                        <ngx-mat-select-search [(ngModel)]="stateSearchCtrl" [placeholderLabel]="'Search...'"
+                            [noEntriesFoundLabel]="'Not found'" name="search">
+                            <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search
+                            </mat-icon>
+                        </ngx-mat-select-search>
+                        <mat-option [value]="state.id"
+                            *ngFor="let state of stateList  | stringFilter:stateSearchCtrl:'stateName' | sortBy:'stateName'"
+                            matTooltip="{{state.stateName}}" [matTooltipPosition]="'above'">
+                            {{state.stateName}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="25%">
+                    <mat-label><strong>District</strong></mat-label>
+                </div>
+                <div fxFlex="50%">
+                    <mat-select disableOptionCentering panelClass="anyClass multipleAnyClass_search_2"
+                        class="search_select mr-10" #district1Id="ngModel" [(ngModel)]="districtId" 
+                        (selectionChange)="getCities()" name="State1Selected">
+                        <ngx-mat-select-search [(ngModel)]="districtSearchCtrl" [placeholderLabel]="'Search...'"
+                            [noEntriesFoundLabel]="'Not found'" name="search">
+                            <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search
+                            </mat-icon>
+                        </ngx-mat-select-search>
+                        <mat-option [value]="district.id"
+                            *ngFor="let district of districtList  | stringFilter:districtSearchCtrl:'districtName' | sortBy:'districtName'"
+                            matTooltip="{{district.districtName}}" [matTooltipPosition]="'above'">
+                            {{district.districtName}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" >
+                <div fxFlex="25%">
+                    <mat-label><strong>City</strong></mat-label>
+                </div>
+                <div fxFlex="50%">
+
+                    <mat-select disableOptionCentering panelClass="anyClass multipleAnyClass_search_2"
+                        class="search_select mr-10" #district1Id="ngModel" [(ngModel)]="cityId"
+                        (selectionChange)="getPincodes()" name="city1Selected"> 
+                        <ngx-mat-select-search [(ngModel)]="citySearchCtrl" [placeholderLabel]="'Search...'"
+                            [noEntriesFoundLabel]="'Not found'" name="search">
+                            <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search
+                            </mat-icon>
+                        </ngx-mat-select-search>
+                        <mat-option [value]="city.id"
+                            *ngFor="let city of cityList  | stringFilter:citySearchCtrl:'cityName' | sortBy:'cityName'"
+                            matTooltip="{{city.cityName}}" [matTooltipPosition]="'above'">
+                            {{city.cityName}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="25%">
+                    <mat-label><strong>Pin Code</strong></mat-label>
+                </div>
+                <div fxFlex="70%">
+                    <mat-select disableOptionCentering panelClass="anyClass multipleAnyClass_search_2"
+                        class="search_select" #district1Id="ngModel" [(ngModel)]="pincodeId"
+                        (selectionChange)="selectPincode()" name="pincode1Selected">
+                        <ngx-mat-select-search [(ngModel)]="pincodeSearchCtrl" [placeholderLabel]="'Search...'"
+                            [noEntriesFoundLabel]="'Not found'" name="search">
+                            <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">search
+                            </mat-icon>
+                        </ngx-mat-select-search>
+                        <mat-option [value]="pincode.id"
+                            *ngFor="let pincode of pincodeList  | stringFilter:pincodeSearchCtrl:'pincode' | sortBy:'pincode'"
+                            matTooltip="{{pincode.pincode}}" [matTooltipPosition]="'above'">
+                            {{pincode.pincode}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div> -->
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                <div fxFlex="10%"></div>
+                <div fxFlex="80%">
+                    <div class="search_branch_detail" style="position: relative;">
+                        <em class="material-icons search_icon_bar">search</em>
+                        <mat-form-field appearance="outline">
+                            <input matInput class="form-control pd_left_22" name="pincodeSearch" [(ngModel)]="pincodeSearch" (keyup.enter)="filterPincodes()" (keyup)="clearSearchInput()" placeholder="Enter manually comma, separated ">
+						</mat-form-field>
+						<div *ngIf="strLengthValid" class="invalid-feedback">
+							<div>Enter Minimum 3 Characters</div>
+						</div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <div class="card_body1">
+                        <div class="mat-table mat_table_main">
+                            <div class="mat-row bg bg_light_grey table_main_header table_fixed">
+                                <div class="mat-cell mat_cell_head upper-case">Pincode</div>
+                                <div class="mat-cell mat_cell_head upper-case">City Name</div>
+                            </div>
+                            <div>
+                                <div class="mat-row bg_light_grey" *ngFor="let pincode of tempPincodeList ;let i=index">
+                                    <div class="mat-cell table_color hyperlink upper-case">
+                                        <mat-checkbox (change)="pincodeChecked(pincode,$event,i)" [checked]="isChecked(pincode)"></mat-checkbox>
+                                        {{pincode.pincode}}
+                                    </div>
+                                    <div class="mat-cell upper-case primary_color text_wrap">
+                                        {{cityId | showName  : 'cityName' : cityList}}</div>
+                                    <!-- <div class="mat-cell upper-case primary_color text_wrap" *ngIf="pincode.cityName">
+                                   {{pincode.cityName}}</div> -->
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <div class="branch_next_btn">
+                        <button mat-button (click)="selectPincode()">Submit</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,53 @@
+<div class="container head_container">
+    <div class="row">
+      <div class="col-md-12 bread_crumb">
+        <a href="/dashboard">Dashboard</a>
+        <span class="fa fa-caret-right"></span>
+        <a href="/dashboard">MDM</a>
+        <span class="fa fa-caret-right"></span>
+        <a class="">Lookup And Others</a>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-10">
+        <p style="color: white;font-size: 2.8rem;">{{this.greeting()}},
+          <strong style="padding-left: 8px;">{{userName | uppercase}}</strong></p>
+      </div>
+      <div class="col-md-2 text-right">
+        <label style="color: white;font-size: 2.4rem !important;">MASTER DATA MANAGEMENT</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 ">
+        <p style="color: white;font-size: 2.8rem;">Lookup And Others</p>
+      </div>
+    </div>
+  </div>
+<div class="container">
+    <mat-card class="mat_card_zone">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="16%" style="border-right:0.5px solid">
+                <div class="button_grid_position">
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 1 }" *ngIf="lookup.length"
+                        (click)="loadComponent(lookUpComp,1)">Look up</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 2 }" *ngIf="serviceLine.length"
+                        (click)="loadComponent(serviceLineComp,2)">Service line</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 3 }" *ngIf="productMaster.length"
+                        (click)="loadComponent(productMasterComp,3)">product master</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 4 }" *ngIf="segment.length"
+                        (click)="loadComponent(segmentComp,4)">segment</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 5 }" *ngIf="gst.length"
+                        (click)="loadComponent(gstComp,5)">gst</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 6 }" *ngIf="fuel.length"
+                        (click)="loadComponent(fuelComp,6)">fuel</button> 
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 7 }" *ngIf="features.length"
+                        (click)="loadComponent(addressFeatureComp,7)">feature</button>
+
+                </div>
+            </div>
+            <div fxFlex="84%">
+                <ng-template appAdHost></ng-template>
+            </div>
+        </div>
+    </mat-card>
+</div>

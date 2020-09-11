@@ -1,0 +1,245 @@
+<div *ngxPermissionsOnly="['READ']">
+    <div *ngIf="!addOrganisation">
+        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+            <div fxFlex="18%">
+                <h3 class="grid_title">Organisation</h3>
+            </div>
+            <div fxFlex="82%">
+                <form autocomplete="off">
+                    <div class="hdr_srch_field">
+                        <span matPrefix><em class="material-icons search_icon"
+                                (click)="searchOrg($event)">search</em></span>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="29%">
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="orgName" (keyup)="clearSearch()"
+                                        (input)="orgName=$event.target.value.toUpperCase()" [(ngModel)]="orgName"
+                                        (keyup.enter)="searchOrg($event)">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="10%">
+                                <button type="button" mat-button class="add_btn" (click)="addOnClick(5)"
+                                    *ngxPermissionsOnly="['CREATE']"><em class="material-icons">add</em></button>
+                            </div>
+                            <div class="invalid-feedback" *ngIf="strLengthValid">
+                                Enter Minimum 3 Characters
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+            <div fxFlex="18%">
+
+                <h3 class="grid_title mr_top_30">Lookup Values</h3>
+            </div>
+            <div fxFlex="82%">
+
+                <mat-card class="card_body">
+                    <div class="mat-table mat_table_main">
+                        <div class="mat-row bg bg_light_grey table_main_header">
+                            <div class="mat-cell mat_cell_head">NAME</div>
+                            <div class="mat-cell mat_cell_head">DESCRIPTION</div>
+                            <div class="mat-cell"></div>
+                        </div>
+                        <div class="mat-row bg_light_grey"
+                            *ngFor="let organisationObj of organisationList| paginate: { itemsPerPage: 10, currentPage: p };let i=index">
+                            <div class="mat-cell hyperlink" [matTooltip]="organisationObj.orgName"
+                                [matTooltipPosition]="'above'">
+                                {{organisationObj.orgName}}</div>
+                            <div class="mat-cell display_overflow_hidden" [matTooltip]="organisationObj.descr"
+                                [matTooltipPosition]="'above'">
+                                {{organisationObj.descr}}</div>
+                            <div class="mat-cell mat_cell_icon">
+                                <mat-label><em class="material-icons icon_btn_display icon_theme_color"
+                                        (click)="editOrganization(organisationObj,i, 1)">remove_red_eye</em>
+                                </mat-label>
+                                <mat-label>
+                                    <span class="mat-button-wrapper">
+                                        <em class="material-icons icon_btn_display icon_theme_color"
+                                            (click)="editOrganization(organisationObj, i,0)"
+                                            *ngxPermissionsOnly="['UPDATE','CREATE']">edit</em>
+                                    </span>
+                                </mat-label>
+
+                            </div>
+                        </div>
+                        <div class="mat-row bg_light_grey" *ngIf="!organisationList.length">
+                            <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No Data
+                                Present
+                            </div>
+                        </div>
+                        <div class="pagination_area">
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+        </div>
+    </div>
+
+    <div *ngIf="addOrganisation">
+        <form autocomplete="off" name="form" (ngSubmit)="f.form.valid && saveOrganisation()" #f="ngForm" novalidate>
+            <div class=" all_form">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Organisation Name <sup class="mandatory">*</sup> </strong>
+                                </mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field appearance="outline"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && orgName.invalid }">
+                                    <input matInput name="orgName" class="form-control" maxlength="50"
+                                        [(ngModel)]="addOrgObj.orgName" #orgName="ngModel"
+                                        (input)="addOrgObj.orgName=$event.target.value.toUpperCase()" required>
+                                </mat-form-field>
+                                <div *ngIf="orgName.touched || (f.submitted && orgName.invalid)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="orgName.errors?.required">Organisation Name is required</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                    <div fxFlex="10%"></div>
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="55px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field class="select_box_dropwodn"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+
+                                    <mat-select disableOptionCentering panelClass="anyClass"
+                                        [(ngModel)]="addOrgObj.status" name="status" #status="ngModel" required
+                                        uppercase>
+                                        <mat-option [value]="1">
+                                            ACTIVE
+                                        </mat-option>
+                                        <mat-option [value]="0">
+                                            INACTIVE
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div *ngIf="status.touched || (f.submitted && status.invalid)" class="invalid-feedback">
+                                    <div *ngIf="status.errors?.required">Status is required</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="53px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Country Name <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <mat-form-field class="select_box_dropwodn"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && countryId.invalid }">
+                                    <mat-label>Select</mat-label>
+                                    <mat-select disableOptionCentering [dataArr]="countryList" appAutoSelectFirstOption
+                                        panelClass="anyClass multipleAnyClass_search_2"
+                                        class="search_select_branch mr_top_22" [(ngModel)]="addOrgObj.countryId"
+                                        name="countryId" #countryId="ngModel" required>
+                                        <ngx-mat-select-search [(ngModel)]="countryNameSearchCtrl"
+                                            [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                            name="search">
+                                            <mat-icon
+                                                class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                search
+                                            </mat-icon>
+                                        </ngx-mat-select-search>
+                                        <mat-option [value]="country.id"
+                                            *ngFor="let country of countryList | stringFilter:countryNameSearchCtrl:'countryName' | sortBy:'countryName'"
+                                            matTooltip="{{country.countryName}}" [matTooltipPosition]="'above'">
+                                            {{country.countryName}}
+                                        </mat-option>
+                                    </mat-select>
+                                    <!-- <div class="col-md-2">
+            <div class="module_area">
+              <mat-form-field class="select_box_dropwodn overline_hidden">
+                <mat-label>Select</mat-label>
+                <mat-select formControlName="paymentCriteria" (ngModelChange)='getPaymentCriteria($event)'>
+                  <mat-option *ngFor="let data of paymentCriteriaData" [value]="data.id">
+                    {{data.lookupVal}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+        </div> -->
+                                </mat-form-field>
+                                <div *ngIf="countryId.touched || (f.submitted && countryId.invalid)"
+                                    class="invalid-feedback">
+                                    <div *ngIf="countryId.errors?.required">Country Name is required</div>
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+
+
+                    <div fxFlex="10%">
+                        <button *ngIf="!submitPermission" mat-button class="add_btn" type="button"><em
+                                class="material-icons" (click)="openCountryDialog()">add</em></button>
+                    </div>
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="53px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Description </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area mg_left_3">
+                                <mat-form-field appearance="outline">
+                                    <input matInput class="form-control" name="descr" maxlength="100"
+                                        [(ngModel)]="addOrgObj.descr"
+                                        (input)="addOrgObj.descr=$event.target.value.toUpperCase()">
+                                </mat-form-field>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="45%">
+                        <mat-grid-list cols="2" rowHeight="110px">
+                            <mat-grid-tile>
+                                <mat-label><strong>Line of Business <sup class="mandatory">*</sup> </strong></mat-label>
+                            </mat-grid-tile>
+                            <mat-grid-tile class="module_area">
+                                <div *ngFor="let line of bussinessLine; let i =index">
+                                    <mat-checkbox [checked]="isChecked(line)" (change)="listBusiness(line,$event)"
+                                        required>
+                                        {{line.descr}}</mat-checkbox>
+
+                                    <br>
+                                </div>
+                                <div *ngIf="f.submitted && lobIsRequired" class="coloe_red pos_relative">Atleast
+                                    One Line of
+                                    Business is required
+                                </div>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                            <mat-grid-tile class="module_area">
+                                <button mat-flat-button class="theme_btn round_btn" *ngIf="submitPermission"
+                                    (click)="addOrganisation=false">Back</button>
+                                <button mat-flat-button class="theme_btn round_btn" *ngIf="!submitPermission"
+                                    [disabled]="(addOrgObj.status==0 && !addOrgObj.id) || (inActiveFlag && addOrgObj.status == 0)">Save</button>
+                            </mat-grid-tile>
+                        </mat-grid-list>
+                    </div>
+                </div>
+
+            </div>
+        </form>
+
+        <!-- Add city Section -->
+    </div>
+</div>

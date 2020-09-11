@@ -1,0 +1,297 @@
+<div>
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%">
+            <h3 class="grid_title">Service Line</h3>
+        </div>
+        <div fxFlex="82%">
+            <form autocomplete="off">
+                <div class="hdr_srch_field">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="25%">
+                            <mat-grid-list cols="1" rowHeight="43px">
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field class="select_box_dropwodn">
+                                        <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"   [dataArr]="serviceLineList" appAutoSelectFirstOption
+                                                [(ngModel)]="serviceLineObj.lkpServiceLineId" name="lkpServiceLineId"
+                                            (selectionChange)="getServiceOfferingByServiceLine(serviceLineObj.lkpServiceLineId)">
+                                                <ngx-mat-select-search [(ngModel)]="serviceNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="service.id" class="upper-case"
+                                                *ngFor="let service of serviceLineList | stringFilter:serviceNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{service.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{service.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                        <!--<mat-select disableOptionCentering panelClass="anyClass"
+                                            [(ngModel)]="serviceLineObj.lkpServiceLineId" name="lkpServiceLineId"
+                                            (selectionChange)="getServiceOfferingByServiceLine(serviceLineObj.lkpServiceLineId)">
+                                            <mat-option [value]="service.id" class="upper-case" matTooltip="{{service.descr}}" [matTooltipPosition]="'above'"
+                                                *ngFor="let service of serviceLineList">
+                                                {{service.descr}}
+                                            </mat-option>
+
+                                        </mat-select>-->
+                                    </mat-form-field>
+
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div fxFlex="10%">
+                            <button (click)="addServiceLine=true;clearObj()" type="button" mat-button class="add_btn"
+                                *ngxPermissionsOnly="['CREATE']"><em class="material-icons">add</em></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </div>
+    <div *ngIf="!addServiceLine">
+        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+            <div fxFlex="18%">
+                <h3 class="grid_title">Service Offering</h3>
+            </div>
+            <div fxFlex="82%">
+                <mat-card class="card_body">
+                    <div class="mat-table mat_table_main">
+                        <div class="mat-row bg bg_light_grey table_main_header">
+                            <div class="mat-cell mat_cell_head">NAME</div>
+                            <div class="mat-cell mat_cell_head">DISPLAY VALUE</div>
+                            <div class="mat-cell"></div>
+                        </div>
+                        <div class="mat-row bg_light_grey"
+                            *ngFor="let service of serviceofferingList | paginate: { itemsPerPage: 10, currentPage: p }">
+                            <div class="mat-cell upper-case text_wrap"  [matTooltipPosition]="'above'" [matTooltip]="service.serviceOffering">
+                                {{service.serviceOffering}}</div>
+                            <div class="mat-cell upper-case"   [matTooltipPosition]="'above'" [matTooltip]="service.descr">{{service.descr}}</div>
+                            <div class="mat-cell mat_cell_icon">
+                                <em class="material-icons icon_btn_display icon_theme_color"
+                                        (click)="editServiceLineModal(service, 1)">remove_red_eye</em>
+                                <em class="material-icons icon_btn_display icon_theme_color" *ngxPermissionsOnly="['CREATE','UPDATE']"
+                                    (click)="editServiceLineModal(service, 0)">edit</em>
+                            </div>
+                        </div>
+                        <div class="mat-row bg_light_grey" *ngIf="!serviceofferingList.length">
+                            <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No Data
+                                Present
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pagination_area">
+                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                    </div>
+                </mat-card>
+
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+<div *ngIf="addServiceLine">
+    <form autocomplete="off" name="serviceLineForm" (ngSubmit)="f.form.valid && saveServiceOfferList()" #f="ngForm"
+        novalidate>
+        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+
+            <div fxFlex="18%">
+            </div>
+
+            <div fxFlex="82%">
+                <mat-card>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="45%">
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                <div fxFlex="50%">
+                                    <mat-label><strong>Service Name <sup class="mandatory">*</sup> </strong></mat-label>
+                                </div>
+                                <div class="module_area input_height" fxFlex="50%">
+                                    <mat-form-field appearance="outline"
+                                        [ngClass]="{ 'mandatory_input': f.submitted && serviceOffering.invalid }">
+                                        <input matInput  name="serviceOffering" class="form-control"
+                                            #serviceOffering="ngModel" [(ngModel)]="serviceLineObj.serviceOffering"
+                                            maxlength="50" (input)="serviceLineObj.serviceOffering=$event.target.value.toUpperCase()" required>
+                                    </mat-form-field>
+                                    <div *ngIf="serviceOffering.touched || (f.submitted && serviceOffering.invalid)" class="invalid-feedback">
+                                        <div *ngIf="serviceOffering.errors?.required">Service Name is required</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                <div fxFlex="50%">
+                                    <mat-label><strong>Display Name</strong></mat-label>
+                                </div>
+                                <div class="module_area input_height" fxFlex="50%">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput  name="descr" [(ngModel)]="serviceLineObj.descr" (input)="serviceLineObj.descr=$event.target.value.toUpperCase()"
+                                            class="form-control">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div fxFlex="10%"></div>
+
+                        <div fxFlex="45%">
+
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                <div fxFlex="50%">
+                                    <mat-label><strong>Effective Date <sup class="mandatory">*</sup> </strong></mat-label>
+                                </div>
+                                <div class="module_area input_height" fxFlex="50%">
+                                    <mat-form-field appearance="outline" class="date_picker_adjust pd_8 "
+                                        [ngClass]="{ 'mandatory_input': (effectiveDt.errors?.required && (effectiveDt.touched || f.submitted)) }">
+                                        <mat-datepicker #date_picker_rate_group_2 panelClass="mdmDatepicker"
+                                            class="date_picker_rate_group_1">
+                                        </mat-datepicker>
+                                        <mat-datepicker-toggle matSuffix [for]="date_picker_rate_group_2" (onMenuOpen)="checkForExpiryDate(serviceLineObj.effectiveDt)"
+                                            class="date_adjust">
+                                        </mat-datepicker-toggle>
+                                        <input matInput  [matDatepicker]="date_picker_rate_group_2"
+                                            class="date_input_height date_picker_input" validDate
+                                            placeholder="DD/MM/YYYY" name="effectiveDt" #effectiveDt="ngModel"
+                                            [(ngModel)]="serviceLineObj.effectiveDt" required [min]="currentDate" (change)="isChange=false"
+                                            (dateChange)="changeDateFormat(serviceLineObj.effectiveDt,serviceLineObj.expDt)" />
+
+                                    </mat-form-field>
+                                    <div *ngIf="effectiveDt.touched || (f.submitted && effectiveDt.invalid)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="effectiveDt.errors?.required">Effective Date is required</div>
+                                        <div *ngIf="serviceLineObj.effectiveDt < currentDate ">Effective date cannot be less than current date</div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                <div fxFlex="50%">
+                                    <mat-label><strong>Expiry Date</strong></mat-label>
+                                </div>
+                                <div class="module_area input_height" fxFlex="50%">
+                                    <mat-form-field appearance="outline" class="date_picker_adjust pd_8"
+                                    [ngClass]="{ 'mandatory_input': isVar && ((serviceLineObj.expDt<=serviceLineObj.effectiveDt && !serviceLineObj.id) || (currentDate>serviceLineObj.expDt && serviceLineObj.id))  }">
+                                        <mat-datepicker #date_picker_service_line panelClass="mdmDatepicker"
+                                            class="date_picker_rate_group_1" (opened)="checkForExpiryDate(serviceLineObj.effectiveDt)"
+                                            (closed)="removeMinDate(serviceLineObj.effectiveDt)" panelClass="mdmDatepicker">
+                                        </mat-datepicker>
+                                        <mat-datepicker-toggle matSuffix [for]="date_picker_service_line"
+                                            class="date_adjust">
+                                        </mat-datepicker-toggle>
+                                        <input matInput  [matDatepicker]="date_picker_service_line"
+                                             #expDt="ngModel" validDate
+                                            class="date_input_height date_picker_input" placeholder="DD/MM/YYYY"
+                                            name="expDt" [(ngModel)]="serviceLineObj.expDt"  [min]="expiryMinDate"
+                                            (dateChange)="changeDateFormat(serviceLineObj.effectiveDt,serviceLineObj.expDt);"
+                                            (change)="isVar=true">
+
+                                    </mat-form-field>
+                                    <div *ngIf="isVar" class="invalid-feedback">
+                                        <div
+                                            *ngIf="serviceLineObj.expDt<=serviceLineObj.effectiveDt">
+                                            Must be Greater than Effective and Current Date.</div>
+                                        <div *ngIf="currentDate>serviceLineObj.expDt && !(serviceLineObj.expDt <= serviceLineObj.effectiveDt) && serviceLineObj.id">Must be Greater than Effective and Current Date.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+                        <div fxFlex="45%">
+
+                            <div fxFlex="50%">
+                                <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                            </div>
+                            <div fxFlex="50%">
+                                <mat-grid-list cols="1" rowHeight="53px">
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field class="select_box_dropwodn"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                            <mat-select disableOptionCentering panelClass="anyClass" name="status" uppercase
+                                                #status="ngModel" [(ngModel)]="serviceLineObj.status" required>
+                                                <mat-option [value]="1">
+                                                    ACTIVE
+                                                </mat-option>
+                                                <mat-option [value]="0">
+                                                    INACTIVE
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div *ngIf="status.touched || (f.submitted && status.invalid)" class="invalid-feedback">
+                                            <div *ngIf="status.errors?.required">Lookup Type is required</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+                        </div>
+                        <div fxFlex="10%"></div>
+                        <div fxFlex="45%"> </div>
+                    </div>
+                    <br>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="100%">
+                            <mat-grid-list cols="1" rowHeight="55px" class="row_height">
+                                <mat-grid-tile class="module_area">
+                                    <button mat-flat-button class="theme_btn round_btn"
+                                        [disabled]="!serviceLineObj.status && !serviceLineObj.id">{{serviceLineObj.status==0 && serviceLineObj.id !=null ? "delete" : "Save"}}</button>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                </mat-card>
+            </div>
+
+        </div>
+    </form>
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%">
+            <h3 class="grid_title">Service Offering</h3>
+        </div>
+
+        <div fxFlex="82%">
+            <mat-card class="card_body">
+                <div class="mat-table mat_table_main">
+                    <div class="mat-row bg bg_light_grey table_main_header">
+                        <div class="mat-cell mat_cell_head">NAME</div>
+                        <div class="mat-cell mat_cell_head">DISPLAY VALUE</div>
+                        <div class="mat-cell"></div>
+                    </div>
+                    <div class="mat-row bg_light_grey"
+                        *ngFor="let service of serviceofferingList | paginate: { itemsPerPage: 6, currentPage: p }" let
+                        i="index">
+                        <div class="mat-cell upper-case text_wrap"  [matTooltipPosition]="'above'" [matTooltip]="service.serviceOffering">
+                            {{service.serviceOffering}}</div>
+                        <div class="mat-cell upper-case display_overflow_hidden"   [matTooltipPosition]="'above'" [matTooltip]="service.descr">{{service.descr}}</div>
+                        <div class="mat-cell mat_cell_icon">
+                            <em class="material-icons icon_btn_display icon_theme_color"
+                                    (click)="editServiceLineModal(service, 1)">remove_red_eye</em>
+                            <em class="material-icons icon_btn_display icon_theme_color" *ngxPermissionsOnly="['CREATE','UPDATE']"
+                                (click)="editServiceLineModal(service, 0)">edit</em>
+                        </div>
+                    </div>
+                    <div class="mat-row bg_light_grey" *ngIf="!serviceofferingList.length">
+                        <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No Data
+                            Present
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination_area">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </mat-card>
+            <br>
+
+        </div>
+
+    </div>
+
+</div>

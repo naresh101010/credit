@@ -1,0 +1,42 @@
+<div class="modal-container">
+	<h5 class="sub_heading"> </h5>
+	<em class="material-icons modals_cancel_btn" [mat-dialog-close]="'cancel'">
+		cancel
+	</em>
+	<div>
+		<br>
+		<br>
+		<div class="">
+			<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+				<div fxFlex="100%">
+					<mat-grid-list cols="1" rowHeight="85px">
+						<mat-grid-tile>
+							<div class="text-center">
+								<p style="margin: 0px !important;"> If any Gst for the selected combination already
+									exist.It will get affected.</p>
+								<p> Do you want to continue?</p>
+							</div>
+						</mat-grid-tile>
+					</mat-grid-list>
+				</div>
+			</div>
+			<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+				<div fxFlex="100%">
+					<mat-grid-list cols="1" rowHeight="55px" class="">
+						<ul class="text-center">
+							<li class="display_inline_model"> <button mat-flat-button class="theme_btn round_btn"
+									[mat-dialog-close]="'cancel'">No</button>
+							</li>
+							<li class="display_inline_model"> <button mat-flat-button class="theme_btn round_btn"
+									[mat-dialog-close]="true">Yes</button>
+
+							</li>
+						</ul>
+						<br>
+						<br>
+					</mat-grid-list>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,67 @@
+<section class="manage_route_sec">
+  <div class="container">
+    <mat-toolbar class="breadcrumbs_nav">
+      <mat-toolbar-row class="breadcrumbs">
+        <span><a>Dashboard</a></span>
+        <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+          arrow_right
+        </mat-icon>
+        <span><a href="/dashboard">MDM</a></span>
+        <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+          arrow_right
+        </mat-icon>
+        <span>ROUTE</span>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <!-- <h2>Good Morning <span>Anuj!</span><br> Manage Route Master</h2>
+    <h3>Master Data<br>Management</h3> -->
+
+    <!-- <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="rout_good_morning">
+      <div fxFlex="50%">
+        <h2>Good Morning <span>Anuj!</span><br> Manage Route Master</h2>
+      </div>
+      <div fxFlex="50%" class="text-right">
+        <h3>Master Data<br>Management</h3>
+      </div>
+    </div> -->
+
+  <div class="row">
+      <div class="col-md-10">
+        <p style="color: white;font-size: 2.8rem;">{{this.greeting()}},
+          <strong style="padding-left: 8px;">{{userName | uppercase}}</strong></p>
+      </div>
+      <div class="col-md-2 text-right">
+        <label style="color: white;font-size: 2.4rem !important;">MASTER DATA MANAGEMENT</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4 ">
+        <p style="color: white;font-size: 2.8rem;">Manage Route Master</p>
+      </div>
+    </div>
+   <div class="container">
+    <mat-card class="mat_card_zone zone_card">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+            <div fxFlex="16%" style="border-right:0.5px solid">
+                <div class="button_grid_position">
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 1 }"
+                       (click)="loadComponent(HubToHubComp,1)">HUB TO HUB</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 2}"
+                        (click)="loadComponent(HubToHubAirComp,2)">HUB TO HUB (AIR)</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 3 }"
+                        (click)="loadComponent(HubToHubLocalComp,3)">HUB TO HUB (LOCAL)</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 4 }" 
+                        (click)="loadComponent(BookingHubComp,4)">BOOKING HUB</button>
+                    <button mat-button class="deactive_btn" [ngClass]="{'active_btn': id === 5 }" 
+                        (click)="loadComponent(DeliveryLocalRouteComp,5)">DELIVERY LOCAL ROUTE</button>
+
+                </div>
+            </div>
+            <div fxFlex="84%">
+                <ng-template appAdHost></ng-template>
+            </div>
+        </div>
+    </mat-card>
+</div>
+</div>
+</section>

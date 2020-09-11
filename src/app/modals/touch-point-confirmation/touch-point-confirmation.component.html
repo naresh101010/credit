@@ -1,0 +1,36 @@
+<div class="modal-container">
+    <h5 class="sub_heading" style="color: #B00020;">Are you Sure?</h5>
+    <em class="material-icons modals_cancel_btn" [mat-dialog-close]="'cancel'">
+        cancel
+    </em>
+    <hr class="border_row">
+    <div>
+        <div class="">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <mat-grid-list cols="1" rowHeight="55px">
+                        <mat-grid-tile>
+                            <div class="text-center">
+                                <mat-label>Do you want to continue with the current order of touch point?</mat-label>
+                            </div>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <mat-grid-list cols="1" rowHeight="35px" class="">
+                        <ul class="text-center">
+                            <li class="display_inline_model"> <button mat-flat-button class="theme_btn gb_white_theme round_btn"
+                                    [mat-dialog-close]="'cancel'">No</button>
+                            </li>
+                            <li class="display_inline_model"> <button mat-flat-button class="theme_btn round_btn"
+                                    [mat-dialog-close]="true">Yes</button>
+
+                            </li>
+                        </ul>
+                    </mat-grid-list>
+                </div>
+            </div>
+        </div>
+    </div>

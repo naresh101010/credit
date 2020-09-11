@@ -1,0 +1,207 @@
+<div class="all_form">
+    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+        <div fxFlex="25%">
+            <mat-card class="manage_route_tab route_active line_height_55 mr-top-0" (click)="showSegment=false;searchSubSegmantName='';getSegment();searchSegmantName='';strLengthValid=false;"
+                [ngClass]="{'color_dark': showSegment === true }">
+                <h3>Segment</h3>
+            </mat-card>
+        </div>
+        <div fxFlex="25%">
+            <mat-card class="manage_route_tab bg_gray_color line_height_55 mr-top-0" (click)="showSegment=true;searchSegmantName='';clearSubSegment()"
+                [ngClass]="{'color_dark':showSegment === false, 'route_active':showSegment === true }">
+                <h3>Sub Segment</h3>
+            </mat-card>
+        </div>
+    </div>
+
+
+    <div *ngIf="!showSegment">
+        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+            <div fxFlex="18%">
+                <h3 class="grid_title pd_4_2"> Search Segment</h3>
+            </div>
+            <div fxFlex="82%">
+                <div class="hdr_srch_field">
+                    <span matPrefix><em class="material-icons search_icon" (click)="searchSegment($event)">search</em></span>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="29%">
+                            <mat-form-field appearance="outline">
+                                <input matInput name="searchSegmantName" (keyup)="clearSearch()" (input)="searchSegmantName=$event.target.value.toUpperCase()"
+                                    (keyup.enter)="searchSegment($event)" [(ngModel)]="searchSegmantName">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="10%">
+                            <button (click)="editSegmentModal(null, 0)" mat-button class="add_btn"
+                                *ngxPermissionsOnly="['CREATE']"><em class="material-icons">add</em></button>
+                        </div>
+                        <div class="invalid-feedback" *ngIf="strLengthValid">
+                            Enter Minimum 3 Characters
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div>
+            <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <mat-card class="card_body">
+                        <div class="mat-table mat_table_main">
+                            <div class="mat-row bg bg_light_grey table_main_header">
+                                <div class="mat-cell mat_cell_head">NAME</div>
+                                <div class="mat-cell mat_cell_head">DISPLAY VALUE</div>
+                                <div class="mat-cell"></div>
+                            </div>
+                            <div class="mat-row bg_light_grey"
+                                *ngFor="let segment of segmentList | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <div class="mat-cell upper-case text_wrap" [matTooltip]="segment.segmentName" [matTooltipPosition]="'above'">
+                                    {{segment.segmentName}}</div>
+                                <div class="mat-cell upper-case text_wrap" [matTooltip]="segment.desc" [matTooltipPosition]="'above'"> {{segment.desc}}</div>
+                                <div class="mat-cell mat_cell_icon">
+                                    <em class="material-icons icon_btn_display icon_theme_color"
+                                        (click)="editSegmentModal(segment, 1)">remove_red_eye</em>
+                                    <em class="material-icons icon_btn_display icon_theme_color" *ngxPermissionsOnly="['CREATE','UPDATE']"
+                                        (click)="editSegmentModal(segment, 2)">edit</em>
+                                </div>
+                            </div>
+                            <div class="mat-row bg_light_grey" *ngIf="!segmentList.length">
+                                <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No
+                                    Data
+                                    Present
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pagination_area">
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </mat-card>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div *ngIf="showSegment">
+        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+
+            <div fxFlex="45%">
+
+                <div fxFlex="50%">
+                    <h3 class="grid_title pd_4_2">Segment</h3>
+                </div>
+                <div fxFlex="50%">
+                    <mat-grid-list cols="1" rowHeight="53px">
+                        <mat-grid-tile class="module_area">
+                            <mat-form-field class="select_box_dropwodn">
+                            <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="segmentObj.segment"   [dataArr]="segmentList" appAutoSelectFirstOption
+                                                (selectionChange)="getSubSegmentBySegmentId(segmentObj.segment)" name="segment">
+                                                <ngx-mat-select-search [(ngModel)]="segmentNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="segment.id"
+                                                *ngFor="let segment of activeSegmentList | stringFilter:segmentNameSearchCtrl:'segmentName' | sortBy:'segmentName'"
+                                                    matTooltip="{{segment.segmentName}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{segment.segmentName}}
+                                                </mat-option>
+                                            </mat-select>
+                                <!--<mat-select disableOptionCentering panelClass="anyClass"
+                                    [(ngModel)]="segmentObj.segment"
+                                    (selectionChange)="getSubSegmentBySegmentId(segmentObj.segment)" name="segment">
+                                    <mat-option [value]="segment.id" *ngFor="let segment of segmentList | sortBy: 'segmentName'"  matTooltip="{{segment.segmentName}}" [matTooltipPosition]="'above'">
+                                        {{segment.segmentName}}
+                                    </mat-option>
+                                </mat-select>-->
+                            </mat-form-field>
+
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+            </div>
+            <div fxFlex="10%"></div>
+
+            <div fxFlex="45%"> </div>
+        </div>
+        <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+            <div fxFlex="22%">
+                <h3 class="grid_title">Search Sub Segment</h3>
+            </div>
+            <div fxFlex="70%">
+                <form autocomplete="off">
+                    <div class="hdr_srch_field">
+                        <span matPrefix><em class="material-icons search_icon"
+                                (click)="searchSubSegment($event,segmentObj.segment)">search</em></span>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div fxFlex="32%">
+                                <mat-form-field appearance="outline">
+                                    <input matInput uppercase name="searchSubSegmantName" (keyup)="clearSearchSubsegment()"
+                                        (keyup.enter)="searchSubSegment($event,segmentObj.segment)" [(ngModel)]="searchSubSegmantName">
+                                </mat-form-field>
+                            </div>
+                            <div fxFlex="10%" *ngxPermissionsOnly="['CREATE']">
+                                <div *ngIf="segmentObj.segment">
+                                    <div> <button (click)="AddSubSegmentModal(segmentObj.segment,5,0)" type="button"
+                                            mat-button class="add_btn"><em class="material-icons">add</em></button></div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback" *ngIf="strLengthValidSegment">
+                                Enter Minimum 3 Characters
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div>
+            <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <mat-card class="card_body">
+                        <div class="mat-table mat_table_main">
+                            <div class="mat-row bg bg_light_grey table_main_header">
+                                <div class="mat-cell mat_cell_head">NAME</div>
+                                <div class="mat-cell mat_cell_head">DISPLAY VALUE</div>
+                                <div class="mat-cell"></div>
+                            </div>
+                            <div class="mat-row bg_light_grey"
+                                *ngFor="let subSegmentObj of subSegmentList | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <div class="mat-cell upper-case text_wrap" [matTooltip]="subSegmentObj.subsegmentName" [matTooltipPosition]="'above'">
+                                    {{subSegmentObj.subsegmentName}}</div>
+                                <div class="mat-cell upper-case text_wrap" [matTooltip]="subSegmentObj.descr" [matTooltipPosition]="'above'"> {{subSegmentObj.descr}}</div>
+                                <div class="mat-cell mat_cell_icon">
+                                    <em class="material-icons icon_btn_display icon_theme_color"
+                                        (click)="AddSubSegmentModal(subSegmentObj,null,1)">remove_red_eye</em>
+                                    <em class="material-icons icon_btn_display icon_theme_color" *ngxPermissionsOnly="['CREATE','UPDATE']"
+                                        (click)="AddSubSegmentModal(subSegmentObj,null,2)">edit</em>
+                                </div>
+                            </div>
+                            <div class="mat-row bg_light_grey" *ngIf="!subSegmentList.length">
+                                <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No
+                                    Data
+                                    Present
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pagination_area">
+                            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                        </div>
+                    </mat-card>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+</div>

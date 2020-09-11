@@ -1,0 +1,301 @@
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+    <div fxFlex="100%">
+        <mat-panel-description class="branch_merge_position" (click)="manageBranchMasterModalOpen()">
+            <em class="material-icons search_icon">call_merge</em> Manage Branch Feature
+            Master
+        </mat-panel-description>
+    </div>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+    <div fxFlex="100%">
+        <mat-accordion>
+            <mat-expansion-panel class="shadow_none" [expanded]="isExpand">
+                <mat-expansion-panel-header class="brnch_feature_header">
+                    <mat-panel-title class="branch_sub_heading">
+                        Branch Feature
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="assign_feature_pt">
+                    <div fxFlex="15%">
+                        <div class="branch_feature_heading">
+                            <mat-label>Assign Features</mat-label>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                    *ngFor="let feature of featuresList;let i=index">
+                    <div fxFlex="15%">
+                        <div class="">
+                            <div>
+                                <mat-checkbox [(ngModel)]="feature.isSlabFlag"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && isSlabFlag.invalid }"
+                                    name="isSlabFlag-{{i}}" #isSlabFlag="ngModel" required>
+                                    {{feature.branchFeature}}</mat-checkbox><br>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxFlex="30%">
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                            <div *ngIf="feature?.isSlabFlag" class='width_block'>
+                                <div fxFlex="40%">
+                                    <div class="branch_feature_heading">
+                                        <mat-label>Slab Applicable</mat-label>
+                                        <div *ngIf="f.submitted && isWeight.invalid" class="invalid-feedback">
+                                            <div *ngIf="isWeight.errors.required">Slab
+                                                Applicable
+                                                is Required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxFlex="60%">
+                                    <div class="" [ngClass]="{ 'mandatory_input': f.submitted && isWeight.invalid }">
+                                        <mat-radio-group aria-label="Select an option" [(ngModel)]="feature.isWeight"
+                                            name="isWeight-{{i}}" #isWeight="ngModel" required name="isWeight-{{i}}">
+                                            <mat-radio-button [value]="1" class="radio_button_pr">
+                                                Yes
+                                            </mat-radio-button>
+                                            <mat-radio-button [value]="0">
+                                                No
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div fxFlex="30%" *ngIf="feature?.isSlabFlag">
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1%">
+                            <div *ngIf="feature.isWeight" class="width_block">
+                                <div fxFlex="30%">
+                                    <div class="branch_feature_heading">
+                                        <mat-label>Weight Slab</mat-label>
+                                        <div *ngIf="f.submitted && slabId.invalid" class="invalid-feedback">
+                                            <div *ngIf="slabId.errors.required">Weight
+                                                Slab
+                                                is Required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxFlex="45%">
+                                    <div [ngClass]="{ 'mandatory_input': f.submitted && slabId.invalid }">
+                                        <mat-select class="mat_select" #slabId="ngModel" required name="slabId-{{i}}" panelClass="anyClass"
+                                            [(ngModel)]="feature.slabId">
+                                            <mat-option [value]="slab.id" *ngFor="let slab of slabsList">
+                                                {{slab.lowerVal}} - {{slab.upperVal}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </div>
+                                </div>
+                                <div fxFlex="10%">
+                                    <button mat-button class="add_btn" *ngIf="!feature.addNewSlab"><em
+                                            class="material-icons search_icon"
+                                            (click)="inputWeightSlabShow(feature.id,true)">add</em></button>
+
+                                    <button mat-button class="add_btn" *ngIf="feature.addNewSlab"><em
+                                            (click)="inputWeightSlabShow(feature.id,false)"
+                                            class="material-icons search_icon">remove</em></button>
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="1%">
+                            <div *ngIf="feature.isWeight" class="width_block">
+                                <div fxFlex="30%">
+
+                                </div>
+                                <div fxFlex="45%">
+                                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="2%"
+                                        *ngIf="feature.addNewSlab">
+                                        <div fxFlex="50%">
+                                            <div class="">
+                                                <mat-form-field appearance="outline"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && featurelowerVal.invalid }">
+                                                    <input matInput uppercase class="form-control"
+                                                        name="featurelowerVal-{{i}}" #featurelowerVal="ngModel" required
+                                                        [(ngModel)]="feature.lowerVal">
+                                                </mat-form-field>
+                                            </div>
+                                            <div *ngIf="f.submitted && featurelowerVal.invalid"
+                                                class="invalid-feedback">
+                                                <div *ngIf="featurelowerVal.errors.required">
+                                                    lower Value is Required
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div fxFlex="50%">
+                                            <div class="">
+                                                <mat-form-field appearance="outline"
+                                                    [ngClass]="{ 'mandatory_input': f.submitted && featureupperVal.invalid }">
+                                                    <input matInput uppercase class="form-control"
+                                                        name="featureupperVal-{{i}}" #featureupperVal="ngModel" required
+                                                        [(ngModel)]="feature.upperVal">
+                                                </mat-form-field>
+
+                                            </div>
+                                            <div *ngIf="f.submitted && featureupperVal.invalid"
+                                                class="invalid-feedback">
+                                                <div *ngIf="featureupperVal.errors.required">
+                                                    Upper Value
+                                                    is Required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxFlex="10%">
+                                    <button mat-button class="add_btn" *ngIf="feature.addNewSlab"><em
+                                            class="material-icons search_icon" (click)="submitSlab(i)">add</em></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+
+<!-- Mode of Payment CommentSection -->
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+    <div fxFlex="100%">
+        <mat-accordion *ngIf="paymentMode">
+            <mat-expansion-panel class="shadow_none" [expanded]="true">
+                <mat-expansion-panel-header class="brnch_feature_header">
+                    <mat-panel-title class="branch_sub_heading">
+                        Mode of Payment
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="assign_feature_pt">
+                    <div fxFlex="15%">
+                        <div class="branch_feature_heading">
+                            <mat-label>Select MOP</mat-label>
+                            <div *ngIf="f.submitted && status.invalid" class="invalid-feedback">
+                                <div *ngIf="status.errors.required">MOP is required
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%"
+                    *ngFor="let mop of modeOfPayments; let i=index">
+                    <div fxFlex="100%">
+
+                        <div class="" [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                            <mat-checkbox [(ngModel)]="mop.status" name="status-{{i}}" #status="ngModel" required>
+                                {{mop.descr}}
+                            </mat-checkbox>
+                            <br>
+                        </div>
+                        <div *ngIf="mop.status">
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="assign_feature_pt">
+                                <div fxFlex="15%">
+                                    <div class="branch_feature_heading">
+                                        <mat-label>Month Wise </mat-label>
+                                        <div *ngIf="f.submitted && focMnthWise.invalid" class="invalid-feedback">
+                                            <div *ngIf="focMnthWise.errors.required">
+                                                Month
+                                                Wise
+                                                is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxFlex="20%">
+                                    <div class="" [ngClass]="{ 'mandatory_input': f.submitted && focMnthWise.invalid }">
+                                        <mat-radio-group aria-label="Select an option" [(ngModel)]="mop.focMnthWise"
+                                            name="focMnthWise-{{i}}" #focMnthWise="ngModel" required>
+                                            <mat-radio-button [value]="1" class="radio_button_pr">Yes
+                                            </mat-radio-button>
+                                            <mat-radio-button [value]="0">No
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </div>
+                                <div fxFlex="30%"></div>
+                                <div fxFlex="15%">
+                                    <div class="branch_feature_heading">
+                                        <mat-label>Max WayBill Count</mat-label>
+                                        <div *ngIf="f.submitted && focWayblMaxCnt.invalid" class="invalid-feedback">
+                                            <div *ngIf="focWayblMaxCnt.errors.required">
+                                                Max
+                                                WayBill Count
+                                                is required
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxFlex="20%">
+                                    <div class="">
+                                        <mat-form-field appearance="outline"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && focWayblMaxCnt.invalid }"
+                                            name="status">
+                                            <input matInput uppercase class="form-control" #focWayblMaxCnt="ngModel"
+                                                required name="focWayblMaxCnt-{{i}}" appNumbersOnly
+                                                [(ngModel)]="mop.focWayblMaxCnt">
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="assign_feature_pt">
+                                <div fxFlex="15%">
+                                    <div class="branch_feature_heading">
+                                        <mat-label>Effective Date</mat-label>
+                                        <div *ngIf="(effectiveDt.errors?.required && (effectiveDt.touched || f.submitted))" class="invalid-feedback">
+                                                Effective Date
+                                                is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxFlex="20%">
+                                    <mat-form-field appearance="outline" class="date_picker_adjust"
+                                        [ngClass]="{ 'mandatory_input': (effectiveDt.errors?.required && (effectiveDt.touched || f.submitted)) }">
+                                        <mat-datepicker #mopEffective panelClass="mdmDatepicker" class="date_picker">
+                                        </mat-datepicker>
+                                        <input matInput uppercase [matDatepicker]="mopEffective"
+                                            placeholder="DD/MM/YYYY" #effectiveDt="ngModel" validDate required
+                                            name="effectiveDt-{{i}}" [(ngModel)]="mop.effectiveDt">
+                                        <mat-datepicker-toggle matSuffix [for]="mopEffective">
+                                        </mat-datepicker-toggle>
+                                    </mat-form-field>
+                                </div>
+                                <div fxFlex="30%"></div>
+                                <div fxFlex="15%">
+                                    <div class="branch_feature_heading">
+                                        <mat-label>Valid Upto</mat-label>
+                                        <div *ngIf="(focValidUpto.errors?.required && (focValidUpto.touched || f.submitted))" class="invalid-feedback">
+                                                Valid Upto
+                                                is required
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxFlex="20%">
+                                    <mat-form-field appearance="outline" class="date_picker_adjust">
+                                        <mat-datepicker #mopValidUpTo panelClass="mdmDatepicker" class="date_picker">
+                                        </mat-datepicker>
+                                        <input  matInput uppercase [matDatepicker]="mopValidUpTo" validDate
+                                            placeholder="DD/MM/YYYY" name="focValidUpto-{{i}}" [min]="mop.effectiveDt"
+                                            #focValidUpto="ngModel" required [(ngModel)]="mop.focValidUpto">
+                                        <mat-datepicker-toggle matSuffix [for]="mopValidUpTo">
+                                        </mat-datepicker-toggle>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+<div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+    <div fxFlex="100%">
+        <div class="branch_next_btn">
+            <button mat-button *ngIf="!paymentMode" (click)="assignManagerShow('step1')">Next</button>
+            <button mat-button *ngIf="paymentMode">Next</button>
+        </div>
+    </div>
+</div>

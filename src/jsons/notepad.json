@@ -1,0 +1,37 @@
+{
+    "message": "string",
+    "status": "SUCCESS",
+    "data": {
+        "referenceData": {},
+        "responseData": [
+            {
+                "id": 0,
+                "menuFullId": "string",
+                "menuLabel": "string",
+                "menuLevel": 0
+            },
+            {
+                "id": 1,
+                "menuFullId": "string",
+                "menuLabel": "string",
+                "menuLevel": 0
+            },
+            {
+                "id": 2,
+                "menuFullId": "string",
+                "menuLabel": "string",
+                "menuLevel": 0
+            }
+        ]
+    },
+    "errors": {
+        "respCode": "string",
+        "message": "string",
+        "error": [
+            {
+                "code": "string",
+                "description": "string"
+            }
+        ]
+    }
+}

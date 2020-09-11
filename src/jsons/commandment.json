@@ -1,0 +1,2931 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "commandment-bff",
+        "version": "0.0.1-SNAPSHOT",
+        "title": "commandment-bff",
+        "termsOfService": "http://www.sfx.com/terms",
+        "contact": {
+            "name": "SFX",
+            "url": "http://www.sfx.com",
+            "email": "info@sfx.com"
+        },
+        "license": {
+            "name": "Internal use only",
+            "url": "http://www.sfx.com/license"
+        }
+    },
+    "host": "internal-a0db0192d644a11eaa19a023e3146bec-1307889661.ap-south-1.elb.amazonaws.com",
+    "basePath": "/",
+    "tags": [
+        {
+            "name": "CommandmentBff",
+            "description": "Commandment Controller"
+        },
+        {
+            "name": "PriceparameterService",
+            "description": "Price Parameter Controller"
+        }
+    ],
+    "paths": {
+        "/secure/v1/bff/commandment": {
+            "post": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment  Create",
+                "description": "Create Commandment Details",
+                "operationId": "createCommandmentUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "requestDTO",
+                        "description": "requestDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CommandmentRequestDTO"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«CommandmentResponseDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandment/order": {
+            "post": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment Order Update",
+                "description": "Commandment Order Update",
+                "operationId": "updateCommandmentOrderUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "requestDTOs",
+                        "description": "requestDTOs",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/CommandmentRequestDTO"
+                            }
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«int»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandment/rr": {
+            "post": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment Service Offering Rr Create",
+                "description": "Commandment Service Offering Rr Create",
+                "operationId": "createCommandmentRrUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "requestDTO",
+                        "description": "requestDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CommandmentOfferingRequestDTO"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«CommandmentOfferingResponseDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandment/rr/{id}": {
+            "get": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment ready reckoner Reconor  Details",
+                "description": "Get a list of all ready reckoner Details",
+                "operationId": "getCommandmentOfferingReadyReconorUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«CommandmentOfferingResponseDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandments": {
+            "get": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment Details",
+                "description": "Get a list of all Commandment Details",
+                "operationId": "getAllCommandmentUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«List«CommandmentResponseDTO»»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandments/load": {
+            "get": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment Page Load Details",
+                "description": "Get a list of all Commandment Page Details",
+                "operationId": "getCommandmemtLoadUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«ReferenceDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandments/name/{cmdName}": {
+            "get": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment Details",
+                "description": "Get a list of all Commandment Details",
+                "operationId": "getCommandmentByNameUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "cmdName",
+                        "in": "path",
+                        "description": "cmdName",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«List«CommandmentResponseDTO»»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandments/recent": {
+            "get": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment Details",
+                "description": "Get a list of all Commandment Details Recently Updated",
+                "operationId": "getAllCommandmentRecentUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«List«CommandmentResponseDTO»»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/bff/commandments/{commandmentId}": {
+            "get": {
+                "tags": [
+                    "CommandmentBff"
+                ],
+                "summary": "Commandment Details",
+                "description": "Get a list of all Commandment Details",
+                "operationId": "getCommandmentByIdUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "commandmentId",
+                        "in": "path",
+                        "description": "commandmentId",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«BffResponse«CommandmentResponseDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/priceparameter/bff/priceParemeter": {
+            "post": {
+                "tags": [
+                    "PriceparameterService"
+                ],
+                "summary": "Save Price Parameter Details",
+                "description": "Save Price Parameter Details",
+                "operationId": "savePriceParameterUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "requestDTO",
+                        "description": "requestDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PriceParameterRequestDTO"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«PriceParameterResponseDTO»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "PriceparameterService"
+                ],
+                "summary": "Update Price Parameter Details",
+                "description": "Update Price Parameter Details",
+                "operationId": "updatePriceParameterUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "requestDTO",
+                        "description": "requestDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PriceParameterRequestDTO"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«PriceParameterResponseDTO»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/priceparameter/bff/priceParemeter/by/serviceOffer/customerType/{serviceOfferId}/{customerTypeId}": {
+            "get": {
+                "tags": [
+                    "PriceparameterService"
+                ],
+                "summary": "Get Price Parameter Details by service and customer type",
+                "description": "Get Price Parameter Details by service and customer type",
+                "operationId": "getPriceParameterOfferByIdUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "customerTypeId",
+                        "in": "path",
+                        "description": "customerTypeId",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "serviceOfferId",
+                        "in": "path",
+                        "description": "serviceOfferId",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«List«PricingParamOfferingMapResponseDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/priceparameter/bff/priceParemeter/by/serviceOffer/{serviceOfferId}": {
+            "get": {
+                "tags": [
+                    "PriceparameterService"
+                ],
+                "summary": "Get Price Parameter Offer Details By OfferId",
+                "description": "Get Price Parameter Offer Details By OfferId",
+                "operationId": "getPriceParameterOfferByIdUsingGET_1",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "serviceOfferId",
+                        "in": "path",
+                        "description": "serviceOfferId",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«List«PricingParamOfferingMapResponseDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/priceparameter/bff/priceParemeter/serviceOffer": {
+            "post": {
+                "tags": [
+                    "PriceparameterService"
+                ],
+                "summary": "Save Price Parameter Offering Details",
+                "description": "Save Price Parameter Offering Details",
+                "operationId": "savePriceParameterOfferingUsingPOST",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "requestDTO",
+                        "description": "requestDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PricingParamOfferingMapRequestDTO"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«PricingParamOfferingMapResponseDTO»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            },
+            "put": {
+                "tags": [
+                    "PriceparameterService"
+                ],
+                "summary": "Update Price Parameter Offering Details",
+                "description": "Update Price Parameter Offering Details",
+                "operationId": "updatePriceParameterOfferingUsingPUT",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "requestDTO",
+                        "description": "requestDTO",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/PricingParamOfferingMapRequestDTO"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«PricingParamOfferingMapResponseDTO»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        },
+        "/secure/v1/priceparameter/bff/priceParemeterList": {
+            "get": {
+                "tags": [
+                    "PriceparameterService"
+                ],
+                "summary": "Price Parameter Details",
+                "description": "Get a list of all Price Parameter Details",
+                "operationId": "getAllPriceParameterUsingGET",
+                "produces": [
+                    "*/*"
+                ],
+                "parameters": [
+                    {
+                        "name": "authorization",
+                        "in": "header",
+                        "description": "Encrypted access token",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "branchId",
+                        "in": "header",
+                        "description": "Branch Id",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "name": "journeyId",
+                        "in": "header",
+                        "description": "Global transaction Id",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "userId",
+                        "in": "header",
+                        "description": "UserId",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/ApiResponse«List«PriceParameterResponseDTO»»"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "405": {
+                        "description": "Method Not Allowed",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/ApiErrorResponse"
+                        }
+                    }
+                },
+                "deprecated": false
+            }
+        }
+    },
+    "definitions": {
+        "AddressFeatureDto": {
+            "type": "object",
+            "properties": {
+                "addressFeatureName": {
+                    "type": "string"
+                },
+                "createBy": {
+                    "type": "string"
+                },
+                "createDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateBy": {
+                    "type": "string"
+                }
+            },
+            "title": "AddressFeatureDto"
+        },
+        "ApiErrorResponse": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "type": "object",
+                    "description": "response data. It may be missing in case of any error"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiErrorResponse"
+        },
+        "ApiResponse«BffResponse«CommandmentOfferingResponseDTO»»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "description": "response data. It may be missing in case of any error",
+                    "$ref": "#/definitions/BffResponse«CommandmentOfferingResponseDTO»"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«BffResponse«CommandmentOfferingResponseDTO»»"
+        },
+        "ApiResponse«BffResponse«CommandmentResponseDTO»»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "description": "response data. It may be missing in case of any error",
+                    "$ref": "#/definitions/BffResponse«CommandmentResponseDTO»"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«BffResponse«CommandmentResponseDTO»»"
+        },
+        "ApiResponse«BffResponse«List«CommandmentResponseDTO»»»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "description": "response data. It may be missing in case of any error",
+                    "$ref": "#/definitions/BffResponse«List«CommandmentResponseDTO»»"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«BffResponse«List«CommandmentResponseDTO»»»"
+        },
+        "ApiResponse«BffResponse«ReferenceDTO»»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "description": "response data. It may be missing in case of any error",
+                    "$ref": "#/definitions/BffResponse«ReferenceDTO»"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«BffResponse«ReferenceDTO»»"
+        },
+        "ApiResponse«BffResponse«int»»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "description": "response data. It may be missing in case of any error",
+                    "$ref": "#/definitions/BffResponse«int»"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«BffResponse«int»»"
+        },
+        "ApiResponse«List«PriceParameterResponseDTO»»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "type": "array",
+                    "description": "response data. It may be missing in case of any error",
+                    "items": {
+                        "$ref": "#/definitions/PriceParameterResponseDTO"
+                    }
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«List«PriceParameterResponseDTO»»"
+        },
+        "ApiResponse«List«PricingParamOfferingMapResponseDTO»»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "type": "array",
+                    "description": "response data. It may be missing in case of any error",
+                    "items": {
+                        "$ref": "#/definitions/PricingParamOfferingMapResponseDTO"
+                    }
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«List«PricingParamOfferingMapResponseDTO»»"
+        },
+        "ApiResponse«PriceParameterResponseDTO»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "description": "response data. It may be missing in case of any error",
+                    "$ref": "#/definitions/PriceParameterResponseDTO"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«PriceParameterResponseDTO»"
+        },
+        "ApiResponse«PricingParamOfferingMapResponseDTO»": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "description": "message for the response"
+                },
+                "status": {
+                    "type": "string",
+                    "description": "status of response",
+                    "enum": [
+                        "SUCCESS",
+                        "FAILURE",
+                        "PARTIAL"
+                    ]
+                },
+                "data": {
+                    "description": "response data. It may be missing in case of any error",
+                    "$ref": "#/definitions/PricingParamOfferingMapResponseDTO"
+                },
+                "errors": {
+                    "description": "error messages if any",
+                    "$ref": "#/definitions/ErrorResponse"
+                }
+            },
+            "title": "ApiResponse«PricingParamOfferingMapResponseDTO»"
+        },
+        "BffResponse«CommandmentOfferingResponseDTO»": {
+            "type": "object",
+            "properties": {
+                "referenceData": {
+                    "$ref": "#/definitions/ReferenceData"
+                },
+                "responseData": {
+                    "$ref": "#/definitions/CommandmentOfferingResponseDTO"
+                }
+            },
+            "title": "BffResponse«CommandmentOfferingResponseDTO»"
+        },
+        "BffResponse«CommandmentResponseDTO»": {
+            "type": "object",
+            "properties": {
+                "referenceData": {
+                    "$ref": "#/definitions/ReferenceData"
+                },
+                "responseData": {
+                    "$ref": "#/definitions/CommandmentResponseDTO"
+                }
+            },
+            "title": "BffResponse«CommandmentResponseDTO»"
+        },
+        "BffResponse«List«CommandmentResponseDTO»»": {
+            "type": "object",
+            "properties": {
+                "referenceData": {
+                    "$ref": "#/definitions/ReferenceData"
+                },
+                "responseData": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentResponseDTO"
+                    }
+                }
+            },
+            "title": "BffResponse«List«CommandmentResponseDTO»»"
+        },
+        "BffResponse«ReferenceDTO»": {
+            "type": "object",
+            "properties": {
+                "referenceData": {
+                    "$ref": "#/definitions/ReferenceData"
+                },
+                "responseData": {
+                    "$ref": "#/definitions/ReferenceDTO"
+                }
+            },
+            "title": "BffResponse«ReferenceDTO»"
+        },
+        "BffResponse«int»": {
+            "type": "object",
+            "properties": {
+                "referenceData": {
+                    "$ref": "#/definitions/ReferenceData"
+                },
+                "responseData": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "BffResponse«int»"
+        },
+        "CommandmentEntityMapDto": {
+            "type": "object",
+            "properties": {
+                "entityCategory": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "lookupEntityId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "CommandmentEntityMapDto"
+        },
+        "CommandmentOfferingRequest": {
+            "type": "object",
+            "properties": {
+                "businessTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "customerTypeId": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "serviceOfferingId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "CommandmentOfferingRequest"
+        },
+        "CommandmentOfferingRequestDTO": {
+            "type": "object",
+            "properties": {
+                "businessTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentRrRequestDTO": {
+                    "$ref": "#/definitions/CommandmentRrRequestDTO"
+                },
+                "customerTypeId": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "serviceOfferingId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "CommandmentOfferingRequestDTO"
+        },
+        "CommandmentOfferingResponseDTO": {
+            "type": "object",
+            "properties": {
+                "businessType": {
+                    "type": "string"
+                },
+                "businessTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "cmdmntRrsList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentRrResponseDTO"
+                    }
+                },
+                "commandmentId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentResponseDTO": {
+                    "$ref": "#/definitions/CommandmentResponseDTO"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "createdDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "customerType": {
+                    "type": "string"
+                },
+                "customerTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "serviceOffering": {
+                    "type": "string"
+                },
+                "serviceOfferingId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            },
+            "title": "CommandmentOfferingResponseDTO"
+        },
+        "CommandmentRequestDTO": {
+            "type": "object",
+            "properties": {
+                "commandmentCategoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentEntityMapDtos": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentEntityMapDto"
+                    }
+                },
+                "commandmentName": {
+                    "type": "string"
+                },
+                "commandmentOfferingRequestDTOs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentOfferingRequest"
+                    }
+                },
+                "commandmentOrder": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "geoFeatureId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rrFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "CommandmentRequestDTO"
+        },
+        "CommandmentResponseDTO": {
+            "type": "object",
+            "properties": {
+                "attr1Flag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "attr2Flag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "attr3Flag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentCategoryId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentEntityMaps": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentEntityMapDto"
+                    }
+                },
+                "commandmentName": {
+                    "type": "string"
+                },
+                "commandmentOfferingList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentOfferingResponseDTO"
+                    }
+                },
+                "commandmentOrder": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "createdDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "geoFeatureId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minAmountFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rrFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            },
+            "title": "CommandmentResponseDTO"
+        },
+        "CommandmentRrRequestDTO": {
+            "type": "object",
+            "properties": {
+                "calculationMeasureId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "calculationTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "calculationUnitId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentOfferingMapId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "commandmentRrSlabList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentRrSlabRequestDTO"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minFrieghtFlg": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rrValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "CommandmentRrRequestDTO"
+        },
+        "CommandmentRrResponseDTO": {
+            "type": "object",
+            "properties": {
+                "calculationMeasureId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "calculationTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "calculationUnitId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "cmdmntRrSlabList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/CommandmentRrSlabResponseDTO"
+                    }
+                },
+                "commandmentOfferingMapId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "createdDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rrValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            },
+            "title": "CommandmentRrResponseDTO"
+        },
+        "CommandmentRrSlabRequestDTO": {
+            "type": "object",
+            "properties": {
+                "cmdmntRrId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rrValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "slabFrom": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "slabTo": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "CommandmentRrSlabRequestDTO"
+        },
+        "CommandmentRrSlabResponseDTO": {
+            "type": "object",
+            "properties": {
+                "cmdmntRrId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "createdDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "maxValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "minValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rrValue": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "slabFrom": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "slabTo": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "example": "yyyy-MM-dd"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            },
+            "title": "CommandmentRrSlabResponseDTO"
+        },
+        "Error": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                }
+            },
+            "title": "Error"
+        },
+        "ErrorResponse": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/Error"
+                    }
+                }
+            },
+            "title": "ErrorResponse"
+        },
+        "GeoFeatureDto": {
+            "type": "object",
+            "properties": {
+                "addressFeatureList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/AddressFeatureDto"
+                    }
+                },
+                "pinCodeFeatureList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PinCodeFeatureDto"
+                    }
+                },
+                "stateFeatureList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/StateFeatureDto"
+                    }
+                }
+            },
+            "title": "GeoFeatureDto"
+        },
+        "LookUpDTO": {
+            "type": "object",
+            "properties": {
+                "entityCategory": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "lookupVal": {
+                    "type": "string"
+                }
+            },
+            "title": "LookUpDTO"
+        },
+        "PinCodeFeatureDto": {
+            "type": "object",
+            "properties": {
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDt": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expDt": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pincodeFeature": {
+                    "type": "string"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "PinCodeFeatureDto"
+        },
+        "PriceParameterRequestDTO": {
+            "type": "object",
+            "properties": {
+                "attrIdentifier": {
+                    "type": "string"
+                },
+                "attrVal": {
+                    "type": "string"
+                },
+                "attributeTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "priceCalculationTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "priceCalculationUnitId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pricingLabel": {
+                    "type": "string"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "rrFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "PriceParameterRequestDTO"
+        },
+        "PriceParameterResponseDTO": {
+            "type": "object",
+            "properties": {
+                "attrIdentifier": {
+                    "type": "string"
+                },
+                "attrVal": {
+                    "type": "string"
+                },
+                "attributeTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "createDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "priceCalculationTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "priceCalculationUnitId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pricingLabel": {
+                    "type": "string"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "rrFlag": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            },
+            "title": "PriceParameterResponseDTO"
+        },
+        "PricingParamOfferingMapRequestDTO": {
+            "type": "object",
+            "properties": {
+                "customerTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pricingParamId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pricingParamRrRequestDTOs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PricingParamRrRequestDTO"
+                    }
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "serviceOfferingId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "PricingParamOfferingMapRequestDTO"
+        },
+        "PricingParamOfferingMapResponseDTO": {
+            "type": "object",
+            "properties": {
+                "createDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "customerTypeId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "priceParameterResponseDTO": {
+                    "$ref": "#/definitions/PriceParameterResponseDTO"
+                },
+                "pricingParamId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pricingParamRrs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/PricingParamRrDTO"
+                    }
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "serviceOfferingId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            },
+            "title": "PricingParamOfferingMapResponseDTO"
+        },
+        "PricingParamRrDTO": {
+            "type": "object",
+            "properties": {
+                "createDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "pricingParamOfferingMapId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "rrVal": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateBy": {
+                    "type": "string"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "title": "PricingParamRrDTO"
+        },
+        "PricingParamRrRequestDTO": {
+            "type": "object",
+            "properties": {
+                "createDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "createdBy": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "rrVal": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "updatedBy": {
+                    "type": "string"
+                }
+            },
+            "title": "PricingParamRrRequestDTO"
+        },
+        "ReferenceDTO": {
+            "type": "object",
+            "properties": {
+                "businessTypeList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "calculationMeasureList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "calculationTypeList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "calculationUnitList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "commandmentCategoryList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "commandmentChargesOnList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "commandmentGeoTypeList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "commandmentTypeList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "customerTypeList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/LookUpDTO"
+                    }
+                },
+                "geoFeatureDto": {
+                    "$ref": "#/definitions/GeoFeatureDto"
+                },
+                "serviceOffeingList": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/ServiceOfferingDTO"
+                    }
+                }
+            },
+            "title": "ReferenceDTO"
+        },
+        "ReferenceData": {
+            "type": "object",
+            "title": "ReferenceData"
+        },
+        "ServiceOfferingDTO": {
+            "type": "object",
+            "properties": {
+                "descr": {
+                    "type": "string"
+                },
+                "effectiveDt": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expDt": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "lkpServiceLineId": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "serviceOffering": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                }
+            },
+            "title": "ServiceOfferingDTO"
+        },
+        "StateFeatureDto": {
+            "type": "object",
+            "properties": {
+                "attr1": {
+                    "type": "string"
+                },
+                "attr2": {
+                    "type": "string"
+                },
+                "attr3": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "attr4": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "createBy": {
+                    "type": "string"
+                },
+                "createDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "descr": {
+                    "type": "string"
+                },
+                "effectiveDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "expiryDate": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "propelRefId": {
+                    "type": "integer",
+                    "format": "int64"
+                },
+                "stateFeature": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "integer",
+                    "format": "int32"
+                },
+                "updateBy": {
+                    "type": "string"
+                },
+                "updateDate": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "title": "StateFeatureDto"
+        }
+    }
+}}

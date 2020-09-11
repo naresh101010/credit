@@ -1,0 +1,101 @@
+{
+  "data": [
+    {
+      "id": 1,
+      "zoneMatrixName": "ZONE 1",
+      "description": "string",
+      "status": 1,
+      "effectiveDate": "2020-01-08",
+      "expiryDate": "2020-01-08",
+      "zmLzMapDTO": [
+        {
+          "id": 1,
+          "status": 1,
+          "zoneId": 1,
+          "zoneMatrixId": 1
+        }
+      ],
+      "zmRGMapDTO": [
+        {
+          "id": 1,
+          "rateGroupId": 1,
+          "status": 1,
+          "zoneMatrixId": 1
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "zoneMatrixName": "ZONE 2",
+      "description": "string",
+      "status": 1,
+      "effectiveDate": "2020-01-08",
+      "expiryDate": "2020-01-08",
+      "zmLzMapDTO": [
+        {
+          "id": 1,
+          "status": 1,
+          "zoneId": 1,
+          "zoneMatrixId": 1
+        }
+      ],
+      "zmRGMapDTO": [
+        {
+          "id": 1,
+          "rateGroupId": 1,
+          "status": 1,
+          "zoneMatrixId": 1
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "zoneMatrixName": "ZONE 3",
+      "description": "string",
+      "status": 0,
+      "effectiveDate": "2020-01-08",
+      "expiryDate": "2020-01-08",
+      "zmLzMapDTO": [
+        {
+          "id": 1,
+          "status": 1,
+          "zoneId": 1,
+          "zoneMatrixId": 1
+        }
+      ],
+      "zmRGMapDTO": [
+        {
+          "id": 1,
+          "rateGroupId": 1,
+          "status": 1,
+          "zoneMatrixId": 1
+        }
+      ]
+    },
+    {
+      "id": 4,
+      "zoneMatrixName": "ZONE 4",
+      "description": "string",
+      "status": 0,
+      "effectiveDate": "2020-01-08",
+      "expiryDate": "2020-01-08",
+      "zmLzMapDTO": [
+        {
+          "id": 1,
+          "status": 1,
+          "zoneId": 1,
+          "zoneMatrixId": 1
+        }
+      ],
+      "zmRGMapDTO": [
+        {
+          "id": 1,
+          "rateGroupId": 1,
+          "status": 1,
+          "zoneMatrixId": 1
+        }
+      ]
+    }
+  ],
+  "status": "SUCCESS"
+}

@@ -1,0 +1,102 @@
+<div>
+    <div class="all_form">
+        <form autocomplete="off" name="gstForm" (ngSubmit)="f.form.valid" #f="ngForm" novalidate>
+            <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="45%">
+                            <div fxFlex="50%">
+                                <mat-label><strong>Type <sup class="mandatory">*</sup> </strong></mat-label>
+                            </div>
+                            <div fxFlex="50%">
+                                <mat-grid-list cols="1" rowHeight="60px">
+                                    <mat-grid-tile class="module_area">
+                                        <mat-form-field class="select_box_dropwodn"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                            <mat-select disableOptionCentering panelClass="anyClass" name="status"
+                                                [(ngModel)]="gstObj.status" #status="ngModel" required>
+                                                <mat-option value=" Metro 8">
+                                                    Metro 8
+                                                </mat-option>
+                                                <mat-option value=" Metro 4">
+                                                    Metro 4
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        <div *ngIf="status.touched || (f.submitted && status.invalid)" class="invalid-feedback">
+                                            <div *ngIf="status.errors?.required">Fuel Index is required</div>
+                                        </div>
+                                    </mat-grid-tile>
+                                </mat-grid-list>
+                            </div>
+                        </div>
+                        <div fxFlex="10%"></div>
+                        <div fxFlex="45%">
+                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                <div fxFlex="50%">
+                                    <mat-label><strong>Select City</strong></mat-label>
+                                </div>
+                                <div class="module_area" fxFlex="50%">
+                                    <mat-grid-list cols="1" rowHeight="60px">
+                                        <mat-grid-tile class="module_area">
+                                            <mat-form-field class="select_box_dropwodn"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && city.invalid }">
+                                                <mat-select disableOptionCentering panelClass="anyClass" name="city"
+                                                    multiple [(ngModel)]="gstObj.city" #city="ngModel" required>
+                                                    <mat-option value="Delhi">
+                                                        Delhi
+                                                    </mat-option>
+                                                    <mat-option value="Mumbai">
+                                                        Mumbai
+                                                    </mat-option>
+                                                    <mat-option value="Chennai">
+                                                        Chennai
+                                                    </mat-option>
+                                                    <mat-option value="Kolkata">
+                                                        Kolkata
+                                                    </mat-option>
+                                                    <mat-option value="Banglore">
+                                                        Banglore
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                            <div *ngIf="city.touched || (f.submitted && city.invalid)" class="invalid-feedback">
+                                                <div *ngIf="city.errors?.required">City is required</div>
+                                            </div>
+                                        </mat-grid-tile>
+                                    </mat-grid-list>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+
+                    <mat-card class="card_body">
+                        <div class="mat-table mat_table_main">
+                            <div class="mat-row bg bg_light_grey table_main_header">
+                                <div class="mat-cell mat_cell_head upper-case"> Type</div>
+                                <div class="mat-cell mat_cell_head upper-case">Selected City</div>
+                            </div>
+                            <div class="mat-row bg_light_grey">
+                                <div class="mat-cell upper-case  table_color hyperlink upper-case">
+                                    Metro 8</div>
+                                <div class="mat-cell upper-case">Delhi , Mumbai , Chennai , Kolkata,</div>
+                            </div>
+                        </div>
+                    </mat-card>
+
+                    <br>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="100%">
+                            <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                                <mat-grid-tile class="module_area">
+                                    <button mat-flat-button class="theme_btn round_btn">Save</button>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

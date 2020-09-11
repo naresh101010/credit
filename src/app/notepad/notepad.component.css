@@ -1,0 +1,41 @@
+.mdmContainer .mat_table_main .mat-cell {
+  font-size: 13px;
+  font-weight: 600;
+  color: #000;
+}
+
+.mdmContainer .toolbar_heading {
+  height: 48px;
+}
+
+.mdmContainer .sub_sub_heading {
+  margin-bottom: 16px !important;
+}
+
+.example-container {
+  display: flex;
+  flex-direction: column;
+  max-height: 500px;
+  min-width: 300px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.element-row {
+  position: relative;
+}
+
+.element-row:not(.expanded) {
+  cursor: pointer;
+}
+
+.element-row:not(.expanded):hover {
+  background: #f5f5f5;
+}
+
+.element-row.expanded {
+  border-bottom-color: transparent;
+}

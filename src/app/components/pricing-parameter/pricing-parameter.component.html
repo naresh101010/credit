@@ -1,0 +1,566 @@
+<section>
+</section>
+<section *ngIf="addPricingParameter">
+    <div class="container">
+        <form autocomplete="off" name="pricingForm" (ngSubmit)="f.form.valid && savePricingParameter()" #f="ngForm"
+            novalidate>
+            <h3 class="zone_title" style="margin: 7px 0;">{{FormatType}} Pricing Parameter</h3>
+            <mat-card class="">
+                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                    <div fxFlex="100%">
+                        <div class="add_branch_main">
+
+                            <div class="create_branch">
+
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Pricing Parameter Name <sup class="mandatory">*</sup>
+                                            </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="pos_relative input_height">
+                                            <mat-form-field appearance="outline"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && name.invalid }">
+                                                <input matInput class="form-control" name="name"
+                                                   maxlength="50"
+                                                    [(ngModel)]="pricingObj.pricingLabel" #name="ngModel"
+                                                    (input)="pricingObj.pricingLabel=$event.target.value.toUpperCase()"
+                                                    required>
+                                            </mat-form-field>
+                                            <div *ngIf="name.touched || (f.submitted && name.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="name.errors?.required">Pricing Parameter Name is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="20%"></div>
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Attribute Type <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="select_box_dropwodn pos_relative input_height"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && attributeType.invalid }">
+                                            <mat-select disableOptionCentering  [dataArr]="attributeTypeList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22" [disabled]="isPricingId"
+                                                (selectionChange)="getAttributeValueByType(pricingObj.attributeTypeId)"
+                                                [(ngModel)]="pricingObj.attributeTypeId" #attributeType="ngModel"
+                                                name="attributeType" required>
+                                                <ngx-mat-select-search [(ngModel)]="attributeTypeNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="attributeType.id"
+                                                    *ngFor="let attributeType of attributeTypeList | stringFilter:attributeTypeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{attributeType.descr}}" [matTooltipPosition]="'above'">
+                                                    {{attributeType.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                          
+                                            <div *ngIf="attributeType.touched || (f.submitted && attributeType.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="attributeType.errors?.required">Attribute Type is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Attribute Value<sup class="mandatory"
+                                                    *ngIf="notMandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="select_box_dropwodn pos_relative input_height"
+                                            [ngClass]="{ 'mandatory_input_2': (f.submitted && attributeValue.invalid)}">
+                                            <mat-select disableOptionCentering   [dataArr]="pricingCalculationTypeList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="selectedPricingArribute" #attributeValue="ngModel"
+                                                [compareWith]="compareWithfunc" name="attributeValue"
+                                                multiple [required]="notMandatory">
+                                                <ngx-mat-select-search [(ngModel)]="attributeValNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="attributeVal"  [disabled]="isAttributeValueChecked(attributeVal)"
+                                                    *ngFor="let attributeVal of pricingCalculationTypeList | stringFilter:attributeValNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{attributeVal.descr}}" [matTooltipPosition]="'above'">
+                                                    {{attributeVal.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                           
+                                            <div *ngIf="(attributeValue.touched || (f.submitted && attributeValue.invalid))"
+                                                class="invalid-feedback">
+                                                <div *ngIf="attributeValue.errors?.required">Attribute Value is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="20%"></div>
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Calculation Type <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <!-- pricingObj.priceCalculationTypeId -->
+                                    <div fxFlex="20%">
+                                        <div class="select_box_dropwodn pos_relative input_height"
+                                            [ngClass]="{ 'mandatory_input_2': (f.submitted && priceCalculationTypeId.invalid)}">
+                                            <mat-select disableOptionCentering   [dataArr]="chargeByList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22" name="priceCalculationTypeId"
+                                                [(ngModel)]="selectedCalculationTypeId" 
+                                                #priceCalculationTypeId="ngModel"  required
+                                                multiple [compareWith]="compareWithfunc">
+                                                <ngx-mat-select-search [(ngModel)]="calculationTypeNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="calculationType" [disabled]="iscalculationTypeChecked(calculationType)"
+                                                    *ngFor="let calculationType of chargeByList | stringFilter:calculationTypeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{calculationType.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{calculationType.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="(priceCalculationTypeId.touched || (f.submitted && priceCalculationTypeId.invalid))"
+                                                class="invalid-feedback">
+                                                <div *ngIf="priceCalculationTypeId.errors?.required">Calculation Type is
+                                                    required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Service Offering <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="select_box_dropwodn pos_relative input_height"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && w.invalid }">
+                                            <mat-select disableOptionCentering [dataArr]="serviceOffeingList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22" multiple 
+                                                name="w" [(ngModel)]="selectedServiceOffering"
+                                                (selectionChange)="getmappingServiceOfferWithContract('serviceOffering')"
+                                                [compareWith]="compareWithfunc" #w="ngModel" required>
+                                                <ngx-mat-select-search [(ngModel)]="serviceOfferNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="serviceOffer" [disabled]="isServiceOfferingChecked(serviceOffer)"
+                                                    *ngFor="let serviceOffer of serviceOffeingList | stringFilter:serviceOfferNameSearchCtrl:'serviceOffering' | sortBy:'serviceOffering'" 
+                                                    matTooltip="{{serviceOffer.serviceOffering}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{serviceOffer.serviceOffering}}
+                                                </mat-option>
+                                            </mat-select>
+                                          
+                                            <div *ngIf="w.touched || (f.submitted && w.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="w.errors?.required">Service Offering is
+                                                    required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="20%"></div>
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Contract Type <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="select_box_dropwodn pos_relative input_height"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && q.invalid }">
+                                            <mat-select disableOptionCentering  [dataArr]="customerTypeList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22" multiple 
+                                                name="q" [(ngModel)]="selectedContractype"
+                                                (selectionChange)="getmappingServiceOfferWithContract('contractype')"
+                                                [compareWith]="compareWithfunc" #q="ngModel" required>
+                                                <ngx-mat-select-search [(ngModel)]="contractTypeNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="contractType"
+                                                    *ngFor="let contractType of customerTypeList | stringFilter:contractTypeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{contractType.descr}}" [matTooltipPosition]="'above'">
+                                                    {{contractType.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                            <!--<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass" multiple [disabled]="isPricingId"
+                                                name="q" [(ngModel)]="selectedContractype" (selectionChange)="getmappingServiceOfferWithContract('contractype')"
+                                                [compareWith]="compareWithfunc"  #q="ngModel" required class="mat_select">
+                                                <mat-option [value]="contractType" *ngFor="let contractType of customerTypeList"  matTooltip="{{contractType.descr}}" [matTooltipPosition]="'above'">
+                                                    {{contractType.descr}}
+                                                </mat-option>
+                                            </mat-select>-->
+                                            <div *ngIf="q.touched || (f.submitted && q.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="q.errors?.required">Contract Type is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%" class="radio_btn_margin">
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="select_box_dropwodn pos_relative input_height"
+                                            [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                            <mat-select disableOptionCentering panelClass="anyClass" class="mat_select"
+                                             [(ngModel)]="pricingObj.status"
+                                                #status="ngModel" required name="status" required uppercase>
+                                                <mat-option [value]="1">
+                                                    ACTIVE
+                                                </mat-option>
+                                                <mat-option [value]="0">
+                                                    INACTIVE
+                                                </mat-option>
+                                            </mat-select>
+                                            <div *ngIf="status.touched || (f.submitted && status.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="status.errors?.required">Status is required
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="20%"></div>
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Description</strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="pos_relative input_height">
+                                            <mat-form-field appearance="outline">
+                                                <textarea matInput name="description"
+                                                    [(ngModel)]="pricingObj.description" [disabled]="isPricingId"
+                                                    maxlength="100"
+                                                    (input)="pricingObj.description=$event.target.value.toUpperCase()"></textarea>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Effective Date <sup class="mandatory">*</sup> </strong>
+                                        </mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="pos_relative input_height">
+                                            <mat-form-field appearance="outline" class="date_picker_adjust"
+                                                [ngClass]="{ 'mandatory_input': (effectiveDate.errors?.required && (effectiveDate.touched || f.submitted)) }">
+                                                <mat-datepicker #branchEffective panelClass="mdmDatepicker"
+                                                    class="date_picker"></mat-datepicker>
+                                                <input matInput [matDatepicker]="branchEffective"
+                                                    [disabled]="this.pricingObj.id" #effectiveDate="ngModel"
+                                                    placeholder="DD/MM/YYYY" [min]="today"
+                                                    [(ngModel)]="pricingObj.effectiveDate" validDate
+                                                    name="effectiveDate"
+                                                    (click)="checkForExpiryDate(pricingObj.effectiveDate);"
+                                                    (dateChange)="checkForExpiryDate(pricingObj.effectiveDate)"
+                                                    required>
+                                                <mat-datepicker-toggle matSuffix
+                                                    (onMenuOpen)="checkForExpiryDate(pricingObj.effectiveDate)"
+                                                    [for]="branchEffective">
+                                                </mat-datepicker-toggle>
+                                            </mat-form-field>
+                                            <div *ngIf="effectiveDate.touched || (f.submitted && effectiveDate.invalid)"
+                                                class="invalid-feedback">
+                                                <div *ngIf="effectiveDate.errors?.required">Effective Date is required
+                                                </div>
+                                                <div *ngIf="pricingObj.effectiveDate < currentDate ">Effective date
+                                                    cannot be less than current date</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div fxFlex="20%"></div>
+                                    <div fxFlex="20%">
+                                        <mat-label><strong>Expiry Date {{isVar}} </strong></mat-label>
+                                    </div>
+                                    <div fxFlex="20%">
+                                        <div class="pos_relative input_height">
+                                            <mat-form-field appearance="outline" class="date_picker_adjust">
+                                                <input matInput [matDatepicker]="pickdaser" validDate name="expiryDate"
+                                                   [(ngModel)]="pricingObj.expiryDate" #expiryDate='ngModel' [required]="isInactive"
+                                                    placeholder="DD/MM/YYYY" [min]="expiryMinDate"
+                                                    (dateChange)="changeDateFormat(pricingObj.effectiveDate,pricingObj.expiryDate);"
+                                                    (change)="isVar=true">
+                                                <mat-datepicker-toggle matSuffix [for]="pickdaser">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #pickdaser
+                                                    (opened)="checkForExpiryDate(pricingObj.effectiveDate)"
+                                                    panelClass="mdmDatepicker" class="date_picker">
+                                                </mat-datepicker>
+                                            </mat-form-field>
+                                            <div *ngIf="isVar" class="invalid-feedback">
+                                                <div
+                                                    *ngIf="pricingObj.expiryDate <= pricingObj.effectiveDate && !pricingObj.id">
+                                                    Must be Greater than Effective
+                                                    Date.</div>
+                                                <div *ngIf="  pricingObj.expiryDate <= pricingObj.effectiveDate ||currentDate>pricingObj.expiryDate">Must be
+                                                    Greater than
+                                                    Current Date.</div>
+                                            </div>
+                                             <div *ngIf="f.submitted && expiryDate.invalid && !isVar" class="invalid-feedback">
+                                <div *ngIf="pricingObj.expiryDate && pricingObj.expiryDate < currentDate">Must be Greater than Effective and Current Date</div>
+                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+                                <section>
+
+                                    <h3 style="margin-bottom: 0px;"> Attribute Value</h3>
+                                    <div class="">
+                                        <mat-card class="card_mb pd_000">
+                                            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                                <div fxFlex="100%">
+                                                    <div class="all_branch_right comm_table_responsive"
+                                                        style="padding: 0px;">
+                                                        <div
+                                                            class="mat-table comm_mat_table pricing_mat_table text-center">
+                                                            <div class="mat-row branch_table_head">
+                                                                <div class="mat-cell">
+                                                                    <strong>Service Offering</strong>
+                                                                </div>
+                                                                <div class="mat-cell">
+                                                                    <strong>Contract Type</strong></div>
+                                                                <div class="mat-cell" *ngIf="!hideAttributevalue">
+                                                                    <strong>Attribute Value <sup class="mandatory"
+                                                                            *ngIf="notMandatory">*</sup> </strong></div>
+                                                                <div class="mat-cell">
+                                                                    <strong>RR Value <sup
+                                                                            class="mandatory">*</sup></strong></div>
+                                                            </div>
+                                                            <div class="mat-row branch_table_dis"
+                                                                *ngFor="let attributeTable of pricingParamOfferingMapRequestDTOs;let i=index">
+                                                                <div class="mat-cell mr-top-8">
+                                                                    {{attributeTable.serviceOfferingId | showName : 'serviceOffering' : serviceOffeingList}}
+                                                                </div>
+                                                                <div class="mat-cell mr-top-8">
+                                                                    {{attributeTable.customerTypeId  | showName : 'descr' : customerTypeList}}
+                                                                </div>
+                                                                <div class="mat-cell mr-top-8"
+                                                                    *ngIf="!hideAttributevalue">
+                                                                    <div class="pos_relative">
+                                                                        <mat-form-field
+                                                                            [ngClass]="{ 'mandatory_input': f.submitted && attributeValueList.invalid }"
+                                                                            class="select_box_dropwodn command_dropdown mr--5">
+                                                                            <mat-select disableOptionCentering  [disabled]="attributeTable.isChecked"
+                                                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                                                class="search_select_branch mr_top_22"
+                                                                                [(ngModel)]="attributeTable.pricingParamRrRequestDTO.attributeValue"
+                                                                                name="attributeValueList-{{i}}"
+                                                                                #attributeValueList="ngModel"
+                                                                                [required]="notMandatory">
+                                                                                <ngx-mat-select-search
+                                                                                    [(ngModel)]="attributeValueTypeNameSearchCtrl"
+                                                                                    [placeholderLabel]="'Search...'"
+                                                                                    [noEntriesFoundLabel]="'Not found'"
+                                                                                    name="search">
+                                                                                    <mat-icon
+                                                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                                                        search
+                                                                                    </mat-icon>
+                                                                                </ngx-mat-select-search>
+                                                                                <mat-option
+                                                                                    [value]="attributeValueType.id"
+                                                                                    *ngFor="let attributeValueType of selectedPricingArribute | stringFilter:attributeValueTypeNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                                                    matTooltip="{{attributeValueType.descr}}"
+                                                                                    [matTooltipPosition]="'above'">
+                                                                                    {{attributeValueType.descr}}
+                                                                                </mat-option>
+                                                                            </mat-select>
+                                                                            <!--<mat-select disableOptionCentering
+                                                                                panelClass="anyClass"
+                                                                                #attributeValueList="ngModel"
+																				name="attributeValueList-{{i}}"
+																				[(ngModel)]="attributeTable.pricingParamRrRequestDTO.attributeValue"
+																				[disabled]="pricingObj.id"
+                                                                                [required]="notMandatory" >
+                                                                                <mat-option [value]="attributeValueType.id" *ngFor="let attributeValueType of selectedPricingArribute">{{attributeValueType.descr}}</mat-option>
+                                                                            </mat-select>-->
+                                                                        </mat-form-field>
+                                                                        <div *ngIf="(attributeValueList.touched || (f.submitted && attributeValueList.invalid))"
+                                                                            class="invalid-feedback2 mr-top-5">
+                                                                            <div
+                                                                                *ngIf="attributeValueList.errors?.required">
+                                                                                Attribute Value is required
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="mat-cell mr-top-8">
+                                                                    <mat-form-field appearance="outline"
+                                                                        [ngClass]="{ 'mandatory_input': f.submitted && rrValue.invalid }"
+                                                                        class="command_dropdown">
+                                                                        <input class="form-control" matInput
+                                                                            appNumbersOnly maxlength="6"
+                                                                            [(ngModel)]="attributeTable.pricingParamRrRequestDTO.rrValue"
+                                                                            required
+                                                                            #rrValue="ngModel" name="rrValue={{i}}">
+                                                                    </mat-form-field>
+                                                                    <div *ngIf="rrValue.touched || (f.submitted && rrValue.invalid)"
+                                                                        class="invalid-feedback2 mr-top-5">
+                                                                        <div *ngIf="rrValue.errors?.required">
+                                                                            RR Value is required
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </mat-card>
+                                    </div>
+                                </section>
+                                <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                                    <div fxFlex="40%"></div>
+                                    <div fxFlex="20%" class="button_grid_position">
+                                        <mat-grid-list cols="1" rowHeight="55px" class="row_height">
+                                            <mat-grid-tile class="module_area module_btn">
+                                                <button mat-flat-button color="primary" *ngIf="!submitPermission"
+                                                    class="theme_btn round_btn"
+                                                    [disabled]="(!pricingObj.id && pricingObj.status == 0) || (inActiveFlag && pricingObj.status == 0)">Submit </button>
+                                                <button mat-flat-button color="primary" type="button"
+                                                    (click)="viewPermission()" class="theme_btn round_btn"
+                                                    *ngIf="submitPermission">Back</button>
+                                            </mat-grid-tile>
+                                        </mat-grid-list>
+                                    </div>
+                                    <div fxFlex="40%"></div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </form>
+    </div>
+</section>
+
+<section *ngIf="showPricingParameter">
+    <div class="container">
+        <mat-card class="card_mb">
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="18%">
+                    <div class="pin_branch_mapping">
+                        <h3>Pricing Parameter Name</h3>
+                    </div>
+                </div>
+                <div fxFlex="20%">
+                    <div class="add_branch_main brnach_add_assign route_searchbar">
+                        <em class="material-icons search_bar" style="cursor: pointer; z-index: 9999;">search</em>
+                        <mat-form-field appearance="outline">
+                            <input matInput class="form-control" name="pricingName" (keyup)="clearSearchInput()"
+                                (input)="pricingName=$event.target.value.toUpperCase()"
+                                (keyup.enter)="searchPricingParameter($event)" [(ngModel)]="pricingName">
+
+                        </mat-form-field>
+                        <div class="invalid-feedback" *ngIf="strLengthValid">
+                            Enter Minimum 3 Characters
+                        </div>
+                        <button mat-button class="branch_add_brn" *ngxPermissionsOnly="['CREATE']"
+                            (click)="addPricingParameter=true;showPricingParameter=false;clearObj()"><em
+                                class="material-icons search_icon">add</em></button>
+                    </div>
+                </div>
+            </div>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="18%">
+                    <div class="pin_branch_mapping">
+                        <h3>Details</h3>
+                    </div>
+                </div>
+                <div fxFlex="73%">
+                    <div class="">
+                        <div class="mat-table">
+                            <div class="mat-row branch_table_head">
+                                <div class="mat-cell"><strong>Pricing Parameter Name</strong></div>
+                                <div class="mat-cell"><strong>Service Offering</strong></div>
+                                <div class="mat-cell"><strong>Contract Type</strong></div>
+                                <div class="mat-cell"></div>
+                            </div>
+                            <div class="mat-row branch_table_dis"
+                                *ngFor="let pricingParamter of pricingParameterList | paginate: { itemsPerPage: 10, currentPage: p }">
+                                <div class="mat-cell" [matTooltip]="pricingParamter.pricingLabel"
+                                    [matTooltipPosition]="'above'">{{pricingParamter.pricingLabel}}</div>
+                                <div class="mat-cell">
+                                    <span
+                                        *ngFor="let serviceOffer of removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'serviceOfferingId')| slice:0:2; let i = index;">
+                                        {{serviceOffer.serviceOfferingId | showName : 'serviceOffering' : serviceOffeingList}}
+                                        <span
+                                            *ngIf="i<1  && i != (removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'serviceOfferingId').length-1) ">
+                                            , </span>
+                                    </span>
+                                    <span
+                                        *ngIf="removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'serviceOfferingId').length>2">
+                                        <span class="cursor-none"
+                                            [matTooltip]="pricingParamTooltip(removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'serviceOfferingId'),'serviceOfferingId')"
+                                            [matTooltipPosition]="'above'">....</span></span>
+                                </div>
+                                <div class="mat-cell">
+                                    <span
+                                        *ngFor="let contractTypeObj of removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'customerTypeId')| slice:0:2; let i = index;">
+                                        {{contractTypeObj.customerTypeId | showName : 'descr' : customerTypeList}}
+                                        <span
+                                            *ngIf="i<1  && i != (removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'customerTypeId').length-1) ">
+                                            , </span>
+                                    </span>
+                                    <span
+                                        *ngIf="removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'customerTypeId').length>2">
+                                        <span class="cursor-none"
+                                            [matTooltip]="pricingParamTooltip(removeDuplicate(pricingParamter.pricingParamOfferingMapResponseDTOs,'customerTypeId'),'customerTypeId')"
+                                            [matTooltipPosition]="'above'">....</span></span>
+                                </div>
+
+                                <div class="mat-cell mat_cell_icon">
+                                    <button mat-button><em class="material-icons icon_theme_color"
+                                            (click)="editPricingParameter(pricingParamter,1)">remove_red_eye</em></button>
+                                    <button mat-button><em class="material-icons icon_theme_color"
+                                            *ngxPermissionsOnly="['UPDATE','CREATE']"
+                                            (click)="editPricingParameter(pricingParamter,0)">edit</em></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pagination_area">
+                <pagination-controls (pageChange)="p = $event"></pagination-controls>
+            </div>
+        </mat-card>
+    </div>
+</section>

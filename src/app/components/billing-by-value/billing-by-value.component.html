@@ -1,0 +1,304 @@
+<div *ngIf="!addBillingByValue">
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%"> <h3 class="grid_title">Billing Level</h3></div>
+        <div fxFlex="18%"> <form autocomplete="off">
+                <div class="hdr_srch_field">
+                    <span matPrefix><em class="material-icons search_icon"
+                            (click)="searchbillingByValue($event)">search</em></span>
+                    <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                        <div fxFlex="29%">
+                            <mat-form-field appearance="outline">
+                                <input matInput  name="billingByValue" (keyup)="clearSearch()"  (input)="billingByValue=$event.target.value.toUpperCase()"
+                                    (keyup.enter)="searchbillingByValue($event)" [(ngModel)]="billingByValue">
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="10%">
+                            <button (click)="addBillingByValue=true" type="button" mat-button class="add_btn"
+                                *ngxPermissionsOnly="['CREATE']"><em class="material-icons">add</em></button>
+                        </div>
+                        <div class="invalid-feedback" *ngIf="strLengthValid">
+                            Enter Minimum 3 Characters
+                        </div>
+                    </div>
+                </div>
+            </form></div>
+        </div>
+    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+        <div fxFlex="18%">
+           
+            <h3 class="grid_title mr_top_30">Billing Level Details</h3>
+        </div>
+        <div fxFlex="82%">
+          
+            <mat-card class="card_body">
+                <div class="mat-table mat_table_main">
+                    <div class="mat-row bg bg_light_grey table_main_header">
+                        <div class="mat-cell mat_cell_head upper-case">Billing level</div>
+                        <div class="mat-cell mat_cell_head upper-case">status</div>
+                        <div class="mat-cell mat_cell_head upper-case">description</div>
+                        <div class="mat-cell"></div>
+                    </div>
+                    <div class="mat-row bg_light_grey"
+                        *ngFor="let BillingByValueObj of billingList | paginate: { itemsPerPage: 10, currentPage: p }">
+                        <div class="mat-cell upper-case  table_color hyperlink upper-case">
+                            {{BillingByValueObj.lkpBillingLevelId | showName:'descr':lookuplist}} </div>
+                        <div class="mat-cell upper-case">{{BillingByValueObj.status | statusDesc }}</div>
+                        <div class="mat-cell display_overflow_hidden" [matTooltip]="BillingByValueObj.descr" [matTooltipPosition]="'above'">
+                            {{BillingByValueObj.descr}}</div>
+                        <div class="mat-cell mat_cell_icon">
+                            <em class="material-icons icon_btn_display icon_theme_color"
+                                (click)="editModal(BillingByValueObj, 1)">remove_red_eye</em>
+                            <em class="material-icons icon_btn_display icon_theme_color" *ngxPermissionsOnly="['CREATE','UPDATE']"
+                                (click)="editModal(BillingByValueObj, 0)">edit</em>
+                        </div>
+                    </div>
+                    <div class="mat-row bg_light_grey" *ngIf="!billingList.length">
+                        <div class="mat-cell  upper-case text-center" style="text-align: center !important;">No Data
+                            Present
+                        </div>
+                    </div>
+                </div>
+                <div class="pagination_area">
+                    <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                </div>
+            </mat-card>
+
+
+        </div>
+
+    </div>
+</div>
+<div *ngIf="addBillingByValue">
+    <div class=" all_form">
+        <form autocomplete="off" name="billingForm" (ngSubmit)="f.form.valid && saveBillingByValue()" #f="ngForm"
+            novalidate>
+            <h3 class="zone_title">Billing By & Billing Level Mapping</h3>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="50%">
+                    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                        <div fxFlex="90%">
+                            <mat-grid-list cols="2" rowHeight="53px">
+                                <mat-grid-tile>
+                                    <mat-label><strong>Billing Level <sup class="mandatory">*</sup> </strong></mat-label>
+                                </mat-grid-tile>
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field class="select_box_dropwodn"
+                                        [ngClass]="{ 'mandatory_input': f.submitted && lkpBillingLevelId.invalid }">
+                                        <mat-select disableOptionCentering
+                                                panelClass="anyClass multipleAnyClass_search_2"  [dataArr]="lookuplist" appAutoSelectFirstOption
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="billingObj.featureType" name="lkpBillingLevelId"
+                                                #lkpBillingLevelId="ngModel" required>
+                                                <ngx-mat-select-search [(ngModel)]="BillingByValueNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="BillingByValueObj.id"
+                                                    *ngFor="let BillingByValueObj of lookuplist | stringFilter:BillingByValueNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{BillingByValueObj.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{BillingByValueObj.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                        <!--<mat-select disableOptionCentering panelClass="anyClass"
+                                            #lkpBillingLevelId="ngModel" required
+                                            [(ngModel)]="billingObj.lkpBillingLevelId" name="lkpBillingLevelId">
+                                            <mat-option class="upper-case" [value]="BillingByValueObj.id" matTooltip="{{BillingByValueObj.descr}}" [matTooltipPosition]="'above'"
+                                                *ngFor="let BillingByValueObj of lookuplist">
+                                                {{BillingByValueObj.descr}}
+                                            </mat-option>
+                                        </mat-select>-->
+                                    </mat-form-field>
+                                    <div *ngIf="lkpBillingLevelId.touched || (f.submitted && lkpBillingLevelId.invalid)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="lkpBillingLevelId.errors?.required">Billing Level is required</div>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div fxFlex="10%" style="position: relative;">
+                        </div>
+                    </div>
+
+                    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+
+                        <div fxFlex="90%">
+                            <mat-grid-list cols="2" rowHeight="55px">
+                                <mat-grid-tile>
+                                    <mat-label><strong>Effective Date <sup class="mandatory">*</sup> </strong></mat-label>
+                                </mat-grid-tile>
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field appearance="outline" class="date_picker_adjust pd_8 "
+                                        [ngClass]="{ 'mandatory_input': (effectiveDt.errors?.required && (effectiveDt.touched || f.submitted)) }">
+                                        <mat-datepicker #date_picker_rate_group_2 panelClass="mdmDatepicker"
+                                            class="date_picker_rate_group_1">
+                                        </mat-datepicker>
+                                        <mat-datepicker-toggle matSuffix [for]="date_picker_rate_group_2"
+                                            class="date_adjust">
+                                        </mat-datepicker-toggle>
+                                        <input matInput [matDatepicker]="date_picker_rate_group_2"
+                                            class="date_input_height" class="date_picker_input"
+                                            [disabled]="billingObj.effectiveDt<currentDate && this.billingObj.id && isChange"
+                                            placeholder="DD/MM/YYYY" validDate #effectiveDt="ngModel" required
+                                            name="effectiveDt" [(ngModel)]="billingObj.effectiveDt" [min]="currentDate" (change)="isChange=false"
+                                            (dateChange)="changeDateFormat(billingObj.effectiveDt,billingObj.expDt)" />
+                                    </mat-form-field>
+                                    <div *ngIf="effectiveDt.touched || (f.submitted && effectiveDt.invalid)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="effectiveDt.errors?.required">Effective Date is required</div>
+                                        <div *ngIf="billingObj.effectiveDt < currentDate ">Effective date cannot be less than current date</div>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                        <div fxFlex="90%">
+                            <mat-grid-list cols="2" rowHeight="55px">
+                                <mat-grid-tile>
+                                    <mat-label><strong>Status <sup class="mandatory">*</sup> </strong></mat-label>
+                                </mat-grid-tile>
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field class="select_box_dropwodn"
+                                        [ngClass]="{ 'mandatory_input': f.submitted && status.invalid }">
+                                        <mat-select disableOptionCentering panelClass="anyClass" name="status"
+                                            #status="ngModel" required [(ngModel)]="billingObj.status" uppercase>
+                                            <mat-option [value]="1">
+                                                ACTIVE
+                                            </mat-option>
+                                            <mat-option [value]="0">
+                                                INACTIVE
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                    <div *ngIf="status.touched || (f.submitted && status.invalid)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="status.errors?.required">Status is required</div>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                </div>
+                <div fxFlex="50%">
+                    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                        <div fxFlex="90%">
+                            <mat-grid-list cols="2" rowHeight="53px">
+                                <mat-grid-tile>
+                                    <mat-label><strong>Billing By <sup class="mandatory">*</sup> </strong></mat-label>
+                                </mat-grid-tile>
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field class="select_box_dropwodn"
+                                        [ngClass]="{ 'mandatory_input': f.submitted && lkpBillingById.invalid }">
+                                        <mat-select disableOptionCentering [dataArr]="billingByMultipleList" appAutoSelectFirstOption
+                                                panelClass="anyClass multipleAnyClass_search_2"
+                                                class="search_select_branch mr_top_22"
+                                                [(ngModel)]="billingObj.featureType" name="lkpBillingById"
+                                                #lkpBillingById="ngModel" required>
+                                                <ngx-mat-select-search [(ngModel)]="BillingByNameSearchCtrl"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="search">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="BillingByObj.id"
+                                                    *ngFor="let BillingByObj of billingByMultipleList | stringFilter:BillingByNameSearchCtrl:'descr' | sortBy:'descr'"
+                                                    matTooltip="{{BillingByObj.descr}}"
+                                                    [matTooltipPosition]="'above'">
+                                                    {{BillingByObj.descr}}
+                                                </mat-option>
+                                            </mat-select>
+                                        <!--<mat-select disableOptionCentering panelClass="anyClass multipleAnyClass" multiple
+                                            [(ngModel)]="billingObj.lkpBillingById" name="lkpBillingById"
+                                            #lkpBillingById="ngModel" required>
+                                            <mat-option class="upper-case" [value]="BillingByObj.id" matTooltip="{{BillingByObj.descr}}" [matTooltipPosition]="'above'"
+                                                *ngFor="let BillingByObj of billingByMultipleList">
+                                                {{BillingByObj.descr}}
+                                            </mat-option>
+                                        </mat-select>-->
+                                    </mat-form-field>
+                                    <div *ngIf="lkpBillingById.touched || (f.submitted && lkpBillingById.invalid)"
+                                        class="invalid-feedback">
+                                        <div *ngIf="lkpBillingById.errors?.required">Billing By is required</div>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                        <div fxFlex="10%" style="position: relative;">
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                        <div fxFlex="90%">
+                            <mat-grid-list cols="2" rowHeight="55px">
+                                <mat-grid-tile>
+                                    <mat-label><strong>Expiry Date</strong></mat-label>
+                                </mat-grid-tile>
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field appearance="outline" class="date_picker_adjust pd_8 "
+                                        [ngClass]="{ 'mandatory_input': expDt.invalid }">
+                                        <mat-datepicker #date_picker_rate_group_1 panelClass="mdmDatepicker"
+                                            class="date_picker_rate_group_1" (opened)="checkForExpiryDate(billingObj.effectiveDt)"
+                                            (closed)="removeMinDate(billingObj.effectiveDt)">
+                                        </mat-datepicker>
+                                        <mat-datepicker-toggle matSuffix [for]="date_picker_rate_group_1"
+                                            class="date_adjust">
+                                        </mat-datepicker-toggle>
+                                        <input matInput [matDatepicker]="date_picker_rate_group_1" name="expDt"
+                                            [(ngModel)]="billingObj.expDt" #expDt="ngModel"
+                                            class="date_input_height date_picker_input" validDate
+                                            placeholder="DD/MM/YYYY" [min]="expiryMinDate"
+                                            (dateChange)="changeDateFormat(billingObj.effectiveDt,billingObj.expDt);"
+                                            (change)="isVar=true">
+
+                                    </mat-form-field>
+                                    <div *ngIf="isVar" class="invalid-feedback">
+                                        <div
+                                            *ngIf="billingObj.expDt<=billingObj.effectiveDt">
+                                            Must be Greater than Effective and Current Date.</div>
+                                        <div *ngIf="currentDate>billingObj.expDt && !(billingObj.expDt <= billingObj.effectiveDt) && billingObj.id">Must be Greater than Effective and Current Date.</div>
+                                    </div>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayout.xs="row" fxLayoutGap="0.5%">
+                        <div fxFlex="90%">
+                            <mat-grid-list cols="2" rowHeight="55px">
+                                <mat-grid-tile>
+                                    <mat-label><strong>Description</strong></mat-label>
+                                </mat-grid-tile>
+                                <mat-grid-tile class="module_area">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput uppercase class="form-control" name="descr"
+                                            [(ngModel)]="billingObj.descr" maxlength="50">
+                                    </mat-form-field>
+                                </mat-grid-tile>
+                            </mat-grid-list>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+            <br>
+            <br>
+            <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="0.5%">
+                <div fxFlex="100%">
+                    <mat-grid-list cols="1" rowHeight="75px" class="row_height">
+                        <mat-grid-tile class="module_area">
+                            <button mat-flat-button class="theme_btn round_btn"
+                                [disabled]="!billingObj.status && !billingObj.id">Save</button>
+                        </mat-grid-tile>
+                    </mat-grid-list>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

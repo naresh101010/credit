@@ -1,0 +1,343 @@
+{
+    "data": [
+        {
+            "id": 69,
+            "descr": "WEST LONDON",
+            "ewayblInterTh": 10,
+            "ewayblIntraTh": 10,
+            "gstNum": "8787637627876",
+            "gstStateCode": 786,
+            "lkpStateTypeId": 169,
+            "stateName": "WEST LONDON",
+            "status": 0,
+            "effectiveDt": "2020-01-13T10:51:57.009+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "descr": "",
+            "ewayblInterTh": 2,
+            "ewayblIntraTh": 3,
+            "gstNum": "123456",
+            "gstStateCode": 11,
+            "lkpStateTypeId": 169,
+            "stateName": "WESHBENGAL",
+            "status": 1,
+            "effectiveDt": "2020-01-23T07:38:27.731+0000",
+            "expDt": "2020-01-23T07:38:27.731+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 9,
+            "descr": "Assam",
+            "ewayblInterTh": 100,
+            "ewayblIntraTh": 120,
+            "gstNum": "123456781A",
+            "gstStateCode": 24,
+            "lkpStateTypeId": 168,
+            "stateName": "ASSAM",
+            "status": 1,
+            "effectiveDt": "2019-10-29T08:23:14.481+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "descr": "Jammu & Kashmir",
+            "ewayblInterTh": 100,
+            "ewayblIntraTh": 120,
+            "gstNum": "123456781",
+            "gstStateCode": 23,
+            "lkpStateTypeId": 168,
+            "stateName": "JAMMU & KASHMIR",
+            "status": 1,
+            "effectiveDt": "2019-10-29T08:23:14.481+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "descr": "BIHAR desc",
+            "ewayblInterTh": 100,
+            "ewayblIntraTh": 120,
+            "gstNum": "12345678",
+            "gstStateCode": 2,
+            "lkpStateTypeId": 169,
+            "stateName": "BIHAR",
+            "status": 1,
+            "effectiveDt": "2019-10-29T08:23:14.481+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "descr": "UP DETAILS",
+            "ewayblInterTh": 10,
+            "ewayblIntraTh": 10,
+            "gstNum": "123456789",
+            "gstStateCode": 1,
+            "lkpStateTypeId": 169,
+            "stateName": "UTTAR PRADESH",
+            "status": 1,
+            "effectiveDt": "2019-10-28T06:20:33.518+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 1,
+            "descr": "delhi is the state",
+            "ewayblInterTh": 100000,
+            "ewayblIntraTh": 200000,
+            "gstNum": "gst_num_001",
+            "gstStateCode": 1000,
+            "lkpStateTypeId": 169,
+            "stateName": "DELHI",
+            "status": 1,
+            "effectiveDt": "2019-10-15T05:00:29.305+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 37,
+            "descr": "East Singapore",
+            "ewayblInterTh": 1,
+            "ewayblIntraTh": 1,
+            "gstNum": "87678768",
+            "gstStateCode": 3,
+            "lkpStateTypeId": 169,
+            "stateName": "East Singapore",
+            "status": 0,
+            "effectiveDt": "2020-01-07T11:50:25.735+0000",
+            "referenceDTO": {
+                "stateTypes": [
+                    {
+                        "id": 94,
+                        "lookupVal": "SAFEXT"
+                    },
+                    {
+                        "id": 163,
+                        "lookupVal": "REST_STATES"
+                    }
+                ]
+            }
+        },
+        {
+            "id": 3,
+            "descr": "",
+            "ewayblInterTh": 2,
+            "ewayblIntraTh": 3,
+            "gstNum": "123456",
+            "gstStateCode": 11,
+            "lkpStateTypeId": 169,
+            "stateName": "WESHBENGAL",
+            "status": 1,
+            "effectiveDt": "2020-01-23T07:38:27.731+0000",
+            "expDt": "2020-01-23T07:38:27.731+0000",
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 9,
+            "descr": "Assam",
+            "ewayblInterTh": 100,
+            "ewayblIntraTh": 120,
+            "gstNum": "123456781A",
+            "gstStateCode": 24,
+            "lkpStateTypeId": 168,
+            "stateName": "ASSAM",
+            "status": 1,
+            "effectiveDt": "2019-10-29T08:23:14.481+0000",
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 4,
+            "descr": "Jammu & Kashmir",
+            "ewayblInterTh": 100,
+            "ewayblIntraTh": 120,
+            "gstNum": "123456781",
+            "gstStateCode": 23,
+            "lkpStateTypeId": 168,
+            "stateName": "JAMMU & KASHMIR",
+            "status": 1,
+            "effectiveDt": "2019-10-29T08:23:14.481+0000",
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 5,
+            "descr": "BIHAR desc",
+            "ewayblInterTh": 100,
+            "ewayblIntraTh": 120,
+            "gstNum": "12345678",
+            "gstStateCode": 2,
+            "lkpStateTypeId": 169,
+            "stateName": "BIHAR",
+            "status": 1,
+            "effectiveDt": "2019-10-29T08:23:14.481+0000",
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 2,
+            "descr": "UP DETAILS",
+            "ewayblInterTh": 10,
+            "ewayblIntraTh": 10,
+            "gstNum": "123456789",
+            "gstStateCode": 1,
+            "lkpStateTypeId": 169,
+            "stateName": "UTTAR PRADESH",
+            "status": 1,
+            "effectiveDt": "2019-10-28T06:20:33.518+0000",
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        },
+        {
+            "id": 1,
+            "descr": "delhi is the state",
+            "ewayblInterTh": 100000,
+            "ewayblIntraTh": 200000,
+            "gstNum": "gst_num_001",
+            "gstStateCode": 1000,
+            "lkpStateTypeId": 169,
+            "stateName": "DELHI",
+            "status": 1,
+            "effectiveDt": "2019-10-15T05:00:29.305+0000",
+            "referenceDTO": {
+                "safexTypes": [
+                    {
+                        "id": 124,
+                        "lookupVal": "GROUP A "
+                    },
+                    {
+                        "id": 125,
+                        "lookupVal": "GROUP B "
+                    }
+                ]
+            }
+        }
+    ],
+    "status": "SUCCESS"
+}
