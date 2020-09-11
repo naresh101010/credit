@@ -162,9 +162,9 @@ export class BranchDetailsComponent implements OnInit {
             let loadList = response.referenceData;
             this.organizationList = loadList.organizations;
             this.featuresList = loadList.features;
-            this.featuresList.map(elem => elem.isSlabFlag = 0)
+            this.featuresList.forEach(elem => elem.isSlabFlag = 0)
             this.modeOfPayments = loadList.modeOfPayments;
-            this.modeOfPayments.map(elem => elem.status = 0)
+            this.modeOfPayments.forEach(elem => elem.status = 0)
             this.ratingList = loadList.ratings;
             this.typesList = loadList.types;
             this.managerTypes = loadList.managerTypes;
@@ -207,7 +207,7 @@ export class BranchDetailsComponent implements OnInit {
     }
 
     closeAllBranch(id) {
-        this.branchList.map(elem => {
+        this.branchList.forEach(elem => {
             if (elem.branchId != id) {
                 elem.isPreview = false;
             } else {
@@ -245,7 +245,7 @@ export class BranchDetailsComponent implements OnInit {
     submitManageMaping() {
 
         let isValidManager = true;
-        this.branchManagers.map(elem => {
+        this.branchManagers.forEach(elem => {
             if (!elem.userId) {
                 isValidManager = false;
             }
@@ -284,7 +284,7 @@ export class BranchDetailsComponent implements OnInit {
             })
 
 
-            selectedMop.map(elem => {
+            selectedMop.forEach(elem => {
                 let index = data.branchModeOfPayments.findIndex(elm => elm.lkpBranchMopId == elem.id);
                 if (index != -1) {
                     return;
@@ -298,7 +298,7 @@ export class BranchDetailsComponent implements OnInit {
             })
 
 
-            selectedFeatures.map(elem => {
+            selectedFeatures.forEach(elem => {
                 let featureObj = data.branchFeatureMaps.find(elm => elm.branchFeatureId == elem.id);
                 if (!featureObj) {
                     let obj = {
@@ -314,7 +314,7 @@ export class BranchDetailsComponent implements OnInit {
                     featureObj.slabId = elem.slabId;
                 }
             })
-            data.branchFeatureMaps.map(elem => {
+            data.branchFeatureMaps.forEach(elem => {
                 let featureObj = selectedFeatures.find(elm => elm.id == elem.branchFeatureId)
                 if (!featureObj) {
                     elem.status = 0;
@@ -322,7 +322,7 @@ export class BranchDetailsComponent implements OnInit {
             })
             let isExit = false;
             let newManagersList = [];
-            this.branchManagers.map(elem => {
+            this.branchManagers.forEach(elem => {
 
                 let isPresent = data.branchManagers.find(elm => elm.lookupManagerTypeId == elem.lookupManagerTypeId && elem.userId == elm.userId);
                 if (!elem.id) {
@@ -344,14 +344,14 @@ export class BranchDetailsComponent implements OnInit {
             if (isExit) {
                 return this.appComp.showMessage(`CANNOT HAVE DUPLICATE MANAGER / EMPLOYEE COMBINATION`, 'danger');
             } else {
-                newManagersList.map(elem => {
+                newManagersList.forEach(elem => {
                     if (elem.userId) {
                         data.branchManagers.push(elem);
                     }
                 })
             }
 
-            data.branchManagers.map(elem => {
+            data.branchManagers.forEach(elem => {
                 let index = this.branchManagers.findIndex(elm => elm.lookupManagerTypeId == elem.lookupManagerTypeId && elem.userId == elm.userId);
                 if (index == -1) {
                     elem.status = 0;
@@ -364,14 +364,14 @@ export class BranchDetailsComponent implements OnInit {
             data.branchFeatureMaps = selectedFeatures;
             data.branchManagers = this.branchManagers.filter(elem => elem.userId);
             // here we need to send id on edit case
-            data.branchModeOfPayments.map(elem => {
+            data.branchModeOfPayments.forEach(elem => {
                 elem.effectiveDt = moment(elem.effectiveDt).format("YYYY-MM-DD");
                 elem.focValidUpto = moment(elem.focValidUpto).format("YYYY-MM-DD");
                 elem.lkpBranchMopId = elem.id;
                 elem.status = elem.status ? 1 : 0;
                 delete elem.id;
             })
-            data.branchFeatureMaps.map(elem => {
+            data.branchFeatureMaps.forEach(elem => {
                 elem.branchFeatureId = elem.id;
                 elem.status = elem.status ? 1 : 0;
                 elem.isSlabFlag = elem.isSlabFlag ? 1 : 0;

@@ -101,7 +101,7 @@ export class AddOrganisationComponent implements OnInit {
                 this.addOrgObj.orgLobMap.splice(index, 1);
             }
             this.num = 0;
-            this.addOrgObj.orgLobMap.map(elem => {
+            this.addOrgObj.orgLobMap.forEach(elem => {
                 if (elem.status == 0) {
                     this.num = this.num + 1;
                 }
@@ -244,7 +244,7 @@ export class AddOrganisationComponent implements OnInit {
 
         this.$country.getAll().subscribe(response => {
             this.countryList = response.responseData;
-            this.countryList.map(elem => {
+            this.countryList.forEach(elem => {
                 elem.nameWithStatus = `${elem.countryName}`;
             })
             this.countryList = this.countryList.sort((a, b) => a.countryName.localeCompare(b.countryName))

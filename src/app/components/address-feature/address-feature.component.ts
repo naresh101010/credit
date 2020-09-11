@@ -52,7 +52,7 @@ export class AddressFeatureComponent implements OnInit {
 
    this.strLengthValid=false;
    this.featureType='';
-        this.LoadList.map(elem => {
+        this.LoadList.forEach(elem => {
             if (elem.descr == addressFeatureObj.featureType) {
                 addressFeatureObj.featureTypeId = elem.id;
             }
