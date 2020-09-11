@@ -439,10 +439,12 @@ var favoriteObj : any = {}
             if(favObj.objectId && this.pinnedObject.objectId && favObj.objectId === this.pinnedObject.objectId){
               favObj['isPinned'] = true;
               favObj[Constants.BOOKMARK_ICON_JSON_KEY] = 'bookmark';
+              console.log(' ')
             }else if(!this.pinnedObject.objectId && favObj.id && this.pinnedObject.menuHierarchyId && favObj.id === this.pinnedObject.menuHierarchyId){
               favObj['isPinned'] = true;
               favObj[Constants.BOOKMARK_ICON_JSON_KEY] = 'bookmark';
-                   }
+               console.log("  ");       
+            }
               }
             }
           this.dashboardCard.forEach(dashBoard =>{
