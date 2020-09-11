@@ -58,7 +58,14 @@ a:hover{color: #fff !important;}
 .counterWidth{width: 78%; margin-top: 6rem;}
 .count_card2{margin-top: 2rem;background: #fff;border-radius: 1rem;cursor: pointer;}
 .clickcount_card{margin-top: 2rem;background: #fff;border-radius: 0rem;cursor: pointer; height: 18rem;}
-.heartIcon{font-size: 2.5rem !important;float: right !important; color: #B00020 !important; cursor: pointer;}
+.heartIcon{
+  font-size: 2.5rem !important;
+  cursor: pointer; 
+  float: right !important; 
+  color: #B00020; 
+  margin-top: 1rem;
+}
+
 .clickheartIcone{font-size: 2.5rem !important;float: right !important; color: wheat !important;}
 .bookMark{font-size: 2.5rem !important;padding-left: 1rem;position: relative;top: -.4rem;color: #1a1a1a !important;cursor: pointer;}
 .clickBookMark{font-size: 2.5rem !important;padding-left: 1rem;position: relative;top: -.5rem;color: yellow !important;}
@@ -81,7 +88,7 @@ a:hover{color: #fff !important;}
 .clickdropHeart{font-size:2rem; position: absolute;right: 1rem;padding-top: .5rem;color: yellow !important;}
 .heartIcon1{float:right !important;  columns: #27AE60 !important; cursor: pointer}
 .dropOfavro{font-size: 2rem;position: absolute;right: -1rem;columns: #27AE60 !important; padding-top: .5rem;cursor: pointer;}
-.heartIcon{float: right !important; color: #B00020; cursor: pointer; margin-top: 1rem;}
+
 .red {
   color: #B00020 !important;
 }

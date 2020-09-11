@@ -29,11 +29,10 @@ html body .contractContainer .slaAddIcon.two{margin-top:-4rem;margin-left:18rem}
 .shared .upload .mat-select-value-text{position:relative;top:-.2rem;font-size:1.4rem!important;text-transform:uppercase}
 .uploadDocument .mat-option{height:2.7rem!important}
 .shared .upload .mat-form-field-appearance-outline .mat-form-field-suffix{left:1.2rem!important;top:-.2rem!important;right:0!important}
-.shared .upload .mat-form-field{width:100%!important}
 .shared .upload .mat-form-field-outline{height:2.7rem;width:100%}
 .shared .upload .mat-form-field-infix{height:3.2rem;border-top:none!important;top:1.2rem!important;font-size:1.4rem!important}
 .shared .upload .mat-form-field-appearance-outline .mat-form-field-infix{padding:0}
-.shared .upload .mat-form-field{top:-.5rem;font-family:'Open Sans',sans-serif!important}
+.shared .upload .mat-form-field{width:100%!important; top:-.5rem;font-family:'Open Sans',sans-serif!important}
 .shared .upload .mat-form-field-appearance-outline .mat-form-field-wrapper{margin:0!important}
 .shared .upload .mat-form-field-wrapper{padding-bottom:0!important}
 .shared .upload .mat-form-field-appearance-outline{margin:0;position:relative!important;top:0!important}
