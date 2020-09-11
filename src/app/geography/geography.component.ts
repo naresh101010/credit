@@ -61,7 +61,7 @@ greeting(){
         let viewContainerRef = this.adHost.viewContainerRef;
         viewContainerRef.clear();
         let componentRef = viewContainerRef.createComponent(componentFactory);
-        (componentRef.instance);
+        // (componentRef.instance);
 
     }
 
