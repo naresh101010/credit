@@ -51,7 +51,6 @@
 
 .parent {
   cursor: pointer !important;
-  display: block !important;
   background: #1b904d !important;
   display: block !important;
   border-left: 0.5rem solid #01632a !important;

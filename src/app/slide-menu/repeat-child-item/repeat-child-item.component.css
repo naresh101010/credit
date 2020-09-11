@@ -23,7 +23,7 @@ a.child a.child {
   display: inline-block;
 }
 
-app-repeat-child-item.sectionGroup {
+.sectionGroup {
   margin-left: 2rem !important;
   display: block;
 }
@@ -42,7 +42,7 @@ button.parent.mat-menu-item {
   /* border-top: 1px solid #1b904d; */
 }
 
-app-repeat-child-item.sectionGroup {
+.sectionGroup {
   border-left: 1px solid #077637;
 }
 

@@ -20,7 +20,6 @@
 .nav {
   background: #27ae60;
   height: 100vh;
-  z-index: 9;
   position: fixed;
   color: #fff;
   font-size: 2rem;
@@ -119,8 +118,6 @@ span.main {
   display: block;
 }
 .parent {
-  cursor: pointer;
-  display: block;
   background: #1b904d;
   display: block;
   border-left: 0.5rem solid #01632a;
@@ -167,7 +164,7 @@ span.parent.openMenu ~ .child.section {
   display: block;
 }
 
-app-repeat-child-item.child.ng-star-inserted {
+.child.ng-star-inserted {
   display: none;
 }
 
