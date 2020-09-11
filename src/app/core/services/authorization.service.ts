@@ -6,7 +6,6 @@ import SimpleCrypto from "simple-crypto-js";
 import { ToastrService } from "ngx-toastr";
 
 import { AppSetting } from "../../app.setting";
-import { ErrorConstants } from "../../core/interceptor/ErrorHnadle";
 import { Constants } from "../../core/interceptor/Constants";
 
 @Injectable({
@@ -300,16 +299,16 @@ export class AuthorizationService {
    routeCardObjectsOfModules(success){
    let permissionArray = JSON.parse(sessionStorage.getItem("extracted_permissions"))
    if(permissionArray){
-   //var permission = permissionArray.find(x=>x.id == success.data.pinnedObject.menuHierarchyId);
-   //var objectPermissions = permission && permission.permissions && permission.permissions.find(x=> x.objectId== success.data.pinnedObject.objectId);
-   if(permissionArray || this.isAdmin){
-   if(success.data.pinnedObject.targetValue && success.data.pinnedObject.targetValue === 'COMMANDMENT'){
-     this.router.navigate(['/'+ success.data.pinnedObject.routingPath, {'openDialog': 'true'}]);
-     }
-    else{
-    this.router.navigate(['/' + success.data.pinnedObject.routingPath]);}
-  }
-     this.spinnerService.hide();
+          //var permission = permissionArray.find(x=>x.id == success.data.pinnedObject.menuHierarchyId);
+          //var objectPermissions = permission && permission.permissions && permission.permissions.find(x=> x.objectId== success.data.pinnedObject.objectId);
+          if(this.isAdmin){
+          if(success.data.pinnedObject.targetValue && success.data.pinnedObject.targetValue === 'COMMANDMENT'){
+            this.router.navigate(['/'+ success.data.pinnedObject.routingPath, {'openDialog': 'true'}]);
+            }
+            else{
+            this.router.navigate(['/' + success.data.pinnedObject.routingPath]);}
+          }
+            this.spinnerService.hide();
    }else{
     this.router.navigate(['/dashboard']);
         }
