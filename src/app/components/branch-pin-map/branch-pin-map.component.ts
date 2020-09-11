@@ -347,7 +347,7 @@ export class BranchPinMapComponent implements OnInit {
         // this.isEdit = false;
         this.isVar = false;
         this.isChange2 = false;
-        this.pincodeList
+        
         
         this.pincodeList.forEach(elem=>{
             let isPresent = this.AllpincodeList.find(elm=>elm.id == elem.id);
@@ -592,7 +592,7 @@ export class BranchPinMapComponent implements OnInit {
     isEdit = -1;
     viewBranchPin(index = null) {
 
-        this.branchPinList.map((elem, i) => {
+        this.branchPinList.forEach((elem, i) => {
             if (index != i) {
                 elem.isVisible = false
             }

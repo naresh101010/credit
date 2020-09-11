@@ -52,7 +52,7 @@ export class LookUpComponent implements OnInit {
 	loadList: any = {};
 
 	selectParentCompare(o1: any, o2: any): boolean {
-		if (o2 && o2) {
+		if (o2) {
 			return o1.id === o2.id;
 		}
 	}
@@ -237,7 +237,7 @@ export class LookUpComponent implements OnInit {
 			}
 		}
 
-		this.lookupValueList.map(elem=>{
+		this.lookupValueList.forEach(elem=>{
 			if(typeof (elem.id)=="string"){
 				elem.id =0
 			}

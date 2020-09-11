@@ -179,7 +179,7 @@ editGst(gstName){
 			this.gstNameList = [];
             this.enterGst=true;
 		}
-		this.gstList.map(elem => {
+		this.gstList.forEach(elem => {
 			if (elem.gstName == this.gstObj.gstName) {
 				this.spinner.show();
 				this.$gst.searchByName(this.gstObj.gstName).subscribe(Response => {

@@ -96,7 +96,7 @@ export class FuelComponent implements OnInit {
         this.selectedState = [];
         this.submitPermission = false;
         this.fuelPriceObj.lkpFuelIndexId = fuelIndexId;
-        this.fuelIndexList.map(elem => {
+        this.fuelIndexList.forEach(elem => {
             if (elem.id == fuelIndexId) {
                 if (elem.descr.trim() == "ALL INDIA") {
                     this.isCityShow = true;
@@ -280,7 +280,7 @@ export class FuelComponent implements OnInit {
             }
         })
 
-        this.fuelPriceObj.fuelStateMaps.map(elm => {
+        this.fuelPriceObj.fuelStateMaps.forEach(elm => {
             let stateIndex = this.selectedState.findIndex(elem => elm.stateId == elem.id);
             if (stateIndex == -1) {
                 elm.status = 0
@@ -328,7 +328,7 @@ export class FuelComponent implements OnInit {
             if (this.fuelPriceObj.id) {
                 this.fuelPriceObj.fuelStateMaps = this.getStatesMultiple();
             } else {
-                this.selectedState.map(elem => {
+                this.selectedState.forEach(elem => {
                     if (this.fuelPriceObj.fuelStateMaps) {
                         let fuelState = this.fuelPriceObj.fuelStateMaps.find(elm => elm.stateId == elem.id);
                         if (!fuelState) {
@@ -396,7 +396,7 @@ export class FuelComponent implements OnInit {
 getMetroListList(selectedMetroId){
 
         this.spinner.show()
-        this.allMetroMappingList.map(elem => {
+        this.allMetroMappingList.forEach(elem => {
             this.spinner.hide();
             if (selectedMetroId == elem.lkpFuelIndexId) {
                 this.metroMapList = [];
@@ -406,7 +406,7 @@ getMetroListList(selectedMetroId){
     }
     getCities() {
         let cities = [];
-        this.selectedCities.map(elem => {
+        this.selectedCities.forEach(elem => {
             let cityObj = this.selectedCity.find(elm => elm.id == elem.cityId);
             if (cityObj) {
                 elem.status = 1;
@@ -417,7 +417,7 @@ getMetroListList(selectedMetroId){
             }
         })
 
-        this.selectedCity.map(elem => {
+        this.selectedCity.forEach(elem => {
             let cityIndex = this.selectedCities.findIndex(elm => elm.cityId == elem.id);
             if (cityIndex == -1) {
                 cities.push({

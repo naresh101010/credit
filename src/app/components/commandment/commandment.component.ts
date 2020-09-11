@@ -673,7 +673,7 @@ if(this.submitPermission == true){
         // return; 
         // commandmentRrObj.isInvalid
         let notValid = false;
-        this.commandmentRrTableList.map(elem => {
+        this.commandmentRrTableList.forEach(elem => {
             if (parseFloat(elem.commandmentRrRequestDTO.maxValue) && (parseFloat(elem.commandmentRrRequestDTO.maxValue) < parseFloat(elem.commandmentRrRequestDTO.minValue))) {
                 notValid = true;
             }
@@ -999,7 +999,7 @@ if(this.submitPermission == true){
         let uniqueList = [];
         if(obj.commandmentOfferingList){
        uniqueList = obj.commandmentOfferingList.map(item => item.businessTypeId).filter((value, index, self) => self.indexOf(value) === index)
-        uniqueList.map(elemi => {
+        uniqueList.forEach(elemi => {
             let elem = {
                 "id": elemi,
                 "ischecked": true
@@ -1008,7 +1008,7 @@ if(this.submitPermission == true){
         })
 
         uniqueList = obj.commandmentOfferingList.map(item => item.customerTypeId).filter((value, index, self) => self.indexOf(value) === index)
-        uniqueList.map(elemi => {
+        uniqueList.forEach(elemi => {
             let elem = {
                 "id": elemi,
                 "ischecked": true
@@ -1017,7 +1017,7 @@ if(this.submitPermission == true){
         })
 
         uniqueList = obj.commandmentOfferingList.map(item => item.serviceOfferingId).filter((value, index, self) => self.indexOf(value) === index)
-        uniqueList.map(elemi => {
+        uniqueList.forEach(elemi => {
             let elem = {
                 "id": elemi,
                 "ischecked": true
@@ -1088,30 +1088,30 @@ if(this.submitPermission == true){
             this.commandmentRrTableList = Response.commandmentOfferingList;
 
             this.isExpand = true;
-            this.selectionCalculationMeasureList.map((selectedElem, index) => {
-                this.calculationMeasureList.map(elem => {
+            this.selectionCalculationMeasureList.forEach((selectedElem, index) => {
+                this.calculationMeasureList.forEach(elem => {
                     if (selectedElem.lookupEntityId == elem.id) {
                         selectedElem.descr = elem.descr;
                     }
                 });
             })
 
-            this.selectedCalculationUnitList.map(selectedElem => {
-                this.calculationUnitList.map(elem => {
+            this.selectedCalculationUnitList.forEach(selectedElem => {
+                this.calculationUnitList.forEach(elem => {
                     if (selectedElem.lookupEntityId == elem.id) {
                         selectedElem.descr = elem.descr;
                     }
                 });
             })
-            this.selectedCalculationTypeList.map(selectedElem => {
-                this.calculationTypeList.map(elem => {
+            this.selectedCalculationTypeList.forEach(selectedElem => {
+                this.calculationTypeList.forEach(elem => {
                     if (selectedElem.lookupEntityId == elem.id) {
                         selectedElem.descr = elem.descr;
                     }
                 });
             })
-            this.selectedChargesList.map(selectedElem => {
-                this.commandmentChargesOnList.map(elem => {
+            this.selectedChargesList.forEach(selectedElem => {
+                this.commandmentChargesOnList.forEach(elem => {
                     if (selectedElem.lookupEntityId == elem.id) {
                         selectedElem.descr = elem.descr;
                     }
