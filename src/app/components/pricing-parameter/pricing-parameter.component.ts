@@ -99,7 +99,7 @@ export class PricingParameterComponent implements OnInit {
     getAttributeValueByType(attributeId) {
 
         this.notMandatory = true;
-        this.attributeTypeList.map(elem => {
+        this.attributeTypeList.forEach(elem => {
             if (attributeId == elem.id) {
                 if (elem.descr.trim() == "TEXT") {
                     this.selectedPricingArribute = [];
@@ -147,7 +147,7 @@ export class PricingParameterComponent implements OnInit {
 
     savePricingParameter() {
 
-        this.pricingParamOfferingMapRequestDTOs.map(elem => {
+        this.pricingParamOfferingMapRequestDTOs.forEach(elem => {
             elem.description = this.pricingObj.description;
             elem.effectiveDate = this.pricingObj.effectiveDate;
             elem.expiryDate = this.pricingObj.expiryDate;
@@ -156,18 +156,18 @@ export class PricingParameterComponent implements OnInit {
 
         })
         if (this.pricingObj.status == 1) {
-            this.pricingParamOfferingMapRequestDTOs.map(elem => {
+            this.pricingParamOfferingMapRequestDTOs.forEach(elem => {
                 elem.pricingParamRrRequestDTO.status = 1
             })
         }
-        this.attributeTypeList.map(elem => {
+        this.attributeTypeList.forEach(elem => {
             if (elem.id == this.pricingObj.attributeTypeId) {
                 this.pricingObj.attrIdentifier = elem.descr;
             }
         })
         if (this.selectedPricingArribute) {
             var artibuteValue = '';
-            this.selectedPricingArribute.map(elem => {
+            this.selectedPricingArribute.forEach(elem => {
                 artibuteValue = artibuteValue + `${elem.id},`;
             })
 
@@ -232,7 +232,7 @@ export class PricingParameterComponent implements OnInit {
         this.showPricingParameter = false;
         this.isVar = false;
         this.FormatType = "Edit";
-        this.attributeTypeList.map(elem => {
+        this.attributeTypeList.forEach(elem => {
             if (pricing.attributeTypeId == elem.id) {
                 if (elem.descr.trim() == "TEXT") {
                     this.selectedPricingArribute = [];
@@ -266,7 +266,7 @@ export class PricingParameterComponent implements OnInit {
         let uniqueList = [];
         this.pricingObj.priceCalculationTypeId = pricing.priceCalculationTypeId;
         uniqueList = pricing.pricingParamOfferingMapResponseDTOs.map(item => item.serviceOfferingId).filter((value, index, self) => self.indexOf(value) === index)
-        uniqueList.map(elemi => {
+        uniqueList.forEach(elemi => {
             let elem = {
                 "id": elemi
             }
@@ -277,7 +277,7 @@ export class PricingParameterComponent implements OnInit {
         })
 
         uniqueList = pricing.pricingParamOfferingMapResponseDTOs.map(item => item.customerTypeId).filter((value, index, self) => self.indexOf(value) === index)
-        uniqueList.map(elemi => {
+        uniqueList.forEach(elemi => {
             let elem = {
                 "id": elemi
             }
@@ -298,7 +298,7 @@ export class PricingParameterComponent implements OnInit {
             else {
                 this.hideAttributevalue = true;
             }
-            this.pricingParamOfferingMapRequestDTOs.map((elem, i) => {
+            this.pricingParamOfferingMapRequestDTOs.forEach((elem, i) => {
                 elem.pricingParamRrRequestDTO = { ...elem.pricingParamRrs[0] };
                 elem.isChecked = true;
                 delete elem.pricingParamRrs;
