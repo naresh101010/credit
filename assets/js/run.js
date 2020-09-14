@@ -48,7 +48,10 @@ document.body.appendChild(script);
  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/amd.min.js'><\/script>");
  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-exports.js'><\/script>");
  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-register.min.js'><\/script>");
+  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/zone.umd.js'></script>");
+
  document.write("<script type='text/javascript' src="+ location.origin  + '/router.js' + "><\/script>");
+
 
 
 
