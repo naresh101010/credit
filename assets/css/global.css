@@ -194,7 +194,7 @@ tr.mat-footer-row{font-weight:700}
 .error1{color:#a33f3f;height:10px;margin:0;padding:0;position:absolute}
 .error2{color:red;margin:0;padding:0;height:15px}
 .error{font-size:14px;color:red;height:0;margin:0;padding:0;position:relative;bottom:5px}
-.button-msa{color:#216e24;width:24px;position:relative;top:3px;left:0;font-size:32px;cursor:pointer;border:none;background:transparent;position:relative}
+.button-msa{color:#216e24;width:24px;top:3px;left:0;font-size:32px;cursor:pointer;border:none;background:transparent;position:relative}
 button:focus{outline:0}
 .searchby{font-weight:700;margin-top:4px}
 #defualtBranchSearch{position:absolute;top:7px;left:20px;font-size:18px;color:#ccc;cursor:pointer}
@@ -397,7 +397,6 @@ button:focus{outline:0}
 .mat-form-field-appearance-outline .mat-form-field-prefix{top:-.2em!important}
 .mat-form-field-infix{padding:.5em 0;border-top:.84375em solid transparent}
 .mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label,.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label{transform:translateY(-1.34375em) scale(.75);width:133.33333%}
-.mat-form-field-can-float .mat-input-server[label]:not(:label-shown)+.mat-form-field-label-wrapper .mat-form-field-label{transform:translateY(-1.34374em) scale(.75);width:133.33334%}
 .mat-form-field-label-wrapper{top:-.84375em;padding-top:.84375em}
 .mat-form-field-label{top:1.34375em}
 .mat-form-field-underline{bottom:1.34375em}
@@ -415,10 +414,8 @@ button:focus{outline:0}
 .mat-form-field-appearance-fill .mat-form-field-infix{padding:.25em 0 .75em}
 .mat-form-field-appearance-fill .mat-form-field-label{top:1.09375em;margin-top:-.5em}
 .mat-form-field-appearance-fill.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label,.mat-form-field-appearance-fill.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label{transform:translateY(-.59375em) scale(.75);width:133.33333%}
-.mat-form-field-appearance-fill.mat-form-field-can-float .mat-input-server[label]:not(:label-shown)+.mat-form-field-label-wrapper .mat-form-field-label{transform:translateY(-.59374em) scale(.75);width:133.33334%}
 .mat-form-field-appearance-outline .mat-form-field-infix{padding:1em 0}
 .mat-form-field-appearance-outline .mat-form-field-label{top:1.84375em;margin-top:-.25em}
-.mat-form-field-appearance-outline.mat-form-field-can-float .mat-input-server[label]:not(:label-shown)+.mat-form-field-label-wrapper .mat-form-field-label{transform:translateY(-1.59374em) scale(.75);width:133.33334%}
 .mat-grid-tile-footer,.mat-grid-tile-header{font-size:14px}
 .mat-grid-tile-footer .mat-line,.mat-grid-tile-header .mat-line{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;display:block;box-sizing:border-box}
 .mat-grid-tile-footer .mat-line:nth-child(n+2),.mat-grid-tile-header .mat-line:nth-child(n+2){font-size:12px}
