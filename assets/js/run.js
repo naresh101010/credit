@@ -42,7 +42,7 @@ script.type  = "text/javascript";
 document.body.appendChild(script);
 
   document.write("<script type='text/javascript' src="+ location.origin  + '/minified.js.js' + "><\/script>");
-   document.write("<script type='text/javascript' src="+ location.origin  + '/zone.umd.js' + "><\/script>");
+  document.write("<script type='text/javascript' src='https://unpkg.com/zone.js'><\/script>");
   document.write("<script type='text/javascript' src="+ location.origin  + '/import-map-overrides.js' + "><\/script>");
    document.write("<script type='text/javascript' src="+ location.origin  + '/system.min.js' + "><\/script>");
   document.write("<script type='text/javascript' src="+ location.origin  + '/amd.min.js.js' + "><\/script>");
