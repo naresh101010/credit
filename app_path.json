@@ -1,0 +1,17 @@
+{
+    "imports": {
+         "user-management": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/user_ui/main.js",
+         "contract": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/credit_contract_ui/main.js",
+         "shared": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/shared_ui/main.js",
+         "prc-contract": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/prc_contract_ui/main.js",
+         "mdm": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/mdm_ui/main-es5.js",
+         "retail-contract": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/retail_contract_ui/main.js",
+         "asso_booking-contract": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/associate_booking_contract_ui/main.js",
+         "asso_network-contract": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/associate_network_ui/main.js",
+         "asso_delivery-contract": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/associate_cntr_delivery_ui/main.js",
+         "associate-management-booking": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/associate_mgmt_booking_ui/main.js",
+         "associate-management-network": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/associate_mgmt_network_ui/main.js",
+         "associate-management-delivery": "http://9fd1f2f0-uiapps-ingressuia-1a44-1616195313.ap-south-1.elb.amazonaws.com/associate_mgmt_delivery_ui/main.js",
+         "single-spa": "https://cdnjs.cloudflare.com/ajax/libs/single-spa/4.3.5/system/single-spa.min.js"
+    }
+}

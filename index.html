@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Propel-i</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-Security-Policy"
+        content="default-src *  data: blob: 'unsafe-inline' 'unsafe-eval'; script-src * 'unsafe-inline' 'unsafe-eval'; connect-src * 'unsafe-inline'; img-src * data: blob: 'unsafe-inline'; frame-src *; style-src * data: blob: 'unsafe-inline'; font-src * data: blob: 'unsafe-inline';" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="importmap-type" content="systemjs-importmap" />
+
+    
+</head>
+
+
+<body md-no-ink>
+    
+    <!-- app overlay -->
+    <div id="overlayMain"
+        style=" position: absolute; top: 0px; left: 0; background: rgba(51, 51, 51, 0.8); width: 100%; height: 100vh; z-index: 9; display: block;">
+        <div class="sk-circle">
+            <div class="sk-circle1 sk-child"></div>
+            <div class="sk-circle2 sk-child"></div>
+            <div class="sk-circle3 sk-child"></div>
+            <div class="sk-circle4 sk-child"></div>
+            <div class="sk-circle5 sk-child"></div>
+            <div class="sk-circle6 sk-child"></div>
+            <div class="sk-circle7 sk-child"></div>
+            <div class="sk-circle8 sk-child"></div>
+            <div class="sk-circle9 sk-child"></div>
+            <div class="sk-circle10 sk-child"></div>
+            <div class="sk-circle11 sk-child"></div>
+            <div class="sk-circle12 sk-child"></div>
+        </div>
+    </div>
+    <!-- end app overlay -->
+    <script>
+        document.write("<script type='text/javascript' src=" + location.origin + '/assets/js/bluebird.min.js' +
+            "><\/script>");
+        document.write("<script type='text/javascript' src=" + location.origin + '/assets/js/fetch.js' + "><\/script>");
+        document.write("<script type='text/javascript' src=" + location.origin + '/data.json' + "><\/script>");
+        document.write("<script type='text/javascript' src=" + location.origin + '/assets/js/run.js' + "><\/script>");
+    </script>
+    <div id="single-spa-application:shared" class="shared"></div>
+    <div class="feature_app menu" id="feature_holder">
+        <div class="userContainer holder" id="single-spa-application:user-management"></div>
+        <div class="contractContainer holder" id="single-spa-application:contract"></div>
+        <div class="mdmContainer holder" id="single-spa-application:mdm"></div>
+        <div class="prcContainer holder" id="single-spa-application:prc-contract"></div>
+        <div class="associateContainer holder" id="single-spa-application:asso_booking-contract"></div>
+        <div class="associateNetworkContainer holder" id="single-spa-application:asso_network-contract"></div>
+        <div class="associateDeliverContainer holder" id="single-spa-application:asso_delivery-contract"></div>
+        <div class="associateAirContainer holder" id="single-spa-application:asso_air-contract"></div>
+        <div class="associateCargorContainer holder" id="single-spa-application:asso_cargo-contract"></div>
+        <div class="associateManagementBooking holder" id="single-spa-application:associate-management-booking"></div>
+        <div class="associateManagementNetwork holder" id="single-spa-application:associate-management-network"></div>
+        <div class="associateManagementDelivery holder" id="single-spa-application:associate-management-delivery"></div>
+        <div class="retailContainer holder" id="single-spa-application:retail-contract"></div>
+    </div>
+</body>
+
+</html>
