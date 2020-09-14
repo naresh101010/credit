@@ -40,18 +40,25 @@ document.head.appendChild(link);
 var script   = document.createElement("script");
 script.type  = "text/javascript";                
 document.body.appendChild(script);
-// document.write("<script type='text/javascript' src="+ location.origin  + '/single_spa.js' + "><\/script>");
- document.write("<script type='text/javascript' src='https://unpkg.com/core-js-bundle@3.1.4/minified.js'><\/script>");
- document.write("<script type='text/javascript' src='https://unpkg.com/zone.js'><\/script>");
- document.write("<script type='text/javascript' src='https://unpkg.com/import-map-overrides@1.6.0/dist/import-map-overrides.js'><\/script>");
- document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/system.min.js'><\/script>");
- document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/amd.min.js'><\/script>");
- document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-exports.js'><\/script>");
- document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-register.min.js'><\/script>");
-  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/zone.umd.js'></script>");
 
+  document.write("<script type='text/javascript' src="+ location.origin  + '/minified.js.js' + "><\/script>");
+   document.write("<script type='text/javascript' src="+ location.origin  + '/zone.umd.js' + "><\/script>");
+  document.write("<script type='text/javascript' src="+ location.origin  + '/import-map-overrides.js' + "><\/script>");
+   document.write("<script type='text/javascript' src="+ location.origin  + '/system.min.js' + "><\/script>");
+  document.write("<script type='text/javascript' src="+ location.origin  + '/amd.min.js.js' + "><\/script>");
+document.write("<script type='text/javascript' src="+ location.origin  + '/named-exports.js' + "><\/script>");
+document.write("<script type='text/javascript' src="+ location.origin  + '/named-register.min.js' + "><\/script>");
  document.write("<script type='text/javascript' src="+ location.origin  + '/router.js' + "><\/script>");
 
+
+//  document.write("<script type='text/javascript' src='https://unpkg.com/core-js-bundle@3.1.4/minified.js'><\/script>");
+//  document.write("<script type='text/javascript' src='https://unpkg.com/zone.js'><\/script>");
+//  document.write("<script type='text/javascript' src='https://unpkg.com/import-map-overrides@1.6.0/dist/import-map-overrides.js'><\/script>");
+//  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/system.min.js'><\/script>");
+//  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/amd.min.js'><\/script>");
+//  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-exports.js'><\/script>");
+//  document.write("<script type='text/javascript' src='https://cdnjs.cloudflare.com/ajax/libs/systemjs/4.0.0/extras/named-register.min.js'><\/script>");
+//  document.write("<script type='text/javascript' src="+ location.origin  + '/router.js' + "><\/script>");
 
 
 
