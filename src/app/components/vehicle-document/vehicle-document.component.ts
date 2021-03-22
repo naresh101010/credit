@@ -225,12 +225,12 @@ export class VehicleDocumentComponent implements OnInit {
           docObj.signedUrl = obj.signedUrl;
           for (let docTypeObj of this.docTypeList) {
             if (obj.lkpDocTypeId == docTypeObj.id) {
-              docObj.docType = docTypeObj.descr;
+              docObj.docType = docTypeObj.lookupVal;
             }
           }
           for (let subTypeObj of this.subTypeNameList) {
             if (obj.lkpDocSubtypeId == subTypeObj.id) {
-              docObj.docSubtype = subTypeObj.descr;
+              docObj.docSubtype = subTypeObj.lookupVal;
             }
           }
           this.docList.push(docObj)
@@ -411,9 +411,9 @@ export class VehicleDocumentComponent implements OnInit {
 
     dialog.afterClosed().subscribe(res => {
       if(res) {
-        this.router.navigate(['/asso_delivery-contract/associate-staff'], {skipLocationChange: true})
+        this.router.navigate(['/asso_cargo-contract/associate-staff'], {skipLocationChange: true})
       } else {
-        this.router.navigate(['/asso_delivery-contract/asso_delivery'], {skipLocationChange: true})
+        this.router.navigate(['/asso_cargo-contract/asso_cargo'], {skipLocationChange: true})
       }
     })
   }
@@ -431,7 +431,7 @@ export class VehicleDocumentComponent implements OnInit {
     dialog.afterClosed().subscribe(res => {
       if(res) {
         let documentID = element.docId;
-        this.apiSer.post('/secure/v1/document/delete/associate/'+documentID).subscribe(res => {
+        this.apiSer.post('secure/v1/document/delete/associate/'+documentID).subscribe(res => {
           this.dataSource.data = this.dataSource.data.filter(function( obj ) {
             return obj.docId !== element.docId;
           });

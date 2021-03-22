@@ -1,10 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource, MatDialog } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { AppSetting } from '../../app.setting';
-import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-insurance-deduction',
@@ -28,13 +27,11 @@ export class InsuranceDeductionComponent implements OnInit {
   checkArray : any = [];
   minchar:boolean= false;
   nomatch: boolean=false;
-  activeClassFlag: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<InsuranceDeductionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private tosterservice: ToastrService,
-    public dialog: MatDialog,
     private datePipe: DatePipe) { }
 
   ngOnInit() {
@@ -48,14 +45,11 @@ export class InsuranceDeductionComponent implements OnInit {
     let e = new Date();
     e.setDate(e.getDate()+1);
     this.maxdate = e;
-    if(this.dataSource.data.length === 1) {
-      this.activeClassFlag = true;
-    }
 
-    // if (this.insuranceDeductions !== undefined) {
-    //   let filteredData = this.dataSource = this.branchVehicleList.filter(x => !this.insuranceDeductions.find(y => y.vehicleId === x.vehicleId));
-    //   this.dataSource = new MatTableDataSource<any>(filteredData);
-    // }
+    if (this.insuranceDeductions !== undefined) {
+      let filteredData = this.dataSource = this.branchVehicleList.filter(x => !this.insuranceDeductions.find(y => y.vehicleId === x.vehicleId));
+      this.dataSource = new MatTableDataSource<any>(filteredData);
+    }
 
     this.insuranceForm = this.fb.group({
       id: [0],
@@ -68,107 +62,47 @@ export class InsuranceDeductionComponent implements OnInit {
       recIdentifier : [1],
       status : ['']
     })
-
-    this.singleVehicleSelection();
   }
 
   get f() {return this.insuranceForm.controls } // get form controls
-
-  singleVehicleSelection() {
-    let id: number;
-    let selected: any;
-    if(this.dataSource.data.length === 1) {
-      this.vehicleData = this.dataSource.data[0];
-     // selected = this.vehicleData;
-     selected = this.insuranceDeductions.find(x => x.vehicleId === this.vehicleData.vehicleId);
-      this.insuranceForm.controls.status.enable();
-      if(selected !== undefined) {
-        id = selected.id;
-      } else {
-        id = 0;
-      }
-
-      this.insuranceForm.patchValue({
-        id: id,
-        vehicleId: this.vehicleData.vehicleId,
-        assocCntrId: AppSetting.contractId,
-        status: '',
-        dedctnCateg: 'INSURANCE',
-        recIdentifier : 1
-      });
-
-      this.editflow ? this.insuranceForm.controls.status.patchValue(AppSetting.editStatus) : 
-      (id !== 0 ? this.insuranceForm.controls.status.patchValue(selected.status) : this.insuranceForm.controls.status.disable())
-  
-    }
-  }
 
   /*----------- On Select Vehicle -------- */
   onSelectVehicle(vehicleData) {
     this.vehicleData = vehicleData;
     this.insuranceForm.controls.status.enable();
-    let id: number;
-    let selected = this.insuranceDeductions.find(x => x.vehicleId === this.vehicleData.vehicleId);
-    if (selected !== undefined) {
-      this.minDate = selected.effectiveDt;
-      id = selected.id;
-      this.insuranceForm.patchValue(selected);
-    } else {
-      this.insuranceForm.reset();
-      this.minDate = new Date();
-      let e = new Date();
-      e.setDate(e.getDate()+1);
-      this.maxdate = e;
-      id = 0;
 
-      this.insuranceForm.patchValue({
-        id: id,
-        vehicleId: this.vehicleData.vehicleId,
-        assocCntrId: AppSetting.contractId,
-        status: '',
-        dedctnCateg: 'INSURANCE',
-        recIdentifier: 1
-      });
+    let id: number;
+    let selected = this.oldInsuranceDeductions.find(x => x.vehicleId === this.vehicleData.vehicleId);
+    if (selected !== undefined) {
+      id = selected.id;
+    } else {
+      id = 0;
     }
+
+    this.insuranceForm.patchValue({
+      id: id,
+      vehicleId: this.vehicleData.vehicleId,
+      assocCntrId: AppSetting.contractId,
+      status: '',
+      dedctnCateg: 'INSURANCE',
+      recIdentifier: 1
+    });
 
     this.editflow ? this.insuranceForm.controls.status.setValue(AppSetting.editStatus) : 
     (id !== 0 ? this.insuranceForm.controls.status.setValue(selected.status) : this.insuranceForm.controls.status.disable())
   }
 
   /*--- After close dialog --- */
-  closeDialog(): void {
-      
-    const dialogRefConfirm = this.dialog.open(confimationdialog, {
-      width: '300px',
-      panelClass: 'creditDialog',
-      data:{message:'Are you sure ?'},
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if(value){
-        this.dialogRef.close();
-      }else{
-        console.log('Keep Open');
-      }
-    });
-
+  close() {
+    this.dialogRef.close()
   }
 
   addInsuranceDeductions() {
     if (this.vehicleData !== null && this.vehicleData !== undefined) {
       this.checkArray.push(this.insuranceForm.value);
-
-      let index = this.findIndexOfData();
-      if(index == undefined){
-       this.insuranceDeductions.push(this.insuranceForm.value);
-      } else {
-       this.insuranceDeductions[index] = this.insuranceForm.value;
-      }
-
-      // let data = this.branchVehicleList.filter(x => !this.insuranceDeductions.find(y => y.vehicleId === x.vehicleId));
-      // this.dataSource = new MatTableDataSource<any>(data);
+      this.insuranceDeductions.push(this.insuranceForm.value);
+      let data = this.branchVehicleList.filter(x => !this.insuranceDeductions.find(y => y.vehicleId === x.vehicleId));
+      this.dataSource = new MatTableDataSource<any>(data);
       this.insuranceForm.reset();
       let e = new Date();
       e.setDate(e.getDate()+1);
@@ -218,15 +152,18 @@ export class InsuranceDeductionComponent implements OnInit {
     if (effYear > 9999) {
       this.f.effectiveDt.setValue('');
     } else {
+      let a;
+     
+        a = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    
       let b = this.datePipe.transform(this.f.effectiveDt.value, 'yyyy-MM-dd');
       let c = this.datePipe.transform(this.f.expDt.value, 'yyyy-MM-dd');
-
       let e = new Date(this.f.effectiveDt.value);
       e.setDate(e.getDate()+1);
       this.maxdate = e;
-
+      
       if (c) {
-        if (b < c) {
+        if (b < c && b >= a) {
           this.isValidEffectiveDt = false;
         }
         else {
@@ -234,7 +171,7 @@ export class InsuranceDeductionComponent implements OnInit {
           this.isValidExpDt = false;
         }
       } else {
-        this.isValidEffectiveDt = false
+        this.isValidEffectiveDt = false;
       }
     }
   }
@@ -263,23 +200,5 @@ export class InsuranceDeductionComponent implements OnInit {
     }
   }
 
-  /*---------- Check vehile is selected or not --------- */
-  checkIsSelected(data) {
-    let obj = this.insuranceDeductions.find(x => x.vehicleId === data.vehicleId);
-    if(obj !== undefined){
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  findIndexOfData(){
-    for(let i=0; i< this.insuranceDeductions.length ; i++){
-      if(this.insuranceDeductions[i].vehicleId == this.insuranceForm.value.vehicleId){
-        return i;
-      } 
-    }
-  }
 
 }

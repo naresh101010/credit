@@ -1,12 +1,12 @@
-<div class="modal-container associateDeliverContainer">
+<div class="modal-container associateContainer">
 
   <div style="position: relative;" >
     <h3 id="h3">Assign Vehicle</h3>
-    <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()" ></em> 
+    <i class="fa fa-times fa-2x" aria-hidden="true"  id="closeButton" [mat-dialog-close]="false"></i>
   </div>
   <hr id="popup-hr">
   </div>
-  <div class="row" *ngIf="data.component != 'payment_term'">
+  <div class="row">
     <div class="col-md-12">
       <mat-label><strong>For Branch: {{data.obj.branchName}}</strong></mat-label>
     </div>
@@ -15,57 +15,34 @@
     <div class="col-md-12">
       <div class="table-responsive create_new_tale_mdm2">
 
-        <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   
           <!-- Position Column -->
-          <ng-container matColumnDef="vehicleNumber">
+          <ng-container matColumnDef="vehicleNumber" *ngxPermissionsOnly="['ASSIGN VEHICLE_CREATE','ASSIGN VEHICLE_UPDATE']">
             <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header class="width25"><mat-checkbox (change)="checkedAll($event)"></mat-checkbox> <strong> VEHICLE NUMBER</strong></th>
             <td mat-cell *matCellDef="let element" class="width25">
-              <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.vehicleNumber"><mat-checkbox  [(ngModel)] = "element.checked"></mat-checkbox>{{element.vehicleNumber}}</div>
+              <a>
+                <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.vehicleNumber"><mat-checkbox  [(ngModel)] = "element.checked"></mat-checkbox>{{element.vehicleNumber}}</div>
+              </a>
             </td>
           </ng-container>
   
           <!-- Name Column -->
-          <ng-container matColumnDef="vehicleModel">
+          <ng-container matColumnDef="vehicleModel" *ngxPermissionsOnly="['ASSIGN VEHICLE_CREATE','ASSIGN VEHICLE_UPDATE']">
             <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header class="width25"> <strong>VEHICLE MODEL</strong></th>
             <td mat-cell *matCellDef="let element" class="width25">
-                <div class="row_center row_center_width" matTooltipPosition="above">{{element.vehicleModel}}</div>
+                <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.vehicleModel | uppercase">{{element.vehicleModel}}</div>
             </td>
           </ng-container>
   
           <!-- Weight Column -->
-          <ng-container matColumnDef="vehicleTonnge">
+          <ng-container matColumnDef="vehicleTonnge" *ngxPermissionsOnly="['ASSIGN VEHICLE_CREATE','ASSIGN VEHICLE_UPDATE']">
             <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header class="width25"> <strong>VEHICLE TONNAGE</strong></th>
             <td mat-cell *matCellDef="let element" class="width25">
               <div class="row_center row_center_width">{{element.vehicleTonnge}}</div>
             </td>
           </ng-container>
-          <ng-container matColumnDef="vehicleVal">
-            <th scope="col" mat-header-cell *matHeaderCellDef  class="width25"> <strong>L x B x H</strong></th>
-            <td mat-cell *matCellDef="let element" class="width25">
-              <div class="row_center row_center_width"  matTooltipPosition="above" [matTooltip]="element.bodyLength + 'x' + element.bodyWidth + 'x' +  element.bodyHeight">{{element.bodyLength}} x {{element.bodyWidth}} x {{element.bodyHeight}} </div>
-            </td>
-          </ng-container>
-          <ng-container matColumnDef="price">
-            <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header class="width25"> <strong>RATE PER TRIP</strong></th>
-            <td mat-cell *matCellDef="let element" class="width25">
-              <div class="">
-                <!-- (ngModelChange)="editInput(element)" -->
-                <mat-form-field appearance="outline">
-                  <input matInput name="lkpAssocAddtnlVal" #lkpAssocAddtnlVal="ngModel" maxlength="11" OnlyNumber="true" numeric  
-                    [(ngModel)]="element.price" class="form-control" placeholder=""  [required] = "element.checked">
-                </mat-form-field>
-                <div *ngIf="(lkpAssocAddtnlVal.errors?.required && lkpAssocAddtnlVal.touched)" class="errorMsg">
-                  <em>Required !</em>
-                </div>
-                <div *ngIf="(lkpAssocAddtnlVal.errors?.isNumeric && !(lkpAssocAddtnlVal.errors?.required && lkpAssocAddtnlVal.touched))"
-                class="errorMsg">
-                <em>Invalid !</em>
-                  
-              </div> 
-              </div>
-            </td>
-          </ng-container>
+  
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
@@ -75,8 +52,8 @@
     </div>
   </div>
   <div class="row">
-    <div class="col-md-12 text-center mtb_30">
-      <button mat-button class="theme-button" *ngIf="dataSource.data && dataSource.data.length > 0" (click)="addVehicle()" [disabled]="onInputChange()">Save</button>
+    <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['ASSIGN VEHICLE_CREATE','ASSIGN VEHICLE_UPDATE']">
+      <button mat-button class="theme-button" *ngIf="dataSource.data && dataSource.data.length > 0" (click)="addVehicle()">Save</button>
     </div>
   </div>
       

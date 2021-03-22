@@ -6,12 +6,13 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-success',
-  templateUrl: './success.component.html'
+  templateUrl: './success.component.html',
+  styleUrls: ['./success.component.css']
 })
 export class SuccessComponent implements OnInit {
 
   associateContractCode : string;
-  editflow: boolean;
+  id : string;  
   countDown: Subscription;
   counter = 15;
   tick = 1000;
@@ -25,10 +26,10 @@ export class SuccessComponent implements OnInit {
   ngOnInit() {
     this.countDown = timer(0, this.tick).subscribe(() => --this.counter);
     this.associateContractCode = AppSetting.sfxCode;
-    this.editflow = this.data.editflow;
+    this.id = this.data.id;
     setTimeout(() => {
       this.successDialog.close();
-      this.router.navigate(['/asso_delivery-contract/asso_delivery'], {skipLocationChange: true}); 
+      this.router.navigate(['/asso_cargo-contract/asso_cargo'], {skipLocationChange: true}); 
   }, 15000);
   }
 

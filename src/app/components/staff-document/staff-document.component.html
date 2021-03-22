@@ -42,7 +42,7 @@
                   <div class="col-md-6">
                     <div class="module_area">
                       <mat-form-field class="select_box_dropwodn overline_hidden">
-                        <mat-select disableOptionCentering panelClass="creditSelect" #doctype="ngModel" required
+                        <mat-select disableOptionCentering panelClass="creditSelect" #doctype='ngModel' required
                           name="docTypeId" [(ngModel)]="fileModel.docTypeId" placeholder="Document Type"
                           (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
                           <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
@@ -66,7 +66,7 @@
                   <div class="col-md-6">
                     <div class="module_area">
                       <mat-form-field class="select_box_dropwodn overline_hidden">
-                        <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype="ngModel" required
+                        <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype='ngModel' required
                           name="subTypeId" [(ngModel)]="fileModel.subTypeId" placeholder="Sub Type">
                           <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
                             [matTooltip]="item.lookupVal" [matTooltipDisabled]="item.lookupVal.length<15"
@@ -89,7 +89,7 @@
                   <div class="col-md-8 col_pr_0">
                     <div class="module_area">
                       <mat-form-field appearance="outline" class="date_picker_adjust datePickHeight">
-                        <input #dtpicr="ngModel" required matInput autocomplete="off" [matDatepicker]="picker2" name="rateCardSignDt" (blur)="checkValidDate(fileModel.docExpiryDate)"
+                        <input #dtpicr='ngModel' required matInput [matDatepicker]="picker2" name="rateCardSignDt" (blur)="checkValidDate(fileModel.docExpiryDate)"
                           class="date_picker" placeholder="DD/MM/YYYY" [min]="minDate" [(ngModel)]="fileModel.docExpiryDate" numericSpecialChar/>
                         <mat-datepicker class="myDatepicker23" #picker2></mat-datepicker>
                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
@@ -114,10 +114,9 @@
                     <button id="buttonDesign" mat-raised-button color="primary" (click)="browseFile.click()"
                       class="docUpload">
                       Click Here to browse</button>
-                    <p class="file_name" id="uploadedFileName" [matTooltip]="uploadedFileName_upper | uppercase" matTooltipPosition="left">
-                    </p>
+                    <p class="file_name" [matTooltip]="uploadedFileName_upper | uppercase" matTooltipPosition="left" id="uploadedFileName"> </p>
                   </div>
-                  <div class="col-md-5" *ngxPermissionsOnly="['ASSOCIATESTAFFDOC_CREATE','ASSOCIATESTAFFDOC_UPDATE']">
+                  <div class="col-md-5">
                     <button mat-raised-button class="white-button box_shadow_none" [disabled]="!docform.form.valid"
                       (click)="postDocumentUploadDetail()">Upload</button>
                   </div>
@@ -129,10 +128,10 @@
             <h4 style="color: #27AE60; text-align:center">Uploaded Document </h4>
           </div>
           <div class="row" *ngIf="docList.length > 0">
-            <div class="col-md-12" *ngxPermissionsOnly="['ASSOCIATESTAFFDOC_READ']">
+            <div class="col-md-12">
               <div class="table-responsive create_new_tale_mdm2">
   
-                <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+                <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
   
                   <ng-container matColumnDef="Kname">
                     <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>NAME</strong></th>
@@ -185,7 +184,7 @@
               <div class="col-md-12">
                 <div class="table-responsive create_new_tale_mdm2">
   
-                  <table  aria-describedby="table" mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
+                  <table mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
   
                     <ng-container matColumnDef="docType">
                       <th scope="col" mat-header-cell *matHeaderCellDef> <strong>DOCUMENT TYPE</strong></th>
@@ -207,8 +206,7 @@
         <div class="padding_10">
           <div class="row">
             <div class="col-md-12 text-center mtb_30">
-              <button mat-button class="theme-button"
-                skipLocationChange routerLink="/asso_delivery-contract/associate-staff">Submit</button>
+              <button mat-button class="theme-button" (click)="submitStaff($event)">Submit</button>
             </div>
           </div>
         </div>

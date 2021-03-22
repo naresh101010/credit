@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { AppSetting } from '../../app.setting';
 import { ApiService } from '../../core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,16 +8,18 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSort, MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { ErrorConstants } from '../../core/models/constants';
 import { DatePipe } from '@angular/common';
-import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
+import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 import { BehaviorSubject } from 'rxjs-compat/BehaviorSubject';
+
+
 
 @Component({
   selector: 'app-associate-kyc',
   templateUrl: './associate-kyc.component.html',
   styleUrls: ['./associate-kyc.component.css'],
-  providers: [DatePipe]
+  providers : [DatePipe]
 })
 export class AssociateKycComponent implements OnInit {
   @ViewChild("docform", null) docformupload: any;
@@ -46,8 +48,8 @@ export class AssociateKycComponent implements OnInit {
   pendingDocsUplod : any = [];
   noRecdFundMsg: boolean = false;
   pengingListDataSource : any;
-  refData: any;
   minDate : Date;
+  refData: any;
   assocType: string;
   fileToUpload: File = null;
   uploadedFileName: string = '';
@@ -67,13 +69,13 @@ export class AssociateKycComponent implements OnInit {
     private toaster: ToastrService,
     private router: Router,
     private acrouter: ActivatedRoute,
-    private datePipe: DatePipe,
-    public dialog: MatDialog,
+    private datePipe : DatePipe,
     private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService,) { }
+    private permissionsService: NgxPermissionsService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
-
+ 
     this.authorizationService.setPermissions('DOCUMENT UPLOAD');
     this.perList = this.authorizationService.getPermissions('DOCUMENT UPLOAD') == null ? [] : this.authorizationService.getPermissions('DOCUMENT UPLOAD');
     this.permissionsService.loadPermissions(this.perList);
@@ -94,14 +96,12 @@ export class AssociateKycComponent implements OnInit {
     });
 
     this.apiSer.get("secure/v1/associates/" + AppSetting.associateId)
-      .subscribe((suc) => {
-        const data = suc.data.responseData;
-        this.refData = suc.data.referenceData;
-        AppSetting.associateRefData = this.refData;
-        console.log('data', data);
-        
-        AppSetting.associateData = data;
-      });
+    .subscribe((suc) => {
+      const data = suc.data.responseData;
+      this.refData = suc.data.referenceData;
+      AppSetting.associateRefData = this.refData;
+      AppSetting.associateData = data;
+    });
     this.spinner.show();
     this.getDocumentDetailbyId();
 
@@ -177,7 +177,6 @@ export class AssociateKycComponent implements OnInit {
 
   postDocumentUploadDetail() {
     this.spinner.show();
-
     if (this.validateUploadFile(this.fileModel.docTypeId, this.fileModel.subTypeId, this.fileModel.docExpiryDate, this.uploadedFileName)) {
       /*
       * Required Date format: yyyy-MM-dd
@@ -232,7 +231,7 @@ export class AssociateKycComponent implements OnInit {
     this.noRecdFundMsg = false;
     this.apiSer.documentTypeData(this.entityType, this.associateId)
       .subscribe(data => {
-        this.docData = data;
+        this.docData = data; 
 
         this.docTypeList = this.docData.data.referenceData.docTypeList;
         this.subTypeNameList = this.docData.data.referenceData.docSubTypeList;
@@ -273,13 +272,14 @@ export class AssociateKycComponent implements OnInit {
           docObj.lkpDocSubtypeId = obj.lkpDocSubtypeId;
           docObj.signedUrl = obj.signedUrl;
           for (let docTypeObj of this.docTypeList) {
+            // debugger
             if (obj.lkpDocTypeId == docTypeObj.id) {
-              docObj.docType = docTypeObj.descr;
+              docObj.docType = docTypeObj.lookupVal;
             }
           }
           for (let subTypeObj of this.subTypeNameList) {
             if (obj.lkpDocSubtypeId == subTypeObj.id) {
-              docObj.docSubtype = subTypeObj.descr;
+              docObj.docSubtype = subTypeObj.lookupVal;
             }
           }
           this.docList.push(docObj)
@@ -287,10 +287,10 @@ export class AssociateKycComponent implements OnInit {
           this.cloneDoc = new MatTableDataSource(this.docList);
           this.dataSource.sort = this.sort
         }
-      }, (error) => {
-        this.spinner.hide();
-        this.toaster.error(ErrorConstants.getValue(404));
-      });
+     },(error) => {
+          this.spinner.hide();
+          this.toaster.error(ErrorConstants.getValue(404));
+        });
   }
 
   // To get the list of sub documents type on change of document type dropdown
@@ -311,13 +311,13 @@ export class AssociateKycComponent implements OnInit {
     } else {
       this.spinner.show()
       this.apiSer.getSubDocTypeData(this.fileModel.docTypeId).subscribe(data => {
-        var resData: any = data;
-        this.subTypeList = resData.data.responseData;
-        this.spinner.hide();
-        console.log(data, "sub Document list");
-      }, (error) => {
-        this.spinner.hide();
-        this.toaster.error(ErrorConstants.getValue(404));
+          var resData: any = data;
+          this.subTypeList = resData.data.responseData;
+          this.spinner.hide();
+          console.log(data, "sub Document list");
+        },(error) => {
+          this.spinner.hide();
+          this.toaster.error(ErrorConstants.getValue(404));
       })
 
     }
@@ -409,7 +409,7 @@ export class AssociateKycComponent implements OnInit {
   }
 
   validFileExtensions = [".jpg", ".jpeg", ".png", ".doc", ".pdf", ".docx"];
-  validFormatsMgs: String = 'Allowed file formats are ' + this.validFileExtensions.join(', ');
+  validFormatsMgs: string = 'Allowed file formats are ' + this.validFileExtensions.join(', ');
   // fileName
   validateFileExt(fileName) {
     if (fileName && fileName.length < 51) {
@@ -449,7 +449,7 @@ export class AssociateKycComponent implements OnInit {
       }
     }
   }
-  /*---------- check valid date ---------- */
+/*---------- check valid date ---------- */
   checkValidDate(value) {
     let expYear = parseInt(this.datePipe.transform(value, 'yyyy'));
     if (expYear > 9999) {
@@ -472,7 +472,7 @@ export class AssociateKycComponent implements OnInit {
           this.dataSource.data = this.dataSource.data.filter(function( obj ) {
             return obj.docId !== element.docId;
           });
-          this.getDocumentDetailbyId();
+          this.getDocumentDetailbyId();   
           this.spinner.hide();
           this.toaster.success('Document has been deleted');
         });

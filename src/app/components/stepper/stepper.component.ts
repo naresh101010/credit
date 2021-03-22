@@ -21,11 +21,12 @@ export class StepperComponent implements OnInit {
   step1; step2; step3; step4; step5; step6; step7;
   stperIconStyleChange() {
    let urll = this.router.url;
+   console.log('url',urll)
     if (!urll.includes('contract')) {
       this.currentState = urll.slice(1).split(";")[0].toLowerCase();
     }
     else {
-      this.currentState = urll.slice(24).split(";")[0].toLowerCase();
+      this.currentState = urll.slice(21).split(";")[0].toLowerCase();
     }
 
     // if (this.currentState == 'assign-associate') {
@@ -91,24 +92,23 @@ export class StepperComponent implements OnInit {
   
   OnNextClick(url) {
     if (url) {
-
       let exactUrl;
       exactUrl = url.slice(0).split(";")[0].toLowerCase();
       this.CommonService_.steperNextFlg = true;
       if (!url.includes('edit')) {
-        if(!this.router.url.includes('asso_delivery-contract')){
+        if(!this.router.url.includes('asso_cargo-contract')){
           this.router.navigate([exactUrl], {skipLocationChange: true});
         }
         else{
-          this.router.navigate(['/asso_delivery-contract'+exactUrl], {skipLocationChange: true});
+          this.router.navigate(['/asso_cargo-contract'+exactUrl], {skipLocationChange: true});
         }
       }
       else {
-        if(!this.router.url.includes('asso_delivery-contract')){
+        if(!this.router.url.includes('asso_cargo-contract')){
           this.router.navigate([exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
         }
         else{
-          this.router.navigate(['/asso_delivery-contract'+exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
+          this.router.navigate(['/asso_cargo-contract'+exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
         }
       }
     }
@@ -121,13 +121,13 @@ export class StepperComponent implements OnInit {
     switch (lableValue) {
       case 'contract':
         if (this.currentState == "assign-associate") {
-          this.router.navigate(['/asso_delivery-contract/assign-associate'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/assign-associate'], { skipLocationChange: true });
           return;
         } else if (this.step1 == "msaEdit") {
           this.OnNextClick('/assign-associate;edit');
           return;
         } else if (this.step1 === "assign-associate") {
-          this.router.navigate(['/asso_delivery-contract/assign-associate'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/assign-associate'], { skipLocationChange: true });
           return;
         } else if (this.step1 != "assign-associate" && this.step1 != "msaEdit" && this.currentState != "assign-associate") {
           return;
@@ -138,13 +138,13 @@ export class StepperComponent implements OnInit {
       case 'branch':
 
         if (this.currentState == "branch-allocation") {
-          this.router.navigate(['/asso_delivery-contract/branch-allocation'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/branch-allocation'], { skipLocationChange: true });
           return;
         } else if (this.step2 == "opportunityEdit") {
           this.OnNextClick('/branch-allocation;edit');
           return;
         } else if (this.step2 === "branch-allocation") {
-          this.router.navigate(['/asso_delivery-contract/branch-allocation'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/branch-allocation'], { skipLocationChange: true });
           return;
         } else if (this.step2 != "branch-allocation" && this.step2 != "opportunityEdit" && this.currentState != "branch-allocation") {
           return;
@@ -155,13 +155,13 @@ export class StepperComponent implements OnInit {
       case 'payment':
 
         if (this.currentState == "booking-payout") {
-          this.router.navigate(['/asso_delivery-contract/booking-payout'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/booking-payout'], { skipLocationChange: true });
           return;
         } else if (this.step3 == "ratecardEdit") {
           this.OnNextClick('/booking-payout;edit');
           return;
         } else if (this.step3 === "booking-payout") {
-          this.router.navigate(['/asso_delivery-contract/booking-payout'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/booking-payout'], { skipLocationChange: true });
           return;
         } else if (this.step3 != "booking-payout" && this.step3 != "ratecardEdit" && this.currentState != "booking-payout") {
           return;
@@ -172,13 +172,13 @@ export class StepperComponent implements OnInit {
       case 'deduction':
 
         if (this.currentState == "booking-sla") {
-          this.router.navigate(['/asso_delivery-contract/booking-sla'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/booking-sla'], { skipLocationChange: true });
           return;
         } else if (this.step4 == "billingEdit") {
           this.OnNextClick('/booking-sla;edit');
           return;
         } else if (this.step4 === "booking-sla") {
-          this.router.navigate(['/asso_delivery-contract/booking-sla'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/booking-sla'], { skipLocationChange: true });
           return;
         } else if (this.step4 != "booking-sla" && this.step4 != "billingEdit" && this.currentState != "booking-sla") {
           return;
@@ -189,13 +189,13 @@ export class StepperComponent implements OnInit {
       case 'document':
 
         if (this.currentState == "booking-document") {
-          this.router.navigate(['/asso_delivery-contract/booking-document'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/booking-document'], { skipLocationChange: true });
           return;
         } else if (this.step5 == "documentuploadEdit") {
           this.OnNextClick('/booking-document;edit');
           return;
         } else if (this.step5 === "booking-document") {
-          this.router.navigate(['/asso_delivery-contract/booking-document'], { skipLocationChange: true });
+          this.router.navigate(['/asso_cargo-contract/booking-document'], { skipLocationChange: true });
           return;
         } else if (this.step5 != "booking-document" && this.step5 != "documentuploadEdit" && this.currentState != "booking-document") {
           return;
@@ -207,7 +207,6 @@ export class StepperComponent implements OnInit {
           return;
     }
   }
-
 
 
 }

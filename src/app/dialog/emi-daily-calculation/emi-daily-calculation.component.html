@@ -1,13 +1,13 @@
 <div class="modal-container">
     <h5 class="sub_heading">EMI / Daily Deduction Calculation</h5>
-    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true" aria-hidden="true" id="closeButton">close</mat-icon>
+    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true">close</mat-icon>
     <hr class="border_row">
     <br>
   </div>
   <div class="row">
     <div class="col-md-5">
       <div class="search_bar_mdm2d searchbar_mdm2">
-        <em class="fa fa-search" aria-hidden="true"></em>
+        <i class="fa fa-search" aria-hidden="true"></i>
         <mat-form-field appearance="outline">
           <input matInput name="rateCardCode" class="form-control" placeholder="Search Vehicle">
         </mat-form-field>
@@ -52,7 +52,7 @@
     <div class="col-md-6">
       <div class="row">
         <div class="col-md-6">
-          <p><strong>EMI Amount (Per Cycle)</strong></p>
+          <p><b>EMI Amount (Per Cycle)</b></p>
         </div>
         <div class="col-md-6">
           <mat-form-field appearance="outline">
@@ -62,14 +62,14 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <p><strong>Form Date</strong></p>
+          <p><b>Form Date</b></p>
         </div>
         <div class="col-md-6">
           <div class="module_area">
             <mat-form-field appearance="outline" class="date_picker_adjust">
               <mat-datepicker #emiFormDate class="myDatepicker23">
               </mat-datepicker>
-              <input matInput autocomplete="off" [matDatepicker]="insuFormDate" class="date_input_height" placeholder="" name="expiryDate"
+              <input matInput [matDatepicker]="insuFormDate" class="date_input_height" placeholder="" name="expiryDate"
                 placeholder="DD/MM/YYYY" />
               <mat-datepicker-toggle matPrefix [for]="emiFormDate">
               </mat-datepicker-toggle>
@@ -79,14 +79,14 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-          <p><strong>To Date</strong></p>
+          <p><b>To Date</b></p>
         </div>
         <div class="col-md-6">
           <div class="module_area">
             <mat-form-field appearance="outline" class="date_picker_adjust">
               <mat-datepicker #emiToDate class="myDatepicker23">
               </mat-datepicker>
-              <input matInput autocomplete="off" [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
+              <input matInput [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
                 placeholder="DD/MM/YYYY" />
               <mat-datepicker-toggle matPrefix [for]="emiToDate">
               </mat-datepicker-toggle>
@@ -96,7 +96,7 @@
       </div>
       <div class="row form-group">
           <div class="col-md-6">
-            <p><strong>Deduction Type</strong></p>
+            <p><b>Deduction Type</b></p>
           </div>
           <div class="col-md-6">
             <div class="module_area">
@@ -110,14 +110,14 @@
         </div>
       <div class="row">
         <div class="col-md-6">
-          <p><strong>Deduction Date</strong></p>
+          <p><b>Deduction Date</b></p>
         </div>
         <div class="col-md-6">
           <div class="module_area">
             <mat-form-field appearance="outline" class="date_picker_adjust">
               <mat-datepicker #emiToDate class="myDatepicker23">
               </mat-datepicker>
-              <input matInput autocomplete="off" [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
+              <input matInput [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
                 placeholder="DD/MM/YYYY" />
               <mat-datepicker-toggle matPrefix [for]="emiToDate">
               </mat-datepicker-toggle>

@@ -1,335 +1,133 @@
 
 <form name="AssoPaygen" (ngSubmit)="fAssoPaygen.form.valid" #fAssoPaygen="ngForm" novalidate  class="rateCardDetail">
-  <div class="row form-group">
-    <div class="col-md-3">
-      <mat-label><strong>Additional Amount Application</strong> <span class="redMark"> *</span></mat-label>
+  <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('PAYOUT BASED ON'))">
+    <div class="col-md-2">
+      <mat-label><strong>Payout Based On</strong><span class="redMark"> *</span></mat-label>
     </div>
-    <div class="col-md-9">
+    <div class="col-md-2">
       <div class="module_area">
-        <mat-radio-group name="addtnlAmtFlag_{{indexValue}}" #addtnlAmtFlag="ngModel"
-          [(ngModel)]="payoutGenDetail.addtnlAmtFlag"  (ngModelChange)="editInput(payoutGenDetail)" required>
-          <mat-radio-button [value]= "1" style="padding-right: 30px;">Yes
-          </mat-radio-button>
-          <mat-radio-button [value]= "0" >No</mat-radio-button>
-        </mat-radio-group>
-        <div *ngIf="(addtnlAmtFlag.errors?.required && addtnlAmtFlag.touched)" class="errorMsg">
-          Required !
+        <mat-form-field class="select_box_dropwodn overline_hidden allc" hideRequiredMarker>
+          <mat-label>Select</mat-label>
+          <mat-select class="Sel_payout" name="assPaType_{{indexValue}}" #assPaType="ngModel" 
+            (selectionChange)="payoutChange(payoutGenDetail, $event)" [disabled]="payoutGenDetail.id && editflow"
+            [(ngModel)]="payoutGenDetail.lkpCargoPayoutOptId"  (ngModelChange)="editInput(payoutGenDetail)" required>
+            <mat-option *ngFor="let assoPayType of payoutGenRefDetail?.assocPayoutTypeList | sortBy:'asc':'lookupVal'" [value]="assoPayType.id">
+              {{assoPayType.lookupVal}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="(assPaType.errors?.required && assPaType.touched)" class="errorMsg">
+          Required!
         </div>
       </div>
     </div>
   </div>
-  <ng-container *ngIf="payoutGenDetail.addtnlAmtFlag">
-    <div class="row">
-      <div class="col-md-2">
-        <mat-label><strong>Payment Basis</strong> <span class="redMark"> *</span></mat-label>
+  <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('WEIGHT TYPE'))">
+    <div class="col-md-2">
+      <mat-label><strong>Weight Type </strong> <span class="redMark"> *</span></mat-label>
+    </div>
+    <div class="col-md-2">
+      <div class="module_area">
+        <mat-form-field class="select_box_dropwodn overline_hidden allc" hideRequiredMarker>
+          <mat-label>Select</mat-label>
+          <mat-select class="Sel_WtType" disableOptionCentering (selectionChange)="expenseChange(payoutGenDetail)" name="lkpAssocWtType_{{indexValue}}" #lkpAssocWtType="ngModel"  (ngModelChange)="editInput(payoutGenDetail)"
+            [(ngModel)]="payoutGenDetail.wtType" required>
+            <!-- <ngx-mat-select-search [(ngModel)]="searchExpType" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+              [noEntriesFoundLabel]="'Not found'" name="search"> -->
+              <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+            <!-- </ngx-mat-select-search> -->
+            <mat-option *ngFor="let assoWtType of (payoutGenRefDetail?.assocWeightType | stringFilterBooking:searchExpType:'lookupVal') | sortBy:'asc':'lookupVal'" [value]="assoWtType.lookupVal"
+            matTooltipPosition="above" [matTooltip]="assoWtType.lookupVal | uppercase" [matTooltipDisabled]="assoWtType.lookupVal?.length<24">
+              {{assoWtType.lookupVal}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="(lkpAssocWtType.errors?.required && lkpAssocWtType.touched)" class="errorMsg">
+          Required!
+        </div>
       </div>
-      <div class="col-md-2">
-        <div class="module_area">
-          <mat-form-field class="select_box_dropwodn overline_hidden">
-            <mat-label>Select</mat-label>
-            <mat-select disableOptionCentering panelClass="creditSelect" name="lkpAssocAddtnlParam_{{indexValue}}" #lkpAssocAddtnlParam="ngModel"
-              [(ngModel)]="payoutGenDetail.addtnlPymtType"  (ngModelChange)="editInput(payoutGenDetail)" required>
-              <ng-container *ngFor="let lkpAssocAddtnlParamObj of payoutGenRefDetail?.assocDeliveryAddtPaymtTypeList">
-                <mat-option *ngIf="lkpAssocAddtnlParamObj.lookupVal == 'PER TRIP' &&  payoutGenDetail.lkpAssocDlvryPayoutOptId  != perTripId"
-                [value]="lkpAssocAddtnlParamObj.lookupVal">
-                {{lkpAssocAddtnlParamObj.lookupVal}}
-              </mat-option>
-              <mat-option *ngIf="lkpAssocAddtnlParamObj.lookupVal == 'WITH CLAUSE' &&  payoutGenDetail.lkpAssocDlvryPayoutOptId  == perWayBillId"
-              [value]="lkpAssocAddtnlParamObj.lookupVal">
-              {{lkpAssocAddtnlParamObj.lookupVal}}
-            </mat-option>
-            <mat-option *ngIf="lkpAssocAddtnlParamObj.lookupVal == 'PER WAYBILL' &&  payoutGenDetail.lkpAssocDlvryPayoutOptId  != perWayBillId"
-            [value]="lkpAssocAddtnlParamObj.lookupVal">
-            {{lkpAssocAddtnlParamObj.lookupVal}}
-            </mat-option>
-          </ng-container>
+    </div>
+  </div>
+  <hr>
+  <div class="row mt_10" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('RATE'))">
+    <div class="col-md-12">
+      <div class=" create_new_tale_mdm2" *ngIf="returnPayoutBasedOn(payoutGenDetail.lkpCargoPayoutOptId) == 'RATE PER TON'">
+        <div class="row">
+        <div class="col-md-2">
+          <mat-label><strong>Rate Per Ton</strong> <span class="redMark"> *</span></mat-label>  
+        </div>
+        <div class="col-md-3">
+          <div class="col-md-7" style="margin-left: -10px;">
+          <mat-form-field appearance="outline">
+            <input matInput numeric maxlength="11"
+               OnlyNumber="true" (keyup)="compareMin(payoutGenDetail)" appNumberOnly name ="price" #price="ngModel" [(ngModel)]="payoutGenDetail.price" (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" required>
+          </mat-form-field> 
+          <div *ngIf="(price.errors?.required)" class="errorCreMsg">
+            Required!
+          </div>
+          <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+            class="errorCreMsg">
+              Invalid !
+          </div>   
+          </div>
+        </div>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="create_new_tale_mdm2" *ngIf="returnPayoutBasedOn(payoutGenDetail.lkpCargoPayoutOptId) == 'RATE PER PERSON'">
+        <div class="row">
+          <div class="col-md-2">
+            <mat-label><strong>Rate Per Person</strong> <span class="redMark"> *</span></mat-label>
+          </div>
+          <div class="col-md-3">
+            <div class="col-md-7" style="margin-left: -10px;">
+              <mat-form-field appearance="outline">
+                <input matInput numeric maxlength="11"
+                  OnlyNumber="true" (keyup)="compareMin(payoutGenDetail)" appNumberOnly name ="price" #price="ngModel" [(ngModel)]="payoutGenDetail.price" (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" required>
+              </mat-form-field>    
+              <div *ngIf="(price.errors?.required)" class="errorCreMsg">
+                Required!
+              </div>
+              <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+                class="errorCreMsg">
+                  Invalid !
+              </div> 
+            </div>
+          </div>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="create_new_tale_mdm2" *ngIf="returnPayoutBasedOn(payoutGenDetail.lkpCargoPayoutOptId) == 'RATE PER VEHICLE'">
+        <div class="row">
+          <div class="col-md-2">
+            <mat-label><strong>Rate Per Vehicle</strong> <span class="redMark"> *</span></mat-label>  
+          </div>
+          <div class="col-md-3">
+            <div class="col-md-7" style="margin-left: -10px;">
+            <mat-form-field appearance="outline">
+              <input matInput numeric maxlength="11"
+                 OnlyNumber="true" (keyup)="compareMin(payoutGenDetail)" appNumberOnly name ="price" #price="ngModel" [(ngModel)]="payoutGenDetail.price" (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" required>
+            </mat-form-field>
+            <div *ngIf="(price.errors?.required)" class="errorCreMsg">
+              Required!
+            </div>
+            <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+              class="errorCreMsg">
+                Invalid !
+            </div>    
+            
+            </div>
+          </div>
+        </div>
+        <div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Fix Div nothing change Start-->
   
-         </mat-select>
-        </mat-form-field>
-          <div *ngIf="(lkpAssocAddtnlParam.errors?.required && lkpAssocAddtnlParam.touched)" class="errorMsg">
-            Required !
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <ng-container *ngIf="payoutGenDetail.addtnlPymtType == 'PER TRIP'">
-        <div class="row paddingLR_10">
-          <div class="col-md-2">
-            <mat-label><strong>Trip Based On</strong> <span class="redMark"> *</span></mat-label>
-          </div>
-          <div class="col-md-2">
-            <div class="module_area">
-              <div class="module_area">
-                <mat-radio-group name="tripOpt_{{indexValue}}" #tripOpt="ngModel"
-                  [(ngModel)]="payoutGenDetail.tripOpt"  (ngModelChange)="editInput(payoutGenDetail)" required>
-                  <mat-radio-button [value]="trip.lookupVal" style="padding-right: 30px;" *ngFor="let trip of payoutGenRefDetail?.assocDeliveryTripOptionList"> <span [ngStyle] = " trip.lookupVal == payoutGenDetail.tripOpt && {'color' :  '#27AE60' }">{{trip.descr}}</span>
-                  </mat-radio-button > <br>
-                </mat-radio-group> 
-                <div *ngIf="(tripOpt.errors?.required && tripOpt.touched)" class="errorMsg">
-                  Required !
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-4" *ngIf="payoutGenDetail.tripOpt">
-            <div class="row">
-              <div class="col-md-4">
-                <mat-label><strong>Rate Per Trip</strong> <span class="redMark"> *</span></mat-label>
-              </div>
-              <div class="col-md-8" >
-                <ng-container *ngIf="payoutGenDetail.tripOpt == 'HOLISTIC RATE'">
-                  <mat-form-field appearance="outline">
-                    <input matInput name="lkpAssocAddtnlVal" #lkpAssocAddtnlVal="ngModel" maxlength="11" OnlyNumber="true" numeric  (ngModelChange)="editInput(payoutGenDetail)"
-                      [(ngModel)]="payoutGenDetail.addtnlPrice" class="form-control" placeholder="" required>
-                  </mat-form-field>
-                  <div *ngIf="(lkpAssocAddtnlVal.errors?.required && lkpAssocAddtnlVal.touched)" class="errorMsg">
-                    Required !
-                  </div>
-                  <div *ngIf="(lkpAssocAddtnlVal.errors?.isNumeric && !(lkpAssocAddtnlVal.errors?.required && lkpAssocAddtnlVal.touched))"
-                    class="errorMsg">
-                      Invalid !
-                  </div> 
-                </ng-container>
-                <ng-container *ngIf="payoutGenDetail.tripOpt == 'RATE PER VEHICLE'">
-                  <span style="color: #27AE60; font-size: 1.6rem;" (click)="rateAddOnVehicle(payoutGenDetail)"> <em>Click here to Add Rates</em></span>
-                </ng-container>                    
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="payoutGenDetail.addtnlPymtType == 'PER WAYBILL'">
-        <div class="row paddingLR_10" >
-          <div class="col-md-2">
-            <mat-label><strong>Rate Per Waybill </strong> <span class="redMark"> *</span></mat-label>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field appearance="outline"> 
-              <input matInput name="rPPerWaybl" #rPPerWaybl="ngModel" maxlength="11" OnlyNumber="true" numeric 
-                [(ngModel)]="payoutGenDetail.addtnlPrice"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" required>
-               
-            </mat-form-field>
-            <div *ngIf="(rPPerWaybl.errors?.required && rPPerWaybl.touched)" class="errorMsg">
-              Required !
-            </div>
-            <div *ngIf="(rPPerWaybl.errors?.isNumeric && !(rPPerWaybl.errors?.required && rPPerWaybl.touched))"
-                    class="errorMsg">
-                      Invalid !
-            </div> 
-          </div>                  
-        </div>
-      </ng-container>
-      <ng-container *ngIf="payoutGenDetail.addtnlPymtType == 'WITH CLAUSE'">
-        <div class="row paddingLR_10" >
-          <div class="col-md-3">
-            <mat-label><strong>Rate After Vehicle Induction </strong> <span class="redMark"> *</span></mat-label>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field appearance="outline">
-              <input matInput name="rAVindu" #rAVindu="ngModel" maxlength="11" OnlyNumber="true" numeric 
-                [(ngModel)]="payoutGenDetail.addtnlPrice"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" required>
-               
-            </mat-form-field>
-            <div *ngIf="(rAVindu.errors?.required && rAVindu.touched)" class="errorMsg">
-              Required !
-            </div>
-            <div *ngIf="(rAVindu.errors?.isNumeric && !(rAVindu.errors?.required && rAVindu.touched))"
-            class="errorMsg">
-              Invalid !
-          </div> 
-          </div>                  
-        </div>
-        <div class="row  paddingLR_10" >
-          <div class="col-md-3">
-            <mat-label><strong>Same Day Delivery Rate </strong> </mat-label>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field appearance="outline">
-              <input matInput name="sameDayDlvryRate_{{indexValue}}" #sameDayDlvryRate="ngModel" maxlength="11" OnlyNumber="true" numeric 
-                [(ngModel)]="payoutGenDetail.sameDayDlvryRate"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" >
-               
-            </mat-form-field>
-            <div *ngIf="(sameDayDlvryRate.errors?.isNumeric && sameDayDlvryRate.touched)"
-            class="errorMsg">
-              Invalid !
-          </div> 
-          </div>                  
-        </div>
-      </ng-container>
-    </div>
-  </ng-container>
-
-  <div>
-    <div class="row mt_10" >
-      <div class="col-md-3">
-        <mat-label><strong>Same Day On Time Delivery Incentive </strong> </mat-label>
-      </div>
-      <div class="col-md-2">
-        <mat-form-field appearance="outline">
-          <input matInput name="sameDayIncntv_{{indexValue}}" #sameDayIncntv="ngModel" maxlength="11" OnlyNumber="true" numeric 
-            [(ngModel)]="payoutGenDetail.sameDayIncntv"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" >
-           
-        </mat-form-field>
-        <div *ngIf="(sameDayIncntv.errors?.isNumeric && sameDayIncntv.touched)"
-            class="errorMsg">
-              Invalid !
-          </div> 
-      </div>
-      <div class="col-md-2 font_1_6rem">
-        <span>PER WAYBILL</span>
-      </div>
-      
-    </div>
-    <div class="row mt_10">
-      <div class="col-md-3">
-        <mat-label><strong>Next Day On Time Delivery Incentive </strong> </mat-label>
-      </div>
-      <div class="col-md-2">
-        <mat-form-field appearance="outline">
-          <input matInput name="nextDayIncntv_{{indexValue}}" #nextDayIncntv="ngModel" maxlength="11" OnlyNumber="true" numeric 
-            [(ngModel)]="payoutGenDetail.nextDayIncntv"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" >
-           
-        </mat-form-field>
-        <div *ngIf="(nextDayIncntv.errors?.isNumeric && nextDayIncntv.touched)"
-            class="errorMsg">
-              Invalid !
-          </div> 
-      </div>
-      <div class="col-md-2 font_1_6rem">
-        <span>PER WAYBILL</span>
-      </div>
-      
-    </div>
-    <div class="row mt_10" >
-      <div class="col-md-3">
-        <mat-label><strong>Second Day On Time Delivery Incentive </strong> </mat-label>
-      </div>
-      <div class="col-md-2">
-        <mat-form-field appearance="outline">
-          <input matInput name="secondDayIncntv_{{indexValue}}" #secondDayIncntv="ngModel" maxlength="11" OnlyNumber="true" numeric 
-            [(ngModel)]="payoutGenDetail.secondDayIncntv"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" >
-           
-        </mat-form-field>
-        <div *ngIf="(secondDayIncntv.errors?.isNumeric && secondDayIncntv.touched)"
-        class="errorMsg">
-          Invalid !
-      </div> 
-      </div>
-      <div class="col-md-2 font_1_6rem">
-        <span>PER WAYBILL</span>
-      </div>
-      
-    </div>
-    <div class="row " >
-      <div class="col-md-3">
-        <mat-label><strong>Third Day On Time Delivery Incentive </strong> </mat-label>
-      </div>
-      <div class="col-md-2">
-        <mat-form-field appearance="outline">
-          <input matInput name="thirdDayIncntv_{{indexValue}}" #thirdDayIncntv="ngModel" maxlength="11" OnlyNumber="true" numeric 
-            [(ngModel)]="payoutGenDetail.thirdDayIncntv"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" >
-           
-        </mat-form-field>
-        <div *ngIf="(thirdDayIncntv.errors?.isNumeric && thirdDayIncntv.touched)"
-        class="errorMsg">
-          Invalid !
-      </div> 
-      </div>
-      <div class="col-md-2 font_1_6rem">
-        <span>PER WAYBILL</span>
-      </div>      
-    </div>
-    <ng-container *ngIf="payoutGenDetail.lkpAssocDlvryPayoutOptId == weightBasId && payoutGenDetail.wtBasis == 'TOTAL WEIGHT OF BILLING CYCLE'">
-      <div class="row">
-        <div class="col-md-2">
-          <mat-label><strong>Comparison</strong> </mat-label>
-        </div>
-        <div class="col-md-2">
-          <div class="module_area">
-              <mat-checkbox name="isChecked" [(ngModel)]="payoutGenDetail.cmprsnFlag" >
-              </mat-checkbox>
-            <!-- </mat-form-field> -->
-          </div>
-        </div>
-      </div>
-      <ng-container *ngIf="payoutGenDetail.cmprsnFlag">
-      <div class="row form-group" >
-        <div class="col-md-2">
-          <mat-label><strong>Comparison With</strong> <span class="redMark"> *</span></mat-label>
-        </div>
-        <div class="col-md-10">
-          <div class="module_area">
-            <mat-radio-group name="cmprsnWith_{{indexValue}}" #addtnlParamF="ngModel"
-              [(ngModel)]="payoutGenDetail.cmprsnWith"  (ngModelChange)="editInput(payoutGenDetail)" required>
-              <mat-radio-button [value]="'PER KG'" style="padding-right: 30px;">PER KG
-              </mat-radio-button>
-              <mat-radio-button [value]="'PER TRIP'">PER TRIP</mat-radio-button>
-            </mat-radio-group>
-            <div *ngIf="(addtnlParamF.errors?.required && addtnlParamF.touched)" class="errorMsg">
-              Required !
-            </div>
-          </div>
-        </div>
-      </div>
-      <ng-container *ngIf="payoutGenDetail.cmprsnWith =='PER TRIP'">
-        <div class="row " >
-          <div class="col-md-2">
-            <mat-label><strong>Rate Per Trip </strong> <span class="redMark"> *</span></mat-label>
-          </div>
-          <div class="col-md-2">
-            <mat-form-field appearance="outline">
-              <input matInput name="RtcmprsnPrice_{{indexValue}}" #RtcmprsnPrice="ngModel" maxlength="11" OnlyNumber="true" numeric 
-                [(ngModel)]="payoutGenDetail.cmprsnPrice"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" required>
-               
-            </mat-form-field>
-            <div *ngIf="(RtcmprsnPrice.errors?.required && RtcmprsnPrice.touched)" class="errorMsg">
-              Required !
-            </div>
-            <div *ngIf="(RtcmprsnPrice.errors?.isNumeric && !(RtcmprsnPrice.errors?.required && RtcmprsnPrice.touched))"
-            class="errorMsg">
-              Invalid !
-          </div> 
-          </div>
-        </div>
-      </ng-container>
-      <ng-container *ngIf="payoutGenDetail.cmprsnWith =='PER KG'">
-        <div class="row" >
-          <div class="col-lg-6 col-md-6">
-            <div class="col-lg-6 col-md-6   zonalheadingbar"> WEIGHT</div>
-            <div class="col-lg-6 col-md-6   zonalheadingbar">RATE PER KG</div>
-          </div>
-        </div>
-        <div class="row" >
-          <form name="customSla"  (ngSubmit)="fCustomSla.form.valid" #fCustomSla="ngForm" novalidate>
-            <div class="row"  *ngFor="let slab of payoutGenDetail.deliveryWtSlabChargeList; let i=index">
-              <div class="col-lg-6 col-md-6 " >
-                <div class="col-lg-6 col-md-6  label-text">
-                  <span style="color: #27AE60; font-style: italic; font-size: 1.6rem;">{{slab.wtSlabFrom}}-{{slab.wtSlabTo}} &ensp; KG</span>
-                </div>
-                <div class="col-lg-6 col-md-6 label-text">
-                  <mat-form-field appearance="outline">
-                    <input matInput name="slabCmprsnPrice_{{i}}_{{indexValue}}" #lkpAssocAddtnlVal="ngModel" maxlength="11" OnlyNumber="true" numeric  (ngModelChange)="editInput(slab)"
-                      [(ngModel)]="slab.cmprsnPrice" class="form-control" placeholder="" required>
-                  </mat-form-field>
-                  <div *ngIf="(lkpAssocAddtnlVal.errors?.required && lkpAssocAddtnlVal.touched)" class="errorMsg">
-                    Required !
-                  </div>
-                  <div *ngIf="(lkpAssocAddtnlVal.errors?.isNumeric && !(lkpAssocAddtnlVal.errors?.required && lkpAssocAddtnlVal.touched))"
-                    class="errorMsg">
-                      Invalid !
-                  </div> 
-                </div>
-              </div>
-              <!-- <div  class="col-lg-6 col-md-6">
-              </div> -->
-            </div>
-         </form>
-        </div>
-      </ng-container>
-    </ng-container>
-    </ng-container>
-  </div>
-  <!-- Fix Div nothing change  End-->
-
+ 
+  
 </form>

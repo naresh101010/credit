@@ -9,13 +9,13 @@
   
               <h3><br><strong>Success!</strong></h3>
               <br>
-              <h3 style="text-transform: uppercase;"><strong>Associate Contract {{!editflow ? 'Created' : 'Submitted'}}</strong></h3>
+              <h3 style="text-transform: uppercase;"><strong>Associate Contract {{!this.id ? 'Created' : 'Submitted'}}.</strong></h3>
               <h2>{{associateContractCode}}</h2>
             </div>
             <div class="para_test mr-top-bottom-50 ">
               <p>You will be automatically redirected to the dashboard in <strong> {{counter}} seconds</strong> <br> <strong>OR</strong>
                 <br> You
-                can <em class="theme_color" style="cursor: pointer;" routerLink="/asso_delivery-contract/asso_delivery" skipLocationChange  [mat-dialog-close]="true">click here</em> to do it yourself.</p>
+                can <em class="theme_color" style="cursor: pointer;" routerLink="/asso_cargo-contract/asso_cargo" skipLocationChange  [mat-dialog-close]="true">click here</em> to do it yourself.</p>
             </div>
           </div>
         </div>

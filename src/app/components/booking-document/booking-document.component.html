@@ -6,18 +6,18 @@
           <div>
             <mat-toolbar class="breadcrumbs_nav">
               <mat-toolbar-row class="breadcrumbs">
-                <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
+                <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Dashboard</a></span>
                 <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                   arrow_right
                 </mat-icon>
-                <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Contracts</a></span>
+                <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Contracts</a></span>
                 <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                   arrow_right
                 </mat-icon>
                 <span>Associate Contract</span>
               </mat-toolbar-row>
             </mat-toolbar>
-            <h2>Delivery Associate Contract</h2>
+            <h2>Cargo Contract</h2>
           </div>
         </div>
         <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
@@ -46,15 +46,14 @@
                 <div class="col-md-6">
                   <div class="module_area">
                     <mat-form-field  class="select_box_dropwodn overline_hidden">
-
-                      <mat-select disableOptionCentering panelClass="creditSelect" #doctype="ngModel" required name="docTypeId" [(ngModel)]="docTypeId" (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
-                        <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'descr'" [value]="item.id" 
+                      <mat-select disableOptionCentering panelClass="creditSelect" #doctype='ngModel' required name="docTypeId" [(ngModel)]="docTypeId" placeholder="Select Option" (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
+                        <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'lookupVal'" [value]="item.id" 
                         [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15" matTooltipPosition="above">
                           {{item.descr}}
                         </mat-option>
                       </mat-select>
                       </mat-form-field>
-                     <p *ngIf="(doctype.errors?.required && doctype.touched)" class="hasErrorMsgRight paddingtopone">Required!</p>
+                     <p *ngIf="(doctype.errors?.required && doctype.touched)" class="hasErrorMsgRight paddingtopone">Required !</p>
                   </div>
                 </div>
               </div>
@@ -67,9 +66,8 @@
                 <div class="col-md-6">
                   <div class="module_area">
                     <mat-form-field class="select_box_dropwodn overline_hidden">
-
-                      <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype="ngModel" required name="subTypeId" [(ngModel)]="subTypeId">
-                        <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'descr'" [value]="item.id" 
+                      <mat-select disableOptionCentering panelClass="creditSelect"placeholder="Select Option" #Subdoctype='ngModel' required name="subTypeId" [(ngModel)]="subTypeId">
+                        <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'lookupVal'" [value]="item.id" 
                         [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15" matTooltipPosition="above">
                           {{item.descr}}
                         </mat-option>
@@ -89,19 +87,12 @@
                   <div class="col-md-8 ">
                     <div class="module_area">
                       <mat-form-field appearance="outline" class="date_picker_adjust datePickHeight uploaddateButton"style="margin-top: -2px;">
-                        <input #dtpicr="ngModel" matInput autocomplete="off" [matDatepicker]="picker2" name="rateCardSignDt"
+                        <input #dtpicr='ngModel' matInput autocomplete="off" [matDatepicker]="picker2" name="rateCardSignDt"
                           class="date_picker" [min]="minDate" placeholder="DD/MM/YYYY" (blur)="expDate($event)"
                           [(ngModel)]="docExpiryDate" numericSpecialChar />
                         <mat-datepicker class="myDatepicker23" #picker2></mat-datepicker>
                         <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
                       </mat-form-field>
-                      <!-- <span *ngIf="(dtpicr.errors?.required && dtpicr.touched && !indentityFlag)" class="hasErrorMsgRight paddingtopone" style="top: 0.4rem">
-                        Required&nbsp;!
-                      </span>
-                      <span *ngIf="isValidDocExpiryDate && !(dtpicr.errors?.required)"
-                        class="hasErrorMsgRight paddingtopone" style="top: 0.4rem">
-                        Invalid Expiry Date&nbsp;!
-                      </span> -->
                     </div>
                   </div>
                 </div>
@@ -123,8 +114,6 @@
                   <div class="col-md-7">
                     <button mat-raised-button class="white-button box_shadow_none" [disabled]="!docform.form.valid"
                       (click)="postDocumentUploadDetail()" style="margin-right: 0.5rem">Upload</button>
-                    <!-- <button mat-raised-button class="white-button box_shadow_none" style="margin: 0;" (click)="requestToUpload()"
-                      >Request To Upload</button> -->
                   </div>
                 </div>
               </div>
@@ -199,12 +188,13 @@
               </div>
             </div>
           </div>
-          <div class="row" style="margin-top: 4rem !important; margin-left: 4rem !important; color:red"
-          *ngIf="noRecdFundMsg">
-          <div class="col">
-            <p class="danger">Oops! No Record Found</p>
-          </div>
+          <!-- no record found -->
+        <div class="row" style="margin-top: 4rem !important; margin-left: 4rem !important; color:red"
+        *ngIf="noRecdFundMsg">
+        <div class="col">
+          <p class="danger">Oops! No Record Found</p>
         </div>
+      </div>
           <!-- pending docs upload -->
         <div *ngIf="pendingDocsUplod.length > 0">
           <div class="row background" style="margin-top: 2rem !important">
@@ -215,13 +205,6 @@
               <div class="table-responsive create_new_tale_mdm2">
 
                 <table aria-describedby="table" mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
-
-                  <!-- <ng-container matColumnDef="name">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>NAME</strong></th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width">{{element.lookupVal}}</div>
-                    </td>
-                  </ng-container> -->
 
                   <ng-container matColumnDef="docType">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong>DOCUMENT TYPE</strong></th>
@@ -242,7 +225,7 @@
         </div>
         <div class="padding_10">
           <div class="row">
-            <div class="col-md-6 col-xs-7 mtb_30" *ngxPermissionsOnly="['VIEW CONTRACT_READ']">
+            <div class="col-md-6 col-xs-7 mtb_30"  *ngxPermissionsOnly="['VIEW CONTRACT_READ']">
               <button mat-button class="theme-button" (click)="openPreviewPage()">Preview</button><br><br>
             </div>
             <div class="col-md-6 col-xs-7 mtb_30"  *ngxPermissionsExcept="['VIEW CONTRACT_READ']">

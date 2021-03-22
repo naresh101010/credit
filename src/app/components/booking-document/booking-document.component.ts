@@ -101,23 +101,6 @@ export class BookingDocumentComponent implements OnInit {
 
   fileToUpload: File = null;
   fileBrowseflag: boolean = false;
-
-  requestToUpload() {
-    console.log(this.associateId)
-    this.spinner.show();
-    this.apiSer.post("secure/v1/associates/docUpload/email", AppSetting.associateId)
-      .subscribe(
-        data => {
-          if (data.status == 'SUCCESS') {
-            this.toaster.success("Email sent to " + data.data.responseData + " Successfully");
-          }
-          this.spinner.hide();
-        },
-        Error => {
-          this.toaster.warning(Error.error.errors.error[0].description);
-          this.spinner.hide();
-        });
-  }
   //On file browse
   handleFileInput(event) {
     let fileList: FileList = event.target.files;
@@ -183,7 +166,6 @@ export class BookingDocumentComponent implements OnInit {
           this.toaster.success("Saved Successfully");
 
           //Refesh Page data
-          // this = {};
           this.docTypeId = '';
           this.subTypeId = '';
           this.docExpiryDate = '';
@@ -233,7 +215,6 @@ export class BookingDocumentComponent implements OnInit {
         this.subTypeNameList = this.docData.data.referenceData.docSubTypeList;
         this.pendingDocsUplod = this.docData.data.referenceData.pendingDocumentList;   
         this.pengingListDataSource = new MatTableDataSource(this.pendingDocsUplod);
-       
 
         /**
          * To get the docType name and SubDocType name from ref list 
@@ -262,12 +243,12 @@ export class BookingDocumentComponent implements OnInit {
           docObj.signedUrl = obj.signedUrl;
           for (let docTypeObj of this.docTypeList) {
             if (obj.lkpDocTypeId == docTypeObj.id) {
-              docObj.docType = docTypeObj.descr;
+              docObj.docType = docTypeObj.lookupVal;
             }
           }
           for (let subTypeObj of this.subTypeNameList) {
             if (obj.lkpDocSubtypeId == subTypeObj.id) {
-              docObj.docSubtype = subTypeObj.descr;
+              docObj.docSubtype = subTypeObj.lookupVal;
             }
           }
           this.docList.push(docObj)
@@ -465,12 +446,12 @@ export class BookingDocumentComponent implements OnInit {
   /*------------- Open Preview Page ----------- */
   openPreviewPage() {
     this.spinner.show();
-    this.apiSer.get('secure/v1/deliverycontract/validContract/' + AppSetting.contractId).subscribe(response => {
+    this.apiSer.get('secure/v1/cargocontract/validContract/' + AppSetting.contractId).subscribe(response => {
      // this.spinner.hide();
       if (this.editflow) {
-        this.router.navigate(['/asso_delivery-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
+        this.router.navigate(['/asso_cargo-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
       } else {
-        this.router.navigate(['/asso_delivery-contract/preview'], {skipLocationChange: true});
+        this.router.navigate(['/asso_cargo-contract/preview'], {skipLocationChange: true});
       }
     }, error => {
       this.toaster.error(error.error.errors.error[0].description);
@@ -479,7 +460,7 @@ export class BookingDocumentComponent implements OnInit {
   }
 
   nextReadMode() {
-    this.router.navigate(['/asso_delivery-contract/asso_delivery'], {skipLocationChange: true});
+    this.router.navigate(['/asso_cargo-contract/asso_cargo'], {skipLocationChange: true});
   }
 
   expDate(element) {
@@ -490,7 +471,6 @@ export class BookingDocumentComponent implements OnInit {
   }
 
   deleteBookingDocument(element) {
-    console.log('element', element);
     const dialog = this.dialog.open(confimationdialog, {
       data: { message: "Are you sure want to delete?" },
       disableClose: true,
@@ -502,7 +482,7 @@ export class BookingDocumentComponent implements OnInit {
       if(response) {
         let documentID = element.docId;
         this.spinner.show();
-        this.apiSer.post('/secure/v1/document/delete/contract/' + documentID).subscribe(res => {
+        this.apiSer.post('/secure/v1/document/delete/contract/'+documentID).subscribe(res => {
           this.dataSource.data = this.dataSource.data.filter(function( obj ) {
             return obj.docId !== element.docId;
           });
@@ -517,3 +497,5 @@ export class BookingDocumentComponent implements OnInit {
 
 
 }
+
+

@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
-import { ContractversionComponent } from './../contractversion/contractversion.component';
+import { Component, OnInit, ViewChild, Inject, Input, Output, EventEmitter } from '@angular/core';
+import{ ContractversionComponent } from './../contractversion/contractversion.component';
 import { MatDialog } from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
@@ -8,24 +8,25 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { AppSetting } from 'src/app/app.setting';
 import { ApiService } from 'src/app/core/services/api.service';
-import { BookingAssociateContractUpdateComponent } from '../../dialog/booking-associate-contract-update/booking-associate-contract-update.component';
 import { ErrorConstants } from 'src/app/core/models/constants';
 import { AuthorizationService } from 'src/app/core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { DatePipe } from '@angular/common';
+import { BookingAssociateContractUpdateComponent } from 'src/app/dialog/booking-associate-contract-update/booking-associate-contract-update.component';
 import { ToastrService } from 'ngx-toastr';
 import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/drag-drop';
 import { ViewBranchesComponent } from 'src/app/dialog/view-branches/view-branches.component';
 import { DashboardBranchSearchComponent } from 'src/app/dialog/dashboard-branch-search/dashboard-branch-search.component';
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  providers: [DatePipe]
+  providers : [DatePipe]
 })
-export class DashboardComponent implements OnInit {
-  minchar: boolean = false;
-  nomatch: boolean = false;
+export class DashboardComponent implements OnInit{
+  minchar:boolean= false;
+  nomatch: boolean=false;
   DdraftMode;
   DactiveContract;
   //bookemarkedArray;
@@ -44,25 +45,23 @@ export class DashboardComponent implements OnInit {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
 
   @Input() editFlag: boolean;
+ 
+  @Output() flagEdit: EventEmitter<boolean> =   new EventEmitter();
 
-  @Output() flagEdit: EventEmitter<boolean> = new EventEmitter();
+  constructor(private spinner: NgxSpinnerService, public router: Router, public dialog: MatDialog, private apiService: ApiService, private datePipe: DatePipe,private authorizationService : AuthorizationService,
+    private permissionsService: NgxPermissionsService, private tosterservice: ToastrService) { }
 
-  constructor(private spinner: NgxSpinnerService, public router: Router, public dialog: MatDialog, private apiService: ApiService, private datePipe: DatePipe, private authorizationService: AuthorizationService,
-    private permissionsService: NgxPermissionsService, private tosterservice: ToastrService) {
-    this.dataSource = new MatTableDataSource([]);
-  }
-
-  displayedColumns: string[] = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'version', 'edit'];
+  displayedColumns: string[] = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version','edit'];
   dataSource: any;  //= ELEMENT_DATA;
   dashboardTotalCount: any = new Object();
   selectedValue: string = 'ACTIVE';
-  perList: any = [];
+  perList : any = [];
   exAttrMap = new Map();
   exAttrKeyList = [];
   exAttrKeyList1 = [];
   exAttrKeyList2 = [];
   dataEdit: any;
-  searchBy: string = 'Org. Name'
+  searchBy:string  = 'Org. Name'
 
   //start Greeting Message
   greeting() {
@@ -85,8 +84,8 @@ export class DashboardComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-
-  rfrencList: any;
+  
+  rfrencList:any;
   expiredArray: any;
   ngOnInit() {
     this.authorizationService.setPermissions('DASHBOARD');
@@ -102,23 +101,23 @@ export class DashboardComponent implements OnInit {
     // console.log('perlist', this.perList);
 
     this.resetAppSetting();
-    if (window['defaultLandingTarget'] && window['defaultLandingTarget'] !== ''
+    if (window['defaultLandingTarget'] && window['defaultLandingTarget'] !== '' 
       && window['defaultLandingTarget'] !== 'ASSOCIATE MASTER' && window['defaultLandingTarget'] !== 'MSA') {
       this.onSelectBlock(window['defaultLandingTarget']);
       window['defaultLandingTarget'] = '';
-    } else {
-      window['defaultLandingTarget'] = '';
-      this.onSelectBlock(this.selectedValue);
-    }
+      } else {
+       window['defaultLandingTarget'] = '';
+       this.onSelectBlock(this.selectedValue);
+      }
 
     this.spinner.show();
-
+   
     /*  moved in above line for pinned functionality by Tejaswi */
-
-    // this.apiService.get("secure/v1/deliverycontract/all/ACTIVE").subscribe((suc) => {
+    
+    // this.apiService.get("secure/v1/cargocontract/all/ACTIVE").subscribe((suc) => {
     //   this.spinner.hide();    
     //   console.log('data', suc);
-
+      
     //   this.rfrencList=suc.data.referenceData;
     //   AppSetting.deptRefList =this.rfrencList.assocDeptList;
     //   this.dataSource = new MatTableDataSource(suc.data.responseData);
@@ -129,7 +128,7 @@ export class DashboardComponent implements OnInit {
     //   this.tosterservice.error(ErrorConstants.getValue(404));
     // });
 
-    this.apiService.get("secure/v1/deliverycontract/countAssociateContracts").subscribe((suc) => {
+    this.apiService.get("secure/v1/cargocontract/countAssociateContracts").subscribe((suc) => {
       this.dashboardTotalCount = suc.data.responseData;
       this.getModuleCardDetails();
     }, (err) => {
@@ -138,8 +137,8 @@ export class DashboardComponent implements OnInit {
     });
 
   }
-  newContract() {
-    this.router.navigate(['/asso_delivery-contract/create-associate-contract'], { skipLocationChange: true }).then(nav => {
+  newContract(){
+    this.router.navigate(['/asso_cargo-contract/create-associate-contract'], {skipLocationChange: true}).then(nav => {
       console.log(nav); // true if navigation is successful
     }, err => {
       console.log(err) // when there's an error
@@ -149,7 +148,7 @@ export class DashboardComponent implements OnInit {
     if (object) {
       console.log('object', object);
       // return
-      this.router.navigate(['asso_delivery-contract/assign-associate'], { skipLocationChange: true }).then(nav => {
+      this.router.navigate(['asso_cargo-contract/assign-associate'], {skipLocationChange: true}).then(nav => {
         AppSetting.associateId = object.id;
         AppSetting.associateObject = object;
         AppSetting.contractId = object.contractId;
@@ -161,18 +160,18 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  resetAppSetting() {
+  resetAppSetting(){
     AppSetting.contractId = null;
     AppSetting.associateId = null;
-    AppSetting.associateObject = null;
+    AppSetting.associateObject = null ;
     AppSetting.editStatus = null;
     AppSetting.wefDate = null;
   }
-  setAppSetting(obj) {
-    let editStatusObj = this.rfrencList.statusList.filter(obj1 => obj1.lookupVal === 'EDIT')
+  setAppSetting(obj){
+    let editStatusObj =  this.rfrencList.statusList.filter(obj1 => obj1.lookupVal === 'EDIT')
     AppSetting.contractId = obj.contractId;
     AppSetting.associateId = obj.id;
-    AppSetting.associateObject = obj;
+    AppSetting.associateObject = obj ;
     AppSetting.editStatus = editStatusObj[0].id;
     // AppSetting.editFlow:any ;
 
@@ -181,24 +180,24 @@ export class DashboardComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.minchar = false
-    if (filterValue.length > 0 && filterValue.length < 3) {
+    this.minchar= false
+    if (filterValue.length > 0 && filterValue.length<3){
       this.nomatch = false;
-      this.minchar = true
-      this.dataSource.filter = '';
-    }
+      this.minchar= true
+      this.dataSource.filter ='';  
+    } 
     else if (filterValue.length == 0) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
       this.minchar = false;
       this.nomatch = false;
     }
     else {
-      this.minchar = false
+      this.minchar= false
       this.dataSource.filter = filterValue.trim().toLowerCase();
-      if (this.dataSource.filteredData.length > 0) {
+      if( this.dataSource.filteredData.length > 0){
         this.nomatch = false;
       }
-      else if (this.dataSource.filteredData.length === 0) {
+      else if(this.dataSource.filteredData.length === 0){
         this.nomatch = true;
       }
     }
@@ -223,9 +222,9 @@ export class DashboardComponent implements OnInit {
       width: '400px',
       panelClass: 'mat-dialog-responsive',
       data: data
-      //  disableClose: true,
-      //  panelClass: 'creditDialog',
-      //  backdropClass: 'backdropBackground'
+    //  disableClose: true,
+    //  panelClass: 'creditDialog',
+    //  backdropClass: 'backdropBackground'
     });
 
     dialogRefVersion.afterClosed().subscribe(result => {
@@ -245,7 +244,7 @@ export class DashboardComponent implements OnInit {
       this.selectedValue = value;
     // }
     if (this.selectedValue === 'PENDING') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData'];
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
       this.state = 'PENDING'
@@ -253,25 +252,25 @@ export class DashboardComponent implements OnInit {
       this.run(null, "PENDING");
       //this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'EXPIRING SOON') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version', 'edit'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version', 'edit'];
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
       this.state = 'EXPIRING'
       this.searchString = '';
       this.run(null, "EXPIRING");
-
-      // this.dataSource.paginator.firstPage();
+      
+     // this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'DRAFT') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData'];
       this.spinner.show();
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
       this.state = 'DRAFT'
       this.searchString = '';
       this.run(null, "DRAFT");
-      // this.dataSource.paginator.firstPage();
+     // this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'ACTIVE') {
-      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version', 'edit'];
+      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version', 'edit'];
       this.searchOption = ["Org. Name", "contract code", "mobile No", "vendor Dept", "Branch Name"];
       this.spinner.show();
       this.paginator.pageIndex = 0;
@@ -279,11 +278,11 @@ export class DashboardComponent implements OnInit {
       // this.callstatusapi("ACTIVE");
       this.state = 'ACTIVE'
       this.searchString = '';
-      this.run(null, "ACTIVE");
+      this.run(null,"ACTIVE");
 
-      // this.dataSource.paginator.firstPage();
+     // this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'INACTIVE') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version'];
       this.spinner.show();
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
@@ -292,15 +291,14 @@ export class DashboardComponent implements OnInit {
       this.run(null, "INACTIVE");
       // this.callstatusapi("INACTIVE");
       // this.dataSource.paginator.firstPage();
-    } else if (this.selectedValue == 'MSA' || this.selectedValue == 'ASSOCIATE MASTER') {
-      this.router.navigate(['/asso_delivery-contract/create-associate-contract'], { skipLocationChange: true })
+    } else if(this.selectedValue == 'MSA' || this.selectedValue == 'ASSOCIATE MASTER') {
+      this.router.navigate(['/asso_cargo-contract/create-associate-contract'], { skipLocationChange: true })
     }
-    else if (this.selectedValue == 'REPORTS') {
-      this.router.navigate(['/asso_delivery-contract/reports'], { skipLocationChange: true })
-    } 
-    else {
+    else if(this.selectedValue == 'REPORTS') {
+      this.router.navigate(['/asso_cargo-contract/reports'], { skipLocationChange: true })
+    }  else {
       this.selectedValue = "ACTIVE"
-      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version', 'edit'];
+      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version', 'edit'];
       this.spinner.show();
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
@@ -308,12 +306,12 @@ export class DashboardComponent implements OnInit {
       this.searchString = '';
       this.run(null, "ACTIVE");
       // this.callstatusapi("ACTIVE");
-      // this.dataSource.paginator.firstPage();
+     // this.dataSource.paginator.firstPage();
     }
   }
 
 
-  hideMsg() {
+  hideMsg(){
     this.minchar = false;
   }
 
@@ -324,51 +322,51 @@ export class DashboardComponent implements OnInit {
   inputFild = false;
 
 
-  mktable(filteredExpirdArr) {
-    if (this.enterPressed) {
-      this.dataSource = new MatTableDataSource(filteredExpirdArr);
+  mktable(filteredExpirdArr){
+    if(this.enterPressed){
+      this.dataSource = new MatTableDataSource(filteredExpirdArr);    
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      if (filteredExpirdArr.length == 0) {
+      if(filteredExpirdArr.length == 0){
         this.nomatch = true;
         this.enterPressed = false;
-      } else {
+      }else{
         this.nomatch = false;
       }
     }
   }
-  runSearchBy(status, enterTrue?) {
+  runSearchBy(status, enterTrue?){
     // console.log('runsearch', this.activeStatusValue)
-    if (this.activeStatusValue == 'EXPIRED') {
+    if(this.activeStatusValue == 'EXPIRED'){
       let filteredExpirdArr = [];
-      if (this.searchString && this.searchString.length < 3) {
+      if(this.searchString && this.searchString.length < 3 ){
         this.minchar = true;
         this.nomatch = false;
         this.enterPressed = false;
         return;
       }
-
+     
       let searchStr = this.searchString.toUpperCase()
-      if (this.searchBy == 'Org. Name') {
-        filteredExpirdArr = this.expiredArray.filter((v) => {
+      if(this.searchBy == 'Org. Name'){
+        filteredExpirdArr =  this.expiredArray.filter((v)=> {
           return v.contactFname.includes(searchStr) || v.contactLname.includes(searchStr)
-        })
+        })  
         this.mktable(filteredExpirdArr)
-        if (filteredExpirdArr.length == 0) {
+        if(filteredExpirdArr.length == 0){
           this.minchar = false;
         }
-      } else if (this.searchBy == 'contract code') {
-        filteredExpirdArr = this.expiredArray.filter((v) => {
+      }else if(this.searchBy == 'contract code'){
+         filteredExpirdArr = this.expiredArray.filter((v)=> {
           return v.cntrCode.includes(searchStr)
-        })
+        })   
         this.mktable(filteredExpirdArr)
-      } else if (this.searchBy == 'mobile No') {
-        filteredExpirdArr = this.expiredArray.filter((v) => {
+      }else if(this.searchBy == 'mobile No'){
+        filteredExpirdArr = this.expiredArray.filter((v)=> {
           return v.mob.includes(searchStr)
-        })
+        })   
         this.mktable(filteredExpirdArr)
       }
-
+    
       this.minchar = false;
       return
     }
@@ -377,148 +375,151 @@ export class DashboardComponent implements OnInit {
 
 
     this.nomatch = false;
-
-
+    
+        
     let body = {};
-
-    if (this.searchString && this.searchString.length < 3) {
+    
+    if(this.searchString && this.searchString.length < 3 ){
       this.minchar = true;
       return;
     }
-    else {
-      if (this.searchString && this.searchString.length >= 3) {
-
+    else{
+      if(this.searchString && this.searchString.length >= 3){
+        
         this.minchar = false;
         let replaceKey = '';
-        if (this.searchBy == 'Org. Name') {
+        if(this.searchBy == 'Org. Name'){
           replaceKey = 'companyName'
-        } else if (this.searchBy == 'mobile No') {
+        }else if(this.searchBy == 'mobile No'){
           replaceKey = 'mobileNumber'
-        } else if (this.searchBy == 'vendor Dept') {
+        }else if(this.searchBy == 'vendor Dept'){
           replaceKey = 'vendorDept'
-        } else if (this.searchBy == 'contract code') {
+        }else if(this.searchBy == 'contract code'){
           replaceKey = 'contractCode'
-        } if (replaceKey) {
-          body[replaceKey] = this.searchString.toUpperCase();
-        } else {
-          body[this.searchBy] = this.searchString.toUpperCase();
+        }
+        
+        if(replaceKey){          
+          body[replaceKey] = this.searchString.toUpperCase();  
+        }else{
+          body[this.searchBy] = this.searchString.toUpperCase();  
         }
       }
     }
-    if (!this.enterPressed && !enterTrue) {
+    if(!this.enterPressed && !enterTrue){
       return;
-    } else {
+    }else{
       this.inputFild = true;
     }
-    if (status) { this.state = status; }
+    if(status){this.state = status;}
     this.spinner.show();
-    this.apiService.post(`secure/v1/deliverycontract/search/${this.state}`, body).subscribe(
+    this.apiService.post(`secure/v1/cargocontract/search/${this.state}`, body).subscribe(
       success => {
-        if (success) {
-          // this.dataSource = new MatTableDataSource([]);
-          // this.totalItems = 0; 
-
-          this.searchFlg = true;
-          this.enterPressed = false;
-          // body = {};
-          this.dataSource = new MatTableDataSource(success.data.responseData);
-          if (success.data.responseData.length > 0) {
-            this.rfrencList = success.data.referenceData;
-
-            this.totalItems = success.data.responseData.length;
-            this.paginator.pageIndex = 0;
-            this.nomatch = false;
-          } else if (!enterTrue) {
-            this.nomatch = true;
+          if (success) {
+            // this.dataSource = new MatTableDataSource([]);
+            // this.totalItems = 0; 
+           
+              this.searchFlg = true;
+              this.enterPressed = false;
+              // body = {};
+              this.dataSource = new MatTableDataSource(success.data.responseData);  
+              if(success.data.responseData.length > 0){                        
+              this.rfrencList = success.data.referenceData;
+              
+                this.totalItems = success.data.responseData.length;
+                this.paginator.pageIndex = 0;
+                this.nomatch = false;
+              }else if(!enterTrue){
+                this.nomatch = true;
+              }
+              AppSetting.deptRefList =this.rfrencList.assocDeptList;
+              this.dataSource.sort = this.sort;
+              this.dataSource.paginator = this.paginator;
+              this.inputFild = false;
+              this.spinner.hide();
+              
+          }  else {
+            this.spinner.hide();
           }
-          AppSetting.deptRefList = this.rfrencList.assocDeptList;
-          this.dataSource.sort = this.sort;
-          this.dataSource.paginator = this.paginator;
-          this.inputFild = false;
-          this.spinner.hide();
-
-        } else {
-          this.spinner.hide();
-        }
       },
       error => {
         this.spinner.hide();
         this.enterPressed = false;
         this.inputFild = false;
-      }
+      }  
     )
   }
 
-
-
+  
+   
 
   totalItems;
-  pageSize: any = 10;
+  pageSize:any = 10;
   activeStatue;
-  run($event: any, status?) {
-    //  console.log(this.activeStatusValue)
-    if (this.searchFlg || this.activeStatusValue == 'EXPIRED') { return }
-    this.nomatch = false;
+ run($event:any, status?){
+  //  console.log(this.activeStatusValue)
+   if(this.searchFlg || this.activeStatusValue == 'EXPIRED' ){return}
+   this.nomatch = false;
 
-    //reset
-    if ($event && $event.pageSize) {
-      this.pageSize = $event.pageSize;
-    }
+  //reset
+    if($event && $event.pageSize){
+        this.pageSize = $event.pageSize;
+    } 
     this.dataSource = new MatTableDataSource([]);
     this.totalItems = 0;
-    //end reset
+  //end reset
+  
+  
 
-
-
-    if (status) {
-      this.activeStatue = status
-    }
-    this.spinner.show();
-    this.getPageData(
-      this.activeStatue,
-      $event && $event.pageIndex ? $event.pageIndex + 1 : '1',
-      this.pageSize,
-      'DESC',
-      'id'
+  if(status){
+    this.activeStatue = status
+  }
+  this.spinner.show();
+  this.getPageData(
+   this.activeStatue, 
+    $event && $event.pageIndex?$event.pageIndex+1:'1',
+    this.pageSize,
+    'DESC', 
+    'id'
     ).subscribe(
-      success => {
+    success => {
         if (success) {
-          this.rfrencList = success.data.referenceData;
-          AppSetting.deptRefList = this.rfrencList.assocDeptList;
 
-          let data: DashboardModel[] = success.data.responseData;
+          this.rfrencList = success.data.referenceData;
+          AppSetting.deptRefList =this.rfrencList.assocDeptList;
+
+          let data : DashboardModel[] = success.data.responseData;
           this.sortEditedData(data);
 
-          if (success.data.responseData.length > 0) {
-            this.totalItems = success.data.responseData[0].totalItems;
-          }
-          this.dataSource.sort = this.sort;
-          this.spinner.hide();
-        } else {
+            if(success.data.responseData.length > 0){
+              this.totalItems = success.data.responseData[0].totalItems;
+            }
+            this.dataSource.sort = this.sort;
+            this.spinner.hide();
+        }  else {
           this.spinner.hide();
         }
-      },
-      error => {
-        this.spinner.hide();
-      }
-    )
+    },
+    error => {
+      this.spinner.hide();
+    }  
+  )
+ }
+ 
+  getPageData(status, pageNo, pageSize, sortDir, sortField){
+    // assocbbff/secure/v1/cargocontract/all/page/ACTIVE?pageNo=1&pageSize=20&sortDir=DESC&sortField=id
+    return this.apiService.get(`secure/v1/cargocontract/all/page/${status}?pageNo=${pageNo}&pageSize=${pageSize}&sortDir=${sortDir}&sortField=${sortField}`)
   }
 
-  getPageData(status, pageNo, pageSize, sortDir, sortField) {
-    // assocbbff/secure/v1/deliverycontract/all/page/ACTIVE?pageNo=1&pageSize=20&sortDir=DESC&sortField=id
-    return this.apiService.get(`secure/v1/deliverycontract/all/page/${status}?pageNo=${pageNo}&pageSize=${pageSize}&sortDir=${sortDir}&sortField=${sortField}`)
-  }
-
-
+  
   callexpiredstatusapi() {
     this.searchString = '';
     this.spinner.show();
     this.expiredArray = [];
-    this.apiService.get("secure/v1/deliverycontract/all/ACTIVE").subscribe(success => {
+    this.apiService.get("secure/v1/cargocontract/all/ACTIVE").subscribe( success => {
       if (success) {
-        success.data.responseData.forEach(element => {
-          element['editStatus'] = this.getStatus(element) ? 1 : 0;
+         success.data.responseData.forEach(element => {
           this.currDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
+          element['editStatus'] = this.getStatus(element) ? 1 : 0;
           if (element.expDt < this.currDate) {
             this.expiredArray.push(element);
             this.spinner.hide();
@@ -527,46 +528,47 @@ export class DashboardComponent implements OnInit {
           }
         });
         this.spinner.hide();
-        if (this.expiredArray && this.expiredArray.length > 0) {
-          this.dataSource = new MatTableDataSource(this.expiredArray);
+        if(this.expiredArray && this.expiredArray.length > 0 ){
+          this.dataSource = new MatTableDataSource(this.expiredArray);          
           this.paginator.pageIndex = 0;
 
           this.dataSource.sort = this.sort;
-          const sortState: Sort = { active: 'editStatus', direction: 'desc' };
-          this.sort.active = sortState.active;
-          this.sort.direction = sortState.direction;
-          this.sort.sortChange.emit(sortState);
+          const sortStateExp: Sort = {active: 'editStatus', direction: 'desc'};
+          this.sort.active = sortStateExp.active;
+          this.sort.direction = sortStateExp.direction;
+          this.sort.sortChange.emit(sortStateExp);
           this.dataSource.paginator = this.paginator;
-        } else {
+        }else{
           this.dataSource = new MatTableDataSource();
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
+          this.spinner.hide();
         }
-
+        this.spinner.hide();
       }
       else {
         this.spinner.hide();
       }
-    },
+      },
       error => {
         this.spinner.hide();
       });
-
-
+     
+     
   }
 
   showSfxCodeData(data) { }
 
 
-  /*----------- on click on edit icon in case of active contracts ------------ */
-  showEditFlowPopup(data) {
-    this.spinner.show();
-    this.setAppSetting(data);
-
-    /**  Call get contract API to set contract object */
-    this.apiService.get('secure/v1/deliverycontract/' + AppSetting.contractId).subscribe(data => {
+   /*----------- on click on edit icon in case of active contracts ------------ */
+   showEditFlowPopup(data) {
+     this.spinner.show();
+     this.setAppSetting(data);
+    
+      /**  Call get contract API to set contract object */
+    this.apiService.get('secure/v1/cargocontract/'+AppSetting.contractId).subscribe(data => {
       let ob = ErrorConstants.validateException(data);
-      if (ob.isSuccess) {
+      if(ob.isSuccess){
         AppSetting.wefDate = data.data.responseData.effectiveDt;        // set effective date (w.e.f)
         this.spinner.hide();
         const dialogRef = this.dialog.open(BookingAssociateContractUpdateComponent, {
@@ -576,23 +578,23 @@ export class DashboardComponent implements OnInit {
         });
         dialogRef.afterClosed().subscribe(result => {
 
-          if (!result) {
+          if(!result){
             this.resetAppSetting();
           }
         });
       } else {
         this.spinner.hide();
       }
-    }, (error) => {
+    },(error) => {
       this.spinner.hide();
     })
-
+    
   }
-
+  
   getStatus(data) {
     var isEdit = this.rfrencList.statusList.find(x => x.lookupVal === 'EDIT');
-    if (isEdit != undefined) {
-      if (isEdit.id == data.status) {
+    if(isEdit !=undefined){
+      if(isEdit.id == data.status){
         return true;
       } else {
         return false;
@@ -611,9 +613,9 @@ export class DashboardComponent implements OnInit {
         cardDetail['favoriteIcon'] = 'favorite_border';
         if (cardDetail.moduleEntity == 'DASHBOARD') {
           cardDetail['permission'] = cardDetail.objectName + '_READ';
-        } else if (cardDetail.targetValue == 'MSA') {
+        } else if(cardDetail.targetValue == 'MSA'){
           cardDetail['permission'] = 'CREATE CONTRACT_CREATE';
-        } else if (cardDetail.targetValue == 'ASSOCIATE MASTER') {
+        } else if(cardDetail.targetValue == 'ASSOCIATE MASTER') {
           cardDetail['permission'] = 'CREATE CONTRACT_READ';
         }
       }
@@ -645,9 +647,9 @@ export class DashboardComponent implements OnInit {
         permissionArray['favoriteIcon'] = 'favorite_border';
         if (permissionArray.moduleEntity == 'DASHBOARD') {
           permissionArray['permission'] = permissionArray.objectName + '_READ';
-        } else if (permissionArray.targetValue == 'MSA') {
+        }  else if(permissionArray.targetValue == 'MSA'){
           permissionArray['permission'] = 'CREATE CONTRACT_CREATE';
-        } else if (permissionArray.targetValue == 'ASSOCIATE MASTER') {
+        } else if(permissionArray.targetValue == 'ASSOCIATE MASTER') {
           permissionArray['permission'] = 'CREATE CONTRACT_READ';
         }
         if (this.dashboardTotalCount) {
@@ -725,13 +727,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getImagePath(pathName, targetValue) {
-    if (this.selectedValue === 'ACTIVE' && targetValue === 'ACTIVE') {
+    if(this.selectedValue === 'ACTIVE' && targetValue === 'ACTIVE') {
       let imageName = '/assets/images/searchContact_white.png';
       return imageName
-    } else if (pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
+    } else if(pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
       let imageName = '/assets/images/searchContract_icon.png';
       return imageName
-    } else if (pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
+    } else if(pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
       let imageName = '/assets/images/associatemaster.png';
       return imageName
     }
@@ -739,17 +741,17 @@ export class DashboardComponent implements OnInit {
       let image = pathName.split('.');
       let imageName = '/assets/images/' + image[0] + '_white' + '.' + image[1];
       return imageName
-    }
+    } 
     else {
       return '/assets/images/' + pathName;
     }
   }
 
   getImagePathCard(pathName, targetValue) {
-    if (pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
+    if(pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
       let imageName = '/assets/images/searchContract_icon.png';
       return imageName
-    } else if (pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
+    } else if(pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
       let imageName = '/assets/images/associatemaster.png';
       return imageName
     } else {
@@ -878,28 +880,28 @@ export class DashboardComponent implements OnInit {
   }
 
   getPermissionsForTable(selectedValue) {
-    console.log('selected', selectedValue)
-    if (selectedValue == 'EXPIRING SOON') {
+    console.log('selected',selectedValue)
+    if(selectedValue == 'EXPIRING SOON'){
       return ['EXPIRING SOON CONTRACTS_READ']
-    } else if (selectedValue == 'DRAFT') {
+    } else if(selectedValue == 'DRAFT'){
       return ['DRAFT CONTRACTS_READ']
-    } else if (selectedValue == 'ACTIVE') {
+    } else if(selectedValue == 'ACTIVE') {
       return ['ACTIVE CONTRACTS_READ']
-    } else if (selectedValue == 'INACTIVE') {
+    } else if(selectedValue == 'INACTIVE') {
       return ['TERMINATED CONTRACTS_READ']
     } else {
-      return ['EXPIRING SOON CONTRACTS_READ', 'DRAFT CONTRACTS_READ', 'ACTIVE CONTRACTS_READ', 'TERMINATED CONTRACTS_READ']
+      return ['EXPIRING SOON CONTRACTS_READ','DRAFT CONTRACTS_READ', 'ACTIVE CONTRACTS_READ','TERMINATED CONTRACTS_READ']
     }
 
   }
 
   /*---- Sort Data using edit status ----- */
-  sortEditedData(data) {
-    data.forEach(element => {
-      element['editStatus'] = this.getStatus(element) ? 1 : 0;
-    });
+ sortEditedData(data){
+  data.forEach(element => {
+    element['editStatus'] = this.getStatus(element) ? 1 : 0;
+  });
 
-    this.dataSource = new MatTableDataSource(data);
+  this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
@@ -908,69 +910,67 @@ export class DashboardComponent implements OnInit {
         default: return item[property];
       }
     };
-    const sortState: Sort = { active: 'editStatus', direction: 'desc' };
+    const sortState: Sort = {active: 'editStatus', direction: 'desc'};
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
-  }
+}
 
 /* 
 * open popup to view added branches 
 */
-
-  openBranchPopup(element) {
-    this.spinner.show();
-    let branchData: any;
-    this.apiService.get(`secure/v1/deliverycontract/contracts/branches/${element.contractId}`).subscribe(res => {
-      if (res.data) {
-        if (res.data.responseData && res.data.responseData.length > 0) {
-          branchData = res.data.responseData;
-          if (branchData.length > 0) {
-            this.dialog.open(ViewBranchesComponent, {
-              data: { branchData: branchData },
-              width: '55vw', minHeight: '20rem',
-              panelClass: 'mat-dialog-responsive',
-              disableClose: true
-            });
-            this.spinner.hide();
-          } else {
-            console.log("Branch does not exits in contract");
-            this.spinner.hide();
-          }
+openBranchPopup(element) {
+  this.spinner.show();
+  let branchData : any;
+  this.apiService.get(`secure/v1/cargocontract/contracts/branches/${element.contractId}`).subscribe(res => {     
+    if(res.data){
+      if(res.data.responseData && res.data.responseData.length > 0){
+        branchData = res.data.responseData;
+        if(branchData.length > 0){
+          this.dialog.open(ViewBranchesComponent, {
+            data : {branchData: branchData},
+            width: '55vw',minHeight: '20rem',
+            panelClass: 'mat-dialog-responsive',
+            disableClose: true
+          });
+          this.spinner.hide();
+        }else {
+          console.log("Branch does not exits in contract");
+          this.spinner.hide();
         }
-      }
-      this.spinner.hide();
-    }, (error) => {
-      this.spinner.hide();
-      this.tosterservice.error(ErrorConstants.getValue(404));
-    })
-  }
+      } 
+    }
+    this.spinner.hide();
+  },(error) => {
+    this.spinner.hide();
+    this.tosterservice.error(ErrorConstants.getValue(404));
+  })
+}
 
-  /* 
-  * open popup to select branch and filter data using selected branch 
-  */
+/*
+* open popup to select branch and filter data using selected branch
+*/
+openBranchSearchPopup() {
+  const dialogRef = this.dialog.open(DashboardBranchSearchComponent, {
+    data: {  statusList: this.rfrencList.statusList },
+    panelClass: 'mat-dialog-responsive',
+    disableClose: true
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    console.log(result)
+    if(result) {
+      let searchCriteria = {};
+      searchCriteria['branchId'] = result;
 
-  openBranchSearchPopup() {
-    //this.setAppSetting(data);
-    const dialogRef = this.dialog.open(DashboardBranchSearchComponent, {
-      data: { statusList: this.rfrencList.statusList },
-      panelClass: 'mat-dialog-responsive',
-      disableClose: true
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        let searchCriteria = {};
-        searchCriteria['branchId'] = result;
-
-        this.spinner.show();
-        let expiredArrayData = [];
-
-        this.apiService.post(`secure/v1/deliverycontract/search/${this.state}`, searchCriteria).subscribe(
-          success => {
+      this.spinner.show();
+      let expiredArrayData = [];
+    
+      this.apiService.post(`secure/v1/cargocontract/search/${this.state}`, searchCriteria).subscribe(
+        success => {
             if (success) {
-
-              this.searchFlg = true;
-              this.enterPressed = false;
+             
+                this.searchFlg = true;
+                this.enterPressed = false;
 
               if (this.activeStatusValue == 'EXPIRED') {
                 success.data.responseData.forEach(element => {
@@ -996,40 +996,39 @@ export class DashboardComponent implements OnInit {
                   this.dataSource.sort = this.sort;
                   this.dataSource.paginator = this.paginator;
                 }
-                this.spinner.hide();
-
+                this.spinner.hide();  
               } else {
-
-                this.dataSource = new MatTableDataSource(success.data.responseData);
-                this.rfrencList = success.data.referenceData;
-                if (success.data.responseData.length > 0) {
+                
+                this.dataSource = new MatTableDataSource(success.data.responseData);  
+                this.rfrencList = success.data.referenceData; 
+                if(success.data.responseData.length > 0){                       
                   this.totalItems = success.data.responseData.length;
                   this.paginator.pageIndex = 0;
                   this.nomatch = false;
                 } else {
                   this.nomatch = true;
                 }
-                AppSetting.deptRefList = this.rfrencList.assocDeptList;
+                AppSetting.deptRefList =this.rfrencList.assocDeptList;
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
                 this.inputFild = false;
                 this.spinner.hide();
-              }
-
-            } else {
+              } 
+                
+            }  else {
               this.spinner.hide();
             }
-          },
-          error => {
-            this.spinner.hide();
-            this.enterPressed = false;
-            this.inputFild = false;
-          }
-        )
-      }
-    });
+        },
+        error => {
+          this.spinner.hide();
+          this.enterPressed = false;
+          this.inputFild = false;
+        }  
+      )
+    }
+  });
 
-  }
+}
 
 
 }
@@ -1045,12 +1044,12 @@ export interface DashboardModel {
   contractUpdateDate: Date;
   expDt: Date;
   id: number;
-  gstinNum: string;
+  gstinNum : string;
   mob: string;
   panNum: string;
   status: number
   totalItems: any;
   totalPages: any;
   vendorDeptt: any;
-}
+  }
 

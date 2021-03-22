@@ -26,7 +26,7 @@ import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   {
-    path: 'asso_delivery-contract',
+    path: 'asso_cargo-contract',
     children: [
       {
         path: "",
@@ -37,7 +37,7 @@ const routes: Routes = [
         component: BookingAssociateContractComponent
       },
       {
-        path: "asso_delivery",
+        path: "asso_cargo",
         component: DashboardComponent
       },
       {
@@ -86,6 +86,10 @@ const routes: Routes = [
         component: VehicleDocumentComponent
       },
       {
+        path: "staff-document",
+        component: StaffDocumentComponent
+      },
+      {
         path: "associate-staff",
         component: AssociateStaffComponent
       },
@@ -112,10 +116,6 @@ const routes: Routes = [
       {
         path: "preview",
         component: PreviewComponent
-      },
-      {
-        path: "staff-document",
-        component: StaffDocumentComponent
       },
       {
         path: "reports",

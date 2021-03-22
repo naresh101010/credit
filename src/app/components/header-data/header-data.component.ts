@@ -14,16 +14,15 @@ import { AppSetting } from 'src/app/app.setting';
       <p><strong>PAN: </strong> {{(associateData?.panNum).toUpperCase()}}</p>
     </div>
     <div class="col-md-3 col-sm-6">
-      <p><strong>Associate Category:</strong> DELIVERY</p>
+      <p><strong>Associate Category:</strong> CARGO</p>
     </div>
     <div class="col-md-3 col-sm-6">
-    <p><strong>W.E.F: </strong><span id="wef_Date"></span></p>
+     <p><strong>W.E.F: </strong><span id="wef_Date"></span></p>
     </div>
   </div>
 </div>
   `,
-  providers:[DatePipe]
- 
+ providers:[DatePipe]
 })
 export class HeaderDataComponent implements OnInit {
 
@@ -34,7 +33,6 @@ export class HeaderDataComponent implements OnInit {
   ngOnInit() {
     this.associateData = AppSetting.associateObject;
     this.wef = AppSetting.wefDate;
-    // security fix
     let dtEle = document.getElementById("wef_Date");
     if(dtEle){
       dtEle.textContent = this.datePipe.transform(this.wef, 'dd/MM/yyyy')

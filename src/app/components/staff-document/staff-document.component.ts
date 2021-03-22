@@ -7,10 +7,7 @@ import { DatePipe } from '@angular/common';
 
 import { ApiService } from '../../core/services/api.service';
 import { ErrorConstants } from '../../core/models/constants';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { BehaviorSubject } from 'rxjs-compat/BehaviorSubject';
-
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 @Component({
   selector: 'app-staff-document',
   templateUrl: './staff-document.component.html',
@@ -42,30 +39,20 @@ export class StaffDocumentComponent implements OnInit {
   uploadedFileName: string = '';
   fileBrowseflag: boolean = false;
   isValidDocExpiryDate: boolean = false;
-  perList:any = [];
-  uploadedFileName_upper: string ='';
-
-  // for Security Fix
-  public upldFilSub = new BehaviorSubject(null);
-  public upldFilObs$ = this.upldFilSub.asObservable();
-  // end for Security Fix
-
+   // for Security Fix
+   public upldFilSub = new BehaviorSubject(null);
+   public upldFilObs$ = this.upldFilSub.asObservable();
+   uploadedFileName_upper: string ='';
 
   constructor(private apiSer: ApiService,
     private spinner: NgxSpinnerService,
     private toaster: ToastrService,
     private router: Router,
     private acrouter: ActivatedRoute,
-    private datePipe : DatePipe,
-    private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService,
+    private datePipe : DatePipe
   ) { }
 
   ngOnInit() {
-    this.authorizationService.setPermissions('DOCUMENT UPLOAD');
-    this.perList = this.authorizationService.getPermissions('DOCUMENT UPLOAD') == null ? [] : this.authorizationService.getPermissions('DOCUMENT UPLOAD');
-    this.permissionsService.loadPermissions(this.perList);
-
     this.isDisable = false;
    // this.staffID = 
 
@@ -86,10 +73,11 @@ export class StaffDocumentComponent implements OnInit {
         if(ele){
            ele.textContent = fileName;
         }
-    })
+      })
   }
 
   //On file browse
+
   handleFileInput(event) {
     let fileList: FileList = event.target.files;
 
@@ -117,9 +105,11 @@ export class StaffDocumentComponent implements OnInit {
         this.upldFilSub.next(this.fileToUpload.name);  //  security fix
         this.toaster.error("Invalid file type");
       }
-      if(document.getElementById("uploadedFileName")){
-        this.uploadedFileName_upper =  document.getElementById("uploadedFileName").textContent;
-      }
+      console.log("Uploaded File " + this.uploadedFileName);
+    }
+
+    if(document.getElementById("uploadedFileName")){
+      this.uploadedFileName_upper =  document.getElementById("uploadedFileName").textContent;
     }
 
   }
@@ -154,7 +144,6 @@ export class StaffDocumentComponent implements OnInit {
 
           //Refesh Page data
           this.fileModel = {};
-          this.uploadedFileName = '';
           this.upldFilSub.next('');  //  security fix
           this.docformupload.resetForm();
           this.getDocumentDetailbyId();
@@ -240,17 +229,15 @@ export class StaffDocumentComponent implements OnInit {
       this.fileModel.subTypeId = '';
     } else {
       this.spinner.show()
-      this.apiSer.getSubDocTypeData(this.fileModel.docTypeId).subscribe(
-        data => {
-            var resData: any = data;
-            this.subTypeList = resData.data.responseData;
-            this.spinner.hide();
-            console.log(data, "sub Document list");
-          }, error => {
-            this.spinner.hide();
-            this.toaster.error(ErrorConstants.getValue(404));
-          }
-      )
+      this.apiSer.getSubDocTypeData(this.fileModel.docTypeId).subscribe(data => {
+          var resData: any = data;
+          this.subTypeList = resData.data.responseData;
+          this.spinner.hide();
+          console.log(data, "sub Document list");
+        }),(error) => {
+          this.spinner.hide();
+          this.toaster.error(ErrorConstants.getValue(404));
+      }
 
     }
   }
@@ -361,6 +348,11 @@ export class StaffDocumentComponent implements OnInit {
     if (expYear > 9999) {
       this.fileModel.docExpiryDate = '';
     }
+  }
+  
+  submitStaff(event) {
+    event.preventDefault();
+    this.router.navigate(['/asso_cargo-contract/associate-staff'], { skipLocationChange: true });
   }
 
 }

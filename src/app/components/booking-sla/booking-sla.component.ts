@@ -5,45 +5,41 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 import { ApiService } from '../../core/services/api.service';
 import { ErrorConstants } from '../../core/models/constants';
-import { EmiCalculationComponent } from '../../dialog/emi-calculation/emi-calculation.component';
-import { InsuranceDeductionComponent } from '../../dialog/insurance-deduction/insurance-deduction.component';
 import { AppSetting } from '../../app.setting';
 import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { SlaCalulationComponent } from '../../dialog/sla-calulation/sla-calulation.component';
 
 
 @Component({
   selector: 'app-booking-sla',
   templateUrl: './booking-sla.component.html',
+  styleUrls: ['./booking-sla.component.css'],
   providers : [DatePipe]
 })
 export class BookingSlaComponent implements OnInit {
   deductionForm : FormGroup;
-  branchVehicleList : any[] = [];
-  financeflag: any; 
+  cargoSlas: any[] = [];
   deductionID : number;
   deductionData : any;
-  emiDeductionArray : any[] = [];
-  insuranceDeductionArray : any[] = [];
-  oldEmiDeductions :  any[] = [];
-  oldInsuranceDeductions : any[]=[];
-  emiDatasource : any;
-  insuranceDatasource : any;
+  SlaDeductionArray : any[] = [];
+  oldSlaDeductions : any[] = [];
+  SlaDatasource : any;
   contractData : any;
-  displayedColumns: string[] = ['Vnumber', 'dedctnAmt', 'effectiveDt', 'expDt','icon'];
+  displayedColumns: string[] = ['vehicleModelName', 'loadingTime', 'unloadingTime', 'icon'];
   maxdate : Date;
   isValidStartDt : boolean;
   isValidEndDt : boolean;
   minDate : Date;
   editflow : boolean;
   associateData : any;
-
   perList: any = [];
   exAttrMap = new Map();
   exAttrKeyList =  [];
+  deductionRefData : any;
 
   constructor(public dialog: MatDialog,
               private fb : FormBuilder,
@@ -62,15 +58,17 @@ export class BookingSlaComponent implements OnInit {
     this.permissionsService.loadPermissions(this.perList);
     this.exAttrMap = this.authorizationService.getExcludedAttributes('DEDUCTION');
     this.exAttrKeyList = Array.from(this.exAttrMap.values());
+    console.log('perlist',this.perList);
+    console.log('attributelist',this.exAttrKeyList);
 
     this.route.params.subscribe(x => {
       this.editflow = x.editflow;
     });
     this.spinner.show();
-
+   
     this.associateData = AppSetting.associateObject;
-
-    this.apiService.get('secure/v1/deliverycontract/'+AppSetting.contractId).subscribe(data => {
+    this.apiService.get('secure/v1/cargocontract/'+AppSetting.contractId).subscribe(data => {
+      console.log('Data', data);
       let ob = ErrorConstants.validateException(data);
       if(ob.isSuccess){
         this.contractData = data.data.responseData;
@@ -83,12 +81,17 @@ export class BookingSlaComponent implements OnInit {
       this.tosterservice.error(ErrorConstants.getValue(404));
       this.spinner.hide();
     })
-
-    this.apiService.get('secure/v1/deliverycontract/deliveryDeduction/'+AppSetting.contractId).subscribe(response => {
+    console.log('Contract ID', AppSetting.contractId);
+    this.apiService.get('secure/v1/cargocontract/deduction/'+AppSetting.contractId).subscribe(response => {
       let ob = ErrorConstants.validateException(response);
+      console.log('SLA Response', response);
       if(ob.isSuccess){
+        this.deductionRefData = response.data.referenceData;
         if(response.data.responseData && Object.keys(response.data.responseData).length > 0){
           this.deductionData =  response.data.responseData;
+         
+          console.log('deduction Data',this.deductionData);
+          this.cargoSlas = this.deductionData.cargoSlas;
           this.deductionID = this.deductionData.id;
           this.renderDeductionData();
         } else {
@@ -98,10 +101,6 @@ export class BookingSlaComponent implements OnInit {
           e.setDate(e.getDate()+1);
           this.maxdate = e;
         }
-        this.branchVehicleList = response.data.referenceData.branchVehicleList;
-          for(let i of this.branchVehicleList){
-              this.financeflag =i
-          }
         this.spinner.hide();
       } else {
         this.tosterservice.error(ob.message);
@@ -118,86 +117,42 @@ export class BookingSlaComponent implements OnInit {
         advncDedctnAmtFromDt: ['', Validators.required],
         advncDedctnAmtToDt: [''],
         assocCntrId: [AppSetting.contractId],
-       // descr: [''],
+        cargoSlas: [],
         effectiveDt: null,
         expDt : null,
         id: [this.deductionID],
-        snsdPnltyFlag: [null,Validators.required],
-        safextLateDlvryPnltyFlag: [null,Validators.required],
+        mishandlingFlag: [null,Validators.required],
+        mishandlingRemark: ['',Validators.required],
         recIdentifier: [''],
-        vehicleAbsentPnltyFlag: [null,Validators.required],
-        mktVehicleDedctnFlag: [null,Validators.required],
-       // status: [''],
-        vehicleDeductions: [],
-        dedctnLostFlag: [null,Validators.required],
-        toPayRecoveryFlag: [null,Validators.required],
+        schLatePnltyFlag: [null,Validators.required],
+        schLatePnltyRemark: ['',Validators.required],
+       
     });
     this.isAdvanceAmount(0);
   }
 
+
   get f() {return this.deductionForm.controls }    // get form controls
 
-  openEmiModal() {
-    let dialog = this.dialog.open(EmiCalculationComponent, {
+  
+  openSlaModal(){
+    let dialog = this.dialog.open(SlaCalulationComponent, {
       width: '92rem',
-      data : {branchVehicleList : this.branchVehicleList, previousData : this.emiDeductionArray, oldData : this.oldEmiDeductions, editflow : this.editflow},
+      data : {referenceData: this.deductionRefData, previousData : this.SlaDeductionArray, oldData : this.oldSlaDeductions, editflow : this.editflow},
       panelClass: 'mat-dialog-responsive',
       disableClose: true
     });
 
     dialog.afterClosed().subscribe(data => {
       if(data !== undefined){
-        this.emiDeductionArray = data;
-        this.emiDatasource = new MatTableDataSource<any>(this.emiDeductionArray);
+        this.SlaDeductionArray = data;
+        console.log('after close model',this.SlaDeductionArray);
+        this.SlaDatasource = new MatTableDataSource<any>(this.SlaDeductionArray);
       }
     })
   }
 
-  // validateEmi(): boolean {
-  //   let flag = false
-  //   if (this.branchVehicleList.length == 0) {
-  //     return flag = true;
-  //   }
-  //   else {
-  //     this.branchVehicleList.forEach(obj => {
-  //       if (obj.sfxFinFlag > 0) {
-  //         if (this.emiDeductionArray.length > 0) {
-  //           return flag = true;
-  //         }
-  //       }
-  //       else {
-  //         return flag = true;
-  //       }
-  //     })
-  //   }
-  //   return flag;
-  // }
 
-  ifFinanceFlagExist() {
-    let isExist : boolean = false;
-    this.branchVehicleList.forEach(element => {
-     if(element.sfxFinFlag == 1) {
-       return isExist=true;
-     }
-    });
-    return isExist;
-  }
-
-  openInsuranceDeductionModal() {
-   let insuDialog = this.dialog.open(InsuranceDeductionComponent, {
-      width: '92rem',
-      data : {branchVehicleList : this.branchVehicleList, previousData : this.insuranceDeductionArray, oldData: this.oldInsuranceDeductions, editflow : this.editflow},
-      panelClass: 'mat-dialog-responsive',
-      disableClose: true
-    });
-
-    insuDialog.afterClosed().subscribe(data => {
-      if(data !== undefined){
-        this.insuranceDeductionArray = data;
-        this.insuranceDatasource = new MatTableDataSource<any>(this.insuranceDeductionArray);
-      }
-    })
-  }
 
  renderDeductionData() {
    if(this.deductionData.advncDedctnAmtFlag == 1){
@@ -212,15 +167,15 @@ export class BookingSlaComponent implements OnInit {
       this.maxdate = e;
    }
 
-  if(this.deductionData.vehicleDeductions !== undefined){
-    this.emiDeductionArray =  this.deductionData.vehicleDeductions.filter(x => x.dedctnCateg === 'EMI');
-    this.oldEmiDeductions = [...this.emiDeductionArray];
-    this.emiDatasource = new MatTableDataSource<any>(this.emiDeductionArray);
-    this.insuranceDeductionArray = this.deductionData.vehicleDeductions.filter(x => x.dedctnCateg === 'INSURANCE');
-    this.oldInsuranceDeductions = [...this.insuranceDeductionArray];
-    this.insuranceDatasource = new MatTableDataSource<any>(this.insuranceDeductionArray);
+  if(this.deductionData.cargoSlas !== undefined){
+    this.SlaDeductionArray =  [...this.deductionData.cargoSlas];
+    this.oldSlaDeductions = [...this.SlaDeductionArray];
+    this.SlaDatasource = new MatTableDataSource<any>(this.SlaDeductionArray);
   }
+  
   this.isAdvanceAmount(this.deductionData.advncDedctnAmtFlag);
+  this.onChangeLatePenaltyFlag(this.deductionData.schLatePnltyFlag);
+  this.onChangeMishandlingFlag(this.deductionData.mishandlingFlag);
 
   this.deductionForm.patchValue({
         advncDedctnAmt: this.deductionData.advncDedctnAmt,
@@ -231,14 +186,13 @@ export class BookingSlaComponent implements OnInit {
         effectiveDt: this.deductionData.effectiveDt,
         expDt: this.deductionData.expDt,
         id: this.deductionID,
-        snsdPnltyFlag: this.deductionData.snsdPnltyFlag,
-        safextLateDlvryPnltyFlag: this.deductionData.safextLateDlvryPnltyFlag,
-        vehicleAbsentPnltyFlag: this.deductionData.vehicleAbsentPnltyFlag,
-        mktVehicleDedctnFlag: this.deductionData.mktVehicleDedctnFlag,
+        mishandlingFlag: this.deductionData.mishandlingFlag,
+        mishandlingRemark: this.deductionData.mishandlingRemark,
+        schLatePnltyFlag: this.deductionData.schLatePnltyFlag,
+        schLatePnltyRemark: this.deductionData.schLatePnltyRemark,
         recIdentifier : this.deductionData.recIdentifier,
-        vehicleDeductions: this.deductionData.vehicleDeductions,
-        dedctnLostFlag: this.deductionData.dedctnLostFlag,
-        toPayRecoveryFlag: this.deductionData.toPayRecoveryFlag,
+        cargoSlas: this.deductionData.cargoSlas,
+        
   });
 
  }
@@ -246,67 +200,52 @@ export class BookingSlaComponent implements OnInit {
   /*---------  On Save Deduction Data ------- */
   onSaveDeduction(flag) {
     this.deductionForm.markAllAsTouched();
-    if(this.emiDeductionArray.length == 0  && this.ifFinanceFlagExist()){
-      this.tosterservice.info('Please Add Vehicle EMI Deduction Calculation');
-      return;
-    }
-    
     if(this.deductionForm.invalid || this.isValidStartDt || this.isValidEndDt){
       return;
     }
 
     let finalDeductionData : any = {};
     finalDeductionData = {...this.deductionForm.value};
-    if(this.emiDeductionArray === undefined && this.insuranceDeductionArray === undefined){
-      finalDeductionData.vehicleDeductions = [];
+    // if(this.emiDeductionArray === undefined && this.insuranceDeductionArray === undefined)
+    if(this.SlaDeductionArray === undefined){
+      finalDeductionData.cargoSlas = [];
     } else {
-      finalDeductionData.vehicleDeductions = this.emiDeductionArray.concat(this.insuranceDeductionArray);
+      finalDeductionData.cargoSlas = this.SlaDeductionArray;
     }
 
-    finalDeductionData.effectiveDt = this.datePipe.transform(this.deductionForm.value.effectiveDt, 'yyyy-MM-dd');
+    finalDeductionData.effectiveDt = this.deductionForm.value.effectiveDt ? this.datePipe.transform(this.deductionForm.value.effectiveDt, 'yyyy-MM-dd') : null;
     if(this.deductionForm.value.expDt){
-      finalDeductionData.expDt =  this.datePipe.transform(this.deductionForm.value.expDt, 'yyyy-MM-dd') ;
+      finalDeductionData.expDt =  this.datePipe.transform(this.deductionForm.value.expDt, 'yyyy-MM-dd');
     }
-    
+    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd') : '';
+    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd') : '';
 
-    if (finalDeductionData.advncDedctnAmtFlag == 1) {
-      finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(
-        this.deductionForm.value.advncDedctnAmtFromDt,
-        "yyyy-MM-dd"
-      ); 
-
-      finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(
-        this.deductionForm.value.advncDedctnAmtToDt,
-        "yyyy-MM-dd"
-      );
-    }
-
-  
-    // finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd') : '';
-    // finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd') : '';
-
-    for(let i=0; i< finalDeductionData.vehicleDeductions.length; i++){
-      if(finalDeductionData.vehicleDeductions[i].id === 0){
-        delete finalDeductionData.vehicleDeductions[i].id;
+    for(let i=0; i< finalDeductionData.cargoSlas.length; i++){
+      if(finalDeductionData.cargoSlas[i].id === 0){
+        delete finalDeductionData.cargoSlas[i].id;
       }
+      finalDeductionData.cargoSlas[i].effectiveDt = this.contractData.effectiveDt;
+      finalDeductionData.cargoSlas[i].expDt = this.contractData.expDt;
     }
     if(this.deductionID == 0){
      delete finalDeductionData.id;
+    } else {
+      if(this.deductionData.status)
+        finalDeductionData.status = this.deductionData.status; 
     }
-
-    if (this.editflow && this.deductionForm.dirty) {
-        finalDeductionData.status = AppSetting.editStatus;
-    }
-    // (this.editflow && this.deductionForm.dirty) ? finalDeductionData.status = AppSetting.editStatus : '';
-    console.log('final data',finalDeductionData)
-    this.spinner.show();
-    this.apiService.post('secure/v1/deliverycontract/deliveryDeduction',finalDeductionData).subscribe(res => {
+    (this.editflow && this.deductionForm.dirty) ? finalDeductionData.status = AppSetting.editStatus : '';
+ 
+   this.spinner.show();
+   console.log('Final Deduction', finalDeductionData);
+   console.log('stringify',JSON.stringify(finalDeductionData))
+   
+    this.apiService.post('secure/v1/cargocontract/deduction',finalDeductionData).subscribe(res => {
      
       if(flag == 0){
         if(this.editflow){
-          this.router.navigate(['/asso_delivery-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
+          this.router.navigate(['/asso_cargo-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
         } else {
-          this.router.navigate(['/asso_delivery-contract/booking-document'], {skipLocationChange: true});
+          this.router.navigate(['/asso_cargo-contract/booking-document'], {skipLocationChange: true});
         }
       } else {
         this.deductionID = res.data.responseData;
@@ -315,44 +254,34 @@ export class BookingSlaComponent implements OnInit {
       }
       this.spinner.hide();
     }, (error) => {
-        if(error.error.errors.error[0].code =="ERR001"){
-          this.tosterservice.warning("Please Add Single Vehicle EMI Deduction From Indivisual Vehicle")
-        }      
       this.tosterservice.error(error.error.errors.error[0].description);
       this.spinner.hide();
-    });
+    })
   }
 
-  /*----- return vehicle number ---------- */
- getVehicleNumber(id) {
-   let vehicle = this.branchVehicleList.find(x=> x.vehicleId === id);
-    if(vehicle !== undefined) {
-      return vehicle.vehicleNumber;
+  nextReadMode() {
+    if(this.editflow){
+      this.router.navigate(['/asso_cargo-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
     } else {
-      return '';
+      this.router.navigate(['/asso_cargo-contract/booking-document'], {skipLocationChange: true});
     }
- }
+  }
 
- /*------------ return branch name ------- */
- getBranchName(id) {
-  let vehicle = this.branchVehicleList.find(x=> x.vehicleId === id);
-  if(vehicle !== undefined) {
-    return  vehicle.branchName.join(', ');
+ /*------------ return vehicle type name name ------- */
+ getVehicleTypeName(id) {
+  let type = this.deductionRefData.vehicleTypeList.find(x=> x.id === id);
+  if(type !== undefined) {
+    return  type.lookupVal;
   } else {
     return '';
   }
- }
-/*---------- remove EMI deduction -------------- */
-removeEmiDeduction(i){
-  this.emiDeductionArray.splice(i,1);
-  this.emiDatasource = new MatTableDataSource<any>(this.emiDeductionArray);
 }
 
- /*---------- remove insurance deduction -------------- */
- removeInsuranceDeduction(j){
-   this.insuranceDeductionArray.splice(j,1);
-   this.insuranceDatasource = new MatTableDataSource<any>(this.insuranceDeductionArray);
- }
+removeSladeduction(i){
+  this.SlaDeductionArray.splice(i,1);
+  this.SlaDatasource = new MatTableDataSource<any>(this.SlaDeductionArray);
+}
+
 
  /*----------- check advance amount --------- */
  isAdvanceAmount(value) {
@@ -366,6 +295,24 @@ removeEmiDeduction(i){
    // this.f.advncDedctnAmtToDt.disable();
    }
  }
+
+ /*--------- On change MisHandling charges ----------- */
+ onChangeMishandlingFlag(value) {
+  if(value == 1){
+    this.deductionForm.controls.mishandlingRemark.enable();
+  } else {
+    this.deductionForm.controls.mishandlingRemark.disable();
+  }
+}
+
+/*--------- On change  Schedule Late Penalty ----------- */
+onChangeLatePenaltyFlag(value) {
+  if(value == 1){
+    this.deductionForm.controls.schLatePnltyRemark.enable();
+  } else {
+    this.deductionForm.controls.schLatePnltyRemark.disable();
+  }
+}
 
   /*--------  On change Start Date----------- */
   effectiveDate() {
@@ -424,15 +371,5 @@ removeEmiDeduction(i){
     }
   }
 
-  /*-------- If create and update permission not provide --------- */
-  nextReadMode() {
-    if(this.editflow){
-      this.router.navigate(['/asso_delivery-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
-    } else {
-      this.router.navigate(['/asso_delivery-contract/booking-document'], {skipLocationChange: true});
-    }
-  }
-
 
 }
-

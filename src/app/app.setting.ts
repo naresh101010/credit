@@ -1,10 +1,9 @@
 export class AppSetting {
-    public static API_ENDPOINT = JSON.parse(sessionStorage.getItem('config')).associate_delivery.API_ENDPOINT;
-    // public static API_ENDPOINT ='http://9fd1f2f0-default-ingressbf-ed49-977150202.ap-south-1.elb.amazonaws.com/assocbbff/'
-
-    //API end point of User Management
-    public static API_ENDPOINT_UM = JSON.parse(sessionStorage.getItem('config')).shared.API_ENDPOINT;
-    public static API_REPORT_ENDPOINT = JSON.parse(sessionStorage.getItem('config')).shared.API_ENDPOINT_REPORT;
+     public static API_ENDPOINT = JSON.parse(sessionStorage.getItem('config')).associate_cargo.API_ENDPOINT;
+   // public static API_ENDPOINT ='http://9fd1f2f0-associate-ingress-94f7-1723126191.ap-south-1.elb.amazonaws.com/assccarbff/'
+   //API end point of User Management
+   public static API_ENDPOINT_UM = JSON.parse(sessionStorage.getItem('config')).shared.API_ENDPOINT;
+   public static API_REPORT_ENDPOINT = JSON.parse(sessionStorage.getItem('config')).shared.API_ENDPOINT_REPORT;
 
     public static associateId:number; // = 103;
     public static contractId:number; //= 1090;

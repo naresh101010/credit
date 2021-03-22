@@ -1,10 +1,9 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatTableDataSource, MatDialogRef, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatTableDataSource, MatDialogRef } from '@angular/material';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { AppSetting } from '../../app.setting';
-import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-emi-calculation',
@@ -28,19 +27,16 @@ export class EmiCalculationComponent implements OnInit {
   checkArray : any = [];
   minchar:boolean= false;
   nomatch: boolean=false;
-  activeClassFlag: boolean = false;
 
   constructor(public dialogRef: MatDialogRef<EmiCalculationComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private tosterservice: ToastrService,
-    public dialog: MatDialog,
     private datePipe : DatePipe) { }
 
   ngOnInit() {
-    let branchData = this.data.branchVehicleList;
-    this.branchVehicleList = branchData.filter(x=> x.sfxFinFlag == 1);
-    this.dataSource = new MatTableDataSource<any>(this.branchVehicleList);
+    this.branchVehicleList = this.data.branchVehicleList;
+    this.dataSource = new MatTableDataSource<any>(this.data.branchVehicleList);
     this.emiDeductions = [...this.data.previousData];
     this.oldEmiDeductions = [...this.data.oldData];
     this.editflow = this.data.editflow;
@@ -48,15 +44,11 @@ export class EmiCalculationComponent implements OnInit {
     let e = new Date();
     e.setDate(e.getDate()+1);
     this.maxdate = e;
-    if(this.dataSource.data.length === 1) {
-      this.activeClassFlag = true;
-      console.log('activeFlag', this.activeClassFlag);
-    }
 
-    // if (this.emiDeductions !== undefined) {
-    //   let filteredData = this.branchVehicleList.filter(x => !this.emiDeductions.find(y => y.vehicleId === x.vehicleId));
-    //   this.dataSource = new MatTableDataSource<any>(filteredData);
-    // }
+    if (this.emiDeductions !== undefined) {
+      let filteredData = this.branchVehicleList.filter(x => !this.emiDeductions.find(y => y.vehicleId === x.vehicleId));
+      this.dataSource = new MatTableDataSource<any>(filteredData);
+    }
 
     this.emiForm = this.fb.group({
       id: [0],
@@ -69,40 +61,9 @@ export class EmiCalculationComponent implements OnInit {
       recIdentifier : [1],
       status: ['']
     })
-    
-    this.singleVehicleSelection();
   }
 
   get f() { return this.emiForm.controls }   // return form controls
-
-  singleVehicleSelection() {
-    let id: number;
-    let selected: any;
-    if(this.dataSource.data.length === 1) {
-      this.vehicleData = this.dataSource.data[0];
-      //selected = this.vehicleData;
-      let selected = this.emiDeductions.find(x => x.vehicleId === this.vehicleData.vehicleId);
-      this.emiForm.controls.status.enable();
-      if(selected !== undefined) {
-         id = selected.id;
-      } else {
-         id = 0;
-      }
-
-      this.emiForm.patchValue({
-        id: id,
-        vehicleId: this.vehicleData.vehicleId,
-        assocCntrId: AppSetting.contractId,
-        status: '',
-        dedctnCateg: 'EMI',
-        recIdentifier : 1
-      });
-
-      this.editflow ? this.emiForm.controls.status.patchValue(AppSetting.editStatus) : 
-      (id !== 0 ? this.emiForm.controls.status.patchValue(selected.status) : this.emiForm.controls.status.disable())
-
-    }
-  }
 
   /*----------- On Select Vehicle -------- */
   onSelectVehicle(vehicleData) {
@@ -110,28 +71,21 @@ export class EmiCalculationComponent implements OnInit {
     this.emiForm.controls.status.enable();
 
     let id: number;
-    let selected = this.emiDeductions.find(x => x.vehicleId === this.vehicleData.vehicleId);
+    let selected = this.oldEmiDeductions.find(x => x.vehicleId === this.vehicleData.vehicleId);
     if (selected !== undefined) {
-      this.minDate = selected.effectiveDt;
       id = selected.id;
-      this.emiForm.patchValue(selected);
-
     } else {
-      this.emiForm.reset();
-      this.minDate = new Date();
-      let e = new Date();
-      e.setDate(e.getDate()+1);
-      this.maxdate = e;
       id = 0;
-      this.emiForm.patchValue({
-        id: id,
-        vehicleId: this.vehicleData.vehicleId,
-        assocCntrId: AppSetting.contractId,
-        status: '',
-        dedctnCateg: 'EMI',
-        recIdentifier : 1
-      });
     }
+
+    this.emiForm.patchValue({
+      id: id,
+      vehicleId: this.vehicleData.vehicleId,
+      assocCntrId: AppSetting.contractId,
+      status: '',
+      dedctnCateg: 'EMI',
+      recIdentifier : 1
+    });
 
     this.editflow ? this.emiForm.controls.status.patchValue(AppSetting.editStatus) : 
     (id !== 0 ? this.emiForm.controls.status.patchValue(selected.status) : this.emiForm.controls.status.disable())
@@ -139,20 +93,16 @@ export class EmiCalculationComponent implements OnInit {
   }
 
   /*--- After close dialog --- */
- 
+  close() {
+    this.dialogRef.close()
+  }
+
   addEMIDeductions() {
     if (this.vehicleData !== null && this.vehicleData !== undefined) {
       this.checkArray.push(this.emiForm.value);
-
-     let index = this.findIndexOfData();
-     if(index == undefined){
       this.emiDeductions.push(this.emiForm.value);
-     } else {
-      this.emiDeductions[index] = this.emiForm.value;
-     }
-  
-      // let data = this.branchVehicleList.filter(x => !this.emiDeductions.find(y => y.vehicleId === x.vehicleId));
-      // this.dataSource = new MatTableDataSource<any>(data);
+      let data = this.branchVehicleList.filter(x => !this.emiDeductions.find(y => y.vehicleId === x.vehicleId));
+      this.dataSource = new MatTableDataSource<any>(data);
       this.emiForm.reset();
       let e = new Date();
       e.setDate(e.getDate()+1);
@@ -202,15 +152,18 @@ export class EmiCalculationComponent implements OnInit {
     if (effYear > 9999) {
       this.emiForm.controls.effectiveDt.setValue('');
     } else {
-    let b = this.datePipe.transform(this.f.effectiveDt.value, 'yyyy-MM-dd');
+      let a;
+     
+        a = this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+    
+      let b = this.datePipe.transform(this.f.effectiveDt.value, 'yyyy-MM-dd');
       let c = this.datePipe.transform(this.f.expDt.value, 'yyyy-MM-dd');
-
       let e = new Date(this.f.effectiveDt.value);
       e.setDate(e.getDate()+1);
       this.maxdate = e;
-
+      
       if (c) {
-        if (b < c) {
+        if (b < c && b >= a) {
           this.isValidEffectiveDt = false;
         }
         else {
@@ -218,7 +171,7 @@ export class EmiCalculationComponent implements OnInit {
           this.isValidExpDt = false;
         }
       } else {
-        this.isValidEffectiveDt = false
+        this.isValidEffectiveDt = false;
       }
     }
   }
@@ -245,41 +198,5 @@ export class EmiCalculationComponent implements OnInit {
         this.isValidExpDt = false;
       }
     }
-  }
-
-  /*---------- Check vehile is selected or not --------- */
-  checkIsSelected(data) {
-    let obj = this.emiDeductions.find(x => x.vehicleId === data.vehicleId);
-    if(obj !== undefined){
-      return true;
-    } else {
-      return false;
-    }
-
-  }
-
-  findIndexOfData(){
-    for(let i=0; i< this.emiDeductions.length ; i++){
-      if(this.emiDeductions[i].vehicleId == this.emiForm.value.vehicleId){
-        return i;
-      } 
-    }
-  }
-
-  closeDialog() {
-    const dialogRefConfirm = this.dialog.open(confimationdialog, {
-      width: '300px',
-      data: { message: 'Are you sure ?' },
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if (value) {
-        this.dialogRef.close();
-      } else {
-        console.log('Keep Open');
-      }
-    });
   }
 }

@@ -6,18 +6,18 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
-              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Contracts</a></span>
+              <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Contracts</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
               <span>Associate Contract</span>
             </mat-toolbar-row>
           </mat-toolbar>
-          <h2>Delivery Associate Contract</h2>
+          <h2>Cargo Contract</h2>
         </div>
       </div>
       <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
@@ -33,253 +33,60 @@
   <div class="container-fluid">
     <form [formGroup]="deductionForm">
       <div class="booking_card padding_0">
-       <!--  Display Header -->
+        <!--  Display Header -->
         <app-header-data></app-header-data>
         <div class="padding_10 mob_sla_1">
-          <div>
-            <h3><strong>Deduction Calculation</strong></h3>
-          </div>
-          <br>
-          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('SNSD PENALTY'))">
+          <div class="row">
             <div class="col-md-3">
-              <mat-label><strong>SNSD Penalty<span class="redMark">*</span></strong></mat-label>
-            </div>
-            <div class="col-md-9">
-              <div class="module_area">
-                <mat-radio-group name="snsdPnltyFlag" formControlName="snsdPnltyFlag">
-                  <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
-                  </mat-radio-button>
-                  <mat-radio-button [value]="0">No</mat-radio-button>
-                </mat-radio-group>
-                <div class="errorMsg" *ngIf="f.snsdPnltyFlag.errors?.required && f.snsdPnltyFlag.touched"><em>Required
-                    !</em>
-                </div>
+              <div class="label_and_add">
+                <mat-label><strong>
+                    <h4 style="font-weight: bold;">SLA Calculation</h4>
+                  </strong></mat-label>
+                <mat-icon class="add_icon" style="margin: 13px 8px !important;" *ngxPermissionsOnly="['SLA DEDUCTION_CREATE','SLA DEDUCTION_UPDATE']"
+                 (click)="openSlaModal()">add</mat-icon>
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('SAFEXTENSION LATE DELIVERY PENALTY'))">
-            <div class="col-md-3">
-              <mat-label><strong>Safextension Late Delivery Penalty<span class="redMark">*</span></strong></mat-label>
-            </div>
-            <div class="col-md-9">
-              <div class="module_area">
-                <mat-radio-group name="safextLateDlvryPnltyFlag" formControlName="safextLateDlvryPnltyFlag">
-                  <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
-                  </mat-radio-button>
-                  <mat-radio-button [value]="0">No</mat-radio-button>
-                </mat-radio-group>
-                <div class="errorMsg" *ngIf="f.safextLateDlvryPnltyFlag.errors?.required && f.safextLateDlvryPnltyFlag.touched"><em>Required
-                    !</em>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('VEHICLE ABSENT PENALTY'))">
-            <div class="col-md-3">
-              <mat-label><strong>Vehicle Absent Penalty<span class="redMark">*</span></strong></mat-label>
-            </div>
-            <div class="col-md-9">
-              <div class="module_area">
-                <mat-radio-group name="vehicleAbsentPnltyFlag" formControlName="vehicleAbsentPnltyFlag">
-                  <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
-                  </mat-radio-button>
-                  <mat-radio-button [value]="0">No</mat-radio-button>
-                </mat-radio-group>
-                <div class="errorMsg" *ngIf="f.vehicleAbsentPnltyFlag.errors?.required && f.vehicleAbsentPnltyFlag.touched"><em>Required
-                    !</em>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('DEDUCTION AGAINST MARKET VEHICLE'))">
-            <div class="col-md-3">
-              <mat-label><strong>Deduction Against Market Vehicle<span class="redMark">*</span></strong>
-              </mat-label>
-            </div>
-            <div class="col-md-9">
-              <div class="module_area">
-                <mat-radio-group name="mktVehicleDedctnFlag" formControlName="mktVehicleDedctnFlag">
-                  <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
-                  </mat-radio-button>
-                  <mat-radio-button [value]="0">No</mat-radio-button>
-                </mat-radio-group>
-                <div class="errorMsg" *ngIf="f.mktVehicleDedctnFlag.errors?.required && f.mktVehicleDedctnFlag.touched"><em>Required
-                    !</em>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes(' DEDUCTION AGAINST LOST'))">
-            <div class="col-md-3">
-              <mat-label><strong>Deduction Against Lost<span class="redMark">*</span></strong></mat-label>
-            </div>
-            <div class="col-md-9">
-              <div class="module_area">
-                <mat-radio-group name="dedctnLostFlag" formControlName="dedctnLostFlag">
-                  <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
-                  </mat-radio-button>
-                  <mat-radio-button [value]="0">No</mat-radio-button>
-                </mat-radio-group>
-                <div class="errorMsg"
-                  *ngIf="f.dedctnLostFlag.errors?.required && f.dedctnLostFlag.touched"><em>Required
-                    !</em>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('TO PAY OUTSTANDING RECOVERY'))">
-            <div class="col-md-3">
-              <mat-label><strong>To Pay Outstanding Recovery<span class="redMark">*</span></strong></mat-label>
-            </div>
-            <div class="col-md-9">
-              <div class="module_area">
-                <mat-radio-group name="toPayRecoveryFlag" formControlName="toPayRecoveryFlag">
-                  <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
-                  </mat-radio-button>
-                  <mat-radio-button [value]="0">No</mat-radio-button>
-                </mat-radio-group>
-                <div class="errorMsg"
-                  *ngIf="f.toPayRecoveryFlag.errors?.required && f.toPayRecoveryFlag.touched"><em>Required
-                    !</em>
-                </div>
-              </div>
-            </div>
-          </div>
-         
-          <!-- <div *ngIf="financeflag?.sfxFinFlag > 0"> -->
-            <div>
-            <hr> 
-            <div class="label_and_add" >
-              <mat-label><strong>Vehicle EMI Deduction Calculation</strong></mat-label>
-              <mat-icon class="add_icon" *ngxPermissionsOnly="['VEHICLE DEDUCTION_CREATE','VEHICLE DEDUCTION_UPDATE']" (click)="openEmiModal()">add</mat-icon>
-            </div>
-            <!-- <div class="errorMsg"
-                  *ngIf="!validateEmi()"><em>Please Add EMI Deduction
-                    !</em>
-                </div> -->
-          
-            <div class="row mb_15" *ngxPermissionsOnly="['VEHICLE DEDUCTION_READ']">
-              <div class="col-md-10">
-                <div class="table-responsive create_new_tale_mdm2" *ngIf="emiDeductionArray?.length > 0">
 
-                <table aria-describedby="table" mat-table [dataSource]="emiDatasource" class="mat-elevation-z8">
+          <div class="row mb_15" *ngxPermissionsOnly="['SLA DEDUCTION_READ']">
+            <div class="col-md-10">
+              <div class="table-responsive create_new_tale_mdm2" *ngIf="SlaDeductionArray?.length > 0">
 
-                  <ng-container matColumnDef="Vnumber">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>VEHICLE NUMBER</strong></th>
+                <table aria-describedby="table" mat-table [dataSource]="SlaDatasource" class="mat-elevation-z8">
+
+                  <ng-container matColumnDef="vehicleModelName">
+                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>VEHICLE TYPE</strong></th>
                     <td mat-cell *matCellDef="let element">
                       <a>
                         <div class="row_center row_center_width" matTooltipPosition="above"
-                          style="width: 13rem !important;" [matTooltip]="getVehicleNumber(element.vehicleId)">{{getVehicleNumber(element.vehicleId)}}</div>
+                          style="width: 13rem !important;">{{getVehicleTypeName(element.lkpVehicleTypeId)}}</div>
                       </a>
                     </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="dedctnAmt">
+                  <ng-container matColumnDef="loadingTime">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong>
-                        EMI AMOUNT</strong></th>
+                        LOADING TIME</strong></th>
                     <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.dedctnAmt}}</div>
+                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.loadingTime}} MINS</div>
                     </td>
                   </ng-container>
 
-                  <ng-container matColumnDef="effectiveDt">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>FROM</strong></th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width">
-                        {{element.effectiveDt | date: 'dd/MM/yyyy'}}</div>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="expDt">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>TO</strong> </th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.expDt | date: 'dd/MM/yyyy'}}</div>
-                    </td>
-                  </ng-container>
-
-                  <!-- <ng-container matColumnDef="branch">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>BRANCH NAME</strong> </th>
+                  <ng-container matColumnDef="unloadingTime">
+                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>UNLOADING TIME</strong> </th>
                     <td mat-cell *matCellDef="let element">
                       <div class="row_center row_center_width" matTooltipPosition="above">
-                        {{getBranchName(element.vehicleId)}}</div>
+                        {{element.unloadingTime}} MINS</div>
                     </td>
-                  </ng-container> -->
+                  </ng-container>
 
                   <ng-container matColumnDef="icon">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong></strong> </th>
                     <td mat-cell *matCellDef="let element;index as i;">
                       <div class="mat-cell">
-                        <button mat-button (click)="removeEmiDeduction(i)"><span class="material-icons" style="color: #27AE60; cursor: pointer;">delete</span></button>
-                      </div>
-                    </td>
-                  </ng-container>
-
-                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                </table>
-                <div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="label_and_add">
-            <mat-label><strong>Insurance Deduction Calculation</strong></mat-label>
-            <mat-icon *ngxPermissionsOnly="['VEHICLE DEDUCTION_CREATE','VEHICLE DEDUCTION_UPDATE']" class="add_icon" (click)="openInsuranceDeductionModal()">add</mat-icon>
-          </div>
-
-          <div class="row mb_15" *ngxPermissionsOnly="['VEHICLE DEDUCTION_READ']">
-            <div class="col-md-10">
-              <div class="table-responsive create_new_tale_mdm2" *ngIf="insuranceDeductionArray?.length > 0">
-
-                <table aria-describedby="table" mat-table [dataSource]="insuranceDatasource" class="mat-elevation-z8">
-
-                  <ng-container matColumnDef="Vnumber">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>VEHICLE NUMBER</strong></th>
-                    <td mat-cell *matCellDef="let element">
-                      <a>
-                        <div class="row_center row_center_width" matTooltipPosition="above"
-                          style="width: 13rem !important;" [matTooltip]="getVehicleNumber(element.vehicleId)">{{getVehicleNumber(element.vehicleId)}}</div>
-                      </a>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="dedctnAmt">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>
-                        INSURANCE AMOUNT</strong></th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.dedctnAmt}}</div>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="effectiveDt">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>FROM</strong></th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width">
-                        {{element.effectiveDt | date: 'dd/MM/yyyy'}}</div>
-                    </td>
-                  </ng-container>
-
-                  <ng-container matColumnDef="expDt">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>TO</strong> </th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.expDt | date: 'dd/MM/yyyy'}}</div>
-                    </td>
-                  </ng-container>
-
-                  <!-- <ng-container matColumnDef="branch">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>BRANCH NAME</strong> </th>
-                    <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width" matTooltipPosition="above">
-                        {{getBranchName(element.vehicleId)}}</div>
-                    </td>
-                  </ng-container> -->
-
-                  <ng-container matColumnDef="icon">
-                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong></strong> </th>
-                    <td mat-cell *matCellDef="let element;index as j;">
-                      <div class="mat-cell">
-                        <button mat-button (click)="removeInsuranceDeduction(j)"><span class="material-icons" style="color: #27AE60; cursor: pointer;">delete</span></button>
+                        <button mat-button *ngxPermissionsOnly="['SLA DEDUCTION_CREATE','SLA DEDUCTION_UPDATE']"
+                          (click)="removeSladeduction(i)"><span class="material-icons"
+                            style="color: #27AE60; cursor: pointer;">delete</span></button>
                       </div>
                     </td>
                   </ng-container>
@@ -294,9 +101,77 @@
           </div>
 
           <hr>
-          <div class="label_and_add">
-            <mat-label><strong>Advance Amount Deduction Calculation</strong></mat-label>
+          <div>
+            <h4><strong>Deduction Calculation</strong></h4>
           </div>
+          <br>
+          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MISHANDLING CHARGES'))">
+            <div class="col-md-2">
+              <mat-label><strong>Mishandling Charges<span class="redMark">*</span></strong></mat-label>
+            </div>
+            <div class="col-md-9">
+              <div class="module_area">
+                <mat-radio-group   name="mishandlingFlag" formControlName="mishandlingFlag" required>
+                  <mat-radio-button class="Sel_mishandling_flag_yes" [value]="1" style="padding-right: 30px;"
+                    (change)="onChangeMishandlingFlag($event.value)">Yes
+                  </mat-radio-button>
+                  <mat-radio-button [value]="0" (change)="onChangeMishandlingFlag($event.value)">No</mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="(f.mishandlingFlag.errors?.required && f.mishandlingFlag.touched)" class="errorMsg">
+                  Required!
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"
+            *ngIf="f.mishandlingFlag.value == 1 && !(exAttrKeyList && exAttrKeyList.includes('MISHANDLING REMARKS'))">
+            <div class="col-md-2">
+              <mat-label><strong>Remarks</strong><span class="redMark"> *</span></mat-label>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <input matInput name="mishandlingRemark" formControlName="mishandlingRemark" class="form-control"
+                  maxlength="250" placeholder="" required>
+              </mat-form-field>
+              <div *ngIf="(f.mishandlingRemark.errors?.required && f.mishandlingRemark.touched)" class="errorMsg">
+                Required!
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('SCHEDULE LATE PENALTY'))">
+            <div class="col-md-2">
+              <mat-label><strong>Schedule Late Penalty<span class="redMark">*</span></strong></mat-label>
+            </div>
+            <div class="col-md-9">
+              <div class="module_area">
+                <mat-radio-group name="schLatePnltyFlag" formControlName="schLatePnltyFlag" required>
+                  <mat-radio-button class="Sel_latepnlty_flag_No" [value]="1" style="padding-right: 30px;"
+                    (change)="onChangeLatePenaltyFlag($event.value)">Yes
+                  </mat-radio-button>
+                  <mat-radio-button [value]="0" (change)="onChangeLatePenaltyFlag($event.value)">No</mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="(f.schLatePnltyFlag.errors?.required && f.schLatePnltyFlag.touched)" class="errorMsg">
+                  Required!
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row"
+            *ngIf="f.schLatePnltyFlag.value == 1 && !(exAttrKeyList && exAttrKeyList.includes('SCHEDULE LATE REMARKS'))">
+            <div class="col-md-2">
+              <mat-label><strong>Remarks</strong><span class="redMark"> *</span></mat-label>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <input matInput name="schLatePnltyRemark" formControlName="schLatePnltyRemark" class="form-control"
+                  maxlength="250" placeholder="" required>
+              </mat-form-field>
+              <div *ngIf="(f.schLatePnltyRemark.errors?.required && f.schLatePnltyRemark.touched)" class="errorMsg">
+                Required!
+              </div>
+            </div>
+          </div>
+          <hr>
           <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ADVANCE AMOUNT APPLICABLE'))">
             <div class="col-md-3">
               <mat-label><strong>Advance Amount Applicable<span class="redMark">*</span></strong></mat-label>
@@ -304,7 +179,7 @@
             <div class="col-md-9">
               <div class="module_area">
                 <mat-radio-group name="advncDedctnAmtFlag" formControlName="advncDedctnAmtFlag">
-                  <mat-radio-button [value]="1" style="padding-right: 30px;" (change)="isAdvanceAmount($event.value)">
+                  <mat-radio-button class="Sel_advanceDedDlag_No" [value]="1" style="padding-right: 30px;" (change)="isAdvanceAmount($event.value)">
                     Yes
                   </mat-radio-button>
                   <mat-radio-button [value]="0" (change)="isAdvanceAmount($event.value)">No</mat-radio-button>
@@ -315,80 +190,86 @@
               </div>
             </div>
           </div>
-          <div class="row" *ngIf="f.advncDedctnAmtFlag.value == 1">
-            <div class="col-md-3" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ADVANCE AMOUNT TO BE DEDUCTED EVERY CYCLE'))">
-              <mat-label><strong>Advance Amount to be deducted every cycle<span class="redMark">*</span></strong>
-              </mat-label>
-            </div>
-            <div class="col-md-2" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ADVANCE AMOUNT TO BE DEDUCTED EVERY CYCLE'))">
-              <mat-form-field appearance="outline">
-                <input matInput name="advncDedctnAmt" class="form-control" placeholder=""
-                  formControlName="advncDedctnAmt" pattern="^[1-9][0-9]*$" [numbersOnly] = true maxlength="8" appBlockCopyPaste>
-              </mat-form-field>
-              <div class="errorMsg" *ngIf="f.advncDedctnAmt.errors?.required && f.advncDedctnAmt.touched"><em>Required
-                  !</em>
+          <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ADVANCE AMOUNT TO BE DEDUCTED'))">
+            <div class="row" *ngIf="f.advncDedctnAmtFlag.value == 1">
+              <div class="col-md-3">
+                <mat-label><strong>Advance Amount to be deducted every cycle<span class="redMark">*</span></strong>
+                </mat-label>
               </div>
-              <div *ngIf="(f.advncDedctnAmt.errors?.pattern && f.advncDedctnAmt.touched)" class="errorMsg">
-                <em> Invalid !</em>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="advncDedctnAmt" class="form-control" placeholder=""
+                    formControlName="advncDedctnAmt" maxlength="8" OnlyNumber="true" numeric appBlockCopyPaste>
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.advncDedctnAmt.errors?.required && f.advncDedctnAmt.touched"><em>Required
+                    !</em>
                 </div>
+              </div>
             </div>
           </div>
           <div class="row" *ngIf="f.advncDedctnAmtFlag.value == 1">
-            <div class="col-md-2">
-              <mat-label *ngIf="!(exAttrKeyList && exAttrKeyList.includes('START DATE'))"><strong>Start Date<span class="redMark">*</span></strong></mat-label>
-            </div>
-            <div class="col-md-2">
-              <div class="module_area" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('START DATE'))">
-                <mat-form-field appearance="outline" class="date_picker_adjust">
-                  <mat-datepicker #msa10Date1 class="myDatepicker23">
-                  </mat-datepicker>
-                  <input matInput autocomplete="off" [matDatepicker]="msa10Date1" class="date_input_height" placeholder=""
-                    name="advncDedctnAmtFromDt" placeholder="DD/MM/YYYY" formControlName="advncDedctnAmtFromDt"
-                    [min]="minDate" (dateChange)="effectiveDate()" (blur)="effectiveDate()" numericSpecialChar/>
-                  <mat-datepicker-toggle matPrefix [for]="msa10Date1">
-                  </mat-datepicker-toggle>
-                </mat-form-field>
-                <div class="errorMsg" *ngIf="f.advncDedctnAmtFromDt.errors?.required && f.advncDedctnAmtFromDt.touched">
-                  <em>Required !</em>
-                </div>
-                <div *ngIf="isValidStartDt && !(f.advncDedctnAmtFromDt.errors?.required)" class="errorMsg">
-                  <em>Invalid Start Date!</em>
+            <div>
+              <div class="col-md-2">
+                <mat-label *ngIf="!(exAttrKeyList && exAttrKeyList.includes('START DATE'))"><strong>Start Date<span
+                      class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('START DATE'))">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #msa10Date1 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="msa10Date1" class="date_input_height" placeholder=""
+                      name="advncDedctnAmtFromDt" placeholder="DD/MM/YYYY" formControlName="advncDedctnAmtFromDt"
+                      [min]="minDate" (dateChange)="effectiveDate()" (blur)="effectiveDate()" numericSpecialChar />
+                    <mat-datepicker-toggle matPrefix [for]="msa10Date1">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                  <div class="errorMsg"
+                    *ngIf="f.advncDedctnAmtFromDt.errors?.required && f.advncDedctnAmtFromDt.touched">
+                    <em>Required !</em>
+                  </div>
+                  <div *ngIf="isValidStartDt && !(f.advncDedctnAmtFromDt.errors?.required)" class="errorMsg">
+                    <em>Invalid Start Date!</em>
+                  </div>
                 </div>
               </div>
             </div>
-            <div class="col-md-1 col-md-offset-1 mo_ml_0">
-              <mat-label *ngIf="!(exAttrKeyList && exAttrKeyList.includes('END DATE'))"><strong>End Date</strong></mat-label>
-            </div>
-            <div class="col-md-2">
-              <div class="module_area" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('END DATE'))">
-                <mat-form-field appearance="outline" class="date_picker_adjust">
-                  <mat-datepicker #msa10Date2 class="myDatepicker23">
-                  </mat-datepicker>
-                  <input matInput autocomplete="off" [matDatepicker]="msa10Date2" class="date_input_height"
-                    name="advncDedctnAmtToDt" placeholder="DD/MM/YYYY" formControlName="advncDedctnAmtToDt"
-                    [min]="maxdate" (dateChange)="expDate()" (blur)="expDate()" numericSpecialChar/>
-                  <mat-datepicker-toggle matPrefix [for]="msa10Date2">
-                  </mat-datepicker-toggle>
-                </mat-form-field>
-                <div *ngIf="isValidEndDt" class="errorMsg">
-                  Invalid Expiry Date!
+            <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('END DATE'))">
+              <div class="col-md-1 col-md-offset-1 mo_ml_0">
+                <mat-label><strong>End Date</strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #msa10Date2 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="msa10Date2" class="date_input_height" name="advncDedctnAmtToDt"
+                      placeholder="DD/MM/YYYY" formControlName="advncDedctnAmtToDt" [min]="maxdate"
+                      (dateChange)="expDate()" (blur)="expDate()" numericSpecialChar />
+                    <mat-datepicker-toggle matPrefix [for]="msa10Date2">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                  <div *ngIf="isValidEndDt" class="errorMsg">
+                    Invalid Expiry Date!
+                  </div>
                 </div>
               </div>
             </div>
           </div>
           <hr>
-          <div class="row">
-            <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['DEDUCTION_CREATE', 'DEDUCTION_UPDATE']">
+          <div class="row" *ngxPermissionsOnly="['DEDUCTION_CREATE','DEDUCTION_UPDATE']">
+            <div class="col-md-12 text-center mtb_30">
               <button mat-button class="white-button" (click)="onSaveDeduction(1)">Save As
                 Draft</button>
               <button mat-button class="theme-button ml_15" (click)="onSaveDeduction(0)">Next</button>
             </div>
-            <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['DEDUCTION_CREATE', 'DEDUCTION_UPDATE']">
+          </div>
+          <div class="row" *ngxPermissionsExcept="['DEDUCTION_CREATE','DEDUCTION_UPDATE']">
+            <div class="col-md-12 text-center mtb_30">
               <button mat-button class="theme-button ml_15" (click)="nextReadMode()">Next</button>
             </div>
           </div>
         </div>
-      </div>
       </div>
     </form>
   </div>

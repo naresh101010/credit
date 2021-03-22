@@ -1,23 +1,17 @@
- .highlight {
-    background: yellow  !important;
-    color: black !important;
-  }
-  .preview_sec_2 h3{
-    color: white;
-    padding: 10px 0;
-    margin: 2px 0;
+.highlight {
+  background: yellow  !important;
+  color: black !important;
 }
-.preview_sec_3 h2 {
-    font-size: 2.4rem !important;
-    font-weight: 600;
+.preview_sec_2 h3{
+  color: white;
 }
 
-.material-icons {
+.mat-cell >.material-icons {
   font-size: 18px !important;
   color: #27AE60;
 }
-.customer_preview{
-  padding: 1rem;
-  background-color: #53af61;
-  color: #06161f;
+
+.mat-cell >span >.material-icons {
+  font-size: 18px !important;
+  color: #27AE60;
 }

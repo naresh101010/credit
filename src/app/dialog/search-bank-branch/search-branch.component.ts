@@ -5,6 +5,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { AppSetting } from 'src/app/app.setting';
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
@@ -63,7 +64,7 @@ export class SearchBankBranchComponent implements OnInit {
     this.partyId = this.data.partyID;
     let bankName = this.data.bname;
     this.spinner.show();
-    this.appservice.get(`secure/v1/fusion/cashbanks/branches/bankname/${bankName}`).subscribe(res => {
+    this.appservice.get(`/secure/v1/fusion/cashbanks/branches/bankname/${bankName}`).subscribe(res => {
       this.onLoadResponse = res.data.responseData;
       this.tableData = res.data;
       this.spinner.hide();
@@ -74,8 +75,24 @@ export class SearchBankBranchComponent implements OnInit {
   }
 
 
+  /*--- After close dialog --- */
   closeDialog(): void {
-    this.dialogRef.close();
+      
+    const dialogRefConfirm = this.dialog.open(confimationdialog, {
+      width: '300px',
+      panelClass: 'creditDialog',
+      data:{message:'Are you sure ?'},
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if(value){
+        this.dialogRef.close(false);
+      }else{
+        console.log('Keep Open');
+      }
+    });
   }
 
   allocatedBranchData() {

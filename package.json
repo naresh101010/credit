@@ -1,5 +1,5 @@
 {
-  "name": "associate-delivery-contract",
+  "name": "associate-cargo-contract",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:single-spa": "ng build --prod --output-hashing none",
-    "serve:single-spa": "ng serve --disable-host-check --port 4208 --deploy-url http://localhost:4208/ --live-reload false"
+    "serve:single-spa": "ng serve --disable-host-check --port 4207 --deploy-url http://localhost:4207/ --live-reload false"
   },
   "private": true,
   "dependencies": {
@@ -45,7 +45,7 @@
     "ngx-flash-messages": "^1.0.4",
     "ngx-mat-select-search": "^2.2.0",
     "ngx-permissions": "^7.0.3",
-    "ngx-print": "^1.2.0-beta.5",
+    "ngx-print": "^1.2.0-beta.4",
     "ngx-spinner": "^8.1.0",
     "ngx-toastr": "^11.3.3",
     "rxjs-compat": "^6.5.3",

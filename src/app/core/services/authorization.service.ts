@@ -22,20 +22,18 @@ export class AuthorizationService {
       this.attrExclusionMap = new Map();
       if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
         this.data.childMenu.map(item => {
-          if (item.menuLabel === 'ASSOCIATE DELIVERY') {
+          if (item.menuLabel === 'ASSOCIATE CARGO') {
             if(item.permissions){  
             item.permissions.map(permission => {
               if (permission.entityName === entityName && permission.channelId === 33) {
                 this.setPermissionMap(permission);
                 if (permission.attributeExclutionList && permission.attributeExclutionList.length > 0) {
                   this.setAttributeExclusion(permission);
-                  console.log(' 1')
                 }
               } else if (entityName === 'ALL' && permission.channelId === 33) {
                 this.setPermissionMap(permission);
                 if (permission.attributeExclutionList && permission.attributeExclutionList.length > 0) {
                   this.setAttributeExclusion(permission);
-                  console.log('2')
                 }
               }
             });
@@ -91,7 +89,7 @@ export class AuthorizationService {
     getMenuHierarchyId(){
       if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
          let menu = this.data.childMenu.filter(function (item) {
-                    return item.menuLabel === 'ASSOCIATE DELIVERY';
+                    return item.menuLabel === 'ASSOCIATE CARGO';
                   });
         return menu;
        }

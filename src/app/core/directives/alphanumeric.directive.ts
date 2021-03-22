@@ -16,15 +16,24 @@ export class AlphanumericDirective {
     return input.replace(this.VALID_REGEX, '');
   }
 
-  setControlValue(val) {
-    let value = val;
-    setTimeout(() => { 
-      this.control.control.setValue(value);      
-    }); 
+  @HostListener('input', ['$event']) onInput(event) {
+    let alphaDiv = document.getElementById('alphanumeric');
+    console.log("1")
+    if(!alphaDiv){
+      let new_div = document.createElement('div');
+        new_div.id = 'alphanumeric';
+        document.getElementsByTagName('body')[0].appendChild(new_div);
+    }
+    if(alphaDiv){
+      alphaDiv.textContent = this.el.nativeElement.value;
+        if(alphaDiv.textContent){
+          this.control.control.setValue(this.formatInput(alphaDiv.textContent))
+        }
+    }else{
+      this.control.control.setValue("")
+    }
+    
   }
 
-  @HostListener('input', ['$event']) onInput(event) {
-    this.setControlValue(this.formatInput(this.el.nativeElement.value));
-  }
 
 }

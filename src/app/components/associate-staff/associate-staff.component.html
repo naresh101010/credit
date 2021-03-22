@@ -6,7 +6,7 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -32,7 +32,7 @@
             <div class="mdm_searchbar">
               <em class="fa fa-search" aria-hidden="true"></em>
               <mat-form-field appearance="outline">
-                <input appSearchFieldCheck matInput (keyup)="applyFilter($event.target.value)" name="search" class="form-control"
+                <input matInput appSearchFieldCheck (keyup)="applyFilter($event.target.value)" name="search" class="form-control"
                   placeholder="Search...">
               </mat-form-field>
               <div class="error2" style="position: relative; top: -9px;">
@@ -40,7 +40,7 @@
                 <label *ngIf="nomatch" class="validation-message">No Match Found</label>
               </div>
             </div>
-            <mat-icon class="add_icon" skipLocationChange routerLink="../create-associate-staff" >add</mat-icon>
+            <mat-icon class="add_icon" skipLocationChange routerLink="../create-associate-staff">add</mat-icon>
           </div>
         </div>
       </div>
@@ -48,7 +48,7 @@
         <div class="col-md-12">
           <div class="table-responsive create_new_tale_mdm2">
 
-            <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" > 
+            <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"> 
               <caption></caption>
               <!-- STAFF Name -->
               <ng-container matColumnDef="staffFname">
@@ -90,7 +90,7 @@
                 <td mat-cell *matCellDef="let element">
                   <div class="row_center row_center_width" matTooltipPosition="above">
                     <em class="material-icons iconSize green paddingZero" (click)="goToEditPage(element.id)" style="cursor: pointer;">create</em>
-                    <!-- <img  src="/assets/images/documen.png" *ngxPermissionsOnly="['ASSOCIATESTAFFDOC_READ']" (click)="addStaffDocument(element)" alt="document"> -->
+                    <!-- <img src="/assets/images/documen.png" (click)="addStaffDocument(element)" alt="document"> -->
                   </div>
                 </td>
               </ng-container>

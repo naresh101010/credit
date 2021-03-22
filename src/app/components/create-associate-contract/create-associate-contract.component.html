@@ -6,15 +6,15 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
+              <span><a routerLink="/asso_cargo-contract/asso_cargo">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
-              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Contracts</a></span>
+              <span><a routerLink="/asso_cargo-contract/asso_cargo">Contracts</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
-              <span><span>ASSOCIATE MASTER </span></span>
+              <span><span>ASSOCIATE CONTRACT </span></span>
             </mat-toolbar-row>
           </mat-toolbar>
           <h2>Associate Master</h2>
@@ -43,7 +43,6 @@
                 <label *ngIf="minchar" class="validation-message">Please Enter 3 Character</label>
                 <label *ngIf="nomatch" class="validation-message">No Match Found</label>
               </div>
-
             </div>
             <mat-icon *ngxPermissionsOnly="['CREATE ASSOCIATE_CREATE']" class="add_icon" (click)="addNewAssociateContract()">add</mat-icon>
           </div>
@@ -93,7 +92,7 @@
               <ng-container matColumnDef="vendorDeptt">
                 <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>VENDOR DEPARTMENT</th>
                 <td mat-cell *matCellDef="let element">
-                  <div class="row_center row_center_width" [matTooltip]="element?.assocDeptMaps[0]?.lkpAssocDeptId | lookupValue : 'descr' : assocDeptList">{{element?.assocDeptMaps[0]?.lkpAssocDeptId | lookupValue : "descr" : assocDeptList}}</div>
+                  <div class="row_center row_center_width" [matTooltip]="element?.assocDeptMaps[0]?.lkpAssocDeptId | lookupValue : 'lookupVal' : assocDeptList">{{element?.assocDeptMaps[0]?.lkpAssocDeptId | lookupValue : "lookupVal" : assocDeptList}}</div>
                 </td>
               </ng-container>
 

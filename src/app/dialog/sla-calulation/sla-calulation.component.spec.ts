@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ScheduledPayoutComponent } from './scheduled-payout.component';
+import { SlaCalulationComponent } from './sla-calulation.component';
 
-describe('ScheduledPayoutComponent', () => {
-  let component: ScheduledPayoutComponent;
-  let fixture: ComponentFixture<ScheduledPayoutComponent>;
+describe('SlaCalulationComponent', () => {
+  let component: SlaCalulationComponent;
+  let fixture: ComponentFixture<SlaCalulationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ScheduledPayoutComponent ]
+      declarations: [ SlaCalulationComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScheduledPayoutComponent);
+    fixture = TestBed.createComponent(SlaCalulationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

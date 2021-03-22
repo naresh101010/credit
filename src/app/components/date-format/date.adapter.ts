@@ -2,6 +2,7 @@ import { NativeDateAdapter } from "@angular/material";
 
 
 export class AppDateFormatAdapter extends NativeDateAdapter {
+
     getDayOfWeekNames(style: 'long' | 'short' | 'narrow') {
         return ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'];
       }

@@ -1,7 +1,7 @@
 <div class="modal_update">
 <div class="modal-container">
-    <h3 class="sub_heading" style=" margin-left: 2rem;">Delivery Associate Contract Update</h3>
-    <mat-icon class="modals_cancel_btn"  aria-hidden="true" id="closeButton" (click)="closeDialog()" style="right: 1rem!important;">close</mat-icon>
+    <h3 class="sub_heading">Cargo Contract Update</h3>
+    <mat-icon class="modals_cancel_btn" aria-hidden="true" id="closeButton" (click)="closeDialog()">close</mat-icon>
     <hr class="border_row">
 </div>
 <app-header-data></app-header-data>
@@ -9,37 +9,37 @@
     <div class="col-md-12">
         <div class="row edit_popup" style="padding: 0 3rem;">
             <div class="col-md-2 col-sm-6">
-                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_delivery-contract/create-associate')" >
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_cargo-contract/create-associate')" >
                     <p><strong>Edit <br> Associate</strong></p>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
-                <div class="bac_update_modal active" [mat-dialog-close]="true" (click)="contractTermRoute('/asso_delivery-contract/assign-associate')" >
+                <div class="bac_update_modal active" [mat-dialog-close]="true" (click)="contractTermRoute('/asso_cargo-contract/assign-associate')" >
                     <p><strong>Contract Termination</strong></p>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
-                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_delivery-contract/branch-allocation')" >
-                    <p><strong>Branch & <br> Vehicle Allocation</strong></p>
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_cargo-contract/branch-allocation')" >
+                    <p><strong>Branch <br> Allocation</strong></p>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
-                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_delivery-contract/booking-payout')">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_cargo-contract/booking-payout')">
                     <p><strong>Payment <br> Terms</strong></p>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
-                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_delivery-contract/booking-sla')">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_cargo-contract/booking-sla')">
                     <p><strong>Deductions</strong></p>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
-                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="generalEdit('/asso_delivery-contract/assign-associate')">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="generalEdit('/asso_cargo-contract/assign-associate')">
                     <p><strong>General Edit</strong></p>
                 </div>
             </div>
             <div class="col-md-2 col-sm-6">
-                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_delivery-contract/booking-document')" >
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_cargo-contract/booking-document')" >
                     <p><strong>Document <br> Upload</strong></p>
                 </div>
             </div>

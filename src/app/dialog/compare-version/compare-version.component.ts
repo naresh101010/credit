@@ -1,21 +1,21 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
+import { AppSetting } from 'src/app/app.setting';
 import { ApiService } from '../../core/services/api.service';
 import { ToastrService } from 'ngx-toastr';
 import { ErrorConstants } from '../../core/models/constants';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import * as _ from 'lodash';
 import { DatePipe } from '@angular/common';
-import { AppSetting } from '../../app.setting';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
-import { EmailPreviewComponent } from '../../dialog/email-preview/email-preview.component';
+import { EmailPreviewComponent } from '../email-preview/email-preview.component';
 declare let jspdf;
 @Component({
   selector: 'app-compare-version',
   templateUrl: './compare-version.component.html',
   styleUrls: ['./compare-version.component.css'],
-  providers: [DatePipe]
+  providers : [DatePipe]
 })
 export class CompareVersionComponent implements OnInit {
  // previewList: any;
@@ -28,34 +28,27 @@ export class CompareVersionComponent implements OnInit {
   enableDialog : boolean;
   versionDifference : any;
   versionCompare : any;
-  insuranceList: any = [];
-  emiList: any = [];
   graciaList: any = [];
   mgList: any = [];
   previewRefList : any;
-  isPCD: boolean;
-  categoryList: any = [];
-  scheduledProductList: any = [];
-  safextensionProductList: any = [];
-  currentDt : any;
+  currentDt: string;
 
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
     elementIdOrContent: 'previewContent', // the id of html/table element
   }
 
-  customerName : string= AppSetting.customerName;
-
   constructor(public dialogRef: MatDialogRef<CompareVersionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
     private tosterservice: ToastrService,
     private spinner: NgxSpinnerService,
-    private confirmDialog : MatDialog,
-    private datePipe : DatePipe,
+    private datePipe: DatePipe,
     public dialog: MatDialog,
-    private exportAsService: ExportAsService) { }
+    private exportAsService: ExportAsService,
+    private confirmDialog : MatDialog) { }
 
+  customerName : string= AppSetting.customerName;
   ngOnInit() {
   this.currentDt = this.datePipe.transform(new Date(), 'MM-dd-yyyy');
 
@@ -63,8 +56,271 @@ export class CompareVersionComponent implements OnInit {
     if (this.data) {
       this.compareVersions(this.data);
     }
+   
   }
   
+
+  compareVersions(data: any) {
+    this.versions = this.data.versions;
+    for (let i = 0; i < this.versions.length; i++) {
+      if (this.versions[i].index === 0) {
+        this.islatest = true;
+      }
+    }
+    if (this.islatest) {
+      let version2;
+      for (let i = 0; i < this.versions.length; i++) {
+        if (this.versions[i].index !== 0) {
+          version2 = this.versions[i].cntrVer;
+        }
+      }
+      this.apiService.get('secure/v1/cargocontractpreview/preview/' + this.data.data.contractId)
+        .subscribe(result => {
+          this.obj1 = result.data.responseData;
+          this.previewRefList = result.data.referenceData;
+          this.obj1 = this.renderPreviewData(this.obj1);
+          console.log('obj1',this.obj1)
+          this.isv1 = true;
+
+          this.apiService.get('secure/v1/cargocontractpreview/historypreview/' + this.data.data.contractId +'/' + version2)
+            .subscribe(result1 => {
+              this.obj2 = result1.data.responseData;
+              this.obj2 = this.renderPreviewData(this.obj2);
+              console.log('obj2',this.obj2)
+              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
+            
+              this.isv2 = true;
+              this.spinner.hide();
+            },
+              error => {
+                this.spinner.hide();
+                this.tosterservice.error(ErrorConstants.getValue(404));
+              });
+        },
+          error => {
+            this.tosterservice.error(ErrorConstants.getValue(404));
+            this.dialogRef.close();
+            this.spinner.hide();
+          });
+
+    }
+
+    else {
+      var version1 = (this.versions[0].cntrVer > this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
+      var version2 = (this.versions[0].cntrVer < this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
+
+      this.apiService.get('secure/v1/cargocontractpreview/historypreview/' + this.data.data.contractId +'/' + version1)
+        .subscribe(result => {
+          this.obj1 = result.data.responseData;
+          console.log('obj1',this.obj1)
+          this.previewRefList = result.data.referenceData;
+          this.obj1 = this.renderPreviewData(this.obj1);
+          
+          /**
+           * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
+           * and set the same at commercial level
+           */
+         
+          this.enableDialog = true;
+          this.apiService.get('secure/v1/cargocontractpreview/historypreview/' + this.data.data.contractId +'/' + version2)
+            .subscribe(result1 => {
+              this.obj2 = result1.data.responseData;
+              console.log('obj2',this.obj2)
+              this.obj2 = this.renderPreviewData(this.obj2);
+              /**
+               * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
+               * and set the same at commercial level
+               */
+            
+              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
+             
+              this.isv2 = true;
+              this.spinner.hide();
+            },
+              error => {
+                this.spinner.hide();
+                this.tosterservice.error(ErrorConstants.getValue(404));
+              });
+        },
+          error => {
+            this.tosterservice.error(ErrorConstants.getValue(404));
+            this.dialogRef.close();
+            this.spinner.hide();
+          });
+    }
+  }
+
+  compareVersionDifference(obj1, obj2) {
+    const result = {};
+    if (Object.is(obj1, obj2)) {
+      return undefined;
+    }
+    if (!obj2 || typeof obj2 !== 'object') {
+      return obj2;
+    }
+    Object.keys(obj1 || {}).concat(Object.keys(obj2 || {})).forEach(key => {
+      if (obj2[key] !== obj1[key] && !Object.is(obj1[key], obj2[key])) {
+        result[key] = obj2[key];
+      }
+      if (typeof obj2[key] === 'object' && typeof obj1[key] === 'object') {
+        const value = this.compareVersionDifference(obj1[key], obj2[key]);
+        if (value !== undefined) {
+          result[key] = value;
+        }
+      }
+    });
+    return result;
+  }
+
+  /*------------ on close dialog ---------------- */
+  closeDialog() {
+    const dialogRefConfirm = this.confirmDialog.open(confimationdialog, {
+      width: '300px',
+      data: { message: 'Are you sure ?' },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if (value) {
+        this.dialogRef.close();
+      }
+    });
+  }
+
+  renderPreviewData(obj:any) {
+    obj['paymentTermsPrev']['graciaList'] = [];
+    obj['paymentTermsPrev']['mgList'] = [];
+    obj['paymentTermsPrev']['cargoBranchCommerciaList'].forEach(elem => {
+      if (elem.type == 'EXGRATIA' || elem.type == 'EX-GRATIA') {
+        obj['paymentTermsPrev']['graciaList'].push(elem);
+      } else if (elem.type == 'MG') {
+        obj['paymentTermsPrev']['mgList'].push(elem);
+      }
+    });
+    return obj;
+    
+  }
+
+
+  /*---------- Compare branch Allocation ---------- */
+  ifBranchAllocationObjChanges(item, property) {
+    let branchObj;
+    let branchObj2: any = [];
+    branchObj = item; 
+    
+    if(this.obj2 !== undefined){
+    branchObj2 = _.find(this.obj2.branchAllocationPrev, { 'branchName': branchObj.branchName });
+
+    if (branchObj2) {
+      if (branchObj2[property] != branchObj[property]) {
+        return true
+      } else {
+        return false;
+      }
+    } else {
+      return true;
+    }
+   }
+  } 
+
+  /*-----------  compare payment -------- */
+  ifPaymentChange(obj,property){
+    let paymentObj = obj
+    if(this.obj2 !== undefined){
+      if(this.obj2.paymentTermsPrev[property] != paymentObj[property]) {
+        if (this.obj2.paymentTermsPrev[property] < paymentObj[property]) {
+          return {flage : true, compare: 'arrow_upward'}
+        } else if (this.obj2.paymentTermsPrev[property] > paymentObj[property]) {
+          return {flage : true, compare: 'arrow_downward'}
+        } else {
+          return {flage : true, compare: 'change'} 
+        } 
+      } else {
+        return {flage : false, compare: 'equall'}
+      }
+    } else {
+      return {flage : true, compare: ''}
+    }
+  }
+
+  ifPaymentArrayObjChange(item,property,value){
+    let offeringObj;
+    let offeringObj2: any;
+    offeringObj = item; 
+    
+    if(this.obj2 !== undefined){
+      if(value === 'GRATIA'){
+        offeringObj2 = _.find(this.obj2.paymentTermsPrev.graciaList, { 'branchName': offeringObj.branchName });
+      } else{
+        offeringObj2 = _.find(this.obj2.paymentTermsPrev.mgList, { 'branchName': offeringObj.branchName });
+      }
+    if (offeringObj2) {
+      if (offeringObj2[property] != offeringObj[property]) {
+        if (offeringObj2[property] < offeringObj[property]) {
+          return {flage : true, compare: 'arrow_upward'}
+        } else if (offeringObj2[property] > offeringObj[property]) {
+          return {flage : true, compare: 'arrow_downward'}
+        } else {
+          return {flage : true, compare: 'change'} 
+        } 
+      } else {
+        return {flage : false, compare: 'equall'}
+      }
+    } else {
+      return {flage : true, compare: ''}
+    }
+   } else {
+    return {flage : true, compare: ''}
+   }
+  }
+
+  /*-------------- Compare deduction data ----------- */
+  ifDeductionChange(obj,property) {
+    let deducionObj = obj;
+    if(this.obj2 !== undefined){
+      if(this.obj2.cargoDeductionPrev[property] != deducionObj[property]) {
+        if (this.obj2.cargoDeductionPrev[property] < deducionObj[property]) {
+          return {flage : true, compare: 'arrow_upward'}
+        } else if (this.obj2.cargoDeductionPrev[property] > deducionObj[property]) {
+          return {flage : true, compare: 'arrow_downward'}
+        } else {
+          return {flage : true, compare: 'change'}
+        } 
+      } else {
+        return {flage : false, compare: 'equall'}
+      }
+    } else {
+      return {flage : true, compare: 'abcd'}
+    }
+  }
+
+  /*------- Compare SLA Deduction ---------- */
+  compareSlaDeductions(obj,property) {
+    let vehicleDeductionObj = obj;
+    let vehicleDeductionObj2 : any;
+    if(this.obj2 !== undefined && this.obj2.cargoDeductionPrev !== undefined){
+     
+        vehicleDeductionObj2 = _.find(this.obj2.cargoDeductionPrev.cargoSlaList, { 'vehicleType': vehicleDeductionObj.vehicleType });
+
+      if (vehicleDeductionObj2) {
+        if (vehicleDeductionObj2[property] != vehicleDeductionObj[property]) {
+          if (vehicleDeductionObj2[property] < vehicleDeductionObj[property]) {
+            return {flage : true, compare: 'arrow_upward'}
+          } else if (vehicleDeductionObj2[property] > vehicleDeductionObj[property]) {
+            return {flage : true, compare: 'arrow_downward'}
+          } else {
+            return {flage : true, compare: 'change'} 
+          } 
+        } else {
+          return {flage : false, compare: 'equall'}
+        }
+      } else {
+        return {flage : true, compare: ''}
+      }
+    }
+  }
+
   sendEmail(){
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData.user;
     const addrDialog = this.dialog.open(EmailPreviewComponent, {
@@ -100,7 +356,7 @@ export class CompareVersionComponent implements OnInit {
       doc.setFont("helvetica");
 
 
-  document.querySelectorAll(".table_version_compare").forEach((v: any, i) => {
+  document.querySelectorAll(".table_compare").forEach((v: any, i) => {
     
     if (v.getAttribute('data-page') || doc.autoTableEndPosY() > 450) {
         doc.addPage();
@@ -126,7 +382,7 @@ export class CompareVersionComponent implements OnInit {
         if (v.getAttribute('data-page') || doc.autoTableEndPosY() > 450) {
             doc.text(h3, 10, 45);
         } else {
-            if (h3 == "Delivery Associate Contract") {
+            if (h3 == "Cargo Associate Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
             } else {
@@ -196,7 +452,7 @@ export class CompareVersionComponent implements OnInit {
         }
 
         // track individula tables
-        if (v.id == 'Delivery Associate Contract') {
+        if (v.id == 'Cargo Associate Contract') {
             tblMgn = 100;
         }
         if (h5 == 'MSA Details' || h5 == 'Opportunity' || h5 == 'Increment Clause' || h5 == 'Insurance Details' || h5 == 'Security Detail') {
@@ -423,7 +679,7 @@ export class CompareVersionComponent implements OnInit {
               columnWidth: 61.4,
             },
           };
-        } else if (v.id == "Delivery Associate Contract") {
+        } else if (v.id == "Cargo Associate Contract") {
           cs = {
             0: {
               fillColor: green,
@@ -550,7 +806,7 @@ export class CompareVersionComponent implements OnInit {
 
         } else {
             let startY = doc.autoTableEndPosY() + tblMgn;
-            if (v.id == 'Delivery Associate Contract') {
+            if (v.id == 'Cargo Associate Contract') {
                 startY = 70;
             }
             doc.autoTable(res.columns, res.data, {
@@ -706,608 +962,6 @@ export class CompareVersionComponent implements OnInit {
     }
     return new Blob([ab], { type: 'application/pdf' });
   }
-
-
-  compareVersions(data: any) {
-    this.versions = this.data.versions;
-    for (let i = 0; i < this.versions.length; i++) {
-      if (this.versions[i].index === 0) {
-        this.islatest = true;
-      }
-    }
-    if (this.islatest) {
-      let version2;
-      for (let i = 0; i < this.versions.length; i++) {
-        if (this.versions[i].index !== 0) {
-          version2 = this.versions[i].cntrVer;
-        }
-      }
-      this.apiService.get('secure/v1/deliverypreview/preview/' + this.data.data.contractId)
-        .subscribe(result => {
-          this.obj1 = result.data.responseData;
-          this.previewRefList = result.data.referenceData;
-          this.obj1 = this.renderPreviewData(this.obj1);
-          console.log('obj1',this.obj1);
-          this.isv1 = true;
-
-          this.apiService.get('secure/v1/deliverypreview/historypreview/' + this.data.data.contractId +'/' + version2)
-            .subscribe(result1 => {
-              this.obj2 = result1.data.responseData;
-              this.obj2 = this.renderPreviewData(this.obj2);
-              console.log('obj2',this.obj2);
-              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
-            
-              this.isv2 = true;
-              this.spinner.hide();
-            },
-              error => {
-                this.spinner.hide();
-                this.tosterservice.error(ErrorConstants.getValue(404));
-              });
-        },
-          error => {
-            this.tosterservice.error(ErrorConstants.getValue(404));
-            this.dialogRef.close();
-            this.spinner.hide();
-          });
-
-    }
-
-    else {
-      var version1 = (this.versions[0].cntrVer > this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
-      var version2 = (this.versions[0].cntrVer < this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
-
-      this.apiService.get('secure/v1/deliverypreview/historypreview/' + this.data.data.contractId +'/' + version1)
-        .subscribe(result => {
-          this.obj1 = result.data.responseData;
-          this.previewRefList = result.data.referenceData;
-          this.obj1 = this.renderPreviewData(this.obj1);
-          console.log('obj1',this.obj1)
-          
-          /**
-           * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
-           * and set the same at commercial level
-           */
-         
-          this.enableDialog = true;
-          this.apiService.get('secure/v1/deliverypreview/historypreview/' + this.data.data.contractId +'/' + version2)
-            .subscribe(result1 => {
-              this.obj2 = result1.data.responseData;
-              this.obj2 = this.renderPreviewData(this.obj2);
-              console.log('obj2',this.obj2);
-              /**
-               * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
-               * and set the same at commercial level
-               */
-            
-              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
-              // console.log('versionDifference',this.versionDifference)
-             
-              this.isv2 = true;
-              this.spinner.hide();
-            },
-              error => {
-                this.spinner.hide();
-                this.tosterservice.error(ErrorConstants.getValue(404));
-              });
-        },
-          error => {
-            this.tosterservice.error(ErrorConstants.getValue(404));
-            this.dialogRef.close();
-            this.spinner.hide();
-          });
-    }
-  }
-
-  compareVersionDifference(obj1, obj2) {
-    const result = {};
-    if (Object.is(obj1, obj2)) {
-      return undefined;
-    }
-    if (!obj2 || typeof obj2 !== 'object') {
-      return obj2;
-    }
-    Object.keys(obj1 || {}).concat(Object.keys(obj2 || {})).forEach(key => {
-      if (obj2[key] !== obj1[key] && !Object.is(obj1[key], obj2[key])) {
-        result[key] = obj2[key];
-      }
-      if (typeof obj2[key] === 'object' && typeof obj1[key] === 'object') {
-        const value = this.compareVersionDifference(obj1[key], obj2[key]);
-        if (value !== undefined) {
-          result[key] = value;
-        }
-      }
-    });
-    return result;
-  }
-
-  /*------------ on close dialog ---------------- */
-  closeDialog() {
-    const dialogRefConfirm = this.confirmDialog.open(confimationdialog, {
-      width: '300px',
-      data: { message: 'Are you sure ?' },
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if (value) {
-        this.dialogRef.close();
-      } else {
-        console.log('Keep Open');
-      }
-    });
-  }
-
-  renderPreviewData(obj:any) {
-    let subDelivery = this.previewRefList.subDeliveryTypeList.find(x => x.id == obj.contractDetals.lkpSubDeliveryId);
-    if (subDelivery !== undefined) {
-      obj.contractDetals['subDeliveryName'] = subDelivery.lookupVal;
-      if (subDelivery.lookupVal == 'PCD') {
-        //this.isPCD = true;
-        obj.contractDetals['isPCD'] = true;
-      } else {
-        obj.contractDetals['isPCD'] = false;
-      }
-    } else {
-      obj.contractDetals['subDeliveryName'] = '';
-    }
-
-    let statusObj = this.previewRefList.statusList.find(x => x.id == obj.contractDetals.status);
-    if (statusObj !== undefined) {
-      obj.contractDetals['statusName'] = statusObj.lookupVal;
-    } else {
-      obj.contractDetals['statusName'] = '';
-    }
-
-    obj.contractDetals['billingCycleName'] = this.getBillingCycleName(obj.contractDetals.lkpPymtFreqId);
-
-    obj.contractDetals['serviceOffrNames'] = this.displayServiceOffr(obj.contractDetals.serviceOfferings);
-
-    obj['deliveryDeduction']['emiList'] = [];
-    obj['deliveryDeduction']['insuranceList'] = [];
-    if (obj['deliveryDeduction']['vehicleDeductionList'] !== undefined) {
-      obj['deliveryDeduction']['vehicleDeductionList'].forEach(elem => {
-        if (elem.type == 'INSURANCE') {
-          obj['deliveryDeduction']['insuranceList'].push(elem);
-        } else if (elem.type == 'EMI') {
-          obj['deliveryDeduction']['emiList'].push(elem);
-        }
-      });
-    }
-
-    if (obj.deliveryCommercial !== undefined) {
-      if (obj.contractDetals['isPCD']) {
-        obj['scheduled_Payout'] = obj.deliveryCommercial.find(x => {
-          if(x.customerCommercial){
-           return  x.customerCommercial.find(y => y.dlvryPayoutCtgy == 'SECHEDULED' || y.dlvryPayoutCtgy == 'SCHEDULED');
-          }
-        });
-        obj['safextension_Payout'] = obj.deliveryCommercial.find(x => {
-          if(x.customerCommercial){
-           return x.customerCommercial.find(y => y.dlvryPayoutCtgy == 'SAFEXTENSION' || y.dlvryPayoutCtgy == 'SAFE EXTENSION')
-          }
-        });
-      } else {
-        obj['scheduled_Payout'] = obj.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SECHEDULED' || x.dlvryPayoutCtgy == 'SCHEDULED');
-        obj['safextension_Payout'] = obj.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SAFEXTENSION' || x.dlvryPayoutCtgy == 'SAFE EXTENSION');
-      }
-    } 
-
-    /*------------- get Product Category list ----------- */
-
-    this.apiService.get('secure/v1/deliveryCommercial/productcategory').subscribe(data => {
-      let ob = ErrorConstants.validateException(data);
-      if (ob.isSuccess) {
-        this.categoryList = data.data.responseData;
-
-        /*------------ Get product list for given Category ID of scheduled payout --------------- */
-        if (obj['scheduled_Payout'] !== undefined && obj['scheduled_Payout'].prdctCtgyId) {
-          let categoryObj = this.categoryList.find(x => x.id == obj['scheduled_Payout'].prdctCtgyId);
-          if (categoryObj !== undefined) {
-            obj['scheduled_Payout'].prdctCtgyName = categoryObj.prdctCtgy;
-
-            this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + obj['scheduled_Payout'].prdctCtgyId).subscribe(productData => {
-              let ob = ErrorConstants.validateException(productData);
-              if (ob.isSuccess) {
-                this.scheduledProductList = productData.data.responseData;
-                obj['scheduled_Payout'].productNames = this.getProductNames(obj['scheduled_Payout'].deliveryProductList, this.scheduledProductList);
-              }
-            });
-          }
-        }
-
-        /*------------------ Get product list for scheduled Payout Customers ------- */
-        if (obj['scheduled_Payout'] !== undefined && obj['scheduled_Payout'].customerCommercial.length > 0) {
-          obj['scheduled_Payout'].customerCommercial.forEach(element => {
-            if (element.prdctCtgyId) {
-              let catObj = undefined;
-              catObj = this.categoryList.find(x => x.id == element.prdctCtgyId);
-              if (catObj != undefined) {
-                element.prdctCtgyName = catObj.prdctCtgy;
-
-                this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + element.prdctCtgyId).subscribe(product => {
-                  let ob = ErrorConstants.validateException(product);
-                  if (ob.isSuccess) {
-                    let pData = product.data.responseData;
-                    element['productNames'] = this.getProductNames(element.deliveryProductList, pData);
-                  }
-                });
-              }
-            }
-          });
-        }
-
-        /*------------ Get product list for given Category ID of Safextension payout --------------- */
-        if (obj['safextension_Payout'] !== undefined && obj['safextension_Payout'].prdctCtgyId) {
-          let categoryObj1 = this.categoryList.find(x => x.id == obj['safextension_Payout'].prdctCtgyId);
-          if (categoryObj1 !== undefined) {
-            obj['safextension_Payout'].prdctCtgyName = categoryObj1.prdctCtgy;
-
-            this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + obj['safextension_Payout'].prdctCtgyId).subscribe(productData => {
-              let ob = ErrorConstants.validateException(productData);
-              if (ob.isSuccess) {
-                this.safextensionProductList = productData.data.responseData;
-                obj['safextension_Payout'].productNames = this.getProductNames(obj['safextension_Payout'].deliveryProductList, this.safextensionProductList);
-              }
-            })
-          }
-        }
-
-        /*------------------ Get product list for Safextention Payout Customers ------- */
-        if (obj['safextension_Payout'] !== undefined && obj['safextension_Payout'].customerCommercial.length > 0) {
-          obj['safextension_Payout'].customerCommercial.forEach(elem => {
-            if (elem.prdctCtgyId) {
-              let catObjSafex = undefined;
-              catObjSafex = this.categoryList.find(x => x.id == elem.prdctCtgyId);
-              if (catObjSafex != undefined) {
-                elem.prdctCtgyName = catObjSafex.prdctCtgy;
-
-                this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + elem.prdctCtgyId).subscribe(product => {
-                  let ob = ErrorConstants.validateException(product);
-                  if (ob.isSuccess) {
-                    let pDataSafex = product.data.responseData;
-                    elem['productNames'] = this.getProductNames(elem.deliveryProductList, pDataSafex);
-                  }
-                });
-              }
-            }
-          });
-        }
-
-      }
-    })
-
-    obj['generalTerms']['graciaList'] = [];
-    obj['generalTerms']['mgList'] = [];
-    if (obj['generalTerms']['deliveryBranchCommercialList'] !== undefined) {
-      obj['generalTerms']['deliveryBranchCommercialList'].forEach(elem => {
-        if (elem.branchType == 'Gratia' || elem.branchType == 'EX-GRATIA') {
-          obj['generalTerms']['graciaList'].push(elem);
-        } else if (elem.branchType == 'MG') {
-          obj['generalTerms']['mgList'].push(elem);
-        }
-      });
-    }
-    
-   return obj;
-  }
-
-  
-  /*----------- get Payment Scenario --------- */
-  getPaymentScenario(lkpAssocDlvryPayoutOptId) {
-    let paymentScenario = '';
-    if (this.previewRefList && this.previewRefList.assocDeliveryPayOutOptionList !== undefined) {
-      var scenarioObj = this.previewRefList.assocDeliveryPayOutOptionList.find(x => x.id == lkpAssocDlvryPayoutOptId);
-      if (scenarioObj !== undefined) {
-        switch (scenarioObj.lookupVal) {
-          case "WEIGHT BASIS":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PER TRIP":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PER WAYBILL":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PRODUCT SPECIFIC":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-        }
-      }
-      return paymentScenario;
-    }
-  }
-
-  /*---------- get product names for Product specific scenario  -------- */
-  getProductNames(selectedPrductArray, productList) {
-    let productNames = '';
-    if (selectedPrductArray !== undefined) {
-      selectedPrductArray.forEach((element, index) => {
-        let obj = productList.find(x => x.id == element.productId);
-        if (obj !== undefined) {
-          if (index !== 0) {
-            productNames = productNames + ',' + obj.prdctName;
-          } else {
-            productNames = obj.prdctName;
-          }
-        }
-      });
-    }
-    return productNames;
-  }
-
-   /*---------- return service offerings -------- */
-   displayServiceOffr(offeringArray) {
-    let offeringNames = '';
-    if (offeringArray !== undefined) {
-      offeringArray.forEach((element, index) => {
-        let obj = this.previewRefList.serviceOfferingList.find(x => x.id == element.serviceOfferingId);
-        if (obj !== undefined) {
-          if (index !== 0) {
-            offeringNames = offeringNames + ',' + obj.serviceOffering;
-          } else {
-            offeringNames = obj.serviceOffering;
-          }
-        }
-      });
-    }
-    return offeringNames;
-  }
-
-  /*---------- get Billing Cycle Name -------- */
-  getBillingCycleName(billingId) {
-    if(this.previewRefList && this.previewRefList.billingCycleList !== undefined){
-      let billingObj = this.previewRefList.billingCycleList.find(x => x.id == billingId);
-
-      if(billingObj !== undefined) {
-        return billingObj.lookupVal;
-      } else {
-        return ''
-      }
-    }
-  }
-
-
-  compareContractObject(obj,property) {
-    let contractObj = obj
-    if(this.obj2 !== undefined ){
-   
-      if(this.obj2.contractDetals[property] != contractObj[property]) {
-        return true
-      } else {
-        return false;
-      }
-    } else {
-      return true;
-    }
-  }
- 
-
-  /*---------- Compare branch Allocation ---------- */
-  ifBranchAllocationObjChanges(item, property) {
-    let branchObj;
-    let branchObj2: any = [];
-    branchObj = item; //this.obj1.branchAllocationList[index];
-    
-    if(this.obj2 !== undefined){
-    branchObj2 = _.find(this.obj2.branchAllocationList, { 'branchName': branchObj.branchName });
-
-    if (branchObj2) {
-     if(property != 'assignedVehicle'){
-      if (branchObj2[property] != branchObj[property]) {
-        return true
-      } else {
-        return false;
-      }
-    } else {
-      return (branchObj2[property].toString() != branchObj[property].toString())
-    }
-    } else {
-      return true;
-    }
-   }
-  } 
-
-  /*-----------  compare payment -------- */
-  ifPaymentChange(obj,property,objName){
-    let paymentObj = obj
-    if(this.obj2 !== undefined){ 
-      if(this.obj2[objName] !== undefined){
-        if(this.obj2[objName][property] != paymentObj[property]) {
-          if (this.obj2[objName][property] < paymentObj[property]) {
-            return {flage : true, compare: 'arrow_upward'}
-          } else if (this.obj2[objName][property] > paymentObj[property]) {
-            return {flage : true, compare: 'arrow_downward'}
-          } else {
-            return {flage : true, compare: 'change'} 
-          } 
-        } else {
-          return {flage : false, compare: 'equall'}
-        }
-    } else {
-      return {flage : true, compare: ''}
-    } 
-    } else {
-      return {flage : true, compare: ''}
-    }
-  }
-
-  ifPaymentArrayObjChange(item,property,value,objName){
-    let offeringObj;
-    let offeringObj2: any;
-    offeringObj = item; 
-    
-    if(this.obj2 !== undefined){
-      if(value === 'WEIGHT BASIS'){
-        offeringObj2 = _.find(this.obj2[objName].deliveryWtSlabChargeList, { 'id': offeringObj.id });
-      } else if(value === 'GRATIA'){
-        offeringObj2 = _.find(this.obj2[objName].graciaList, { 'branchName': offeringObj.branchName });
-      } else if(value === 'MG'){
-        offeringObj2 = _.find(this.obj2[objName].mgList, { 'branchName': offeringObj.branchName });
-      }
-    if (offeringObj2) {
-      if (offeringObj2[property] != offeringObj[property]) {
-        if (offeringObj2[property] < offeringObj[property]) {
-          return {flage : true, compare: 'arrow_upward'}
-        } else if (offeringObj2[property] > offeringObj[property]) {
-          return {flage : true, compare: 'arrow_downward'}
-        } else {
-          return {flage : true, compare: 'change'} 
-        } 
-      } else {
-        return {flage : false, compare: 'equall'}
-      }
-    } else {
-      return {flage : true, compare: ''}
-    }
-   } else {
-    return {flage : true, compare: ''}
-   }
-  }
-
-  /*----- compare slab data if Ex-gratia type is CLAUSE --------*/
-
-  compareSlabData(item,property,i) {
-    let slabObj1;
-    let slabObj2: any;
-    slabObj1 = item; 
-    
-    if(this.obj2 !== undefined && this.obj2.generalTerms.graciaList.length > 0){
-      slabObj2 = _.find(this.obj2.generalTerms.graciaList[i].dlvryExGratiaList, { 'id': slabObj1.id });
-     
-    if (slabObj2) {
-      if (slabObj2[property] != slabObj1[property]) {
-        if (slabObj2[property] < slabObj1[property]) {
-          return {flage : true, compare: 'arrow_upward'}
-        } else if (slabObj2[property] > slabObj1[property]) {
-          return {flage : true, compare: 'arrow_downward'}
-        } else {
-          return {flage : true, compare: 'change'} 
-        } 
-      } else {
-        return {flage : false, compare: 'equall'}
-      }
-    } else {
-      return {flage : true, compare: ''}
-    }
-   } else {
-    return {flage : true, compare: ''}
-   }
-  }
-
-  /*----------- compare payment customer change ---- */
-  ifCustomerPaymentChange(obj,property,objName){
-    let custPaymentObj = obj;
-    let custPaymentObj2 : any;
-    if(this.obj2 !== undefined && this.obj2[objName].customerCommercial !== undefined){
-      custPaymentObj2 = _.find(this.obj2[objName].customerCommercial, { 'msaCustId': custPaymentObj.msaCustId });
-
-      if (custPaymentObj2) {
-        if (custPaymentObj2[property] != custPaymentObj[property]) {
-          if (custPaymentObj2[property] < custPaymentObj[property]) {
-            return {flage : true, compare: 'arrow_upward'}
-          } else if (custPaymentObj2[property] > custPaymentObj[property]) {
-            return {flage : true, compare: 'arrow_downward'}
-          } else {
-            return {flage : true, compare: 'change'} 
-          } 
-        } else {
-          return {flage : false, compare: 'equall'}
-        }
-      } else {
-        return {flage : true, compare: ''}
-      }
-    }else {
-      return {flage : true, compare: ''}
-     }
-  }
-
-  /*----------- Compare customer Payout based on WEIGHT BASIS slab weight slab data ---------- */
-  compareCustomerWeightSlab(commObj, property, objName, obj) {
-    let weightSlabObj;
-    let weightSlabObj2: any;
-    weightSlabObj = obj;
-
-    if (this.obj2 !== undefined && this.obj2[objName].customerCommercial !== undefined) {
-      let custPaymentObj2 = _.find(this.obj2[objName].customerCommercial, { 'msaCustId': commObj.msaCustId });
-      if (custPaymentObj2) {
-        weightSlabObj2 = _.find(custPaymentObj2.deliveryWtSlabChargeList, { 'id': weightSlabObj.id });
-
-        if (weightSlabObj2) {
-          if (weightSlabObj2[property] != weightSlabObj[property]) {
-            if (weightSlabObj2[property] < weightSlabObj[property]) {
-              return { flage: true, compare: 'arrow_upward' }
-            } else if (weightSlabObj2[property] > weightSlabObj[property]) {
-              return { flage: true, compare: 'arrow_downward' }
-            } else {
-              return { flage: true, compare: 'change' }
-            }
-          } else {
-            return { flage: false, compare: 'equall' }
-          }
-        } else {
-          return { flage: true, compare: '' }
-        }
-      } else {
-        return { flage: true, compare: '' }
-      }
-    } else {
-      return { flage: true, compare: '' }
-    }
-  }
-
-  /*-------------- Compare deduction data ----------- */
-  ifDeductionChange(obj,property) {
-    let deducionObj = obj;
-    if(this.obj2 !== undefined){
-      if(this.obj2.deliveryDeduction[property] != deducionObj[property]) {
-        if (this.obj2.deliveryDeduction[property] < deducionObj[property]) {
-          return {flage : true, compare: 'arrow_upward'}
-        } else if (this.obj2.deliveryDeduction[property] > deducionObj[property]) {
-          return {flage : true, compare: 'arrow_downward'}
-        } else {
-          return {flage : true, compare: 'change'}
-        } 
-      } else {
-        return {flage : false, compare: 'equall'}
-      }
-    } else {
-      return {flage : true, compare: 'abcd'}
-    }
-  }
-
-  /*------- Compare EMI and Insurance Deduction ---------- */
-  ifEmiOrInsuranceDednChange(obj,property,value) {
-    let vehicleDeductionObj = obj;
-    let vehicleDeductionObj2 : any;
-    if(this.obj2 !== undefined && this.obj2.deliveryDeduction !== undefined){
-      if(value == 'EMI'){
-        vehicleDeductionObj2 = _.find(this.obj2.deliveryDeduction.emiList, { 'branchName': vehicleDeductionObj.branchName });
-      } else {
-        vehicleDeductionObj2 = _.find(this.obj2.deliveryDeduction.insuranceList, { 'branchName': vehicleDeductionObj.branchName });
-      }
-
-      if (vehicleDeductionObj2) {
-        if (vehicleDeductionObj2[property] != vehicleDeductionObj[property]) {
-          if (vehicleDeductionObj2[property] < vehicleDeductionObj[property]) {
-            return {flage : true, compare: 'arrow_upward'}
-          } else if (vehicleDeductionObj2[property] > vehicleDeductionObj[property]) {
-            return {flage : true, compare: 'arrow_downward'}
-          } else {
-            return {flage : true, compare: 'change'} 
-          } 
-        } else {
-          return {flage : false, compare: 'equall'}
-        }
-      } else {
-        return {flage : true, compare: ''}
-      }
-    }
-  }
-
-
-
 
 
    sendData(ob, file){

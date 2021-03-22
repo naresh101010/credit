@@ -1,15 +1,15 @@
 apiVersion: apps/v1    
 kind: Deployment    
 metadata:    
-  name: assoc-cntr-delivery-ui
+  name: assoc-cntr-cargo-ui
   namespace: uiapps
   labels:    
-    app: assoc-cntr-delivery-ui  
+    app: assoc-cntr-cargo-ui  
 spec:    
   replicas: 1    
   selector:    
     matchLabels:    
-      app: assoc-cntr-delivery-ui 
+      app: assoc-cntr-cargo-ui 
   strategy:    
     rollingUpdate:    
       maxSurge: 25%    
@@ -18,12 +18,12 @@ spec:
   template:    
     metadata:    
       labels:    
-        app: assoc-cntr-delivery-ui      
+        app: assoc-cntr-cargo-ui      
     spec:    
       containers:    
-      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/assoc-cntr-delivery-ui:BUILDNUMBER    
+      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/assoc-cntr-cargo-ui:BUILDNUMBER    
         imagePullPolicy: Always    
-        name: assoc-cntr-delivery-ui   
+        name: assoc-cntr-cargo-ui   
         ports:    
         - containerPort: 80    
           protocol: TCP    
@@ -34,7 +34,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: Gateway   
 metadata:   
-  name: assoc-cntr-delivery-ui 
+  name: assoc-cntr-cargo-ui 
 spec:   
   selector:   
     istio: pvt-ingressgateway # use istio default controller   
@@ -50,16 +50,16 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: VirtualService   
 metadata:   
-  name: assoc-cntr-delivery-ui
+  name: assoc-cntr-cargo-ui
 spec:   
   hosts:   
   - "*"   
   gateways:   
-  - assoc-cntr-delivery-ui   
+  - assoc-cntr-cargo-ui   
   http:   
   - match:   
     route:   
     - destination:   
-        host: assoc-cntr-delivery-ui  
+        host: assoc-cntr-cargo-ui  
         port:   
           number: 80

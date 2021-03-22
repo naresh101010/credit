@@ -4,20 +4,20 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-view-branches',
-  templateUrl: './view-branches.component.html'
+  templateUrl: './view-branches.component.html',
+  styleUrls: ['./view-branches.component.css']
 })
 export class ViewBranchesComponent implements OnInit {
   displayedColumns: string[] = ['Bname', 'Btype', 'BstartDate', 'BendDate'];
   dataSource: any;
 
-  constructor( @Inject(MAT_DIALOG_DATA) public data,  public dialogRef: MatDialogRef<ViewBranchesComponent>,
-  public dialog: MatDialog) { }
+  constructor( @Inject(MAT_DIALOG_DATA) public data,public dialog: MatDialog, public dialogRef: MatDialogRef<ViewBranchesComponent>) { }
 
   ngOnInit() {
-    console.log('data', this.data);
-    this.dataSource = new MatTableDataSource(this.data.branchData);
+    this.dataSource = new MatTableDataSource(this.data.branchData);;
   }
   
+  /*--- After close dialog --- */
   closeDialog(): void {
       
     const dialogRefConfirm = this.dialog.open(confimationdialog, {
@@ -35,7 +35,6 @@ export class ViewBranchesComponent implements OnInit {
         console.log('Keep Open');
       }
     });
-
   }
 
 

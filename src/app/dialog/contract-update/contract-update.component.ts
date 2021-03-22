@@ -6,7 +6,8 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-contract-update',
-  templateUrl: './contract-update.component.html'
+  templateUrl: './contract-update.component.html',
+  styleUrls: ['./contract-update.component.css']
 })
 export class ContractUpdateComponent implements OnInit {
 

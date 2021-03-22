@@ -1,9 +1,8 @@
 <div class="hero-content retailContainer report boxContainer">
   <div class="row text-left parent">
     <div class="breadcrumb">
-      <a routerLink="/retail-contract/retail" id="dashboard" target="_self">Dashboard</a><span class="fa fa-caret-right"
-        style="margin-left: 4px;"></span>
-      REPORTS
+      <a routerLink="/asso_cargo-contract/asso_cargo" id="dashboard" target="_self">Dashboard</a>
+      <span class="fa fa-caret-right" style="margin-left: 4px;"></span> REPORTS
     </div>
   </div>
   <div class="msaOperation">
@@ -32,6 +31,7 @@
         <div class="form-inline">
           <label for="" class="control-label">Search By
             <span class="color-danger">*</span>
+
           </label>
 
           <mat-form-field appearance="outline" style="width: auto !important;">
@@ -42,6 +42,7 @@
                 matTooltipPosition="above"> {{item.lookupVal}} </mat-option>
             </mat-select>
           </mat-form-field>
+
           <div class="newSelect" style="position: relative;">
             <mat-form-field appearance="outline" style="width: 100%;"
               *ngIf="searchByVal == 'MSA BASE LOCATION' || searchByVal == 'RC BASE LOCATION' || searchByVal == 'BRANCH' || searchByVal == 'ALL'">
@@ -51,8 +52,7 @@
                 <ngx-mat-select-search (change)="manualSel($event);" (keyup)="manualSearch($event);"
                   [(ngModel)]="searchVal" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
                   name="search" class="select-search">
-                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search icon-search">search
-                  </mat-icon>
+                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search icon-search">search</mat-icon>
                 </ngx-mat-select-search>
                 <mat-option [value]="" style="display: none;">Select Option</mat-option>
                 <mat-option *ngFor="let item of (searchArr | stringFilterBooking:searchVal:'branchName')"
@@ -83,8 +83,9 @@
               </mat-select>
             </mat-form-field>
           </div>
-
+          
         </div>
+
 
         <div class="form-inline">
           <label for="" class="control-label">Contract Type<span class="color-danger">*</span>
@@ -103,9 +104,9 @@
           <label for="" class="control-label">Select File Format
             <span class="color-danger">*</span></label>
 
-          <mat-radio-group aria-label="Select an option" [(ngModel)]="reportFormat" class="radio-item">
+          <mat-radio-group aria-label="Select an option" [(ngModel)]="reportFormat"  class="radio-item">
             <mat-radio-button value="pdf">Pdf</mat-radio-button>
-            <mat-radio-button value="xls">Xls</mat-radio-button>
+            <mat-radio-button value="xls">xls</mat-radio-button>
           </mat-radio-group>
 
         </div>
@@ -115,30 +116,30 @@
           <label for="" class="control-label">Vendor Department
             <span class="color-danger">*</span>
           </label>
-          <mat-form-field>
-            <mat-select [(ngModel)]="vendorDepartment" name="food">
-              <mat-option *ngFor="let department of departmentList" [value]="department.id">
-                {{department.lookupVal}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field>
+              <mat-select [(ngModel)]="vendorDepartment" name="food">
+                <mat-option *ngFor="let department of departmentList" [value]="department.id">
+                  {{department.lookupVal}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
         </div>
-
+       
         <div class="form-inline">
           <label for="" class="control-label">Report Type
           </label>
-          <mat-form-field>
-            <mat-select [(ngModel)]="reportName" name="reportName">
-              <mat-option value="ASSOCIATE_CONTRACT_ASSOCIATE_LEVEL_REPORT">
-                ASSOCIATE LEVEL
-              </mat-option>
-              <mat-option value="ASSOCIATE_CONTRACT_CONTRACT_LEVEL_REPORT">
-                CONTRACT LEVEL
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
+            <mat-form-field>
+              <mat-select [(ngModel)]="reportName" name="reportName">
+                <mat-option value="ASSOCIATE_CONTRACT_ASSOCIATE_LEVEL_REPORT">
+                 ASSOCIATE LEVEL
+                </mat-option>
+                <mat-option value="ASSOCIATE_CONTRACT_CONTRACT_LEVEL_REPORT">
+                  CONTRACT LEVEL
+                 </mat-option>
+              </mat-select>
+            </mat-form-field>
         </div>
-
+       
       </div>
       <div class="submit-button">
         <button class="btn_submit" (click)="submit()" style="padding: 5px 15px;

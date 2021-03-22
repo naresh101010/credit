@@ -7,59 +7,33 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './core/material/material.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { EmiCalculationComponent } from './dialog/emi-calculation/emi-calculation.component';
-import { ViewBranchesComponent } from './dialog/view-branches/view-branches.component';
-import { SearchBranchComponent } from './dialog/search-branch/search-branch.component';
 import { AdHostDirective } from './core/directives/ad-host.directive';
-import { AssignVehicleComponent } from './dialog/assign-vehicle/assign-vehicle.component';
-import { ContractUpdateComponent } from './dialog/contract-update/contract-update.component';
-import { SearchCustomerComponent } from './dialog/search-customer/search-customer.component';
-import { AddDesignationComponent } from './dialog/add-designation/add-designation.component';
-import { ErrorModalsComponent } from './dialog/error-modals/error-modals.component';
 import { InsuranceDeductionComponent } from './dialog/insurance-deduction/insurance-deduction.component';
-import { EmiDailyCalculationComponent } from './dialog/emi-daily-calculation/emi-daily-calculation.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
-import { CreateAssociateContractComponent } from './components/create-associate-contract/create-associate-contract.component';
-import { BranchAllocationComponent } from './components/branch-allocation/branch-allocation.component';
 import { BookingPayoutComponent } from './components/booking-payout/booking-payout.component';
-import { BookingSlaComponent } from './components/booking-sla/booking-sla.component';
 import { BookingDocumentComponent } from './components/booking-document/booking-document.component';
-import { SuccessComponent } from './components/success/success.component';
-import { CreateAssociateComponent } from './components/create-associate/create-associate.component';
 import { AssociateKycComponent } from './components/associate-kyc/associate-kyc.component';
-import { VehicleAllocationComponent } from './components/vehicle-allocation/vehicle-allocation.component';
-import { VehicleDocumentComponent } from './components/vehicle-document/vehicle-document.component';
 import { AssociateStaffComponent } from './components/associate-staff/associate-staff.component';
-import { CreateAssociateStaffComponent } from './components/create-associate-staff/create-associate-staff.component';
 import { PendingTasksComponent } from './components/pending-tasks/pending-tasks.component';
 import { AssignAssociateComponent } from './components/assign-associate/assign-associate.component';
-import { BookingAssociateContractUpdateComponent } from './dialog/booking-associate-contract-update/booking-associate-contract-update.component';
-import { BranchVehicleAllocationComponent } from './components/branch-vehicle-allocation/branch-vehicle-allocation.component';
-import { VehicleComponent } from './components/vehicle/vehicle.component';
-import { PreviewComponent, EditPreviewComponent } from './components/preview/preview.component';
 import { DragDropModule } from '@angular/cdk/drag-drop';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiService } from './core/services/api.service';
-import { confimationdialog } from './dialog/confirmationdialog/confimationdialog';
-import { SortByPipe } from './components/pincodesearch/sort-by.pipe';
+// import { PincodesearchComponent } from './components/pincodesearch/pincodesearch.component';
 import { NgxSpinnerModule } from 'ngx-spinner';
 import { ToastrModule } from 'ngx-toastr';
 import { BookingAssociateContractComponent } from './components/booking-associate-contract/booking-associate-contract.component';
+import { JwtService } from './core/services/jwt.service';
 import { AuthInterceptor } from './core/services/auth.interceptor';
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material';
 import { MatPaginatorModule } from '@angular/material';
 import { EmptyRouteComponent } from './empty-route/empty-route.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { StepperComponent } from './components/stepper/stepper.component';
 import { PayoutGenDetailComponent } from './components/booking-payout/payout-gen-detail/payout-gen-detail.component';
-import{ContractversionComponent}from './components/contractversion/contractversion.component';
 import { LookupValuePipe } from './core/pipes/lookup-value.pipe'
 import { APP_DATE_FORMATS, AppDateFormatAdapter } from './components/date-format/date.adapter';
-
-import { PreviewPopupComponent } from './dialog/preview-popup/preview-popup.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { EmptyComponetComponent } from './empty-componet/empty-componet.component';
-import { CompareVersionComponent } from './dialog/compare-version/compare-version.component';
 import { HeaderDataComponent } from './components/header-data/header-data.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { StringFilterPipe } from './core/pipes/string-filter.pipe';
@@ -70,17 +44,42 @@ import { GreaterZeroDirective } from './core/directives/greater-zero.directive';
 import { AlphabetOnlyDirective } from './core/directives/alphabet.directive';
 import { AlphaSpecialCharDirective } from './core/directives/alphaspecialchar.directive';
 import { NumericSpecialCharDirective } from './core/directives/numericspecialchar.directive';
-import { PincodeCustomizeComponent } from './dialog/pincode-customize/pincode-customize.component';
-import { SelectCustomerComponent } from './dialog/select-customer/select-customer.component';
-import { PaymentGeneralTermsComponent } from './components/booking-payout/payment-general-terms/payment-general-terms.component';
-import { ScheduledPayoutComponent } from './components/booking-payout/scheduled-payout/scheduled-payout.component';
-import { OnlyNumber } from './core/directives/onlyNumber.directive';
-import { StaffDocumentComponent } from './components/staff-document/staff-document.component';
+import { StepperComponent } from './components/stepper/stepper.component';
+import { SortByPipe } from './components/pincodesearch/sort-by.pipe';
+import { confimationdialog } from './dialog/confirmationdialog/confimationdialog';
+import { EmiCalculationComponent } from './dialog/emi-calculation/emi-calculation.component';
+import { CompareVersionComponent } from './dialog/compare-version/compare-version.component';
+
+import { ViewBranchesComponent } from './dialog/view-branches/view-branches.component';
+import { SearchBranchComponent } from './dialog/search-branch/search-branch.component';
+import { AssignVehicleComponent } from './dialog/assign-vehicle/assign-vehicle.component';
+import { ContractUpdateComponent } from './dialog/contract-update/contract-update.component';
+import { SearchCustomerComponent } from './dialog/search-customer/search-customer.component';
+import { EmiDailyCalculationComponent } from './dialog/emi-daily-calculation/emi-daily-calculation.component';
+import { ErrorModalsComponent } from './dialog/error-modals/error-modals.component';
+import { AddDesignationComponent } from './dialog/add-designation/add-designation.component';
+import { BookingSlaComponent } from './components/booking-sla/booking-sla.component';
+import { BranchAllocationComponent } from './components/branch-allocation/branch-allocation.component';
+import { CreateAssociateContractComponent } from './components/create-associate-contract/create-associate-contract.component';
+import { VehicleComponent } from './components/vehicle/vehicle.component';
+import { BranchVehicleAllocationComponent } from './components/branch-vehicle-allocation/branch-vehicle-allocation.component';
+import { BookingAssociateContractUpdateComponent } from './dialog/booking-associate-contract-update/booking-associate-contract-update.component';
+import { CreateAssociateStaffComponent } from './components/create-associate-staff/create-associate-staff.component';
+import { VehicleDocumentComponent } from './components/vehicle-document/vehicle-document.component';
+import { VehicleAllocationComponent } from './components/vehicle-allocation/vehicle-allocation.component';
+import { CreateAssociateComponent } from './components/create-associate/create-associate.component';
+import { SuccessComponent } from './components/success/success.component';
+import { PreviewPopupComponent } from './dialog/preview-popup/preview-popup.component';
+import { ContractversionComponent } from './components/contractversion/contractversion.component';
+import { PreviewComponent, EditPreviewComponent } from './components/preview/preview.component';
 import { FromToDirective } from './core/directives/fromTo.directive';
 import { ExportAsModule } from 'ngx-export-as';
-import { NgxPrintModule } from 'ngx-print';
+import { SlaCalulationComponent } from './dialog/sla-calulation/sla-calulation.component';
 import { EmailPreviewComponent } from './dialog/email-preview/email-preview.component';
 import { BlockCopyPasteDirective } from './core/directives/block-copy-paste.directive';
+import { StaffDocumentComponent } from './components/staff-document/staff-document.component';
+import { OnlyNumber } from './core/directives/onlyNumber.directive';
+import { NgxPrintModule } from 'ngx-print';
 import { SearchBankBranchComponent } from './dialog/search-bank-branch/search-branch.component';
 import { SearchFieldCheckDirective } from './core/directives/searchFieldCheck.directive';
 import { DashboardBranchSearchComponent } from './dialog/dashboard-branch-search/dashboard-branch-search.component';
@@ -90,9 +89,11 @@ import { ReportsComponent } from './components/reports/reports.component';
   declarations: [
     SortByPipe,
     confimationdialog,
+    // PincodesearchComponent,
     AppComponent,
     BookingAssociateContractComponent,
     EmiCalculationComponent,
+    SlaCalulationComponent,
     ViewBranchesComponent,
     SearchBranchComponent,
     AdHostDirective,
@@ -114,6 +115,7 @@ import { ReportsComponent } from './components/reports/reports.component';
     AssociateKycComponent,
     VehicleAllocationComponent,
     VehicleDocumentComponent,
+    StaffDocumentComponent,
     AssociateStaffComponent,
     CreateAssociateStaffComponent,
     PendingTasksComponent,
@@ -125,11 +127,11 @@ import { ReportsComponent } from './components/reports/reports.component';
     EmptyRouteComponent,
     StepperComponent,    
     PayoutGenDetailComponent,
-    ContractversionComponent,
+    CompareVersionComponent,
     LookupValuePipe,
     PreviewPopupComponent,
     EmptyComponetComponent,
-    CompareVersionComponent,
+    ContractversionComponent,
     HeaderDataComponent,
     StringFilterPipe,
     EditPreviewComponent,
@@ -140,15 +142,10 @@ import { ReportsComponent } from './components/reports/reports.component';
     AlphabetOnlyDirective,
     AlphaSpecialCharDirective,
     NumericSpecialCharDirective,
-    PincodeCustomizeComponent,
-    SelectCustomerComponent,
-    PaymentGeneralTermsComponent,
-    ScheduledPayoutComponent,
-    OnlyNumber,
-    StaffDocumentComponent,
     FromToDirective,
-    EmailPreviewComponent,
     BlockCopyPasteDirective,
+    OnlyNumber,
+    EmailPreviewComponent,
     SearchBankBranchComponent,
     SearchFieldCheckDirective,
     DashboardBranchSearchComponent,
@@ -160,22 +157,21 @@ import { ReportsComponent } from './components/reports/reports.component';
     MatPaginatorModule,
     BrowserModule,
     AppRoutingModule,
-    NgxPrintModule,
     BrowserAnimationsModule,
     MaterialModule,
     DragDropModule,
-    ExportAsModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
     MatSlideToggleModule,
+    ExportAsModule,
     NgxMatSelectSearchModule,
+    NgxPrintModule,
     ToastrModule.forRoot()
   ],
   providers: [
-    ApiService,
-    ExportAsModule,   
+    ApiService,   
     {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,      
@@ -187,25 +183,25 @@ import { ReportsComponent } from './components/reports/reports.component';
   bootstrap: [AppComponent],
   entryComponents: [
     EmiCalculationComponent,
+    SlaCalulationComponent,
     ViewBranchesComponent,
     SearchBranchComponent,
     AssignVehicleComponent,
     ContractUpdateComponent,
     SearchCustomerComponent,
     AddDesignationComponent,
-    EmailPreviewComponent,
     ErrorModalsComponent,
     InsuranceDeductionComponent,
     EmiDailyCalculationComponent,
     BookingAssociateContractUpdateComponent,
     confimationdialog,
+    // PincodesearchComponent,
     ContractversionComponent,
     PreviewPopupComponent,
     CompareVersionComponent,
     SuccessComponent,
     EditPreviewComponent,
-    PincodeCustomizeComponent,
-    SelectCustomerComponent,
+    EmailPreviewComponent,
     SearchBankBranchComponent,
     DashboardBranchSearchComponent
   ]

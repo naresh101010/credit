@@ -13,7 +13,8 @@ import { AppSetting } from 'src/app/app.setting';
 
 @Component({
   selector: 'app-contractversion',
-  templateUrl: './contractversion.component.html'
+  templateUrl: './contractversion.component.html',
+  styleUrls: ['./contractversion.component.css']
 })
 export class ContractversionComponent implements OnInit {
   isEnabled:boolean=false;
@@ -50,8 +51,7 @@ export class ContractversionComponent implements OnInit {
     this.versions=[];
     this.contractVersionData=[];
     if (this.data) {
-      // 'checked',
-      this.displayedColumns = [ 'cntrVer', 'updDt'];
+      this.displayedColumns = [ 'checked','cntrVer', 'updDt'];
       this.getContractVersions(this.data.contractId);
     }
   }
@@ -60,7 +60,7 @@ export class ContractversionComponent implements OnInit {
 
   getContractVersions(id: any) {
     this.spinner.show();
-    this.apiService.get("secure/v1/deliverypreview/historypreview/version/"+id)
+    this.apiService.get("/secure/v1/cargocontractpreview/historypreview/version/"+id)
       .subscribe(suc => {
         if (suc) {
           let resData: any = suc;
@@ -136,7 +136,10 @@ export class ContractversionComponent implements OnInit {
  
      if (this.rowSelected == 1) {
        this.isPreview = true;
- 
+
+       let data = this.dataSource.find(x => x.checked);
+       this.selectedVersion= data.cntrVer;
+       this.selectedIndex= data.index;
      }
      if (this.rowSelected == 2) {
        this.isPreview = false;
@@ -201,35 +204,6 @@ export class ContractversionComponent implements OnInit {
     });
 
    }
-
-  // openDialogVersionpreview(): void {
-  //   this.dialogRefVersion.close();
-  //   const dialogRefVersionPreview = this.dialog.open(VersionpreviewComponent, {
-  //     width: '140rem',
-  //     maxHeight: '70rem',
-  //     panelClass: 'creditDialog',
-  //     data: {contractId:this.data.contractId,version: this.selectedVersion,versionIndex:this.selectedIndex},
-  //     disableClose: true,
-  //     backdropClass: 'backdropBackground'
-  //   });
-
-  //   dialogRefVersionPreview.afterClosed().subscribe(result => {
-  //   });
-  // }
-  // openDialogCompareVersions(): void {
-  //   const dialogCompareVersions = this.dialog.open(CompareversionsComponent, {
-  //     width: '140rem',
-  //     height: '70rem',
-  //     panelClass: 'creditDialog',
-  //     data: {contractId:this.data.contractId,versions: this.versions},
-  //     disableClose: true,
-  //     backdropClass: 'backdropBackground'
-  //   });
-
-  //   dialogCompareVersions.afterClosed().subscribe(result => {
-  //   });
-  // }
-  
 
   openDialogPreview(btn) {
     const dialogRefVersion = this.dialog.open(PreviewPopupComponent, {

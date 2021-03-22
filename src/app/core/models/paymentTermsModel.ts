@@ -3,12 +3,15 @@ export class PaymentCommercialGen {
     assocCntrId: any;
     lkpAssocBkngPayoutCtgyId: any;
     lkpAssocBkngExpnsTypeId: any;
+    wtType: string;
+    lkpCargoPayoutOptId: any;
     minAmtPerWaybl: number;
     maxAmtPerWaybl: number;
     addtnlParamFlag: 0;
     lkpAssocAddtnlParamId: any;
     addtnlParamVal: number;
     effectiveDt: string;
+    minFlag = false;
     expDt: string;
     effectiveMinDt: any;
     expMinDt: any;

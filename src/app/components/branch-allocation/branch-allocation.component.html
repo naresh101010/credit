@@ -6,18 +6,18 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
-              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Contracts</a></span>
+              <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Contracts</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
               <span>Associate Contract</span>
             </mat-toolbar-row>
           </mat-toolbar>
-          <h2>Delivery Associate Contract</h2>
+          <h2>Cargo Contract</h2>
         </div>
       </div>
       <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
@@ -30,6 +30,7 @@
 
 <!-- msa-4 start -->
 <section class="req_table_sec booking_msa_sec branch_location_sec">
+  <!-- <div class="container-fluid"> -->
     <div class="booking_card padding_0">
       <!-- Display header -->
       <app-header-data></app-header-data>
@@ -53,7 +54,7 @@
                   </div>
                 </div>
               </div>
-              <div class="row" *ngxPermissionsOnly="['BRANCH ALLOCATION_READ']">
+              <div class="row">
                 <div class="col-md-12">
                   <mat-label><strong>Allocated Branches</strong></mat-label>
                 </div>
@@ -61,7 +62,7 @@
               <div class="row" *ngxPermissionsOnly="['BRANCH ALLOCATION_READ']">
                 <div class="col-md-12">
                   <div class="table-responsive create_new_tale_mdm2">
-                    <table aria-describedby="table" aria-describedby="table" mat-table [dataSource]="dataSource"  matSort class="mat-elevation-z8" matSortDisableClear>
+                    <table aria-describedby="table" mat-table [dataSource]="dataSource"  matSort class="mat-elevation-z8" matSortDisableClear>
 
                       <!-- Position Column -->
                       <ng-container matColumnDef="branchName">
@@ -90,16 +91,18 @@
                                 <mat-datepicker #msa6StartDate1 class="myDatepicker23">
                                 </mat-datepicker>
                                 <input matInput [matDatepicker]="msa6StartDate1" [disabled]="(element.id && editflow)" [(ngModel)]="element.effectiveDt" #effectiveDt = "ngModel" [ngModelOptions]="{standalone: true}" (ngModelChange)="editInput(element)"
-                                  class="date_input_height" placeholder="" name="effectiveDt_{{i}}" placeholder="DD/MM/YYYY" 
-                                  [max]="element.effectiveDate_max" [min]="minDate" (blur)="effectiveDate(true,element)" (dateChange)="effectiveDate(true, element)"  required numericSpecialChar/>
+                                  class="date_input_height Sel_StartDt" placeholder="" name="effectiveDt_{{i}}" placeholder="DD/MM/YYYY" 
+                                   [max]="element.effectiveDate_max" (blur)="effectiveDate(true,element)" (dateChange)="effectiveDate(true, element)"  required numericSpecialChar/>
                                 <mat-datepicker-toggle matPrefix [for]="msa6StartDate1">
                                 </mat-datepicker-toggle>
                               </mat-form-field>
-                              <div *ngIf="element.isValidEffectiveDt && !(effectiveDt.errors?.required)" class="errorMsg">
-                                Invalid Start Date!
+                              <div *ngIf="expDtMsk">
+                                <div *ngIf="(element.effectiveDt > element.expDt) && !(effectiveDt.errors?.required)" class="errorMsg">
+                                  Invalid Start Date!
+                                </div>
                               </div>
                               <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
-                               Required !
+                               Required!
                              </div>
                             </div>
                           </div>
@@ -115,7 +118,7 @@
                               <mat-form-field appearance="outline" class="date_picker_adjust input_table_width" id="datepickerwidth"> 
                                 <mat-datepicker #msa6StartDate2 class="myDatepicker23">
                                 </mat-datepicker>
-                                <input matInput autocomplete="off" [matDatepicker]="msa6StartDate2" [(ngModel)]="element.expDt" #expDt="ngModel" (ngModelChange)="editInput(element)" [ngModelOptions]="{standalone: true}"
+                                <input matInput [matDatepicker]="msa6StartDate2" [(ngModel)]="element.expDt" #expDt="ngModel" (ngModelChange)="editInput(element)" [ngModelOptions]="{standalone: true}"
                                   class="date_input_height" placeholder="" name="expiryDate_{{i}}" [min]="element.expiryDate_min" 
                                   [max]="element.expiryDate_max" placeholder="DD/MM/YYYY" (dateChange)="expDate(element)" (blur)="expDate(element)" numericSpecialChar/>
                                 <mat-datepicker-toggle matPrefix [for]="msa6StartDate2">
@@ -128,25 +131,6 @@
                           </div>
                         </td>
                       </ng-container>
-                      <!-- Saleforce id -->
-                      <ng-container matColumnDef="Avehicle">
-                        <th scope="col" mat-header-cell *matHeaderCellDef> <strong>
-                            ASSIGN VEHICLE </strong><span class="redMark">*</span> </th>
-                        <td mat-cell *matCellDef="let element">
-                          <div class="row_center row_center_width" matTooltipPosition="above" ><img
-                              src="../assets/images/pickup.png" (click)="openAssignVehicleModal(element)" alt="image"></div>
-                        </td>
-                      </ng-container>
-                      <ng-container matColumnDef="CustomizePin">
-                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>
-                            CUSTOMIZE PIN CODE</strong></th>
-                        <td mat-cell *matCellDef="let element; index as i;">
-                          <div class="row_center row_center_width" matTooltipPosition="above" *ngxPermissionsOnly="['SAFEXTENSION PINCODE_READ','SCHEDULED PINCODE_READ']">
-                            <span class="material-icons" (click)="excludePincode(i)" style="color: #27AE60 !important">room</span>
-                            </div>
-                        </td>
-                      </ng-container>
-                      <!-- msaCustAddrs id -->
                       <ng-container matColumnDef="delete">
                         <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong></strong> </th>
                         <td mat-cell *matCellDef="let element">
@@ -162,22 +146,22 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </div>             
             </mat-expansion-panel>
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12 text-center mtb_30"  *ngxPermissionsOnly="['BRANCH ALLOCATION_CREATE','BRANCH ALLOCATION_UPDATE']">
-            <button mat-button class="white-button" [disabled]="!fCreateBranch.form.valid || validateVehicle()"  (click)="validationBranchCheck('save')" style="margin-right: 15px;">Save as Draft</button>
+          <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['BRANCH ALLOCATION_CREATE','BRANCH ALLOCATION_UPDATE']">
+            <button mat-button class="white-button" [disabled]="!fCreateBranch.form.valid || validateVehicle() || flag"  (click)="validationBranchCheck('save')" style="margin-right: 15px;">Save as Draft</button>
             <button mat-button class="theme-button" [disabled]="!fCreateBranch.form.valid || validateVehicle() || flag"  (click)="validationBranchCheck('next')">Next</button> <br>
           </div>
-          <div class="col-md-12 text-center mtb_30"  *ngxPermissionsExcept="['BRANCH ALLOCATION_CREATE','BRANCH ALLOCATION_UPDATE']">
-            <button  class="theme-button" type="button" mat-raised-button color="primary"
-               (click)="nextReadMode()" >NEXT</button>
+          <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['BRANCH ALLOCATION_CREATE','BRANCH ALLOCATION_UPDATE']">
+            <button mat-button class="theme-button" (click)="nextReadMode()">Next</button> <br>
           </div>
         </div>
       </form>
     </div>
+  <!-- </div> -->
 </section>
 
 <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">

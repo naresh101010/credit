@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
 import { AppSetting } from 'src/app/app.setting';
+// import { PincodesearchComponent } from '../pincodesearch/pincodesearch.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from "ngx-spinner";
 import { CreateAssoModel } from 'src/app/core/models/createAssoModel';
@@ -157,6 +158,23 @@ export class CreateAssociateComponent implements OnInit {
     })
   }
 
+
+  // openDialogPincodeSearch(isResidence): void {
+  //   const dialogRefEdit = this.dialog.open(PincodesearchComponent, {
+  //     data: { msaId: null, isEditflow: false, isSafexttype: [] },
+  //     width: '50vw',
+  //   });
+
+  //   dialogRefEdit.afterClosed().subscribe(result => {
+  //     if (isResidence) {
+  //       var resAddress = this.createAssociateFormGroup.controls.resAddrBook as FormGroup;
+  //       resAddress.controls.pincodeId.setValue(result);
+  //     } else {
+  //       var offAddress = this.createAssociateFormGroup.controls.ofcAddrBook as FormGroup;
+  //       offAddress.controls.pincodeId.setValue(result);
+  //     }
+  //   });
+  // }
   createAssociateFormBuilder() {
 
     this.createAssociateFormGroup = this.fb.group({
@@ -382,13 +400,16 @@ export class CreateAssociateComponent implements OnInit {
   onSelectAassignTdsValue(elmnt) {
     this.createAssociateFormGroup.controls['tdsPercent'].setValue(this.assocRegdTypeList.find(({ id }) => id === elmnt).tds);
   }
+
   onChangeTDSCertifiate(value) {
+    console.log('this.f.assocRegdType', this.f.assocRegdType);
     if(value == 0) {
       if(this.f.assocRegdType.value) {
         this.onSelectAassignTdsValue(this.f.assocRegdType.value);
       } 
     }
   }
+
 
   saveAssociateContract() {
 
@@ -451,7 +472,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_delivery-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_cargo-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -494,7 +515,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_delivery-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_cargo-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -505,7 +526,16 @@ export class CreateAssociateComponent implements OnInit {
 
   //------------------------Pincode----------------------
   nextReadMode() {
-    this.router.navigate(['/asso_delivery-contract/associate-kyc'], {skipLocationChange: true});
+    AppSetting.associateData = this.associateData;
+    if (this.associateData.assocDeptMaps) {
+      let dept = this.assocDeptList.find(x => x.id === this.associateData.assocDeptMaps[0].lkpAssocDeptId);
+      if (dept !== undefined) {
+        AppSetting.associateDepartment = dept.lookupVal;
+      } else {
+        AppSetting.associateDepartment = '';
+      }
+    }
+    this.router.navigate(['/asso_cargo-contract/associate-kyc'], {skipLocationChange: true});
   }
 
   resPincodeSearch(str) {
@@ -525,6 +555,7 @@ export class CreateAssociateComponent implements OnInit {
               return;
             }
             for (let val of this.resPincodeData) {
+              val["pincode"] = val.pincode;
               val["pincodeId"] = val.pincode;
               //val["city"] = val.city.cityName;
             }
@@ -752,6 +783,5 @@ export class CreateAssociateComponent implements OnInit {
       }
     });
   }
-
 }
 

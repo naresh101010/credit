@@ -1,6 +1,6 @@
 <div class="modal-container">
   <h5 class="sub_heading">Add Designation</h5>
-  <mat-icon class="modals_cancel_btn"  aria-hidden="true" id="closeButton" (click)="closeDialog()">close</mat-icon>
+  <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true">close</mat-icon>
   <hr class="border_row">
 </div>
 <div class="row">
@@ -8,20 +8,20 @@
     <div class="col-md-10 col-md-offset-1">
       <div class="row">
         <div class="col-md-5">
-          <mat-label><strong>Designation</strong></mat-label>
+          <mat-label><b>Designation</b></mat-label>
         </div>
         <div class="col-md-7">
           <mat-form-field appearance="outline">
             <input matInput name="Designation" #design="ngModel" [(ngModel)]="Designation" class="form-control" minlength="5" placeholder="" required>
           </mat-form-field>
           <div *ngIf="(design.errors?.required && design.touched)" class="errorMsg">
-            Required !
+            Required!
           </div>
         </div>
       </div>
       <div class="row">
         <div class="col-md-5">
-          <mat-label><strong>Description</strong></mat-label>
+          <mat-label><b>Description</b></mat-label>
         </div>
         <div class="col-md-7">
           <mat-form-field appearance="outline">

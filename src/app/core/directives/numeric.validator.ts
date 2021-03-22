@@ -6,7 +6,7 @@ export function NumericValidator(): ValidatorFn {
       let current: string = control.value;
       let exp = String(current).match(regex);
     
-      if(!exp || (Number(control.value) > Number(100000000))) {
+      if(!exp || (Number(control.value) >= Number(100000000))) {
         return { 'isNumeric': 'Value is Invalid' }
       } else {
         return null;

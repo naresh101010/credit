@@ -12,15 +12,18 @@ import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimation
 import { DatePipe } from '@angular/common';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { EmailPreviewComponent } from 'src/app/dialog/email-preview/email-preview.component';
-import { AuthorizationService } from '../../core/services/authorization.service';
+import { AuthorizationService } from 'src/app/core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 declare let jspdf;
+
+
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.css'],
   providers: [DatePipe]
 })
+
 export class PreviewComponent implements OnInit {
   previewList;
   previewRefList;
@@ -28,15 +31,13 @@ export class PreviewComponent implements OnInit {
   mgList: any = [];
   insuranceList: any = [];
   emiList: any = [];
+  uniqueOfferings: any[] = [];
+  uniqueOfferingsForCustomer: any = [];
   editflow: boolean;
-  isPCD: boolean;
-  categoryList: any = [];
-  scheduledProductList: any = [];
-  safextensionProductList: any = [];
-  currentDt: string;
-  data: any = {};
   perList: any = [];
-
+  myDate = new Date();
+  currDate: string;
+  data: any = {};
   constructor(
     private spinner: NgxSpinnerService,
     private apiService: ApiService,
@@ -45,9 +46,9 @@ export class PreviewComponent implements OnInit {
     private router: Router,
     private datePipe: DatePipe,
     private exportAsService: ExportAsService,
-    private activeRoute: ActivatedRoute,
     private authorizationService: AuthorizationService,
-    private permissionsService: NgxPermissionsService) { }
+    private permissionsService: NgxPermissionsService,
+    private activeRoute: ActivatedRoute) { }
 
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
@@ -56,30 +57,28 @@ export class PreviewComponent implements OnInit {
 
   customerName: string = AppSetting.customerName;
   ngOnInit() {
-
     this.authorizationService.setPermissions('CONTRACT');
     this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
     this.permissionsService.loadPermissions(this.perList);
     console.log('perlist', this.perList)
-
+    this.spinner.show();
     this.activeRoute.params.subscribe(params => {
       if (params['editflow']) {
         this.editflow = params['editflow'];
       }
-    });
-    this.spinner.show();
-    this.currentDt = this.datePipe.transform(new Date(), 'MM-dd-yyyy');
+      this.currDate = this.datePipe.transform(this.myDate, 'MM-dd-yyyy');
 
-    this.apiService.get(`secure/v1/deliverypreview/preview/${AppSetting.contractId}`).subscribe((suc) => {
+    });
+
+    this.apiService.get(`secure/v1/cargocontractpreview/preview/${AppSetting.contractId}`).subscribe((suc) => {
       if (suc.data && suc.data.responseData) {
         this.previewList = suc.data.responseData;
-        console.log('Preview List', this.previewList);
         this.previewRefList = suc.data.referenceData;
         this.renderPreviewData();
-
+        //this.spinner.hide();
       } else {
         console.log("Data not Found");
-        // this.spinner.hide();
+        this.spinner.hide();
       }
     }, (err) => {
       this.tosterservice.error(ErrorConstants.getValue(404));
@@ -90,25 +89,25 @@ export class PreviewComponent implements OnInit {
   closePreview($event) {
     $event.preventDefault();
     if (this.editflow) {
-      this.router.navigate(['/asso_delivery-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+      this.router.navigate(['/asso_cargo-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
     } else {
-      this.router.navigate(['/asso_delivery-contract/booking-document'], { skipLocationChange: true });
+      this.router.navigate(['/asso_cargo-contract/booking-document'], { skipLocationChange: true });
     }
   }
 
   sendContractId(e) {
     this.spinner.show();
-    this.apiService.put(`secure/v1/deliverycontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
+    this.apiService.put(`secure/v1/cargocontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
       console.log(suc.data.responseData);
       let ob = ErrorConstants.validateException(suc);
       if (ob.isSuccess) {
         this.spinner.hide();
         AppSetting.sfxCode = suc.data.responseData;
-        // this.router.navigate(['/asso_delivery-contract/success'])
+        // this.router.navigate(['/asso_cargo-contract/success'])
         const dialogRef = this.dialog.open(SuccessComponent, {
-          disableClose: true,
+          disableClose: false,
+          data: { id: false },
           panelClass: 'mat-dialog-responsive',
-          data: { editflow: this.editflow },
           width: '64rem'
         });
 
@@ -122,6 +121,7 @@ export class PreviewComponent implements OnInit {
     });
 
   }
+
 
   sendEmail() {
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData
@@ -176,7 +176,7 @@ export class PreviewComponent implements OnInit {
             if (v.getAttribute("data-page") || doc.autoTableEndPosY() > 450) {
               doc.text(h3, 10, 45);
             } else {
-              if (h3 == "Delivery Associate Contract") {
+              if (h3 == "Cargo Associate Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
               } else {
@@ -188,24 +188,6 @@ export class PreviewComponent implements OnInit {
                   doc.text("Branch", 10, doc.autoTableEndPosY() + 40);
                 }
 
-                // if (
-                //   v.id == "Payment Terms" &&
-                //   this.previewList &&
-                //   this.previewList.scheduled_Payout !== undefined &&
-                //   !this.isPCD
-                // ) {
-                //   doc.setFontSize(10);
-                //   doc.text("Scheduled Payout", 10, doc.autoTableEndPosY() + 40);
-                // } else if (
-                //   v.id == "Payment Terms" &&
-                //   this.previewList &&
-                //   this.previewList.scheduled_Payout != undefined &&
-                //   this.previewList.scheduled_Payout.dlvryPayoutCtgy &&
-                //   !this.isPCD
-                // ) {
-                //   doc.setFontSize(10);
-                //   doc.text("GENERAL", 10, doc.autoTableEndPosY() + 40);
-                // }
               }
             }
             doc.setFontSize(9);
@@ -258,7 +240,7 @@ export class PreviewComponent implements OnInit {
             }
 
             // track individula tables
-            if (v.id == "Delivery Associate Contract") {
+            if (v.id == "Cargo Associate Contract") {
               tblMgn = 100;
             }
             if (
@@ -293,9 +275,11 @@ export class PreviewComponent implements OnInit {
             if (v.getAttribute("class").includes("rateCardTble")) {
               tblMgn = 26;
             }
-            if (v.id == "Allocation") {
+            if (v.id == "Allocation" ) {
               tblMgn = 50;
             }
+
+             
             if (v.getAttribute("class").includes("general")) {
               tblMgn = 20;
             }
@@ -304,6 +288,7 @@ export class PreviewComponent implements OnInit {
               // if page add then add extra margin
               tblMgn = tblMgn + 15;
             }
+            
             // end track individula tables
 
             //  colume styles
@@ -377,6 +362,33 @@ export class PreviewComponent implements OnInit {
                   lineColor: white,
                   columnWidth: 107.5,
                 },
+              };
+            } else if (v.getAttribute("class").includes("branch")) {
+              cs = {
+                0: {
+                  fillColor: green,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                },
+                1: {
+                  fillColor: grey,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                },
+                2: {
+                  fillColor: grey,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                },
+                3: {
+                  fillColor: grey,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                }
               };
             } else if (v.getAttribute("class").includes("fourCol")) {
               cs = {
@@ -696,7 +708,7 @@ export class PreviewComponent implements OnInit {
                 },
               };
             } else if (
-              v.id == "Delivery Associate Contract" ||
+              v.id == "Cargo Associate Contract" ||
               v.getAttribute("class").includes("billingTwo")
             ) {
               cs = {
@@ -815,7 +827,7 @@ export class PreviewComponent implements OnInit {
               });
             } else {
               let startY = doc.autoTableEndPosY() + tblMgn;
-              if (v.id == "Delivery Associate Contract") {
+              if (v.id == "Cargo Associate Contract") {
                 startY = 70;
               }
               doc.autoTable(res.columns, res.data, {
@@ -932,189 +944,39 @@ export class PreviewComponent implements OnInit {
     return local.toJSON().slice(0, 10);
 }
 
-  b64toBlob(dataURI) {
+   b64toBlob(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
+        ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: 'application/pdf' });
-  }
-
-  sendData(ob, file){
- this.apiService.sendEmail(file, ob, this.previewList.assocName)
- .subscribe(data => {
-   this.spinner.hide();
-   this.tosterservice.success("Email Sent Successfully !");
- }, error => {
-   this.spinner.hide();
-   this.tosterservice.error('Issue In Sending Email !');
- });
-
-}
-  /*---------- return service offerings -------- */
-  displayServiceOffr(offeringArray) {
-    let offeringNames = '';
-    if (offeringArray !== undefined) {
-      offeringArray.forEach((element, index) => {
-        let obj = this.previewRefList.serviceOfferingList.find(x => x.id == element.serviceOfferingId);
-        if (obj !== undefined) {
-          if (index !== 0) {
-            offeringNames = offeringNames + ',' + obj.serviceOffering;
-          } else {
-            offeringNames = obj.serviceOffering;
-          }
-        }
-      });
     }
-    return offeringNames;
-  }
+
+    sendData(ob, file){
+      this.apiService.sendEmail(file, ob, this.previewList.assocName)
+      .subscribe(data => {
+        this.spinner.hide();
+        this.tosterservice.success("Email Sent Successfully !");
+      }, error => {
+        this.spinner.hide();
+        this.tosterservice.error('Issue In Sending Email !');
+      });
+     
+     }
 
   renderPreviewData() {
-    let subDelivery = this.previewRefList.subDeliveryTypeList.find(x => x.id == this.previewList.contractDetals.lkpSubDeliveryId);
-    if (subDelivery !== undefined) {
-      this.previewList.contractDetals['subDeliveryName'] = subDelivery.lookupVal;
-      if (subDelivery.lookupVal == 'PCD') {
-        this.isPCD = true;
-      } else {
-        this.isPCD = false;
+
+    this.previewList['paymentTermsPrev']['cargoBranchCommerciaList'].forEach(elem => {
+      if (elem.type == 'EXGRATIA' || elem.type == 'EX-GRATIA') {
+        this.graciaList.push(elem);
+      } else if (elem.type == 'MG') {
+        this.mgList.push(elem);
       }
-    } else {
-      this.previewList.contractDetals['subDeliveryName'] = '';
-    }
-
-    let statusObj = this.previewRefList.statusList.find(x => x.id == this.previewList.contractDetals.status);
-    if (statusObj !== undefined) {
-      this.previewList.contractDetals['statusName'] = statusObj.lookupVal;
-    } else {
-      this.previewList.contractDetals['statusName'] = '';
-    }
-
-    this.previewList.contractDetals['serviceOffrNames'] = this.displayServiceOffr(this.previewList.contractDetals.serviceOfferings)
-    if (this.previewList['deliveryDeduction']['vehicleDeductionList'] !== undefined) {
-      this.previewList['deliveryDeduction']['vehicleDeductionList'].forEach(elem => {
-        if (elem.type == 'INSURANCE') {
-          this.insuranceList.push(elem);
-        } else if (elem.type == 'EMI') {
-          this.emiList.push(elem);
-        }
-      });
-    }
-    
-    if (this.previewList.deliveryCommercial !== undefined) {
-      if (this.isPCD) {
-        this.previewList['scheduled_Payout'] = this.previewList.deliveryCommercial.find(x => {
-          if(x.customerCommercial){
-           return  x.customerCommercial.find(y => y.dlvryPayoutCtgy == 'SECHEDULED' || y.dlvryPayoutCtgy == 'SCHEDULED');
-          }
-        });
-        this.previewList['safextension_Payout'] = this.previewList.deliveryCommercial.find(x => {
-          if(x.customerCommercial){
-           return x.customerCommercial.find(y => y.dlvryPayoutCtgy == 'SAFEXTENSION' || y.dlvryPayoutCtgy == 'SAFE EXTENSION')
-          }
-        });
-      } else {
-        this.previewList['scheduled_Payout'] = this.previewList.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SECHEDULED' || x.dlvryPayoutCtgy == 'SCHEDULED');
-        this.previewList['safextension_Payout'] = this.previewList.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SAFEXTENSION' || x.dlvryPayoutCtgy == 'SAFE EXTENSION');
-      }
-    } 
-
-    /*------------- get Product Category list ----------- */
-
-    this.apiService.get('secure/v1/deliveryCommercial/productcategory').subscribe(data => {
-      let ob = ErrorConstants.validateException(data);
-      if (ob.isSuccess) {
-        this.categoryList = data.data.responseData;
-
-        /*------------ Get product list for given Category ID of scheduled payout --------------- */
-        if (this.previewList['scheduled_Payout'] !== undefined && this.previewList['scheduled_Payout'].prdctCtgyId) {
-          let categoryObj = this.categoryList.find(x => x.id == this.previewList['scheduled_Payout'].prdctCtgyId);
-          if (categoryObj !== undefined) {
-            this.previewList['scheduled_Payout'].prdctCtgyName = categoryObj.prdctCtgy;
-
-            this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + this.previewList['scheduled_Payout'].prdctCtgyId).subscribe(productData => {
-              let ob = ErrorConstants.validateException(productData);
-              if (ob.isSuccess) {
-                this.scheduledProductList = productData.data.responseData;
-                this.previewList['scheduled_Payout'].productNames = this.getProductNames(this.previewList['scheduled_Payout'].deliveryProductList, this.scheduledProductList);
-              }
-            });
-          }
-        }
-
-        /*------------------ Get product list for scheduled Payout Customers ------- */
-        if (this.previewList['scheduled_Payout'] !== undefined && this.previewList['scheduled_Payout'].customerCommercial.length > 0) {
-          this.previewList['scheduled_Payout'].customerCommercial.forEach(element => {
-            if (element.prdctCtgyId) {
-              let catObj = undefined;
-              catObj = this.categoryList.find(x => x.id == element.prdctCtgyId);
-              if (catObj != undefined) {
-                element.prdctCtgyName = catObj.prdctCtgy;
-
-                this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + element.prdctCtgyId).subscribe(product => {
-                  let ob = ErrorConstants.validateException(product);
-                  if (ob.isSuccess) {
-                    let pData = product.data.responseData;
-                    element['productNames'] = this.getProductNames(element.deliveryProductList, pData);
-                  }
-                });
-              }
-            }
-          });
-        }
-
-        /*------------ Get product list for given Category ID of Safextension payout --------------- */
-        if (this.previewList['safextension_Payout'] !== undefined && this.previewList['safextension_Payout'].prdctCtgyId) {
-          let categoryObj1 = this.categoryList.find(x => x.id == this.previewList['safextension_Payout'].prdctCtgyId);
-          if (categoryObj1 !== undefined) {
-            this.previewList['safextension_Payout'].prdctCtgyName = categoryObj1.prdctCtgy;
-
-            this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + this.previewList['safextension_Payout'].prdctCtgyId).subscribe(productData => {
-              let ob = ErrorConstants.validateException(productData);
-              if (ob.isSuccess) {
-                this.safextensionProductList = productData.data.responseData;
-                this.previewList['safextension_Payout'].productNames = this.getProductNames(this.previewList['safextension_Payout'].deliveryProductList, this.safextensionProductList);
-              }
-            })
-          }
-        }
-
-        /*------------------ Get product list for Safextention Payout Customers ------- */
-        if (this.previewList['safextension_Payout'] !== undefined && this.previewList['safextension_Payout'].customerCommercial.length > 0) {
-          this.previewList['safextension_Payout'].customerCommercial.forEach(elem => {
-            if (elem.prdctCtgyId) {
-              let catObjSafex = undefined;
-              catObjSafex = this.categoryList.find(x => x.id == elem.prdctCtgyId);
-              if (catObjSafex != undefined) {
-                elem.prdctCtgyName = catObjSafex.prdctCtgy;
-
-                this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + elem.prdctCtgyId).subscribe(product => {
-                  let ob = ErrorConstants.validateException(product);
-                  if (ob.isSuccess) {
-                    let pDataSafex = product.data.responseData;
-                    elem['productNames'] = this.getProductNames(elem.deliveryProductList, pDataSafex);
-                  }
-                });
-              }
-            }
-          });
-        }
-
-      }
-    })
-
-    if (this.previewList['generalTerms']['deliveryBranchCommercialList'] !== undefined) {
-      this.previewList['generalTerms']['deliveryBranchCommercialList'].forEach(elem => {
-        if (elem.branchType == 'Gratia' || elem.branchType == 'EX-GRATIA') {
-          this.graciaList.push(elem);
-        } else if (elem.branchType == 'MG') {
-          this.mgList.push(elem);
-        }
-      });
-    }
+    });
     this.spinner.hide();
-    console.log('preview 2', this.previewList)
+    console.log('preview', this.previewList)
   }
 
   /*--------- Open Edit preview Dialog ------- */
@@ -1130,57 +992,6 @@ export class PreviewComponent implements OnInit {
     });
   }
 
-  /*----------- get Payment Scenario --------- */
-  getPaymentScenario(lkpAssocDlvryPayoutOptId) {
-    let paymentScenario = '';
-    if (this.previewRefList && this.previewRefList.assocDeliveryPayOutOptionList !== undefined) {
-      var scenarioObj = this.previewRefList.assocDeliveryPayOutOptionList.find(x => x.id == lkpAssocDlvryPayoutOptId);
-      if (scenarioObj !== undefined) {
-        switch (scenarioObj.lookupVal) {
-          case "WEIGHT BASIS":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PER TRIP":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PER WAYBILL":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PRODUCT SPECIFIC":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-        }
-      }
-      return paymentScenario;
-    }
-  }
-
-  /*---------- get product names for Product specific scenario  -------- */
-  getProductNames(selectedPrductArray, productList) {
-    let productNames = '';
-    if (selectedPrductArray !== undefined) {
-      selectedPrductArray.forEach((element, index) => {
-        let obj = productList.find(x => x.id == element.productId);
-        if (obj !== undefined) {
-          if (index !== 0) {
-            productNames = productNames + ',' + obj.prdctName;
-          } else {
-            productNames = obj.prdctName;
-          }
-        }
-      });
-    }
-    return productNames;
-  }
-  /*----- Go to Doument Upload page ---------- */
-  back($event) {
-    $event.preventDefault();
-    if (this.editflow) {
-      this.router.navigate(['/asso_delivery-contract/booking-document', { steper: true, editflow: this.editflow }], { skipLocationChange: true });
-    } else {
-      this.router.navigate(['/asso_delivery-contract/booking-document'], { skipLocationChange: true });
-    }
-  }
 
 }
 
@@ -1200,20 +1011,15 @@ export class EditPreviewComponent implements OnInit {
   previewRefList: any;
   graciaList: any = [];
   mgList: any = [];
-  insuranceList: any = [];
-  emiList: any = [];
-  isPCD: boolean;
-  categoryList: any = [];
-  scheduledProductList: any = [];
-  safextensionProductList: any = [];
-  currentDt: string;
+  perList: any = [];
+  myDate = new Date();
+  currDate: string;
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
     elementIdOrContent: 'previewContent', // the id of html/table element
   }
-  perList: any = [];
 
-  customerName: string = AppSetting.customerName;
+  customerName: String = AppSetting.customerName;
   constructor(public dialogRef: MatDialogRef<EditPreviewComponent>,
     private spinner: NgxSpinnerService,
     private apiService: ApiService,
@@ -1222,28 +1028,25 @@ export class EditPreviewComponent implements OnInit {
     private router: Router,
     private activeRoute: ActivatedRoute,
     private confirmDialog: MatDialog,
-    private datePipe: DatePipe,
-    private exportAsService: ExportAsService,
     private authorizationService: AuthorizationService,
-    private permissionsService: NgxPermissionsService) { }
+    private datePipe: DatePipe,
+    private permissionsService: NgxPermissionsService,
+    private exportAsService: ExportAsService) { }
 
   ngOnInit() {
-
     this.authorizationService.setPermissions('CONTRACT');
     this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
     this.permissionsService.loadPermissions(this.perList);
     console.log('perlist', this.perList)
-
     this.activeRoute.params.subscribe(params => {
       if (params['editflow']) {
         this.editflow = params['editflow'];
       }
+      this.currDate = this.datePipe.transform(this.myDate, 'MM-dd-yyyy');
     });
 
-    this.currentDt = this.datePipe.transform(new Date(), 'MM-dd-yyyy');
-
     this.spinner.show();
-    this.apiService.get(`secure/v1/deliverypreview/editpreview/${AppSetting.contractId}`).subscribe((suc) => {
+    this.apiService.get(`secure/v1/cargocontractpreview/editpreview/${AppSetting.contractId}`).subscribe((suc) => {
       if (suc.data && suc.data.responseData) {
         console.log('res', suc)
         this.previewList = suc.data.responseData;
@@ -1260,270 +1063,34 @@ export class EditPreviewComponent implements OnInit {
     });
   }
 
+  //  closePreview() {
+  //   this.router.navigate(['/asso_cargo-contract/booking-document'], {skipLocationChange: true}); 
+  //   }
+
   closePreview($event) {
     $event.preventDefault();
     if (this.editflow) {
-      this.router.navigate(['/asso_delivery-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+      this.router.navigate(['/asso_cargo-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
     } else {
-      this.router.navigate(['/asso_delivery-contract/booking-document'], { skipLocationChange: true });
+      this.router.navigate(['/asso_cargo-contract/booking-document'], { skipLocationChange: true });
     }
   }
+
   renderEditPreviewData() {
-    let subDelivery = this.previewRefList.subDeliveryTypeList.find(x => x.id == this.previewList.contractDetals.lkpSubDeliveryId);
-    if (subDelivery !== undefined) {
-      this.previewList.contractDetals['subDeliveryName'] = subDelivery.lookupVal;
-      if (subDelivery.lookupVal == 'PCD') {
-        this.isPCD = true;
-      } else {
-        this.isPCD = false;
+
+  if(this.previewList.paymentTermsPrev.cargoBranchCommerciaList){
+    this.previewList['paymentTermsPrev']['cargoBranchCommerciaList'].forEach(elem => {
+      if (elem.type == 'EXGRATIA' || elem.type == 'EX-GRATIA') {
+        this.graciaList.push(elem);
+      } else if (elem.type == 'MG') {
+        this.mgList.push(elem);
       }
-    } else {
-      this.previewList.contractDetals['subDeliveryName'] = '';
-    }
-
-    let statusObj = this.previewRefList.statusList.find(x => x.id == this.previewList.contractDetals.status);
-    if (statusObj !== undefined) {
-      this.previewList.contractDetals['statusName'] = statusObj.lookupVal;
-    } else {
-      this.previewList.contractDetals['statusName'] = '';
-    }
-
-    this.previewList.contractDetals['serviceOffrNames'] = this.displayServiceOffr(this.previewList.contractDetals.serviceOfferings);
-
-    if (this.previewList['deliveryDeduction']['vehicleDeductionList'] !== undefined) {
-      this.previewList['deliveryDeduction']['vehicleDeductionList'].forEach(elem => {
-        if (elem.type == 'INSURANCE') {
-          this.insuranceList.push(elem);
-        } else if (elem.type == 'EMI') {
-          this.emiList.push(elem);
-        }
-      });
-    }
-
-    // if (this.previewList.deliveryCommercial !== undefined) {
-    //   this.previewList['scheduled_Payout'] = this.previewList.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SECHEDULED' || x.dlvryPayoutCtgy == 'SCHEDULED');
-    //   this.previewList['safextension_Payout'] = this.previewList.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SAFEXTENSION' || x.dlvryPayoutCtgy == 'SAFE EXTENSION');
-    // }
-
-    // /*------------- get Product Category list ----------- */
-
-    // this.apiService.get('secure/v1/deliveryCommercial/productcategory').subscribe(data => {
-    //   let ob = ErrorConstants.validateException(data);
-    //   if (ob.isSuccess) {
-    //     this.categoryList = data.data.responseData;
-
-    //     /*------------ Get product list for given Category ID of scheduled payout --------------- */
-    //     if (this.previewList['scheduled_Payout'] !== undefined && this.previewList['scheduled_Payout'].prdctCtgyId) {
-    //       let categoryObj = this.categoryList.find(x => x.id == this.previewList['scheduled_Payout'].prdctCtgyId);
-    //       if (categoryObj !== undefined) {
-    //         this.previewList['scheduled_Payout'].prdctCtgyName = categoryObj.prdctCtgy;
-
-    //         this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + this.previewList['scheduled_Payout'].prdctCtgyId).subscribe(productData => {
-    //           let ob = ErrorConstants.validateException(productData);
-    //           if (ob.isSuccess) {
-    //             this.scheduledProductList = productData.data.responseData;
-    //             this.previewList['scheduled_Payout'].productNames = this.getProductNames(this.previewList['scheduled_Payout'].deliveryProductList, this.scheduledProductList);
-    //           }
-    //         })
-    //       }
-    //     }
-
-    //     /*------------ Get product list for given Category ID of Safextension payout --------------- */
-    //     if (this.previewList['safextension_Payout'] !== undefined && this.previewList['safextension_Payout'].prdctCtgyId) {
-    //       let categoryObj1 = this.categoryList.find(x => x.id == this.previewList['safextension_Payout'].prdctCtgyId);
-    //       if (categoryObj1 !== undefined) {
-    //         this.previewList['safextension_Payout'].prdctCtgyName = categoryObj1.prdctCtgy;
-
-    //         this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + this.previewList['safextension_Payout'].prdctCtgyId).subscribe(productData => {
-    //           let ob = ErrorConstants.validateException(productData);
-    //           if (ob.isSuccess) {
-    //             this.safextensionProductList = productData.data.responseData;
-    //             this.previewList['safextension_Payout'].productNames = this.getProductNames(this.previewList['safextension_Payout'].deliveryProductList, this.safextensionProductList);
-    //           }
-    //         })
-    //       }
-    //     }
-    //   }
-    // })
-
-    if (this.previewList.deliveryCommercial !== undefined) {
-      if (this.isPCD) {
-        this.previewList['scheduled_Payout'] = this.previewList.deliveryCommercial.find(x => {
-          if(x.customerCommercial){
-           return  x.customerCommercial.find(y => y.dlvryPayoutCtgy == 'SECHEDULED' || y.dlvryPayoutCtgy == 'SCHEDULED');
-          }
-        });
-        this.previewList['safextension_Payout'] = this.previewList.deliveryCommercial.find(x => {
-          if(x.customerCommercial){
-           return x.customerCommercial.find(y => y.dlvryPayoutCtgy == 'SAFEXTENSION' || y.dlvryPayoutCtgy == 'SAFE EXTENSION')
-          }
-        });
-      } else {
-        this.previewList['scheduled_Payout'] = this.previewList.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SECHEDULED' || x.dlvryPayoutCtgy == 'SCHEDULED');
-        this.previewList['safextension_Payout'] = this.previewList.deliveryCommercial.find(x => x.dlvryPayoutCtgy == 'SAFEXTENSION' || x.dlvryPayoutCtgy == 'SAFE EXTENSION');
-      }
-    } 
-
-    /*------------- get Product Category list ----------- */
-
-    this.apiService.get('secure/v1/deliveryCommercial/productcategory').subscribe(data => {
-      let ob = ErrorConstants.validateException(data);
-      if (ob.isSuccess) {
-        this.categoryList = data.data.responseData;
-
-        /*------------ Get product list for given Category ID of scheduled payout --------------- */
-        if (this.previewList['scheduled_Payout'] !== undefined && this.previewList['scheduled_Payout'].prdctCtgyId) {
-          let categoryObj = this.categoryList.find(x => x.id == this.previewList['scheduled_Payout'].prdctCtgyId);
-          if (categoryObj !== undefined) {
-            this.previewList['scheduled_Payout'].prdctCtgyName = categoryObj.prdctCtgy;
-
-            this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + this.previewList['scheduled_Payout'].prdctCtgyId).subscribe(productData => {
-              let ob = ErrorConstants.validateException(productData);
-              if (ob.isSuccess) {
-                this.scheduledProductList = productData.data.responseData;
-                this.previewList['scheduled_Payout'].productNames = this.getProductNames(this.previewList['scheduled_Payout'].deliveryProductList, this.scheduledProductList);
-              }
-            });
-          }
-        }
-
-        /*------------------ Get product list for scheduled Payout Customers ------- */
-        if (this.previewList['scheduled_Payout'] !== undefined && this.previewList['scheduled_Payout'].customerCommercial.length > 0) {
-          this.previewList['scheduled_Payout'].customerCommercial.forEach((element, i) => {
-            console.log('i', i);
-            if (element.prdctCtgyId) {
-              let catObj = undefined;
-              catObj = this.categoryList.find(x => x.id == element.prdctCtgyId);
-              if (catObj != undefined) {
-                element.prdctCtgyName = catObj.prdctCtgy;
-
-                this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + element.prdctCtgyId).subscribe(product => {
-                  let ob = ErrorConstants.validateException(product);
-                  if (ob.isSuccess) {
-                    let pData = product.data.responseData;
-                    element['productNames'] = this.getProductNames(element.deliveryProductList, pData);
-                  }
-                });
-              }
-            }
-          });
-        }
-
-        /*------------ Get product list for given Category ID of Safextension payout --------------- */
-        if (this.previewList['safextension_Payout'] !== undefined && this.previewList['safextension_Payout'].prdctCtgyId) {
-          let categoryObj1 = this.categoryList.find(x => x.id == this.previewList['safextension_Payout'].prdctCtgyId);
-          if (categoryObj1 !== undefined) {
-            this.previewList['safextension_Payout'].prdctCtgyName = categoryObj1.prdctCtgy;
-
-            this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + this.previewList['safextension_Payout'].prdctCtgyId).subscribe(productData => {
-              let ob = ErrorConstants.validateException(productData);
-              if (ob.isSuccess) {
-                this.safextensionProductList = productData.data.responseData;
-                this.previewList['safextension_Payout'].productNames = this.getProductNames(this.previewList['safextension_Payout'].deliveryProductList, this.safextensionProductList);
-              }
-            })
-          }
-        }
-
-        /*------------------ Get product list for Safextention Payout Customers ------- */
-        if (this.previewList['safextension_Payout'] !== undefined && this.previewList['safextension_Payout'].customerCommercial.length > 0) {
-          this.previewList['safextension_Payout'].customerCommercial.forEach(elem => {
-            if (elem.prdctCtgyId) {
-              let catObjSafex = undefined;
-              catObjSafex = this.categoryList.find(x => x.id == elem.prdctCtgyId);
-              if (catObjSafex != undefined) {
-                elem.prdctCtgyName = catObjSafex.prdctCtgy;
-
-                this.apiService.get('secure/v1/deliveryCommercial/productcategory/' + elem.prdctCtgyId).subscribe(product => {
-                  let ob = ErrorConstants.validateException(product);
-                  if (ob.isSuccess) {
-                    let pDataSafex = product.data.responseData;
-                    elem['productNames'] = this.getProductNames(elem.deliveryProductList, pDataSafex);
-                  }
-                });
-              }
-            }
-          });
-        }
-
-      }
-    })
-
-
-    if (this.previewList['generalTerms']['deliveryBranchCommercialList'] !== undefined) {
-      this.previewList['generalTerms']['deliveryBranchCommercialList'].forEach(elem => {
-        if (elem.branchType == 'Gratia' || elem.branchType == 'EX-GRATIA') {
-          this.graciaList.push(elem);
-        } else if (elem.branchType == 'MG') {
-          this.mgList.push(elem);
-        }
-      });
-    }
-    this.spinner.hide();
+    });
+  }
     console.log('preview', this.previewList)
   }
 
-  /*---------- return service offerings -------- */
-  displayServiceOffr(offeringArray) {
-    let offeringNames = '';
-    if (offeringArray !== undefined) {
-      offeringArray.forEach((element, index) => {
-        let obj = this.previewRefList.serviceOfferingList.find(x => x.id == element.serviceOfferingId);
-        if (obj !== undefined) {
-          if (index !== 0) {
-            offeringNames = offeringNames + ',' + obj.serviceOffering;
-          } else {
-            offeringNames = obj.serviceOffering;
-          }
-        }
-      });
-    }
-    return offeringNames;
-  }
-
-  /*----------- get Payment Scenario --------- */
-  getPaymentScenario(lkpAssocDlvryPayoutOptId) {
-    let paymentScenario = '';
-    if (this.previewRefList && this.previewRefList.assocDeliveryPayOutOptionList !== undefined) {
-      var scenarioObj = this.previewRefList.assocDeliveryPayOutOptionList.find(x => x.id == lkpAssocDlvryPayoutOptId);
-      if (scenarioObj !== undefined) {
-        switch (scenarioObj.lookupVal) {
-          case "WEIGHT BASIS":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PER TRIP":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PER WAYBILL":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-          case "PRODUCT SPECIFIC":
-            paymentScenario = scenarioObj.lookupVal;
-            break;
-        }
-      }
-      return paymentScenario;
-    }
-  }
-
-  /*---------- get product names for Product specific scenario  -------- */
-  getProductNames(selectedPrductArray, productList) {
-    let productNames = '';
-    if (selectedPrductArray !== undefined) {
-      selectedPrductArray.forEach((element, index) => {
-        let obj = productList.find(x => x.id == element.productId);
-        if (obj !== undefined) {
-          if (index !== 0) {
-            productNames = productNames + ',' + obj.prdctName;
-          } else {
-            productNames = obj.prdctName;
-          }
-        }
-      });
-    }
-    return productNames;
-  }
-
+ 
   /*---------- On close dialog ------- */
   onCloseEditPreview() {
     const dialogRefConfirm = this.confirmDialog.open(confimationdialog, {
@@ -1541,6 +1108,7 @@ export class EditPreviewComponent implements OnInit {
       }
     });
   }
+
 
   sendEmail() {
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData
@@ -1595,7 +1163,7 @@ export class EditPreviewComponent implements OnInit {
             if (v.getAttribute("data-page") || doc.autoTableEndPosY() > 450) {
               doc.text(h3, 10, 45);
             } else {
-              if (h3 == "Delivery Associate Contract") {
+              if (h3 == "Cargo Associate Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
               } else {
@@ -1677,7 +1245,7 @@ export class EditPreviewComponent implements OnInit {
             }
 
             // track individula tables
-            if (v.id == "Delivery Associate Contract") {
+            if (v.id == "Cargo Associate Contract") {
               tblMgn = 100;
             }
             if (
@@ -1712,7 +1280,7 @@ export class EditPreviewComponent implements OnInit {
             if (v.getAttribute("class").includes("rateCardTble")) {
               tblMgn = 26;
             }
-            if (v.id == "Allocation") {
+            if (v.id == "Allocation" ) {
               tblMgn = 50;
             }
             if (v.getAttribute("class").includes("general")) {
@@ -1856,6 +1424,33 @@ export class EditPreviewComponent implements OnInit {
                   lineColor: white,
                   columnWidth: 86,
                 },
+              };
+            } else if (v.getAttribute("class").includes("branch")) {
+              cs = {
+                0: {
+                  fillColor: green,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                },
+                1: {
+                  fillColor: grey,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                },
+                2: {
+                  fillColor: grey,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                },
+                3: {
+                  fillColor: grey,
+                  textColor: blk,
+                  lineColor: white,
+                  columnWidth: 107.5,
+                }
               };
             } else if (v.getAttribute("class").includes("sixCol")) {
               cs = {
@@ -2115,7 +1710,7 @@ export class EditPreviewComponent implements OnInit {
                 },
               };
             } else if (
-              v.id == "Delivery Associate Contract" ||
+              v.id == "Cargo Associate Contract" ||
               v.getAttribute("class").includes("billingTwo")
             ) {
               cs = {
@@ -2234,7 +1829,7 @@ export class EditPreviewComponent implements OnInit {
               });
             } else {
               let startY = doc.autoTableEndPosY() + tblMgn;
-              if (v.id == "Delivery Associate Contract") {
+              if (v.id == "Cargo Associate Contract") {
                 startY = 70;
               }
               doc.autoTable(res.columns, res.data, {
@@ -2350,48 +1945,44 @@ export class EditPreviewComponent implements OnInit {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return local.toJSON().slice(0, 10);
 }
-  b64toBlob(dataURI) {
+
+   b64toBlob(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
-      ia[i] = byteString.charCodeAt(i);
+        ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: 'application/pdf' });
-  }
+    }
 
-  sendData(ob, file){
-    this.apiService.sendEmail(file, ob, this.previewList.assocName)
-    .subscribe(data => {
-      this.spinner.hide();
-      this.tosterservice.success("Email Sent Successfully !");
-    }, error => {
-      this.spinner.hide();
-      this.tosterservice.error('Issue In Sending Email !');
-    });
-   
-   }
-
+    sendData(ob, file){
+      this.apiService.sendEmail(file, ob, this.previewList.assocName)
+      .subscribe(data => {
+        this.spinner.hide();
+        this.tosterservice.success("Email Sent Successfully !");
+      }, error => {
+        this.spinner.hide();
+        this.tosterservice.error('Issue In Sending Email !');
+      });
+     
+     }
   /*---------- on submit prview open success page ------------ */
   submitContract() {
     this.spinner.show();
-    this.apiService.put(`secure/v1/deliverycontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
+    this.apiService.put(`secure/v1/cargocontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
       console.log(suc.data.responseData);
       let ob = ErrorConstants.validateException(suc);
       if (ob.isSuccess) {
         this.spinner.hide();
         AppSetting.sfxCode = suc.data.responseData;
-        // this.router.navigate(['/asso_delivery-contract/success'])
-        const succDialog = this.dialog.open(SuccessComponent, {
+        this.dialogRef.close();
+        this.dialog.open(SuccessComponent, {
+          data: { id: true },
           disableClose: true,
           panelClass: 'mat-dialog-responsive',
-          data: { editflow: true },
           width: '64rem'
         });
-
-        succDialog.afterClosed().subscribe(data => {
-          this.dialog.closeAll();
-        })
 
       } else {
         this.tosterservice.error(ob.message);
@@ -2401,5 +1992,7 @@ export class EditPreviewComponent implements OnInit {
       this.spinner.hide();
       this.tosterservice.error('Issue in generating Associate Contract Code.');
     });
+
   }
+
 }
