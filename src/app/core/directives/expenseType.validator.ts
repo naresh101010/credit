@@ -6,8 +6,7 @@ export function NumericValidator(): ValidatorFn {
       return { 'expenseType': 'Value is Invalid' }
     } else {
       return null;
-    }
-    return
+    }    
   };
   
 }
