@@ -217,8 +217,12 @@ export class BookingSlaComponent implements OnInit {
     if(this.deductionForm.value.expDt){
       finalDeductionData.expDt =  this.datePipe.transform(this.deductionForm.value.expDt, 'yyyy-MM-dd');
     }
-    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd') : '';
-    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd') : '';
+    if(finalDeductionData.advncDedctnAmtFlag == 1){
+      finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd');
+      finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd');
+    }
+    // finalDeductionData.advncDedctnAmtFlag == 1 ? 
+    // finalDeductionData.advncDedctnAmtFlag == 1 ? 
 
     for(let i=0; i< finalDeductionData.cargoSlas.length; i++){
       if(finalDeductionData.cargoSlas[i].id === 0){
@@ -233,7 +237,10 @@ export class BookingSlaComponent implements OnInit {
       if(this.deductionData.status)
         finalDeductionData.status = this.deductionData.status; 
     }
-    (this.editflow && this.deductionForm.dirty) ? finalDeductionData.status = AppSetting.editStatus : '';
+    if(this.editflow && this.deductionForm.dirty){
+      finalDeductionData.status = AppSetting.editStatus
+    }
+  
  
    this.spinner.show();
    console.log('Final Deduction', finalDeductionData);
