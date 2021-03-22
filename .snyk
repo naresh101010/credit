@@ -1,0 +1,10 @@
+# Snyk (https://snyk.io) policy file, patches or ignores known vulnerabilities.
+version: v1.19.0
+ignore: {}
+# patches apply the minimum changes required to fix a vulnerability
+patch:
+  SNYK-JS-LODASH-567746:
+    - '@angular-builders/custom-webpack > lodash':
+        patched: '2021-03-22T12:54:27.650Z'
+    - '@angular-builders/custom-webpack > webpack-merge > lodash':
+        patched: '2021-03-22T12:54:27.650Z'
