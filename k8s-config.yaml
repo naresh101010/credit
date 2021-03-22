@@ -1,15 +1,15 @@
 apiVersion: apps/v1    
 kind: Deployment    
 metadata:    
-  name: assoc-cntr-airfreight-ui
+  name: assoc-cntr-network-ui
   namespace: uiapps
   labels:    
-    app: assoc-cntr-airfreight-ui  
+    app: assoc-cntr-network-ui  
 spec:    
-  replicas: 1    
+  replicas: 2    
   selector:    
     matchLabels:    
-      app: assoc-cntr-airfreight-ui 
+      app: assoc-cntr-network-ui 
   strategy:    
     rollingUpdate:    
       maxSurge: 25%    
@@ -18,12 +18,12 @@ spec:
   template:    
     metadata:    
       labels:    
-        app: assoc-cntr-airfreight-ui      
+        app: assoc-cntr-network-ui      
     spec:    
       containers:    
-      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/assoc-cntr-airfreight-ui:BUILDNUMBER    
+      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/assoc-cntr-network-ui:BUILDNUMBER    
         imagePullPolicy: Always    
-        name: assoc-cntr-airfreight-ui   
+        name: assoc-cntr-network-ui   
         ports:    
         - containerPort: 80    
           protocol: TCP    
@@ -34,7 +34,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: Gateway   
 metadata:   
-  name: assoc-cntr-airfreight-ui 
+  name: assoc-cntr-network-ui 
 spec:   
   selector:   
     istio: pvt-ingressgateway # use istio default controller   
@@ -50,16 +50,16 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: VirtualService   
 metadata:   
-  name: assoc-cntr-airfreight-ui
+  name: assoc-cntr-network-ui
 spec:   
   hosts:   
   - "*"   
   gateways:   
-  - assoc-cntr-airfreight-ui   
+  - assoc-cntr-network-ui   
   http:   
   - match:   
     route:   
     - destination:   
-        host: assoc-cntr-airfreight-ui  
+        host: assoc-cntr-network-ui  
         port:   
           number: 80

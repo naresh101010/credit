@@ -51,18 +51,15 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
     this.authorizationService.setPermissions('CONTRACT');
     this.perList = this.perList.concat(this.authorizationService.getPermissions('CONTRACT'));
     this.permissionsService.loadPermissions(this.perList);
-    console.log('Per list', this.perList)
-    this.apiCallForActiveData();
     this.spinner.show();
-  //  this.appservice.getActiveAssociates()
-    
+    this.apiCallForActiveData();
   }
 
   apiCallForActiveData() {
     this.appservice.get("secure/v1/associates/status/1")
     .subscribe((suc)=>{
       console.log('suc', suc);
-      
+      // this.spinner.hide();
       this.associateListActive=suc.data.responseData;
       this.assocDeptListActive = suc.data.referenceData.assocDeptList;
       this.tempData1 = this.associateListActive;
@@ -80,13 +77,11 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
   apiCallForInactiveData() {
     this.appservice.get("secure/v1/associates/status/0")
     .subscribe((suc)=>{
-      // this.spinner.hide();
       this.associateListInactive=suc.data.responseData;
       this.assocDeptListInactive = suc.data.referenceData.assocDeptList;
       this.tempData = this.tempData1.concat(this.associateListInactive)
       this.assocDeptListTemp = this.assocDeptListActive.concat(this.assocDeptListInactive);
       this.dataSource = new MatTableDataSource(this.tempData);
-      console.log('this datasource>>', this.dataSource);
       this.assocDeptList = this.assocDeptListTemp;
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
@@ -121,7 +116,7 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
   }
 
   openContractUpdateModal() {
-    let dialog = this.dialog.open(ContractUpdateComponent, {
+   this.dialog.open(ContractUpdateComponent, {
       width: '50vw',
       panelClass: 'mat-dialog-responsive',
       disableClose: true
@@ -141,9 +136,9 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
 
   edditAssociateContract(data)
   {
-    console.log(data,data.id);
+    //console.log(data,data.id);
     AppSetting.associateId=data.id;
-    this.router.navigate(['/asso_air-contract/create-associate'], {skipLocationChange: true});
+    this.router.navigate(['/asso_network-contract/create-associate'], {skipLocationChange: true});
 
   }
 
@@ -152,10 +147,10 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
 
    ShowAssociateContract(data)
    {
-     console.log(data,data.id);
+     //console.log(data,data.id);
      AppSetting.associateId=data.id;
      let id=data.id;
-     this.router.navigate(['/asso_air-contract/create-associate',  {id:id} ], {skipLocationChange: true});
+     this.router.navigate(['/asso_network-contract/create-associate',  {id:id} ], {skipLocationChange: true});
    }
 
  //------------------------NEW Associate contract------------------//
@@ -163,7 +158,7 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
   addNewAssociateContract()
   {
     AppSetting.associateId=null;
-    this.router.navigate(['/asso_air-contract/create-associate'], {skipLocationChange: true});
+    this.router.navigate(['/asso_network-contract/create-associate'], {skipLocationChange: true});
   }
 
   /*------------ open contract page ------------ */
@@ -171,7 +166,7 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
     AppSetting.associateId = data.id;
     AppSetting.contractId = null;
     AppSetting.associateObject = data;
-    this.router.navigate(['/asso_air-contract/assign-associate'], {skipLocationChange: true});
+    this.router.navigate(['/asso_network-contract/assign-associate'], {skipLocationChange: true});
   }
 
  

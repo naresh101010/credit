@@ -13,7 +13,6 @@ import { AuthorizationService } from '../../core/services/authorization.service'
 import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 import { BehaviorSubject } from 'rxjs-compat/BehaviorSubject';
 
-
 @Component({
   selector: 'app-vehicle-document',
   templateUrl: './vehicle-document.component.html',
@@ -153,7 +152,7 @@ export class VehicleDocumentComponent implements OnInit {
         lkpDocSubtypeId : this.fileModel.subTypeId
     }
 
-      console.log("testRequest : ", requestData);
+      //console.log("testRequest : ", requestData);
       this.apiSer.postDocumentUploadDetail(requestData, this.fileToUpload)
         .subscribe(data => {
           this.toaster.success("Saved Successfully");
@@ -166,7 +165,7 @@ export class VehicleDocumentComponent implements OnInit {
           this.getDocumentDetailbyId();
         }, error => {
           this.toaster.error(ErrorConstants.errorNotFound);
-          console.log(error);
+          //console.log(error);
           this.spinner.hide();
         });
     } else {
@@ -248,7 +247,7 @@ export class VehicleDocumentComponent implements OnInit {
   // To get the list of sub documents type on change of document type dropdown
   subTypeList //for subDocumentType dropdown
   subDocTypeData() {
-    console.log(this.fileModel.docTypeId, "selected doc type id");
+    //console.log(this.fileModel.docTypeId, "selected doc type id");
 
     if (this.fileModel.docTypeId == 'undefined' || this.fileModel.docTypeId == null || this.fileModel.docTypeId == '') {
       //do not hit the service and set the subtype list as empty
@@ -309,10 +308,10 @@ export class VehicleDocumentComponent implements OnInit {
   swapOffToggleButton() {
     this.uploadedFileName = '';
     if (!this.isToggle) {
-      console.log("on");
+      //console.log("on");
       this.isToggle = true;
     } else {
-      console.log("off");
+      //console.log("off");
       this.isToggle = false;
     }
   }
@@ -375,7 +374,7 @@ export class VehicleDocumentComponent implements OnInit {
     if (fileName && fileName.length < 51) {
       var blnValid = false;
       var ext = fileName.substr(fileName.lastIndexOf("."), fileName.length);
-      console.log(ext, "file extension");
+      //console.log(ext, "file extension");
       for (var j = 0; j < this.validFileExtensions.length; j++) {
         var valExtension = this.validFileExtensions[j];
         if (ext.toLowerCase() == valExtension.toLowerCase()) {
@@ -411,9 +410,9 @@ export class VehicleDocumentComponent implements OnInit {
 
     dialog.afterClosed().subscribe(res => {
       if(res) {
-        this.router.navigate(['/asso_air-contract/associate-staff'], {skipLocationChange: true})
+        this.router.navigate(['/asso_network-contract/associate-staff'], {skipLocationChange: true})
       } else {
-        this.router.navigate(['/asso_air-contract/asso_air'], {skipLocationChange: true})
+        this.router.navigate(['/asso_network-contract/asso_network'], {skipLocationChange: true})
       }
     })
   }

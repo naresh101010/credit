@@ -1,42 +1,30 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource } from '@angular/material';
+import { Component, OnInit, Inject ,ViewChild} from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatTableDataSource ,MatSort} from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/core/services/api.service';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-assign-vehicle',
-  templateUrl: './assign-vehicle.component.html'
+  templateUrl: './assign-vehicle.component.html',
+  styleUrls: ['./assign-vehicle.component.css'],
+  providers: [DatePipe]
 })
 export class AssignVehicleComponent implements OnInit {
-  displayedColumns: string[] = ['vehicleNumber', 'vehicleModel', 'vehicleTonnge'];
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  displayedColumns: string[] = ['vehicleNumber', 'vehicleModel', 'vehicleTonnge','HeightLengthWidth'];
   dataSource: any;
   allVehicle = [];
-  perList: any =[];
-  exAttrMap = new Map();
-  exAttrKeyList =  [];
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, public router: Router, private toast: ToastrService, public dialogRef: MatDialogRef<AssignVehicleComponent>,
-              private authorizationService : AuthorizationService,
-              private permissionsService: NgxPermissionsService) { }
+  arrayNeedToDelete=[];
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, public router: Router, private toast: ToastrService,
+   public dialogRef: MatDialogRef<AssignVehicleComponent>, private datePipe: DatePipe) { }
 
   ngOnInit() {
-
-    this.authorizationService.setPermissions('VEHICLE');
-    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
-    this.authorizationService.setPermissions('BRANCH');
-    this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
-    this.permissionsService.loadPermissions(this.perList);
-    this.exAttrMap = this.authorizationService.getExcludedAttributes('ASSIGN VEHICLE');
-    this.exAttrKeyList = Array.from(this.exAttrMap.values());
-    console.log('Attribute List', this.exAttrKeyList);
-    console.log('perlist',this.perList)
-
     let addArrElement = [];
-    if (this.data.obj.assocBranchVehicles && this.data.obj.assocBranchVehicles.length) {
-      const tempAssBranch = this.data.obj.assocBranchVehicles;
+    if (this.data.obj.nrmAssignVehicles && this.data.obj.nrmAssignVehicles.length) {
+      const tempAssBranch = this.data.obj.nrmAssignVehicles;
       tempAssBranch.forEach(element => {
         this.data.tempVehicle.forEach(objTemp => {
           if (objTemp.vehicleId == element.vehicleId) {
@@ -48,16 +36,32 @@ export class AssignVehicleComponent implements OnInit {
           }
         });
       });
+    
       addArrElement = tempAssBranch.filter(newObj => !newObj.exist);
     }
-    this.allVehicle = [... this.data.tempVehicle, ...addArrElement];    
-    this.dataSource = new MatTableDataSource(this.allVehicle);
+    console.log("vehicleTypeStatus-->",this.data.vehicleTypeStatus,"addArrElement-->",addArrElement,"this.data.tempVehicle--->",this.data.tempVehicle)
+  
+    this.allVehicle = [... this.data.tempVehicle, ...addArrElement]; 
+    let displayVehicles = this.filterActiveVehicles(this.allVehicle);   
+    this.dataSource = new MatTableDataSource(displayVehicles);
+    this.arrayNeedToDelete =   this.allVehicle.filter((item)=>{ return item.vendorMktFlag != this.data.vehicleTypeStatus });
+   if(this.arrayNeedToDelete.length >0)
+   { 
+     let message=this.data.vehicleTypeStatus ?`Vehicle Number  ${this.arrayNeedToDelete.map((item)=>{return item.vehicleNumber}).toString()},Not Alllowed For Market Contract, Please Remove!`:`Vehicle Number ${this.arrayNeedToDelete.map((item)=>{return item.vehicleNumber}).toString()},Not Alllowed For Scheduled Contract,Please Remove!`;   
+     this.toast.info(message);
+   }
+
   }
 
   addVehicle() {
-    let checkedVehicle = this.allVehicle.filter(obj => obj.checked);
-    this.data.obj.assocBranchVehicles = checkedVehicle;
-    this.dialogRef.close({ 'checkedVehicle': checkedVehicle, 'obj': this.data.obj })
+    if(this.arrayNeedToDelete.filter((obj) => { return obj.checked == true}).length == 0){
+      let checkedVehicle = this.allVehicle.filter(obj => obj.checked);
+      this.data.obj.nrmAssignVehicles = checkedVehicle;
+      this.dialogRef.close({ 'checkedVehicle': checkedVehicle, 'obj': this.data.obj })
+    }else{
+      let message= this.data.vehicleTypeStatus ?`Vehicle Number  ${this.arrayNeedToDelete.map((item)=>{return item.vehicleNumber}).toString()},Not Alllowed For Market Contract, Please Remove!`:`Vehicle Number ${this.arrayNeedToDelete.map((item)=>{return item.vehicleNumber}).toString()},Not Alllowed For Scheduled Contract,Please Remove!`;   
+      this.toast.info(message);
+    }
   }
   checkedAll(event){
     if(event){
@@ -67,8 +71,44 @@ export class AssignVehicleComponent implements OnInit {
     }
   }
   closeDialog() {
+    // if(this.arrayNeedToDelete.filter((obj) => {return obj.checked == true}).length == 0){
+    //   this.dialogRef.close();
+    // }else{
+    //   let message=this.data.vehicleTypeStatus?`Vehicle Number  ${this.arrayNeedToDelete.map((item)=>{return item.vehicleNumber}).toString()},Not Alllowed For Market Contract, Please Remove!`:`Vehicle Number ${this.arrayNeedToDelete.map((item)=>{return item.vehicleNumber}).toString()},Not Alllowed For Scheduled Contract,Please Remove!`;   
+    //   this.toast.info(message);
+    // }
     this.dialogRef.close();
+   
   }
+  lbh(l,b,h)
+{
+  return `${l} X ${b} X ${h}` ;
+}
+ngAfterViewInit() {
+  this.dataSource.sort = this.sort;
+  // this.dataSource.paginator = this.paginator;
+}
+
+filterActiveVehicles(vehicleArray) {
+  let todayDt =  this.datePipe.transform(new Date(), 'yyyy-MM-dd');
+  let activeVehiles = vehicleArray.filter(v => {
+   
+    if(v.checked){
+      return v;
+    } else {
+      let expiryDt =  this.datePipe.transform(v.expDt, 'yyyy-MM-dd')
+      if(expiryDt){
+          if(v.status == 1 && expiryDt >= todayDt){
+            return v;
+          }
+      } else if(v.status == 1){
+          return v;
+      }
+    }
+  });
+  return activeVehiles;
+
+}
 }
 
 

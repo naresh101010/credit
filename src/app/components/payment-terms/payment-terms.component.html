@@ -1,0 +1,348 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5">
+        <div>
+          <mat-toolbar class="breadcrumbs_nav">
+            <mat-toolbar-row class="breadcrumbs">
+              <span><a [routerLink]="['/asso_network-contract/asso_network']">Dashboard</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span><a [routerLink]="['/asso_network-contract/asso_network']">Contracts</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span>Associate Contract</span>
+            </mat-toolbar-row>
+          </mat-toolbar>
+          <h2>Network Contract</h2>
+        </div>
+      </div>
+      <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
+        <stepper></stepper>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- breadcrumb end -->
+
+<!-- msa-10 start -->
+<section class="req_table_sec booking_msa_sec">
+  <div class="container-fluid">
+    <form name="paymentTerms" (ngSubmit)="paymentTerms.form.valid" #paymentTerms="ngForm" novalidate>
+      <div class="booking_card padding_0">
+        <!--  Display Header -->
+        <app-header-data></app-header-data>
+        <div class="padding_10 mob_sla_1">
+          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('PAYOUT RATE BY'))">
+            <div class="col-md-2">
+              <mat-label><strong>Payout Rate<span class="redMark">*</span></strong></mat-label>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field class="select_box_dropwodn overline_hidden Sel_payout">
+                <mat-label>Select</mat-label>
+                <mat-select name="payoutRoute" #payoutRoute="ngModel" required
+                  [(ngModel)]="paymentTermsData.lkpAssocNrmPayoutOptId"
+                  (selectionChange)="payoutRateChange($event.value)"
+                  (ngModelChange)="changeInEditFlow(paymentTermsData)"
+                  [disabled]="editflow && paymentTermsData.id">
+                  <mat-option *ngFor="let assoPayType of referenceData?.nrmPayOutList" [value]="assoPayType.id">
+                    {{assoPayType.lookupVal}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="(payoutRoute.errors?.required && payoutRoute.touched)" class="errorMsg">
+                Required!
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <mat-label *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ROUTE DISTANCE'))">
+                <strong>Route Distance<span class="redMark">*</span></strong>
+              </mat-label>
+            </div>
+            <div class="col-md-2 km_field">
+              <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ROUTE DISTANCE'))">
+                <mat-form-field appearance="outline">
+                  <input matInput name="distance" [(ngModel)]="routeDistance" class="form-control" placeholder=""
+                    autocomplete="new-weightSlab" disabled>
+                </mat-form-field>
+                <span class="km_txt">KM</span>
+              </div>
+            </div>
+            <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MAXIMUM DEDUCTION'))">
+              <div class="col-md-2 col-md-offset-1 mo_ml_0">
+                <mat-label><strong>{{rateLable}}<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="ratePerKM" class="form-control" #ratePerKM="ngModel"
+                    [(ngModel)]="paymentTermsData.price" (ngModelChange)="changeInEditFlow(paymentTermsData)"
+                    OnlyNumber="true" numeric maxlength="8" placeholder="" autocomplete="ratePerKM" required>
+                </mat-form-field>
+                <div *ngIf="(ratePerKM.errors?.required && ratePerKM.touched)" class="errorMsg">
+                  Required!
+                </div>
+                <div *ngIf="(ratePerKM.errors?.isNumeric && !(ratePerKM.errors?.required && ratePerKM.touched))"
+                  class="errorMsg">
+                  Invalid !
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2">
+              <mat-label *ngIf="!(exAttrKeyList && exAttrKeyList.includes('FUEL TYPE'))"><strong>Fuel Type<span
+                    class="redMark">*</span></strong></mat-label>
+            </div>
+            <div class="col-md-2">
+              <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('FUEL TYPE'))">
+                <mat-form-field class="select_box_dropwodn overline_hidden">
+                  <mat-label>Select</mat-label>
+                  <mat-select disableOptionCentering panelClass="creditSelect Sel_FuelType" name="fuelType" #fuelType="ngModel"
+                    [(ngModel)]="paymentTermsData.lkpFuelTypeId" (selectionChange)="onSelectFuelBaseDate()"
+                    (ngModelChange)="changeInEditFlow(paymentTermsData)" required>
+                    <mat-option *ngFor="let fuel of referenceData?.fuelTypeList | sortBy:'asc':'descr'"
+                      [value]="fuel.id" [matTooltip]="fuel.lookupVal" [matTooltipDisabled]="fuel.lookupVal.length<27"
+                      matTooltipPosition="above">
+                      {{fuel.lookupVal}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="(fuelType.errors?.required && fuelType.touched)" class="errorMsg">
+                  Required!
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('BASE FULEL DATE'))">
+              <div class="col-md-2 col-md-offset-1 mo_ml_0">
+                <mat-label><strong>Base Fuel Date<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #msa10Date2 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="msa10Date2" class="date_input_height Sel_FuelDt" #fuelBaseDt="ngModel"
+                      [required]="paymentTermsData.lkpFuelTypeId && paymentTermsData.lkpFuelIndexId"
+                      [disabled]="!paymentTermsData.lkpFuelTypeId || !paymentTermsData.lkpFuelIndexId"
+                      [(ngModel)]="paymentTermsData.fuelBaseDt" (blur)="onSelectFuelBaseDate()"
+                      (dateChange)="onSelectFuelBaseDate()" name="fuelBaseDt" placeholder="DD-MM-YYYY"
+                      numericSpecialChar />
+                    <mat-datepicker-toggle matPrefix [for]="msa10Date2">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                </div>
+                <div *ngIf="paymentTermsData.lkpFuelTypeId && paymentTermsData.lkpFuelIndexId">
+                  <div *ngIf="(fuelBaseDt.errors?.required && fuelBaseDt.touched)" class="errorMsg">
+                    Required!
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('BASE FUEL INDEX'))">
+              <div class="col-md-2">
+                <mat-label><strong>Base Fuel Index<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field class="select_box_dropwodn overline_hidden">
+                  <mat-label>Select</mat-label>
+                  <mat-select disableOptionCentering panelClass="creditSelect Sel_FuelIndex" name="fuelIndex" #fuelIndex="ngModel"
+                    [(ngModel)]="paymentTermsData.lkpFuelIndexId" (selectionChange)="onSelectFuelIndex()"
+                    (ngModelChange)="changeInEditFlow(paymentTermsData)" required>
+                    <mat-option *ngFor="let fuelIndex of referenceData?.fuelIndexList | sortBy:'asc':'descr'"
+                      [value]="fuelIndex.id" [matTooltip]="fuelIndex.lookupVal"
+                      [matTooltipDisabled]="fuelIndex.lookupVal.length<27" matTooltipPosition="above">
+                      {{fuelIndex.lookupVal}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="(fuelIndex.errors?.required && fuelIndex.touched)" class="errorMsg">
+                  Required!
+                </div>
+              </div>
+            </div>
+            <div class="col-md-1 mo_ml_0" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('BASE FUEL PRICE'))">
+              <mat-form-field appearance="outline">
+                <input matInput name="rate" class="form-control" placeholder="" #rate="ngModel"
+                  [(ngModel)]="paymentTermsData.fuelBasePrice" autocomplete="rate" disabled required>
+              </mat-form-field>
+              <div *ngIf="((paymentTermsData.fuelBaseDt  && !priceFound ) && rate.errors?.required)" class="errorMsg">
+                Required!
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('FLFC CLAUSE1'))">
+              <div class="col-md-2">
+                <mat-label><strong>FLFC Clause<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-1 rs_field">
+                <span class="rs_txt">Rs.</span>
+                <mat-form-field appearance="outline">
+                  <input matInput name="clause1" class="form-control" placeholder="" #clause1="ngModel"
+                    [(ngModel)]="paymentTermsData.flfcClause1" (ngModelChange)="changeInEditFlow(paymentTermsData)"
+                    autocomplete="clause1" maxlength="7" required OnlyNumber="true" numeric-4>
+                </mat-form-field>
+                <div *ngIf="(clause1.errors?.required && clause1.touched)" class="errorMsg">
+                  Required!
+                </div>
+                <div *ngIf="(clause1.errors?.isNumeric && !(clause1.errors?.required && clause1.touched))"
+                  class="errorMsg">
+                  Invalid !
+                </div>
+              </div>
+              <div class="col-md-1 mo_ml_0 rs_field" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('FLFC CLAUSE2'))">
+                <span class="rs_txt">Rs.</span>
+                <mat-form-field appearance="outline">
+                  <input matInput name="clause2" class="form-control" placeholder="" #clause2="ngModel"
+                    [(ngModel)]="paymentTermsData.flfcClause2" (ngModelChange)="changeInEditFlow(paymentTermsData)"
+                    autocomplete="clause2" maxlength="7" required OnlyNumber="true" numeric-4>
+                </mat-form-field>
+                <div *ngIf="(clause2.errors?.required && clause2.touched)" class="errorMsg">
+                  Required!
+                </div>
+                <div *ngIf="(clause2.errors?.isNumeric && !(clause2.errors?.required && clause2.touched))"
+                  class="errorMsg">
+                  Invalid !
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ADDITIONAL EXPENSE'))">
+            <div class="col-md-2">
+              <mat-label><strong>Additional Expense<span class="redMark">*</span></strong></mat-label>
+            </div>
+            <div class="col-md-2">
+              <div class="module_area">
+                <mat-radio-group name="addnExp" #addnExp="ngModel" [(ngModel)]="paymentTermsData.addtnlExpnsFlag"
+                  (ngModelChange)="changeInEditFlow(paymentTermsData)" required>
+                  <mat-radio-button [value]="1" style="padding-right: 30px;">
+                    Yes
+                  </mat-radio-button>
+                  <mat-radio-button [value]="0">No</mat-radio-button>
+                </mat-radio-group>
+                <div *ngIf="(addnExp.errors?.required && addnExp.touched)" class="errorMsg">
+                  Required!
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('REMARKS'))">
+            <div class="row" *ngIf="paymentTermsData.addtnlExpnsFlag == 1">
+              <div class="col-md-2">
+                <mat-label><strong>Remark<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="remark" class="form-control" #remark="ngModel"
+                    (ngModelChange)="changeInEditFlow(paymentTermsData)"
+                    [(ngModel)]="paymentTermsData.addtnlExpnsRemark" placeholder="" autocomplete="remark"
+                    [required]="paymentTermsData.addtnlExpnsFlag == 1 ? true : false">
+                </mat-form-field>
+                <div *ngIf="(remark.errors?.required && remark.touched)" class="errorMsg">
+                  Required!
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="padding_10">
+            <div class="row mt_10" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('NOTEPAD SECTION'))">
+              <h5 class="zonalheading" style="padding-top: 2rem;">Notepad Section</h5>
+              <div class="row" *ngIf="(radioButtontncData && radioButtontncData.length !== 0) || (selectortncData && selectortncData.length != 0)
+              || (stringtncData && stringtncData.length != 0)">
+                <div class="col-lg-6 col-md-6">
+                  <div class="col-lg-4 col-md-4   zonalheadingbar">FIELD LABEL</div>
+                  <div class="col-lg-6 col-md-6   zonalheadingbar">FIELD VALUE</div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-6 col-md-6  ">
+                  <h4 *ngIf=" (!radioButtontncData || radioButtontncData.length === 0) && (!selectortncData || selectortncData.length == 0)
+                  && (!stringtncData || stringtncData.length == 0)"><em>No Data Available</em> </h4>
+                </div>
+              </div>
+              <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of radioButtontncData; let i = index">
+                <div class="col-lg-6 col-md-6  ">
+                  <div class="col-lg-4 col-md-4   label-text">
+                    <mat-label><strong>{{item.notepadName}}</strong></mat-label>
+                  </div>
+                  <div class="col-lg-6 col-md-6  module_area">
+                    <mat-radio-group #notepaadname="ngModel" name="notepaadname-{{i}}"
+                      [(ngModel)]="item.notepadInputVal" (ngModelChange)="changeInEditFlow(item)"
+                      *ngFor="let season of item.attributeValue">
+                      <mat-radio-button [value]="season">
+                        {{season}}
+                      </mat-radio-button>
+                    </mat-radio-group>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of selectortncData; let i = index">
+                <div class="col-lg-6 col-md-6 ">
+                  <div class="col-lg-4 col-md-4   label-text">
+                    <mat-label><strong>{{item.notepadName}}</strong></mat-label>
+                  </div>
+                  <div class="col-lg-6 col-md-6  module_area">
+                    <mat-form-field class="select_box_dropwodn overline_hidden">
+                      <mat-select disableOptionCentering panelClass="mat_ngx_booking" [(ngModel)]="item.notepadInputVal"
+                        #notepadname2="ngModel" name="notepadname2-{{i}}" (ngModelChange)="changeInEditFlow(item)">
+                        <ngx-mat-select-search [(ngModel)]="searchNotePad" [ngModelOptions]="{standalone: true}"
+                          [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'" name="search">
+                          <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search
+                          </mat-icon>
+                        </ngx-mat-select-search>
+                        <mat-option
+                          *ngFor="let season of (item.attributeValue | stringFilterBooking:searchNotePad:'season') | sortBy:'asc':'season'"
+                          [value]="season" matTooltipPosition="above" [matTooltip]="season | uppercase"
+                          [matTooltipDisabled]="season?.length<24">
+                          {{season}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of stringtncData; let i = index">
+                <div class="col-lg-6 col-md-6">
+                  <div class="col-lg-4 col-md-4   label-text">
+                    <mat-label><strong>{{item.notepadName}}</strong></mat-label>
+                  </div>
+                  <div class="col-lg-6 col-md-6 module_area ">
+                    <mat-form-field appearance="outline" style="width: 100%;">
+                      <input matInput autocomplete="true" class="form-control" [(ngModel)]="item.notepadInputVal"
+                        (ngModelChange)="changeInEditFlow(item)" #notepadname3="ngModel" name="notepadname3-{{i}}"
+                        maxlength="8">
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 text-center mtb_30">
+              <button mat-button class="white-button" [disabled]="!paymentTerms.form.valid"
+                (click)="onSavePaymentTerms(1)">Save As
+                Draft</button>
+              <button mat-button class="theme-button ml_15" [disabled]="!paymentTerms.form.valid"
+                (click)="onSavePaymentTerms(0)">Next</button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+</section>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

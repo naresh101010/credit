@@ -12,6 +12,15 @@ export class ApiService {
     private http: HttpClient,
    // private jwtService: JwtService
   ) {}
+
+  headerData = {
+    'userId': '123',
+    'Content-Type': 'application/json'
+  }
+  headerDoc = {
+    'userId': '123'
+  }
+
   getReportRefrence() {
     var headers = new HttpHeaders(this.headerData);
     return this.http.get(AppSetting.API_REPORT_ENDPOINT + `/secure/v1/reports/associateContractReport/reference`, { headers: headers }).catch((error: Response) => {
@@ -24,13 +33,6 @@ export class ApiService {
       return Observable.throw("Something went wrong");
     })
    }
-  headerData = {
-    'userId': '123',
-    'Content-Type': 'application/json'
-  }
-  headerDoc = {
-    'userId': '123'
-  }
 
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     let headers = new HttpHeaders(this.headerData);
@@ -69,6 +71,7 @@ export class ApiService {
 
   // }
 
+
   sendEmail(file,data, customerName?){
     const headers = new HttpHeaders(this.headerDoc);
     headers.append('Content-Type', 'multipart/form-data');
@@ -79,7 +82,7 @@ export class ApiService {
     return this.http
       .post<any>(
         AppSetting.API_ENDPOINT +
-          "/secure/v1/airfreightcontractpreview/previewEmail",
+          "/secure/v1/networkcontractpreview/previewEmail",
         formData,
         { headers: headers }
       )
@@ -132,9 +135,9 @@ export class ApiService {
     });
   }
 
-  postDownloadDocument(fileName: string) {
+  postDownloadDocument(fileName: String) {
     var headers = new HttpHeaders(this.headerData);
-    console.log("calling download service..");
+    //console.log("calling download service..");
     return this.http.post<any>(AppSetting.API_ENDPOINT + "secure/v1/document/download", fileName, { responseType: 'blob' as 'json', headers: headers }).catch((error: Response) => {
       return Observable.throw("Something went wrong");
     });
@@ -202,6 +205,7 @@ export class ApiService {
       return Observable.throw("Something went wrong");
     });
   }
+  
   isUserSwitchedBranch = sessionStorage.getItem('switchBranchWith')
   isUserOnlyReadPer = false;
   userId = JSON.parse(sessionStorage.getItem('userDetails')).userId;  

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppSetting } from 'src/app/app.setting';
+import { PincodesearchComponent } from '../pincodesearch/pincodesearch.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from "ngx-spinner";
 import { CreateAssoModel } from 'src/app/core/models/createAssoModel';
@@ -13,6 +14,7 @@ import { Validation } from 'src/app/core/directives/validation';
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { SearchBankBranchComponent } from 'src/app/dialog/search-bank-branch/search-branch.component';
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
 
 @Component({
   selector: 'app-create-associate',
@@ -47,12 +49,18 @@ export class CreateAssociateComponent implements OnInit {
   cashBankList: any;
   accountTypeList: any;
   kycFlag : number;
-  statusList : any[] = [        // for security fix
+
+
+  statusList : any[] = []; 
+  public statusListSub = new BehaviorSubject([       // for security fix
     {value: 1, text : 'ACTIVE'},
     {value: 0, text : 'INACTIVE'}
-  ]; 
-  isIDExist: boolean = false;
+  ]);
+  public statusListObs$ = this.statusListSub.asObservable();
+  // end for Security Fix
 
+  isIDExist: boolean = false;
+  
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -63,15 +71,18 @@ export class CreateAssociateComponent implements OnInit {
     private tosterservice: ToastrService,
     private datePipe: DatePipe,
     private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService) { }
+    private permissionsService: NgxPermissionsService) { 
+      this.statusListObs$.subscribe(statusList_ =>{
+        this.statusList = statusList_;
+      })
 
+    }
     readMode:boolean=false;
     
   ngOnInit() {
     this.authorizationService.setPermissions('ASSOCIATE');
     this.perList = this.authorizationService.getPermissions('ASSOCIATE') == null ? [] : this.authorizationService.getPermissions('ASSOCIATE');
     this.permissionsService.loadPermissions(this.perList);
-    console.log('Per list', this.perList)
 
     this.id = AppSetting.associateId;
 
@@ -111,10 +122,22 @@ export class CreateAssociateComponent implements OnInit {
           this.accountTypeList = suc.data.referenceData.accountTypeList;
           this.kycFlag = this.associateData.kycFlag;
           // security fix
-          this.statusList = [
-            {value: 1, text : !this.id ? 'DRAFT' :(this.kycFlag == 1 ? 'ACTIVE' : 'DRAFT') },
-            {value: 0, text : 'INACTIVE'}
-          ]
+            
+          if(!this.id){
+            this.statusList[0].text = 'DRAFT';
+            this.statusListSub.next(this.statusList);
+          }else{
+            if(this.kycFlag == 1){
+              this.statusList[0].text = 'ACTIVE';
+            }else{
+              this.statusList[0].text = 'DRAFT';
+            }
+            this.statusListSub.next(this.statusList);
+          }
+          // this.statusList = [
+          //   {value: 1, text : !this.id ? 'DRAFT' :(this.kycFlag == 1 ? 'ACTIVE' : 'DRAFT') },
+          //   {value: 0, text : 'INACTIVE'}
+          // ]
           this.setAssociateFormValue();
           this.effMinDate = this.associateData.effectiveDt ? this.associateData.effectiveDt : new Date();    
           this.spinner.hide();
@@ -134,10 +157,17 @@ export class CreateAssociateComponent implements OnInit {
           this.accountTypeList = suc.data.referenceData.accountTypeList;
           this.spinner.hide();
           // security fix
-          this.statusList = [
-            {value: 1, text : !this.id ? 'DRAFT' :(this.kycFlag == 1 ? 'ACTIVE' : 'DRAFT') },
-            {value: 0, text : 'INACTIVE'}
-          ]
+          if(!this.id){
+            this.statusList[0].text = 'DRAFT';
+            this.statusListSub.next(this.statusList);
+          }else{
+            if(this.kycFlag == 1){
+              this.statusList[0].text = 'ACTIVE';
+            }else{
+              this.statusList[0].text = 'DRAFT';
+            }
+            this.statusListSub.next(this.statusList);
+          }
         }, (err) => {
           this.spinner.hide();
         });
@@ -159,6 +189,22 @@ export class CreateAssociateComponent implements OnInit {
   }
 
 
+  openDialogPincodeSearch(isResidence): void {
+    const dialogRefEdit = this.dialog.open(PincodesearchComponent, {
+      data: { msaId: null, isEditflow: false, isSafexttype: [] },
+      width: '50vw',
+    });
+
+    dialogRefEdit.afterClosed().subscribe(result => {
+      if (isResidence) {
+        var resAddress = this.createAssociateFormGroup.controls.resAddrBook as FormGroup;
+        resAddress.controls.pincodeId.setValue(result);
+      } else {
+        var offAddress = this.createAssociateFormGroup.controls.ofcAddrBook as FormGroup;
+        offAddress.controls.pincodeId.setValue(result);
+      }
+    });
+  }
   createAssociateFormBuilder() {
 
     this.createAssociateFormGroup = this.fb.group({
@@ -393,9 +439,10 @@ export class CreateAssociateComponent implements OnInit {
     }
   }
 
+
   saveAssociateContract() {
 
-    console.log('form',this.createAssociateFormGroup)
+    //console.log('form',this.createAssociateFormGroup)
     this.createAssociateFormGroup.markAllAsTouched();
     if(this.createAssociateFormGroup.invalid || this.isValidEffectiveDt || this.isValidExpDt){
       return;
@@ -454,7 +501,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_air-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_network-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -497,7 +544,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_air-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_network-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -508,7 +555,7 @@ export class CreateAssociateComponent implements OnInit {
 
   //------------------------Pincode----------------------
   nextReadMode() {
-    this.router.navigate(['/asso_air-contract/associate-kyc'], {skipLocationChange: true});
+    this.router.navigate(['/asso_network-contract/associate-kyc'], {skipLocationChange: true});
   }
 
   resPincodeSearch(str) {
@@ -661,7 +708,7 @@ export class CreateAssociateComponent implements OnInit {
       let b = this.datePipe.transform(this.f.effectiveDt.value, 'yyyy-MM-dd')
       let c = this.datePipe.transform(this.f.expDt.value, 'yyyy-MM-dd')
       if (b && c !== null) {
-        if (b < c && c > a) {
+        if (b <= c && c > a) {
           this.isValidExpDt = false;
           this.isValidEffectiveDt = false;
         }
@@ -755,6 +802,5 @@ export class CreateAssociateComponent implements OnInit {
       }
     });
   }
-
 }
 

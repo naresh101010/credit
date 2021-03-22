@@ -66,7 +66,7 @@ export class AssociateStaffComponent implements OnInit {
   }
 
   goToEditPage(id) {
-    this.router.navigate(['/asso_air-contract/create-associate-staff'], {skipLocationChange: true, queryParams: { id: id } });
+    this.router.navigate(['/asso_network-contract/create-associate-staff'], {skipLocationChange: true, queryParams: { id: id } });
   }
 
   getAssociateStaffList() {
@@ -87,17 +87,17 @@ export class AssociateStaffComponent implements OnInit {
 
    /*---------- Go to Associate saff document page--------- */
    addStaffDocument(element) {
-    this.router.navigate(['/asso_air-contract/staff-document'], {skipLocationChange: true, queryParams: { id: element.id, staffName: element.staffFname } });
+     this.router.navigate(['/asso_network-contract/staff-document'], {skipLocationChange: true, queryParams: { id: element.id, staffName: element.staffFname } });
   }
   onSkipClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_air-contract/create-associate-contract'], { skipLocationChange: true });
+    this.router.navigate(['/asso_network-contract/create-associate-contract'], { skipLocationChange: true });
   }
 
   onSubmitClick($event) {
     $event.preventDefault();
     this.toaster.success('Saved Successfully');
-    this.router.navigate(['/asso_air-contract/create-associate-contract'], { skipLocationChange: true });
+    this.router.navigate(['/asso_network-contract/create-associate-contract'], { skipLocationChange: true });
   }
 
 }

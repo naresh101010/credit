@@ -9,13 +9,12 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppSetting } from 'src/app/app.setting';
 import { DatePipe } from '@angular/common';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-branch-allocation',
-  templateUrl: './branch-allocation.component.html',  
+  templateUrl: './branch-allocation.component.html',
+  styleUrls: ['./branch-allocation.component.css'],
   providers: [ApiService, DatePipe]
 })
 export class BranchAllocationComponent implements OnInit {
@@ -31,27 +30,11 @@ export class BranchAllocationComponent implements OnInit {
   existBranch = [];
   referenceData;
   editflow;
-  perList:any=[];
-  exAttrMap = new Map();
-  exAttrKeyList =  [];
   flag: boolean = false;
 
-  constructor(public dialog: MatDialog, private toast: ToastrService, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, public router: Router, private acRoute:ActivatedRoute, public datePipe: DatePipe,
-              private authorizationService : AuthorizationService,
-              private permissionsService: NgxPermissionsService) { }
+  constructor(public dialog: MatDialog, private toast: ToastrService, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, public router: Router, private acRoute:ActivatedRoute, public datePipe: DatePipe) { }
 
   ngOnInit() {
-
-    this.authorizationService.setPermissions('VEHICLE');
-    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
-    this.authorizationService.setPermissions('BRANCH');
-    this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
-    this.permissionsService.loadPermissions(this.perList);
-    this.exAttrMap = this.authorizationService.getExcludedAttributes('BRANCH ALLOCATION');
-    this.exAttrKeyList = Array.from(this.exAttrMap.values());
-    console.log('Attribute List', this.exAttrKeyList);
-    console.log('perlist',this.perList)
-
     this.getAllBranchWithCtr();
     this.getAllVehicle();
     this.acRoute.params.subscribe(x => {
@@ -85,7 +68,7 @@ export class BranchAllocationComponent implements OnInit {
   getAllBranchWithCtr(){
     this.SpinnerService.show();
     let contractId = AppSetting.contractId;
-    this.apiSer.get(`secure/v1/airfreightcontract/contracts/branches/${contractId}`).subscribe(res => {
+    this.apiSer.get(`secure/v1/networkcontract/contracts/branches/${contractId}`).subscribe(res => {
       if (res && res.data) {
         this.existBranch = res.data.responseData;
         this.backupBranch = JSON.parse(JSON.stringify(this.existBranch))
@@ -94,7 +77,7 @@ export class BranchAllocationComponent implements OnInit {
         if (this.existBranch && this.existBranch.length > 0) {
           this.existBranch.forEach(element => {
             element.effectiveDate_min = new Date(element.effectiveDt);
-            console.log('Eff Date', element.effectiveDt);
+            //console.log('Eff Date', element.effectiveDt);
             let e = new Date(element.effectiveDt);
             e.setDate(e.getDate()+1);
             element.expiryDate_min = e;
@@ -117,7 +100,7 @@ export class BranchAllocationComponent implements OnInit {
   }
 
   openSearchBranchModal() {
-    console.log(this.existBranch)
+    //console.log(this.existBranch)
     const dialogRef = this.dialog.open(SearchBranchComponent, {
       data: { data: this.branches, referenceData: this.referenceData },
       panelClass: 'mat-dialog-responsive',
@@ -137,7 +120,7 @@ export class BranchAllocationComponent implements OnInit {
             this.setBranchWithVecle(element);
         });
         if (existBranch.length > 0) {
-          this.toast.warning(`Branch Name  ${existBranch} already exists in List`);
+          this.toast.info(`Branch Name  ${existBranch} already exists in List`);
         }
 
       }
@@ -146,14 +129,14 @@ export class BranchAllocationComponent implements OnInit {
         this.existBranch = this.branches;
         this.dataSource = new MatTableDataSource(this.branches);
         this.dataSource.sort = this.sort;
-        console.log('this.branches', this.branches);
+        //console.log('this.branches', this.branches);
       }
 
     });
 
   }
   trackById(index, item) {
-    console.log(item.branchId);
+    //console.log(item.branchId);
     return item.branchId;
   }
 
@@ -199,12 +182,12 @@ export class BranchAllocationComponent implements OnInit {
     this.branches.forEach(element => {
       if(!element.id){
         this.backupBranch.forEach(obj => {
-          console.log('id>>', obj.branchId, element.branchId);
+          //console.log('id>>', obj.branchId, element.branchId);
           if(obj.branchId == element.branchId){            
             element.id = obj.id;
               element.assocBranchVehicles.forEach(elementvel => {
                 obj.assocBranchVehicles.forEach(objVel => {
-                  console.log('vehicleId>>', objVel.vehicleId, objVel.vehicleId);
+                  //console.log('vehicleId>>', objVel.vehicleId, objVel.vehicleId);
                   if(objVel.vehicleId == elementvel.vehicleId){            
                     elementvel.id = objVel.id;
                   }
@@ -214,14 +197,14 @@ export class BranchAllocationComponent implements OnInit {
         });
       }
     })
-      this.apiSer.post(`secure/v1/airfreightcontract/contracts/branches`, this.branches).subscribe((res) => {
+      this.apiSer.post(`secure/v1/networkcontract/contracts/branches`, this.branches).subscribe((res) => {
       if(res.data.responseData){
-        this.toast.success('Saved Successfully');
+        this.toast.success('Save Successfully');
         if(btnName == 'next'){
           if(this.editflow){
-            this.router.navigate(['asso_air-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
+            this.router.navigate(['asso_network-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
           }else{
-            this.router.navigate(['asso_air-contract/booking-payout'], {skipLocationChange: true});
+            this.router.navigate(['asso_network-contract/booking-payout'], {skipLocationChange: true});
           }
         }else {
           // this.getAllBranchWithCtr();
@@ -229,17 +212,10 @@ export class BranchAllocationComponent implements OnInit {
           this.ngOnInit();
         }
       }
-    }, (err) =>{      
+    }, (err) =>{
+    //  debugger
       this.toast.error(err.error.errors.error[0].code + ' : ' + err.error.errors.error[0].description );
     })
-  }
-
-  nextReadMode() {
-    if(this.editflow){
-      this.router.navigate(['asso_air-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
-    }else{
-      this.router.navigate(['asso_air-contract/booking-payout'], {skipLocationChange: true});
-    }
   }
 
   validationBranchCheck(btnName){
@@ -250,7 +226,7 @@ export class BranchAllocationComponent implements OnInit {
     let branchMap = {};
     branchMap[cntrId] = [...listBranchIds];
 
-    this.apiSer.post(`secure/v1/airfreightcontract/validBranches/`, branchMap).subscribe(
+    this.apiSer.post(`secure/v1/networkcontract/validBranches/`, branchMap).subscribe(
       res => {
         let listBranchNames = [];
         if (res && res.data && res.data.responseData) {
@@ -263,7 +239,7 @@ export class BranchAllocationComponent implements OnInit {
               });
 
             });
-            this.toast.error('Not a Valid Branch, Already Allocated ! ', listBranchNames[0].toString());
+            this.toast.error(' Not Valid Branches : ', listBranchNames.toString());
           } else {
             this.submit(btnName);
           }
@@ -300,7 +276,7 @@ export class BranchAllocationComponent implements OnInit {
   }
 
   openAssignVehicleModal(obj) {
-    console.log('this.tempArr', this.tempArr);
+    //console.log('this.tempArr', this.tempArr);
     const vehicle = JSON.parse(JSON.stringify(this.tempArr));
     const dialogRef = this.dialog.open(AssignVehicleComponent, {
       data: { 'tempVehicle': vehicle, 'obj': obj },
@@ -308,7 +284,7 @@ export class BranchAllocationComponent implements OnInit {
       disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
-      console.log('result', result);
+      //console.log('result', result);
     })
 
   }

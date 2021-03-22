@@ -1,8 +1,9 @@
 <div class="hero-content retailContainer report boxContainer">
   <div class="row text-left parent">
     <div class="breadcrumb">
-      <a routerLink="/retail-contract/retail" id="dashboard" target="_self">Dashboard</a>
-      <span class="fa fa-caret-right" style="margin-left: 4px;"></span> REPORTS
+      <a routerLink="/asso_network-contract/asso_network" id="dashboard" target="_self">Dashboard</a><span
+        class="fa fa-caret-right" style="margin-left: 4px;"></span>
+      REPORTS
     </div>
   </div>
   <div class="msaOperation">
@@ -51,8 +52,7 @@
                 <ngx-mat-select-search (change)="manualSel($event);" (keyup)="manualSearch($event);"
                   [(ngModel)]="searchVal" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
                   name="search" class="select-search">
-                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search icon-search">search
-                  </mat-icon>
+                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search icon-search">search</mat-icon>
                 </ngx-mat-select-search>
                 <mat-option [value]="" style="display: none;">Select Option</mat-option>
                 <mat-option *ngFor="let item of (searchArr | stringFilterBooking:searchVal:'branchName')"

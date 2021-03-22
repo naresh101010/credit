@@ -6,11 +6,11 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
-              <span><a routerLink="/asso_air-contract/asso_air">Contracts</a></span>
+              <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Contracts</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -137,14 +137,14 @@
               <ng-container matColumnDef="version">
                 <th scope="col" mat-header-cell *matHeaderCellDef class="flexNone"> </th>
                 <td mat-cell *matCellDef="let element" class="flexNone paddingleftZero" style="padding: 0 !important;">
-                  <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['VIEW ASSOCIATE_READ']" (click)="ShowAssociateContract(element)" style="cursor: pointer;">visibility</em>                  
+                  <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['CREATE ASSOCIATE_READ']" (click)="ShowAssociateContract(element)" style="cursor: pointer;">visibility</em>                  
                 </td>
               </ng-container>
               <ng-container matColumnDef="edit">
                 <th scope="col" mat-header-cell *matHeaderCellDef class="flexNone"> </th>
                 <td mat-cell *matCellDef="let element"  class="flexNone" style="padding-left: 0 !important;">
                   <span>
-                    <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['CREATE ASSOCIATE_CREATE']" (click)="edditAssociateContract(element)" style="cursor: pointer;">create</em>
+                    <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['CREATE ASSOCIATE_UPDATE']" (click)="edditAssociateContract(element)" style="cursor: pointer;">create</em>
                   </span>
                 </td>
               </ng-container>

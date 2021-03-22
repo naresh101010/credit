@@ -1,5 +1,5 @@
 {
-  "name": "associate-airfreight-contract",
+  "name": "associate-network-contract",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:single-spa": "ng build --prod --output-hashing none",
-    "serve:single-spa": "ng serve --disable-host-check --port 4206 --deploy-url http://localhost:4206/ --live-reload false"
+    "serve:single-spa": "ng serve --disable-host-check --port 4208 --deploy-url http://localhost:4208/ --live-reload false"
   },
   "private": true,
   "dependencies": {
@@ -34,7 +34,7 @@
     "core-js": "^2.6.10",
     "express": "^4.17.1",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.27.0",
     "ng-click-outside": "^6.0.0",
     "ng-flash-messages": "^0.3.0",
     "ngp-sort-pipe": "0.0.4",
@@ -45,7 +45,7 @@
     "ngx-flash-messages": "^1.0.4",
     "ngx-mat-select-search": "^2.2.0",
     "ngx-permissions": "^7.0.3",
-    "ngx-print": "^1.2.0-beta.4",
+    "ngx-print": "^1.2.0-beta.5",
     "ngx-spinner": "^8.1.0",
     "ngx-toastr": "^11.3.3",
     "rxjs-compat": "^6.5.3",

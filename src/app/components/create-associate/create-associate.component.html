@@ -7,14 +7,14 @@
             <div>
                 <mat-toolbar class="breadcrumbs_nav">
                   <mat-toolbar-row class="breadcrumbs">
-                    <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
+                    <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Dashboard</a></span>
                     <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                       arrow_right
                     </mat-icon>
                     <span>Associate</span>
                   </mat-toolbar-row>
                 </mat-toolbar>
-                <h2>{{id !=null ? 'Update' : 'Create'}} Associate</h2>
+                <h2>{{isIDExist ? 'Update' : 'Create'}} Associate</h2>
               </div>
         </div>
       </div>
@@ -33,7 +33,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput [readonly] ="isIDExist" name="companyName" class="form-control"  autocomplete="true"  
+                  <input matInput [readonly] ="isIDExist" name="companyName" class="form-control" placeholder=""  autocomplete="new-companyName"   
                   formControlName="companyName" maxlength="100">
                   </mat-form-field>
                   <div class="errorMsg" *ngIf="f.companyName.errors?.required && f.companyName.touched">
@@ -60,7 +60,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input [readonly]="gstFlag" matInput name="gstinNum" class="form-control"  autocomplete="true" formControlName="gstinNum"
+                  <input [readonly]="gstFlag" matInput name="gstinNum" class="form-control" placeholder="" autocomplete="new-gstinNum" formControlName="gstinNum"
                   alphanumeric  maxlength="15" minlength="15" (input)="onGstnChange($event)">
                  </mat-form-field>
                  <div class="errorMsg" *ngIf="f.gstinNum.errors?.required && f.gstinNum.touched"><em>Required !</em></div>
@@ -72,7 +72,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="panNum" class="form-control"   autocomplete="true" formControlName="panNum"
+                  <input matInput name="panNum" class="form-control"  placeholder="" autocomplete="new-panNum" formControlName="panNum"
                   alphanumeric minlength="10" maxlength="10" (input)="onPanChange($event)">
                   </mat-form-field>
                   <div class="errorMsg" *ngIf="f.panNum.errors?.required && f.panNum.touched"><em>Required !</em></div>
@@ -89,7 +89,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="contactFname" class="form-control" [readonly] ="isIDExist" autocomplete="true" formControlName="contactFname"
+                  <input matInput name="contactFname" class="form-control"  placeholder=""  [readonly] ="isIDExist" autocomplete="new-contactFname" formControlName="contactFname"
                   alphaSpecialChar minlength="3" maxlength="50">
                   </mat-form-field>
                   <div class="errorMsg" *ngIf="f.contactFname.errors?.required && f.contactFname.touched">
@@ -102,7 +102,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="contactMname" class="form-control" [readonly]="isIDExist"  autocomplete="true" formControlName="contactMname"
+                  <input matInput name="contactMname" class="form-control" [readonly] ="isIDExist"  placeholder="" autocomplete="new-contactMname" autocomplete="new-ofcEmail" formControlName="contactMname"
                   alphaSpecialChar maxlength="50">
                 </mat-form-field>
               </div>
@@ -113,7 +113,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="contactLname" class="form-control" [readonly] ="isIDExist"  autocomplete="true" formControlName="contactLname"
+                  <input matInput name="contactLname" class="form-control" [readonly] ="isIDExist"  placeholder="" autocomplete="new-contactLname" formControlName="contactLname"
                   alphaSpecialChar maxlength="50">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.contactLname.errors?.required && f.contactLname.touched">
@@ -149,8 +149,8 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="mob" class="form-control" autocomplete="true" formControlName="mob"
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  <input matInput name="mob" class="form-control" placeholder="" autocomplete="new-mob" formControlName="mob"
+                  maxlength="10" minlength="10" appNumberOnly>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.mob.errors?.required && f.mob.touched">
                   <em>Required !</em> 
@@ -164,8 +164,8 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="altmob" class="form-control"  autocomplete="true" formControlName="altMob" 
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  <input matInput name="altmob" class="form-control" placeholder="" autocomplete="new-altMob" formControlName="altMob" 
+                  maxlength="10" minlength="10" appNumberOnly>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.altMob.errors?.required && f.altMob.touched">
                   <em>Required !</em> </div>
@@ -183,8 +183,8 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="emergencyPhone" class="form-control"  autocomplete="true" formControlName="emergencyPhone" 
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  <input matInput name="emergencyPhone" class="form-control" placeholder="" autocomplete="new-emergencyPhone" formControlName="emergencyPhone" 
+                  maxlength="10" minlength="10" appNumberOnly>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.emergencyPhone.errors?.required && f.emergencyPhone.touched">
                   <em>Required !</em> </div>
@@ -197,8 +197,8 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="whatsappNum" class="form-control"  autocomplete="true" formControlName="whatsappNum" 
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  <input matInput name="whatsappNum" class="form-control" placeholder="" autocomplete="new-whatsappNum" formControlName="whatsappNum" 
+                  maxlength="10" minlength="10" appNumberOnly>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.whatsappNum.errors?.required && f.whatsappNum.touched">
                   <em>Required !</em> </div>
@@ -213,7 +213,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="ofcEmail" class="form-control"  autocomplete="true" formControlName="ofcEmail"
+                  <input matInput name="ofcEmail" class="form-control" placeholder="" autocomplete="new-ofcEmail" formControlName="ofcEmail"
                   (input)="onEmailChangeOffice($event)">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.ofcEmail.errors?.required && f.ofcEmail.touched">
@@ -225,7 +225,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="personalEmail" class="form-control"  autocomplete="true" 
+                  <input matInput name="personalEmail" class="form-control" placeholder="" autocomplete="new-personalEmail" 
                   formControlName="personalEmail" (input)="onEmailChangePersonal($event)">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.personalEmail.errors?.required && f.personalEmail.touched">
@@ -256,7 +256,7 @@
                   <mat-form-field appearance="outline" class="date_picker_adjust">
                     <mat-datepicker #caDob1 class="myDatepicker23">
                     </mat-datepicker>
-                    <input matInput [matDatepicker]="caDob1" class="date_input_height"  name="dob" formControlName="dob"
+                    <input matInput [matDatepicker]="caDob1" class="date_input_height" placeholder="" name="dob" autocomplete="new-dob" formControlName="dob"
                     (blur)="checkValidDate(f.dob)" placeholder="DD/MM/YYYY" numericSpecialChar/>
                     <mat-datepicker-toggle matPrefix [for]="caDob1">
                     </mat-datepicker-toggle>
@@ -272,8 +272,8 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="aadhaarNum" class="form-control"  autocomplete="true" formControlName="aadhaarNum" 
-                  maxlength="12" minlength="12" [numbersOnly] = true>
+                  <input matInput name="aadhaarNum" class="form-control" placeholder="" autocomplete="new-aadhaarNum" formControlName="aadhaarNum" 
+                  maxlength="12" minlength="12" appNumberOnly>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.aadhaarNum.errors?.required && f.aadhaarNum.touched">
                   <em>Required !</em> </div>
@@ -290,7 +290,7 @@
                   <mat-form-field appearance="outline" class="date_picker_adjust">
                     <mat-datepicker #caDob2 class="myDatepicker23">
                     </mat-datepicker>
-                    <input matInput [matDatepicker]="caDob2" class="date_input_height"  name="annivDate" formControlName="annivDt" (blur)="checkValidDate(f.annivDt)"
+                    <input matInput [matDatepicker]="caDob2" class="date_input_height" placeholder="" name="annivDate" formControlName="annivDt" (blur)="checkValidDate(f.annivDt)"
                       placeholder="DD/MM/YYYY" [disabled]="f.maritalStatus.value == 'SINGLE' ? true : false" numericSpecialChar/>
                     <mat-datepicker-toggle matPrefix [for]="caDob2">
                     </mat-datepicker-toggle>
@@ -353,7 +353,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="chqFavour" class="form-control"  autocomplete="true" 
+                  <input matInput name="chqFavour" class="form-control" placeholder="" autocomplete="new-chqFavour" 
                   formControlName="chqFavour" maxlength="200">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.chqFavour.errors?.required && f.chqFavour.touched">
@@ -413,7 +413,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="bankAcc" class="form-control"  autocomplete="true" 
+                  <input matInput name="bankAcc" class="form-control" placeholder="" autocomplete="new-bankAcc" 
                   formControlName="bankAcc" alphanumeric maxlength="100">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.bankAcc.errors?.required && f.bankAcc.touched">
@@ -424,7 +424,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input readonly matInput name="ifscCode" class="form-control"  autocomplete="true" formControlName="ifscCode"
+                  <input readonly matInput name="ifscCode" class="form-control" placeholder="" autocomplete="new-ifscCode" formControlName="ifscCode"
                   alphanumeric maxlength="100">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.ifscCode.errors?.required && f.ifscCode.touched">
@@ -437,7 +437,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="advncAmt" class="form-control"   autocomplete="true" formControlName="advncAmt" 
+                  <input matInput name="advncAmt" class="form-control" placeholder=""  autocomplete="new-advncAmt" formControlName="advncAmt" 
                   numeric maxlength="10">
                 </mat-form-field>
                 <span *ngIf="(f.advncAmt.errors?.isNumeric && f.advncAmt.touched)"
@@ -504,7 +504,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="securityDepositAmt" class="form-control"  formControlName="securityDepositAmt"
+                  <input matInput name="securityDepositAmt" class="form-control" placeholder="" formControlName="securityDepositAmt"
                   maxlength="10">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.securityDepositAmt.errors?.required && f.securityDepositAmt.touched">
@@ -517,7 +517,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="tdsPercent" class="form-control" placeholder="%" autocomplete="true" formControlName="tdsPercent"
+                  <input matInput name="tdsPercent" class="form-control" placeholder="%" autocomplete="new-tdsPercent" formControlName="tdsPercent"
                   [required]="f.tdsCertFlag.value == 1 ? true : false" (input)="tdsValid($event)" maxlength="5" numeric>
                </mat-form-field>
                <div class="errorMsg" *ngIf="f.tdsPercent.errors?.required && f.tdsPercent.touched">
@@ -539,18 +539,18 @@
               
               <div class="col-md-2" formGroupName="resAddrBook">
                 <mat-form-field appearance="outline">
-                  <input matInput name="resAddr1" class="form-control" placeholder="Address Line 1" autocomplete="true" formControlName="addr1"
+                  <input matInput name="resAddr1" class="form-control" placeholder="Address Line 1" autocomplete="new-addr" formControlName="addr1"
                   maxlength="150" [matTooltip]="residentAddress.controls.addr1.value" [matTooltipDisabled]="residentAddress.controls.addr1.value?.length<17" 
                   matTooltipPosition="above">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="residentAddress.controls.addr1.errors?.required && residentAddress.controls.addr1.touched">
                   <em>Required !</em> </div>
                 <mat-form-field appearance="outline">
-                  <input matInput name="resaddr2" class="form-control" placeholder="Address Line 2 (City)" autocomplete="true" formControlName="addr2" [readonly]="readMode"
+                  <input matInput name="resaddr2" class="form-control" placeholder="Address Line 2 (City)" autocomplete="new-addr" formControlName="addr2" [readonly]="readMode"
                   matTooltipPosition="above" [matTooltip]="resCity?.cityName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
-                  <input matInput name="resaddr3" class="form-control" placeholder="Address Line 3 (State)" autocomplete="true" formControlName="addr3" [readonly]="readMode"
+                  <input matInput name="resaddr3" class="form-control" placeholder="Address Line 3 (State)" autocomplete="new-addr" formControlName="addr3" [readonly]="readMode"
                   matTooltipPosition="above" [matTooltip]="resCity?.district?.state?.stateName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
                 </mat-form-field>
                   
@@ -561,18 +561,18 @@
               </div>
               <div class="col-md-2" formGroupName="ofcAddrBook">
                 <mat-form-field appearance="outline">
-                  <input matInput name="addr1" class="form-control" placeholder="Address Line 1" autocomplete="true" formControlName="addr1"
+                  <input matInput name="addr1" class="form-control" placeholder="Address Line 1" autocomplete="new-addr1" formControlName="addr1"
                   maxlength="150" [matTooltip]="officeAddress.controls.addr1.value" [matTooltipDisabled]="officeAddress.controls.addr1.value?.length<17" 
                   matTooltipPosition="above">
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="officeAddress.controls.addr1.errors?.required && officeAddress.controls.addr1.touched">
                   <em>Required !</em> </div>
                 <mat-form-field appearance="outline">
-                  <input matInput name="addr2" class="form-control" placeholder="Address Line 2 (City)" autocomplete="true" formControlName="addr2" [readonly]="readMode"
+                  <input matInput name="addr2" class="form-control" placeholder="Address Line 2 (City)" autocomplete="new-addr2" formControlName="addr2" [readonly]="readMode"
                   matTooltipPosition="above" [matTooltip]="offCity?.cityName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
                 </mat-form-field>
                 <mat-form-field appearance="outline">
-                  <input matInput name="addr3" class="form-control" placeholder="Address Line 3 (State)" autocomplete="true" formControlName="addr3" [readonly]="readMode"
+                  <input matInput name="addr3" class="form-control" placeholder="Address Line 3 (State)" autocomplete="new-addr3" formControlName="addr3" [readonly]="readMode"
                   matTooltipPosition="above" [matTooltip]="offCity?.district?.state?.stateName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
                 </mat-form-field>
               </div>
@@ -637,7 +637,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="descr" class="form-control" placeholder="Description" autocomplete="true" formControlName="descr"
+                  <input matInput name="descr" class="form-control" placeholder="Description" autocomplete="new-descr" formControlName="descr"
                    alphanumeric maxlength="100">
                 </mat-form-field>
               </div>
@@ -651,7 +651,7 @@
                   <mat-form-field appearance="outline" class="date_picker_adjust">
                     <mat-datepicker #caDob3 class="myDatepicker23">
                     </mat-datepicker>
-                    <input matInput [matDatepicker]="caDob3" class="date_input_height"  name="estDt" 
+                    <input matInput [matDatepicker]="caDob3" class="date_input_height" placeholder="" name="estDt" 
                     (blur)="checkValidDate(f.estDt)" placeholder="DD/MM/YYYY" formControlName="estDt" numericSpecialChar/>
                     <mat-datepicker-toggle matPrefix [for]="caDob3">
                     </mat-datepicker-toggle>
@@ -668,8 +668,8 @@
                   <mat-form-field appearance="outline" class="date_picker_adjust">
                     <mat-datepicker #caDob4 class="myDatepicker23">
                     </mat-datepicker>
-                    <input matInput [matDatepicker]="caDob4" class="date_input_height"  name="effectiveDate" 
-                    formControlName="effectiveDt"
+                    <input matInput [matDatepicker]="caDob4" class="date_input_height" placeholder="" name="effectiveDate" 
+                    autocomplete="new-effectiveDt" formControlName="effectiveDt"
                       placeholder="DD/MM/YYYY" (dateChange)="effectiveDate()" (blur)="effectiveDate()" [min]="f.estDt.value" numericSpecialChar/>
                     <mat-datepicker-toggle matPrefix [for]="caDob4">
                     </mat-datepicker-toggle>
@@ -708,7 +708,7 @@
                   <mat-form-field appearance="outline" class="date_picker_adjust">
                     <mat-datepicker #caDob6c3 class="myDatepicker23">
                     </mat-datepicker>
-                    <input matInput [matDatepicker]="caDob6c3" class="date_input_height"  name="expDate" formControlName="expDt"
+                    <input matInput [matDatepicker]="caDob6c3" class="date_input_height" placeholder="" name="expDate" autocomplete="new-expDt" formControlName="expDt"
                       placeholder="DD/MM/YYYY" (dateChange)="expDate()" (blur)="expDate()" [min]="minDate" numericSpecialChar/>
                     <mat-datepicker-toggle matPrefix [for]="caDob6c3">
                     </mat-datepicker-toggle>
@@ -723,7 +723,7 @@
           <div class="row">
             <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['CREATE ASSOCIATE_CREATE','CREATE ASSOCIATE_UPDATE']">
               <button mat-button class="theme-button" *ngIf="!readMode" [disabled]="tdsFlag || (f.effectiveDt.value < f.estDt.value)"  (click)="saveAssociateContract()">Next</button>
-              <button mat-button class="theme-button" *ngIf="readMode"  skipLocationChange routerLink="/asso_booking-contract/create-associate-contract">Back</button>
+               <button mat-button class="theme-button" *ngIf="readMode"  skipLocationChange routerLink="/asso_network-contract/create-associate-contract">Back</button>
             </div>
             <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['CREATE ASSOCIATE_CREATE','CREATE ASSOCIATE_UPDATE']">
               <button mat-button class="theme-button" *ngIf="!readMode" [disabled]="tdsFlag || (f.effectiveDt.value < f.estDt.value)"  (click)="nextReadMode()">Next</button>

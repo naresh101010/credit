@@ -1,0 +1,352 @@
+
+<form name="AssoPaygen" (ngSubmit)="fAssoPaygen.form.valid" #fAssoPaygen="ngForm" novalidate  class="rateCardDetail">
+  <div class="row">
+    <div class="col-md-2">
+      <mat-label><strong>Payout Based On</strong><span class="redMark"> *</span></mat-label>
+    </div>
+    <div class="col-md-2">
+      <div class="module_area">
+        <mat-form-field class="select_box_dropwodn overline_hidden allc">
+          <mat-label>Select</mat-label>
+          <mat-select name="assPaType_{{indexValue}}" #assPaType="ngModel" 
+            (selectionChange)="payoutChange(payoutGenDetail, $event)"
+            [(ngModel)]="payoutGenDetail.lkpAssocBkngPayoutCtgyId" [disabled]="(editflow  && payoutGenDetail.id)"  (ngModelChange)="editInput(payoutGenDetail)" required>
+            <mat-option *ngFor="let assoPayType of payoutGenRefDetail?.assocPayoutTypeList | sortBy:'asc':'lookupVal'" [value]="assoPayType.id">
+              {{assoPayType.lookupVal}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="(assPaType.errors?.required && assPaType.touched)" class="errorMsg">
+          Required!
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <mat-label><strong>Expense Type </strong> <span class="redMark"> *</span></mat-label>
+    </div>
+    <div class="col-md-2">
+      <div class="module_area">
+        <mat-form-field class="select_box_dropwodn overline_hidden allc">
+          <mat-label>Select</mat-label>
+          <mat-select disableOptionCentering panelClass="mat_ngx_booking" (selectionChange)="expenseChange(payoutGenDetail)" name="lkpAssocBkngExpnsType_{{indexValue}}" #lkpAssocBkngExpnsType="ngModel"  (ngModelChange)="editInput(payoutGenDetail)"
+            [(ngModel)]="payoutGenDetail.lkpAssocBkngExpnsTypeId" required>
+            <ngx-mat-select-search [(ngModel)]="searchExpType" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+              [noEntriesFoundLabel]="'Not found'" name="search">
+              <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+            </ngx-mat-select-search>
+            <mat-option *ngFor="let assoExpType of (payoutGenRefDetail?.assocExpenseTypeList | stringFilterBooking:searchExpType:'lookupVal') | sortBy:'asc':'lookupVal'" [value]="assoExpType.id"
+            matTooltipPosition="above" [matTooltip]="assoExpType.lookupVal | uppercase" [matTooltipDisabled]="assoExpType.lookupVal?.length<24">
+              {{assoExpType.lookupVal}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="(lkpAssocBkngExpnsType.errors?.required && lkpAssocBkngExpnsType.touched)" class="errorMsg">
+          Required!
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row mt_10">
+    <div class="col-md-12">
+      <div class=" create_new_tale_mdm2" *ngIf="payoutGenDetail.lkpAssocBkngPayoutCtgyId == bookingId">
+        <div class="row tableRow">
+          <div class="col-md-3" style="border-right: 1px solid #fff;line-height: 32px;">SERVICE OFFERING</div>
+          <div class="col-md-3" style="border-right: 1px solid #fff;line-height: 32px;">CREDIT <span class="redMark"> *</span></div>
+          <div class="col-md-3" style="border-right: 1px solid #fff;line-height: 32px;">PAID <span class="redMark"> *</span></div>
+          <div class="col-md-3">TO PAY <span class="redMark"> *</span></div>
+        </div>
+
+        <div class="col-md-12">
+          <div class="col-md-3">
+            <div class="col-md-12  " *ngFor="let serObjC of dataSourceServiceBook; let i = index; "><span class="tableDataComman"
+                *ngIf="(i == 0 || serObjC.serviceOfferingId != dataSourceServiceBook[i-1].serviceOfferingId)">{{serObjC.serviceOfferingId | lookupValue : "serviceOffering" : payoutGenRefDetail.serviceOfferingList }}</span>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="col-md-10" *ngFor="let serObjC of dataSourceServiceBook; let i = index; ">
+              <div *ngIf=" (serObjC.lkpBranchMopId == creditId) " class="tableDataComman prefixCom" style=" display: block !important;">
+                <mat-form-field appearance="outline" class="input_table_width table_input_width date_picker_adjust">
+                  <input style="text-align: right !important;" matInput name="priceCredit_{{i}}_{{indexValue}}" #price="ngModel" [(ngModel)]="serObjC.price" 
+                    class="form-control" placeholder="" (ngModelChange)="editInput(serObjC)" maxlength="11" appNumberOnly numeric required>
+                    <span matPrefix>{{ payoutGenDetail.lkpAssocBkngExpnsTypeId | lookupValue : "sortForm" : payoutGenRefDetail.assocExpenseTypeList }} &nbsp;</span>
+                </mat-form-field>
+                <div *ngIf="(price.errors?.required && price.touched)" class="errorCreMsg">
+                  Required!
+                </div> 
+                <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+                  class="errorCreMsg">
+                    Invalid !
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="col-md-10" *ngFor="let serObjC of dataSourceServiceBook; let i = index; ">
+              <div  *ngIf=" (serObjC.lkpBranchMopId == paidId) " class="tableDataComman prefixCom" style=" display: block !important;">
+                <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                  <input style="text-align: right  !important;" matInput name="pricePaid_{{i}}_{{indexValue}}" #price="ngModel" [(ngModel)]="serObjC.price" 
+                    class="form-control" placeholder="" (ngModelChange)="editInput(serObjC)" maxlength="11" appNumberOnly numeric required>
+                    <span matPrefix>{{ payoutGenDetail.lkpAssocBkngExpnsTypeId | lookupValue : "sortForm" : payoutGenRefDetail.assocExpenseTypeList }} &nbsp;</span>
+                </mat-form-field>
+                <div *ngIf="(price.errors?.required && price.touched)" class="errorCreMsg">
+                  Required!
+                </div>
+                <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+                  class="errorCreMsg">
+                    Invalid !
+                </div> 
+              </div>
+            </div>
+          </div>
+          <div class="col-md-3">
+            <div class="col-md-10" *ngFor="let serObjC of dataSourceServiceBook; let i = index; ">
+              <div  *ngIf=" (serObjC.lkpBranchMopId == topayId) " class="tableDataComman prefixCom" style=" display: block !important;" >
+                <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                  <input style="text-align: right !important;" matInput name="priceToPay_{{i}}_{{indexValue}}" #price="ngModel" [(ngModel)]="serObjC.price"
+                    class="form-control" placeholder="" (ngModelChange)="editInput(serObjC)" maxlength="11" appNumberOnly numeric required>
+                    <span matPrefix>{{ payoutGenDetail.lkpAssocBkngExpnsTypeId | lookupValue : "sortForm" : payoutGenRefDetail.assocExpenseTypeList }} &nbsp;</span>
+                </mat-form-field>
+                <div *ngIf="(price.errors?.required && price.touched)" class="errorCreMsg">
+                  Required!
+                </div>
+                <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+                  class="errorCreMsg">
+                    Invalid !
+                </div> 
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="table-responsive create_new_tale_mdm2" *ngIf="payoutGenDetail.lkpAssocBkngPayoutCtgyId == offeringId">
+        <div class="row col-md-12 pd_zero">
+          <div class="col-md-3 tableHead pd_zero">
+            <div class="tableRowItm pd_zero"><span class="tableRow" style="padding-left: 3rem !important;border-right: 1px solid #fff;"> EXPENSE TYPE <span class="redMark"> *</span></span> </div>
+            <div class="pd_zero">
+              <span class="tableDataComman" style="padding-left: 3rem !important ;"> {{ payoutGenDetail.lkpAssocBkngExpnsTypeId === 0 ? '' : payoutGenDetail.lkpAssocBkngExpnsTypeId | lookupValue : "sortForm" : payoutGenRefDetail.assocExpenseTypeList}}</span>
+              
+            </div>
+          </div>
+          <div class="col-md-5 pd_zero">
+            <div class="col-md-12 pd_zero">
+              <div class="col-md-3 pd_zero tableHead" *ngFor="let serObjC of dataSourceServiceoff; let i = index; ">
+                <div class="tableRowItm pd_zero"><span class="tableRow" style="padding: 1rem !important ;border-right: 1px solid #fff;">{{serObjC.serviceOfferingId | lookupValue : "serviceOffering" : payoutGenRefDetail.serviceOfferingList }}<span class="redMark"> *</span></span>
+                </div>
+                <div class="pd_zero">
+                  <span class="tableDataComman" style="padding: 0rem !important; display: block !important;"> 
+                    <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                    <input matInput name="price_{{i}}_{{indexValue}}" #price="ngModel" [(ngModel)]="serObjC.price"
+                      class="form-control" placeholder="" (ngModelChange)="editInput(serObjC)" maxlength="11" required numeric>
+                  </mat-form-field>
+                  <div *ngIf="(price.errors?.required && price.touched)" class="errorCreMsg">
+                    Required!
+                  </div>
+                  <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+                    class="errorCreMsg">
+                      Invalid !
+                  </div> 
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+      <div class="table-responsive create_new_tale_mdm2" *ngIf="payoutGenDetail.lkpAssocBkngPayoutCtgyId == pertipId">
+        <table aria-describedby="table" mat-table [dataSource]="dataSourceVehicle" matSort class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="PserviceO">
+            <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="border-right: 1px solid #fff"> <strong>VEHICLE MODEL</strong></th>
+            <td mat-cell *matCellDef="let element">
+              <div class="row_center row_center_width" matTooltipPosition="above">
+                {{element.lkpCargoCapacityId | lookupValue : "lookupVal" : payoutGenRefDetail.vehicleCargoCapacityList }}</div>
+            </td>
+          </ng-container>
+  
+          <!-- Name Column -->
+          <ng-container matColumnDef="Ppaid">
+            <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header style="border-right: 1px solid #fff"> <strong>RATE <span class="redMark"> *</span></strong></th>
+            <td mat-cell *matCellDef="let element ; let i = index">
+              <div class="row_center row_center_width" matTooltipPosition="above">
+                <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                  <input matInput name="price_{{i}}_{{indexValue}}" #price="ngModel" [(ngModel)]="element.price" 
+                    class="form-control" placeholder=""  (ngModelChange)="editInput(element)"required numeric maxlength="11"> 
+                </mat-form-field>
+                <div *ngIf="(price.errors?.required && price.touched)" class="errorMsg">
+                  Required!
+                </div>
+                <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+                  class="errorMsg">
+                    Invalid !
+                </div> 
+              </div>
+            </td>
+          </ng-container>
+  
+          <!-- Name Column -->
+  
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumnVehicle"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnVehicle;"></tr>
+        </table>
+        <div>
+        </div>
+      </div>
+      </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <hr >
+  <!-- Fix Div nothing change Start-->
+  <div>
+    <div class="row mt_10" >
+      <div class="col-md-2">
+        <mat-label><strong>Per Waybill Min</strong> </mat-label>  
+      </div>
+      <div class="col-md-2">
+        <mat-form-field appearance="outline">
+          <input matInput name="minAmtPerWaybl_{{indexValue}}" #minAmtPerWaybl="ngModel" numeric maxlength="11"
+            [(ngModel)]="payoutGenDetail.minAmtPerWaybl" OnlyNumber="true" (keyup)="compareMin(payoutGenDetail)"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" >
+        </mat-form-field>    
+        <span *ngIf="(minAmtPerWaybl.errors?.isNumeric && minAmtPerWaybl.touched)"
+          class="errorMsg">
+            Invalid !
+        </span> 
+        <span *ngIf="payoutGenDetail.minFlag && (minAmtPerWaybl.dirty || minAmtPerWaybl.touched) && !(minAmtPerWaybl.errors?.isNumeric && minAmtPerWaybl.touched)" class="errorMsg">
+          Less Than Per Waybill Max !</span>   
+        
+      </div>
+      <div class="col-md-2 col-md-offset-1 mo_ml_0">
+        <mat-label><strong>Per Waybill Max</strong> </mat-label>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field appearance="outline">
+          <input matInput name="maxAmtPerWaybl_{{indexValue}}" #maxAmtPerWaybl="ngModel" numeric maxlength="11"
+            [(ngModel)]="payoutGenDetail.maxAmtPerWaybl" OnlyNumber="true" (keyup)="compareMin(payoutGenDetail)"  (ngModelChange)="editInput(payoutGenDetail)" class="form-control" placeholder="" >
+        </mat-form-field>         
+        <span *ngIf="(maxAmtPerWaybl.errors?.isNumeric && maxAmtPerWaybl.touched)"
+          class="errorMsg">
+            Invalid !
+        </span>    
+        <span *ngIf="payoutGenDetail.minFlag && (maxAmtPerWaybl.dirty || maxAmtPerWaybl.touched) && !(maxAmtPerWaybl.errors?.isNumeric && maxAmtPerWaybl.touched)" class="errorMsg">
+        Greater Than Per Waybill Min !</span>
+      </div>
+    </div>
+  </div>
+  <!-- Fix Div nothing change  End-->
+  <div class="row form-group">
+    <div class="col-md-2">
+      <mat-label><strong>Additional Parameter</strong> <span class="redMark"> *</span></mat-label>
+    </div>
+    <div class="col-md-10">
+      <div class="module_area">
+        <mat-radio-group name="addtnlParam_{{indexValue}}" #addtnlParamF="ngModel"
+          [(ngModel)]="payoutGenDetail.addtnlParamFlag"  (ngModelChange)="editInput(payoutGenDetail)" required>
+          <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+          </mat-radio-button>
+          <mat-radio-button [value]="0">No</mat-radio-button>
+        </mat-radio-group>
+        <div *ngIf="(addtnlParamF.errors?.required && addtnlParamF.touched)" class="errorMsg">
+          Required!
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="payoutGenDetail?.addtnlParamFlag">
+    <div class="col-md-2">
+      <mat-label><strong>Parameter Selection</strong> <span class="redMark"> *</span></mat-label>
+    </div>
+    <div class="col-md-2">
+      <div class="module_area">
+        <mat-form-field class="select_box_dropwodn overline_hidden allc">
+          <mat-label>Select</mat-label>
+          <mat-select name="lkpAssocAddtnlParam_{{indexValue}}" #lkpAssocAddtnlParam="ngModel"
+            [(ngModel)]="payoutGenDetail.lkpAssocAddtnlParamId"  (ngModelChange)="editInput(payoutGenDetail)" required>
+            <ng-container *ngFor="let lkpAssocAddtnlParamObj of payoutGenRefDetail?.assocAdditionalParamList">
+              <mat-option *ngIf="lkpAssocAddtnlParamObj.lookupVal == 'ACTUAL WEIGHT' &&  payoutGenDetail.lkpAssocBkngExpnsTypeId  != actualWeightId"
+              [value]="lkpAssocAddtnlParamObj.id">
+              {{lkpAssocAddtnlParamObj.lookupVal}}
+              </mat-option>
+              <mat-option *ngIf="lkpAssocAddtnlParamObj.lookupVal == 'CHARGED WEIGHT' &&  payoutGenDetail.lkpAssocBkngExpnsTypeId  != chargeWeightId"
+              [value]="lkpAssocAddtnlParamObj.id">
+              {{lkpAssocAddtnlParamObj.lookupVal}}
+              </mat-option>
+              <mat-option *ngIf="lkpAssocAddtnlParamObj.lookupVal == 'PER PACKAGE' &&  payoutGenDetail.lkpAssocBkngExpnsTypeId  != perPackId"
+              [value]="lkpAssocAddtnlParamObj.id">
+              {{lkpAssocAddtnlParamObj.lookupVal}}
+              </mat-option>
+              <mat-option *ngIf="lkpAssocAddtnlParamObj.lookupVal == 'PER TRIP' &&  payoutGenDetail.lkpAssocBkngExpnsTypeId  != perTripId"
+              [value]="lkpAssocAddtnlParamObj.id">
+              {{lkpAssocAddtnlParamObj.lookupVal}}
+              </mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="(lkpAssocAddtnlParam.errors?.required && lkpAssocAddtnlParam.touched)" class="errorMsg">
+          Required!
+        </div>
+      </div>
+    </div>
+    <div class="col-md-2" style="margin-top: -0.6rem;">
+      <mat-form-field appearance="outline">
+        <input matInput name="lkpAssocAddtnlVal_{{indexValue}}" #lkpAssocAddtnlVal="ngModel" appNumberOnly  (ngModelChange)="editInput(payoutGenDetail)"
+          [(ngModel)]="payoutGenDetail.addtnlParamVal" class="form-control" placeholder="" required>
+      </mat-form-field>
+      <div *ngIf="(lkpAssocAddtnlVal.errors?.required && lkpAssocAddtnlVal.touched)" class="errorMsg">
+        Required!
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-2">
+      <mat-label><strong>Start Date</strong><span class="redMark"> *</span></mat-label>
+    </div>
+    <div class="col-md-2">
+      <div class="module_area">
+        <mat-form-field appearance="outline" class="date_picker_adjust">
+          <mat-datepicker #msa114SEndDate1 class="msa114SEndDate1">
+          </mat-datepicker>
+          <input matInput [matDatepicker]="msa114SEndDate1" class="date_input_height" name="effectiveDt_{{indexValue}}"
+            #effectiveDt="ngModel" [(ngModel)]="payoutGenDetail.effectiveDt" placeholder="DD/MM/YYYY"  
+            (ngModelChange)="editInput(payoutGenDetail)" [min]="payoutGenDetail.effectiveMinDt" (blur)="effectiveDate(true,payoutGenDetail)" (dateChange)="effectiveDate(true, payoutGenDetail)"  numericSpecialChar required/>
+          <mat-datepicker-toggle matPrefix [for]="msa114SEndDate1">
+          </mat-datepicker-toggle>
+        </mat-form-field>
+        <div *ngIf="payoutGenDetail.isValidEffectiveDt && !(effectiveDt.errors?.required)" class="errorMsg">
+          Invalid Start Date!
+        </div>
+        <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
+         Required!
+       </div>
+      </div>
+    </div>
+    <div class="col-md-2 col-md-offset-1 mo_ml_0">
+      <mat-label><strong>End Date</strong></mat-label>
+    </div>
+    <div class="col-md-2">
+      <div class="module_area">
+        <mat-form-field appearance="outline" class="date_picker_adjust">
+          <mat-datepicker #msa114EndDate1 class="myDatepicker23">
+          </mat-datepicker>
+          <input matInput [matDatepicker]="msa114EndDate1" class="date_input_height" placeholder=""
+            name="expDt_{{indexValue}}" #expDt="ngModel" [(ngModel)]="payoutGenDetail.expDt" placeholder="DD/MM/YYYY"  
+            (ngModelChange)="editInput(payoutGenDetail)"  [min]="expMinDt" (dateChange)="expDate(payoutGenDetail)" (blur)="expDate(payoutGenDetail)" numericSpecialChar />
+          <mat-datepicker-toggle matPrefix [for]="msa114EndDate1">
+          </mat-datepicker-toggle>
+        </mat-form-field>
+        <div *ngIf="payoutGenDetail.isValidExpDt" class="errorMsg">
+          Invalid End Date!
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

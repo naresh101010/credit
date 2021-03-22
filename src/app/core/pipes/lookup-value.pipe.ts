@@ -6,14 +6,11 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class LookupValuePipe implements PipeTransform {
 
   transform(value, lookupVal, ...args: any[]) {
-    let lookupObj;
-    if(args && args.length > 0 && args[0]) {
-      lookupObj = args[0].filter(obj => {
-        return obj.id == value;
-      }); 
-    }
-    
-    if(lookupObj && lookupObj.length > 0 && lookupObj[0] !== undefined){
+    let lookupObj = args[0].filter(obj => {
+      return obj.id == value;
+    }); 
+  
+    if(lookupObj[0] !== undefined){
       return lookupObj[0][lookupVal];
     } else {
       return value;

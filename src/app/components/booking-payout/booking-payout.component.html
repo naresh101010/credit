@@ -1,0 +1,464 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-5">
+        <div>
+          <mat-toolbar class="breadcrumbs_nav">
+            <mat-toolbar-row class="breadcrumbs">
+              <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Dashboard</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Contracts</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span>Associate Contract</span>
+            </mat-toolbar-row>
+          </mat-toolbar>
+          <h2>Booking Associate Contract</h2>
+        </div>
+      </div>
+      <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
+        <stepper></stepper>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- breadcrumb end -->
+
+<!-- msa 114 start -->
+<section class="req_table_sec booking_msa_sec mat_radio_btn_mb_0" >
+  <div class="container-fluid">
+    <div class="booking_card padding_0">
+      <!--  Display Header -->
+      <app-header-data></app-header-data>
+      <form name="assoPay" (ngSubmit)="fAssoPay.form.valid" #fAssoPay="ngForm" novalidate  class="rateCardDetail" autocomplete="off">
+        <div class="padding_10">
+          <mat-expansion-panel class="box_shadow_none" [expanded]="true">
+            <mat-expansion-panel-header class="collapse_panel_header">
+              <mat-panel-title>
+                General Customer
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="padding_10">
+              <app-payout-gen-detail   *ngIf ="paymentCommercialData && paymentCommercialRefData" [payoutGenDetail]="paymentCommercialData" [indexValue]="gen"
+                [payoutGenRefDetail]="paymentCommercialRefData"></app-payout-gen-detail>
+              </div>
+            <hr>
+            <div class="padding_10">
+              <div class="row form-group">
+                <div class="col-md-3" style="width: max-content;">
+                  <mat-label><strong>Ex-Gratia Applicable</strong> <span class="redMark"> *</span></mat-label>
+                </div>
+                <div class="col-md-10">
+                  <div class="module_area">
+                    <mat-radio-group  name="exgratiaFlag" #exgratiaFlag="ngModel" (change) ="exgratiaAndMGChange()" [(ngModel)]="paymentCommercialData.exgratiaFlag" (ngModelChange)="editInput(paymentCommercialData)"   required>
+                      <mat-radio-button [value]="1">Yes
+                      </mat-radio-button>
+                      <mat-radio-button [value]="0">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="(exgratiaFlag.errors?.required && exgratiaFlag.touched)" class="errorMsg">
+                      Required!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt_10"  *ngIf="paymentCommercialData.exgratiaFlag">
+                <div class="col-md-11">
+                  <div class="table-responsive create_new_tale_mdm2">
+    
+                    <table aria-describedby="exGratiaTable" mat-table [dataSource]="dataSourceExBranch" matSort class="mat-elevation-z8">
+    
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="ExBranch">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>BRANCH</strong></th>
+                        <td mat-cell *matCellDef="let element">
+                          <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element?.assocBranchId | lookupValue : 'branchName' : paymentDataBranch">{{element?.assocBranchId | lookupValue : "branchName" : paymentDataBranch}}</div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="ExAmount">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>EX-GRATIA AMOUNT <span class="redMark"> *</span> </strong></th>
+                        <td mat-cell *matCellDef="let element; let i = index;">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                              <input matInput name="exAmount_{{i}}" #exAmount="ngModel" [(ngModel)] ="element.amt" (ngModelChange)="editInput(element)" class="form-control" placeholder="" required appNumberOnly maxlength="10">
+                            </mat-form-field>
+                            <div *ngIf="(exAmount.errors?.required && exAmount.touched)" class="errorMsg">
+                              Required!
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="ExReaspm">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>REASON </strong></th>
+                        <td mat-cell *matCellDef="let element; let i = index;">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                              <input matInput  name="exReason_{{i}}" #exReason="ngModel" [(ngModel)] ="element.reason" (ngModelChange)="editInput(element)"  class="form-control" placeholder="" >
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="ExSdate">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>START DATE<span class="redMark"> *</span></strong></th>
+                        <td mat-cell *matCellDef="let element ; let i = index">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width" style="margin-top: 4px;">
+                                <mat-datepicker #msa114StartDate2 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa114StartDate2" class="date_input_height" 
+                                  name="exEffectiveDt_{{i}}"   #effectiveDt="ngModel" [(ngModel)] ="element.effectiveDt" (ngModelChange)="editInput(element)"  
+                                  placeholder="DD/MM/YYYY"class="form-control"  [min]="element.effectiveMinDt" (blur)="effectiveDate(true,element)" (dateChange)="effectiveDate(true, element)"   required numericSpecialChar/>
+                                <mat-datepicker-toggle matPrefix [for]="msa114StartDate2">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                              <div *ngIf="element.isValidEffectiveDt && !(effectiveDt.errors?.required)" class="errorMsg">
+                                Invalid Start Date!
+                              </div>
+                              <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
+                               Required!
+                             </div>
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="ExEdate">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>END DATE </strong></th>
+                        <td mat-cell *matCellDef="let element ; let i = index">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width" style="position: relative;top: 2px;">
+                                <mat-datepicker #msa114EndDate2 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa114EndDate2" class="date_input_height" 
+                                  name="exExpiryDate_{{i}}"   #expDt="ngModel" [(ngModel)] ="element.expDt" (ngModelChange)="editInput(element)"  
+                                  placeholder="DD/MM/YYYY" class="form-control"  [min]="element.expiryDate_min" 
+                                  [max]="element.expiryDate_max" placeholder="DD/MM/YYYY" (dateChange)="expDate(element)" (blur)="expDate(element)"    numericSpecialChar/>
+                                <mat-datepicker-toggle matPrefix [for]="msa114EndDate2">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                              <div *ngIf="element.isValidExpDt && !(expDt.errors?.required)" class="errorMsg">
+                                Invalid End Date!
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+                    </table>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="padding_10">
+              <div class="row form-group">
+                <div class="col-md-3" style="width: max-content;">
+                  <mat-label><strong>Minimum Guarantee Applicable</strong><span class="redMark"> *</span></mat-label>
+                </div>
+                <div class="col-md-9">
+                  <div class="module_area">
+                    <mat-radio-group  name="minGuaranteeFlag" #minGuaranteeFlag="ngModel" (change) ="exgratiaAndMGChange()"  [(ngModel)]="paymentCommercialData.minGuaranteeFlag"  (ngModelChange)="editInput(paymentCommercialData)"    required>
+                      <mat-radio-button [value]="1">Yes
+                      </mat-radio-button>
+                      <mat-radio-button [value]="0">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="(minGuaranteeFlag.errors?.required && minGuaranteeFlag.touched)" class="errorMsg">
+                      Required!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row mt_10" *ngIf="paymentCommercialData.minGuaranteeFlag">
+                <div class="col-md-11">
+                  <div class="table-responsive create_new_tale_mdm2">
+    
+                    <table aria-describedby="minGuaranteeTable" mat-table [dataSource]="dataSourceMgBranch" matSort class="mat-elevation-z8">
+    
+                      <!-- Position Column -->
+                      <ng-container matColumnDef="MgBranch">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>BRANCH</strong></th>
+                        <td mat-cell *matCellDef="let element">
+                          <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.assocBranchId | lookupValue : 'branchName' : paymentDataBranch">{{element.assocBranchId | lookupValue : "branchName" : paymentDataBranch}}</div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="MgAmount">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>MG AMOUNT </strong> <span class="redMark"> *</span></th>
+                        <td mat-cell *matCellDef="let element; let i = index ">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                              <input matInput name="mgAmount_{{i}}" #exAmount="ngModel" [(ngModel)] ="element.amt"   (ngModelChange)="editInput(element)"  class="form-control" placeholder="" required appNumberOnly>
+                            </mat-form-field>
+                            <div *ngIf="(exAmount.errors?.required && exAmount.touched)" class="errorMsg">
+                              Required!
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="MgReaspm">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>REASON</strong> </th>
+                        <td mat-cell *matCellDef="let element ; let i = index">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                              <input matInput  name="mgReason_{{i}}" #exReason="ngModel" [(ngModel)] ="element.reason"  (ngModelChange)="editInput(element)" class="form-control" placeholder="" >
+                            </mat-form-field>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="MgSdate">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>START DATE</strong><span class="redMark"> *</span></th>
+                        <td mat-cell *matCellDef="let element ; let i = index">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width" style="margin-top: 4px;">
+                                <mat-datepicker #msa114StartDate3 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa114StartDate3" class="date_input_height" placeholder=""
+                                    name="mgEffectiveDt_{{i}}" #effectiveDt="ngModel" [(ngModel)] ="element.effectiveDt"  
+                                    (ngModelChange)="editInput(element)" placeholder="DD/MM/YYYY" class="form-control" [min]="element.effectiveMinDt" (blur)="effectiveDate(true,element)" (dateChange)="effectiveDate(true, element)" required numericSpecialChar/>
+                                <mat-datepicker-toggle matPrefix [for]="msa114StartDate3">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                              <div *ngIf="element.isValidEffectiveDt && !(effectiveDt.errors?.required)" class="errorMsg">
+                                Invalid Start Date!
+                              </div>
+                              <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
+                               Required!
+                             </div>
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <!-- Name Column -->
+                      <ng-container matColumnDef="MgEdate">
+                        <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>END DATE</strong></th>
+                        <td mat-cell *matCellDef="let element ; let i = index">
+                          <div class="row_center row_center_width" matTooltipPosition="above">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width" style="position: relative;top: 2px;">
+                                <mat-datepicker #msa114EndDate4 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa114EndDate4" class="date_input_height" name="mgExpiryDate_{{i}}" #expDt="ngModel" [(ngModel)] ="element.expDt"  (ngModelChange)="editInput(element)"  
+                                  placeholder="DD/MM/YYYY" class="form-control" [min]="element.expiryDate_min" 
+                                  [max]="element.expiryDate_max" placeholder="DD/MM/YYYY" (dateChange)="expDate(element)" (blur)="expDate(element)"   numericSpecialChar/>
+                                <mat-datepicker-toggle matPrefix [for]="msa114EndDate4">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                              <div *ngIf="element.isValidExpDt && !(expDt.errors?.required)" class="errorMsg">
+                                Invalid End Date!
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </ng-container>
+    
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                    </table>
+                    <div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div class="padding_10">
+              <div class="row form-group">
+                <div class="col-md-2">
+                  <mat-label><strong>Promotion Applicable</strong><span class="redMark"> *</span></mat-label>
+                </div>
+                <div class="col-md-10" style="margin-left: -25px;">
+                  <div class="module_area">
+                    <mat-radio-group  name="promotionApplicableFlag" #promotionApplicableFlag="ngModel"  [(ngModel)]="paymentCommercialData.promotionApplicableFlag"  (ngModelChange)="editInput(paymentCommercialData)"    required>
+                      <mat-radio-button [value]="1" >Yes
+                      </mat-radio-button>
+                      <mat-radio-button [value]="0">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="(promotionApplicableFlag.errors?.required && promotionApplicableFlag.touched)" class="errorMsg">
+                      Required!
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row form-group">
+                <div class="col-md-2">
+                  <mat-label><strong>Additional Expense</strong><span class="redMark"> *</span></mat-label>
+                </div>
+                <div class="col-md-10" style="margin-left: -40px;">
+                  <div class="module_area">
+                    <mat-radio-group  name="addtnlExpnsFlag" #addtnlExpnsFlag="ngModel"  [(ngModel)]="paymentCommercialData.addtnlExpnsFlag" (ngModelChange)="editInput(paymentCommercialData)"    required>
+                      <mat-radio-button [value]="1" >Yes
+                      </mat-radio-button>
+                      <mat-radio-button [value]="0">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="(addtnlExpnsFlag.errors?.required && addtnlExpnsFlag.touched)" class="errorMsg">
+                      Required
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" >
+                <div class="col-md-2">
+                  <mat-label><strong>Remarks</strong><span class="redMark"> *</span></mat-label>
+                </div>
+                <div class="col-md-2">
+                  <mat-form-field appearance="outline">
+                    <input matInput name="addtnlExpnsRemark" #addtnlExpnsRemark="ngModel"  [(ngModel)]="paymentCommercialData.addtnlExpnsRemark"  (ngModelChange)="editInput(paymentCommercialData)" class="form-control" placeholder="" required>
+                  </mat-form-field>
+                  <div *ngIf="(addtnlExpnsRemark.errors?.required && addtnlExpnsRemark.touched)" class="errorMsg">
+                    Required!
+                  </div>
+                </div>
+              </div>
+              <div class="row form-group" >
+                <div class="col-md-3 " style="width: max-content;">
+                  <mat-label><strong>Customer Specific Payment</strong><span class="redMark"> *</span></mat-label>
+                </div>
+                <div class="col-md-9">
+                  <div class="module_area">
+                    <mat-radio-group  name="custPymtFlag" #custPymtFlag="ngModel" (change)="openSearchCustomerModal()" [(ngModel)]="paymentCommercialData.custPymtFlag"  (ngModelChange)="editInput(paymentCommercialData)" required>
+                      <mat-radio-button [value]="1" >Yes
+                      </mat-radio-button>
+                      <mat-radio-button [value]="0">No</mat-radio-button>
+                    </mat-radio-group>
+                    <div *ngIf="(custPymtFlag.errors?.required && custPymtFlag.touched)" class="errorMsg">
+                      Required
+                    </div>
+                  </div>
+                </div>
+              </div>
+    
+            </div>
+          </mat-expansion-panel>
+          <div *ngIf="paymentCommercialData.bookingCommercialCustomerList && paymentCommercialData.bookingCommercialCustomerList.length > 0 ">
+            <div *ngFor="let customer of paymentCommercialData.bookingCommercialCustomerList; let i = index">
+              <mat-expansion-panel class="box_shadow_none" [expanded]="true" style="position: relative;">
+                <div class="row_center delete_icon" (click)="deleteBranchDialog(customer)" matTooltipPosition="above">
+                  <span class="material-icons" style="color: #27AE60; cursor: pointer; float: right !important;">delete</span>
+                </div>
+                <mat-expansion-panel-header class="collapse_panel_header">
+                  <mat-panel-title>
+                    {{customer.customerName}} 
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="padding_10">
+                  <div >
+                    <app-payout-gen-detail   *ngIf ="customer && paymentCommercialRefData" [payoutGenDetail]="customer" [indexValue]="i" [payoutGenRefDetail]="paymentCommercialRefData"> </app-payout-gen-detail>
+                  </div>
+                </div>
+        
+              </mat-expansion-panel>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="padding_10" *ngIf="paymentCommercialData.bookingCommercialCustomerList && paymentCommercialData.bookingCommercialCustomerList.length > 0 ">
+          <div class="label_and_add" >
+            <mat-label><strong>Add Another Customer</strong></mat-label>
+            <mat-icon class="add_icon" (click)="addNewCustomer()" >add</mat-icon>
+          </div>
+        </div>
+        <hr>
+        <mat-expansion-panel class="box_shadow_none" [expanded]="true">
+        <div class="padding_10" style="margin-left: 20px;">
+          <div class="row mt_10">
+            <h5 class="zonalheading" style="padding-top: 2rem;" >Notepad Section</h5>
+            <div class="row" *ngIf="!(radioButtontncData.length === 0)">
+              <div class="col-lg-6 col-md-6">
+                <div class="col-lg-4 col-md-4   zonalheadingbar">FIELD LABEL</div>
+                <div class="col-lg-6 col-md-6   zonalheadingbar">FIELD VALUE</div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6 col-md-6  ">
+                <h4 *ngIf="radioButtontncData.length === 0"><em>No Data Available</em></h4>
+              </div>
+            </div>
+            <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of radioButtontncData; let i = index">
+              <div class="col-lg-6 col-md-6  ">
+                <div class="col-lg-4 col-md-4   label-text"><mat-label><strong>{{item.notepadName}}</strong></mat-label></div>
+                <div class="col-lg-6 col-md-6  module_area">
+                    <mat-radio-group 
+                      #notepaadname="ngModel"  name="notepaadname-{{i}}"  [(ngModel)]="item.notepadInputVal" (ngModelChange)="editInput(item)" *ngFor="let season of item.attributeValue">
+                        <mat-radio-button  [value]="season" >
+                          {{season}}
+                        </mat-radio-button>
+                      </mat-radio-group>
+                  </div>
+              </div>
+            </div>
+            <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of selectortncData; let i = index">
+              <div class="col-lg-6 col-md-6 ">
+                <div class="col-lg-4 col-md-4   label-text"><mat-label><strong>{{item.notepadName}}</strong></mat-label></div>
+                <div class="col-lg-6 col-md-6  module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden"style="width: 60% !important;">
+                    <mat-select disableOptionCentering panelClass="mat_ngx_booking"  [(ngModel)]="item.notepadInputVal" (ngModelChange)="editInput(item)" 
+                    #notepadname2="ngModel" name ="notepadname2-{{i}}">
+                    <ngx-mat-select-search [(ngModel)]="searchNotePad" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                      [noEntriesFoundLabel]="'Not found'" name="search">
+                      <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+                    </ngx-mat-select-search>
+                      <mat-option *ngFor="let season of (item.attributeValue | stringFilterBooking:searchNotePad:'season') | sortBy:'asc':'season'" [value]="season" 
+                      matTooltipPosition="above" [matTooltip]="season | uppercase" [matTooltipDisabled]="season?.length<24">
+                        {{season}}
+                      </mat-option>
+                    </mat-select>
+                    </mat-form-field>
+                </div>
+              </div>
+            </div>
+            <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of stringtncData; let i = index">
+              <div class="col-lg-6 col-md-6  ">
+                <div class="col-lg-4 col-md-4   label-text"> <mat-label><strong>{{item.notepadName}}</strong></mat-label></div>
+                <div class="col-lg-6 col-md-6 module_area ">
+                  <mat-form-field appearance="outline" style="width: 60%;">
+                    <input matInput  autocomplete="true" [(ngModel)]="item.notepadInputVal"
+                    #notepadname3="ngModel" name="notepadname3-{{i}}" maxlength="15">
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </mat-expansion-panel>
+        <hr>
+        <div class="row">
+          <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['PAYMENT TERMS_CREATE', 'PAYMENT TERMS_UPDATE']">
+            <button mat-button class="white-button" [disabled]="!fAssoPay.form.valid || !childValidation?.fAssoPaygen?.form.valid" (click)="submitPayment('save')">Save as Draft </button>
+            <button mat-button class="theme-button ml_15" [disabled]="!fAssoPay.form.valid || !childValidation?.fAssoPaygen?.form.valid"   (click)="submitPayment('next')" >Next  </button>
+          </div>
+          <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['PAYMENT TERMS_CREATE', 'PAYMENT TERMS_UPDATE']">
+            <button mat-button class="theme-button ml_15"   (click)="nextReadMode()" >Next  </button>
+          </div>
+        </div>
+    </form>
+    </div>
+  </div>
+</section>
+<!-- msa 114 end -->
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

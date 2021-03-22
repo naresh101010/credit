@@ -93,28 +93,28 @@ export class VehicleAllocationComponent implements OnInit {
 
     dialog.afterClosed().subscribe(res => {
       if(res) {
-        this.router.navigate(['/asso_air-contract/associate-staff'], {skipLocationChange: true})
+        this.router.navigate(['/asso_network-contract/associate-staff'], {skipLocationChange: true})
       } else {
-        this.router.navigate(['/asso_air-contract/asso_air'], {skipLocationChange: true})
+        this.router.navigate(['/asso_network-contract/asso_network'], {skipLocationChange: true})
       }
     })
   }
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_air-contract/associate-kyc'], { skipLocationChange: true });
+    this.router.navigate(['/asso_network-contract/associate-kyc'], { skipLocationChange: true });
   }
 
   addEditVehicle(id){
   AppSetting.vehicleId = id;
-    this.router.navigate(['/asso_air-contract/vehicle'], {skipLocationChange: true})
+    this.router.navigate(['/asso_network-contract/vehicle'], {skipLocationChange: true})
   }
 
   /*-------- Upload Vehicle Document ------- */
   addVehicleDocument(data) {
     AppSetting.vehicleId = data.id;
     AppSetting.vehicleNumber = (data.vehicleNum).toUpperCase();
-      this.router.navigate(['/asso_air-contract/vehicle-document'], {skipLocationChange: true});
+      this.router.navigate(['/asso_network-contract/vehicle-document'], {skipLocationChange: true});
   }
   /*---- get vehicle model ------- */
   getVehicleModel(modelId){

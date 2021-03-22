@@ -3,7 +3,7 @@
 }
 .preview_sec_3 h3 {
     margin-left: 2rem;
-    margin-top: 1.3rem;
+    margin-top: 1.5rem;
 }
 .customer_preview {
     padding: 1rem;
@@ -18,8 +18,11 @@
 }
 
 .backButton{
+    position: absolute;
     right: -30px;
     top: 0px;
-    position: absolute;
     cursor: pointer;
+}
+.ml_mins{
+    margin-left: 1rem;
 }

@@ -22,7 +22,7 @@ export class AuthorizationService {
       this.attrExclusionMap = new Map();
       if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
         this.data.childMenu.map(item => {
-          if (item.menuLabel === 'ASSOCIATE AIR FREIGHT') {
+          if (item.menuLabel === 'ASSOCIATE NETWORK') {
             if(item.permissions){  
             item.permissions.map(permission => {
               if (permission.entityName === entityName && permission.channelId === 33) {
@@ -91,7 +91,7 @@ export class AuthorizationService {
     getMenuHierarchyId(){
       if (this.data && this.data.childMenu && this.data.childMenu.length > 0) {
          let menu = this.data.childMenu.filter(function (item) {
-                    return item.menuLabel === 'ASSOCIATE AIR FREIGHT';
+                    return item.menuLabel === 'ASSOCIATE NETWORK';
                   });
         return menu;
        }

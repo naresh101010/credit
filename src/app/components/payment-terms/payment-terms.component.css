@@ -1,0 +1,22 @@
+.rs_field {
+    position: relative;
+}
+.rs_field .rs_txt {
+    position: absolute;
+    top: 0.3rem;
+    font-size: 1.5rem;
+    left: 2rem;
+}
+.rs_field .mat-input-element {
+    padding-left: 2.6rem !important;
+}
+.km_field {
+    position: relative;
+}
+.km_txt {
+    position: absolute;
+    right: -1.4rem;
+    top: 0.4rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+}

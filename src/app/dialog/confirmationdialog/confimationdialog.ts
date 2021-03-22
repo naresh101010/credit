@@ -17,7 +17,7 @@ export class confimationdialog implements OnInit {
     message:any;
   ngOnInit() {
       this.message = this.data.message;
-      console.log('confirmation');
+      //console.log('confirmation');
   }
 
   submit(value){

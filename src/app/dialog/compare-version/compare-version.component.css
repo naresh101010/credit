@@ -1,6 +1,6 @@
  .highlight {
     background: yellow  !important;
-    color: black !important;
+    color: black;
   }
   .preview_sec_2 h3{
     color: white;
@@ -9,4 +9,12 @@
 .mat-cell >.material-icons {
   font-size: 18px !important;
   color: #27AE60;
+}
+
+.mat-cell >span >.material-icons {
+  font-size: 18px !important;
+  color: #27AE60;
+}
+.ml_mins{
+  margin-left: 1rem;
 }

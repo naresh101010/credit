@@ -1,0 +1,98 @@
+<form>
+  <div class="modal-container">
+    <h5 class="sub_heading">Pincode Search</h5>
+    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true" (click)="closeDialog()" tabindex="0">close</mat-icon>
+    <hr class="border_row">
+  </div>
+
+  <div class="row">
+    <div class="col-md-2">
+      <mat-label><strong>State</strong></mat-label>
+    </div>
+    <div class="col-md-3">
+      <div class="module_area">
+        <mat-form-field class="select_box_dropwodn overline_hidden">
+          <mat-select name="stateId" [(ngModel)]="stateId" (selectionChange)="getCityByStateId()"
+            placeholder="Select State">
+            <mat-option *ngFor="let state of stateList | sortBy:'asc':'stateName'" [value]="state.id">
+              {{state.stateName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-2 col-md-offset-2 mo_ml_0">
+      <mat-label><strong>City</strong></mat-label>
+    </div>
+    <div class="col-md-3">
+      <div class="module_area">
+        <mat-form-field class="select_box_dropwodn overline_hidden">
+          <mat-select name="cityId" [(ngModel)]="cityObj" (selectionChange)="getPlaceByCityId()"
+            placeholder="Select City">
+            <mat-option *ngFor="let city of cityList | sortBy:'asc':'cityName'" [value]="city">
+              {{city.cityName}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" *ngIf="(iscityenable) == true">
+    <div class="col-md-2">
+      <mat-label><strong>Search</strong></mat-label>
+    </div>
+    <div class="col-md-3">
+      <mat-form-field appearance="outline">
+        <input matInput autocomplete="true" name="search" class="form-control" placeholder="Search pincode"
+          (keyup)="applyFilter($event.target.value)">
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-12">
+      <div class="table-responsive create_new_tale_mdm2">
+        <table aria-describedby="table" mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="(iscityenable) == true">
+
+          <!-- Checkbox Column -->
+          <ng-container matColumnDef="select">
+            <th scope="col" mat-header-cell *matHeaderCellDef>
+              Select
+            </th>
+            <td mat-cell *matCellDef="let row">
+              <input (click)="selectPincode(row)" type="radio" name="chk" (keydown.enter)="savePincode()">
+            </td>
+          </ng-container>
+
+          <!-- Pincode Column -->
+          <ng-container matColumnDef="pincode">
+            <th scope="col" mat-header-cell *matHeaderCellDef> Pin codes </th>
+            <td mat-cell *matCellDef="let element"> {{element.pincode}} </td>
+          </ng-container>
+
+          <!-- City Column -->
+          <ng-container matColumnDef="city">
+            <th scope="col" mat-header-cell *matHeaderCellDef> City </th>
+            <td mat-cell *matCellDef="let element"> {{cityName | uppercase}} </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="selection.toggle(row)">
+          </tr>
+        </table>
+
+      </div>
+    </div>
+  </div>
+  <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="text-align: center;margin-top: 10px;"
+    *ngIf="(iscityenable) == true">
+    <button class="btn1" id="showbtn" mat-raised-button color="primary" (click)="savePincode()">Submit</button>
+  </div>
+
+</form>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+
+</ngx-spinner>

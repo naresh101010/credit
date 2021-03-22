@@ -35,7 +35,7 @@
       <div class="col-md-12">
         <div class="table-responsive create_new_tale_mdm2">
 
-          <table aria-describedby="table" mat-table [dataSource]="dataSourceCustomers" matSort class="mat-elevation-z8">
+          <table aria-describedby="custTable" mat-table [dataSource]="dataSourceCustomers" matSort class="mat-elevation-z8">
     
             <!-- Position Column -->
             <ng-container matColumnDef="customerName">
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div *ngIf="dataSourceCustomers.data && dataSourceCustomers.data.length > 0" class="row">
-      <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['CUSTOMER COMMERCIAL_CREATE','CUSTOMER COMMERCIAL_UPDATE']">
+      <div class="col-md-12 text-center mtb_30">
         <button mat-button class="theme-button" [disabled]="" (click) = "addCustomers()">Add</button>
       </div>
     </div>

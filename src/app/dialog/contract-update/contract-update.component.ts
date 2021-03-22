@@ -5,7 +5,8 @@ import { BookingAssociateContractUpdateComponent } from '../booking-associate-co
 
 @Component({
   selector: 'app-contract-update',
-  templateUrl: './contract-update.component.html'
+  templateUrl: './contract-update.component.html',
+  styleUrls: ['./contract-update.component.css']
 })
 export class ContractUpdateComponent implements OnInit {
 
@@ -19,7 +20,7 @@ export class ContractUpdateComponent implements OnInit {
     })
   }
 
-  openairfreightcontractUpdateModal() {
+  openBookingContractUpdateModal() {
     let dialog = this.dialog.open(BookingAssociateContractUpdateComponent, {
       width: '50vw',
       panelClass: 'mat-dialog-responsive',

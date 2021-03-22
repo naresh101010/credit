@@ -1,18 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { ApiService } from 'src/app/core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AppSetting } from 'src/app/app.setting';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
-import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-search-branch',
   templateUrl: './search-branch.component.html',
+  styleUrls: ['./search-branch.component.css'],
   providers: [ApiService]
 })
 export class SearchBranchComponent implements OnInit {
@@ -51,19 +49,10 @@ export class SearchBranchComponent implements OnInit {
   nameSearchInbox: boolean = false;
   arr = [];
   referenceData;
-  perList:any = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, private httpservice: HttpClient, public router: Router, private toast: ToastrService, public dialogRef: MatDialogRef<SearchBranchComponent>,private authorizationService : AuthorizationService,
-  private permissionsService: NgxPermissionsService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, private httpservice: HttpClient, public router: Router, private toast: ToastrService, public dialogRef: MatDialogRef<SearchBranchComponent>) { }
 
   ngOnInit() {
-    this.authorizationService.setPermissions('VEHICLE');
-    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
-    this.authorizationService.setPermissions('BRANCH');
-    this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
-    this.permissionsService.loadPermissions(this.perList);
-
-    console.log('perlist',this.perList)
     this.model.search = 'NAME';
     this.referenceData = this.data.referenceData;
     this.referenceData.statusList.forEach(element => {
@@ -85,7 +74,7 @@ export class SearchBranchComponent implements OnInit {
 
       this.data.data.forEach(element => {
         tempTable.forEach(objTemp => {
-          // console.log('element', element);
+          // //console.log('element', element);
           // objTemp.status = this.activeStatus;
           if (objTemp.branchId == element.branchId) {
             objTemp.checked = true;
@@ -125,7 +114,7 @@ export class SearchBranchComponent implements OnInit {
               this.arr = [];
               this.twoAPIdata = data.data;
               this.tableData = data.data;
-              console.log(this.tableData, 'print tabledata')
+              //console.log(this.tableData, 'print tabledata')
               this.SpinnerService.hide();
               this.tableData.responseData.forEach(element => {
                 if (element.branchType == 'REGION') {
@@ -252,29 +241,12 @@ export class SearchBranchComponent implements OnInit {
 
   filterDataByAreaList($event, data) {
     if ($event.checked == false) {
-      const dialog = this.dialog.open(confimationdialog, {
-        data: { message: "Do you want to delete branch?"},
-        disableClose: true,
-        panelClass: 'creditDialog',
-        width: '300px'  
-      });
-
-      dialog.afterClosed().subscribe(res => {
-        if(res) {
-          console.log('res', res)
-          // this.finalAreaData.splice(i, 1);
-          this.finalAreaData.forEach((element, i) => {
-            this.finalAreaData.splice(i, 1);
-          });
-          
-        } else if(res === false && data.checked === false) {
-          $event.checked = true;
-          data.checked = true;
-          data.addOrRemoveOrUpdate = "Add";
-          this.finalAreaData.push(data);
+      this.finalAreaData.forEach((element, i) => {
+        if (element.branchCode == data.branchCode) {
+          this.finalAreaData.splice(i, 1);
+          return
         }
-        console.log('The dialog was closed with pinocde ' ,res);
-      })         
+      });
     }
     if ($event.checked == true) {
       data.addOrRemoveOrUpdate = "Add";
@@ -363,7 +335,7 @@ export class SearchBranchComponent implements OnInit {
         });
     }
     else {
-      console.log('err')
+      //console.log('err')
     }
   }
 
@@ -433,7 +405,6 @@ export class SearchBranchComponent implements OnInit {
   }
 
   selectAll($event, table) {
-    console.log("event detail", $event , "table detail",table)
     if ($event.checked == true) {
       table.forEach(element => {
         this.filterDataByAreaList($event, element);
@@ -451,11 +422,6 @@ export class SearchBranchComponent implements OnInit {
   //dropdown list for advance Default Branch Name
 
 
-  onChangeValue(val) {
-    // this.model.search;
-
-  }
-
   //for input box change
 
   inputFlag(val) {
@@ -464,9 +430,7 @@ export class SearchBranchComponent implements OnInit {
     }
   }
 
-  onChangeValueforBranch() {
-    // this.branchWild;
-  }
+
   filterEntity() {
     let userBranch: any;
     let defaultBranch: any = []

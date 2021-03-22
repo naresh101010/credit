@@ -1,4 +1,4 @@
-<div mat-dialog-content id="userCreateDefault" class="associateAirContainer">
+<div mat-dialog-content id="userCreateDefault" class="associateNetworkContainer">
     <div style="position: relative;" >
         <h3 id="h3" style="margin-top: 0;">Search Branch</h3>
         <mat-icon class="modals_cancel_btn" (click)="closeDialog()" id="closeButton" [mat-dialog-close]="true">close</mat-icon>
@@ -89,7 +89,7 @@
     </div>
 </div>
 <!-- panal -->
-<section *ngIf="tabledataLength > 0" style="width: 100rem; max-height: 40rem;" class="associateAirContainer">
+<section *ngIf="tabledataLength > 0" style="width: 100rem; max-height: 40rem;" class="associateNetworkContainer">
         <div class="col-lg-12">
             <div class="row" style="max-width: 68rem;">
                 <div class="col-lg-3 paddingLeftZero">
@@ -113,20 +113,20 @@
                 <div *ngFor="let branch of tableData.responseData">
                     <div class="row">
                         <div class="col-lg-3 width20" style="display: inline-flex;">
-                            <mat-checkbox (change)="filterDataByAreaList($event, branch)" name="branchChecked" [(ngModel)]="branch.checked"></mat-checkbox>
+                            <mat-checkbox (change)="filterDataByAreaList($event,branch)" name="branchChecked" [(ngModel)]="branch.checked"></mat-checkbox>
                         <span matTooltipPosition="above" [matTooltip]="branch.branchCode">{{ branch.branchCode}}</span>
                         </div>
                         <div class="col-lg-3 width20" matTooltipPosition="above" [matTooltip]="branch.branchName">{{branch.branchName }}</div>
                         <div class="col-lg-3 width20">
                             <em [matTooltip]="branch.address | uppercase" matTooltipPosition="above" class="material-icons primary-color">room</em>
                         </div>
-                        <div class="col-lg-3 width20 ">{{branch.status | lookupValue : "lookupVal" : referenceData.statusList}}</div>
+                        <div class="col-lg-3 width20 ">{{branch.status | lookupValue : "lookupVal" : ''}}</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="text-center" *ngxPermissionsOnly="['BRANCH ALLOCATION_CREATE','BRANCH ALLOCATION_UPDATE']">
+        <div class="text-center">
             <button id="branchSubmit" class="theme-button" style=" margin-top:2%;" mat-raised-button color="primary" (click)="allocateAreaData()">Assign</button>
         </div>
 </section>

@@ -1,0 +1,19 @@
+.label-text{font-size: 1.6rem !important; padding-top: .6rem !important;}
+/* Button */
+.mat-icon-button{width: 4rem !important; height: 4rem !important; line-height: 1.8 !important; border-radius: 0 !important;}
+.mat-raised-button {color : currentColor; padding: 0 1.6rem !important;border-radius: 2rem !important;line-height: 1.8 !important;}
+.example-button-row button,.example-button-row a {margin-right: .8rem;}
+.mat-raised-button.mat-primary {background:  #81C784 !important; border: .2rem solid #81C784 !important;font-size: 1.6rem !important; color: #fff !important;}
+.mat-raised-button:not([disabled]):hover {background: rgb(79, 167, 82) !important;border: .2rem solid rgb(33, 110, 36) !important; }
+.mat-raised-button[disabled] {opacity: 0.6;color : #F1F1F1; background: transparent;}
+tr.mat-header-row {height: 4.5rem !important;}
+button:focus {outline:0;}
+/* end of button  */
+.mat-select-placeholder{font-size: 1.4rem !important;}
+.mat-datepicker-toggle{position:  relative !important; top: 1.7rem !important; right: 1rem !important;}
+.mat-select-value-text{top: 0rem;}
+.mat-select-trigger{top: .5rem !important;}
+
+#buttonDesign{background-color: transparent !important;border: none !important;font-weight: 700;
+    box-sizing: border-box !important;box-shadow: none !important;color: #27AE60 !important;cursor: pointer !important;font-style: italic !important;}
+.mat-form-field-appearance-legacy .mat-form-field-infix{margin-left: -1rem !important;}

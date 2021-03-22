@@ -6,7 +6,7 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav mat-toolbar-multiple-rows">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -533,7 +533,7 @@
                       <div class="module_area">
                         <mat-form-field class="select_box_dropwodn overline_hidden">
                           <mat-label>Select</mat-label>
-                          <mat-select disableOptionCentering panelClass="creditSelect" formControlName="lkpVehicleBodyId">
+                          <mat-select formControlName="lkpVehicleBodyId">
                             <mat-option *ngFor="let vBody of vehicleBodyList" [value]="vBody.id">
                               {{vBody.descr}}
                             </mat-option>
@@ -751,7 +751,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate10 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate10" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate10" class="date_input_height" placeholder=""
                             formControlName="effectiveDt" name="effectiveDt" placeholder="DD/MM/YYYY" [min]="minDate"
                             (dateChange)="effectiveDate()" (blur)="effectiveDate()" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate10">
@@ -775,7 +775,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate11 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate11" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate11" class="date_input_height" placeholder=""
                             formControlName="expDt" name="expDt" placeholder="DD/MM/YYYY" [min]="maxdate"
                             (dateChange)="expDate()" (blur)="expDate()" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate11">
@@ -815,7 +815,7 @@
               <div class="row">
                 <div class="col-md-12 text-center mtb_30">
                   <button mat-button class="white-button" (click)="onBackClick($event)">Back</button>
-                  <button mat-button class="theme-button" (click)="onSaveVehicle()">Submit</button>
+                  <button mat-button class="theme-button" *ngxPermissionsOnly="['CREATE VEHICLE_CREATE','CREATE VEHICLE_UPDATE']"  (click)="onSaveVehicle()">Submit</button>
                 </div>
               </div>
             </div>

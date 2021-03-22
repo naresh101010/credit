@@ -10,21 +10,36 @@ import { SuccessComponent } from 'src/app/components/success/success.component';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { EmailPreviewComponent } from '../email-preview/email-preview.component';
+import * as moment from 'moment';
 declare let jspdf;
+
 @Component({
   selector: 'app-preview-popup',
   templateUrl: './preview-popup.component.html',
   styleUrls: ['./preview-popup.component.css'],
-  providers: [DatePipe]
+  providers : [DatePipe]
 })
 export class PreviewPopupComponent implements OnInit {
 
   previewList: any;
   previewRefList;
+  graciaList: any = [];
+  mgList: any = [];
+  insuranceList: any = [];
+  emiList: any = [];
   versionIndex: number;
   myDate = new Date();
   currDate: string;
-  productategoryList: any[] = [];
+  fuelData : any = [];
+
+  days = [
+    { name: "Sunday", id: 0 },
+    { name: "Monday", id: 1 },
+    { name: "Tuesday", id: 2 },
+    { name: "Wednesday", id: 3 },
+    { name: "Thursday", id: 4 },
+    { name: "Friday", id: 5 }
+  ];
 
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
@@ -40,7 +55,7 @@ export class PreviewPopupComponent implements OnInit {
     public dialog: MatDialog,
     private spinner: NgxSpinnerService) { }
 
-  customerName: string = AppSetting.customerName;
+  customerName : string= AppSetting.customerName;
   ngOnInit() {
 
     this.versionIndex = this.data.versionIndex;
@@ -48,10 +63,10 @@ export class PreviewPopupComponent implements OnInit {
 
     this.spinner.show();
     if (this.versionIndex !== 0) {
-      this.apiService.get('secure/v1/airfreightcontractpreview/histpreview/'+ this.data.data.contractId + '/' + this.data.version).subscribe(data => {
+      this.apiService.get('secure/v1/networkcontractpreview/histpreview/' + this.data.data.contractId +'/' + this.data.version).subscribe(data => {
         this.previewList = data.data.responseData;
         this.previewRefList = data.data.referenceData;
-       // this.renderPreviewData();
+        this.renderPreviewData();
         this.spinner.hide();
       }, (error) => {
         this.tosterservice.error(ErrorConstants.getValue(404));
@@ -59,10 +74,10 @@ export class PreviewPopupComponent implements OnInit {
       });
     }
     else {
-      this.apiService.get('secure/v1/airfreightcontractpreview/' + this.data.data.contractId).subscribe(response => {
+      this.apiService.get('secure/v1/networkcontractpreview/' + this.data.data.contractId).subscribe(response => {
         this.previewList = response.data.responseData;
         this.previewRefList = response.data.referenceData;
-       // this.renderPreviewData();
+        this.renderPreviewData();
         this.spinner.hide();
       }, (error) => {
         this.tosterservice.error(ErrorConstants.getValue(404));
@@ -73,19 +88,19 @@ export class PreviewPopupComponent implements OnInit {
 
   sendContractId() {
     this.spinner.show();
-    this.apiService.put(`secure/v1/airfreightcontract/submit/${this.data.data.contractId}`).subscribe((suc) => {
-      console.log(suc.data.responseData);
+    this.apiService.put(`secure/v1/networkcontract/submit/${this.data.data.contractId}`).subscribe((suc) => {
+      //console.log(suc.data.responseData);
       let ob = ErrorConstants.validateException(suc);
       if (ob.isSuccess) {
         this.spinner.hide();
         AppSetting.sfxCode = suc.data.responseData;
-        // this.router.navigate(['/asso_air-contract/success'])
-        const dialogRef = this.dialog.open(SuccessComponent, {
-          data: { id: true },
-          disableClose: true,
-          panelClass: 'mat-dialog-responsive',
-          width: '64rem'
-        });
+       // this.router.navigate(['/asso_network-contract/success'])
+       const dialogRef = this.dialog.open(SuccessComponent, {
+         data: {id:true},
+        disableClose: true,
+        panelClass: 'mat-dialog-responsive',
+        width: '64rem'
+      });
 
       } else {
         this.tosterservice.error(ob.message);
@@ -96,6 +111,7 @@ export class PreviewPopupComponent implements OnInit {
       this.tosterservice.error('Issue in generating Associate Contract Code.');
     });
   }
+
 
   sendEmail() {
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData
@@ -126,7 +142,7 @@ export class PreviewPopupComponent implements OnInit {
         let doc = new jspdf("p", "px", "a4");
         doc.setFont("helvetica");
 
-        document.querySelectorAll(".table_version").forEach((v: any, i) => {
+        document.querySelectorAll(".table_versin").forEach((v: any, i) => {
           if (v.getAttribute("data-page") || doc.autoTableEndPosY() > 450) {
             doc.addPage();
           }
@@ -150,7 +166,7 @@ export class PreviewPopupComponent implements OnInit {
             if (v.getAttribute("data-page") || doc.autoTableEndPosY() > 450) {
               doc.text(h3, 10, 45);
             } else {
-              if (h3 == "Air Freight Associate Contract") {
+              if (h3 == "Network Associate Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
               } else {
@@ -159,7 +175,7 @@ export class PreviewPopupComponent implements OnInit {
 
                 if (v.id == "Allocation") {
                   doc.setFontSize(12);
-                  doc.text("Branch", 10, doc.autoTableEndPosY() + 40);
+                  doc.text("Route Allocation", 10, doc.autoTableEndPosY() + 40);
                 }
 
                 // if (
@@ -232,7 +248,7 @@ export class PreviewPopupComponent implements OnInit {
             }
 
             // track individula tables
-            if (v.id == "Air Freight Associate Contract") {
+            if (v.id == "Network Associate Contract") {
               tblMgn = 100;
             }
             if (
@@ -269,6 +285,9 @@ export class PreviewPopupComponent implements OnInit {
             }
             if (v.id == "Allocation") {
               tblMgn = 50;
+            }
+            if (v.id == "Deductions") {
+              tblMgn = 55;
             }
             if (v.getAttribute("class").includes("general")) {
               tblMgn = 20;
@@ -670,7 +689,7 @@ export class PreviewPopupComponent implements OnInit {
                 },
               };
             } else if (
-              v.id == "Air Freight Associate Contract" ||
+              v.id == "Network Associate Contract" ||
               v.getAttribute("class").includes("billingTwo")
             ) {
               cs = {
@@ -789,7 +808,7 @@ export class PreviewPopupComponent implements OnInit {
               });
             } else {
               let startY = doc.autoTableEndPosY() + tblMgn;
-              if (v.id == "Air Freight Associate Contract") {
+              if (v.id == "Network Associate Contract") {
                 startY = 70;
               }
               doc.autoTable(res.columns, res.data, {
@@ -900,58 +919,166 @@ export class PreviewPopupComponent implements OnInit {
       }
     });
   }
-  toJSONLocal(date) {
+  toJSONLocal (date) {
     var local = new Date(date);
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return local.toJSON().slice(0, 10);
-  }
+}
 
   b64toBlob(dataURI) {
-    var byteString = atob(dataURI.split(",")[1]);
+    var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
       ia[i] = byteString.charCodeAt(i);
     }
-    return new Blob([ab], { type: "application/pdf" });
+    return new Blob([ab], { type: 'application/pdf' });
   }
 
-  sendData(ob, file) {
-    this.apiService.sendEmail(file, ob, this.previewList.assocName).subscribe(
-      (data) => {
-        this.spinner.hide();
-        this.tosterservice.success("Email Sent Successfully !");
-      },
-      (error) => {
-        this.spinner.hide();
-        this.tosterservice.error("Issue In Sending Email !");
+  sendData(ob, file){
+    this.apiService.sendEmail(file, ob, this.previewList.assocName)
+    .subscribe(data => {
+      this.spinner.hide();
+      this.tosterservice.success("Email Sent Successfully !");
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue In Sending Email !');
+    });
+   
+   }
+
+
+   /*------- Get Operational Days array-------- */
+   getOperationalDays(daysArr) {
+    let nameArray = [];
+    daysArr.forEach(element => {
+      let res = this.days.find(x => x.id == element);
+      if (res !== undefined) {
+        nameArray.push(res.name);
       }
-    );
+    });
+    return nameArray;
   }
 
-  /*---------- get product category name -------- */
-  getProductCategoryName(productId) {
-    let product = this.productategoryList.find(x => x.id == productId)
-    if (product !== undefined) {
-      return product.prdctCtgy;
+  /*------------ return Address from Branch List ----------- */
+  getBranchAddr(id) {
+    if(this.previewRefList !== undefined){
+    let branch = this.previewRefList.branchList.find(y => y.branchId == id);
+    if (branch !== undefined) {
+      return branch.branchName;
     } else {
       return '';
     }
   }
-
+  }
+  
+  
   renderPreviewData() {
-    if (this.previewList.paymentTerms.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY') {
-      this.apiService.get('secure/v1/airfreightcontract/commercial/productcategory').subscribe(data => {
-        if (data.data && data.data.responseData) {
-          this.productategoryList = data.data.responseData;
-          this.previewList.paymentTerms.airFreightCityPrdctChrgs.forEach(element => {
-            element['categoryName'] = this.getProductCategoryName(element.prdctCtgyId);
-          });
+   
+    let modeObj = this.previewRefList.routeModeList.find(x => x.id == this.previewList.routeAllocationPrev.routeModeId);
+    if(modeObj  !== undefined){
+      this.previewList.routeAllocationPrev['routeMode'] = modeObj.lookupVal;
+    } else {
+      this.previewList.routeAllocationPrev['routeMode'] = '';
+    }
+
+    let paymentOptObj = this.previewRefList.nrmPayOutList.find(y => y.id == this.previewList.paymentTermsPrev.lkpAssocNrmPayoutOptId);
+    if(paymentOptObj !== undefined) {
+      this.previewList.paymentTermsPrev['lkpAssocNrmPayoutOptName'] = paymentOptObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpAssocNrmPayoutOptName'] = '';
+    }
+
+    let fuelTypeObj = this.previewRefList.fuelTypeList.find(z=> z.id == this.previewList.paymentTermsPrev.lkpFuelTypeId);
+    if(fuelTypeObj !== undefined){
+      this.previewList.paymentTermsPrev['lkpFuelType'] = fuelTypeObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpFuelType'] = ''; 
+    }
+
+    let fuelIndexObj = this.previewRefList.fuelIndexList.find(z=> z.id == this.previewList.paymentTermsPrev.fuelIndexId);
+    if(fuelIndexObj !== undefined){
+      this.previewList.paymentTermsPrev['lkpFuelIndex'] = fuelIndexObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpFuelIndex'] = ''; 
+    }
+
+    this.apiService.get(`secure/v1/networkContract/fuel?fuelIndex=${this.previewList.paymentTermsPrev.fuelIndexId}&fuelType=${this.previewList.paymentTermsPrev.lkpFuelTypeId}`).subscribe(res => {
+      let ob = ErrorConstants.validateException(res);
+      if (ob.isSuccess) {
+        this.fuelData = res.data.responseData;
+         this.fuelData.forEach(element => {
+          let fueldate = this.datePipe.transform(element.fuelbaseDt, 'yyyy-MM-dd');
+          let dt = this.datePipe.transform(this.previewList.paymentTermsPrev.fuelBaseDt, 'yyyy-MM-dd')
+          if(fueldate == dt) {
+            this.previewList.paymentTermsPrev.fuelBasePrice = element.fuelbasePrice;
+            return;
+          }
+        })
+      }
+    }, (error) => {
+      this.tosterservice.error(ErrorConstants.getValue(404));
+    });
+
+    if (this.previewList.networkCommercialPrev.length > 0) {
+      this.previewList.networkCommercialPrev.forEach(element => {
+        let sourceData = [];
+        let destinationData = [];
+        let transitionsData = [];
+        let scheduleObj = this.previewRefList.route.routeSchedules.find(x => x.id == element.routeSchId);
+        if(scheduleObj != undefined){  // find schedule time
+          element['scheduleTime'] = scheduleObj.scheduleTime;
+        } else {
+          element['scheduleTime'] = '';
         }
-      }, (err) => {
-        this.tosterservice.error(ErrorConstants.getValue(404));
-        this.spinner.hide();
+        element.routeDetails.forEach(route => {
+          if (route.routeTchpntId == this.previewRefList.route.sourceBranchId) {
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId)
+            sourceData.push(route);
+          } else if (route.routeTchpntId == this.previewRefList.route.destinationBranchId) {
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId);
+            destinationData.push(route);
+          } else {
+            // let obj = this.previewRefList.route.routeTouchPoints.find(x => x.id == route.routeTchpntId);
+            // if (obj !== undefined) {
+            //   route['addrs'] = this.getBranchAddr(obj.touchPointBranchId);
+            // } else {
+            //   route['addrs'] = '';
+            // }
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId)
+            transitionsData.push(route);
+          }
+
+          element['sourceDetails'] = sourceData;
+          element['destinationDetails'] = destinationData;
+          element['transitionDetails'] = transitionsData;
+
+        });
+
       });
+    }
+
+    this.previewList['networkDeductionPrev']['vehicleDeductionList'].forEach(elem => {
+      if (elem.dedctnCategory == 'string' || elem.dedctnCategory == 'INSURANCE') {
+        this.insuranceList.push(elem);
+      } else if (elem.dedctnCategory == 'EMI') {
+        this.emiList.push(elem);
+      }
+    });
+
+    if(this.previewList.networkDeductionPrev.networkProcessCharges != undefined && this.previewList.networkDeductionPrev.networkProcessCharges.length > 0) { 
+      let sortedArray = this.previewList.networkDeductionPrev.networkProcessCharges.sort((a,b) => a.attr1 - b.attr1);
+      this.previewList.networkDeductionPrev.networkProcessCharges = sortedArray;
+    }
+    console.log('preview', this.previewList)
+  }
+
+  amAndpmFormate(da) {
+    if (da) {
+      da = parseInt(moment(da, 'hh').format('hh'));
+      return parseInt(moment(da, 'hh').format('hh')) <= 12 ? "AM" : "PM";
+    } else {
+      return null
     }
   }
 

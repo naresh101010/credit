@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { AppSetting } from '../../app.setting';
 import { ApiService } from '../../core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -12,6 +12,8 @@ import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimation
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
 import { BehaviorSubject } from 'rxjs-compat/BehaviorSubject';
+
+
 
 @Component({
   selector: 'app-associate-kyc',
@@ -43,7 +45,7 @@ export class AssociateKycComponent implements OnInit {
   fileModel : any = {};
   isValidDocExpiryDate: boolean = false;
   isToggle = false;
-  pendingDocsUplod : any = [];
+  pendingDocsUplod: any = [];
   noRecdFundMsg: boolean = false;
   pengingListDataSource : any;
   refData: any;
@@ -67,13 +69,13 @@ export class AssociateKycComponent implements OnInit {
     private toaster: ToastrService,
     private router: Router,
     private acrouter: ActivatedRoute,
-    private datePipe : DatePipe,
+    private datePipe: DatePipe,
     public dialog: MatDialog,
     private authorizationService : AuthorizationService,
     private permissionsService: NgxPermissionsService) { }
 
   ngOnInit() {
- 
+
     this.authorizationService.setPermissions('DOCUMENT UPLOAD');
     this.perList = this.authorizationService.getPermissions('DOCUMENT UPLOAD') == null ? [] : this.authorizationService.getPermissions('DOCUMENT UPLOAD');
     this.permissionsService.loadPermissions(this.perList);
@@ -116,18 +118,18 @@ export class AssociateKycComponent implements OnInit {
   }
 
   requestToUpload(){
-    console.log(this.associateId)
+    //console.log(this.associateId)
     this.spinner.show();
     this.apiSer.post("secure/v1/associates/docUpload/email" , AppSetting.associateId)
     .subscribe(
       data => {
-        console.log(data);
+        //console.log(data);
         if (data.status == 'SUCCESS') { 
           this.spinner.hide();
           this.toaster.success("Email sent to " + data.data.responseData + " Successfully");
         }
         else{
-          console.log(data)
+          //console.log(data)
         }
       },
       Error => {
@@ -177,6 +179,7 @@ export class AssociateKycComponent implements OnInit {
 
   postDocumentUploadDetail() {
     this.spinner.show();
+     
     if (this.validateUploadFile(this.fileModel.docTypeId, this.fileModel.subTypeId, this.fileModel.docExpiryDate, this.uploadedFileName)) {
       /*
       * Required Date format: yyyy-MM-dd
@@ -188,11 +191,11 @@ export class AssociateKycComponent implements OnInit {
 
       requestData = {
         entityId: this.associateId,
-        entityType : 'ASSOCIATE',
-        expDt : formattedDate ? formattedDate : '',
-        lkpDocTypeId : this.fileModel.docTypeId,
-        lkpDocSubtypeId : this.fileModel.subTypeId
-    }
+        entityType: 'ASSOCIATE',
+        expDt: formattedDate ? formattedDate: '',
+        lkpDocTypeId: this.fileModel.docTypeId,
+        lkpDocSubtypeId: this.fileModel.subTypeId
+      }
 
       this.apiSer.postDocumentUploadDetail(requestData, this.fileToUpload)
         .subscribe(data => {
@@ -206,7 +209,7 @@ export class AssociateKycComponent implements OnInit {
           this.getDocumentDetailbyId();
         }, error => {
           this.toaster.error(ErrorConstants.errorNotFound);
-          console.log(error);
+          //console.log(error);
           this.spinner.hide();
         });
     } else {
@@ -235,7 +238,7 @@ export class AssociateKycComponent implements OnInit {
 
         this.docTypeList = this.docData.data.referenceData.docTypeList;
         this.subTypeNameList = this.docData.data.referenceData.docSubTypeList;
-        this.pendingDocsUplod = this.docData.data.referenceData.pendingDocumentList;
+        this.pendingDocsUplod = this.docData.data.referenceData.pendingDocumentList;   
         this.pengingListDataSource = new MatTableDataSource(this.pendingDocsUplod);
 
         /*------- Removed since expiry date is non mandatory in all cases -------- */
@@ -252,6 +255,7 @@ export class AssociateKycComponent implements OnInit {
          */
         this.docList = [];
         for (let obj of this.docData.data.responseData) {
+         
           var docObj = {
             "docRef": "",
             "docType": "",
@@ -310,13 +314,13 @@ export class AssociateKycComponent implements OnInit {
     } else {
       this.spinner.show()
       this.apiSer.getSubDocTypeData(this.fileModel.docTypeId).subscribe(data => {
-          var resData: any = data;
-          this.subTypeList = resData.data.responseData;
-          this.spinner.hide();
-          console.log(data, "sub Document list");
-        },(error) => {
-          this.spinner.hide();
-          this.toaster.error(ErrorConstants.getValue(404));
+        var resData: any = data;
+        this.subTypeList = resData.data.responseData;
+        this.spinner.hide();
+        console.log(data, "sub Document list");
+      }, (error) => {
+        this.spinner.hide();
+        this.toaster.error(ErrorConstants.getValue(404));
       })
 
     }
@@ -360,11 +364,9 @@ export class AssociateKycComponent implements OnInit {
     this.uploadedFileName = '';
 
     if (!this.isToggle) {
-      console.log("on");
       this.isToggle = true;
       this.getDocumentDetailbyId();
     } else {
-      console.log("off");
       this.isToggle = false;
     }
   }
@@ -414,7 +416,7 @@ export class AssociateKycComponent implements OnInit {
     if (fileName && fileName.length < 51) {
       var blnValid = false;
       var ext = fileName.substr(fileName.lastIndexOf("."), fileName.length);
-      console.log(ext, "file extension");
+      //console.log(ext, "file extension");
       for (var j = 0; j < this.validFileExtensions.length; j++) {
         var valExtension = this.validFileExtensions[j];
         if (ext.toLowerCase() == valExtension.toLowerCase()) {
@@ -452,15 +454,16 @@ export class AssociateKycComponent implements OnInit {
       // }, 2000);
     }
   }
-/*---------- check valid date ---------- */
-checkValidDate(value) {
-  let expYear = parseInt(this.datePipe.transform(value, 'yyyy'));
-  if (expYear > 9999) {
-    this.fileModel.docExpiryDate = '';
+  /*---------- check valid date ---------- */
+  checkValidDate(value) {
+    let expYear = parseInt(this.datePipe.transform(value, 'yyyy'));
+    if (expYear > 9999) {
+      this.fileModel.docExpiryDate = '';
+    }
   }
-}
 
   deleteKycDocument(element) {
+   console.log('>>', element)
     const dialog = this.dialog.open(confimationdialog, {
       data: { message: "Are you sure want to delete?" },
       disableClose: true,

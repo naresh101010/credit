@@ -1,0 +1,8 @@
+.pTop{padding-top: .5rem !important;}
+.mat-slide-toggle{height: 2.4rem !important;line-height: 1.8;}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-bar{background: #27AE60 !important;}
+.mat-slide-toggle.mat-checked .mat-slide-toggle-thumb{background: #27AE60 !important;}
+.mdm_searchbar span{top: .3rem !important;}
+.mdm_searchbar span.ng-clear {
+    top: 0.2rem !important;
+}

@@ -4,7 +4,6 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
-
 @Component({
   selector: 'app-email-preview',
   templateUrl: './email-preview.component.html',
@@ -39,29 +38,10 @@ export class EmailPreviewComponent implements OnInit {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement   = document.getElementById('closeButton')  ;
+          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
           escElement.click();
         }
       }
   }
 
-  closeDialog(): void {
-      
-    const dialogRefConfirm = this.dialog.open(confimationdialog, {
-      width: '300px',
-      panelClass: 'creditDialog',
-      data:{message:'Are you sure ?'},
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if(value){
-        this.dialogRef.close(false);
-      }else{
-        console.log('Keep Open');
-      }
-    });
-
-  }
 }

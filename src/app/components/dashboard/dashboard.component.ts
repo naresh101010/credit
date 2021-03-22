@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ɵConsole } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { ContractversionComponent } from './../contractversion/contractversion.component';
 import { MatDialog } from '@angular/material';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,7 +8,7 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { Router } from '@angular/router';
 import { AppSetting } from 'src/app/app.setting';
 import { ApiService } from 'src/app/core/services/api.service';
-import { BookingAssociateContractUpdateComponent } from '../../dialog/booking-associate-contract-update/booking-associate-contract-update.component';
+import{BookingAssociateContractUpdateComponent} from '../../dialog/booking-associate-contract-update/booking-associate-contract-update.component';
 import { ErrorConstants } from 'src/app/core/models/constants';
 import { AuthorizationService } from 'src/app/core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
@@ -19,18 +19,18 @@ import { CdkDragDrop, moveItemInArray, transferArrayItem } from '@angular/cdk/dr
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
-  providers: [DatePipe]
+  providers : [DatePipe]
 })
-export class DashboardComponent implements OnInit {
-  minchar: boolean = false;
-  nomatch: boolean = false;
+export class DashboardComponent implements OnInit{
+  minchar:boolean= false;
+  nomatch: boolean=false;
   DdraftMode;
   DactiveContract;
   //bookemarkedArray;
   value;
   myDate = new Date();
   currDate: string;
-  activeStatusValue = 'ACTIVE';
+  activeStatusValue='ACTIVE';
   userName = JSON.parse(sessionStorage.getItem('all')).data.responseData.user.username;
   userId = JSON.parse(sessionStorage.getItem('all')).data.responseData.user.userId;
   cardDetails: any[] = [];
@@ -48,7 +48,7 @@ export class DashboardComponent implements OnInit {
   constructor(private spinner: NgxSpinnerService, public router: Router, public dialog: MatDialog, private apiService: ApiService, private datePipe: DatePipe, private authorizationService: AuthorizationService,
     private permissionsService: NgxPermissionsService, private tosterservice: ToastrService) { }
 
-  displayedColumns: string[] = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'version', 'edit'];
+  displayedColumns: string[] = ['contactFname','cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'version', 'edit'];
   dataSource: any;  //= ELEMENT_DATA;
   dashboardTotalCount: any = new Object();
   selectedValue: string = 'ACTIVE';
@@ -81,8 +81,8 @@ export class DashboardComponent implements OnInit {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
-
-  rfrencList: any;
+  
+  rfrencList:any;
   expiredArray: any;
   ngOnInit() {
     this.authorizationService.setPermissions('DASHBOARD');
@@ -125,7 +125,7 @@ export class DashboardComponent implements OnInit {
     //   this.tosterservice.error(ErrorConstants.getValue(404));
     // });
 
-    this.apiService.get("secure/v1/airfreightcontract/countAssociateContracts").subscribe((suc) => {
+    this.apiService.get("secure/v1/networkcontract/countAssociateContracts").subscribe((suc) => {
       this.dashboardTotalCount = suc.data.responseData;
       this.getModuleCardDetails();
     }, (err) => {
@@ -135,40 +135,40 @@ export class DashboardComponent implements OnInit {
 
   }
   newContract(){
-    this.router.navigate(['/asso_air-contract/create-associate-contract'], {skipLocationChange: true}).then(nav => {
-      console.log(nav); // true if navigation is successful
+    this.router.navigate(['/asso_network-contract/create-associate-contract'], {skipLocationChange: true}).then(nav => {
+      //console.log(nav); // true if navigation is successful
     }, err => {
-      console.log(err) // when there's an error
+      //console.log(err) // when there's an error
     });
   }
   createContrctnavigartion(object) {
     if (object) {
-      console.log('object', object);
+      //console.log('object', object);
       // return
-      this.router.navigate(['asso_air-contract/assign-associate'], {skipLocationChange: true}).then(nav => {
+      this.router.navigate(['asso_network-contract/assign-associate'], {skipLocationChange: true}).then(nav => {
         AppSetting.associateId = object.id;
         AppSetting.associateObject = object;
         AppSetting.contractId = object.contractId;
 
-        console.log(nav); // true if navigation is successful
+        //console.log(nav); // true if navigation is successful
       }, err => {
-        console.log(err) // when there's an error
+        //console.log(err) // when there's an error
       });
     }
   }
 
-  resetAppSetting() {
+  resetAppSetting(){
     AppSetting.contractId = null;
     AppSetting.associateId = null;
-    AppSetting.associateObject = null;
+    AppSetting.associateObject = null ;
     AppSetting.editStatus = null;
     AppSetting.wefDate = null;
   }
-  setAppSetting(obj) {
-    let editStatusObj = this.rfrencList.statusList.filter(obj1 => obj1.lookupVal === 'EDIT')
+  setAppSetting(obj){
+    let editStatusObj =  this.rfrencList.statusList.filter(obj1 => obj1.lookupVal === 'EDIT')
     AppSetting.contractId = obj.contractId;
     AppSetting.associateId = obj.id;
-    AppSetting.associateObject = obj;
+    AppSetting.associateObject = obj ;
     AppSetting.editStatus = editStatusObj[0].id;
     // AppSetting.editFlow:any ;
 
@@ -177,8 +177,8 @@ export class DashboardComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.minchar = false
-    if (filterValue.length > 0 && filterValue.length < 3) {
+    this.minchar= false
+    if (filterValue.length > 0 && filterValue.length<3){
       this.nomatch = false;
       this.minchar= true
       this.dataSource.filter = '';  
@@ -189,9 +189,9 @@ export class DashboardComponent implements OnInit {
       this.nomatch = false;
     }
     else {
-      this.minchar = false
+      this.minchar= false
       this.dataSource.filter = filterValue.trim().toLowerCase();
-      if (this.dataSource.filteredData.length > 0) {
+      if( this.dataSource.filteredData.length > 0){
         this.nomatch = false;
       }
       else if(this.dataSource.filteredData.length === 0){
@@ -207,8 +207,6 @@ export class DashboardComponent implements OnInit {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
-  //new Add
-  // drop(event: Event) { }
 
 
   goToMsa(user) { }
@@ -228,7 +226,6 @@ export class DashboardComponent implements OnInit {
       if (!result) {
         this.resetAppSetting();
       }
-      console.log('The dialog was closed');
     });
   }
 
@@ -239,8 +236,6 @@ export class DashboardComponent implements OnInit {
     this.activeStatusValue = 'ACTIVE';
     // if (value !== 'REPORTS') {
       this.selectedValue = value;
-      console.log('selected va;lue' , this.selectedValue);
-      
     // }
     if (this.selectedValue === 'PENDING') {
       this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate'];
@@ -291,10 +286,12 @@ export class DashboardComponent implements OnInit {
       // this.callstatusapi("INACTIVE");
       // this.dataSource.paginator.firstPage();
     } else if(this.selectedValue == 'MSA' || this.selectedValue == 'ASSOCIATE MASTER') {
-      this.router.navigate(['/asso_air-contract/create-associate-contract'], { skipLocationChange: true })
-    } else if(this.selectedValue === 'REPORTS'){
-      this.router.navigate(['/asso_air-contract/reports'], { skipLocationChange: true })
-    }else {
+      this.router.navigate(['/asso_network-contract/create-associate-contract'], { skipLocationChange: true })
+    }
+    else if(this.selectedValue == 'REPORTS') {
+      this.router.navigate(['/asso_network-contract/reports'], { skipLocationChange: true })
+    }
+     else {
       this.selectedValue = "ACTIVE"
       this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'version', 'edit'];
       this.spinner.show();
@@ -306,7 +303,6 @@ export class DashboardComponent implements OnInit {
       // this.callstatusapi("ACTIVE");
      // this.dataSource.paginator.firstPage();
     }
-    
   }
 
 
@@ -396,7 +392,7 @@ export class DashboardComponent implements OnInit {
         }else if(this.searchBy == 'contract code'){
           replaceKey = 'contractCode'
         }
-
+        
         if(replaceKey){          
           body[replaceKey] = this.searchString.toUpperCase();  
         }else{
@@ -411,7 +407,7 @@ export class DashboardComponent implements OnInit {
     }
     if(status){this.state = status;}
     this.spinner.show();
-    this.apiService.post(`secure/v1/airfreightcontract/search/${this.state}`, body).subscribe(
+    this.apiService.post(`secure/v1/networkcontract/search/${this.state}`, body).subscribe(
       success => {
           if (success) {
             // this.dataSource = new MatTableDataSource([]);
@@ -421,8 +417,9 @@ export class DashboardComponent implements OnInit {
               this.enterPressed = false;
               // body = {};
               this.dataSource = new MatTableDataSource(success.data.responseData);  
-              this.rfrencList = success.data.referenceData; 
-              if(success.data.responseData.length > 0){                       
+              if(success.data.responseData.length > 0){                        
+              this.rfrencList = success.data.referenceData;
+              
                 this.totalItems = success.data.responseData.length;
                 this.paginator.pageIndex = 0;
                 this.nomatch = false;
@@ -503,8 +500,8 @@ export class DashboardComponent implements OnInit {
  }
  
   getPageData(status, pageNo, pageSize, sortDir, sortField){
-    // assocbbff/secure/v1/airfreightcontract/all/page/ACTIVE?pageNo=1&pageSize=20&sortDir=DESC&sortField=id
-    return this.apiService.get(`secure/v1/airfreightcontract/all/page/${status}?pageNo=${pageNo}&pageSize=${pageSize}&sortDir=${sortDir}&sortField=${sortField}`)
+    // assocbbff/secure/v1/networkcontract/all/page/ACTIVE?pageNo=1&pageSize=20&sortDir=DESC&sortField=id
+    return this.apiService.get(`secure/v1/networkcontract/all/page/${status}?pageNo=${pageNo}&pageSize=${pageSize}&sortDir=${sortDir}&sortField=${sortField}`)
   }
 
   
@@ -512,12 +509,11 @@ export class DashboardComponent implements OnInit {
     this.searchString = '';
     this.spinner.show();
     this.expiredArray = [];
-    this.apiService.get("secure/v1/airfreightcontract/all/ACTIVE").subscribe( success => {
+    this.apiService.get("secure/v1/networkcontract/all/ACTIVE").subscribe( success => {
       if (success) {
         success.data.responseData.forEach(element => {
+          element['editStatus'] = this.getStatus(element) ? 1 : 0;
           this.currDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-            element['editStatus'] = this.getStatus(element) ? 1 : 0;
-
           if (element.expDt < this.currDate) {
             this.expiredArray.push(element);
             this.spinner.hide();
@@ -531,10 +527,10 @@ export class DashboardComponent implements OnInit {
           this.paginator.pageIndex = 0;
 
           this.dataSource.sort = this.sort;
-          const sortStateExp: Sort = {active: 'editStatus', direction: 'desc'};
-          this.sort.active = sortStateExp.active;
-          this.sort.direction = sortStateExp.direction;
-          this.sort.sortChange.emit(sortStateExp);
+          const sortState: Sort = {active: 'editStatus', direction: 'desc'};
+          this.sort.active = sortState.active;
+          this.sort.direction = sortState.direction;
+          this.sort.sortChange.emit(sortState);
           this.dataSource.paginator = this.paginator;
         }else{
           this.dataSource = new MatTableDataSource();
@@ -560,11 +556,12 @@ export class DashboardComponent implements OnInit {
 
    /*----------- on click on edit icon in case of active contracts ------------ */
    showEditFlowPopup(data) {
+     console.log(data);
      this.spinner.show();
      this.setAppSetting(data);
-    
       /**  Call get contract API to set contract object */
-    this.apiService.get('secure/v1/airfreightcontract/'+AppSetting.contractId).subscribe(data => {
+    this.apiService.get('secure/v1/networkcontract/'+AppSetting.contractId)
+    .subscribe(data => {
       let ob = ErrorConstants.validateException(data);
       if(ob.isSuccess){
         AppSetting.wefDate = data.data.responseData.effectiveDt;        // set effective date (w.e.f)
@@ -575,7 +572,6 @@ export class DashboardComponent implements OnInit {
           data: data,
         });
         dialogRef.afterClosed().subscribe(result => {
-
           if(!result){
             this.resetAppSetting();
           }
@@ -783,6 +779,11 @@ export class DashboardComponent implements OnInit {
     finalObject.favouriteObject = favoriteObj;
     finalObject.userId = this.userId;
     this.spinner.show();
+    this.sendDragDropData(finalObject);
+
+  }
+
+  sendDragDropData(finalObject) {
     this.apiService.postDragDropData(finalObject).subscribe(data => {
       let dataObject = ErrorConstants.validateException(data);
       if (dataObject.isSuccess) {
@@ -796,7 +797,6 @@ export class DashboardComponent implements OnInit {
       this.tosterservice.error(ErrorConstants.getValue(404));
       this.spinner.hide();
     });
-
   }
 
   checkIsFavorite(data) {
@@ -862,74 +862,48 @@ export class DashboardComponent implements OnInit {
     finalObject.userId = this.userId;
 
     this.spinner.show();
-    this.apiService.postDragDropData(finalObject).subscribe(data => {
-      let dataObject = ErrorConstants.validateException(data);
-      if (dataObject.isSuccess) {
-        this.getDragDropData();
-        this.spinner.hide();
-      } else {
-        this.tosterservice.warning(dataObject.message);
-        this.spinner.hide();
-      }
-    }, (error) => {
-      this.tosterservice.error(ErrorConstants.getValue(404));
-      this.spinner.hide();
-    });
-  }
-
-  getPermissionsForTable(selectedValue) {
-    console.log('selected',selectedValue)
-    if(selectedValue == 'EXPIRING SOON'){
-      return ['EXPIRING SOON CONTRACTS_READ']
-    } else if(selectedValue == 'DRAFT'){
-      return ['DRAFT CONTRACTS_READ']
-    } else if(selectedValue == 'ACTIVE') {
-      return ['ACTIVE CONTRACTS_READ']
-    } else if(selectedValue == 'INACTIVE') {
-      return ['TERMINATED CONTRACTS_READ']
-    } else {
-      return ['EXPIRING SOON CONTRACTS_READ','DRAFT CONTRACTS_READ', 'ACTIVE CONTRACTS_READ','TERMINATED CONTRACTS_READ']
-    }
+    this.sendDragDropData(finalObject);
   }
 
   /*---- Sort Data using edit status ----- */
-  sortEditedData(data) {
+  sortEditedData(data){
     data.forEach(element => {
       element['editStatus'] = this.getStatus(element) ? 1 : 0;
     });
 
     this.dataSource = new MatTableDataSource(data);
-    this.dataSource.sort = this.sort;
-    this.dataSource.sortingDataAccessor = (item, property) => {
-      switch (property) {
-        case 'contractCreationDate': return new Date(item.contractUpdateDate);
-        case 'contractStartDate': return new Date(item.contractStartDate);
-        default: return item[property];
-      }
-    };
-    const sortState: Sort = { active: 'editStatus', direction: 'desc' };
-    this.sort.active = sortState.active;
-    this.sort.direction = sortState.direction;
-    this.sort.sortChange.emit(sortState);
+      this.dataSource.sort = this.sort;
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch (property) {
+          case 'contractCreationDate': return new Date(item.contractUpdateDate);
+          case 'contractStartDate': return new Date(item.contractStartDate);
+          default: return item[property];
+        }
+      };
+      const sortState: Sort = {active: 'editStatus', direction: 'desc'};
+      this.sort.active = sortState.active;
+      this.sort.direction = sortState.direction;
+      this.sort.sortChange.emit(sortState);
   }
 }
 
-
 export interface DashboardModel {
-cntrCode: string;
-contactFname: string;
-contactLname: string;
-contractCreationDate: Date;
-contractId: number;
-contractStartDate: Date;
-contractUpdateDate: Date;
-expDt: Date;
-id: number;
-gstinNum : string;
-mob: string;
-panNum: string;
-status: number
-totalItems: any;
-totalPages: any;
-vendorDeptt: any;
-}
+  cntrCode: string;
+  contactFname: string;
+  contactLname: string;
+  contractCreationDate: Date;
+  contractId: number;
+  contractStartDate: Date;
+  contractUpdateDate: Date;
+  expDt: Date;
+  id: number;
+  gstinNum : string;
+  mob: string;
+  panNum: string;
+  status: number
+  totalItems: any;
+  totalPages: any;
+  vendorDeptt: any;
+  nrmVehicleType : string;
+  }
+

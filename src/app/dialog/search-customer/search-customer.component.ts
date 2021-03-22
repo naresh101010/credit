@@ -6,8 +6,6 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { BookingCommercialCustomerListObj } from 'src/app/core/models/paymentTermsModel';
 import * as _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-search-customer',
@@ -22,7 +20,6 @@ export class SearchCustomerComponent implements OnInit {
   custType = 0;
   dataSourceCustomers:any =[];
   selectedCustomer: any = [];
-  perList: any = [];
   custObj: BookingCommercialCustomerListObj = {
     msaCustId: null,
     lkpAssocBkngPayoutCtgyId: 0,
@@ -38,26 +35,18 @@ export class SearchCustomerComponent implements OnInit {
     customerName: '',
     commercialEntList: []
   };
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<SearchCustomerComponent> ,public spinner: NgxSpinnerService, private apiService: ApiService, public toastr: ToastrService,
-              private authorizationService : AuthorizationService,
-              private permissionsService: NgxPermissionsService) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<SearchCustomerComponent> ,public spinner: NgxSpinnerService, private apiService: ApiService, public toastr: ToastrService) { 
     this.contractId = AppSetting.contractId;
  
   }
 
   ngOnInit() {
-    this.authorizationService.setPermissions('COMMERCIAL');
-    this.perList = this.authorizationService.getPermissions('COMMERCIAL') == null ? [] : this.authorizationService.getPermissions('COMMERCIAL');
-    this.permissionsService.loadPermissions(this.perList);
-
-    console.log('perlist',this.perList)
-
-    console.log('data', this.data);
+    //console.log('data', this.data);
     this.getCustomersList();
   }
 
   custTypeChange(event){
-    console.log("event", event, this.custType);
+    //console.log("event", event, this.custType);
     this.getCustomersList();
   }
   closeDailog(){
@@ -75,15 +64,15 @@ export class SearchCustomerComponent implements OnInit {
       this.custObj['contractCode'] = obj.contractCode;
       this.sendCustomerList.push(JSON.parse(JSON.stringify(this.custObj)));
     }
-    console.log('custObj', this.custObj);
+    //console.log('custObj', this.custObj);
 
     
   }
 
   setCustomerArray(obj){
-    console.log('this.data.customerList', this.data.customerList);
+    //console.log('this.data.customerList', this.data.customerList);
     let tempArr = _.find(this.data.customerList , { 'msaCustId': obj.msaId , 'cntrCode' : obj.contractCode });
-    console.log('tempArr', tempArr);
+    //console.log('tempArr', tempArr);
     if(tempArr){
       tempArr['cntrCode'] = obj.contractCode;
       tempArr['customerName'] = obj.customerName;
@@ -101,12 +90,12 @@ export class SearchCustomerComponent implements OnInit {
     // this.data.BranchIds = [1]; 
     let custType = (this.custType == 0) ? "CREDIT" : "PRC" ;      
       // this.spinner.show();
-      console.log(this.data.BranchIds ,"data", this.data)
+      //console.log(this.data.BranchIds ,"data", this.data)
       this.apiService
-        .post(`secure/v1/airfreightcontract/commercial/assocBranchIds/customers?creditOrPrc=${custType}`, this.data.BranchIds )
+        .post(`secure/v1/networkcontract/commercial/assocBranchIds/customers?creditOrPrc=${custType}`, this.data.BranchIds )
         .subscribe(
           (res) => {             
-            console.log('res', res);
+            //console.log('res', res);
             let tempRespose: any = [];
             if (res.data.responseData && res.data.responseData.length > 0) {
               tempRespose = (JSON.parse(JSON.stringify(res.data.responseData))) ;
@@ -123,18 +112,18 @@ export class SearchCustomerComponent implements OnInit {
               }
               this.dataSourceCustomers.sort = this.sort;
               this.dataSourceCustomers.paginator = this.paginator;
-              console.log('this.dataSourceCustomers', this.dataSourceCustomers);
+              //console.log('this.dataSourceCustomers', this.dataSourceCustomers);
 
               this.spinner.hide();
             }else{
-              this.toastr.error('Customer doesn\'t exist');
+              this.toastr.error('Customer Not Exist in Branch');
               this.spinner.hide();
             }
           },
           (err) => {
-            console.log(err)
+            //console.log(err)
             // this.toastr.error()
-            this.toastr.error('Customer doesn\'t exist');
+            this.toastr.error('Customer Not Exist in Branch');
             this.spinner.hide();
           }
         );
@@ -150,7 +139,7 @@ export class SearchCustomerComponent implements OnInit {
     });
 
     this.dialogRef.close(this.sendCustomerList);
-    console.log('customerts', this.sendCustomerList);
+    //console.log('customerts', this.sendCustomerList);
   }
 
   applyFilter(event: Event) {

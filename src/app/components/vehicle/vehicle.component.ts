@@ -8,7 +8,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AppService } from '../../core/services/app.service';
 import { AppSetting } from '../../app.setting';
 import { ApiService } from '../../core/services/api.service';
-import { ErrorConstants } from '../../core/models/constants'
+import { ErrorConstants } from '../../core/models/constants';
+import { AuthorizationService } from '../../core/services/authorization.service';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 
 @Component({
@@ -37,15 +39,24 @@ export class VehicleComponent implements OnInit {
   searchVehMake = '';
   searchVehModel = '';
   id ='';
+  perList:any = [];
 
   constructor(private fb: FormBuilder, private spinner: NgxSpinnerService,
     private appService: AppService,
     private router: Router,
     private apiService: ApiService,
     private datePipe: DatePipe,
-    private tosterservice : ToastrService) { }
+    private tosterservice : ToastrService,
+    private authorizationService : AuthorizationService,
+    private permissionsService: NgxPermissionsService) { }
+    
 
   ngOnInit() {
+
+    this.authorizationService.setPermissions('VEHICLE');
+    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
+    this.permissionsService.loadPermissions(this.perList);
+
     let e = new Date();
     e.setDate(e.getDate());
     this.maxdate = e;
@@ -319,7 +330,7 @@ export class VehicleComponent implements OnInit {
     this.spinner.show();
     this.apiService.post('secure/v1/associates/vehicles', vehicleData).subscribe(res => {
       this.spinner.hide();
-      this.router.navigate(['/asso_air-contract/vehicle-allocation'], {skipLocationChange: true});
+      this.router.navigate(['/asso_network-contract/vehicle-allocation'], {skipLocationChange: true});
     }, (error) => {
       this.tosterservice.error(error.error.errors.error[0].description);
       this.spinner.hide();
@@ -342,15 +353,14 @@ export class VehicleComponent implements OnInit {
         let c = this.datePipe.transform(this.f.expDt.value, 'yyyy-MM-dd');
   
         if (c) {
-          if (b <= c) {
+          if (b < c) {
             this.isValidEffectiveDt = false;
           }
           else {
             this.isValidEffectiveDt = true;
             this.isValidExpDt = false;
           }
-        } 
-        else {
+        } else {
           this.isValidEffectiveDt = false
         }
       }
@@ -488,6 +498,6 @@ export class VehicleComponent implements OnInit {
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_air-contract/vehicle-allocation'], { skipLocationChange: true });
+    this.router.navigate(['/asso_network-contract/vehicle-allocation'], { skipLocationChange: true });
   }
 }

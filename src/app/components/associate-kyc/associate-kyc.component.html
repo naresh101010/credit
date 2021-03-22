@@ -6,7 +6,7 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -49,7 +49,7 @@
                 <div class="col-md-6 ">
                   <div class="module_area">
                     <mat-form-field class="select_box_dropwodn overline_hidden">
-                      <mat-select disableOptionCentering panelClass="creditSelect" #doctype="ngModel" required
+                      <mat-select disableOptionCentering panelClass="creditSelect" #doctype='ngModel' required
                         name="docTypeId" [(ngModel)]="fileModel.docTypeId" placeholder="Select Option"
                         (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
                         <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
@@ -73,7 +73,7 @@
                 <div class="col-md-6 ">
                   <div class="module_area">
                     <mat-form-field class="select_box_dropwodn overline_hidden">
-                      <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype="ngModel" required
+                      <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype='ngModel' required
                         name="subTypeId" [(ngModel)]="fileModel.subTypeId"  placeholder="Select Option">
                         <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
                           [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15"
@@ -99,7 +99,7 @@
                 <div class="col-md-8 ">
                   <div class="module_area">
                     <mat-form-field appearance="outline" class="date_picker_adjust datePickHeight uploaddateButton"style="margin-top: -2px;">
-                      <input #dtpicr="ngModel" autocomplete="off" matInput [matDatepicker]="picker2" name="rateCardSignDt"
+                      <input #dtpicr='ngModel' matInput autocomplete="off" [matDatepicker]="picker2" name="rateCardSignDt"
                         class="date_picker" [min]="minDate" placeholder="DD/MM/YYYY" (blur)="checkValidDate(fileModel.docExpiryDate)"
                         [(ngModel)]="fileModel.docExpiryDate" numericSpecialChar />
                       <mat-datepicker class="myDatepicker23" #picker2></mat-datepicker>
@@ -123,7 +123,7 @@
                   <p class="file_name" id="uploadedFileName" [matTooltip]="uploadedFileName_upper | uppercase" matTooltipPosition="left">
                   </p>
                 </div>
-                <div class="col-md-7"  *ngxPermissionsOnly="['ASSOCIATEDOC_CREATE','ASSOCIATEDOC_UPDATE']">
+                <div class="col-md-7" *ngxPermissionsOnly="['ASSOCIATEDOC_CREATE','ASSOCIATEDOC_UPDATE']">
                   <button mat-raised-button class="white-button box_shadow_none" [disabled]="!docform.form.valid"
                     (click)="postDocumentUploadDetail()" style="margin-right: 0.5rem">Upload</button>
                   <button mat-raised-button class="white-button box_shadow_none" style="margin: 0;" (click)="requestToUpload()"
@@ -222,7 +222,7 @@
             <div class="col-md-12">
               <div class="table-responsive create_new_tale_mdm2">
 
-                <table aria-describedby="table"  mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
+                <table aria-describedby="table" mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
 
                   <ng-container matColumnDef="docType">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong>DOCUMENT TYPE</strong></th>
@@ -245,9 +245,9 @@
       <div class="padding_10">
         <div class="row">
           <div class="col-md-12 text-center mtb_30">
-            <button mat-button class="white-button" routerLink="/asso_air-contract/create-associate" skipLocationChange>Back</button>
+            <button mat-button class="white-button" routerLink="/asso_network-contract/create-associate" skipLocationChange>Back</button>
             <button mat-button class="theme-button"
-            routerLink="/asso_air-contract/vehicle-allocation" skipLocationChange>Next</button>
+            routerLink="/asso_network-contract/vehicle-allocation" skipLocationChange>Next</button>
           </div>
         </div>
       </div>

@@ -9,7 +9,6 @@ export class PaymentCommercialGen {
     lkpAssocAddtnlParamId: any;
     addtnlParamVal: number;
     effectiveDt: string;
-    minFlag = false;
     expDt: string;
     effectiveMinDt: any;
     expMinDt: any;
@@ -19,6 +18,7 @@ export class PaymentCommercialGen {
     addtnlExpnsFlag: 0;
     addtnlExpnsRemark: string;
     custPymtFlag: 0;
+    minFlag = false;
     isValidEffectiveDt = false;
     isValidExpDt = false;
     bookingCommercialEntList : [];

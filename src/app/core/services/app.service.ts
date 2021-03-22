@@ -18,8 +18,8 @@ export class AppService {
   getDashboard() {
    // debugger
     var headers = new HttpHeaders(this.headerData);
-    //  return this.http.get<any>(this._url+"dashboard.json", {headers:headers}).catch((error: Response) => {
-    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/airfreightcontract/all/draft", { headers: headers }).catch((error: Response) => {
+      return this.http.get<any>(this._url+"dashboard.json", {headers:headers}).catch((error: Response) => {
+  //  return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/networkcontract/all/draft", { headers: headers }).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }
     );
@@ -27,8 +27,7 @@ export class AppService {
   getDashboardTotalCount()
   {
     var headers = new HttpHeaders(this.headerData);
-    //  return this.http.get<any>(this._url+"dashboard.json", {headers:headers}).catch((error: Response) => {
-    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/airfreightcontract/all/draft", { headers: headers }).catch((error: Response) => {
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/networkcontract/all/draft", { headers: headers }).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }
     );
@@ -38,7 +37,6 @@ export class AppService {
   getActiveAssociates() {
 
     var headers = new HttpHeaders(this.headerData);
-   // return this.http.get<any>(this._url + "active_associate_contract.json", { headers: headers }).catch((error: Response) => {
         return this.http.get<any>(AppSetting.API_ENDPOINT+"secure/v1/associates/status/active", {headers:headers}).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }
@@ -49,7 +47,6 @@ export class AppService {
 
   getAssociatesContract(){
     var headers = new HttpHeaders(this.headerData);
-    //  return this.http.get<any>(this._url+"active_associate_contract.json", {headers:headers}).catch((error: Response) => {
     return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/associates", { headers: headers }).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }
@@ -57,7 +54,6 @@ export class AppService {
   }
   postAssociatesContract(data){
     var headers = new HttpHeaders(this.headerData);
-    //  return this.http.get<any>(this._url+"active_associate_contract.json", {headers:headers}).catch((error: Response) => {
     return this.http.post<any>(AppSetting.API_ENDPOINT + "secure/v1/associates",data, { headers: headers }).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }
@@ -66,7 +62,6 @@ export class AppService {
 
   getAssociatesContractById(id: number) {
     var headers = new HttpHeaders(this.headerData);
-    //  return this.http.get<any>(this._url+"active_associate_contract.json", {headers:headers}).catch((error: Response) => {
     return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/associates/" + id, { headers: headers }).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }

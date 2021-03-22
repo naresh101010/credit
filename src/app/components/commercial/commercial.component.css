@@ -1,0 +1,17 @@
+ .table-invalid-feedback {
+    color: #f44336;
+    top: 3.7rem;
+    text-align: left;
+    font-size: 1.5rem;
+    line-height: 2rem;
+    left: 0;
+    text-transform: capitalize !important;
+ }
+
+.hrsMin_label {
+   position: absolute;
+   top: 0.6rem;
+   right: 3rem;
+   font-size: 1.4rem;
+   z-index: 1;
+}

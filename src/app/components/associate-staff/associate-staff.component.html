@@ -6,7 +6,7 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_network-contract/asso_network">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -40,7 +40,7 @@
                 <label *ngIf="nomatch" class="validation-message">No Match Found</label>
               </div>
             </div>
-            <mat-icon class="add_icon"  *ngxPermissionsOnly="['CREATE ASSOCIATE_CREATE']" skipLocationChange routerLink="../create-associate-staff">add</mat-icon>
+            <mat-icon class="add_icon" skipLocationChange routerLink="../create-associate-staff">add</mat-icon>
           </div>
         </div>
       </div>
@@ -89,7 +89,7 @@
                 <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong></strong></th>
                 <td mat-cell *matCellDef="let element">
                   <div class="row_center row_center_width" matTooltipPosition="above">
-                    <em class="material-icons iconSize green paddingZero"  *ngxPermissionsOnly="['CREATE ASSOCIATE_CREATE']" (click)="goToEditPage(element.id)" style="cursor: pointer;">create</em>
+                    <em class="material-icons iconSize green paddingZero"  (click)="goToEditPage(element.id)" style="cursor: pointer;">create</em>
                   </div>
                 </td>
               </ng-container>

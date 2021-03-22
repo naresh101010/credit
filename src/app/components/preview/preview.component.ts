@@ -7,21 +7,17 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { SuccessComponent } from '../success/success.component';
-
 import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 import { DatePipe } from '@angular/common';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { EmailPreviewComponent } from 'src/app/dialog/email-preview/email-preview.component';
-import { AuthorizationService } from 'src/app/core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
+import * as moment from 'moment';
 declare let jspdf;
-
-
 @Component({
   selector: 'app-preview',
   templateUrl: './preview.component.html',
   styleUrls: ['./preview.component.css'],
-  providers : [DatePipe]
+  providers: [DatePipe]
 })
 
 export class PreviewComponent implements OnInit {
@@ -33,12 +29,19 @@ export class PreviewComponent implements OnInit {
   emiList: any = [];
   uniqueOfferings: any[] = [];
   uniqueOfferingsForCustomer: any = [];
-  editflow : boolean;
-  perList:any = [];
+  editflow: boolean;
   myDate = new Date();
   currDate: string;
-  data:any={};
-  productategoryList: any = [];
+  data: any = {};
+  fuelData : any = [];
+  days = [
+    { name: "Sunday", id: 0 },
+    { name: "Monday", id: 1 },
+    { name: "Tuesday", id: 2 },
+    { name: "Wednesday", id: 3 },
+    { name: "Thursday", id: 4 },
+    { name: "Friday", id: 5 }
+  ];
   constructor(
     private spinner: NgxSpinnerService,
     private apiService: ApiService,
@@ -47,93 +50,65 @@ export class PreviewComponent implements OnInit {
     private router: Router,
     private datePipe: DatePipe,
     private exportAsService: ExportAsService,
-    private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService,
-    private activeRoute : ActivatedRoute) { }
-  
+    private activeRoute: ActivatedRoute) { }
+
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
     elementIdOrContent: 'previewContent', // the id of html/table element
   }
 
-  customerName : string= AppSetting.customerName;
+  customerName: string = AppSetting.customerName;
   ngOnInit() {
-    this.authorizationService.setPermissions('CONTRACT');
-    this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
-    this.permissionsService.loadPermissions(this.perList);
-    console.log('perlist',this.perList)
-    this.spinner.show();
+   
     this.activeRoute.params.subscribe(params => {
       if (params['editflow']) {
         this.editflow = params['editflow'];
       }
-      this.currDate = this.datePipe.transform(this.myDate, 'MM-dd-yyyy');
-      
+      //console.log(this.editflow,'this is edit flow')
     });
-
-    this.apiService.get(`secure/v1/airfreightcontractpreview/${AppSetting.contractId}`).subscribe((suc) => {
+    this.currDate = this.datePipe.transform(this.myDate, 'MM-dd-yyyy');
+    this.spinner.show();
+    this.apiService.get(`secure/v1/networkcontractpreview/${AppSetting.contractId}`).subscribe((suc) => {
       if (suc.data && suc.data.responseData) {
         this.previewList = suc.data.responseData;
         this.previewRefList = suc.data.referenceData;
-        console.log('preview',this.previewList);
-       // if(this.previewList.paymentTerms.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY') {
-        //   this.apiService.get('secure/v1/airfreightcontract/commercial/productcategory').subscribe(data => {
-        //     if (data.data && data.data.responseData) {
-        //       this.productategoryList = data.data.responseData;
-        //       this.previewList.paymentTerms.airFreightCityPrdctChrgs.forEach(element => {
-        //         element['categoryName'] = this.getProductCategoryName(element.prdctCtgyId);
-        //       });
-        //     }
-        //   }, (err) => {
-        //     this.tosterservice.error(ErrorConstants.getValue(404));
-        //     this.spinner.hide();
-        //   });
-        //  }
-        // this.spinner.hide();
-    //   } else {
-    //     console.log("Data not Found");
-         this.spinner.hide();
-       }
+        this.renderPreviewData();
+        //this.spinner.hide();
+      } else {
+        //console.log("Data not Found");
+        this.spinner.hide();
+      }
     }, (err) => {
       this.tosterservice.error(ErrorConstants.getValue(404));
       this.spinner.hide();
     });
   }
 
-  /*---------- get product category name -------- */
-  getProductCategoryName(productId) {
-    let product = this.productategoryList.find(x => x.id == productId)
-    if (product !== undefined) {
-      return product.prdctCtgy;
-    } else {
-      return '';
-    }
-  }
-  
-  closePreview($event){
-    $event.preventDefault();
+  closePreview() {
     if (this.editflow) {
-      this.router.navigate(['/asso_air-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+      this.router.navigate(['/asso_network-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
     } else {
-      this.router.navigate(['/asso_air-contract/booking-document'], { skipLocationChange: true });
+      this.router.navigate(['/asso_network-contract/booking-document'], { skipLocationChange: true });
     }
   }
 
   sendContractId(e) {
     this.spinner.show();
-    this.apiService.put(`secure/v1/airfreightcontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
-      console.log(suc.data.responseData);
+    this.apiService.put(`secure/v1/networkcontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
+      //console.log(suc.data.responseData);
       let ob = ErrorConstants.validateException(suc);
       if (ob.isSuccess) {
         this.spinner.hide();
         AppSetting.sfxCode = suc.data.responseData;
-       // this.router.navigate(['/asso_air-contract/success'])
-       const dialogRef = this.dialog.open(SuccessComponent, {
-        disableClose: false,
-        data: {id:false},
-        panelClass: 'mat-dialog-responsive',
-        width: '64rem'
-      });
+        const dialogRef = this.dialog.open(SuccessComponent, {
+          disableClose: false,
+          data: { id: false },
+          panelClass: 'mat-dialog-responsive',
+          width: '64rem'
+        });
+        dialogRef.afterClosed().subscribe(x =>{
+
+        })
 
       } else {
         this.tosterservice.error(ob.message);
@@ -143,9 +118,8 @@ export class PreviewComponent implements OnInit {
       this.spinner.hide();
       this.tosterservice.error('Issue in generating Associate Contract Code.');
     });
-   
-  }
 
+  }
 
   sendEmail() {
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData
@@ -200,7 +174,7 @@ export class PreviewComponent implements OnInit {
             if (v.getAttribute("data-page") || doc.autoTableEndPosY() > 450) {
               doc.text(h3, 10, 45);
             } else {
-              if (h3 == "Air Freight Associate Contract") {
+              if (h3 == "Network Associate Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
               } else {
@@ -209,7 +183,7 @@ export class PreviewComponent implements OnInit {
 
                 if (v.id == "Allocation") {
                   doc.setFontSize(12);
-                  doc.text("Branch", 10, doc.autoTableEndPosY() + 40);
+                  doc.text("Route Allocation", 10, doc.autoTableEndPosY() + 40);
                 }
 
                 // if (
@@ -282,7 +256,7 @@ export class PreviewComponent implements OnInit {
             }
 
             // track individula tables
-            if (v.id == "Air Freight Associate Contract") {
+            if (v.id == "Network Associate Contract") {
               tblMgn = 100;
             }
             if (
@@ -319,6 +293,9 @@ export class PreviewComponent implements OnInit {
             }
             if (v.id == "Allocation") {
               tblMgn = 50;
+            }
+            if (v.id == "Deductions") {
+              tblMgn = 55;
             }
             if (v.getAttribute("class").includes("general")) {
               tblMgn = 20;
@@ -720,7 +697,7 @@ export class PreviewComponent implements OnInit {
                 },
               };
             } else if (
-              v.id == "Air Freight Associate Contract" ||
+              v.id == "Network Associate Contract" ||
               v.getAttribute("class").includes("billingTwo")
             ) {
               cs = {
@@ -839,7 +816,7 @@ export class PreviewComponent implements OnInit {
               });
             } else {
               let startY = doc.autoTableEndPosY() + tblMgn;
-              if (v.id == "Air Freight Associate Contract") {
+              if (v.id == "Network Associate Contract") {
                 startY = 70;
               }
               doc.autoTable(res.columns, res.data, {
@@ -955,28 +932,152 @@ export class PreviewComponent implements OnInit {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return local.toJSON().slice(0, 10);
 }
-
-   b64toBlob(dataURI) {
+  b64toBlob(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+      ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: 'application/pdf' });
+  }
+
+  sendData(ob, file){
+    this.apiService.sendEmail(file, ob, this.previewList.assocName)
+    .subscribe(data => {
+      this.spinner.hide();
+      this.tosterservice.success("Email Sent Successfully !");
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue In Sending Email !');
+    });
+   
+   }
+
+  /*------- Get Operational Days array-------- */
+  getOperationalDays(daysArr) {
+    let nameArray = [];
+    daysArr.forEach(element => {
+      let res = this.days.find(x => x.id == element);
+      if (res !== undefined) {
+        nameArray.push(res.name);
+      }
+    });
+    return nameArray;
+  }
+
+  /*------------ return Address from Branch List ----------- */
+  getBranchAddr(id) {
+    if(this.previewRefList !== undefined){
+    let branch = this.previewRefList.branchList.find(y => y.branchId == id);
+    if (branch !== undefined) {
+      return branch.branchName;
+    } else {
+      return '';
+    }
+  }
+  }
+
+  renderPreviewData() {
+   
+    let modeObj = this.previewRefList.routeModeList.find(x => x.id == this.previewList.routeAllocationPrev.routeModeId);
+    if(modeObj  !== undefined){
+      this.previewList.routeAllocationPrev['routeMode'] = modeObj.lookupVal;
+    } else {
+      this.previewList.routeAllocationPrev['routeMode'] = '';
     }
 
-    sendData(ob, file){
-      this.apiService.sendEmail(file, ob, this.previewList.assocName)
-      .subscribe(data => {
-        this.spinner.hide();
-        this.tosterservice.success("Email Sent Successfully !");
-      }, error => {
-        this.spinner.hide();
-        this.tosterservice.error('Issue In Sending Email !');
+    let paymentOptObj = this.previewRefList.nrmPayOutList.find(y => y.id == this.previewList.paymentTermsPrev.lkpAssocNrmPayoutOptId);
+    if(paymentOptObj !== undefined) {
+      this.previewList.paymentTermsPrev['lkpAssocNrmPayoutOptName'] = paymentOptObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpAssocNrmPayoutOptName'] = '';
+    }
+
+    let fuelTypeObj = this.previewRefList.fuelTypeList.find(z=> z.id == this.previewList.paymentTermsPrev.lkpFuelTypeId);
+    if(fuelTypeObj !== undefined){
+      this.previewList.paymentTermsPrev['lkpFuelType'] = fuelTypeObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpFuelType'] = ''; 
+    }
+
+    let fuelIndexObj = this.previewRefList.fuelIndexList.find(z=> z.id == this.previewList.paymentTermsPrev.fuelIndexId);
+    if(fuelIndexObj !== undefined){
+      this.previewList.paymentTermsPrev['lkpFuelIndex'] = fuelIndexObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpFuelIndex'] = ''; 
+    }
+
+    this.apiService.get(`secure/v1/networkContract/fuel?fuelIndex=${this.previewList.paymentTermsPrev.fuelIndexId}&fuelType=${this.previewList.paymentTermsPrev.lkpFuelTypeId}`).subscribe(res => {
+      let ob = ErrorConstants.validateException(res);
+      if (ob.isSuccess) {
+        this.fuelData = res.data.responseData;
+         this.fuelData.forEach(element => {
+          let fueldate = this.datePipe.transform(element.fuelbaseDt, 'yyyy-MM-dd');
+          let dt = this.datePipe.transform(this.previewList.paymentTermsPrev.fuelBaseDt, 'yyyy-MM-dd')
+          if(fueldate == dt) {
+            this.previewList.paymentTermsPrev.fuelBasePrice = element.fuelbasePrice;
+            return;
+          }
+        })
+      }
+    }, (error) => {
+      this.tosterservice.error(ErrorConstants.getValue(404));
+    });
+
+    if (this.previewList.networkCommercialPrev.length > 0) {
+      this.previewList.networkCommercialPrev.forEach(element => {
+        let sourceData = [];
+        let destinationData = [];
+        let transitionsData = [];
+        let scheduleObj = this.previewRefList.route.routeSchedules.find(x => x.id == element.routeSchId);
+        if(scheduleObj != undefined){  // find schedule time
+          element['scheduleTime'] = scheduleObj.scheduleTime;
+        } else {
+          element['scheduleTime'] = '';
+        }
+        element.routeDetails.forEach(route => {
+          if (route.routeTchpntId == this.previewRefList.route.sourceBranchId) {
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId)
+            sourceData.push(route);
+          } else if (route.routeTchpntId == this.previewRefList.route.destinationBranchId) {
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId);
+            destinationData.push(route);
+          } else {
+            // let obj = this.previewRefList.route.routeTouchPoints.find(x => x.id == route.routeTchpntId);
+            // if (obj !== undefined) {
+            //   route['addrs'] = this.getBranchAddr(obj.touchPointBranchId);
+            // } else {
+            //   route['addrs'] = '';
+            // }
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId);
+            transitionsData.push(route);
+          }
+
+          element['sourceDetails'] = sourceData;
+          element['destinationDetails'] = destinationData;
+          element['transitionDetails'] = transitionsData;
+
+        });
+
       });
-     
-     }
+    }
+
+    this.previewList['networkDeductionPrev']['vehicleDeductionList'].forEach(elem => {
+      if (elem.dedctnCategory == 'string' || elem.dedctnCategory == 'INSURANCE') {
+        this.insuranceList.push(elem);
+      } else if (elem.dedctnCategory == 'EMI') {
+        this.emiList.push(elem);
+      }
+    });
+
+    if(this.previewList.networkDeductionPrev.networkProcessCharges != undefined && this.previewList.networkDeductionPrev.networkProcessCharges.length > 0) { 
+      let sortedArray = this.previewList.networkDeductionPrev.networkProcessCharges.sort((a,b) => a.attr1 - b.attr1);
+      this.previewList.networkDeductionPrev.networkProcessCharges = sortedArray;
+    }
+    this.spinner.hide();
+    console.log('preview', this.previewList)
+  }
 
 
   /*--------- Open Edit preview Dialog ------- */
@@ -984,15 +1085,21 @@ export class PreviewComponent implements OnInit {
     const dialogRefVersion = this.dialog.open(EditPreviewComponent, {
       width: '80vw',
       panelClass: 'mat-dialog-responsive',
-      data: {editflow : this.editflow}
+      data: { editflow: this.editflow }
     });
 
     dialogRefVersion.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
     });
   }
-
-
+  amAndpmFormate(da) {
+    if (da) {
+      da = parseInt(moment(da, 'hh').format('hh'));
+      return parseInt(moment(da, 'hh').format('hh')) <= 12 ? "AM" : "PM";
+    } else {
+      return null
+    }
+  }
 }
 
 
@@ -1001,108 +1108,217 @@ export class PreviewComponent implements OnInit {
   selector: 'app-edit-preview',
   templateUrl: './edit-preview.component.html',
   styleUrls: ['./preview.component.css'],
-  providers : [DatePipe]
+  providers: [DatePipe]
 })
 export class EditPreviewComponent implements OnInit {
 
-  editflow : boolean;
-  previewList : any;
+  editflow: boolean;
+  previewList: any;
   data: any;
-  previewRefList : any;
+  previewRefList: any;
   graciaList: any = [];
   mgList: any = [];
   insuranceList: any = [];
   emiList: any = [];
   uniqueOfferings: any[] = [];
   uniqueOfferingsForCustomer: any = [];
-  isDeductionExist : boolean;
-  isPaymentExist : boolean;
-  perList: any = [];
+  isDeductionExist: boolean;
+  isPaymentExist: boolean;
   myDate = new Date();
   currDate: string;
-  productategoryList: any[] = [];
+  fuelData : any = [];
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
     elementIdOrContent: 'previewContent', // the id of html/table element
   }
+  days = [
+    { name: "Sunday", id: 0 },
+    { name: "Monday", id: 1 },
+    { name: "Tuesday", id: 2 },
+    { name: "Wednesday", id: 3 },
+    { name: "Thursday", id: 4 },
+    { name: "Friday", id: 5 }
+  ];
 
-  customerName : string= AppSetting.customerName;
-  constructor( public dialogRef: MatDialogRef<EditPreviewComponent>,
+  customerName: string = AppSetting.customerName;
+  constructor(public dialogRef: MatDialogRef<EditPreviewComponent>,
     private spinner: NgxSpinnerService,
     private apiService: ApiService,
     public dialog: MatDialog,
     private tosterservice: ToastrService,
     private router: Router,
-    private activeRoute : ActivatedRoute,
-    private confirmDialog : MatDialog,
-    private authorizationService : AuthorizationService,
+    private activatedRoute: ActivatedRoute,
     private datePipe: DatePipe,
-    private permissionsService: NgxPermissionsService,
-    private exportAsService: ExportAsService) { }
+    private exportAsService: ExportAsService,
+    private confirmDialog: MatDialog) { }
 
   ngOnInit() {
-    this.authorizationService.setPermissions('CONTRACT');
-    this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
-    this.permissionsService.loadPermissions(this.perList);
-    console.log('perlist',this.perList)
-    this.activeRoute.params.subscribe(params => {
+
+    this.activatedRoute.params.subscribe(params => {
       if (params['editflow']) {
         this.editflow = params['editflow'];
       }
       this.currDate = this.datePipe.transform(this.myDate, 'MM-dd-yyyy');
     });
 
-   this.spinner.show();
-   this.apiService.get(`secure/v1/airfreightcontractpreview/editpreview/${AppSetting.contractId}`).subscribe((suc) => {
-     if (suc.data && suc.data.responseData) {
-       console.log('res',suc)
-       this.previewList = suc.data.responseData;
-       this.previewRefList = suc.data.referenceData;
-    //    if(this.previewList.paymentTerms.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY') {
-    //     this.apiService.get('secure/v1/airfreightcontract/commercial/productcategory').subscribe(data => {
-    //       if (data.data && data.data.responseData) {
-    //         this.productategoryList = data.data.responseData;
-    //         this.previewList.paymentTerms.airFreightCityPrdctChrgs.forEach(element => {
-    //           element['categoryName'] = this.getProductCategoryName(element.prdctCtgyId);
-    //         });
-    //       }
-    //     }, (err) => {
-    //       this.tosterservice.error(ErrorConstants.getValue(404));
-    //       this.spinner.hide();
-    //     });
-    //    }
-    
-    //    this.spinner.hide();
-    //  } else {
-       this.spinner.hide();
-     }
-   }, (err) => {
-     this.tosterservice.error(ErrorConstants.getValue(404));
-     this.spinner.hide();
-   });
- }
-
- /*---------- get product category name -------- */
- getProductCategoryName(productId) {
-  let product = this.productategoryList.find(x => x.id == productId)
-  if (product !== undefined) {
-    return product.prdctCtgy;
-  } else {
-    return '';
+    this.spinner.show();
+    this.apiService.get(`secure/v1/networkcontractpreview/editpreview/${AppSetting.contractId}`).subscribe((suc) => {
+      if (suc.data && suc.data.responseData) {
+        //console.log('res', suc)
+        this.previewList = suc.data.responseData;
+        this.previewRefList = suc.data.referenceData;
+        this.renderEditPreviewData();
+        this.spinner.hide();
+      } else {
+        //console.log("Data not Found");
+        this.spinner.hide();
+      }
+    }, (err) => {
+      this.tosterservice.error(ErrorConstants.getValue(404));
+      this.spinner.hide();
+    });
   }
- }
-  
-  closePreview($event){
-    $event.preventDefault();
+
+  closePreview() {
     if (this.editflow) {
-      this.router.navigate(['/asso_air-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
+      this.router.navigate(['/asso_network-contract/booking-document', { steper: true, 'editflow': 'true' }], { skipLocationChange: true });
     } else {
-      this.router.navigate(['/asso_air-contract/booking-document'], { skipLocationChange: true });
+      this.router.navigate(['/asso_network-contract/booking-document'], { skipLocationChange: true });
     }
   }
 
+
+  renderEditPreviewData() {
+
+    let modeObj = this.previewRefList.routeModeList.find(x => x.id == this.previewList.routeAllocationPrev.routeModeId);
+    if(modeObj  !== undefined){
+      this.previewList.routeAllocationPrev['routeMode'] = modeObj.lookupVal;
+    } else {
+      this.previewList.routeAllocationPrev['routeMode'] = '';
+    }
+
+    let paymentOptObj = this.previewRefList.nrmPayOutList.find(y => y.id == this.previewList.paymentTermsPrev.lkpAssocNrmPayoutOptId);
+    if(paymentOptObj !== undefined) {
+      this.previewList.paymentTermsPrev['lkpAssocNrmPayoutOptName'] = paymentOptObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpAssocNrmPayoutOptName'] = '';
+    }
+
+    let fuelTypeObj = this.previewRefList.fuelTypeList.find(z=> z.id == this.previewList.paymentTermsPrev.lkpFuelTypeId);
+    if(fuelTypeObj !== undefined){
+      this.previewList.paymentTermsPrev['lkpFuelType'] = fuelTypeObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpFuelType'] = ''; 
+    }
+
+    let fuelIndexObj = this.previewRefList.fuelIndexList.find(z=> z.id == this.previewList.paymentTermsPrev.fuelIndexId);
+    if(fuelIndexObj !== undefined){
+      this.previewList.paymentTermsPrev['lkpFuelIndex'] = fuelIndexObj.lookupVal;
+    } else {
+      this.previewList.paymentTermsPrev['lkpFuelIndex'] = ''; 
+    }
+   
+  if(this.previewList.paymentTermsPrev.fuelIndexId && this.previewList.paymentTermsPrev.lkpFuelTypeId){
+    this.apiService.get(`secure/v1/networkContract/fuel?fuelIndex=${this.previewList.paymentTermsPrev.fuelIndexId}&fuelType=${this.previewList.paymentTermsPrev.lkpFuelTypeId}`).subscribe(res => {
+      let ob = ErrorConstants.validateException(res);
+      if (ob.isSuccess) {
+        this.fuelData = res.data.responseData;
+         this.fuelData.forEach(element => {
+          let fueldate = this.datePipe.transform(element.fuelbaseDt, 'yyyy-MM-dd');
+          let dt = this.datePipe.transform(this.previewList.paymentTermsPrev.fuelBaseDt, 'yyyy-MM-dd')
+          if(fueldate == dt) {
+            this.previewList.paymentTermsPrev.fuelBasePrice = element.fuelbasePrice;
+            return;
+          }
+        })
+      }
+    }, (error) => {
+      this.tosterservice.error(ErrorConstants.getValue(404));
+    });
+  }
+
+    if (this.previewList.networkCommercialPrev.length > 0) {
+      this.previewList.networkCommercialPrev.forEach(element => {
+        let sourceData = [];
+        let destinationData = [];
+        let transitionsData = [];
+        let scheduleObj = this.previewRefList.route.routeSchedules.find(x => x.id == element.routeSchId);
+        if(scheduleObj != undefined){  // find schedule time
+          element['scheduleTime'] = scheduleObj.scheduleTime;
+        } else {
+          element['scheduleTime'] = '';
+        }
+        element.routeDetails.forEach(route => {
+          if (route.routeTchpntId == this.previewRefList.route.sourceBranchId) {
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId)
+            sourceData.push(route);
+          } else if (route.routeTchpntId == this.previewRefList.route.destinationBranchId) {
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId);
+            destinationData.push(route);
+          } else {
+            // let obj = this.previewRefList.route.routeTouchPoints.find(x => x.id == route.routeTchpntId);
+            // if (obj !== undefined) {
+            //   route['addrs'] = this.getBranchAddr(obj.touchPointBranchId);
+            // } else {
+            //   route['addrs'] = '';
+            // }
+            route['addrs'] = this.getBranchAddr(route.routeTchpntId);
+            transitionsData.push(route);
+          }
+
+          element['sourceDetails'] = sourceData;
+          element['destinationDetails'] = destinationData;
+          element['transitionDetails'] = transitionsData;
+
+        });
+
+      });
+    }
+
+    this.previewList['networkDeductionPrev']['vehicleDeductionList'].forEach(elem => {
+      if (elem.dedctnCategory == 'string' || elem.dedctnCategory == 'INSURANCE') {
+        this.insuranceList.push(elem);
+      } else if (elem.dedctnCategory == 'EMI') {
+        this.emiList.push(elem);
+      }
+    });
+
+    if(this.previewList.networkDeductionPrev.networkProcessCharges != undefined && this.previewList.networkDeductionPrev.networkProcessCharges.length > 0) { 
+      let sortedArray = this.previewList.networkDeductionPrev.networkProcessCharges.sort((a,b) => a.attr1 - b.attr1);
+      this.previewList.networkDeductionPrev.networkProcessCharges = sortedArray;
+    }
+    
+    this.spinner.hide();
+    //console.log('preview', this.previewList)
+  }
+
+  /*------- Get Operational Days array-------- */
+  getOperationalDays(daysArr) {
+    let nameArray = [];
+    daysArr.forEach(element => {
+      let res = this.days.find(x => x.id == element);
+      if (res !== undefined) {
+        nameArray.push(res.name);
+      }
+    });
+    return nameArray;
+  }
+
+  /*------------ return Address from Branch List ----------- */
+  getBranchAddr(id) {
+    if(this.previewRefList !== undefined){
+    let branch = this.previewRefList.branchList.find(y => y.branchId == id);
+    if (branch !== undefined) {
+      return branch.branchName;
+    } else {
+      return '';
+    }
+  }
+  }
+
+
   /*---------- On close dialog ------- */
-  onCloseEditPreview(){
+  onCloseEditPreview() {
     const dialogRefConfirm = this.confirmDialog.open(confimationdialog, {
       width: '300px',
       data: { message: 'Are you sure ?' },
@@ -1114,11 +1330,10 @@ export class EditPreviewComponent implements OnInit {
       if (value) {
         this.dialogRef.close();
       } else {
-        console.log('Keep Open');
+        //console.log('Keep Open');
       }
     });
   }
-
 
   sendEmail() {
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData
@@ -1173,7 +1388,7 @@ export class EditPreviewComponent implements OnInit {
             if (v.getAttribute("data-page") || doc.autoTableEndPosY() > 450) {
               doc.text(h3, 10, 45);
             } else {
-              if (h3 == "Air Freight Associate Contract") {
+              if (h3 == "Network Associate Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
               } else {
@@ -1182,7 +1397,7 @@ export class EditPreviewComponent implements OnInit {
 
                 if (v.id == "Allocation") {
                   doc.setFontSize(12);
-                  doc.text("Branch", 10, doc.autoTableEndPosY() + 40);
+                  doc.text("Route Allocation", 10, doc.autoTableEndPosY() + 40);
                 }
 
                 // if (
@@ -1255,7 +1470,7 @@ export class EditPreviewComponent implements OnInit {
             }
 
             // track individula tables
-            if (v.id == "Air Freight Associate Contract") {
+            if (v.id == "Network Associate Contract") {
               tblMgn = 100;
             }
             if (
@@ -1292,6 +1507,9 @@ export class EditPreviewComponent implements OnInit {
             }
             if (v.id == "Allocation") {
               tblMgn = 50;
+            }
+            if (v.id == "Deductions") {
+              tblMgn = 55;
             }
             if (v.getAttribute("class").includes("general")) {
               tblMgn = 20;
@@ -1693,7 +1911,7 @@ export class EditPreviewComponent implements OnInit {
                 },
               };
             } else if (
-              v.id == "Air Freight Associate Contract" ||
+              v.id == "Network Associate Contract" ||
               v.getAttribute("class").includes("billingTwo")
             ) {
               cs = {
@@ -1812,7 +2030,7 @@ export class EditPreviewComponent implements OnInit {
               });
             } else {
               let startY = doc.autoTableEndPosY() + tblMgn;
-              if (v.id == "Air Freight Associate Contract") {
+              if (v.id == "Network Associate Contract") {
                 startY = 70;
               }
               doc.autoTable(res.columns, res.data, {
@@ -1928,45 +2146,43 @@ export class EditPreviewComponent implements OnInit {
     local.setMinutes(date.getMinutes() - date.getTimezoneOffset());
     return local.toJSON().slice(0, 10);
 }
-
-   b64toBlob(dataURI) {
+  b64toBlob(dataURI) {
     var byteString = atob(dataURI.split(',')[1]);
     var ab = new ArrayBuffer(byteString.length);
     var ia = new Uint8Array(ab);
     for (var i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
+      ia[i] = byteString.charCodeAt(i);
     }
     return new Blob([ab], { type: 'application/pdf' });
-    }
+  }
 
-    sendData(ob, file){
-      this.apiService.sendEmail(file, ob, this.previewList.assocName)
-      .subscribe(data => {
-        this.spinner.hide();
-        this.tosterservice.success("Email Sent Successfully !");
-      }, error => {
-        this.spinner.hide();
-        this.tosterservice.error('Issue In Sending Email !');
-      });
-     
-     }
+  sendData(ob, file){
+    this.apiService.sendEmail(file, ob, this.previewList.assocName)
+    .subscribe(data => {
+      this.spinner.hide();
+      this.tosterservice.success("Email Sent Successfully !");
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue In Sending Email !');
+    });
    
+   }
   /*---------- on submit prview open success page ------------ */
   submitContract() {
     this.spinner.show();
-    this.apiService.put(`secure/v1/airfreightcontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
-      console.log(suc.data.responseData);
+    this.apiService.put(`secure/v1/networkcontract/submit/${AppSetting.contractId}`).subscribe((suc) => {
+      //console.log(suc.data.responseData);
       let ob = ErrorConstants.validateException(suc);
       if (ob.isSuccess) {
         this.spinner.hide();
         AppSetting.sfxCode = suc.data.responseData;
         this.dialogRef.close();
         this.dialog.open(SuccessComponent, {
-         data: {id:true},
-        disableClose: true,
-        panelClass: 'mat-dialog-responsive',
-        width: '64rem'
-      });
+          data: { id: true },
+          disableClose: true,
+          panelClass: 'mat-dialog-responsive',
+          width: '64rem'
+        });
 
       } else {
         this.tosterservice.error(ob.message);
@@ -1976,7 +2192,17 @@ export class EditPreviewComponent implements OnInit {
       this.spinner.hide();
       this.tosterservice.error('Issue in generating Associate Contract Code.');
     });
-   
+
   }
+
+  amAndpmFormate(da) {
+    if (da) {
+      da = parseInt(moment(da, 'hh').format('hh'));
+      return parseInt(moment(da, 'hh').format('hh')) <= 12 ? "AM" : "PM";
+    } else {
+      return null
+    }
+  }
+
 
 }

@@ -35,7 +35,7 @@ export class BookingDocumentComponent implements OnInit {
   displayedColumns: string[] = ['KdocumentType','subType','expiry','Kname','view','delete'];
   displayedColumnsForPending : string[] = ['docType'];
   pendingDocsUplod : any = [];
-  noRecdFundMsg: boolean = false;
+  noRecdFundMsg: boolean;
   pengingListDataSource : any;
   minDate : Date;
   perList: any = [];
@@ -397,6 +397,8 @@ export class BookingDocumentComponent implements OnInit {
 
   cloneDoc:any;
   searchDoc() {
+    console.log('this doclist', this.docList);
+    console.log('this dataSource', this.dataSource);
     this.noRecdFundMsg = false;
     this.dataSource = this.cloneDoc;
     if (this.dataSource !== undefined) {
@@ -445,12 +447,11 @@ export class BookingDocumentComponent implements OnInit {
   /*------------- Open Preview Page ----------- */
   openPreviewPage() {
     this.spinner.show();
-    this.apiSer.get('secure/v1/airfreightcontract/validContract/' + AppSetting.contractId).subscribe(response => {
-     // this.spinner.hide();
+    this.apiSer.get('secure/v1/networkcontract/validContract/' + AppSetting.contractId).subscribe(response => {
       if (this.editflow) {
-        this.router.navigate(['/asso_air-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
+        this.router.navigate(['/asso_network-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
       } else {
-        this.router.navigate(['/asso_air-contract/preview'], {skipLocationChange: true});
+        this.router.navigate(['/asso_network-contract/preview'], {skipLocationChange: true});
       }
     }, error => {
       this.toaster.error(error.error.errors.error[0].description);
@@ -459,11 +460,7 @@ export class BookingDocumentComponent implements OnInit {
   }
 
   nextReadMode() {
-    if (this.editflow) {
-      this.router.navigate(['/asso_air-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
-    } else {
-      this.router.navigate(['/asso_air-contract/preview'], {skipLocationChange: true});
-    }
+    this.router.navigate(['/asso_network-contract/asso_network'], {skipLocationChange: true});
   }
 
   expDate(element) {
@@ -473,7 +470,7 @@ export class BookingDocumentComponent implements OnInit {
     }
   }
 
-  deleteAirFrieghtDocument(element) {
+  deleteBookingDocument(element) {
     console.log('element', element);
     const dialog = this.dialog.open(confimationdialog, {
       data: { message: "Are you sure want to delete?" },
@@ -498,6 +495,6 @@ export class BookingDocumentComponent implements OnInit {
       }
     })
   }
+
+
 }
-
-

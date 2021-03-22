@@ -1,0 +1,490 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-5">
+        <div>
+          <mat-toolbar class="breadcrumbs_nav">
+            <mat-toolbar-row class="breadcrumbs">
+              <span><a [routerLink]="['/asso_network-contract/asso_network']">Dashboard</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span><a>Contracts</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span>Associate Contract</span>
+            </mat-toolbar-row>
+          </mat-toolbar>
+          <h2>Network Contract</h2>
+        </div>
+      </div>
+      <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
+        <stepper></stepper>
+
+      </div>
+    </div>
+  </div>
+</section>
+<!-- breadcrumb end -->
+
+<!-- msa-4 start -->
+<form name="commercialForm" #commercialForm="ngForm" (ngSubmit)="commercialForm.form.valid" novalidate
+  autocomplete="off">
+  <section class="req_table_sec booking_msa_sec branch_location_sec">
+    <div class="container">
+      <div class="booking_card padding_0">
+        <app-header-data></app-header-data>
+        <div class="row plr_15">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12" style="margin-bottom: 2rem">
+                <mat-label><strong style="font-size: 15px !important;">Schedule Creation For Route:
+                    {{nameOfrouteCode}}</strong></mat-label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2" style="margin-bottom: 2rem !important;width: 13%"
+                *ngFor="let a of activeRouteSchedules; let i = index">
+                <button mat-button class="btn-main retangle_btn" [ngClass]="setButtonClass(i,a)"
+                  (click)="assignScheduleTime(a,editedReferenceData,i)">{{a?.scheduleTime+"
+                  "}}{{amAndpmFormate(a?.scheduleTime)}}</button>
+              </div>
+            </div>
+            <div class="row" style="margin-top: .5rem !important;">
+              <div class="col-md-8">
+                <div class="table-responsive create_new_tale_mdm2">
+
+                  <table aria-describedby="table" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                    <!-- Position Column -->
+                    <ng-container matColumnDef="vehicleNumber">
+                      <th scope="col" mat-header-cell *matHeaderCellDef class="width25">
+                        <mat-checkbox (change)="checkedAll($event)" name="vehicleAllCheck-{{activeButtionIndex}}"
+                          [(ngModel)]="checkAllVehicle[activeButtionIndex]"></mat-checkbox>
+                        <strong> VEHICLE NUMBER</strong><span class="redMark">*</span>
+                      </th>
+                      <td mat-cell *matCellDef="let element; let i = index;" class="width25">
+
+                        <div class="row_center row_center_width" matTooltipPosition="above"
+                          [ngStyle]="{'color' : (!element.isActive && element.checked) ? '#fff' : '' }">
+                          <mat-checkbox name="checkBox_{{i}}" [(ngModel)]="element.checked" (change)="onSelectVehicle()"
+                            [ngModelOptions]="{standalone: true}"></mat-checkbox>{{element?.vehicleNumber}}
+                        </div>
+
+                      </td>
+                    </ng-container>
+
+                    <!-- Name Column -->
+                    <ng-container matColumnDef="vehicleModel">
+                      <th scope="col" mat-header-cell *matHeaderCellDef class="width25"> <strong>VEHICLE
+                          MODEL</strong></th>
+                      <td mat-cell *matCellDef="let element; let i = index;" class="width25">
+                        <div class="row_center row_center_width" matTooltipPosition="above"
+                          [ngStyle]="{'color' : (!element.isActive && element.checked) ? '#fff' : '' }">
+                          {{element?.vehicleModel}}
+                        </div>
+                      </td>
+                    </ng-container>
+
+                    <!-- Weight Column -->
+                    <ng-container matColumnDef="vehicleTonnage">
+                      <th scope="col" mat-header-cell *matHeaderCellDef class="width25"> <strong>VEHICLE
+                          TONNAGE</strong></th>
+                      <td mat-cell *matCellDef="let element; let i = index;" class="width25">
+                        <div class="row_center row_center_width"
+                          [ngStyle]="{'color' : (!element.isActive && element.checked) ? '#fff' : '' }">
+                          {{element?.vehicleTonnage}}</div>
+                      </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="HeightLengthWidth">
+                      <th scope="col" mat-header-cell *matHeaderCellDef class="width25"> <strong>L X B X
+                          H</strong></th>
+                      <td mat-cell *matCellDef="let element; let i = index;" class="width25">
+                        <div class="row_center row_center_width" matTooltipPosition="above"
+                          [ngStyle]="{'color' : (!element.isActive && element.checked) ? '#fff' : '' }"
+                          [matTooltip]="lbh(element.bodyLength,element.bodyWidth,element.bodyHeight)">
+                          {{element?.bodyLength}} X {{element?.bodyWidth}} X {{element?.bodyHeight}}</div>
+                      </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                      [ngStyle]="{background : (!row.isActive && row.checked) ? '#B00020' : '' }">
+                    </tr>
+                  </table>
+                  <div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row plr_15" style="margin-top: 2rem!important;"
+          *ngIf="!(exAttrKeyList && exAttrKeyList.includes('SELECT OPERATIONAL DAYS'))">
+          <div class="col-md-2">
+            <mat-label><strong>Select Operational Days</strong><span class="redMark"> *</span></mat-label>
+          </div>
+          <div class="col-md-2">
+            <div class="module_area">
+              <mat-form-field class="select_box_dropwodn overline_hidden Sel_OperationalDay1">
+                <mat-select class="Sel_OperationalDay2" #dayname='ngModel' placeholder="Select Days" name="dayName"
+                  [(ngModel)]="model.oprtnlWeekDayArray" (ngModelChange)="addEditStatusInOperationalDays()" required
+                  (selectionChange)="selectMulOprtnlWeekDay($event)" multiple>
+                  <mat-option *ngFor="let day of days" [value]="day.id">
+                    {{day.name}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <div *ngIf="(dayname.errors?.required && dayname.touched)" class="errorMsg">
+                Required!
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="row plr_15">
+          <div class="col-md-2">
+            <p><strong>Schedule Time</strong><span class="redMark"> *</span></p>
+          </div>
+          <div class="col-md-2">
+            <mat-form-field appearance="outline">
+              <input matInput name="scheduleTime" class="form-control" autocomplete="new-gstinNum"
+                [disabled]="isDisableflag" required #scheduleTime='ngModel' 
+                [ngModelOptions]="{standalone: true}" [(ngModel)]="model.scheduleTime">
+            </mat-form-field>
+            <div *ngIf="(scheduleTime.errors?.required && scheduleTime.touched)" class="errorMsg">
+              Required!
+            </div>
+          </div>
+          <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('TRANSIT TIME'))">
+            <div class="col-md-2 col-md-offset-0 mo_ml_0">
+              <p><strong class="transitMargin">Transit Time</strong><span class="redMark"> *</span></p>
+            </div>
+            <div class="col-md-2">
+
+              <div class="row">
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <span class="hrsMin_label">HRS</span>
+                  <mat-form-field appearance="outline">
+                    <input matInput name="transitTime" class="form-control Sel_TransitTime" autocomplete="new-gstinNum"
+                      [disabled]="isDisableflag" required #transitTime='ngModel' 
+                      [ngModelOptions]="{standalone: true}" [(ngModel)]="model.transitTime">
+                  </mat-form-field>
+                  <div *ngIf="(transitTime.errors?.required && transitTime.touched)" class="errorMsg">
+                    Required!
+                  </div>
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-6">
+                  <span class="hrsMin_label">MINS</span>
+                  <mat-form-field appearance="outline">
+                    <input matInput name="transitTimeMinutes" class="form-control Sel_TransitTime"
+                      autocomplete="new-gstinNum" [disabled]="isDisableflag" required #transitTimeMinutes='ngModel'
+                       [ngModelOptions]="{standalone: true}" [(ngModel)]="model.transitTimeMins">
+                  </mat-form-field>
+                  <div *ngIf="(transitTimeMinutes.errors?.required && transitTimeMinutes.touched)" class="errorMsg">
+                    Required!
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="row plr_15">
+          <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('EXTRA DEPARTURE'))">
+            <div class="col-md-2">
+              <p><strong>Extra Departure</strong></p>
+            </div>
+            <div class="col-md-2">
+              <div class="module_area">
+                <mat-checkbox #extraDepartFlag #extraDepartFlagObj="ngModel" name="extraDepartFlag"
+                  [(ngModel)]="model.extraDepartFlag" (change)="onChangeExtraDept($event)"
+                  (ngModelChange)="addEditStatus(model)"></mat-checkbox>
+                <!-- <div *ngIf="(!extraDepartFlag.checked && extraDepartFlagObj.touched)"
+                  style="margin-top:-0.6rem !important;" class="errorMsg">
+                  Required!
+                </div> -->
+
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('REASON'))">
+            <div class="col-md-2 col-md-offset-0 mo_ml_0">
+              <p><strong class="transitMargin">Extra Departure No<span
+                    *ngIf="model.extraDepartFlag || model.extraDepartFlag == 1" class="redMark"> *</span></strong></p>
+            </div>
+            <div class="col-md-2">
+              <mat-form-field appearance="outline">
+                <input matInput name="reason" class="form-control" autocomplete="new-gstinNum" #extraDepartRsn='ngModel'
+                  [disabled]="!model.extraDepartFlag  || model.extraDepartFlag == 0" 
+                  [(ngModel)]="model.extraDepartRsn" [numbersOnly]=true
+                  [required]="model.extraDepartFlag  || model.extraDepartFlag == 1"
+                  (ngModelChange)="addEditStatus(model)">
+              </mat-form-field>
+              <div *ngIf="(extraDepartRsn.errors?.required && extraDepartRsn.touched)"
+                style="margin-top:-0.6rem !important;" class="errorMsg">
+                Required!
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row plr_15">
+          <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('START DATE'))">
+            <div class="col-md-2">
+              <mat-label><strong>Start Date</strong><span class="redMark"> *</span></mat-label>
+            </div>
+            <div class="col-md-2">
+              <div class="module_area">
+                <mat-form-field appearance="outline" class="date_picker_adjust" style="right: 0.2rem !important">
+                  <mat-datepicker #bookingDate1 class="myDatepicker23">
+                  </mat-datepicker>
+                  <input matInput [matDatepicker]="bookingDate1" class="date_input_height" 
+                    name="effectiveDt" #effectiveDt="ngModel" [(ngModel)]="model.effectiveDt" placeholder="DD-MM-YYYY"
+                    (blur)="effectiveDate(true)" (dateChange)="effectiveDate(true)"
+                    (ngModelChange)="addEditStatus(model)" required numericSpecialChar />
+                  <mat-datepicker-toggle matPrefix [for]="bookingDate1">
+                  </mat-datepicker-toggle>
+                </mat-form-field>
+                <div *ngIf="isValidEffectiveDt" class="errorMsg">
+                  Invalid Start Date!
+                </div>
+                <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
+                  Required!
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('END DATE'))">
+            <div class="col-md-2 col-md-offset-0 mo_ml_0">
+              <mat-label><strong class="transitMargin">End Date</strong></mat-label>
+            </div>
+            <div class="col-md-2">
+
+              <div class="module_area">
+                <mat-form-field appearance="outline" class="date_picker_adjust">
+                  <mat-datepicker #bookingDate2 class="myDatepicker23">
+                  </mat-datepicker>
+                  <input matInput [matDatepicker]="bookingDate2" class="date_input_height" 
+                    #expDt="ngModel" [(ngModel)]="model.expDt" name="expDt" placeholder="DD-MM-YYYY"
+                    (ngModelChange)="addEditStatus(model)" [min]="minDate" (dateChange)="expDate()" (blur)="expDate()"
+                    numericSpecialChar />
+                  <mat-datepicker-toggle matPrefix [for]="bookingDate2">
+                  </mat-datepicker-toggle>
+                </mat-form-field>
+                <div *ngIf="isValidExpDt" class="errorMsg">
+                  Invalid End Date!
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row plr_15" style="margin-top: 2rem!important;">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-label><strong>Route Details</strong></mat-label>
+            </div>
+          </div>
+
+          <div class="row" style="margin-top: .5rem !important;">
+            <div class="col-md-7">
+              <table aria-describedby="routeDetail" mat-table [dataSource]="routeDataSource" matSort
+                class="mat-elevation-z8" matSortDisableClear>
+
+                <ng-container matColumnDef="routeTchpntId">
+                  <th scope="col" mat-header-cell *matHeaderCellDef style="width: 16rem !important;"> <span></span></th>
+                  <td mat-cell *matCellDef="let element; let i = index;">
+
+                    <div class="row_center row_center_width matFieldWidth" [matTooltip]="assginBranchName(element)"
+                      matTooltipPosition="above">
+                      {{assginBranchName(element)}}
+                    </div>
+                    <span *ngIf="element.routeType == 'S'">(S)</span>
+                    <span *ngIf="element.routeType == 'D'">(D)</span>
+                    <span *ngIf="!element.routeType">(T{{i}})</span>
+
+                  </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="eta" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('ETA'))">
+                  <th scope="col" mat-header-cell *matHeaderCellDef style="width: 16rem !important;">
+                    <span>ETA</span><span class="redMark"> *</span>
+                  </th>
+                  <td mat-cell *matCellDef="let element; let i = index;">
+                    <div class="row_center row_center_width matFieldWidth" matTooltipPosition="above">
+                      <mat-form-field appearance="outline" class="input_table_width table_input_width Route Details"
+                        *ngIf="i>0">
+                        <input matInput name="eta_{{i}}" #eta="ngModel" [(ngModel)]="element.eta" [disabled]="true"
+                          class="form-control" (ngModelChange)="addEditStatus(element)"  required>
+                      </mat-form-field>
+                      <div *ngIf="(eta?.errors?.required && eta?.touched)" class="errorMsg">
+                        Required!
+                      </div>
+                    </div>
+
+                  </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="waitTime"
+                  *ngIf="!(exAttrKeyList && exAttrKeyList.includes('WAITING TIME'))">
+                  <th scope="col" mat-header-cell *matHeaderCellDef style="width: 16rem !important;"> <span>WAITING
+                      TIME</span><span class="redMark"> *</span></th>
+                  <td mat-cell *matCellDef="let element; let i = index;">
+
+                    <div class="row">
+                      <div class="col-md-6 col-sm-6 col-xs-6 row_center row_center_width" matTooltipPosition="above">
+                        <span class="transitHours">HRS</span>
+                        <mat-form-field appearance="outline" class="input_table_width table_input_width Route Details"
+                          *ngIf=" i>0 && element.routeType != 'D' ">
+                          <input matInput name="waitTime_{{i}}" [disabled]="!model.effectiveDt" appGreaterZero numeric
+                            (keypress)="numericOnly($event)" maxlength="3" #waitTime="ngModel"
+                            [(ngModel)]="element.waitTime"
+                            (ngModelChange)="editInputWaiting(element,i); addEditStatus(element)" class="form-control"
+                             [required]="element.waitTimeMins == 0 || element.waitTimeMins == '' || element.waitTimeMins == undefined">
+                        </mat-form-field>
+                        <div *ngIf="getError('waitTime_'+i) as errObj">
+                          <div *ngIf="(errObj?.errors?.required && errObj?.touched)" class="errorMsg">
+                            Required!
+                          </div>
+                          <div *ngIf="((errObj?.errors?.greaterZero || errObj?.errors?.isNumeric) && errObj?.touched)" class="errorMsg">
+                            Invalid!
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-md-6 col-sm-6 col-xs-6 row_center row_center_width" matTooltipPosition="above">
+                        <span class="transitHours">MINS</span>
+                        <mat-form-field appearance="outline" class="input_table_width table_input_width Route Details"
+                          *ngIf=" i>0 && element.routeType != 'D' ">
+                          <input matInput name="waitTimeMins_{{i}}" [disabled]="!model.effectiveDt" appGreaterZero numeric
+                            (keypress)="numericOnly($event)" maxlength="2" #waitTimeMins="ngModel"
+                            [(ngModel)]="element.waitTimeMins"  customMax = "59"
+                            (ngModelChange)="editInputWaiting(element,i); addEditStatus(element)" class="form-control"
+                             [required]="element.waitTime == 0 || element.waitTime == '' || element.waitTime == undefined">
+                        </mat-form-field>
+                        <div *ngIf="getError('waitTimeMins_'+i) as errObj">
+                          <div *ngIf="(errObj?.errors?.required && errObj?.touched)" class="errorMsg">
+                            Required!
+                          </div>
+                          <div *ngIf="((errObj?.errors?.customMax || errObj?.errors?.greaterZero || errObj?.errors?.isNumeric) && errObj?.touched)" class="errorMsg">
+                            Invalid!
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="departTime"
+                  *ngIf="!(exAttrKeyList && exAttrKeyList.includes('TIME OF DEPARTURE'))">
+                  <th scope="col" mat-header-cell *matHeaderCellDef style="width: 16rem !important;"> <span>TIME OF
+                      DEPARTURE</span><span class="redMark">*</span></th>
+                  <td mat-cell *matCellDef="let element; let i = index;">
+
+                    <div class="row_center row_center_width matFieldWidth" matTooltipPosition="above">
+                      <mat-form-field appearance="outline" class="input_table_width table_input_width Route Details"
+                        *ngIf="element.routeType != 'D'">
+                        <input matInput name="departTime_{{i}}" #departTime="ngModel" [(ngModel)]="element.departTime"
+                          [disabled]="true" (ngModelChange)="addEditStatus(element)" class="form-control" 
+                          required>
+                      </mat-form-field>
+                      <div *ngIf="(departTime?.errors?.required && departTime?.touched)" class="errorMsg">
+                        Required!
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="transitTime"
+                  *ngIf="!(exAttrKeyList && exAttrKeyList.includes('TOUCHPOINT TRANSIT TIME'))">
+                  <th scope="col" mat-header-cell *matHeaderCellDef style="width: 16rem !important;"> <span>TRANSIT
+                      TIME</span><span class="redMark"> *</span></th>
+                  <td mat-cell *matCellDef="let element; let i = index;">
+
+                    <div class="col-md-6 col-sm-6 col-xs-6 row_center row_center_width" matTooltipPosition="above">
+                      <span class="transitHours">HRS</span>
+                      <mat-form-field appearance="outline" class="input_table_width table_input_width Route Details"
+                        *ngIf="element.routeType != 'D'">
+                        <input matInput name="transitTime-{{i}}" [disabled]="!model.effectiveDt"
+                          (keypress)="numericOnly($event)" maxlength="3" #transitTime="ngModel" appGreaterZero numeric
+                          [(ngModel)]="element.transitTime"
+                          (ngModelChange)="editInputTransit(element,i);addEditStatus(element)"
+                          class=" Sel_transitTime2 form-control"  
+                          [required]="element.transitTimeMins == 0 || element.transitTimeMins == '' || element.transitTimeMins == undefined">
+                      </mat-form-field>
+                      <div *ngIf="getError('transitTime-'+i) as errObj">
+                        <div *ngIf="(errObj?.errors?.required && errObj?.touched)" class="errorMsg">
+                          Required!
+                        </div>
+                        <div *ngIf="((errObj?.errors?.greaterZero || errObj?.errors?.isNumeric) && errObj?.touched)" class="errorMsg">
+                          Invalid!
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-6 col-sm-6 col-xs-6 row_center row_center_width" matTooltipPosition="above">
+                      <span class="transitHours">MINS</span>
+                      <mat-form-field appearance="outline" class="input_table_width table_input_width Route Details"
+                        *ngIf="element.routeType != 'D'">
+                        <input matInput name="transitTimeMins_{{i}}" [disabled]="!model.effectiveDt"
+                          (keypress)="numericOnly($event)" maxlength="2" #transitTimeMins="ngModel" appGreaterZero numeric
+                          [(ngModel)]="element.transitTimeMins" customMax = "59" 
+                          (ngModelChange)="editInputTransit(element,i);addEditStatus(element)"
+                          class=" Sel_transitTime2 form-control"  
+                          [required]="element.transitTime == 0 || element.transitTime == '' || element.transitTime == undefined">
+                      </mat-form-field>
+                      <div *ngIf="getError('transitTimeMins_'+i) as errObj">
+                        <div *ngIf="(errObj?.errors?.required && errObj?.touched)" class="errorMsg">
+                          Required!
+                        </div>
+                        <div *ngIf="((errObj?.errors?.customMax || errObj?.errors?.greaterZero || errObj?.errors?.isNumeric) && errObj?.touched)" class="errorMsg">
+                          Invalid!
+                        </div>
+                      </div>
+                    </div>
+
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="routeDisplayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: routeDisplayedColumns;"></tr>
+              </table>
+              <div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+
+        <div class="row">
+          <div class="col-md-12 text-center mtb_30"
+            *ngxPermissionsOnly="['VEHICLE DEDUCTION_CREATE', 'VEHICLE DEDUCTION_UPDATE']">
+            <button mat-button class="white-button" [disabled]="commercialForm.invalid" (click)="save(false)"
+              style="margin-right: 15px;">Save as Draft</button>
+            <button mat-button class="theme-button" [disabled]="commercialForm.invalid"
+              (click)="save(true)">Next</button>
+          </div>
+          <div class="col-md-12 text-center mtb_30"
+            *ngxPermissionsExcept="['VEHICLE DEDUCTION_CREATE', 'VEHICLE DEDUCTION_UPDATE']">
+            <button mat-button class="theme-button ml_15" (click)="nextReadMode()">Next </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</form>
+
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>
