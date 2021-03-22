@@ -1,6 +1,14 @@
 .preview_sec_2 h3{
     color: white;
+    padding: 10px 0;
+    margin: 2px 0;
 }
-.preview_main_card{
-    padding: 0 30px;
+.preview_sec_3 h2 {
+    font-size: 2.4rem !important;
+    font-weight: 600;
+}
+.customer_preview{
+    padding: 1rem;
+    background-color: #53af61;
+    color: #06161f;
 }

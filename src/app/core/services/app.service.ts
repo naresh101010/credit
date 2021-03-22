@@ -19,7 +19,7 @@ export class AppService {
    // debugger
     var headers = new HttpHeaders(this.headerData);
     //  return this.http.get<any>(this._url+"dashboard.json", {headers:headers}).catch((error: Response) => {
-    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/bookingcontract/all/draft", { headers: headers }).catch((error: Response) => {
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/deliverycontract/all/draft", { headers: headers }).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }
     );
@@ -28,7 +28,7 @@ export class AppService {
   {
     var headers = new HttpHeaders(this.headerData);
     //  return this.http.get<any>(this._url+"dashboard.json", {headers:headers}).catch((error: Response) => {
-    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/bookingcontract/all/draft", { headers: headers }).catch((error: Response) => {
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/deliverycontract/all/draft", { headers: headers }).catch((error: Response) => {
       return observableThrowError("Something went wrong");
     }
     );

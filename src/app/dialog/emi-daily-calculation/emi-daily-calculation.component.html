@@ -1,6 +1,6 @@
 <div class="modal-container">
     <h5 class="sub_heading">EMI / Daily Deduction Calculation</h5>
-    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true">close</mat-icon>
+    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true" aria-hidden="true" id="closeButton">close</mat-icon>
     <hr class="border_row">
     <br>
   </div>
@@ -69,7 +69,7 @@
             <mat-form-field appearance="outline" class="date_picker_adjust">
               <mat-datepicker #emiFormDate class="myDatepicker23">
               </mat-datepicker>
-              <input matInput [matDatepicker]="insuFormDate" class="date_input_height" placeholder="" name="expiryDate"
+              <input matInput autocomplete="off" [matDatepicker]="insuFormDate" class="date_input_height" placeholder="" name="expiryDate"
                 placeholder="DD/MM/YYYY" />
               <mat-datepicker-toggle matPrefix [for]="emiFormDate">
               </mat-datepicker-toggle>
@@ -86,7 +86,7 @@
             <mat-form-field appearance="outline" class="date_picker_adjust">
               <mat-datepicker #emiToDate class="myDatepicker23">
               </mat-datepicker>
-              <input matInput [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
+              <input matInput autocomplete="off" [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
                 placeholder="DD/MM/YYYY" />
               <mat-datepicker-toggle matPrefix [for]="emiToDate">
               </mat-datepicker-toggle>
@@ -117,7 +117,7 @@
             <mat-form-field appearance="outline" class="date_picker_adjust">
               <mat-datepicker #emiToDate class="myDatepicker23">
               </mat-datepicker>
-              <input matInput [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
+              <input matInput autocomplete="off" [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
                 placeholder="DD/MM/YYYY" />
               <mat-datepicker-toggle matPrefix [for]="emiToDate">
               </mat-datepicker-toggle>

@@ -1,4 +1,4 @@
-<div mat-dialog-content id="userCreateDefault" class="associateContainer">
+<div mat-dialog-content id="userCreateDefault" class="associateDeliverContainer">
     <div style="position: relative;" >
         <h3 id="h3">Search Branch</h3>
         <mat-icon class="modals_cancel_btn" (click)="closeDialog()" id="closeButton">close</mat-icon>
@@ -51,28 +51,27 @@
 
             <div class="row">
                 <div class="col-lg-3 col-md-3 zonalheadingbar">
-                    <!-- <mat-checkbox [disabled]="tableData?.length <=0" [(ngModel)]="checked" name="checked" (change)="selectAll($event, tableData.responseData)" [value]="tableData"></mat-checkbox> -->
                  <span>BRANCH CODE</span>
                 </div>
                 <div class="col-lg-3 col-md-3 zonalheadingbar">BRANCH NAME</div>
-                <div class="col-lg-2 col-md-3 zonalheadingbar">ADDRESS</div>
-                <div class="col-lg-2 col-md-3 zonalheadingbar">STATUS</div>
+                <div class="col-lg-3 col-md-3 zonalheadingbar">ADDRESS</div>
+                <div class="col-lg-3 col-md-3 zonalheadingbar">STATUS</div>
             </div>
             <div class="search_branch_tbl">
                 <div *ngFor="let branch of tableData.responseData;let i=index">
                     <div class="row">
-                        <div class="col-lg-3 width20" style="display: inline-flex;">
-                            <mat-radio-group aria-label="Select an option" name="branch_{{i}}" [(ngModel)]="selectedBranch">
+                        <div class="col-lg-3 col-md-3 width20" style="display: inline-flex;">
+                            <mat-radio-group  [(ngModel)]="selectedBranch">
                                 <mat-radio-button [checked] ="selectedBranch == branch.branchId ? 'checked' : ''" [value]='branch.branchId'>
                                     <span matTooltipPosition="above" [matTooltip]="branch.branchCode">{{branch.branchCode}}</span>
                                 </mat-radio-button>
                             </mat-radio-group>                      
                         </div>
-                        <div class="col-lg-3 width20" matTooltipPosition="above" [matTooltip]="branch.branchName">{{branch.branchName }}</div>
-                        <div class="col-lg-3 width20">
+                        <div class="col-lg-3 col-md-3 width20" matTooltipPosition="above" [matTooltip]="branch.branchName">{{branch.branchName }}</div>
+                        <div class="col-lg-3 col-md-3 width20">
                             <em [matTooltip]="branch.address | uppercase" matTooltipPosition="above" class="material-icons primary-color">room</em>
                         </div>
-                        <div class="col-lg-3 width20 ">{{branch.status | lookupValue : "lookupVal" : statusList}}</div>
+                        <div class="col-lg-3 col-md-3 width20 ">{{branch.status | lookupValue : "descr" : statusList}}</div>
                     </div>
                 </div>
             </div>

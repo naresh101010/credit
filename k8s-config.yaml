@@ -1,15 +1,15 @@
 apiVersion: apps/v1    
 kind: Deployment    
 metadata:    
-  name: booking-associate-ui
+  name: assoc-cntr-delivery-ui
   namespace: uiapps
   labels:    
-    app: booking-associate-ui  
+    app: assoc-cntr-delivery-ui  
 spec:    
   replicas: 1    
   selector:    
     matchLabels:    
-      app: booking-associate-ui 
+      app: assoc-cntr-delivery-ui 
   strategy:    
     rollingUpdate:    
       maxSurge: 25%    
@@ -18,12 +18,12 @@ spec:
   template:    
     metadata:    
       labels:    
-        app: booking-associate-ui      
+        app: assoc-cntr-delivery-ui      
     spec:    
       containers:    
-      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/booking-associate-ui:BUILDNUMBER    
+      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/assoc-cntr-delivery-ui:BUILDNUMBER    
         imagePullPolicy: Always    
-        name: booking-associate-ui   
+        name: assoc-cntr-delivery-ui   
         ports:    
         - containerPort: 80    
           protocol: TCP    
@@ -34,7 +34,7 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: Gateway   
 metadata:   
-  name: booking-associate-ui 
+  name: assoc-cntr-delivery-ui 
 spec:   
   selector:   
     istio: pvt-ingressgateway # use istio default controller   
@@ -50,16 +50,16 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: VirtualService   
 metadata:   
-  name: booking-associate-ui
+  name: assoc-cntr-delivery-ui
 spec:   
   hosts:   
   - "*"   
   gateways:   
-  - booking-associate-ui   
+  - assoc-cntr-delivery-ui   
   http:   
   - match:   
     route:   
     - destination:   
-        host: booking-associate-ui  
+        host: assoc-cntr-delivery-ui  
         port:   
           number: 80

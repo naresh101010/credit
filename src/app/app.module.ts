@@ -55,6 +55,7 @@ import { PayoutGenDetailComponent } from './components/booking-payout/payout-gen
 import{ContractversionComponent}from './components/contractversion/contractversion.component';
 import { LookupValuePipe } from './core/pipes/lookup-value.pipe'
 import { APP_DATE_FORMATS, AppDateFormatAdapter } from './components/date-format/date.adapter';
+
 import { PreviewPopupComponent } from './dialog/preview-popup/preview-popup.component';
 import { NgxPermissionsModule } from 'ngx-permissions';
 import { EmptyComponetComponent } from './empty-componet/empty-componet.component';
@@ -69,14 +70,19 @@ import { GreaterZeroDirective } from './core/directives/greater-zero.directive';
 import { AlphabetOnlyDirective } from './core/directives/alphabet.directive';
 import { AlphaSpecialCharDirective } from './core/directives/alphaspecialchar.directive';
 import { NumericSpecialCharDirective } from './core/directives/numericspecialchar.directive';
+import { PincodeCustomizeComponent } from './dialog/pincode-customize/pincode-customize.component';
+import { SelectCustomerComponent } from './dialog/select-customer/select-customer.component';
+import { PaymentGeneralTermsComponent } from './components/booking-payout/payment-general-terms/payment-general-terms.component';
+import { ScheduledPayoutComponent } from './components/booking-payout/scheduled-payout/scheduled-payout.component';
 import { OnlyNumber } from './core/directives/onlyNumber.directive';
+import { StaffDocumentComponent } from './components/staff-document/staff-document.component';
+import { FromToDirective } from './core/directives/fromTo.directive';
 import { ExportAsModule } from 'ngx-export-as';
 import { NgxPrintModule } from 'ngx-print';
 import { EmailPreviewComponent } from './dialog/email-preview/email-preview.component';
 import { BlockCopyPasteDirective } from './core/directives/block-copy-paste.directive';
-import { ExpenseType } from './core/directives/expenseType.directive';
 import { SearchBankBranchComponent } from './dialog/search-bank-branch/search-branch.component';
-import { SearchFieldCheckDirective } from './core/directives/searchFeildCheck.directive';
+import { SearchFieldCheckDirective } from './core/directives/searchFieldCheck.directive';
 import { DashboardBranchSearchComponent } from './dialog/dashboard-branch-search/dashboard-branch-search.component';
 import { ReportsComponent } from './components/reports/reports.component';
 
@@ -134,10 +140,15 @@ import { ReportsComponent } from './components/reports/reports.component';
     AlphabetOnlyDirective,
     AlphaSpecialCharDirective,
     NumericSpecialCharDirective,
+    PincodeCustomizeComponent,
+    SelectCustomerComponent,
+    PaymentGeneralTermsComponent,
+    ScheduledPayoutComponent,
     OnlyNumber,
+    StaffDocumentComponent,
+    FromToDirective,
     EmailPreviewComponent,
     BlockCopyPasteDirective,
-    ExpenseType,
     SearchBankBranchComponent,
     SearchFieldCheckDirective,
     DashboardBranchSearchComponent,
@@ -193,6 +204,8 @@ import { ReportsComponent } from './components/reports/reports.component';
     CompareVersionComponent,
     SuccessComponent,
     EditPreviewComponent,
+    PincodeCustomizeComponent,
+    SelectCustomerComponent,
     SearchBankBranchComponent,
     DashboardBranchSearchComponent
   ]

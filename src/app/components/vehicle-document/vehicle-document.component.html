@@ -6,7 +6,7 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -45,7 +45,7 @@
                       <mat-select disableOptionCentering panelClass="creditSelect" #doctype="ngModel" required
                         name="docTypeId" [(ngModel)]="fileModel.docTypeId" placeholder="Select Option"
                         (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
-                        <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
+                        <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'descr'" [value]="item.id"
                           [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15"
                           matTooltipPosition="above">
                           {{item.descr}}
@@ -68,7 +68,7 @@
                     <mat-form-field class="select_box_dropwodn overline_hidden">
                       <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype="ngModel" required
                         name="subTypeId" [(ngModel)]="fileModel.subTypeId" placeholder="Select Option">
-                        <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
+                        <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'descr'" [value]="item.id"
                           [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15"
                           matTooltipPosition="above">
                           {{item.descr}}
@@ -225,7 +225,7 @@
       <div class="padding_10">
         <div class="row">
           <div class="col-md-12 text-center mtb_30">
-            <button mat-button class="white-button" skipLocationChange routerLink="/asso_booking-contract/vehicle-allocation">Back</button>
+            <button mat-button class="white-button" skipLocationChange routerLink="/asso_delivery-contract/vehicle-allocation">Back</button>
             <button mat-button class="theme-button" (click)="onSubmit()">Submit</button>
           </div>
         </div>

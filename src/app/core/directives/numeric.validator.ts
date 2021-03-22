@@ -5,7 +5,7 @@ export function NumericValidator(): ValidatorFn {
       let regex = /^\d*\.?\d{0,2}$/g;    
       let current: string = control.value;
       let exp = String(current).match(regex);
-
+    
       if(!exp || (Number(control.value) > Number(100000000))) {
         return { 'isNumeric': 'Value is Invalid' }
       } else {

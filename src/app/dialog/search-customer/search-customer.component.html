@@ -1,6 +1,6 @@
 <div class="modal-container">
     <h4 class="sub_heading"><strong>Search Customer</strong></h4>
-    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="false">close</mat-icon>
+    <mat-icon class="modals_cancel_btn" aria-hidden="true" id="closeButton" (click)="closeDialog()" >close</mat-icon>
     <hr class="border_row">
   </div>
   <div class="row">
@@ -10,8 +10,8 @@
     <div class="col-md-8">
       <div class="module_area">
         <mat-radio-group  name="custType" #custTypeModel="ngModel" (change)="custTypeChange($event)" [(ngModel)]="custType"> 
-          <mat-radio-button [value]= "0" (click)="searchText=''">CREDIT</mat-radio-button>
-          <mat-radio-button [value]= "1" (click)="searchText=''">PRC</mat-radio-button>
+          <mat-radio-button [value]= "0" >CREDIT</mat-radio-button>
+          <mat-radio-button [value]= "1" >PRC</mat-radio-button>
         </mat-radio-group>
       </div>
     </div>
@@ -24,7 +24,7 @@
       <div class="search_bar_mdm2d searchbar_mdm2">
         <a style="cursor: pointer;">
           <span class="fa fa-search fa-lg" id="defualtBranchSearch"></span>
-          <input appSearchFieldCheck class="form-control input-md" placeholder="Search" (keyup)="applyFilter($event)" [(ngModel)]="searchText"
+          <input class="form-control input-md" placeholder="Search" (keyup)="applyFilter($event)"
             style="height: 2.7rem; padding-left: 2.3rem;" />
         </a>
       </div>
@@ -35,7 +35,7 @@
       <div class="col-md-12">
         <div class="table-responsive create_new_tale_mdm2">
 
-          <table aria-describedby="table" mat-table [dataSource]="dataSourceCustomers" matSort class="mat-elevation-z8">
+          <table mat-table [dataSource]="dataSourceCustomers" matSort class="mat-elevation-z8">
     
             <!-- Position Column -->
             <ng-container matColumnDef="customerName">
@@ -70,7 +70,7 @@
       </div>
     </div>
     <div *ngIf="dataSourceCustomers.data && dataSourceCustomers.data.length > 0" class="row">
-      <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['CUSTOMER COMMERCIAL_CREATE','CUSTOMER COMMERCIAL_UPDATE']">
+      <div class="col-md-12 text-center mtb_30">
         <button mat-button class="theme-button" [disabled]="" (click) = "addCustomers()">Add</button>
       </div>
     </div>

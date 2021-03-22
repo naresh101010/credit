@@ -70,7 +70,7 @@ export class AssociateKycComponent implements OnInit {
     private datePipe: DatePipe,
     public dialog: MatDialog,
     private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService) { }
+    private permissionsService: NgxPermissionsService,) { }
 
   ngOnInit() {
 
@@ -274,12 +274,12 @@ export class AssociateKycComponent implements OnInit {
           docObj.signedUrl = obj.signedUrl;
           for (let docTypeObj of this.docTypeList) {
             if (obj.lkpDocTypeId == docTypeObj.id) {
-              docObj.docType = docTypeObj.lookupVal;
+              docObj.docType = docTypeObj.descr;
             }
           }
           for (let subTypeObj of this.subTypeNameList) {
             if (obj.lkpDocSubtypeId == subTypeObj.id) {
-              docObj.docSubtype = subTypeObj.lookupVal;
+              docObj.docSubtype = subTypeObj.descr;
             }
           }
           this.docList.push(docObj)
@@ -447,10 +447,6 @@ export class AssociateKycComponent implements OnInit {
       }else{
         this.dataSource = new MatTableDataSource(this.docList);
       }
-      // setTimeout(() => {
-      //   this.noRecdFundMsg = false;
-      //   this.dataSource = this.cloneDoc;
-      // }, 2000);
     }
   }
   /*---------- check valid date ---------- */
@@ -476,7 +472,7 @@ export class AssociateKycComponent implements OnInit {
           this.dataSource.data = this.dataSource.data.filter(function( obj ) {
             return obj.docId !== element.docId;
           });
-          this.getDocumentDetailbyId();   
+          this.getDocumentDetailbyId();
           this.spinner.hide();
           this.toaster.success('Document has been deleted');
         });

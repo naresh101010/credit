@@ -9,11 +9,11 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AppSetting } from 'src/app/app.setting';
 import { DatePipe } from '@angular/common';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { PincodeCustomizeComponent } from 'src/app/dialog/pincode-customize/pincode-customize.component';
 import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 import { ErrorConstants } from 'src/app/core/models/constants';
-
+import { AuthorizationService } from '../../core/services/authorization.service';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-branch-allocation',
@@ -22,7 +22,7 @@ import { ErrorConstants } from 'src/app/core/models/constants';
 })
 export class BranchAllocationComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  displayedColumns: string[] = ['branchName', 'branchType', 'effectiveDt', 'expDt', 'Avehicle', 'delete'];
+  displayedColumns: string[] = ['branchName', 'branchType', 'effectiveDt', 'expDt', 'Avehicle', 'CustomizePin', 'delete'];
   dataSource: any;
   SearchType;
   userBranch;
@@ -33,41 +33,40 @@ export class BranchAllocationComponent implements OnInit {
   existBranch = [];
   referenceData;
   editflow;
-  perList:any=[];
-  exAttrMap = new Map();
-  exAttrKeyList =  [];
   flag: boolean = false;
 
+  perList: any = [];
+
   constructor(public dialog: MatDialog, private toast: ToastrService, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, public router: Router, private acRoute:ActivatedRoute, public datePipe: DatePipe,
-              private authorizationService : AuthorizationService,
-              private permissionsService: NgxPermissionsService) { }
+    private authorizationService : AuthorizationService,
+    private permissionsService: NgxPermissionsService) { }
 
   ngOnInit() {
-
-    this.authorizationService.setPermissions('VEHICLE');
-    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
+    this.SpinnerService.show();
     this.authorizationService.setPermissions('BRANCH');
-    this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
+    this.perList = this.authorizationService.getPermissions('BRANCH') == null ? [] : this.authorizationService.getPermissions('BRANCH');
+    this.authorizationService.setPermissions('PINCODE');
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('PINCODE'));
     this.permissionsService.loadPermissions(this.perList);
-    this.exAttrMap = this.authorizationService.getExcludedAttributes('BRANCH ALLOCATION');
-    this.exAttrKeyList = Array.from(this.exAttrMap.values());
-    console.log('Attribute List', this.exAttrKeyList);
+    // this.exAttrMap = this.authorizationService.getExcludedAttributes('VIEW CONTRACT');
+    // this.exAttrKeyList = Array.from(this.exAttrMap.values());
+    // console.log('Attribute List', this.exAttrKeyList);
     console.log('perlist',this.perList)
 
     this.getAllBranchWithCtr();
     this.getAllVehicle();
+    this.getContractData();
     this.acRoute.params.subscribe(x => {
       if(x.editflow){
         this.editflow = x.editflow;
       }
       
     })
-    this.getContract();
   }
 
   getAllVehicle(){
     this.tempArr = [];
-    this.SpinnerService.show();
+    // this.SpinnerService.show();
     let associateId = AppSetting.associateId;
     this.apiSer.get(`secure/v1/associates/vehicles/associate/${associateId}`).subscribe(res => {
       this.tempArr = [];
@@ -79,14 +78,39 @@ export class BranchAllocationComponent implements OnInit {
             this.tempArr.push(this.setVehicle(element, res.data.referenceData))
           }         
         });
+        // this.SpinnerService.hide();
       }
+      // this.SpinnerService.hide();
+    }, err => {
+      // this.SpinnerService.hide();
     });
+    // this.SpinnerService.hide();
   }
+  contractData: any;
+  scheduledDeliveryFlag:any;
+  safextDeliveryFlag:any;
+  getContractData() {
+    this.apiSer.get('secure/v1/deliverycontract/' + AppSetting.contractId).subscribe(data => {
+      let ob = ErrorConstants.validateException(data);      
+      if (ob.isSuccess) {
+        this.contractData = data.data.responseData;    
+        this.scheduledDeliveryFlag = this.contractData.scheduledDeliveryFlag;
+        this.safextDeliveryFlag = this.contractData.safextDeliveryFlag;
+        // this.SpinnerService.hide();
+      }else{
+        // this.SpinnerService.hide();
+      }
+    }, (error) => {
+      this.toast.error(ErrorConstants.getValue(404));
+      // this.SpinnerService.hide();
+    })
+  }
+
   backupBranch:any;
   getAllBranchWithCtr(){
-    this.SpinnerService.show();
+    this.backupBranch = [];
     let contractId = AppSetting.contractId;
-    this.apiSer.get(`secure/v1/bookingcontract/contracts/branches/${contractId}`).subscribe(res => {
+    this.apiSer.get(`secure/v1/deliverycontract/contracts/branches/${contractId}`).subscribe(res => {
       if (res && res.data) {
         this.existBranch = res.data.responseData;
         this.backupBranch = JSON.parse(JSON.stringify(this.existBranch))
@@ -95,7 +119,6 @@ export class BranchAllocationComponent implements OnInit {
         if (this.existBranch && this.existBranch.length > 0) {
           this.existBranch.forEach(element => {
             element.effectiveDate_min = new Date(element.effectiveDt);
-            console.log('Eff Date', element.effectiveDt);
             let e = new Date(element.effectiveDt);
             e.setDate(e.getDate()+1);
             element.expiryDate_min = e;
@@ -111,19 +134,18 @@ export class BranchAllocationComponent implements OnInit {
           });
         }
         this.dataSource = new MatTableDataSource(this.existBranch);
-
         this.dataSource.sort = this.sort;
+        this.SpinnerService.hide();
+      }else{
         this.SpinnerService.hide();
       }
     }, err => {
-      this.toast.error(err.errors.error[0].description);
       this.SpinnerService.hide();
     });
-    this.SpinnerService.show();
+    // this.SpinnerService.show();
   }
 
   openSearchBranchModal() {
-    console.log(this.existBranch)
     const dialogRef = this.dialog.open(SearchBranchComponent, {
       data: { data: this.branches, referenceData: this.referenceData },
       panelClass: 'mat-dialog-responsive',
@@ -143,19 +165,15 @@ export class BranchAllocationComponent implements OnInit {
             this.setBranchWithVecle(element);
         });
         if (existBranch.length > 0) {
-          this.toast.warning(`Branch Name  ${existBranch} already exists in List`);
+          this.toast.info(`Branch Name  ${existBranch} already exists in List`);
         }
 
       }
-      if(result !== undefined){
-        if(result.defaultBranch){
-          this.branches = result.defaultBranch;
-          this.existBranch = this.branches;
-          this.dataSource = new MatTableDataSource(this.branches);
-
-          this.dataSource.sort = this.sort;
-          console.log('this.branches', this.branches);
-        }
+      if(result.defaultBranch){
+        this.branches = result.defaultBranch;
+        this.existBranch = this.branches;
+        this.dataSource = new MatTableDataSource(this.branches);
+        this.dataSource.sort = this.sort;
       }
 
     });
@@ -178,6 +196,7 @@ export class BranchAllocationComponent implements OnInit {
   setBranchWithVecle(element) {  
     if(!element.assocCntrId){ 
       element.assocBranchVehicles = [];
+      element.assocBranchPincodes = [];
       element.assocCntrId = AppSetting.contractId;
       element.effectiveDate_min = new Date();
       let e = new Date();
@@ -205,16 +224,22 @@ export class BranchAllocationComponent implements OnInit {
   };
 
   submit(btnName) {
+    this.SpinnerService.show();
     this.branches.forEach(element => {
       if(!element.id){
         this.backupBranch.forEach(obj => {
-          console.log('id>>', obj.branchId, element.branchId);
           if(obj.branchId == element.branchId){            
             element.id = obj.id;
               element.assocBranchVehicles.forEach(elementvel => {
                 obj.assocBranchVehicles.forEach(objVel => {
-                  console.log('vehicleId>>', objVel.vehicleId, objVel.vehicleId);
                   if(objVel.vehicleId == elementvel.vehicleId){            
+                    elementvel.id = objVel.id;
+                  }
+                });
+              });
+              element.assocBranchPincodes.forEach(elementvel => {
+                obj.assocBranchPincodes.forEach(objVel => {
+                  if(objVel.dlvryBranchPinMapId == elementvel.dlvryBranchPinMapId){            
                     elementvel.id = objVel.id;
                   }
                 });
@@ -227,38 +252,38 @@ export class BranchAllocationComponent implements OnInit {
         el.effectiveDt = this.datePipe.transform(el.effectiveDt, 'yyyy-MM-dd');
         el.expDt = this.datePipe.transform(el.expDt, 'yyyy-MM-dd')
       });
-      this.SpinnerService.show();
-      this.apiSer.post(`secure/v1/bookingcontract/contracts/branches`, this.branches).subscribe((res) => {
+      
+      this.apiSer.post(`secure/v1/deliverycontract/contracts/branches`, this.branches).subscribe((res) => {
       if(res.data.responseData){
         this.toast.success('Saved Successfully');
         if(btnName == 'next'){
+          this.SpinnerService.hide();
           if(this.editflow){
-            this.router.navigate(['asso_booking-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
+            this.router.navigate(['asso_delivery-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
           }else{
-            this.router.navigate(['asso_booking-contract/booking-payout'], {skipLocationChange: true});
+            this.router.navigate(['asso_delivery-contract/booking-payout'], {skipLocationChange: true});
           }
         }else {
-          // this.getAllBranchWithCtr();
-          // this.getAllVehicle();
           this.ngOnInit();
         }
       }
-    }, (err) =>{     
-      // if(btnName == 'save') {
-      //   return
-      // } 
-      this.toast.error(err.error.errors.error[0].code + ' : ' + err.error.errors.error[0].description );
+    }, (err) =>{
       this.SpinnerService.hide();
+      this.toast.error(err.error.errors.error[0].code + ' : ' + err.error.errors.error[0].description );
     })
   }
 
   nextReadMode() {
     if(this.editflow){
-      this.router.navigate(['asso_booking-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
+      this.router.navigate(['asso_delivery-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
     }else{
-      this.router.navigate(['asso_booking-contract/booking-payout'], {skipLocationChange: true});
+      this.router.navigate(['asso_delivery-contract/booking-payout'], {skipLocationChange: true});
     }
   }
+
+  // validationBranchCheck(btnName){
+  //   this.submit(btnName);
+  // }
 
   validationBranchCheck(btnName){
     let cntrId = String(AppSetting.contractId);
@@ -267,9 +292,8 @@ export class BranchAllocationComponent implements OnInit {
     });
     let branchMap = {};
     branchMap[cntrId] = [...listBranchIds];
-
     this.SpinnerService.show();
-    this.apiSer.post(`secure/v1/bookingcontract/validBranches/`, branchMap).subscribe(
+    this.apiSer.post(`secure/v1/deliverycontract/validBranches/`, branchMap).subscribe(
       res => {
         let listBranchNames = [];
         if (res && res.data && res.data.responseData) {
@@ -285,7 +309,32 @@ export class BranchAllocationComponent implements OnInit {
             this.toast.error('Not a Valid Branch, Already Allocated ! ', listBranchNames[0].toString());
             this.SpinnerService.hide();
           } else {
+
+            /*   Remove validation for Pincode as now pincode is not mandatory 
+            */
+
+            // let tempFlag = true;
+            // this.branches.filter(obj=> {
+            //   let tempArray:any[] = JSON.parse(JSON.stringify(obj.assocBranchPincodes))
+            //   obj.assocBranchPincodes = this.checkPinWithFlag(obj.assocBranchPincodes);
+            //   if(!obj.assocBranchPincodes ||  obj.assocBranchPincodes.length == 0){
+            //     obj.assocBranchPincodes = tempArray;
+            //     // this.toast.warning('Add Pincode for each branch ');
+            //     tempFlag = false;
+            //     this.SpinnerService.hide();
+            //     return
+            //   }
+            //   if(!tempFlag){
+            //     this.SpinnerService.hide();
+            //     return  
+            //   }
+            // })
+            // if(tempFlag){
+            //   this.submit(btnName);
+            // }
+
             this.submit(btnName);
+            
           }
         }
       },
@@ -300,12 +349,13 @@ export class BranchAllocationComponent implements OnInit {
       });
     }
     let temp = {
-      "branchName": [
-        "string"
-      ],
       // "id" : obj.id,
-      "refBranchName": obj.refBranchName,
-      "status": obj.status,
+      "bodyHeight": obj.bodyHeight,
+      "bodyLength": obj.bodyLength,
+      "bodyWidth": obj.bodyWidth,
+      "effectiveDt": obj.effectiveDt,
+      "expDt": obj.expDt,
+      // "status": obj.status,
       "vehicleId": obj.id,
       "vehicleModel": obj.vehicleModel,
       "vehicleNumber": obj.vehicleNum,
@@ -323,7 +373,7 @@ export class BranchAllocationComponent implements OnInit {
     console.log('this.tempArr', this.tempArr);
     const vehicle = JSON.parse(JSON.stringify(this.tempArr));
     const dialogRef = this.dialog.open(AssignVehicleComponent, {
-      data: { 'tempVehicle': vehicle, 'obj': obj },
+      data: { 'tempVehicle': vehicle, 'obj': obj, 'component' : 'branch' },
       panelClass: 'mat-dialog-responsive',
       disableClose: true
     });
@@ -364,8 +414,24 @@ export class BranchAllocationComponent implements OnInit {
         return flag = true;
       }
 
-    })
+    });
+
+     /*  Remove validation for Pincode as now pincode is not mandatory 
+      */
+
+    // this.branches.forEach(obj => {
+    //   if (obj.effectiveDt) {
+    //     if(!obj.assocBranchPincodes || obj.assocBranchPincodes.length == 0){
+    //       return flag = true;
+    //     }
+    //   } else {
+    //     return flag = true;
+    //   }
+
+    // });
     return flag;
+
+    
   }
 
   editInput(element){
@@ -422,7 +488,7 @@ export class BranchAllocationComponent implements OnInit {
   }
   this.expDate(element);
   }
-  
+
   expDate(element) {
     let expYear = parseInt(this.datePipe.transform(element.expDt, 'yyyy'))
     if (expYear > 9999) {
@@ -462,27 +528,106 @@ export class BranchAllocationComponent implements OnInit {
   }
   }
 
-  contractData: any;
-  minDate: any;
-  getContract(){
-    this.apiSer.get('/secure/v1/bookingcontract/'+AppSetting.contractId).subscribe(response => {
-      let ob = ErrorConstants.validateException(response);
-      if(ob.isSuccess){
-        if(response.data.responseData && Object.keys(response.data.responseData).length > 0){
-          this.contractData =  response.data.responseData;
-          this.minDate = this.contractData.cntrSignDt;
+  excludePincode(index) {
+    let branchPin = JSON.parse(JSON.stringify(this.branches[index].assocBranchPincodes));
+    const excludePincode = this.dialog.open(PincodeCustomizeComponent, {disableClose: true,
+       panelClass: 'mat-dialog-responsive',
+      data: {
+        cmdmntId: 1, excludedPincodeList: branchPin,
+        safextDeliveryFlag: this.safextDeliveryFlag,
+        scheduledDeliveryFlag: this.scheduledDeliveryFlag,  
+        geoFeatureId: this.branches[index].geoFeatureId
+      },
+      width: '60%',
+    });
+    excludePincode.afterClosed().subscribe(objEl => {
+      if(objEl){
+        let result = this.checkPinWithFlagSave(objEl);
+        if(result != undefined){
+        if (result.length > 0){
+          result.forEach(element => {
+            element.effectiveDt = this.branches[index].effectiveDt;
+            element.expDt = this.branches[index].expDt;
+          });
+          this.branches[index].assocBranchPincodes = result.filter(obj => obj.isChecked == true);
+        } else {
+          this.branches[index].assocBranchPincodes = [];
         }
-        this.SpinnerService.hide();
       } else {
-        this.toast.error(ob.message);
-        this.SpinnerService.hide();
+        this.branches[index].assocBranchPincodes = [];
       }
-    }, (error) => {
-      this.toast.error(ErrorConstants.getValue(404));
-      this.SpinnerService.hide();
-    })
+      }
 
+    });
   }
+
+  checkPinWithFlag(array){
+    let arrSafext:any[]; 
+    let arrScheduled:any[]; 
+
+    arrSafext = array.filter(obj=> obj.safextFlag);
+    arrScheduled = array.filter(obj=> !obj.safextFlag);
+    // let  tempArrSafext:any[] = arrSafext.filter(obj => obj.isChecked);
+    // let  tempArrScheduled:any[] = arrScheduled.filter(obj => obj.isChecked);
+    if(array && array.length > 0){
+      if(this.scheduledDeliveryFlag && this.safextDeliveryFlag){
+        if(arrScheduled.length > 0 && arrSafext.length > 0){
+          return array              
+        }else{
+          this.toast.info('Add Pincode for each branch ');
+          return
+        }
+      }else{
+        if(this.scheduledDeliveryFlag){
+          if(arrScheduled.length > 0){
+            return arrScheduled              
+          }else{
+            this.toast.info('Add Pincode for each branch ');
+            return
+          }
+        }else if(this.safextDeliveryFlag){
+          if(arrSafext.length > 0){
+            return arrSafext              
+          }else{
+            this.toast.info('Add Pincode for each branch ');
+            return
+          }
+        }
+      } 
+
+    }
+  }
+
+  checkPinWithFlagSave(array){
+    let arrSafext:any[]; 
+    let arrScheduled:any[]; 
+
+    arrSafext = array.filter(obj=> obj.safextFlag);
+    arrScheduled = array.filter(obj=> !obj.safextFlag);
+    let  tempArrSafext:any[] = arrSafext.filter(obj => obj.isChecked);
+    let  tempArrScheduled:any[] = arrScheduled.filter(obj => obj.isChecked);
+    if(array && array.length > 0){
+      if(this.scheduledDeliveryFlag && this.safextDeliveryFlag){
+        if(tempArrScheduled.length > 0 || tempArrSafext.length > 0){
+          return array;              
+        }
+      }else{
+        if(this.scheduledDeliveryFlag){
+          if(tempArrScheduled.length > 0){
+            return tempArrScheduled              
+          }
+        }else if(this.safextDeliveryFlag){
+          if(tempArrSafext.length > 0){
+            return tempArrSafext              
+          }
+        }
+      } 
+
+    }
+  }
+
+
+
 }
 
 

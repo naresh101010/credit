@@ -1,0 +1,179 @@
+<mat-card style="padding: .5rem;">
+
+    <div style="position: relative;" class="modal-container associateDeliverContainer">
+        <h3 id="h2"><strong>Customize Pin Codes</strong> </h3>
+        <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></em>
+    </div>
+    <hr id="popup-hr">
+    <mat-card-content style="margin-top: -3rem !important;">
+
+        <div style="margin-top: 1.2rem;" class="contractContainer">
+            <form name="assoPay" (ngSubmit)="fAssoPay.form.valid" #fAssoPay="ngForm" novalidate>
+                             
+                <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 " style="margin-bottom: 1.0rem; padding: 0;">
+                   <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 margin-row searchby" style="margin-top: 1.1rem !important;">
+                        STATE
+                    </div>
+                    <div class="col-lg-9 col-md-9">
+                                <mat-form-field class="select_box_dropwodn overline_hidden">
+                                    <mat-select disableOptionCentering panelClass="mat_ngx_booking" name="stateId"
+                                        [(value)]="stateId" (selectionChange)="getCityList()" (blur)="scrollActiveValue()">
+                                        <ngx-mat-select-search [(ngModel)]="searchState"
+                                            [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                                            [noEntriesFoundLabel]="'Not found'" name="search">
+                                            <mat-icon
+                                                class="mat-select-search-custom-header-content mat_ngx_select_search_booking">
+                                                search</mat-icon>
+                                        </ngx-mat-select-search>
+                                        <mat-option
+                                            *ngFor="let item of (stateList | stringFilterBooking:searchState:'lookupVal') | sortBy:'asc':'lookupVal'"
+                                            [value]="item.id" [matTooltip]="item.lookupVal"
+                                            [matTooltipDisabled]="item.lookupVal.length<13" matTooltipPosition="above">
+                                            {{item.lookupVal}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                    </div>
+                </div> 
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">
+                    <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 margin-row searchby" style="margin-top: 1.1rem !important;">
+                       CITY
+                    </div>
+                    <div class="col-lg-9 col-md-9">
+                        <mat-form-field class="select_box_dropwodn overline_hidden">
+                            <mat-select disableOptionCentering panelClass="mat_ngx_booking" name="cityId"
+                                [(value)]="cityId" (blur)="scrollActiveValue()">
+                                <ngx-mat-select-search [(ngModel)]="searchCity"
+                                    [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                                    [noEntriesFoundLabel]="'Not found'" name="search">
+                                    <mat-icon
+                                        class="mat-select-search-custom-header-content mat_ngx_select_search_booking">
+                                        search</mat-icon>
+                                </ngx-mat-select-search>
+                                <mat-option
+                                    *ngFor="let item of (cityList | stringFilterBooking:searchCity:'lookupVal') | sortBy:'asc':'lookupVal'"
+                                    [value]="item.id" [matTooltip]="item.lookupVal"
+                                    [matTooltipDisabled]="item.lookupVal.length<13" matTooltipPosition="above">
+                                    {{item.lookupVal}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div> 
+                <div class="col-lg-4 col-md-4 col-sm-4 col-xl-4">
+                    <button type="button" class="theme-button" mat-button
+                        style="text-align: center; margin-bottom: 2%;" color="primary" (click)="getPincode(0)"
+                        [disabled]="!cityId">SEARCH</button>
+                </div>
+                </div>
+
+            </form>
+            <div style="margin-top:5%;">
+                <div class="col-lg-12 col-md-12 row-margin">
+                    <div class="col-lg-5 col-md-5 row-margin">
+                        <div class="col-lg-1 col-md-1 zonalheadingbar">
+                            <mat-checkbox name="isCheckedsched" [checked]="schedIsChecked()"
+                                (change)="checkAll($event, 'sched')">
+                            </mat-checkbox>
+                        </div>
+                        <div class="col-lg-5 col-md-5 zonalheadingbar fonts">SCHEDULED PIN CODES</div>
+                        <div class="col-lg-6 col-md-6 zonalheadingbar fonts">CITY</div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 row-margin" style="width: 12rem;"></div>
+                    <div class="col-lg-5 col-md-5 row-margin">
+                        <div class="col-lg-1 col-md-1 zonalheadingbar ">
+                            <mat-checkbox name="isCheckedsafex" [checked]="safexIsChecked()"
+                                (change)="checkAll($event, 'safex')">
+                            </mat-checkbox>
+                        </div>
+                        <div class="col-lg-5 col-md-5 zonalheadingbar fonts">SAFEXTENSION PIN CODES</div>
+                        <div class="col-lg-6 col-md-6 zonalheadingbar fonts">CITY</div>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-12 row-margin overflow-2 pincode_scroll">
+                    <div class="col-lg-5 col-md-5 row-margin grayBackground">
+                        <div class="row row-margin backGray">
+                            <div class="col-lg-12 col-md-12  padding17left"
+                                [ngClass]="ccData.safextFlag == 0 ? 'border-bottom': '' " style="font-size: 1.6rem;"
+                                *ngFor="let ccData of allPincodeList; let i = index">
+                                <div class="col-lg-1 col-md-1 col-sm-1 col-xl-1 row-margin paddingleftzero"
+                                    style="height: 4rem;" *ngIf="ccData.safextFlag == 0">
+                                    <mat-checkbox name="isChecked" [(ngModel)]="ccData.isChecked"
+                                        [checked]=ccData.isChecked>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="col-lg-5 col-md-5 paddingleftzero" *ngIf="ccData.safextFlag == 0">
+                                    {{ccData.pincode}}</div>
+                                <div class="col-lg-6 col-md-6 paddingleftzero" *ngIf="ccData.safextFlag == 0">
+                                    {{ccData.city}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 paddingleftzero" style="background: white !important;">
+                            <div class="col-lg-2 col-md-2">
+                                <span class="addEl"><strong>Added:</strong> </span>
+                            </div>
+                            <div class="col-lg-10 col-md-10">
+                                <span class="addEl">{{addedPincodeList('schedule')}}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 row-margin" style="width: 12rem;">
+                        <div class="col-lg-12 col-md-12 row-margin">
+                            <mat-icon (click)="addToExcludeList()" id="forwardIcon" mat-card-avatar
+                                aria-label="Remove from excluded list"
+                                style="font-size: xxx-large; margin-left: 25%; cursor: pointer; font-weight: bold;">
+                                arrow_forward</mat-icon>
+                        </div>
+                        <div class="col-lg-12 col-md-12 row-margin">
+                            <!-- margin-left: 25%; -->
+                            <mat-icon (click)="removeFromExcludeList()" id="backIcon" mat-card-avatar
+                                aria-label="Add to excluded list"
+                                style="font-size: xxx-large; margin-left: 25%;  cursor: pointer; font-weight: bold;">
+                                arrow_back</mat-icon>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-md-5 row-margin grayBackground">
+                        <div class="row row-margin backGray">
+                            <div class="col-lg-12 col-md-12 row-margin"
+                                [ngClass]="ccData.safextFlag == 1 ? 'border-bottom': '' " style=" font-size: 1.6rem; "
+                                *ngFor="let ccData of allPincodeList; let i = index">
+                                <div class="col-lg-1 col-md-1" style="height: 4rem;" *ngIf="ccData.safextFlag == 1">
+                                    <mat-checkbox name="isChecked" [(ngModel)]="ccData.isChecked"
+                                        [checked]=ccData.isChecked>
+                                    </mat-checkbox>
+                                </div>
+                                <div class="col-lg-5 col-md-5" *ngIf="ccData.safextFlag == 1">
+                                    {{ccData.pincode}}</div>
+                                <div class="col-lg-6 col-md-6" *ngIf="ccData.safextFlag ==1">
+                                    {{ccData.city}}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 paddingleftzero" style="background: white !important;">
+                            <div class="col-lg-2 col-md-2">
+                                <span class="addEl"><strong>Added:</strong> </span>
+                            </div>
+                            <div class="col-lg-10 col-md-10 row-margin">
+                                <span class="addEl">{{addedPincodeList('safextenstion')}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class=" text-center" *ngxPermissionsOnly="['SAFEXTENSION PINCODE_CREATE','SAFEXTENSION PINCODE_UPDATE','SCHEDULED PINCODE_CREATE',
+        'SCHEDULED PINCODE_UPDATE']">
+            <button type="button" class="theme-button" style="text-align: center; margin-top: 8%; margin-bottom: 2%;"
+                (click)="saveExclusion()" mat-raised-button
+                color="primary">SUBMIT</button>
+        </div>
+
+    </mat-card-content>
+</mat-card>

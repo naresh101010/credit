@@ -49,7 +49,6 @@ export class VehicleAllocationComponent implements OnInit {
     this.perList = this.perList.concat(this.authorizationService.getPermissions('DOCUMENT UPLOAD'));
     this.permissionsService.loadPermissions(this.perList);
     console.log('perList',this.perList)
-    console.log('appsetting>>', AppSetting);
 
     this.associateData = AppSetting.associateData;
     this.refData = AppSetting.associateRefData;
@@ -94,28 +93,28 @@ export class VehicleAllocationComponent implements OnInit {
 
     dialog.afterClosed().subscribe(res => {
       if(res) {
-        this.router.navigate(['/asso_booking-contract/associate-staff'], {skipLocationChange: true})
+        this.router.navigate(['/asso_delivery-contract/associate-staff'], {skipLocationChange: true})
       } else {
-        this.router.navigate(['/asso_booking-contract/asso_booking'], {skipLocationChange: true})
+        this.router.navigate(['/asso_delivery-contract/asso_delivery'], {skipLocationChange: true})
       }
     })
   }
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_booking-contract/associate-kyc'], { skipLocationChange: true });
+    this.router.navigate(['/asso_delivery-contract/associate-kyc'], { skipLocationChange: true });
   }
 
   addEditVehicle(id){
   AppSetting.vehicleId = id;
-    this.router.navigate(['/asso_booking-contract/vehicle'], {skipLocationChange: true})
+    this.router.navigate(['/asso_delivery-contract/vehicle'], {skipLocationChange: true})
   }
 
   /*-------- Upload Vehicle Document ------- */
   addVehicleDocument(data) {
     AppSetting.vehicleId = data.id;
     AppSetting.vehicleNumber = (data.vehicleNum).toUpperCase();
-      this.router.navigate(['/asso_booking-contract/vehicle-document'], {skipLocationChange: true});
+      this.router.navigate(['/asso_delivery-contract/vehicle-document'], {skipLocationChange: true});
   }
   /*---- get vehicle model ------- */
   getVehicleModel(modelId){

@@ -6,8 +6,6 @@ import { ToastrService } from 'ngx-toastr';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { AppSetting } from 'src/app/app.setting';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
@@ -52,19 +50,11 @@ export class SearchBranchComponent implements OnInit {
   nameSearchInbox: boolean = false;
   arr = [];
   referenceData;
-  perList:any = [];
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, private httpservice: HttpClient, public router: Router, private toast: ToastrService, public dialogRef: MatDialogRef<SearchBranchComponent>,private authorizationService : AuthorizationService,
-  private permissionsService: NgxPermissionsService) { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,public dialog: MatDialog, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, private httpservice: HttpClient, public router: Router, private toast: ToastrService, public dialogRef: MatDialogRef<SearchBranchComponent>
+  ) { }
 
   ngOnInit() {
-    this.authorizationService.setPermissions('VEHICLE');
-    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
-    this.authorizationService.setPermissions('BRANCH');
-    this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
-    this.permissionsService.loadPermissions(this.perList);
-
-    console.log('perlist',this.perList)
     this.model.search = 'NAME';
     this.referenceData = this.data.referenceData;
     this.referenceData.statusList.forEach(element => {
@@ -82,18 +72,17 @@ export class SearchBranchComponent implements OnInit {
   setExistBranch(tableDataObj) {
    let addArrElement = [];
     let tempTable = tableDataObj;
-    let previousData = [...this.data.data]
+    let previousData = JSON.parse(JSON.stringify(this.data.data));
     if (this.data.data && this.data.data.length > 0) {
-        previousData.forEach(element => {
+
+      previousData.forEach(element => {
         tempTable.forEach(objTemp => {
-          // console.log('element', element);
-          // objTemp.status = this.activeStatus;
           if (objTemp.branchId == element.branchId) {
             objTemp.checked = true;
             element.exist = true;
             objTemp.id = element.id;
-            objTemp.status = element.status;
             objTemp.assocBranchVehicles = element.assocBranchVehicles;
+            objTemp.assocBranchPincodes = element.assocBranchPincodes;
             objTemp.assocCntrId = element.assocCntrId;
             objTemp.expDt = element.expDt;
             objTemp.effectiveDt = element.effectiveDt;
@@ -139,8 +128,8 @@ export class SearchBranchComponent implements OnInit {
               this.arr = [];
               this.twoAPIdata = data.data;
               this.tableData = data.data;
-              
               this.SpinnerService.hide();
+            
               this.tableData.responseData.forEach(element => {
                 if (element.branchType == 'REGION') {
                   element.regionBranch = element.branchName;
@@ -239,7 +228,7 @@ export class SearchBranchComponent implements OnInit {
           this.tableData = data.data;
           this.SpinnerService.hide();
           this.tabledataLength = this.tableData.responseData.length;
-          
+       
           this.setExistBranch(this.tableData.responseData);
           this.branchStatus();
         }
@@ -252,7 +241,8 @@ export class SearchBranchComponent implements OnInit {
       },
         Error => {
           this.tableData.responseData = [];
-          this.toast.error(Error.error.errors.error[0].description);
+          // this.toast.error(Error.error.errors.error[0].description);
+          this.toast.error("Branch for given search does not exist in propel-i")
           this.SpinnerService.hide();
         });
   }
@@ -276,10 +266,12 @@ export class SearchBranchComponent implements OnInit {
 
       dialog.afterClosed().subscribe(res => {
         if(res) {
-          console.log('res', res)
           // this.finalAreaData.splice(i, 1);
-          this.finalAreaData.forEach((element, i) => {
-            this.finalAreaData.splice(i, 1);
+               this.finalAreaData.forEach((element, i) => {
+	        if (element.branchCode == data.branchCode) {
+	          this.finalAreaData.splice(i, 1);
+	          return
+	        }
           });
           
         } else if(res === false && data.checked === false) {
@@ -307,7 +299,7 @@ export class SearchBranchComponent implements OnInit {
           this.tableData = data.data;
           this.SpinnerService.hide();
           this.tabledataLength = this.tableData.responseData.length;
-          
+       
           this.setExistBranch(this.tableData.responseData);
           this.branchStatus();
         }
@@ -315,12 +307,14 @@ export class SearchBranchComponent implements OnInit {
           this.tableData = [];
           this.arr = [];
           this.toast.error(data.message, data.code);
+          
           this.SpinnerService.hide();
         }
       },
         Error => {
           this.tableData.responseData = [];
-          this.toast.error(Error.error.errors.error[0].description);
+          //this.toast.error(Error.error.errors.error[0].description);
+          this.toast.error("Branch for given search does not exist in propel-i")
 
           this.SpinnerService.hide();
         });
@@ -336,7 +330,7 @@ export class SearchBranchComponent implements OnInit {
           this.tableData = data.data;
           this.SpinnerService.hide();
           this.tabledataLength = this.tableData.responseData.length;
-         
+        
           this.setExistBranch(this.tableData.responseData);
           this.branchStatus();
         }
@@ -451,7 +445,6 @@ export class SearchBranchComponent implements OnInit {
   }
 
   selectAll($event, table) {
-    console.log("event detail", $event , "table detail",table)
     if ($event.checked == true) {
       table.forEach(element => {
         this.filterDataByAreaList($event, element);
@@ -532,7 +525,23 @@ export class SearchBranchComponent implements OnInit {
   }
 
   closeDialog(): void {
-    this.dialogRef.close();
+      
+    const dialogRefConfirm = this.dialog.open(confimationdialog, {
+      width: '300px',
+      panelClass: 'creditDialog',
+      data:{message:'Are you sure ?'},
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if(value){
+        this.dialogRef.close(false);
+      }else{
+        console.log('Keep Open');
+      }
+    });
+
   }
 
 

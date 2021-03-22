@@ -143,7 +143,6 @@ export class VehicleDocumentComponent implements OnInit {
       */
       var formattedDate = this.datePipe.transform(this.fileModel.docExpiryDate, 'yyyy-MM-dd');
 
-
       let requestData: any;
 
       requestData = {
@@ -226,12 +225,12 @@ export class VehicleDocumentComponent implements OnInit {
           docObj.signedUrl = obj.signedUrl;
           for (let docTypeObj of this.docTypeList) {
             if (obj.lkpDocTypeId == docTypeObj.id) {
-              docObj.docType = docTypeObj.lookupVal;
+              docObj.docType = docTypeObj.descr;
             }
           }
           for (let subTypeObj of this.subTypeNameList) {
             if (obj.lkpDocSubtypeId == subTypeObj.id) {
-              docObj.docSubtype = subTypeObj.lookupVal;
+              docObj.docSubtype = subTypeObj.descr;
             }
           }
           this.docList.push(docObj)
@@ -412,9 +411,9 @@ export class VehicleDocumentComponent implements OnInit {
 
     dialog.afterClosed().subscribe(res => {
       if(res) {
-        this.router.navigate(['/asso_booking-contract/associate-staff'], {skipLocationChange: true})
+        this.router.navigate(['/asso_delivery-contract/associate-staff'], {skipLocationChange: true})
       } else {
-        this.router.navigate(['/asso_booking-contract/asso_booking'], {skipLocationChange: true})
+        this.router.navigate(['/asso_delivery-contract/asso_delivery'], {skipLocationChange: true})
       }
     })
   }

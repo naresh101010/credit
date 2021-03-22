@@ -1,20 +1,24 @@
-.row_center_width{
- width:80%
+.row_center_width {
+    width: 80%
 }
+
 mat-radio-button {
-    width:13px;
+    width: 13px;
     height: 13px;
     border-width: 0.2rem;
     padding-right: 40px
 }
+
 .associateContainer .mat-select-value {
     padding-top: 0rem! important;
 }
+
 .delete_icon {
     position: absolute;
     top: 10px;
     right: 25px;
 }
+
 .delete_icon .material-icons {
     font-size: 20px;
 }
@@ -22,8 +26,77 @@ mat-radio-button {
 .module_area {
     margin-top: 2px;
 }
-.mat-datepicker-toggle{position:  absolute !important; top: 0rem !important; right: 0rem !important;}
+
+.mat-datepicker-toggle {
+    position: absolute !important;
+    top: 0rem !important;
+    right: 0rem !important;
+}
 
 .associateContainer .mat-form-field {
     width: 60% !important;
+}
+
+.payment-title-container {
+    padding: 15px 25px 0;
+    flex-direction: column;
+}
+
+.payment-title-container mat-label {
+    margin-bottom: 0 !important;
+}
+
+.radio-group {
+    padding: 0px 20px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.payment-button {
+    text-transform: uppercase;
+    border: unset;
+    height: 35px;
+    width: 120px;
+    margin: 0 5px;
+    background-color: #F1F1F1;
+    box-shadow: 0px 3px 6px #00000029;
+    color: #1A1A1A;
+    font-size: 1.6rem;
+    font-weight: 800;
+    padding: 0px 8px;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
+}
+
+.payment-button:first-child {
+    margin-left: 0;
+}
+
+.payment-button.active {
+    background-color: #27AE60;
+    color: white;
+}
+
+.delete-icon {
+    font-size: 20px;
+    color: #27AE60;
+}
+
+.delete-icon.active {
+    color: white;
+}
+
+.plus-icon {
+    color: #27AE60;
+    margin: 5px;
+}
+
+.customer-name {
+    max-width: 75px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }

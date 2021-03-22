@@ -37,7 +37,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
             try {
                 let extPer = JSON.parse(sessionStorage.getItem('extracted_permissions'));
-                hv_per_ = extPer.find(v=> v.target == 'ASSOCIATE').childMenu.find(v => v.target == 'ASSO_BOOKING').permissions.filter(v=>v.entityName == 'CONTRACT').map( v => { return v.permissionType });
+                hv_per_ = extPer.find(v=> v.target == 'ASSOCIATE').childMenu.find(v => v.target == 'ASSO_DELIVERY').permissions.filter(v=>v.entityName == 'CONTRACT').map( v => { return v.permissionType });
                 console.log(hv_per_)
             }
             catch(err) {

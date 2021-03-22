@@ -16,9 +16,15 @@ export class AlphanumericDirective {
     return input.replace(this.VALID_REGEX, '');
   }
 
-  @HostListener('input', ['$event']) onInput(event) {
-    setTimeout(() => this.control.control.setValue(this.formatInput(this.el.nativeElement.value)));
+  setControlValue(val) {
+    let value = val;
+    setTimeout(() => { 
+      this.control.control.setValue(value);      
+    }); 
   }
 
+  @HostListener('input', ['$event']) onInput(event) {
+    this.setControlValue(this.formatInput(this.el.nativeElement.value));
+  }
 
 }

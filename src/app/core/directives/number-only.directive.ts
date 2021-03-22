@@ -10,22 +10,13 @@ export class NumberOnlyDirective {
   @HostListener("keydown", ["$event"])
   onKeyDown(e: KeyboardEvent) {
     if(!this.numbersOnly)
-      {return;}
-
-    // if((e.keyCode === 86 && e.ctrlKey === true) ){
-    //     const initalValue = this._el.nativeElement.value;
-    //     this._el.nativeElement.value = initalValue.replace(/[^0-9]*/g, '');
-    //     if ( initalValue !== this._el.nativeElement.value) {
-    //       e.stopPropagation();
-    //   }
-    // }
-      
+      {return;}     
     if (
       // Allow: Delete, Backspace, Tab, Escape, Enter
       [46, 8, 9, 27, 13].indexOf(e.keyCode) !== -1 ||
       (e.keyCode === 65 && e.ctrlKey === true) || // Allow: Ctrl+A
       (e.keyCode === 67 && e.ctrlKey === true) || // Allow: Ctrl+C
-      // (e.keyCode === 86 && e.ctrlKey === true) || // Allow: Ctrl+V
+      (e.keyCode === 86 && e.ctrlKey === true) || // Allow: Ctrl+V
       (e.keyCode === 88 && e.ctrlKey === true) || // Allow: Ctrl+X
       (e.keyCode === 65 && e.metaKey === true) || // Cmd+A (Mac)
       (e.keyCode === 67 && e.metaKey === true) || // Cmd+C (Mac)

@@ -12,6 +12,8 @@
 }
 .preview_sec_2 h3{
     color: white;
+    padding: 10px 0;
+    margin: 2px 0;
 }
 .mgsg_print_sec {
     padding: 15px 60px 15px 30px !important;
@@ -23,4 +25,3 @@
     position: absolute;
     cursor: pointer;
 }
-

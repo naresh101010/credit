@@ -50,7 +50,8 @@ export class ContractversionComponent implements OnInit {
     this.versions=[];
     this.contractVersionData=[];
     if (this.data) {
-      this.displayedColumns = ['checked', 'cntrVer', 'updDt'];
+      // 'checked',
+      this.displayedColumns = [ 'cntrVer', 'updDt'];
       this.getContractVersions(this.data.contractId);
     }
   }
@@ -59,7 +60,7 @@ export class ContractversionComponent implements OnInit {
 
   getContractVersions(id: any) {
     this.spinner.show();
-    this.apiService.get("secure/v1/bookingcontractpreview/historypreview/version/"+id)
+    this.apiService.get("secure/v1/deliverypreview/historypreview/version/"+id)
       .subscribe(suc => {
         if (suc) {
           let resData: any = suc;
@@ -72,8 +73,8 @@ export class ContractversionComponent implements OnInit {
             disabled: false,
             index: 0
           }
-          objnew.cntrVer = Number(key);
-          objnew.date = obj[key];
+          objnew.cntrVer = Number(key), 
+          objnew.date = obj[key]
           return objnew;
           });
           this.contractVersionData.push(result);
@@ -91,7 +92,7 @@ export class ContractversionComponent implements OnInit {
         if(this.dataSource !== undefined && this.dataSource.length > 0){
           let sortedArray = this.dataSource.sort((a,b) => b.cntrVer - a.cntrVer);
           this.dataSource = sortedArray;
-        }
+          }
         this.spinner.hide();
         this.isEnabled=true;
       }, error => {
@@ -118,8 +119,7 @@ export class ContractversionComponent implements OnInit {
     });
   }
 
-  selection(index: any, event: any, obj) { 
-
+  selection(index: any, event: any, obj) {
     this.selectedVersion= this.dataSource[index].cntrVer;
     this.selectedIndex=index;
      this.isPreview = false;
@@ -136,10 +136,6 @@ export class ContractversionComponent implements OnInit {
  
      if (this.rowSelected == 1) {
        this.isPreview = true;
-
-      let data = this.dataSource.find(x => x.checked);
-      this.selectedVersion= data.cntrVer;
-      this.selectedIndex= data.index;
  
      }
      if (this.rowSelected == 2) {
@@ -154,8 +150,7 @@ export class ContractversionComponent implements OnInit {
        }
      }
  
-     let versionData = JSON.parse(JSON.stringify(this.dataSource));
-     this.versions = versionData.filter(obj => {
+     this.versions = this.dataSource.filter(obj => {
       return obj.checked == true
     });
  
@@ -169,17 +164,13 @@ export class ContractversionComponent implements OnInit {
       data : {email : userDt.email}
     });
 
-    addrDialog.afterClosed().subscribe(result => {           
+    addrDialog.afterClosed().subscribe(result => {    
+      console.log('res', result,this.data );       
       if (result && result!="") {
       this.spinner.show();
-      // let ob = {
-      //   "userId": userDt.userId, "associateEmailId": result,
-      //   "assocId": AppSetting.associateId
-      // }
       let ob = {
         "userId": userDt.userId, "associateEmailId": result,
-        "assocId": AppSetting.associateId,
-        "subject": "Preview PDF For: " +this.customerName, "contractCode": this.data.sfxCode?this.data.sfxCode:'NOT GENERATED YET'
+        "assocId": this.data.id
       }
       this.exportAsService.get(this.exportAsConfig).subscribe(content => {
         let file1 = this.b64toBlob(content)
@@ -244,7 +235,7 @@ export class ContractversionComponent implements OnInit {
     const dialogRefVersion = this.dialog.open(PreviewPopupComponent, {
       width: '80vw',
       panelClass: 'mat-dialog-responsive',
-      data: {data : this.data, version :this.selectedVersion, versionIndex:this.selectedIndex, dataSourceVersion: this.dataSource, btn:btn}
+      data: {data : this.data, version :this.selectedVersion, versionIndex:this.selectedIndex,  btn:btn}
     });
 
     dialogRefVersion.afterClosed().subscribe(result => {

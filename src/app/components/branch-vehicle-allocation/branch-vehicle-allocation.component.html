@@ -6,18 +6,18 @@
           <div>
             <mat-toolbar class="breadcrumbs_nav">
               <mat-toolbar-row class="breadcrumbs">
-                <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+                <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
                 <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                   arrow_right
                 </mat-icon>
-                <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Contracts</a></span>
+                <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Contracts</a></span>
                 <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                   arrow_right
                 </mat-icon>
                 <span>Associate Contract</span>
               </mat-toolbar-row>
             </mat-toolbar>
-            <h2>Booking Associate Contract</h2>
+            <h2>Delivery Associate Contract</h2>
           </div>
         </div>
         <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
@@ -62,7 +62,7 @@
                   </div>
                   <div class="col-md-2 col_plr_0">
                     <div class="search_bar_mdm2d branch_allo_search">
-                      <em class="fa fa-search" aria-hidden="true"></em>
+                      <em class="fa fa-search" aria-hidden="true"></em> 
                       <mat-form-field appearance="outline">
                         <input matInput name="rateCardCode" class="form-control" placeholder="MSA">
                       </mat-form-field>
@@ -91,7 +91,7 @@
                               <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
                                 <mat-datepicker #msa79tartDate1 class="myDatepicker23">
                                 </mat-datepicker>
-                                <input matInput [matDatepicker]="msa79tartDate1" class="date_input_height" placeholder=""
+                                <input matInput autocomplete="off" [matDatepicker]="msa79tartDate1" class="date_input_height" placeholder=""
                                   name="expiryDate" placeholder="DD/MM/YYYY" />
                                 <mat-datepicker-toggle matPrefix [for]="msa79tartDate1">
                                 </mat-datepicker-toggle>
@@ -103,7 +103,7 @@
                               <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
                                 <mat-datepicker #msa79EndDate1 class="myDatepicker23">
                                 </mat-datepicker>
-                                <input matInput [matDatepicker]="msa79EndDate1" class="date_input_height" placeholder=""
+                                <input matInput autocomplete="off" [matDatepicker]="msa79EndDate1" class="date_input_height" placeholder=""
                                   name="expiryDate" placeholder="DD/MM/YYYY" />
                                 <mat-datepicker-toggle matPrefix [for]="msa79EndDate1">
                                 </mat-datepicker-toggle>
@@ -142,7 +142,7 @@
                               <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
                                 <mat-datepicker #msa79tartDate2 class="myDatepicker23">
                                 </mat-datepicker>
-                                <input matInput [matDatepicker]="msa79tartDate2" class="date_input_height" placeholder=""
+                                <input matInput autocomplete="off" [matDatepicker]="msa79tartDate2" class="date_input_height" placeholder=""
                                   name="expiryDate" placeholder="DD/MM/YYYY" />
                                 <mat-datepicker-toggle matPrefix [for]="msa79tartDate2">
                                 </mat-datepicker-toggle>
@@ -154,7 +154,7 @@
                               <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
                                 <mat-datepicker #msa79EndDate2 class="myDatepicker23">
                                 </mat-datepicker>
-                                <input matInput [matDatepicker]="msa79EndDate2" class="date_input_height" placeholder=""
+                                <input matInput autocomplete="off" [matDatepicker]="msa79EndDate2" class="date_input_height" placeholder=""
                                   name="expiryDate" placeholder="DD/MM/YYYY" />
                                 <mat-datepicker-toggle matPrefix [for]="msa79EndDate2">
                                 </mat-datepicker-toggle>
@@ -281,7 +281,7 @@
                               <div class="mat-cell"><strong>Vehicle Model</strong></div>
                             </div>
                             <div class="mat-row branch_table_dis border_none">
-                              <div class="mat-cell Sel_checkbox_vehicle">
+                              <div class="mat-cell">
                                 <mat-checkbox></mat-checkbox> HR26BY1230
                               </div>
                               <div class="mat-cell">Tata Ace</div>
@@ -363,7 +363,7 @@
               <button mat-button class="white-button bg_trans_border">Save as Draft</button>
             </div>
             <div class="col-md-6 text-right mtb_30">
-              <button mat-button class="theme-button ml_15" skipLocationChange routerLink="/asso_booking-contract/success">Submit</button>
+              <button mat-button class="theme-button ml_15" skipLocationChange routerLink="/asso_delivery-contract/success">Submit</button>
             </div>
           </div>
         </div>

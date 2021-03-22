@@ -1,8 +1,9 @@
 <div class="hero-content retailContainer report boxContainer">
   <div class="row text-left parent">
     <div class="breadcrumb">
-      <a routerLink="/asso_booking-contract/asso_booking" id="dashboard" target="_self">Dashboard</a>
-      <span class="fa fa-caret-right" style="margin-left: 4px;"></span> REPORTS
+      <a routerLink="/retail-contract/retail" id="dashboard" target="_self">Dashboard</a><span class="fa fa-caret-right"
+        style="margin-left: 4px;"></span>
+      REPORTS
     </div>
   </div>
   <div class="msaOperation">
@@ -13,11 +14,24 @@
   <mat-card class="mat-card-width">
     <div class="main-div">
       <div class="box-left">
+        <!-- <div class="form-inline">
+          <label for="" class="control-label">Search By
+            <span class="color-danger">*</span>
+          </label>
+
+          <mat-form-field class="border-select">
+            <mat-select [(ngModel)]="searchBy" name="searchBy">
+              <mat-option value="DELHI-11">
+                DELHI-11
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+        </div> -->
+
         <div class="form-inline">
           <label for="" class="control-label">Search By
             <span class="color-danger">*</span>
-
-
           </label>
 
           <mat-form-field appearance="outline" style="width: auto !important;">
@@ -37,7 +51,8 @@
                 <ngx-mat-select-search (change)="manualSel($event);" (keyup)="manualSearch($event);"
                   [(ngModel)]="searchVal" [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
                   name="search" class="select-search">
-                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search icon-search">search</mat-icon>
+                  <mat-icon class="aa mat-select-search-custom-header-content mat_ngx_select_search icon-search">search
+                  </mat-icon>
                 </ngx-mat-select-search>
                 <mat-option [value]="" style="display: none;">Select Option</mat-option>
                 <mat-option *ngFor="let item of (searchArr | stringFilterBooking:searchVal:'branchName')"
@@ -72,7 +87,7 @@
         </div>
 
         <div class="form-inline">
-          <label for="" class="control-label">Contract Type
+          <label for="" class="control-label">Contract Type<span class="color-danger">*</span>
           </label>
           <mat-form-field>
             <mat-select [(ngModel)]="contractType" name="contractType">
@@ -90,7 +105,7 @@
 
           <mat-radio-group aria-label="Select an option" [(ngModel)]="reportFormat" class="radio-item">
             <mat-radio-button value="pdf">Pdf</mat-radio-button>
-            <mat-radio-button value="xls">xls</mat-radio-button>
+            <mat-radio-button value="xls">Xls</mat-radio-button>
           </mat-radio-group>
 
         </div>
@@ -98,6 +113,7 @@
       <div class="box-right">
         <div class="form-inline">
           <label for="" class="control-label">Vendor Department
+            <span class="color-danger">*</span>
           </label>
           <mat-form-field>
             <mat-select [(ngModel)]="vendorDepartment" name="food">
@@ -110,7 +126,6 @@
 
         <div class="form-inline">
           <label for="" class="control-label">Report Type
-            <span class="color-danger">*</span>
           </label>
           <mat-form-field>
             <mat-select [(ngModel)]="reportName" name="reportName">

@@ -1,38 +1,24 @@
-import { Component, ContentChildren, ElementRef, OnInit, ViewChild, ViewChildren } from "@angular/core";
-import { MatDialog, MatTableDataSource } from "@angular/material";
-import { SearchCustomerComponent } from "src/app/dialog/search-customer/search-customer.component";
+import { Component, OnInit, ViewChild } from "@angular/core";
+import { MatDialog, MatExpansionPanel } from "@angular/material";
 import { ApiService } from "src/app/core/services/api.service";
 import { NgxSpinnerService } from "ngx-spinner";
 import { ToastrService } from "ngx-toastr";
 import { Router, ActivatedRoute } from "@angular/router";
 import { AppSetting } from "src/app/app.setting";
-import { PaymentCommercialGen} from "src/app/core/models/paymentTermsModel";
+import { PaymentCommercialGen } from "src/app/core/models/paymentTermsModel";
 import { PayoutGenDetailComponent } from "./payout-gen-detail/payout-gen-detail.component";
 import * as _ from "lodash";
 import { DatePipe } from "@angular/common";
+import { PaymentTermsModel, DeliveryWtSlabChargeList, DeliveryVehicleChargeList, DeliveryProductList } from "./paymentTermsModel";
+import { ErrorConstants } from "src/app/core/models/constants";
+import { AssignVehicleComponent } from "src/app/dialog/assign-vehicle/assign-vehicle.component";
+import { PaymentGeneralTermsComponent } from "./payment-general-terms/payment-general-terms.component";
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { Subscription } from 'rxjs';
+import { ScheduledPayoutComponent } from "./scheduled-payout/scheduled-payout.component";
+import { SelectCustomerComponent } from './../../dialog/select-customer/select-customer.component';
 import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
-import { ErrorConstants } from "src/app/core/models/constants";
-
-// table 2
-export interface PeriodicElement1 {
-  ExBranch: string;
-  ExAmount: string;
-  ExReaspm: string;
-  ExSdate: string;
-  ExEdate: string;
-}
-
-export let browserRefresh = false;
-export interface PeriodicElement2 {
-  MgBranch: string;
-  MgAmount: string;
-  MgReaspm: string;
-  MgSdate: string;
-  MgEdate: string;
-}
+import { LocalServiceService } from "src/app/core/services/local-service.service";
 
 @Component({
   selector: "app-booking-payout",
@@ -42,106 +28,42 @@ export interface PeriodicElement2 {
 })
 export class BookingPayoutComponent implements OnInit {
   @ViewChild(PayoutGenDetailComponent, null) childValidation: PayoutGenDetailComponent;
-  @ViewChildren(PayoutGenDetailComponent) viewChildren;
-  @ContentChildren(PayoutGenDetailComponent) contentChildren;
-  
-  
-  subscription: Subscription;
-  // @ViewChild('cust', {static: false}) cust: PaymentCommercialGen;
-  // @ViewChild('gen', {static: false}) gen: PaymentCommercialGen;
-  perList: any = [];
-  exAttrMap = new Map();
-  exAttrKeyList =  [];
+  @ViewChild(ScheduledPayoutComponent, null) sheduleComp: ScheduledPayoutComponent;
 
-  displayedColumns1: string[] = [
-    "ExBranch",
-    "ExAmount",
-    "ExReaspm",
-    "ExSdate",
-    "ExEdate",
-  ];
-  dataSourceExBranch = new  MatTableDataSource();
+  @ViewChild('safex', { static: false }) safex: MatExpansionPanel;
+  @ViewChild('schedule', { static: false }) schedule: MatExpansionPanel;
+  @ViewChild('gen', { static: false }) gen: MatExpansionPanel;
+  @ViewChild(PaymentGeneralTermsComponent, null) genValidation: PaymentGeneralTermsComponent;
 
-  displayedColumns2: string[] = [
-    "MgBranch",
-    "MgAmount",
-    "MgReaspm",
-    "MgSdate",
-    "MgEdate",
-  ];
-  dataSourceMgBranch = new  MatTableDataSource()// = ELEMENT_DATA_2;
-
-  // displayedColumns3: string[] = ['Flabel', 'Fvalue'];
-  // dataSource3 = ELEMENT_DATA_3;
-
-  // Data set end for Tables
 
   // Variables Difine
-  cusBpayment;
-  soffhide;
-  hrHideEx;
-  HoffringBkg;
-  hidePerWay;
-  addBRemark;
-  csBpay;
-  otherEAdd;
-  netAdd;
-
-  radioButtontncData = [];
-  selectortncData = [];
-  stringtncData = [];
-
   contractId;
   associateId;
-  paymentData;
-  // paymentCommercialData: any; //= PaymentCommercialGen;
-  paymentCommercialRefData: any;
-  assocAdditionalParamList;
-  assocExpenseTypeList;
-  assocPaymentTypeList;
-  assocPayoutTypeList;
-  mdmNotepadList;
-  serviceOfferingList;
-  vehicleCargoCapacityList;
-  attrTypeListTnc = [];
-  notepadAttributesList = [];
-  branchIds :any = [];
-  customerIdList:any = [];
-  paymentDataBranch;
   editflow: any;
-  editStatusId = AppSetting.editStatus;
-  searchNotePad = '';
+  contractData: any;
+  contractRefData: any;
+  paymentCommercialSefData: PaymentTermsModel = new PaymentTermsModel();
+  paymentCommercialSchData: PaymentTermsModel = new PaymentTermsModel();
+  deliveryWtSlabChargeList: DeliveryWtSlabChargeList;
+  deliveryVehicleChargeList: DeliveryVehicleChargeList;
+  deliveryProductList: DeliveryProductList;
+  productCatList: any = [];
+  productList: any = [];
+  vehicleList: any = [];
+  paymentCommercialRefData: any;
+  perList: any = [];
+  customerSpecificPayment: number = 0;
+  customerSpecificPaymentRadioDisabled: boolean = false;
+  isPCD: boolean = false;
+  contractCustomerList: any[] = [{ attr1: "General", msaCustId: null, cntrCode: null, active: true }]
+  lookupSubDeliveryId: number;
+  paymentcomercialSchMasterData: PaymentTermsModel = new PaymentTermsModel();
+  paymentcomercialSefMasterData: PaymentTermsModel = new PaymentTermsModel();
+  paymentCommercialCustomerSchData: any[] = [];
+  paymentCommercialCustomerSefData: any[] = [];
+  activeTab = { attr1: "General", msaCustId: null, cntrCode: null, active: true }
+  activeTabIndex: number;
 
-  maxdate:any;
-  minDate:any = new Date();
-  minDateStart:any = new Date();
-  changeAdditionalExpenseFlag: boolean = false;
-
-  paymentCommercialData: any = {
-    assocCntrId: AppSetting.contractId,
-    lkpAssocBkngPayoutCtgyId: null,
-    lkpAssocBkngExpnsTypeId: null,
-    minAmtPerWaybl: null,
-    maxAmtPerWaybl: null,
-    addtnlParamFlag: 0,
-    lkpAssocAddtnlParamId: null,
-    addtnlParamVal: null,
-    effectiveDt: null,
-    expDt: null,
-    exgratiaFlag: 0,
-    minGuaranteeFlag: 0,
-    promotionApplicableFlag: 0,
-    addtnlExpnsFlag: 0,
-    addtnlExpnsRemark: '',
-    custPymtFlag: 0,
-    bookingCommercialEntList : [],
-    assocNotepadList: [],
-    bookingBranchCommercialList : [],
-    bookingCommercialCustomerList :  [],    
-    
-  };
-
-  
   constructor(
     public dialog: MatDialog,
     private apiService: ApiService,
@@ -150,602 +72,719 @@ export class BookingPayoutComponent implements OnInit {
     private router: Router,
     private acRoute: ActivatedRoute,
     public datePipe: DatePipe,
-    private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService
-  ) {
+    private authorizationService: AuthorizationService,
+    private permissionsService: NgxPermissionsService,
+    private localServiceService: LocalServiceService) {
+
     this.contractId = AppSetting.contractId;
     this.associateId = AppSetting.associateId;
-
-    }
+  }
 
   ngOnInit() {
     this.authorizationService.setPermissions('COMMERCIAL');
     this.perList = this.authorizationService.getPermissions('COMMERCIAL') == null ? [] : this.authorizationService.getPermissions('COMMERCIAL');
     this.permissionsService.loadPermissions(this.perList);
-    this.exAttrMap = this.authorizationService.getExcludedAttributes('COMMERCIAL');
-    this.exAttrKeyList = Array.from(this.exAttrMap.values());
-    console.log('Attribute List', this.exAttrKeyList);
-    console.log('perlist',this.perList)
-    this.getContract();
 
+    this.spinner.show();
     this.acRoute.params.subscribe(x => {
-      if(x.editflow){
+      if (x.editflow) {
         this.editflow = x.editflow;
       }
-      
-    })
-    this.getCommerceDataWithctrtId();
-    console.log("model", this.paymentCommercialData);
-    this.paymentCommercialData.minGuaranteeFlag = '';
-    this.paymentCommercialData.exgratiaFlag = '';
-    this.paymentCommercialData.promotionApplicableFlag = '';
-    this.paymentCommercialData.addtnlExpnsFlag = '';
-    this.paymentCommercialData.custPymtFlag = '';
+    });
+    // this.getCommercialData();
+    this.getContractData();
+    this.getProductCat();
+    this.getAllVehicle();
   }
 
+  // ngOnChanges(){
+  //   if(this.safex && this.safex.expanded){
+  //     this.safex.close();
+  //     // this.safex.expanded = false;
+  //     this.gen.close();
+
+  //   }
+  // }
+
+
+  openSchedule(obj) {
+    obj.expanded = false;
+
+  }
+
+  closeSchedule(obj) {
+
+    obj.expanded = true;
+
+  }
   // Custmer Model Search Start
-  openSearchCustomerModal() {
-    console.log('branch', this.branchIds);
-    if(this.paymentCommercialData.custPymtFlag == 1){
-      if(this.paymentCommercialData.bookingCommercialCustomerList && this.paymentCommercialData.bookingCommercialCustomerList.length > 0){
-        this.customerIdList = this.paymentCommercialData.bookingCommercialCustomerList.map(obj => {
-          return obj.msaCustId;
-        })
-      }else{
-        this.customerIdList = [];
-      }
-      const dialogRef = this.dialog.open(SearchCustomerComponent, {    
-        data: { 'BranchIds': this.branchIds, 'customerList':  this.paymentCommercialData.bookingCommercialCustomerList  }, // , 'customerList': obj 
-        // width: '40vw',
-        panelClass: 'mat-dialog-responsive',
-        disableClose: true
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        console.log('result', result);
-        if(result){
-          this.paymentCommercialData.bookingCommercialCustomerList = JSON.parse(JSON.stringify(result))
-        }else if(this.paymentCommercialData.bookingCommercialCustomerList && this.paymentCommercialData.bookingCommercialCustomerList.length > 0){
-          this.paymentCommercialData.custPymtFlag = 1;
-        }else{
-          this.paymentCommercialData.custPymtFlag = 0;
+  getContractData() {
+    this.apiService.get('secure/v1/deliverycontract/' + AppSetting.contractId).subscribe(data => {
+      let ob = ErrorConstants.validateException(data);
+      if (ob.isSuccess) {
+        this.contractData = data.data.responseData;
+        this.contractRefData = data.data.referenceData;
+        this.paymentCommercialSefData.assocCntrId = this.contractData.id;
+        this.paymentCommercialSefData.effectiveDt = this.contractData.effectiveDt;
+        this.paymentCommercialSefData.expDt = this.contractData.expDt;
+        this.paymentCommercialSchData.assocCntrId = this.contractData.id;
+        this.paymentCommercialSchData.effectiveDt = this.contractData.effectiveDt;
+        this.paymentCommercialSchData.expDt = this.contractData.expDt;
+        this.lookupSubDeliveryId = this.contractData.lkpSubDeliveryId;
+        if (this.contractRefData.subDeliveryTypeList.find(item => item.id === this.lookupSubDeliveryId).lookupVal === "PCD") {
+          this.isPCD = true;
+          this.customerSpecificPayment = 1;
+          this.customerSpecificPaymentRadioDisabled = true;
+          this.contractCustomerList = [];
         }
-        
-      })
-
-    }else{
-      this.paymentCommercialData.bookingCommercialCustomerList = [];
-      let comerciatId = this.paymentCommercialData.id;
-      this.spinner.show();
-      this.apiService.post('secure/v1/bookingcontract/commercial/' + comerciatId + '/customers', []).subscribe(res => {
-        this.spinner.hide();
-      });
-    }
-  }
-
-  notepadData() {
-    console.log('this.notepadAttributesList', this.notepadAttributesList);
-    this.radioButtontncData = this.notepadAttributesList.filter(function (
-      filt
-    ) {
-      return filt.attributeTypeId == 1;
-    });
-    this.selectortncData = this.notepadAttributesList.filter(function (filt) {
-      return filt.attributeTypeId == 2;
-    });
-    this.stringtncData = this.notepadAttributesList.filter(function (filt) {
-      return filt.attributeTypeId == 3;
-    });
-  }
- 
-  getbranchWithctrtId() {
-    this.spinner.show();
-    this.apiService
-      .get(`secure/v1/bookingcontract/contracts/branches/${this.contractId}`)
-      .subscribe(
-        (res) => {
-          
-          if (res.data) {
-            this.paymentDataBranch = res.data.responseData;
-            this.branchIds = res.data.responseData.map(obj => {
-              return obj.branchId;
-            })
-            let exBranchTemp  = JSON.parse(JSON.stringify(res.data.responseData));
-            let mgBranchTemp  = JSON.parse(JSON.stringify(res.data.responseData));
-            let  exBranchTempNew  = [] , mgBranchTempNew  = [] ;
-            exBranchTemp.filter(element => {
-              element.amtType = "EX-GRATIA"              
-              element.assocBranchId = element.id;
-              // element.amt = element.amt;
-              // element.reason = element.reason;
-              delete element.id;
-              delete element.assocBranchVehicles;
-              delete element.branchName;
-              delete element.branchType;              
-              let tempArr;
-              if(this.dataSourceExBranch && this.dataSourceExBranch.data && this.dataSourceExBranch.data.length > 0 ){
-                tempArr = _.find(this.dataSourceExBranch.data , { 'assocBranchId': Number(element.assocBranchId) });
-              }
-              if(!tempArr || tempArr.length == 0){
-                exBranchTempNew.push(element);    
-              }else {
-                exBranchTempNew.push(tempArr);
-              }
-                       
-            });
-            this.dataSourceExBranch.data = exBranchTempNew;
-            mgBranchTemp.forEach(element => {
-              element.amtType = "MG"; 
-              element.assocBranchId = element.id;
-              element.amt = null;
-              element.reason = '';
-              delete element.id;
-              delete element.branchName;
-              delete element.branchType;
-              delete element.assocBranchVehicles;
-              // return element;  
-              let tempArr;
-              if(this.dataSourceMgBranch && this.dataSourceMgBranch.data && this.dataSourceMgBranch.data.length > 0){
-                tempArr = _.find(this.dataSourceMgBranch.data , { 'assocBranchId': Number(element.assocBranchId) });
-              }      
-               
-              if(!tempArr || tempArr.length == 0){
-                mgBranchTempNew.push(element);    
-              }else {
-                mgBranchTempNew.push(tempArr);
-              }
-                       
-            });
-            console.log('exBranchTemp',exBranchTemp, mgBranchTempNew);
-            this.dataSourceMgBranch.data = mgBranchTempNew;
-            this.exgratiaAndMGChange();
-            this.spinner.hide();
-          }
-          this.spinner.hide();
-        },
-        (err) => {
-          // this.toastr.error()
-          console.log(
-            "Message : " + err.error.message,
-            +"Path : " + err.error.path
-          );
-          this.spinner.hide();
-        }
-      );
-      
-  }
-
-  getCommerceDataWithctrtId() {
-    this.notepadAttributesList = [];
-    this.spinner.show();
-    console.log(this.contractId)
-    this.spinner.show();
-    this.apiService
-      .get(`secure/v1/bookingcontract/commercial/${this.contractId}`)
-      .subscribe(
-        (res) => {
-          console.log("res", res);
-          if (res.data) {
-            this.paymentData = res.data;
-            this.paymentCommercialRefData = res.data.referenceData;
-            if(res.data.responseData && res.data.responseData.id ){
-              this.paymentCommercialData = res.data.responseData;
-              this.setDataObject(this.paymentCommercialData);
-            }
-            this.attrTypeListTnc = this.paymentCommercialRefData.attrTypeList;
-            for (var item of this.paymentCommercialRefData.mdmNotepadList) {
-              delete item.status;
-              if (item.attributeTypeId === 3) {
-                item.notepadInputVal = item.attributeValue;
-              }
-              if(this.paymentCommercialData && this.paymentCommercialData.assocNotepadList && this.paymentCommercialData.assocNotepadList.length > 0){
-                for (var notepadData of this.paymentCommercialData[
-                  "assocNotepadList"
-                ]) {
-                  if (
-                    item.id == notepadData.notepadId &&
-                    notepadData.notepadInputVal != undefined
-                  ) {
-                    item.notepadInputVal = notepadData.notepadInputVal.trim();
-                    if(notepadData.status){
-                      item.status = notepadData.status;
-                    }
-                    
-                  }
-                }
-              }
-
-              if (item.attributeTypeId == 1 || item.attributeTypeId == 2) {
-                if (item.attributeValue)
-                  item.attributeValue = item.attributeValue
-                    .toUpperCase()
-                    .split(",");
-              }
-              this.notepadAttributesList.push(item);
-            }
-          }
-          this.notepadData();
-          this.getbranchWithctrtId();
-          console.log("this.paymentCommercialData", this.paymentCommercialData);
-          if(this.paymentCommercialData){
-            if(this.paymentCommercialData.bookingCommercialCustomerList && this.paymentCommercialData.bookingCommercialCustomerList.length > 0){
-              this.paymentCommercialData.custPymtFlag = 1;
-            }else{
-              this.paymentCommercialData.custPymtFlag = 0;
-            }
-          }
-
-          this.spinner.hide();
-        },
-        (err) => {
-          // this.toastr.error()
-          console.log(
-            "Message : " + err.error.message,
-            +"Path : " + err.error.path
-          );
-          this.spinner.hide();
-        }
-        
-      );
-      this.spinner.show();
-
-          
-  }
-  exgratiaAndMGChange(){   
-    if(this.paymentCommercialData.minGuaranteeFlag && this.paymentCommercialData.exgratiaFlag){
-      this.paymentCommercialData.bookingBranchCommercialList = [...this.dataSourceExBranch.data, ...this.dataSourceMgBranch.data];
-    }else if(this.paymentCommercialData.minGuaranteeFlag && !this.paymentCommercialData.exgratiaFlag){
-      this.paymentCommercialData.bookingBranchCommercialList = [...this.dataSourceMgBranch.data];
-    } else if(!this.paymentCommercialData.minGuaranteeFlag && this.paymentCommercialData.exgratiaFlag){
-      this.paymentCommercialData.bookingBranchCommercialList = [...this.dataSourceExBranch.data];
-    }else{
-      this.paymentCommercialData.bookingBranchCommercialList = [];
-    }
-    
-  }
-
-  addNewCustomer(){
-    this.openSearchCustomerModal() 
-  }
-  checkValidator(){
-    let flag = true; 
-    this.viewChildren._results.forEach(element => {
-       if(!element.fAssoPaygen.valid){
-        return flag = false;
-       }
-       
-    });
-    return flag;
-  }
-  submitPayment(flag) {
-    console.log('viewChildren', this.viewChildren);
-    console.log('contentChildren', this.contentChildren);
-    let cloneObject = JSON.parse(JSON.stringify(this.paymentCommercialData));
-    this.paymentCommercialData.bookingCommercialEntList.forEach(obj=> {     
-      obj.effectiveDt = this.contractData.effectiveDt;
-      obj.expDt = this.contractData.expDt;
-      if(this.paymentCommercialData['id']){
-        obj.bkngCmrclId = this.paymentCommercialData['id'];
-      }
-      
-    })
-    this.paymentCommercialData.bookingCommercialCustomerList.forEach(element=> {
-      element.commercialEntList.forEach(obj => {       
-        obj.effectiveDt = element.effectiveDt ? element.effectiveDt : this.contractData.effectiveDt;
-        obj.expDt = element.expDt ? element.expDt : this.contractData.expDt;
-        if(this.paymentCommercialData['id']){
-          obj.bkngCmrclId = this.paymentCommercialData['id'];
-        }
-      });
-      console.log('cust',  this.paymentCommercialData);
-      delete element["BookingCommercialEntListObjOff"];
-      delete element['BookingCommercialEntListObjBook'];
-      delete element['BookingCommercialEntListObjPer'];
-    })
-    let notepadTrans=[]
-  // this.spinner.show();
-   for(let item of this.radioButtontncData){
-     let data1={};
-     if(this.paymentCommercialData['id']){
-      data1["entityRefId"]= this.paymentCommercialData['id'] ? this.paymentCommercialData['id'] : 0;
-      if(item['status']){
-        data1["status"]= item['status'];
-      }
-      
-
-     }
-      data1["notepadId"]=item.id;
-      data1["notepadInputVal"]=item.notepadInputVal;
-     notepadTrans.push(data1);
-    }
-    for(let item of this.selectortncData){
-        let data1={};
-        if(this.paymentCommercialData['id']){
-          data1["entityRefId"]= this.paymentCommercialData['id'] ? this.paymentCommercialData['id'] : 0;
-         }
-      data1["notepadId"]=item.id;
-      data1["notepadInputVal"]=item.notepadInputVal;
-     notepadTrans.push(data1);
-    }
-
-    for(let item of this.stringtncData){
-       let data1={};
-       if(this.paymentCommercialData['id']){
-        data1["entityRefId"]= this.paymentCommercialData['id'] ? this.paymentCommercialData['id'] : 0;
-       }
-     
-      data1["notepadId"]=item.id;
-      data1["notepadInputVal"]=item.notepadInputVal;
-     notepadTrans.push(data1);
-    }
-    
-    if(this.paymentCommercialData && this.paymentCommercialData.assocNotepadList && this.paymentCommercialData.assocNotepadList.length){
-      for(let i=0; i<this.paymentCommercialData.assocNotepadList.length;i++) {
-        for (let j = 0; j < notepadTrans.length; j++) {
-        if(this.paymentCommercialData.assocNotepadList[i].notepadId==notepadTrans[j].notepadId)
-            {
-              notepadTrans[j]["id"]=this.paymentCommercialData.assocNotepadList[i].id;
-              notepadTrans[j]["status"]=this.paymentCommercialData.assocNotepadList[i].status;
-              }
-              }
-    }
-  }
-    this.paymentCommercialData["assocNotepadList"] = notepadTrans; 
-    this.paymentCommercialData["assocNotepadList"].forEach(obj=> {     
-      obj.effectiveDt = this.contractData.effectiveDt;
-      obj.expDt = this.contractData.expDt;
-    });
-    delete this.paymentCommercialData["BookingCommercialEntListObjOff"];
-    delete this.paymentCommercialData['BookingCommercialEntListObjBook'];
-    delete this.paymentCommercialData['BookingCommercialEntListObjPer'];
-    console.log("data", this.paymentCommercialData);
-    if(!this.paymentCommercialData['id']){
-      delete this.paymentCommercialData["status"];
-      if(this.paymentCommercialData.bookingBranchCommercialList && this.paymentCommercialData.bookingBranchCommercialList.length > 0){
-        this.paymentCommercialData.bookingBranchCommercialList.forEach(element => {    
-          delete element.status;     
-      });
-      }
-
-  }
-    this.spinner.show();
-    this.apiService.post(`secure/v1/bookingcontract/commercial`, this.paymentCommercialData).subscribe((res) => {
-      if(res.status == "SUCCESS"){
-        this.getCommerceDataWithctrtId();
-        this.toastr.success('Saved Successfully');
-        if(flag == 'next'){
-          if(this.editflow){
-            this.router.navigate(['/asso_booking-contract/booking-sla',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
-          }else{
-            this.router.navigate(['/asso_booking-contract/booking-sla'], {skipLocationChange: true});
-          }
-        }
-        // this.spinner.hide();
-      }else{
-        this.paymentCommercialData = cloneObject;
-        this. exgratiaAndMGChange();
-        this.toastr.error(res.message);
-        // this.getCommerceDataWithctrtId();
-      }
-    }, (err) => {
-      this.paymentCommercialData = cloneObject;
-      this.exgratiaAndMGChange();
-      console.log('err', err);
-      if(err.error.errors.error[0].description === "bookingCommercialCustomerList[0].effectiveDt: must not be null") {
-        this.toastr.error('Start date must not be null !');
-        this.spinner.hide();
-      } else {
-        this.toastr.error(err.error.errors.error[0].code + ' : ' + err.error.errors.error[0].description );
-        this.spinner.hide();
-      }
-      // this.spinner.hide();
-      // this.toastr.error(err.error.errors.error[0].code + ' : ' + err.error.errors.error[0].description );
-    }
-    )
-
-    
-  }
-
-  nextReadMode() {
-    if(this.editflow){
-      this.router.navigate(['/asso_booking-contract/booking-sla',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
-    }else{
-      this.router.navigate(['/asso_booking-contract/booking-sla'], {skipLocationChange: true});
-    }
-  }
-
-  setDataObject(objectData){    
-    let exBranchTemp = [];
-    let mgBranchTemp = [];
-    if(objectData.bookingBranchCommercialList && objectData.bookingBranchCommercialList.length > 0){
-      objectData.bookingBranchCommercialList.forEach(element => {
-        if(element.amtType == "MG"){
-          mgBranchTemp.push(element);
-        } else{
-          exBranchTemp.push(element);
-        }
-      });
-    }
-
-
-    this.dataSourceExBranch = new MatTableDataSource(
-      exBranchTemp
-    );
-    this.dataSourceMgBranch = new MatTableDataSource(
-      mgBranchTemp
-    );
-  }
-
-  ngAfterViewInit(): void {
-
-    // this.fAssoPaygen = this.child.form.form;
-    console.log('hello', this.childValidation);
-    // console.log('hello', this.gen);
-  }
-
-  validateNumber(event) {
-    const keyCode = event.keyCode;
-
-    const excludedKeys = [8, 37, 39, 46];
-
-    if (!((keyCode >= 48 && keyCode <= 57) ||
-      (keyCode >= 96 && keyCode <= 105) ||
-      (excludedKeys.includes(keyCode)))) {
-      // event.preventDefault();
-    }
-  }
-
-  editInput(element){
-    console.log('change occured', element);
-    if(element.addtnlExpnsFlag === 1) {
-      this.changeAdditionalExpenseFlag = true;
-    } else {
-      this.changeAdditionalExpenseFlag = false;
-    }
-    if(this.editflow){
-      element.status = this.editStatusId;
-    }
-  }
-
-  effectiveDate(isExpToUpdate, element) {
-    let effYear = parseInt(this.datePipe.transform(element.effectiveDt, 'yyyy'))
-    if (effYear > 9999) {
-      element.effectiveDt = "";
-    } else {
-    let a = this.datePipe.transform(element.effectiveMinDt, 'yyyy-MM-dd')
-    let b = this.datePipe.transform(element.effectiveDt, 'yyyy-MM-dd')
-    let c = this.datePipe.transform(element.expDt, 'yyyy-MM-dd')
-    if(c && a){
-      if (a <=b && b < c) {
-        element.isValidEffectiveDt = false;
-      }
-      else {
-        element.isValidEffectiveDt = true;
-      }
-    }
-    else if(c){
-      if (b < c) {
-        element.isValidEffectiveDt = false;
-      }
-      else {
-        element.isValidEffectiveDt = true;
-      }
-    }else if(a){
-      if (b >= a) {
-        element.isValidEffectiveDt = false;
-      }
-      else {
-        element.isValidEffectiveDt = true;
-      }
-    }else{
-      element.isValidEffectiveDt = false;
-    }
-    if(b){
-      let e = new Date(b);
-      e.setDate(e.getDate()+1);
-      element.expiryDate_min = e;
-    }
-
-    // increment exp date by one year
-    // if(isExpToUpdate && b && !element.isValidEffectiveDt){
-    //   let f = new Date(b);
-    //   f.setFullYear(f.getFullYear()+1);
-    //   element.expDt = f;
-    // }
-  }
-  this.expDate(element);
-  }
-
-  expDate(element) {
-    let expYear = parseInt(this.datePipe.transform(element.expDt, 'yyyy'))
-    if (expYear > 9999) {
-      element.expDt = "";
-    } else {
-    let a = this.datePipe.transform(element.effectiveMinDt, 'yyyy-MM-dd')
-    let b = this.datePipe.transform(element.effectiveDt, 'yyyy-MM-dd')
-    let c = this.datePipe.transform(element.expDt, 'yyyy-MM-dd')
-
-    if(b){
-      if (b < c) {
-        element.isValidExpDt = false;
-      }
-      else {
-        element.isValidExpDt = true;
-      }
-    } else if(a){
-      if ( a < c) {
-        element.isValidExpDt = false;
-      }
-      else {
-        element.isValidExpDt = true;
-      }
-    }else{
-      element.isValidExpDt = false;
-    }
-    if(c){
-      var e = new Date(c);
-      e.setDate(e.getDate()-1);
-      element.maxdate = e;
-    }else{
-      
-      element.isValidExpDt = false;
-    }
-  }
-  }
-
-  deleteBranchDialog(customer) {
-    let commercialid = customer.bkngCmrclId;
-    const dialog = this.dialog.open(confimationdialog, {
-      data: { message: "Are you sure want to Delete?"},
-      disableClose: true,
-      panelClass: 'creditDialog',
-      width: '300px'  
-    });
-
-    dialog.afterClosed().subscribe(res => {
-      if(res) {
-        if(commercialid) {
-          this.spinner.show();
-          this.apiService.post('secure/v1/bookingcontract/commercial/' + commercialid + '/customers', []).subscribe(res => {
-          this.paymentCommercialData.bookingCommercialCustomerList = this.paymentCommercialData.bookingCommercialCustomerList.filter(function( obj ) {
-            return obj.msaCustId !== customer.msaCustId;
-          });
-          if(this.paymentCommercialData.bookingCommercialCustomerList.length === 0) {
-            this.paymentCommercialData.custPymtFlag = 0;
-          }
-          this.spinner.hide();
-        }, err => {
-          console.log('err', err);
-          this.toastr.error(err.error.errors.error[0].description);
-          this.spinner.hide();
-        });
+        if (this.schedule) {
+          this.safex.expanded = false;
+          this.schedule.expanded = true;
         } else {
-          this.paymentCommercialData.bookingCommercialCustomerList = this.paymentCommercialData.bookingCommercialCustomerList.filter(function( obj ) {
-            return obj.msaCustId !== customer.msaCustId;
-          });
-          if(this.paymentCommercialData.bookingCommercialCustomerList.length === 0) {
-            this.paymentCommercialData.custPymtFlag = 0;
+          if (this.safex) {
+            this.safex.expanded = true;
           }
         }
-      }
-    });
-  }
-
-  contractData:any;
-  getContract(){
-    this.apiService.get('/secure/v1/bookingcontract/'+AppSetting.contractId).subscribe(response => {
-      let ob = ErrorConstants.validateException(response);
-      if(ob.isSuccess){
-        if(response.data.responseData && Object.keys(response.data.responseData).length > 0){
-          this.contractData =  response.data.responseData;
-        } 
-        this.spinner.hide();
-      } else {
-        this.toastr.error(ob.message);
-        this.spinner.hide();
+        if (this.gen) {
+          this.gen.expanded = false;
+        }
+        this.getCommercialData();
       }
     }, (error) => {
       this.toastr.error(ErrorConstants.getValue(404));
       this.spinner.hide();
     })
   }
+
+  getCommercialData() {
+    this.spinner.show();
+    this.apiService.get(`secure/v1/deliveryCommercial/${this.contractId}`).subscribe(data => {
+      let ob = ErrorConstants.validateException(data);
+      if (ob.isSuccess) {
+        this.paymentCommercialRefData = data.data.referenceData;
+        if (data.data.responseData.length > 0) {
+
+          if (this.isPCD) {
+            data.data.responseData.forEach(element => {
+              if (element.customerCommercial[0].dlvryPayoutCtgy == "SCHEDULED") {
+                this.paymentCommercialSchData = element.customerCommercial[0];
+                this.paymentcomercialSchMasterData = element;
+                this.paymentCommercialCustomerSchData = element.customerCommercial[0];
+              } else if (element.customerCommercial[0].dlvryPayoutCtgy == "SAFEXTENSION") {
+                this.paymentCommercialSefData = element.customerCommercial[0];
+                this.paymentcomercialSefMasterData = element;
+                this.paymentCommercialCustomerSefData = element.customerCommercial[0];
+              }
+
+            });
+          }
+          else {
+            data.data.responseData.forEach(element => {
+              if (element.dlvryPayoutCtgy == "SCHEDULED") {
+                this.paymentCommercialSchData = element;
+                this.paymentcomercialSchMasterData = element;
+                this.paymentCommercialCustomerSchData = element.customerCommercial
+              } else if (element.dlvryPayoutCtgy == "SAFEXTENSION") {
+                this.paymentCommercialSefData = element;
+                this.paymentcomercialSefMasterData = element;
+                this.paymentCommercialCustomerSefData = element.customerCommercial
+              }
+            });
+          }
+
+          // check if the customer specfic payment is mandate by checking if PCD is selected and field is disabled otherwise making it user interractive
+          if (this.isPCD) {
+            this.contractCustomerList = [];
+            if (data.data.responseData[0].customerCommercial[0].attr1 !== undefined) {
+              this.contractCustomerList = [{
+                attr1: data.data.responseData[0].customerCommercial[0].attr1,
+                msaCustId: data.data.responseData[0].customerCommercial[0].msaCustId,
+                cntrCode: data.data.responseData[0].customerCommercial[0].cntrCode,
+                active: true,
+              }]
+              this.activeTab = this.contractCustomerList[0];
+            } else if (data.data.responseData[1].customerCommercial[1].attr1 !== undefined) {
+              this.contractCustomerList = [{
+                attr1: data.data.responseData[1].attr1,
+                msaCustId: data.data.responseData[1].msaCustId,
+                cntrCode: data.data.responseData[1].cntrCode,
+                active: true,
+              }]
+              this.activeTab = this.contractCustomerList[0];
+            } else {
+              this.addCustomer(true);
+              this.setDataisPCD();
+            }
+          } else {
+            this.contractCustomerList = [{ attr1: "General", msaCustId: null, cntrCode: null, active: true }]
+            this.isPCD = false;
+            this.customerSpecificPayment =
+              data.data.responseData[0] && data.data.responseData[0].customerCommercial &&
+                data.data.responseData[0].customerCommercial.length > 0
+                ? 1
+                : data.data.responseData[1] && data.data.responseData[1].customerCommercial &&
+                  data.data.responseData[1].customerCommercial.length > 0
+                  ? 1
+                  : 0;
+
+            this.customerSpecificPaymentRadioDisabled = false;
+            // get customer list from the customerCommercial Array from the response
+            if (this.customerSpecificPayment) {
+              if (data.data.responseData[0] && data.data.responseData[0].customerCommercial.length > 0) {
+                data.data.responseData[0].customerCommercial.forEach(element => {
+                  let tempObj = {
+                    attr1: element.attr1,
+                    msaCustId: element.msaCustId,
+                    cntrCode: element.cntrCode,
+                    active: false,
+                  };
+                  this.contractCustomerList.push(tempObj)
+                });
+              } else if (data.data.responseData[1] && data.data.responseData[1].customerCommercial.length > 0) {
+                data.data.responseData[1].customerCommercial.forEach(element => {
+                  let tempObj = {
+                    attr1: element.attr1,
+                    msaCustId: element.msaCustId,
+                    cntrCode: element.cntrCode,
+                    active: false,
+                  };
+                  this.contractCustomerList.push(tempObj)
+                });
+              }
+
+              this.activeTab = this.contractCustomerList[0];
+            }
+          }
+
+          // this.getProductList(this.paymentCommercialSefData.prdctCtgyId);     
+        }
+        else if (data.data.responseData.length === 0 && this.isPCD) {
+          this.addCustomer(true);
+          this.setDataisPCD();
+        }
+
+        this.setStaticIds();
+        this.spinner.hide();
+      }
+      this.spinner.hide();
+    }, (error) => {
+      this.toastr.error(ErrorConstants.getValue(404));
+      this.spinner.hide();
+    })
+  }
+
+  setDataisPCD() {
+    this.paymentcomercialSchMasterData = new PaymentTermsModel();
+    this.paymentcomercialSefMasterData = new PaymentTermsModel();
+    this.paymentCommercialSefData = new PaymentTermsModel();
+    this.paymentCommercialSchData = new PaymentTermsModel();
+    this.paymentCommercialCustomerSchData = [];
+    this.paymentCommercialCustomerSefData = [];
+    this.paymentCommercialSefData.assocCntrId = this.contractData.id;
+    this.paymentCommercialSefData.effectiveDt = this.contractData.effectiveDt;
+    this.paymentCommercialSefData.expDt = this.contractData.expDt;
+    this.paymentCommercialSchData.assocCntrId = this.contractData.id;
+    this.paymentCommercialSchData.effectiveDt = this.contractData.effectiveDt;
+    this.paymentCommercialSchData.expDt = this.contractData.expDt;
+    if (this.schedule) {
+      if (this.safex) this.safex.expanded = false;
+      this.schedule.expanded = true;
+    } else {
+      if (this.safex) {
+        this.safex.expanded = true;
+      }
+    }
+    if (this.gen) {
+      this.gen.expanded = false;
+    }
+  }
+
+  getProductCat() {
+    this.apiService.get(`secure/v1/deliveryCommercial/productcategory`).subscribe(data => {
+      let ob = ErrorConstants.validateException(data);
+      if (ob.isSuccess) {
+        this.productCatList = data.data.responseData;
+      }
+    }, (error) => {
+      this.toastr.error(ErrorConstants.getValue(404));
+      // this.spinner.hide();
+    })
+  }
+
+  getAllVehicle() {
+    this.vehicleList = [];
+    let associateId = AppSetting.associateId;
+    this.apiService.get(`secure/v1/associates/vehicles/associate/${associateId}`).subscribe(res => {
+      this.vehicleList = [];
+      if (res && res.data) {
+        let newtemp = res.data.responseData;
+        newtemp.forEach(element => {
+          // Market Flag for Veicle  is false vendorMktFlag
+
+          if (!element.vendorMktFlag) {
+            this.vehicleList.push(this.setVehicle(element, res.data.referenceData))
+          }
+        });
+      }
+    });
+  }
+
+  rateAddOnVehicle(obj) {
+    this.openAssignVehicleModal(obj);
+
+  }
+
+  setVehicle(obj, ref) {
+    if (ref) {
+      ref.vehicleModelList.forEach(element => {
+        if (obj.vehicleModelId == element.id) {
+          obj.vehicleModel = element.vehicleModelName
+        }
+      });
+    }
+    let temp = {
+      "bodyHeight": obj.bodyHeight,
+      "bodyLength": obj.bodyLength,
+      "bodyWidth": obj.bodyWidth,
+      "effectiveDt": obj.effectiveDt,
+      "expDt": obj.expDt,
+      "vehicleId": obj.id,
+      "vehicleModel": obj.vehicleModel,
+      "vehicleNumber": obj.vehicleNum,
+      "price": obj.price ? obj.price : null,
+      "vehicleTonnge": obj.vehicleTonnge ? obj.vehicleTonnge : obj.modelCargoCapacity,
+      "checked": false
+    }
+    // if(obj.id){
+    //   temp['id'] = obj.id;
+    // }
+    return temp;
+
+  }
+
+  openAssignVehicleModal(obj) {
+    this.spinner.show();
+    const vehicle = JSON.parse(JSON.stringify(this.vehicleList));
+    const dialogRef = this.dialog.open(AssignVehicleComponent, {
+      data: { 'tempVehicle': vehicle, 'obj': obj, 'component': 'payment_term' },
+      panelClass: 'mat-dialog-responsive',
+      disableClose: true
+    });
+    this.spinner.hide();
+    dialogRef.afterClosed().subscribe(result => {
+    })
+
+  }
+
+  editInput(obj) {
+
+  }
+  weightBasId: any;
+  perTripId: any;
+  productSpectId: any;
+  perWayBillId: any;
+
+  setStaticIds() {
+    this.paymentCommercialRefData.assocDeliveryPayOutOptionList.forEach(element => {
+      if (element.lookupVal == 'WEIGHT BASIS') {
+        this.weightBasId = element.id;
+      } else if (element.lookupVal == 'PER TRIP') {
+        this.perTripId = element.id;
+      } else if (element.lookupVal == 'PER WAYBILL') {
+        this.perWayBillId = element.id;
+      } else if (element.lookupVal == 'PRODUCT SPECIFIC') {
+        this.productSpectId = element.id;
+      }
+    });
+  }
+
+
+
+  // ----------- Payment General Term methods ----------- //
+
+  savePaymentGeneralTerms(flag) {
+    if (this.isPCD) {
+      if (this.contractData && this.contractData.scheduledDeliveryFlag) { //schedule
+        if (!this.paymentCommercialSchData.id) {
+          if (!this.localServiceService.getSchCommercialId()) {
+            this.toastr.info("Please add Scheduled Payout");
+            return;
+          }
+        }
+        if (!this.paymentCommercialSefData.id && this.contractData.safextDeliveryFlag) {
+          if (!this.localServiceService.getSafCommercialId()) {
+            this.toastr.info("Please add Safextension Payout");
+            return;
+          }
+        }
+      } //schedule
+      else if (this.contractData && this.contractData.safextDeliveryFlag) {
+        if (!this.paymentCommercialSefData.id) {
+          if (!this.localServiceService.getSafCommercialId()) {
+            this.toastr.info("Please add Safextension Payout");
+            return;
+          }
+        }
+      }
+    }
+    else {
+      if (this.contractData && this.contractData.scheduledDeliveryFlag) {
+        if (!this.paymentCommercialSchData.id) {
+          this.toastr.info("Please add Scheduled Payout");
+          return;
+        }
+        if (this.customerSpecificPayment) {
+          if (!this.isPCD) {
+            if (this.contractCustomerList.slice(1).length !== this.paymentCommercialCustomerSchData.length) {
+              this.toastr.info("Please add Scheduled Payout Customer Data");
+              return;
+            }
+          }
+        }
+      }
+      if (this.contractData && this.contractData.safextDeliveryFlag) {
+        if (!this.paymentCommercialSefData.id) {
+          this.toastr.info("Please add Safextension Payout");
+          return;
+        }
+        if (this.customerSpecificPayment) {
+          if (!this.isPCD) {
+            if (this.contractCustomerList.slice(1).length !== this.paymentCommercialCustomerSefData.length) {
+              this.toastr.info("Please add Safextension Payout Customer Data");
+              return;
+            }
+          }
+        }
+      }
+    }
+
+    // if(this.sheduleComp.checkValidScheOrSafexForm()) {
+    //   return;
+    // }
+
+    this.genValidation.saveGeneralTerms(flag);
+
+
+  }
+  childToParent(event: any) {
+    this.spinner.show();
+    this.getCommercialDataCallForChild().then(data => {
+      this.spinner.hide();
+      if (event) this.customerSlectionchange(event, 0);
+    })
+  }
+
+  /*-------- If permissions not provide for create and update ------------- */
+  nextReadMode() {
+    if (this.editflow) {
+      this.router.navigate(['/asso_delivery-contract/booking-sla', { steper: true, editflow: this.editflow }], { skipLocationChange: true })
+    } else {
+      this.router.navigate(['/asso_delivery-contract/booking-sla'], { skipLocationChange: true });
+    }
+  }
+
+  CustomerSpecfificPaymentSelection(value) {
+    if (value === 1) {
+      this.contractCustomerList = [{ attr1: "General", msaCustId: null, cntrCode: null, active: true }];
+      this.addCustomer();
+    } else {
+      if (this.paymentcomercialSefMasterData.customerCommercial.length === 0 && this.paymentcomercialSchMasterData.customerCommercial.length === 0) {
+        this.contractCustomerList = [{ attr1: "General", msaCustId: null, cntrCode: null, active: true }];
+        return;
+      }
+
+      // delete the customer data when the user click the no radio button
+      this.spinner.show();
+      this.contractCustomerList = [];
+      if (this.contractData.scheduledDeliveryFlag) {
+        this.paymentcomercialSchMasterData.customerCommercial = [];
+        this.deleteCustomerRecord(this.paymentcomercialSchMasterData).then(data => {
+          if (this.contractData.safextDeliveryFlag) {
+            this.paymentcomercialSefMasterData.customerCommercial = [];
+            this.deleteCustomerRecord(this.paymentcomercialSefMasterData).then(data => {
+              this.getCommercialData();
+            })
+          } else this.getCommercialData();
+        })
+      } else if (this.contractData.safextDeliveryFlag) {
+        this.paymentcomercialSefMasterData.customerCommercial = [];
+        this.deleteCustomerRecord(this.paymentcomercialSefMasterData).then(data => {
+          if (this.contractData.scheduledDeliveryFlag) {
+            this.paymentcomercialSchMasterData.customerCommercial = [];
+            this.deleteCustomerRecord(this.paymentcomercialSchMasterData).then(data => {
+              this.getCommercialData();
+            })
+          } else this.getCommercialData();
+        })
+      }
+    }
+
+  }
+
+  addCustomer(pcd = false) {
+    const dialogRef = this.dialog.open(SelectCustomerComponent, {
+      data: {
+        previousData: this.contractCustomerList,
+        editflow: this.editflow,
+        pcd: pcd,
+        isPCD: this.isPCD
+      },
+      width: "55vw",
+      panelClass: "mat-dialog-responsive",
+      disableClose: true,
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data !== undefined) {
+        this.contractCustomerList = data;
+        if (this.isPCD) {
+          this.contractCustomerList[0].active = true;
+          this.activeTab = this.contractCustomerList[0];
+          this.activeTabIndex = 0;
+          this.currTabIndex = 0;
+        }
+      } 
+      if(this.contractCustomerList.length == 1){
+        if(this.contractCustomerList[0].attr1 == 'General'){
+          this.customerSpecificPayment = 0;
+        }
+      }
+    });
+  }
+
+  // funtion to be performed when the user changes the Tab Selection of customers / General
+  currTabIndex = null;
+  customerSlectionchange(index, flag = 1) {
+    this.currTabIndex = index;
+    if (flag) {
+      if (this.activeTabIndex === index) return;
+    }
+    this.contractCustomerList.forEach((element, idx) => {
+      if (index === idx) {
+        element.active = true;
+        this.activeTab = element;
+        this.activeTabIndex = idx;
+        this.sendCustomerDataFromParentToChild(element);
+      }
+      else element.active = false;
+    });
+  }
+
+  // schCommercialId = null;
+  // safCommercialId = null;
+  // getCommercialId(event: any) {
+  //   if (!this.isPCD) return;
+  //   if (event && event.charAt(0) === "1") {
+  //     this.schCommercialId = event.substr(1);
+  //   }
+  //   else if (event && event.charAt(0) === "0") {
+  //     this.safCommercialId = event.substr(1);
+  //   }
+  // }
+
+  /*-------- Delete Customer when customer Specific radio button is Yes and customer is added ------------- */
+  deleteCustomer(event, idx, element) {
+    event.stopPropagation();
+    const dialogRefConfirm = this.dialog.open(confimationdialog, {
+      width: '300px',
+      panelClass: 'creditDialog',
+      data: { message: 'Are you sure you want to delete?' },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if (value) {
+        // this.spinner.show();
+        if (this.isPCD) { //PCD Scenario
+          if (this.contractData.scheduledDeliveryFlag && this.paymentcomercialSchMasterData.customerCommercial[0]) { //Sch present
+            this.paymentcomercialSchMasterData.customerCommercial[0].isPcdDel = 1;
+            if (!this.paymentcomercialSchMasterData.customerCommercial[0].id) {
+              this.paymentcomercialSchMasterData.customerCommercial[0].id = this.localServiceService.getSchCommercialId();
+            }
+            this.deleteCustomerRecord(this.paymentcomercialSchMasterData).then(data => {
+              if (this.contractData.safextDeliveryFlag && this.paymentcomercialSefMasterData.customerCommercial[0]) {
+                this.paymentcomercialSefMasterData.customerCommercial[0].isPcdDel = 1;
+                if (!this.paymentcomercialSefMasterData.customerCommercial[0].id) {
+                  this.paymentcomercialSefMasterData.customerCommercial[0].id = this.localServiceService.getSafCommercialId();
+                }
+                this.deleteCustomerRecord(this.paymentcomercialSefMasterData).then(data => {
+                  this.contractCustomerList = [];
+                  this.getCommercialData();
+                  this.genValidation.getgeneralDetails();
+                 // this.spinner.hide();
+                });
+              }
+              else {
+                this.contractCustomerList = [];
+                this.getCommercialData();
+                this.genValidation.getgeneralDetails();
+               // this.spinner.hide();
+              }
+            });
+
+          }
+          else if (this.contractData.safextDeliveryFlag && this.paymentcomercialSefMasterData.customerCommercial[0]) {//sch not present
+            this.paymentcomercialSefMasterData.customerCommercial[0].isPcdDel = 1;
+            if (!this.paymentcomercialSefMasterData.customerCommercial[0].id) {
+              this.paymentcomercialSefMasterData.customerCommercial[0].id = this.localServiceService.getSafCommercialId();
+            }
+            this.deleteCustomerRecord(this.paymentcomercialSefMasterData).then(data => {
+              this.contractCustomerList = [];
+              this.getCommercialData();
+              this.genValidation.getgeneralDetails();
+              //this.spinner.hide();
+            });
+          }
+          else {
+            this.contractCustomerList = [];
+            this.getCommercialData();
+            this.genValidation.getgeneralDetails();
+           // this.spinner.hide();
+          }
+        }
+        else { //Non-PCD Scenario
+          this.contractCustomerList.splice(idx, 1);
+          if (this.contractData.scheduledDeliveryFlag) {
+            let customerCommercialSchIndex = this.paymentcomercialSchMasterData.customerCommercial.findIndex(item => item.cntrCode === element.cntrCode);
+            if (customerCommercialSchIndex !== -1) {
+              this.paymentcomercialSchMasterData.customerCommercial.splice(customerCommercialSchIndex, 1);
+              this.deleteCustomerRecord(this.paymentcomercialSchMasterData).then(data => {
+                if (this.contractData.safextDeliveryFlag) {
+                  let customerCommercialSefIndex = this.paymentcomercialSefMasterData.customerCommercial.findIndex(item => item.cntrCode === element.cntrCode);
+                  if (customerCommercialSefIndex !== -1) {
+                    this.paymentcomercialSefMasterData.customerCommercial.splice(customerCommercialSefIndex, 1);
+                    this.deleteCustomerRecord(this.paymentcomercialSefMasterData).then(data => {
+                      this.getCommercialData();
+                    });
+                  } else this.getCommercialData()
+                } else this.getCommercialData();
+              });
+            } else {
+              if(this.contractCustomerList.length == 1){
+                if(this.contractCustomerList[0].attr1 == 'General'){
+                  this.customerSpecificPayment = 0;
+                }
+              }
+              this.spinner.hide();
+            }
+
+          } else if (this.contractData.safextDeliveryFlag) {
+            let customerCommercialSefIndex = this.paymentcomercialSefMasterData.customerCommercial.findIndex(item => item.cntrCode === element.cntrCode);
+            if (customerCommercialSefIndex !== -1) {
+              this.paymentcomercialSefMasterData.customerCommercial.splice(customerCommercialSefIndex, 1);
+              this.deleteCustomerRecord(this.paymentcomercialSefMasterData).then(data => {
+                if (this.contractData.scheduledDeliveryFlag) {
+                  let customerCommercialSchIndex = this.paymentcomercialSchMasterData.customerCommercial.findIndex(item => item.cntrCode === element.cntrCode);
+                  if (customerCommercialSchIndex !== -1) {
+                    this.paymentcomercialSchMasterData.customerCommercial.splice(customerCommercialSchIndex, 1);
+                    this.deleteCustomerRecord(this.paymentcomercialSchMasterData).then(data => {
+                      this.getCommercialData();
+                    })
+                  } else this.getCommercialData()
+                } else this.getCommercialData();
+              });
+            } else {
+              if(this.contractCustomerList.length == 1){
+                if(this.contractCustomerList[0].attr1 == 'General'){
+                  this.customerSpecificPayment = 0;
+                }
+              }
+              this.spinner.hide();
+            } 
+
+          }
+          
+  
+          this.customerSlectionchange(0);
+        }
+      }
+    });
+  }
+
+
+
+
+
+  deleteCustomerRecord(paymentCommercialData) {
+    return new Promise((resolve, reject) => {
+      this.apiService.post('secure/v1/deliveryCommercial', paymentCommercialData).subscribe((obj) => {
+        if (obj.status == "SUCCESS") {
+          resolve(true)
+        }
+      }, error => reject(error))
+
+    })
+
+  }
+
+  //sending data from parent to child on tabselection
+  sendCustomerDataFromParentToChild(element) {
+    if (this.customerSpecificPayment && !this.isPCD) {
+      if (element.attr1.toLowerCase() === "general") {
+        this.paymentCommercialSchData = this.paymentcomercialSchMasterData;
+        this.paymentCommercialSefData = this.paymentcomercialSefMasterData;
+      } else {
+        if (this.contractData.safextDeliveryFlag) {
+          let customerCommercialSefIndex = this.paymentcomercialSefMasterData.customerCommercial.findIndex(item => item.cntrCode === element.cntrCode);
+          if (customerCommercialSefIndex !== -1) {
+            this.paymentCommercialSefData = this.paymentcomercialSefMasterData.customerCommercial[customerCommercialSefIndex];
+          } else {
+            this.paymentCommercialSefData = new PaymentTermsModel();
+            this.paymentCommercialSefData.effectiveDt = this.paymentcomercialSefMasterData.effectiveDt;
+            this.paymentCommercialSefData.expDt = this.paymentcomercialSefMasterData.expDt;
+            this.paymentCommercialSefData.assocCntrId = this.paymentcomercialSefMasterData.assocCntrId;
+          }
+        }
+
+        if (this.contractData.scheduledDeliveryFlag) {
+          let customerCommercialSchIndex = this.paymentcomercialSchMasterData.customerCommercial.findIndex(item => item.cntrCode === element.cntrCode);
+          if (customerCommercialSchIndex !== -1) {
+            this.paymentCommercialSchData = this.paymentcomercialSchMasterData.customerCommercial[customerCommercialSchIndex];
+
+          } else {
+            this.paymentCommercialSchData = new PaymentTermsModel();
+            this.paymentCommercialSchData.effectiveDt = this.paymentcomercialSchMasterData.effectiveDt;
+            this.paymentCommercialSchData.expDt = this.paymentcomercialSchMasterData.expDt;
+            this.paymentCommercialSchData.assocCntrId = this.paymentcomercialSchMasterData.assocCntrId
+
+          }
+        }
+
+      }
+    } else if (this.customerSpecificPayment && this.isPCD) {
+      this.paymentCommercialSchData = this.paymentcomercialSchMasterData.customerCommercial[0];
+      this.paymentCommercialSefData = this.paymentcomercialSefMasterData.customerCommercial[0];
+    }
+  }
+
+  getCommercialDataCallForChild() {
+    return new Promise((resolve, reject) => {
+      this.apiService.get(`secure/v1/deliveryCommercial/${this.contractId}`).subscribe(data => {
+        let ob = ErrorConstants.validateException(data);
+
+        if (ob.isSuccess) {
+          if (data.data.responseData.length > 0) {
+
+            data.data.responseData.forEach(element => {
+              if (element.dlvryPayoutCtgy == "SCHEDULED") {
+                this.paymentCommercialSchData = element;
+                this.paymentcomercialSchMasterData = element;
+                this.paymentCommercialCustomerSchData = element.customerCommercial
+              } else if (element.dlvryPayoutCtgy == "SAFEXTENSION") {
+                this.paymentCommercialSefData = element;
+                this.paymentcomercialSefMasterData = element;
+                this.paymentCommercialCustomerSefData = element.customerCommercial
+              }
+
+            });
+
+            resolve(true);
+          }
+        }
+      }, err => reject(err));
+    })
+  }
+
+
+
 }

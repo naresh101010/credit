@@ -5,7 +5,6 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { DatePipe } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
 
 import { ApiService } from '../../core/services/api.service';
 import { ErrorConstants } from '../../core/models/constants';
@@ -13,6 +12,7 @@ import { EmiCalculationComponent } from '../../dialog/emi-calculation/emi-calcul
 import { InsuranceDeductionComponent } from '../../dialog/insurance-deduction/insurance-deduction.component';
 import { AppSetting } from '../../app.setting';
 import { AuthorizationService } from '../../core/services/authorization.service';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 
 @Component({
@@ -33,17 +33,17 @@ export class BookingSlaComponent implements OnInit {
   emiDatasource : any;
   insuranceDatasource : any;
   contractData : any;
-  displayedColumns: string[] = ['Vnumber', 'dedctnAmt', 'effectiveDt', 'expDt', 'branch','icon'];
+  displayedColumns: string[] = ['Vnumber', 'dedctnAmt', 'effectiveDt', 'expDt','icon'];
   maxdate : Date;
   isValidStartDt : boolean;
   isValidEndDt : boolean;
   minDate : Date;
   editflow : boolean;
   associateData : any;
+
   perList: any = [];
   exAttrMap = new Map();
   exAttrKeyList =  [];
-  sfxFinFlag:any;
 
   constructor(public dialog: MatDialog,
               private fb : FormBuilder,
@@ -54,29 +54,23 @@ export class BookingSlaComponent implements OnInit {
               private router : Router,
               private route: ActivatedRoute,
               private authorizationService : AuthorizationService,
-              private permissionsService: NgxPermissionsService) {}
+              private permissionsService: NgxPermissionsService) { }
 
-              
-  
   ngOnInit() {
-    
     this.authorizationService.setPermissions('COMMERCIAL');
     this.perList = this.authorizationService.getPermissions('COMMERCIAL') == null ? [] : this.authorizationService.getPermissions('COMMERCIAL');
     this.permissionsService.loadPermissions(this.perList);
     this.exAttrMap = this.authorizationService.getExcludedAttributes('DEDUCTION');
     this.exAttrKeyList = Array.from(this.exAttrMap.values());
-    console.log('Attribute List', this.exAttrKeyList);
-    console.log('perlist',this.perList);
 
     this.route.params.subscribe(x => {
       this.editflow = x.editflow;
     });
     this.spinner.show();
 
-    //this.editflow = true;
     this.associateData = AppSetting.associateObject;
 
-    this.apiService.get('secure/v1/bookingcontract/'+AppSetting.contractId).subscribe(data => {
+    this.apiService.get('secure/v1/deliverycontract/'+AppSetting.contractId).subscribe(data => {
       let ob = ErrorConstants.validateException(data);
       if(ob.isSuccess){
         this.contractData = data.data.responseData;
@@ -90,12 +84,11 @@ export class BookingSlaComponent implements OnInit {
       this.spinner.hide();
     })
 
-    this.apiService.get('secure/v1/deduction/'+AppSetting.contractId).subscribe(response => {
+    this.apiService.get('secure/v1/deliverycontract/deliveryDeduction/'+AppSetting.contractId).subscribe(response => {
       let ob = ErrorConstants.validateException(response);
       if(ob.isSuccess){
         if(response.data.responseData && Object.keys(response.data.responseData).length > 0){
           this.deductionData =  response.data.responseData;
-          console.log('deduction Data',this.deductionData)
           this.deductionID = this.deductionData.id;
           this.renderDeductionData();
         } else {
@@ -106,9 +99,9 @@ export class BookingSlaComponent implements OnInit {
           this.maxdate = e;
         }
         this.branchVehicleList = response.data.referenceData.branchVehicleList;
-        for(let i of this.branchVehicleList){
-          this.financeflag =i;
-        }
+          for(let i of this.branchVehicleList){
+              this.financeflag =i
+          }
         this.spinner.hide();
       } else {
         this.tosterservice.error(ob.message);
@@ -129,16 +122,15 @@ export class BookingSlaComponent implements OnInit {
         effectiveDt: null,
         expDt : null,
         id: [this.deductionID],
-        lateArrFlag: [null,Validators.required],
-        mktVehicleExpenseFlag: [null,Validators.required],
+        snsdPnltyFlag: [null,Validators.required],
+        safextLateDlvryPnltyFlag: [null,Validators.required],
         recIdentifier: [''],
-        samedayHubFlag: [null,Validators.required],
-        slaFlag: [null ,Validators.required],
+        vehicleAbsentPnltyFlag: [null,Validators.required],
+        mktVehicleDedctnFlag: [null,Validators.required],
        // status: [''],
         vehicleDeductions: [],
-        wrongDimFlag: [null,Validators.required],
-        wrongWayblFlag: [null,Validators.required],
-        wrongWtFlag: [null,Validators.required],
+        dedctnLostFlag: [null,Validators.required],
+        toPayRecoveryFlag: [null,Validators.required],
     });
     this.isAdvanceAmount(0);
   }
@@ -155,7 +147,7 @@ export class BookingSlaComponent implements OnInit {
 
     dialog.afterClosed().subscribe(data => {
       if(data !== undefined){
-        this.emiDeductionArray = data;  
+        this.emiDeductionArray = data;
         this.emiDatasource = new MatTableDataSource<any>(this.emiDeductionArray);
       }
     })
@@ -239,15 +231,14 @@ export class BookingSlaComponent implements OnInit {
         effectiveDt: this.deductionData.effectiveDt,
         expDt: this.deductionData.expDt,
         id: this.deductionID,
-        lateArrFlag: this.deductionData.lateArrFlag,
-        mktVehicleExpenseFlag: this.deductionData.mktVehicleExpenseFlag,
-        samedayHubFlag: this.deductionData.samedayHubFlag,
-        slaFlag: this.deductionData.slaFlag,
+        snsdPnltyFlag: this.deductionData.snsdPnltyFlag,
+        safextLateDlvryPnltyFlag: this.deductionData.safextLateDlvryPnltyFlag,
+        vehicleAbsentPnltyFlag: this.deductionData.vehicleAbsentPnltyFlag,
+        mktVehicleDedctnFlag: this.deductionData.mktVehicleDedctnFlag,
         recIdentifier : this.deductionData.recIdentifier,
         vehicleDeductions: this.deductionData.vehicleDeductions,
-        wrongDimFlag: this.deductionData.wrongDimFlag,
-        wrongWayblFlag: this.deductionData.wrongWayblFlag,
-        wrongWtFlag: this.deductionData.wrongWtFlag,
+        dedctnLostFlag: this.deductionData.dedctnLostFlag,
+        toPayRecoveryFlag: this.deductionData.toPayRecoveryFlag,
   });
 
  }
@@ -259,6 +250,7 @@ export class BookingSlaComponent implements OnInit {
       this.tosterservice.info('Please Add Vehicle EMI Deduction Calculation');
       return;
     }
+    
     if(this.deductionForm.invalid || this.isValidStartDt || this.isValidEndDt){
       return;
     }
@@ -271,18 +263,13 @@ export class BookingSlaComponent implements OnInit {
       finalDeductionData.vehicleDeductions = this.emiDeductionArray.concat(this.insuranceDeductionArray);
     }
 
-    finalDeductionData.effectiveDt = this.deductionForm.value.effectiveDt ? this.datePipe.transform(this.deductionForm.value.effectiveDt, 'yyyy-MM-dd') : null;
+    finalDeductionData.effectiveDt = this.datePipe.transform(this.deductionForm.value.effectiveDt, 'yyyy-MM-dd');
     if(this.deductionForm.value.expDt){
-      finalDeductionData.expDt =  this.datePipe.transform(this.deductionForm.value.expDt, 'yyyy-MM-dd');
+      finalDeductionData.expDt =  this.datePipe.transform(this.deductionForm.value.expDt, 'yyyy-MM-dd') ;
     }
-
-    if(finalDeductionData.advncDedctnAmtFlag == 1){
-      finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd')
-    }
-    if(finalDeductionData.advncDedctnAmtFlag == 1){
-      finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd')
-    }
-     
+    
+    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd') : '';
+    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd') : '';
 
     for(let i=0; i< finalDeductionData.vehicleDeductions.length; i++){
       if(finalDeductionData.vehicleDeductions[i].id === 0){
@@ -292,19 +279,16 @@ export class BookingSlaComponent implements OnInit {
     if(this.deductionID == 0){
      delete finalDeductionData.id;
     }
-    if(this.editflow && this.deductionForm.dirty){
-      finalDeductionData.status = AppSetting.editStatus
-    }
-    
- 
+    (this.editflow && this.deductionForm.dirty) ? finalDeductionData.status = AppSetting.editStatus : '';
+    console.log('final data',finalDeductionData)
     this.spinner.show();
-    this.apiService.post('secure/v1/deduction',finalDeductionData).subscribe(res => {
+    this.apiService.post('secure/v1/deliverycontract/deliveryDeduction',finalDeductionData).subscribe(res => {
      
-      if(flag === 0){
+      if(flag == 0){
         if(this.editflow){
-          this.router.navigate(['/asso_booking-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
+          this.router.navigate(['/asso_delivery-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
         } else {
-          this.router.navigate(['/asso_booking-contract/booking-document'], {skipLocationChange: true});
+          this.router.navigate(['/asso_delivery-contract/booking-document'], {skipLocationChange: true});
         }
       } else {
         this.deductionID = res.data.responseData;
@@ -318,15 +302,7 @@ export class BookingSlaComponent implements OnInit {
         }      
       this.tosterservice.error(error.error.errors.error[0].description);
       this.spinner.hide();
-    })
-  }
-
-  nextReadMode() {
-    if(this.editflow){
-      this.router.navigate(['/asso_booking-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
-    } else {
-      this.router.navigate(['/asso_booking-contract/booking-document'], {skipLocationChange: true});
-    }
+    });
   }
 
   /*----- return vehicle number ---------- */
@@ -427,6 +403,15 @@ removeEmiDeduction(i){
       } else {
         this.isValidEndDt = false;
       }
+    }
+  }
+
+  /*-------- If create and update permission not provide --------- */
+  nextReadMode() {
+    if(this.editflow){
+      this.router.navigate(['/asso_delivery-contract/booking-document',{steper:true, editflow : this.editflow}], {skipLocationChange: true})
+    } else {
+      this.router.navigate(['/asso_delivery-contract/booking-document'], {skipLocationChange: true});
     }
   }
 

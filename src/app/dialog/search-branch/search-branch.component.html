@@ -1,7 +1,8 @@
-<div mat-dialog-content id="userCreateDefault" class="associateContainer">
+<div mat-dialog-content id="userCreateDefault" class="associateDeliverContainer">
+  
     <div style="position: relative;" >
         <h3 id="h3">Search Branch</h3>
-        <mat-icon class="modals_cancel_btn" (click)="closeDialog()" id="closeButton">close</mat-icon>
+        <mat-icon class="modals_cancel_btn" aria-hidden="true" id="closeButton" (click)="closeDialog()">close</mat-icon>
       </div>
       <hr id="popup-hr">
 
@@ -14,7 +15,7 @@
                 <div class="margin-row">
                     <div class="col-lg-4 col-md-4 paddingRightZero">
                         <mat-form-field class="select_box_dropwodn overline_hidden branchType allc">
-                            <mat-select name="search" style="width: 100%;" [(ngModel)]="model.search" (selectionChange)="advanceDefaultBranchArea()">
+                            <mat-select disableOptionCentering panelClass="creditSelect" name="search" style="width: 100%;" [(ngModel)]="model.search" (selectionChange)="advanceDefaultBranchArea()">
                                 <mat-option *ngFor="let list of advanceSearchList" [value]=list.value>{{list.value}}</mat-option>
                             </mat-select>
                         </mat-form-field>
@@ -22,7 +23,8 @@
 
                     <div *ngIf="model.search == 'NAME'" class="col-lg-8 col-md-8 paddingLeftZero margin-row" style="margin-top: 4px;">
                         <div class="mdm_searchbar marginLeftZero">
-                            <input minlength="3" appSearchFieldCheck type="text" (keyup.enter)="advanceDefaultBranchName(model.searchbyname)" class="form-control" required placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
+                            <input minlength="3" type="text" (keyup.enter)="advanceDefaultBranchName(model.searchbyname)" appSearchFieldCheck
+                            class="form-control" required placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
                             <span  class="fa fa-search"  style="color: #BCBCCB; font-size: 1.7rem; top: .4rem !important;" (click)="advanceDefaultBranchName(model.searchbyname)"></span>
                         </div>
                         <!-- validation -->
@@ -73,11 +75,11 @@
                     </div>
                     <div *ngIf="model.search == 'PINCODE'" class="col-lg-8 col-md-8 paddingLeftZero margin-row" style="margin-top: 4px;">
                         <div class="mdm_searchbar" style="margin-left: 0 !important;">
-                            <input *ngIf="advancepincode==false" appSearchFieldCheck (keyup.enter)="advanceDefaultBranchPincode()" #searchbypincode="ngModel" required minlength="3" type="text" class="form-control" placeholder="244001" name="searchbypincode" [(ngModel)]="model.searchbypincode">
+                            <input *ngIf="advancepincode==false" appSearchFieldCheck  (keyup.enter)="advanceDefaultBranchPincode()" #searchbypincode="ngModel" required minlength="3" type="text" class="form-control" placeholder="244001" name="searchbypincode" [(ngModel)]="model.searchbypincode">
                             <span class="fa fa-search" style="color: #BCBCCB; font-size: 1.7rem; top: .4rem !important;" *ngIf="advancepincode==false" (click)="advanceDefaultBranchPincode()"></span>
                         </div>
                         <mat-form-field class="select_box_dropwodn overline_hidden" *ngIf="advancepincode==true">
-                            <mat-select name="apincode" [(ngModel)]="model.apincode" (selectionChange)="advanceDefaultBranchPincodeByPincode('change')" (ngModelChange)="advanceDefaultBranchPincodeByPincode('changeModle') ">
+                            <mat-select disableOptionCentering panelClass="creditSelect" name="apincode" [(ngModel)]="model.apincode" (selectionChange)="advanceDefaultBranchPincodeByPincode('change')" (ngModelChange)="advanceDefaultBranchPincodeByPincode('changeModle') ">
                                 <mat-option *ngFor="let searchpincode of pinCodeList.responseData" [value]=searchpincode>
                                     {{searchpincode.pincode}}</mat-option>
                             </mat-select>
@@ -106,27 +108,27 @@
                  <span>BRANCH CODE</span>
                 </div>
                 <div class="col-lg-3 col-md-3 zonalheadingbar">BRANCH NAME</div>
-                <div class="col-lg-2 col-md-3 zonalheadingbar">ADDRESS</div>
-                <div class="col-lg-2 col-md-3 zonalheadingbar">STATUS</div>
+                <div class="col-lg-3 col-md-3 zonalheadingbar">ADDRESS</div>
+                <div class="col-lg-3 col-md-3 zonalheadingbar">STATUS</div>
             </div>
             <div class="search_branch_tbl">
                 <div *ngFor="let branch of tableData.responseData">
                     <div class="row">
-                        <div class="col-lg-3 width20" style="display: inline-flex;">
+                        <div class="col-lg-3 col-md-3" style="display: inline-flex;">
                             <mat-checkbox (change)="filterDataByAreaList($event, branch)" name="branchChecked" [(ngModel)]="branch.checked"></mat-checkbox>
                         <span matTooltipPosition="above" [matTooltip]="branch.branchCode">{{ branch.branchCode}}</span>
                         </div>
-                        <div class="col-lg-3 width20" matTooltipPosition="above" [matTooltip]="branch.branchName">{{branch.branchName }}</div>
-                        <div class="col-lg-3 width20">
+                        <div class="col-lg-3 col-md-3" matTooltipPosition="above" [matTooltip]="branch.branchName">{{branch.branchName }}</div>
+                        <div class="col-lg-3 col-md-3">
                             <em [matTooltip]="branch.address | uppercase" matTooltipPosition="above" class="material-icons primary-color">room</em>
                         </div>
-                        <div class="col-lg-3 width20 ">{{branch.status | lookupValue : "lookupVal" : referenceData.statusList}}</div>
+                        <div class="col-lg-3 col-md-3 ">{{branch.status | lookupValue : "descr" : referenceData.statusList}}</div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="text-center" *ngxPermissionsOnly="['BRANCH ALLOCATION_CREATE','BRANCH ALLOCATION_UPDATE']">
+        <div class="text-center">
             <button id="branchSubmit" class="theme-button" style=" margin-top:2%;" mat-raised-button color="primary" (click)="allocateAreaData()">Assign</button>
         </div>
 </section>

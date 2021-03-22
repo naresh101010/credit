@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AssignVehicleComponent } from '../assign-vehicle/assign-vehicle.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { BookingAssociateContractUpdateComponent } from '../booking-associate-contract-update/booking-associate-contract-update.component';
+import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-contract-update',
@@ -35,5 +36,25 @@ export class ContractUpdateComponent implements OnInit {
   }
   submitData(data = null) {
     this.dialogRef.close(data);
+  }
+
+  closeDialog(): void {
+      
+    const dialogRefConfirm = this.dialog.open(confimationdialog, {
+      width: '300px',
+      panelClass: 'creditDialog',
+      data:{message:'Are you sure ?'},
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if(value){
+        this.dialogRef.close(false);
+      }else{
+        console.log('Keep Open');
+      }
+    });
+
   }
 }

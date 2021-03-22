@@ -88,14 +88,14 @@ export class InsuranceDeductionComponent implements OnInit {
         id = 0;
       }
 
-    this.insuranceForm.patchValue({
-      id: id,
-      vehicleId: this.vehicleData.vehicleId,
-      assocCntrId: AppSetting.contractId,
-      status: '',
-      dedctnCateg: 'INSURANCE',
-      recIdentifier: 1
-    });
+      this.insuranceForm.patchValue({
+        id: id,
+        vehicleId: this.vehicleData.vehicleId,
+        assocCntrId: AppSetting.contractId,
+        status: '',
+        dedctnCateg: 'INSURANCE',
+        recIdentifier : 1
+      });
 
       this.editflow ? this.insuranceForm.controls.status.patchValue(AppSetting.editStatus) : 
       (id !== 0 ? this.insuranceForm.controls.status.patchValue(selected.status) : this.insuranceForm.controls.status.disable())

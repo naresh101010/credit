@@ -1,0 +1,20 @@
+.paddingT-4 {
+    padding-top: 4px;
+}
+
+#serach_i {
+    position: absolute;
+    right: 4rem;
+    z-index: 1234;
+    font-size: 1.7rem;
+    top: 1rem;
+    z-index: 10;
+    color: #BCBCCB;
+}
+.brancSearchIcon {
+    top: .3rem;
+    left: 2.6rem !important;
+    position: absolute;
+    font-size: 1.8rem;
+    opacity: .5;
+}

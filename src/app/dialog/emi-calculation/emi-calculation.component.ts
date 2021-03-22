@@ -4,8 +4,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 import { DatePipe } from '@angular/common';
 import { AppSetting } from '../../app.setting';
-import { AuthorizationService } from 'src/app/core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
@@ -28,8 +26,6 @@ export class EmiCalculationComponent implements OnInit {
   minDate : Date;
   editflow: boolean;
   checkArray : any = [];
-  exAttrMap = new Map();
-  exAttrKeyList =  [];
   minchar:boolean= false;
   nomatch: boolean=false;
   activeClassFlag: boolean = false;
@@ -38,15 +34,10 @@ export class EmiCalculationComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any,
     private fb: FormBuilder,
     private tosterservice: ToastrService,
-    private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService,
     public dialog: MatDialog,
     private datePipe : DatePipe) { }
 
   ngOnInit() {
-    this.exAttrMap = this.authorizationService.getExcludedAttributes('VEHICLE DEDUCTION');
-    this.exAttrKeyList = Array.from(this.exAttrMap.values());
-    console.log('Attribute List', this.exAttrKeyList);
     let branchData = this.data.branchVehicleList;
     this.branchVehicleList = branchData.filter(x=> x.sfxFinFlag == 1);
     this.dataSource = new MatTableDataSource<any>(this.branchVehicleList);
@@ -61,7 +52,6 @@ export class EmiCalculationComponent implements OnInit {
       this.activeClassFlag = true;
       console.log('activeFlag', this.activeClassFlag);
     }
-
 
     // if (this.emiDeductions !== undefined) {
     //   let filteredData = this.branchVehicleList.filter(x => !this.emiDeductions.find(y => y.vehicleId === x.vehicleId));
@@ -292,8 +282,4 @@ export class EmiCalculationComponent implements OnInit {
       }
     });
   }
-  close() {
-    this.dialogRef.close()
-  }
-
 }

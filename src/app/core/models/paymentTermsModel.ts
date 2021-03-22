@@ -9,7 +9,6 @@ export class PaymentCommercialGen {
     lkpAssocAddtnlParamId: any;
     addtnlParamVal: number;
     effectiveDt: string;
-    minFlag = false;
     expDt: string;
     effectiveMinDt: any;
     expMinDt: any;

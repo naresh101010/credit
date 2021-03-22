@@ -138,7 +138,7 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
   {
     console.log(data,data.id);
     AppSetting.associateId=data.id;
-    this.router.navigate(['/asso_booking-contract/create-associate'], {skipLocationChange: true});
+    this.router.navigate(['/asso_delivery-contract/create-associate'], {skipLocationChange: true});
 
   }
 
@@ -150,7 +150,7 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
      console.log(data,data.id);
      AppSetting.associateId=data.id;
      let id=data.id;
-     this.router.navigate(['/asso_booking-contract/create-associate',  {id:id} ], {skipLocationChange: true});
+     this.router.navigate(['/asso_delivery-contract/create-associate',  {id:id} ], {skipLocationChange: true});
    }
 
  //------------------------NEW Associate contract------------------//
@@ -158,7 +158,7 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
   addNewAssociateContract()
   {
     AppSetting.associateId=null;
-    this.router.navigate(['/asso_booking-contract/create-associate'], {skipLocationChange: true});
+    this.router.navigate(['/asso_delivery-contract/create-associate'], {skipLocationChange: true});
   }
 
   /*------------ open contract page ------------ */
@@ -166,7 +166,7 @@ export class CreateAssociateContractComponent implements OnInit, AfterViewInit {
     AppSetting.associateId = data.id;
     AppSetting.contractId = null;
     AppSetting.associateObject = data;
-    this.router.navigate(['/asso_booking-contract/assign-associate'], {skipLocationChange: true});
+    this.router.navigate(['/asso_delivery-contract/assign-associate'], {skipLocationChange: true});
   }
 
  

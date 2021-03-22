@@ -2,6 +2,7 @@ import { Component, OnInit,Inject, HostListener } from '@angular/core';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
+import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 
 @Component({
@@ -44,4 +45,23 @@ export class EmailPreviewComponent implements OnInit {
       }
   }
 
+  closeDialog(): void {
+      
+    const dialogRefConfirm = this.dialog.open(confimationdialog, {
+      width: '300px',
+      panelClass: 'creditDialog',
+      data:{message:'Are you sure ?'},
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if(value){
+        this.dialogRef.close(false);
+      }else{
+        console.log('Keep Open');
+      }
+    });
+
+  }
 }

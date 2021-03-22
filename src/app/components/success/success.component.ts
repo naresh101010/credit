@@ -11,7 +11,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 export class SuccessComponent implements OnInit {
 
   associateContractCode : string;
-  id : string;  
+  editflow: boolean;
   countDown: Subscription;
   counter = 15;
   tick = 1000;
@@ -25,10 +25,10 @@ export class SuccessComponent implements OnInit {
   ngOnInit() {
     this.countDown = timer(0, this.tick).subscribe(() => --this.counter);
     this.associateContractCode = AppSetting.sfxCode;
-    this.id = this.data.id;
+    this.editflow = this.data.editflow;
     setTimeout(() => {
       this.successDialog.close();
-      this.router.navigate(['/asso_booking-contract/asso_booking'], {skipLocationChange: true}); 
+      this.router.navigate(['/asso_delivery-contract/asso_delivery'], {skipLocationChange: true}); 
   }, 15000);
   }
 

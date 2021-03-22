@@ -6,7 +6,7 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -88,13 +88,13 @@
           <div class="col-md-2">
             <mat-form-field appearance="outline">
               <input matInput name="MobileNo" #mobileNo='ngModel' required [(ngModel)]="AssociateStaffData.mob" class="form-control"
-                placeholder="Mobile No" maxlength="10" minlength="10" [numbersOnly] = true>
+                placeholder="Mobile No" maxlength="10" minlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
             </mat-form-field>
             <div class="errorMsg" *ngIf="mobileNo.errors?.required && mobileNo.touched">
               <em>Required !</em> </div>
               <div class="errorMsg" *ngIf="(mobileNo.errors?.minlength || mobileNo.errors?.maxlength) && !(mobileNo.errors?.required && mobileNo.touched)">
                   <em>Number should be 10 digits !</em></div>
-              <div class="errorMsg" *ngIf="(mobileNo.errors?.isNumeric) && !(mobileNo.errors?.minlength || mobileNo.errors?.maxlength) && !(mobileNo.errors?.required && mobileNo.touched)"><em>Value is Invalid !</em></div>
+              <div class="errorMsg" *ngIf="(mobileNo.errors?.pattern) && !(mobileNo.errors?.minlength || mobileNo.errors?.maxlength) && !(mobileNo.errors?.required && mobileNo.touched)"><em>Value is Invalid !</em></div>
           </div>
           <div class="col-md-2 col-md-offset-2 mo_ml_0">
             <mat-label><strong>Alternate Mobile No<span class="redMark">*</span></strong></mat-label>
@@ -102,13 +102,13 @@
           <div class="col-md-2">
             <mat-form-field appearance="outline">
               <input matInput name="AlternateMobileNo" required [(ngModel)]="AssociateStaffData.altMob" #altMob='ngModel' class="form-control"
-                placeholder="Alternate Mobile No" maxlength="10" minlength="10" [numbersOnly] = true>
+                placeholder="Alternate Mobile No" maxlength="10" minlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
             </mat-form-field>
             <div class="errorMsg" *ngIf="altMob.errors?.required && altMob.touched">
               <em>Required !</em> </div>
             <div class="errorMsg" *ngIf="(altMob.errors?.minlength || altMob.errors?.maxlength)">
                 <em>Number should be 10 digits !</em></div>
-            <div class="errorMsg" *ngIf="(altMob.errors?.isNumeric) && !(altMob.errors?.minlength || altMob.errors?.maxlength)"><em>Value is Invalid !</em></div>
+            <div class="errorMsg" *ngIf="(altMob.errors?.pattern) && !(altMob.errors?.minlength || altMob.errors?.maxlength)"><em>Value is Invalid !</em></div>
           </div>
         </div>
         <div class="row">
@@ -118,11 +118,11 @@
           <div class="col-md-2">
             <mat-form-field appearance="outline">
               <input matInput name="EmergencyNo" maxlength="10" #emergencyPhone='ngModel' [(ngModel)]="AssociateStaffData.emergencyPhone" class="form-control"
-                placeholder="Emergency No" minlength="10" maxlength="10" [numbersOnly] = true>
+                placeholder="Emergency No" minlength="10" maxlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
             </mat-form-field>
             <div class="errorMsg" *ngIf="(emergencyPhone.errors?.minlength || emergencyPhone.errors?.maxlength)">
                 <em>Number should be 10 digits !</em></div>
-            <div class="errorMsg" *ngIf="(emergencyPhone.errors?.isNumeric) && !(emergencyPhone.errors?.minlength || emergencyPhone.errors?.maxlength)"><em>Value is Invalid !</em></div>
+            <div class="errorMsg" *ngIf="(emergencyPhone.errors?.pattern) && !(emergencyPhone.errors?.minlength || emergencyPhone.errors?.maxlength)"><em>Value is Invalid !</em></div>
           </div>
           <div class="col-md-2 col-md-offset-2 mo_ml_0">
             <mat-label><strong>WhatsApp No <span class="redMark">*</span> </strong></mat-label>
@@ -130,13 +130,13 @@
           <div class="col-md-2">
             <mat-form-field appearance="outline">
               <input matInput name="WhatsAppNo" #whatsapp='ngModel' required maxlength="10" [(ngModel)]="AssociateStaffData.whatsappNum" class="form-control"
-                placeholder="WhatsApp No" minlength="10" maxlength="10" [numbersOnly] = true>
+                placeholder="WhatsApp No" minlength="10" maxlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
             </mat-form-field>
             <div class="errorMsg" *ngIf="whatsapp.errors?.required && whatsapp.touched">
               <em>Required !</em> </div>
               <div class="errorMsg" *ngIf="(whatsapp.errors?.minlength || whatsapp.errors?.maxlength) && !(whatsapp.errors?.required && whatsapp.touched)">
                   <em>Number should be 10 digits !</em></div>
-              <div class="errorMsg" *ngIf="(whatsapp.errors?.isNumeric) && !(whatsapp.errors?.minlength || whatsapp.errors?.maxlength) && !(whatsapp.errors?.required && whatsapp.touched)"><em>Value is Invalid !</em></div>
+              <div class="errorMsg" *ngIf="(whatsapp.errors?.pattern) && !(whatsapp.errors?.minlength || whatsapp.errors?.maxlength) && !(whatsapp.errors?.required && whatsapp.touched)"><em>Value is Invalid !</em></div>
           </div>
         </div>
         <div class="row">
@@ -175,7 +175,7 @@
               <mat-form-field appearance="outline" class="date_picker_adjust">
                 <mat-datepicker #bookingDate3 class="myDatepicker23">
                 </mat-datepicker>
-                <input matInput  #dob='ngModel' required [(ngModel)]="AssociateStaffData.dob" [matDatepicker]="bookingDate3"
+                <input matInput  #dob='ngModel' required [(ngModel)]="AssociateStaffData.dob" autocomplete="off" [matDatepicker]="bookingDate3"
                   class="date_input_height" placeholder="" (blur)="checkValidDate('dob')" name="expiryDate" placeholder="DD/MM/YYYY" numericSpecialChar/>
                 <mat-datepicker-toggle matPrefix [for]="bookingDate3">
                 </mat-datepicker-toggle>
@@ -192,13 +192,13 @@
           <div class="col-md-2">
             <mat-form-field appearance="outline">
               <input matInput name="aadhaarNum" #adhar='ngModel' required [(ngModel)]="AssociateStaffData.aadhaarNum" class="form-control"
-                placeholder="Aadhaar No" maxlength="12" minlength="12" [numbersOnly] = true>
+                placeholder="Aadhaar No" maxlength="12" minlength="12" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
             </mat-form-field>
             <div class="errorMsg" *ngIf="adhar.errors?.required && adhar.touched">
               <em>Required !</em> </div>
               <div class="errorMsg" *ngIf="(adhar.errors?.minlength || adhar.errors?.maxlength) && !(adhar.errors?.required && adhar.touched)">
                 <em>Aadhar No. should be 12 digits !</em></div>
-              <div class="errorMsg" *ngIf="(adhar.errors?.isNumeric) && !(adhar.errors?.minlength || adhar.errors?.maxlength) && !(adhar.errors?.required && adhar.touched)">
+              <div class="errorMsg" *ngIf="(adhar.errors?.pattern) && !(adhar.errors?.minlength || adhar.errors?.maxlength) && !(adhar.errors?.required && adhar.touched)">
                 <em>Value is Invalid !</em></div>
           </div>
           <div class="col-md-2 col-md-offset-2 mo_ml_0">
@@ -209,7 +209,7 @@
               <input matInput name="panNum" #pan='ngModel' [(ngModel)]="AssociateStaffData.panNum" class="form-control"
                 placeholder="PAN No" alphanumeric minlength="10" maxlength="10" (input)="onPanChange($event)">
             </mat-form-field>
-              <div class="errorMsg" *ngIf="!panChk"><em>Invalid PAN !</em></div>
+                  <div class="errorMsg" *ngIf="!panChk"><em>Invalid PAN !</em></div>
           </div>
         </div>
         <div class="row">
@@ -221,7 +221,7 @@
               <mat-form-field appearance="outline" class="date_picker_adjust">
                 <mat-datepicker #bookingDate4 class="myDatepicker23">
                 </mat-datepicker>
-                <input matInput #estDate='ngModel' required [matDatepicker]="bookingDate4" [(ngModel)]="AssociateStaffData.estDt" class="date_input_height"
+                <input matInput #estDate='ngModel' required autocomplete="off" [matDatepicker]="bookingDate4" [(ngModel)]="AssociateStaffData.estDt" class="date_input_height"
                   placeholder="" name="estDate" placeholder="DD/MM/YYYY" (blur)="checkValidDate('estDt')" numericSpecialChar/>
                 <mat-datepicker-toggle matPrefix [for]="bookingDate4">
                 </mat-datepicker-toggle>
@@ -265,7 +265,7 @@
                 <em>Duplicate !</em> </div>
             </div>
           </div>
-          <div class="col-md-1" *ngxPermissionsOnly="['ASSOCIATE DESIGNATION_CREATE']">
+          <div class="col-md-1">
             <div class="add_create_designation">
               <mat-icon class="add_icon" (click)="openAddDesignationModal()">add</mat-icon>
             </div>
@@ -291,7 +291,7 @@
               <mat-form-field appearance="outline" class="date_picker_adjust">
                 <mat-datepicker #bookingDate5 class="myDatepicker23">
                 </mat-datepicker>
-                <input matInput [matDatepicker]="bookingDate5" #effdate='ngModel' required [(ngModel)]="AssociateStaffData.effectiveDt"
+                <input matInput autocomplete="off" [matDatepicker]="bookingDate5" #effdate='ngModel' required [(ngModel)]="AssociateStaffData.effectiveDt"
                   class="date_input_height" placeholder="" (dateChange)="effectiveDate()" (blur)="effectiveDate()" [min]="effMinDate" name="effdate" placeholder="DD/MM/YYYY" numericSpecialChar/>
                 <mat-datepicker-toggle matPrefix [for]="bookingDate5">
                 </mat-datepicker-toggle>
@@ -311,7 +311,7 @@
               <mat-form-field appearance="outline" class="date_picker_adjust">
                 <mat-datepicker #bookingDate6 class="myDatepicker23">
                 </mat-datepicker>
-                <input matInput [matDatepicker]="bookingDate6" #Expdate='ngModel' [(ngModel)]="AssociateStaffData.expDt"
+                <input matInput autocomplete="off" [matDatepicker]="bookingDate6" #Expdate='ngModel' [(ngModel)]="AssociateStaffData.expDt"
                   class="date_input_height" placeholder="" (dateChange)="expDate()" (blur)="expDate()" [min]="minDate" name="Expiry_date" placeholder="DD/MM/YYYY" numericSpecialChar/>
                 <mat-datepicker-toggle matPrefix [for]="bookingDate6">
                 </mat-datepicker-toggle>
@@ -330,7 +330,7 @@
             <div class="module_area">
               <mat-form-field class="select_box_dropwodn overline_hidden">
                 <mat-label>Select</mat-label>
-                <mat-select [disabled]="!disabled" required name="userGender" [(ngModel)]="AssociateStaffData.status">
+                <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="!disabled" required name="userGender" [(ngModel)]="AssociateStaffData.status">
                     <mat-option *ngFor="let cStatus of status" [value]="cStatus.value">{{cStatus.viewValue}}
                     </mat-option>
                 </mat-select>
@@ -348,13 +348,10 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-12 text-center mtb_30"  *ngxPermissionsOnly="['CREATE ASSOCIATE STAFF_CREATE','CREATE ASSOCIATE STAFF_UPDATE']">
-            <button mat-button class="white-button" type="button" (click)="onBackClick($event)" value="go back">Back</button>
-            <button mat-button class="theme-button" [disabled]="!f.form.valid || isValidEffectiveDt || isValidExpDt || duplicateDesignationFlage" *ngIf="disabled==false" (click)="CreateAssociateStaff()" type="submit" >Submit</button>
-            <button mat-button class="theme-button" [disabled]="!f.form.valid || isValidEffectiveDt || isValidExpDt || duplicateDesignationFlage" *ngIf="disabled==true" (click)="UpdateAssociateStaff()" type="submit">Update</button>
-          </div>
-          <div class="col-md-12 text-center mtb_30"  *ngxPermissionsExcept="['CREATE ASSOCIATE STAFF_CREATE','CREATE ASSOCIATE STAFF_UPDATE']">
-            <button mat-button class="theme-button" [disabled]="!f.form.valid || isValidEffectiveDt || isValidExpDt" *ngIf="disabled==false" (click)="nextReadMode()" value="submit">Next</button>
+          <div class="col-md-12 text-center mtb_30"  >
+            <button mat-button class="white-button" (click)="onBackClick($event)">Back</button>
+            <button mat-button class="theme-button" [disabled]="!f.form.valid || isValidEffectiveDt || isValidExpDt" *ngIf="disabled==false" (click)="CreateAssociateStaff()">Submit</button>
+            <button mat-button class="theme-button" [disabled]="!f.form.valid || isValidEffectiveDt || isValidExpDt" *ngIf="disabled==true" (click)="UpdateAssociateStaff()">Update</button>
           </div>
         </div>
       </div>

@@ -9,9 +9,7 @@
     </div>
     <div class="col-md-3 text-right">
       <label style="color: white;font-size: 3rem;
-      margin-right: 20px;">BOOKING</label><br>
-            <label style="color: white;font-size: 3rem;
-            margin-right: 20px;">ASSOCIATE CONTRACT </label>
+      margin-right: 20px;">DELIVERY ASSOCIATE CONTRACT </label>
     </div>
   </div>
 </div>
@@ -103,8 +101,7 @@
                 <div class="left searType">
                   <mat-form-field class="select_box_dropwodn overline_hidden searchBy creditSelect" style="background: #27ae60;  height: 20px;">
                     <mat-select disableOptionCentering panelClass="creditSelect"  name="searchBy"  required [(ngModel)]="searchBy">
-                      <mat-option *ngFor="let item of searchOption"  matTooltipPosition="above"
-                      [matTooltip]="item | uppercase" [value]="item" >
+                      <mat-option *ngFor="let item of searchOption" [value]="item" >
                         {{item}}
                       </mat-option>
                     </mat-select>
@@ -148,7 +145,7 @@
 
             <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort matSortDisableClear
             matSortActive="contractCreationDate" matSortDirection="desc" class="mat-elevation-z8"
-              *ngxPermissionsOnly="['CREATE CONTRACT_READ']">
+              *ngxPermissionsOnly="['EXPIRING SOON CONTRACTS_READ','DRAFT CONTRACTS_READ','ACTIVE CONTRACTS_READ','TERMINATED CONTRACTS_READ']">
               <!-- Position Column -->
               <ng-container matColumnDef="contactFname">
                 <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -156,25 +153,21 @@
                 </th>
                 <td mat-cell *matCellDef="let element">
                   <div *ngIf="selectedValue === 'DRAFT'">
-                    <a (click)="createContrctnavigartion(element)">
-                      <div class="row_center row_center_width" style="width: 13rem !important;font-weight: normal;"
-                        matTooltipPosition="above"
-                        [matTooltip]="element.companyName | uppercase">{{element.companyName}}</div>
-                    </a>
-                    <!-- <div *ngxPermissionsExcept="['CREATE CONTRACT_UPDATE']" class="row_center row_center_width"
-                      style="width: 13rem !important;font-weight: normal;" matTooltipPosition="above"
-                      [matTooltip]="element.contactFname + ' ' + element.contactLname | uppercase"
-                      [matTooltipDisabled]="element.contactFname?.length<10">{{element.contactFname}}</div> -->
-                  </div>
-                  <div *ngIf="selectedValue != 'DRAFT'">
-                    <div class="row_center row_center_width Sel_Associate_Name" style="width: 13rem !important;font-weight: normal;"
-                      matTooltipPosition="above"
-                      [matTooltip]="element.companyName | uppercase">{{element.companyName}}</div>
-                  </div>
+                  <a (click)="createContrctnavigartion(element)">
+                    <div class="row_center row_center_width" style="width: 13rem !important;font-weight: normal;" 
+                    matTooltipPosition="above" [matTooltip]="element.companyName | uppercase">{{element.companyName}}</div>
+                  </a>
+                  <!-- <div *ngxPermissionsExcept="['VIEW CONTRACT_CREATE','VIEW CONTRACT_UPDATE']" class="row_center row_center_width" style="width: 13rem !important;font-weight: normal;"
+                  matTooltipPosition="above" [matTooltip]="element.contactFname + ' ' + element.contactLname | uppercase" >{{element.contactFname}}</div> -->
+                </div>
+                <div *ngIf="selectedValue != 'DRAFT'">
+                  <div class="row_center row_center_width" style="width: 13rem !important;font-weight: normal;"
+                  matTooltipPosition="above" [matTooltip]="element.companyName | uppercase" >{{element.companyName}}</div>
+                </div>
                 </td>
               </ng-container>
-              <ng-container matColumnDef="cntrCode" *ngIf="selectedValue === 'ACTIVE'">
-                <th scope="col" mat-header-cell *matHeaderCellDef style="width: 19rem;"  mat-sort-header>CONTRACT CODE</th>
+              <ng-container matColumnDef="cntrCode" *ngIf="selectedValue === 'ACTIVE' ">
+                <th scope="col" mat-header-cell style="width: 19rem;" *matHeaderCellDef mat-sort-header>CONTRACT CODE</th>
                 <td mat-cell *matCellDef="let element">
                   <div class="row_center row_center_width" style="width: 19rem;" [matTooltip]="element.cntrCode" matTooltipPosition="above">
                     {{element.cntrCode}}</div>
@@ -183,9 +176,10 @@
 
               <!-- Name Column -->
               <ng-container matColumnDef="vendorDeptt">
-                <th scope="col" mat-header-cell *matHeaderCellDef [ngStyle]="{'width' : dataSource?.data.length != 0 ? '20rem' : ''}"  mat-sort-header>VENDOR DEPARTMENT</th>
+                <th scope="col" mat-header-cell *matHeaderCellDef [ngStyle]="{'width' : dataSource?.data.length != 0 ? '20rem' : ''}"
+                 mat-sort-header>VENDOR DEPARTMENT</th>
                 <td mat-cell *matCellDef="let element">
-                  <div class="row_center row_center_width" style="width: 19rem;"  matTooltipPosition="above"
+                  <div class="row_center row_center_width" style="width: 19rem;" matTooltipPosition="above"
                     [matTooltip]="element.vendorDeptt | lookupValue : 'lookupVal' : rfrencList.assocDeptList">
                     {{ element.vendorDeptt | lookupValue : "lookupVal" : rfrencList.assocDeptList }} </div>
                 </td>
@@ -247,12 +241,11 @@
                     style="cursor: pointer;" (click)="openDialogContractVersion(element)">visibility</em>
                 </td>
               </ng-container>
-              
               <ng-container matColumnDef="edit" *ngIf="selectedValue === 'ACTIVE' || selectedValue === 'EXPIRING SOON'">
                 <th scope="col" mat-header-cell *matHeaderCellDef class="flexNone"> </th>
                 <td mat-cell *matCellDef="let element" class="flexNone" style="padding-left: 0 !important;">
-                  <em class="material-icons iconSize green paddingZero" style="cursor: pointer;"
-                    *ngxPermissionsOnly="['CREATE CONTRACT_UPDATE']" (click)="showEditFlowPopup(element)">create</em>
+                  <em class="material-icons iconSize green paddingZero" style="cursor: pointer;" *ngxPermissionsOnly="['VIEW CONTRACT_READ']"
+                    (click)="showEditFlowPopup(element)">create</em>
                 </td>
               </ng-container>
               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -274,70 +267,8 @@
 
       </mat-card>
     </div>
-    <!-- <div class="col-md-2">
-      <div class="mo_float_left pull-right top_block" *ngxPermissionsOnly="['DRAFT CONTRACTS_READ']"
-        [ngClass]="selectedValue === 'DRAFT' ? 'greenBlock' : 'whiteBlock'" (click)="onSelectBlock('DRAFT')">
-        <img alt="img"[src]="selectedValue === 'DRAFT' ? '/assets/images/draft_white.png' :'/assets/images/inDraftMode_icon.png'"
-          width="26px" alt="inDraftMode_icon">
-        <h3 class="fontSizeDashboard" [ngClass]="selectedValue === 'DRAFT' ? 'white' : 'green'">Draft Mode <span
-            [ngClass]="selectedValue === 'DRAFT' ? 'whiteTextColor' : 'redTextColor'">({{dashboardTotalCount.draftCount}})
-          </span></h3>
-        <div>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'DRAFT' ? 'white' : 'green'">turned_in_not</mat-icon>
-          <mat-icon class="iconSize heart_icon" [ngClass]="selectedValue === 'DRAFT' ? 'white' : 'red'">favorite
-          </mat-icon>
-        </div>
-      </div>
 
-      <div *ngxPermissionsOnly="['EXPIRING SOON CONTRACTS_READ']" class="pull-right" [ngClass]="selectedValue === 'EXPIRING' ? 'greenBlock' : 'whiteBlock'"
-        (click)="onSelectBlock('EXPIRING')" style="cursor: pointer;">
-        <img alt="img"width="26px" alt="img"
-          [src]="selectedValue === 'EXPIRING' ? '/assets/images/expiring_white.png' : '/assets/images/expiring_icon.png'">
-        <h3 class="fontSizeDashboard">Expiring Soon <span
-            [ngClass]="selectedValue === 'EXPIRING' ? 'whiteTextColor' : 'redTextColor'">({{dashboardTotalCount.expCount}})</span>
-        </h3>
-        <div>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'EXPIRING' ? 'white' : 'green'">turned_in_not
-          </mat-icon>
-          <mat-icon class="iconSize heart_icon" [ngClass]="selectedValue === 'EXPIRING' ? 'white' : 'red'">favorite
-          </mat-icon>
-        </div>
-      </div>
-
-      <div class="pull-right" [ngClass]="selectedValue === 'ACTIVE' ? 'greenBlock' : 'whiteBlock'"
-        (click)="onSelectBlock('ACTIVE')" *ngxPermissionsOnly="['ACTIVE CONTRACTS_READ']">
-        <img
-          [src]="selectedValue === 'ACTIVE' ? '/assets/images/searchContact_white.png' : '/assets/images/searchContract_icon.png'"
-          alt="searchContrac">
-        <h3 class="fontSizeDashboard">Active Contracts <span
-            [ngClass]="selectedValue === 'ACTIVE' ? 'whiteTextColor' : 'redTextColor'">({{dashboardTotalCount.totalCount}})</span>
-        </h3>
-
-        <div>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'ACTIVE' ? 'white' : 'green'">turned_in_not</mat-icon>
-          <mat-icon class="iconSize heart_icon" [ngClass]="selectedValue === 'ACTIVE' ? 'white' : 'red'">favorite
-          </mat-icon>
-        </div>
-      </div>
-      <div class="pull-right" *ngxPermissionsOnly="['VIEW CONTRACT_READ']" [ngClass]="selectedValue === 'INACTIVE' ? 'greenBlock' : 'whiteBlock'"
-        (click)="onSelectBlock('INACTIVE')">
-        <img
-          [src]="selectedValue === 'INACTIVE' ?  '/assets/images/terminated_contract_white.png' :'/assets/images/terminated_contract.png'"
-          width="35px" style="margin-bottom: -1.5rem;" alt="terminated_contract">
-
-        <h3 class="fontSizeDashboard text-center">Terminated<span
-            [ngClass]="selectedValue === 'INACTIVE' ? 'whiteTextColor' : 'redTextColor'">({{dashboardTotalCount.inactiveCount}})</span></h3>
-        <div>
-          <mat-icon class="iconSize" [ngClass]="selectedValue === 'INACTIVE' ? 'white' : 'green'">turned_in_not
-          </mat-icon>
-          <mat-icon class="iconSize heart_icon" [ngClass]="selectedValue === 'INACTIVE' ? 'white' : 'red'">favorite
-          </mat-icon>
-        </div>
-      </div>
-    </div> -->
-
-
-    <div class="col-md-2" cdkDropList
+    <div class="col-md-2 dragDrp_zindx" cdkDropList
       [ngClass]="draggedObjects?.length == 0 ? 'border' : 'drag_drop_box_without_border'" #bookmarked="cdkDropList"
       [cdkDropListData]="draggedObjects" [cdkDropListConnectedTo]="[simple]" (cdkDropListDropped)="drop($event)">
       <p *ngIf="draggedObjects.length == 0">Drop Here...</p>
@@ -372,52 +303,11 @@
     </div>
 
   </div>
-
-
 </section>
 
 
 <section>
   <div class="container containerWidth" style="margin-top: 2rem;margin-bottom: 50px;">
-
-    <!-- <div class="row">
-      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 cardAroundSpace">
-        <mat-card class="example-card matCardBottom" routerLink="/asso_booking-contract/create-associate-contract" skipLocationChange>
-          <mat-card-content>
-            <mat-icon style="padding-top:2px;color:black">turned_in_not</mat-icon>
-            <mat-icon class="heartIcon1 ">favorite</mat-icon>
-            <h3 style="color: #27AE60;font-size: 2rem !important;margin-top: 0;font-weight: 600;">Associate <br>Master
-              <img alt="img"src="../assets/images/associatemaster.png" class="cardImageIcon" width="35px"
-                alt="associatemaster" />
-            </h3>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 cardAroundSpace" *ngxPermissionsOnly="['CREATE CONTRACT_CREATE']">
-        <mat-card class="example-card matCardBottom" (click)="newContract()">
-          <mat-card-content>
-            <mat-icon style="padding-top:2px;color:black">turned_in_not</mat-icon>
-            <mat-icon class="heartIcon1 ">favorite</mat-icon>
-            <h3 style="color: #27AE60;font-size: 2rem !important;margin-top: 0;font-weight: 600;">New MSA
-              <img src="../assets/images/library_books-24px.png" class="cardImageIcon" width="35px"
-                alt="associatemaster" />
-            </h3>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 cardAroundSpace" *ngxPermissionsOnly="['REPORTS_READ']">
-        <mat-card class="example-card matCardBottom" (click)="onSelectBlock(value)">
-          <mat-card-content>
-            <mat-icon style="padding-top:2px;color:black">turned_in_not</mat-icon>
-            <mat-icon class="heartIcon1 ">favorite</mat-icon>
-            <h3 style="color: #27AE60;font-size: 2rem !important;margin-top: 0;font-weight: 600;">Report
-              <img alt="img"src="../assets/images/terminal.png" class="cardImageIcon" width="35px" alt="terminal" />
-            </h3>
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-    </div> -->
 
     <div class="row" cdkDropList [ngClass]="cardDetails?.length == 0 ? 'favourite_block' : '' " #simple="cdkDropList"
       [cdkDropListData]="cardDetails" [cdkDropListConnectedTo]="[bookmarked]" (cdkDropListDropped)="drop($event)">

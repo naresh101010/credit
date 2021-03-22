@@ -62,6 +62,7 @@ export class BookingDocumentComponent implements OnInit {
     this.authorizationService.setPermissions('CONTRACT');
     this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
     this.permissionsService.loadPermissions(this.perList);
+    console.log('perlist',this.perList)
 
     this.associateId = AppSetting.associateId;
     this.contractId = AppSetting.contractId;
@@ -102,6 +103,7 @@ export class BookingDocumentComponent implements OnInit {
   fileBrowseflag: boolean = false;
 
   requestToUpload() {
+    console.log(this.associateId)
     this.spinner.show();
     this.apiSer.post("secure/v1/associates/docUpload/email", AppSetting.associateId)
       .subscribe(
@@ -181,6 +183,7 @@ export class BookingDocumentComponent implements OnInit {
           this.toaster.success("Saved Successfully");
 
           //Refesh Page data
+          // this = {};
           this.docTypeId = '';
           this.subTypeId = '';
           this.docExpiryDate = '';
@@ -230,6 +233,7 @@ export class BookingDocumentComponent implements OnInit {
         this.subTypeNameList = this.docData.data.referenceData.docSubTypeList;
         this.pendingDocsUplod = this.docData.data.referenceData.pendingDocumentList;   
         this.pengingListDataSource = new MatTableDataSource(this.pendingDocsUplod);
+       
 
         /**
          * To get the docType name and SubDocType name from ref list 
@@ -258,12 +262,12 @@ export class BookingDocumentComponent implements OnInit {
           docObj.signedUrl = obj.signedUrl;
           for (let docTypeObj of this.docTypeList) {
             if (obj.lkpDocTypeId == docTypeObj.id) {
-              docObj.docType = docTypeObj.lookupVal;
+              docObj.docType = docTypeObj.descr;
             }
           }
           for (let subTypeObj of this.subTypeNameList) {
             if (obj.lkpDocSubtypeId == subTypeObj.id) {
-              docObj.docSubtype = subTypeObj.lookupVal;
+              docObj.docSubtype = subTypeObj.descr;
             }
           }
           this.docList.push(docObj)
@@ -282,7 +286,6 @@ export class BookingDocumentComponent implements OnInit {
   // To get the list of sub documents type on change of document type dropdown
   subTypeList //for subDocumentType dropdown
   subDocTypeData() {
-    
     if (this.docTypeId == 'undefined' || this.docTypeId == null || this.docTypeId == '') {
       //do not hit the service and set the subtype list as empty
       this.subTypeList = [];
@@ -393,6 +396,7 @@ export class BookingDocumentComponent implements OnInit {
     if (fileName && fileName.length < 51) {
       var blnValid = false;
       var ext = fileName.substr(fileName.lastIndexOf("."), fileName.length);
+      console.log(ext, "file extension");
       for (var j = 0; j < this.validFileExtensions.length; j++) {
         var valExtension = this.validFileExtensions[j];
         if (ext.toLowerCase() == valExtension.toLowerCase()) {
@@ -461,12 +465,12 @@ export class BookingDocumentComponent implements OnInit {
   /*------------- Open Preview Page ----------- */
   openPreviewPage() {
     this.spinner.show();
-    this.apiSer.get('secure/v1/bookingcontract/validContract/' + AppSetting.contractId).subscribe(response => {
+    this.apiSer.get('secure/v1/deliverycontract/validContract/' + AppSetting.contractId).subscribe(response => {
      // this.spinner.hide();
       if (this.editflow) {
-        this.router.navigate(['/asso_booking-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
+        this.router.navigate(['/asso_delivery-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
       } else {
-        this.router.navigate(['/asso_booking-contract/preview'], {skipLocationChange: true});
+        this.router.navigate(['/asso_delivery-contract/preview'], {skipLocationChange: true});
       }
     }, error => {
       this.toaster.error(error.error.errors.error[0].description);
@@ -475,11 +479,7 @@ export class BookingDocumentComponent implements OnInit {
   }
 
   nextReadMode() {
-    if (this.editflow) {
-      this.router.navigate(['/asso_booking-contract/preview', {steper:true, editflow : this.editflow}], {skipLocationChange: true});
-    } else {
-      this.router.navigate(['/asso_booking-contract/preview'], {skipLocationChange: true});
-    }
+    this.router.navigate(['/asso_delivery-contract/asso_delivery'], {skipLocationChange: true});
   }
 
   expDate(element) {
@@ -490,6 +490,7 @@ export class BookingDocumentComponent implements OnInit {
   }
 
   deleteBookingDocument(element) {
+    console.log('element', element);
     const dialog = this.dialog.open(confimationdialog, {
       data: { message: "Are you sure want to delete?" },
       disableClose: true,
@@ -501,7 +502,7 @@ export class BookingDocumentComponent implements OnInit {
       if(response) {
         let documentID = element.docId;
         this.spinner.show();
-        this.apiSer.post('/secure/v1/document/delete/contract/'+documentID).subscribe(res => {
+        this.apiSer.post('/secure/v1/document/delete/contract/' + documentID).subscribe(res => {
           this.dataSource.data = this.dataSource.data.filter(function( obj ) {
             return obj.docId !== element.docId;
           });

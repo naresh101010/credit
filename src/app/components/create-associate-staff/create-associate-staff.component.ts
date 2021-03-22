@@ -5,11 +5,11 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AppSetting } from 'src/app/app.setting';
 import { Router, ActivatedRoute } from '@angular/router';
+import { HttpHeaders } from '@angular/common/http';
+import { elementEventFullName } from '@angular/compiler/src/view_compiler/view_compiler';
 import { ToastrService } from 'ngx-toastr';
 import { Validation } from 'src/app/core/directives/validation';
 import { DatePipe } from '@angular/common';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-create-associate-staff',
@@ -27,10 +27,7 @@ export class CreateAssociateStaffComponent implements OnInit {
   effMinDate : Date;
 
   constructor( private tosterservice : ToastrService,private activatedRoute: ActivatedRoute, public router: Router, public dialog: MatDialog, private spinner: NgxSpinnerService, private apiService: ApiService,
-                private datePipe : DatePipe,
-                private authorizationService : AuthorizationService,
-                private permissionsService: NgxPermissionsService) { }
-  perList: any = [];
+                private datePipe : DatePipe) { }
 
   status = [
     { value: 1, viewValue: 'ACTIVE' },
@@ -48,10 +45,6 @@ export class CreateAssociateStaffComponent implements OnInit {
     e.setDate(e.getDate());
     this.minDate = e;
    
-    this.authorizationService.setPermissions('ASSOCIATE');
-    this.perList = this.authorizationService.getPermissions('ASSOCIATE') == null ? [] : this.authorizationService.getPermissions('ASSOCIATE');
-    this.permissionsService.loadPermissions(this.perList);
-
     this.associateData = AppSetting.associateData;
     this.GetreferenceList();
     this.activatedRoute.queryParams.subscribe(params => {
@@ -71,6 +64,7 @@ export class CreateAssociateStaffComponent implements OnInit {
   }
 
   CreateAssociateStaff() {
+    console.log('this.AssociateStaffData', this.AssociateStaffData);
     this.spinner.show();
     this.AssociateStaffData.assocId = AppSetting.associateId;
     this.AssociateStaffData.panNum = this.AssociateStaffData.panNum ? this.AssociateStaffData.panNum : null;
@@ -79,7 +73,7 @@ export class CreateAssociateStaffComponent implements OnInit {
     this.AssociateStaffData.expDt = this.datePipe.transform(this.AssociateStaffData.expDt, 'yyyy-MM-dd');
     this.apiService.post(`secure/v1/associates/staff`, this.AssociateStaffData).subscribe((suc) => {
       this.spinner.hide();
-      this.router.navigate(['/asso_booking-contract/associate-staff'], {skipLocationChange: true});
+      this.router.navigate(['/asso_delivery-contract/associate-staff'], {skipLocationChange: true});
       this.dataSource = suc.data.responseData;
     }, (error) => {
       this.spinner.hide();
@@ -125,9 +119,8 @@ export class CreateAssociateStaffComponent implements OnInit {
     this.AssociateStaffData.expDt = this.datePipe.transform(this.AssociateStaffData.expDt, 'yyyy-MM-dd');
     this.apiService.post(`secure/v1/associates/staff`, this.AssociateStaffData).subscribe((suc) => {
       this.spinner.hide();
-      this.router.navigate(['/asso_booking-contract/associate-staff'], {skipLocationChange: true});
+      this.router.navigate(['/asso_delivery-contract/associate-staff'], {skipLocationChange: true});
       this.dataSource = suc.data.responseData;
-      console.log("this.dataSource",this.dataSource)
     }, (error) => {
       this.spinner.hide();
       this.tosterservice.error(error.error.errors.error[0].description);
@@ -135,7 +128,7 @@ export class CreateAssociateStaffComponent implements OnInit {
   }
 
   nextReadMode() {
-    this.router.navigate(['/asso_booking-contract/associate-staff'], {skipLocationChange: true});
+    this.router.navigate(['/asso_delivery-contract/associate-staff'], {skipLocationChange: true});
   }
 
   designationvalue;
@@ -267,7 +260,7 @@ export class CreateAssociateStaffComponent implements OnInit {
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_booking-contract/associate-staff'], { skipLocationChange: true });
+    this.router.navigate(['/asso_delivery-contract/associate-staff'], { skipLocationChange: true });
   }
 
 

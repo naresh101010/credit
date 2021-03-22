@@ -115,7 +115,7 @@ export class CreateAssociateComponent implements OnInit {
             {value: 0, text : 'INACTIVE'}
           ]
           this.setAssociateFormValue();
-          this.effMinDate = this.associateData.effectiveDt ? this.associateData.effectiveDt : new Date();    
+          this.effMinDate = this.associateData.effectiveDt ? this.associateData.effectiveDt : new Date();      
           this.spinner.hide();
         }, (err) => {
           this.spinner.hide();
@@ -169,7 +169,7 @@ export class CreateAssociateComponent implements OnInit {
       bankAddr: ['', Validators.required],
       bankName: ['', Validators.required],
       chqFavour: ['', Validators.required],
-      companyName: ['' , Validators.required],
+      companyName: ['', Validators.required],
       contactFname: ['', Validators.required],
       contactLname: ['', Validators.required],
       contactMname: [''],
@@ -390,7 +390,6 @@ export class CreateAssociateComponent implements OnInit {
     }
   }
 
-
   saveAssociateContract() {
 
     console.log('form',this.createAssociateFormGroup)
@@ -452,7 +451,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_booking-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_delivery-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -495,7 +494,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_booking-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_delivery-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -506,7 +505,7 @@ export class CreateAssociateComponent implements OnInit {
 
   //------------------------Pincode----------------------
   nextReadMode() {
-    this.router.navigate(['/asso_booking-contract/associate-kyc'], {skipLocationChange: true});
+    this.router.navigate(['/asso_delivery-contract/associate-kyc'], {skipLocationChange: true});
   }
 
   resPincodeSearch(str) {
@@ -659,7 +658,7 @@ export class CreateAssociateComponent implements OnInit {
       let b = this.datePipe.transform(this.f.effectiveDt.value, 'yyyy-MM-dd')
       let c = this.datePipe.transform(this.f.expDt.value, 'yyyy-MM-dd')
       if (b && c !== null) {
-        if (b < c && c > a) {
+        if (b <= c && c > a) {
           this.isValidExpDt = false;
           this.isValidEffectiveDt = false;
         }
@@ -753,5 +752,6 @@ export class CreateAssociateComponent implements OnInit {
       }
     });
   }
+
 }
 

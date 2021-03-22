@@ -1,0 +1,647 @@
+<form name="generalTermPayment" (ngSubmit)="generalTermPayment.form.valid" #generalTermPayment="ngForm" novalidate *ngIf="paymentCommercialData">
+<div class="padding_10">
+    <div class="row form-group">
+      <div class="col-md-3" style="width: max-content;">
+        <mat-label><strong>Ex-Gratia Applicable</strong> <span class="redMark"> *</span></mat-label>
+      </div>
+      <div class="col-md-10">
+        <div class="module_area">
+          <mat-radio-group  name="exgratiaFlag" #exgratiaFlag="ngModel" [(ngModel)]="paymentCommercialData.exgratiaFlag"
+          (ngModelChange)="changeInEditFlow(paymentCommercialData)" required>
+            <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+            </mat-radio-button>
+            <mat-radio-button [value]="0">No</mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="(exgratiaFlag.errors?.required && exgratiaFlag.touched)" class="errorMsg">
+            Required !
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group" *ngIf="paymentCommercialData.exgratiaFlag == 1">
+        <div class="col-md-3" style="width: max-content;">
+          <mat-label><strong>Ex-Gratia Type</strong> <span class="redMark"> *</span></mat-label>
+        </div>
+        <div class="col-md-2">
+            <div class="module_area">
+                <mat-form-field class="select_box_dropwodn overline_hidden">
+                  <mat-select disableOptionCentering panelClass="creditSelect" name="gratiaType" #exgratiaType="ngModel" required
+                   [(ngModel)]="paymentCommercialData.exgratiaType" (ngModelChange)="changeInEditFlow(paymentCommercialData)" (selectionChange)="onChangeGratiaType()">
+                    <mat-option *ngFor="let type of exGratiaType" [value]="type.name" >
+                      {{type.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div *ngIf="(exgratiaType.errors?.required && exgratiaType.touched)" class="errorMsg">
+                  Required !
+                </div>
+              </div>
+        </div>
+      </div>
+    </div>
+      <!--  IF EX-Gratia type is FIXED     -->
+  <div class="padding_10" *ngIf="paymentCommercialData.exgratiaType === 'FIXED' && paymentCommercialData.exgratiaFlag == 1">
+    <div class="row mt_10">
+      <div class="col-md-10">
+        <div class=" create_new_tale_mdm2">
+
+          <table aria-describedby="gratiaTable" mat-table [dataSource]="dataSourceExBranch" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="ExBranch">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>BRANCH</strong></th>
+              <td mat-cell *matCellDef="let element">
+                <div class="row_center row_center_width" matTooltipPosition="above">{{element?.branchName}}</div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ExAmount">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>EX-GRATIA AMOUNT <span class="redMark"> *</span> </strong></th>
+              <td mat-cell *matCellDef="let element; let i = index;">
+                <div class="row_center row_center_width">
+                  <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                    <input matInput name="exAmount_{{i}}" #exAmount="ngModel" [(ngModel)] ="element.amt" 
+                    (ngModelChange)="changeInEditFlow(element)" class="form-control" placeholder="" required maxlength="11" OnlyNumber="true" numeric>
+                  </mat-form-field>
+                  <div *ngIf="(exAmount.errors?.required && exAmount.touched)" class="errorMsg">
+                   <em>Required !</em>
+                  </div>
+                  <div *ngIf="(exAmount.errors?.isNumeric && !(exAmount.errors?.required && exAmount.touched))"
+                  class="errorMsg">
+                <em> Invalid !</em>
+                </div> 
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ExReaspm">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>REASON</strong></th>
+              <td mat-cell *matCellDef="let element; let i = index;">
+                <div class="row_center row_center_width">
+                  <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                    <input matInput  name="exReason_{{i}}" #exReason="ngModel" [(ngModel)] ="element.rsn" maxlength="50"
+                    (ngModelChange)="changeInEditFlow(element)" class="form-control" placeholder="">
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ExSdate">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>START DATE<span class="redMark"> *</span></strong></th>
+              <td mat-cell *matCellDef="let element ; let i = index">
+                <div class="row_center row_center_width" matTooltipPosition="above">
+                  <div class="module_area mt_6">
+                    <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                      <mat-datepicker #msa114StartDate2 class="myDatepicker23">
+                      </mat-datepicker>
+                      <input matInput autocomplete="off" [matDatepicker]="msa114StartDate2" class="date_input_height" 
+                        name="exEffectiveDt_{{i}}"  #effectiveDt="ngModel" [(ngModel)] ="element.effectiveDt"  (ngModelChange)="changeInEditFlow(element)"
+                        placeholder="DD/MM/YYYY"class="form-control" (blur)="dateFormatEffective(element)" (dateChange)="dateFormatEffective(element)"
+                         required numericSpecialChar/>
+                      <mat-datepicker-toggle matPrefix [for]="msa114StartDate2">
+                      </mat-datepicker-toggle>
+                    </mat-form-field>
+                    <div *ngIf="element.isValidEffectiveDt && !(effectiveDt.errors?.required)" class="errorMsg">
+                     <em> Invalid Start Date! </em>
+                    </div>
+                    <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
+                      <em>Required !</em>
+                   </div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ExEdate">
+              <th scope="col" mat-header-cell *matHeaderCellDef > <strong>END DATE</strong></th>
+              <td mat-cell *matCellDef="let element ; let i = index">
+                <div class="row_center row_center_width" matTooltipPosition="above">
+                  <div class="module_area mt_6">
+                    <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                      <mat-datepicker #msa114EndDate2 class="myDatepicker23">
+                      </mat-datepicker>
+                      <input matInput autocomplete="off" [matDatepicker]="msa114EndDate2" class="date_input_height" 
+                        name="exExpiryDate_{{i}}" [min]="element.effectiveDt"  #expDt="ngModel" [(ngModel)] ="element.expDt" 
+                        (blur)="dateFormatExpiry(element)" (dateChange)="dateFormatExpiry(element)" placeholder="DD/MM/YYYY" class="form-control" numericSpecialChar/>
+                      <mat-datepicker-toggle matPrefix [for]="msa114EndDate2" (ngModelChange)="changeInEditFlow(element)">
+                      </mat-datepicker-toggle>
+                    </mat-form-field>
+                    <div *ngIf="element.isValidExpDt && !(expDt.errors?.required)" class="errorMsg">
+                     <em>Invalid End Date!</em>
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+   <!--  IF EX-Gratia type is CLAUSE     -->
+   <div class="padding_10" *ngIf="paymentCommercialData.exgratiaType === 'CLAUSE' && paymentCommercialData.exgratiaFlag == 1">
+   <div class="padding_10" *ngFor="let slabData of exGratiaArray; let i=index;">
+     <div class="form-group">
+      <mat-label><strong>For {{slabData?.branchName}}</strong></mat-label>
+     </div>
+    <div class="row form-group">
+      <div class="col-md-3" style="width: max-content;">
+        <mat-label><strong>Start Date</strong> <span class="redMark">*</span></mat-label>
+      </div>
+      <div class="col-md-2">
+        <div class="module_area">
+          <mat-form-field appearance="outline" class="date_picker_adjust">
+            <mat-datepicker #msa10Date2 class="myDatepicker23">
+            </mat-datepicker>
+            <input matInput autocomplete="off" [matDatepicker]="msa10Date2" class="date_input_height" 
+              name="startDate_{{i}}" placeholder="DD/MM/YYYY" required (blur)="dateFormatEffective(slabData)" (ngModelChange)="changeInEditFlow(slabData)"
+              (dateChange)="dateFormatEffective(slabData)" #effDt="ngModel"  [(ngModel)]="slabData.effectiveDt" numericSpecialChar/>
+            <mat-datepicker-toggle matPrefix [for]="msa10Date2">
+            </mat-datepicker-toggle>
+          </mat-form-field>
+          <div *ngIf="slabData.isValidEffectiveDt && !(effDt.errors?.required)" class="errorMsg">
+            <em> Invalid Start Date! </em>
+           </div>
+           <div *ngIf="(effDt.errors?.required && effDt.touched)" class="errorMsg">
+             <em>Required !</em>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-offset-1 col-md-3" style="width: max-content;">
+        <mat-label><strong>End Date</strong></mat-label>
+      </div>
+      <div class="col-md-2">
+        <div class="module_area">
+          <mat-form-field appearance="outline" class="date_picker_adjust">
+            <mat-datepicker #endDate class="myDatepicker23">
+            </mat-datepicker>
+            <input matInput autocomplete="off" [matDatepicker]="endDate" class="date_input_height" [min]="slabData.effectiveDt" #expDate="ngModel"
+              name="endDate_{{i}}" (blur)="dateFormatExpiry(slabData)" (ngModelChange)="changeInEditFlow(slabData)" (dateChange)="dateFormatExpiry(slabData)" placeholder="DD/MM/YYYY" [(ngModel)]="slabData.expDt"
+              numericSpecialChar/>
+            <mat-datepicker-toggle matPrefix [for]="endDate">
+            </mat-datepicker-toggle>
+          </mat-form-field>
+          <div *ngIf="slabData.isValidExpDt && !(expDate.errors?.required)" class="errorMsg">
+            <em>Invalid End Date!</em>
+           </div>
+        </div>
+      </div>
+    </div>  
+    <!-- <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive">
+        <table class="table"> 
+         <thead>
+          <tr>
+            <th colspan="2" scope="col" class="font1_6">SLAB DEFINITION (IN KG)</th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+          <tr>
+            <th scope="col" class="font1_6">FROM<span class="redMark"> *</span></th>
+            <th scope="col"></th>
+            <th scope="col" class="font1_6">TO<span class="redMark"> *</span></th>
+            <th scope="col" class="font1_6">EX-GRATIA AMOUNT<span class="redMark"> *</span></th>
+            <th scope="col" class="font1_6">REASON</th>
+            <th scope="col" class="font1_6">
+              <div class="m_add_new_contract" (click)="addNewGratiaSlab(i)">
+                <mat-icon class="add_icon">add</mat-icon>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let slab of slabData?.deliveryExGratiaSlabList; let j = index">
+            <td>
+              <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                <input matInput name="fromAmt{{i}}_{{j}}" #fromAmt="ngModel" [(ngModel)]="slab.wtSlabFrom" 
+                (ngModelChange)="changeInEditFlow(slab)" class="form-control" required pattern="^[1-9][0-9]*$" [numbersOnly] = true maxlength="8">
+              </mat-form-field>
+              <div *ngIf="(fromAmt.errors?.required && fromAmt.touched)" class="errorMsg">
+                <em>Required !</em>
+             </div>
+            </td>
+            <td class="font1_6"><strong>TO</strong></td>
+            <td>
+              <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                <input matInput name="toAmt{{i}}_{{j}}" #toAmt="ngModel" [(ngModel)]="slab.wtSlabTo"
+                (ngModelChange)="changeInEditFlow(slab)" class="form-control" required pattern="^[1-9][0-9]*$" [numbersOnly] = true maxlength="8">
+              </mat-form-field>
+              <div *ngIf="(toAmt.errors?.required && toAmt.touched)" class="errorMsg">
+                <em>Required !</em>
+             </div>
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                <input matInput name="gratiaAmt{{i}}_{{j}}" #gratiaAmt="ngModel" [(ngModel)]="slab.price"  
+                (ngModelChange)="changeInEditFlow(slab)" class="form-control" required maxlength="11" OnlyNumber="true" numeric>
+              </mat-form-field>
+              <div *ngIf="(gratiaAmt.errors?.required && gratiaAmt.touched)" class="errorMsg">
+                <em>Required !</em>
+             </div>
+             <div *ngIf="(gratiaAmt.errors?.isNumeric && !(gratiaAmt.errors?.required && gratiaAmt.touched))"
+                  class="errorMsg">
+                    Invalid !
+                </div> 
+            </td>
+            <td>
+              <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                <input matInput name="res{{i}}_{{j}}" #res="ngModel" [(ngModel)]="slab.descr" class="form-control" 
+                (ngModelChange)="changeInEditFlow(slab)" required>
+              </mat-form-field>
+            </td>
+            <td>
+              <div class="row_center row_center_width" *ngIf="j!=0" (click)="deleteSlabRecord(i,j)">
+                <span class="material-icons" style="color: #27AE60; cursor: pointer;">delete</span></div>
+            </td>
+          </tr>
+        </tbody>
+        </table>
+      </div>
+      </div>
+    </div> -->
+    <form name="customSla_{{indexName}}"  #fCustomSla="ngForm" novalidate >
+      <div class="row">
+        <div class="col-lg-8 col-md-8">
+          <div class="col-lg-11 col-lg-11 zonalheadingbar">
+            SLAB DEFINITION (IN KG)
+          </div>
+        </div>
+      </div>
+      <div class="row" >
+        <div class="col-lg-8 col-md-8">
+          <div class="col-lg-2 col-md-2   zonalheadingbar"> FROM</div>
+          <div class="col-lg-1 col-md-1   zonalheadingbar"></div>
+          <div class="col-lg-2 col-md-2   zonalheadingbar">TO</div>
+          <div class="col-lg-3 col-md-3   zonalheadingbar">EX-GRATIA AMOUNT<span class="redMark">*</span></div>
+          <div class="col-lg-3 col-md-3   zonalheadingbar">REASON</div>
+          <div class="col-lg-1 col-md-1   "> 
+            <button mat-button [(disabled)]="validCust(fCustomSla.form, slabData.deliveryExGratiaSlabList) || !fCustomSla.form.valid"  id="plusicon2" mat-card-avatar aria-label="Example icon" class="mat_icon_moz " (click)="addNewGratiaSlab(i)">
+            <mat-icon  >add_circle</mat-icon>
+          </button></div>
+        </div>
+      </div>
+      <div class="row" >
+          <div class="col-lg-8 col-md-8 " *ngFor="let slab of slabData?.deliveryExGratiaSlabList ; let j = index">
+            <div class="col-lg-2 col-md-2  label-text">
+              <mat-form-field appearance="outline">
+                <input matInput name="fromAmt{{i}}_{{j}}" #wtSlabFrom="ngModel" disabled="true"  [numbersOnly] = true  maxlength="8" (ngModelChange)="changeInEditFlow(slab)"
+                  [(ngModel)]="slab.wtSlabFrom" class="form-control" placeholder="" required>
+              </mat-form-field>
+              <div *ngIf="(wtSlabFrom.errors?.required && wtSlabFrom.touched)" class="errorMsg">
+              <em> Required !</em>
+              </div>
+            </div>
+            <div class="col-lg-1 col-md-1  label-text font1_6 toStyle">
+              <span>To</span>
+            </div>
+            <div class="col-lg-2 col-md-2  label-text">
+              <mat-form-field appearance="outline">
+                <input matInput name="toAmt{{i}}_{{j}}" fromTo #wtSlabTo="ngModel" (blur)="validCust(fCustomSla.form, slabData.deliveryExGratiaSlabList)" pattern="^[1-9][0-9]*$" [numbersOnly] = true maxlength="8"  (ngModelChange)="changeInEditFlow(slab)"
+                  [(ngModel)]="slab.wtSlabTo" (keyup)="changeValue(j, 'wtSlabTo', $event.target.value, slabData.deliveryExGratiaSlabList)" [from]="slab.wtSlabFrom" class="form-control" placeholder="" required>
+              </mat-form-field>
+              <div *ngIf="(wtSlabTo.errors?.required && wtSlabTo.touched)" class="errorMsg">
+              <em> Required !</em>
+              </div>
+              <ng-container *ngIf="!wtSlabTo.errors?.required">
+                <div *ngIf="(wtSlabTo.errors?.greaterFrom  || slab.flag || wtSlabTo.errors?.pattern )" class="errorMsg">
+                <em>  Invalid !</em>
+                </div>
+              </ng-container>
+
+            </div>  
+            <div class="col-lg-3 col-md-3 label-text">
+              <mat-form-field appearance="outline">
+                <input matInput name="gratiaAmt{{i}}_{{j}}" #gratiaAmt="ngModel" maxlength="11" OnlyNumber="true" numeric  (ngModelChange)="changeInEditFlow(slab)"
+                  [(ngModel)]="slab.price" class="form-control" placeholder="" required>
+              </mat-form-field>
+              <div *ngIf="(gratiaAmt.errors?.required && gratiaAmt.touched)" class="errorMsg">
+              <em>Required !</em>
+              </div>
+              <div *ngIf="(gratiaAmt.errors?.isNumeric && !(gratiaAmt.errors?.required && gratiaAmt.touched))"
+              class="errorMsg">
+            <em> Invalid !</em>
+            </div> 
+            </div>
+            <div class="col-lg-3 col-md-3 label-text">
+              <mat-form-field appearance="outline">
+                <input matInput name="res{{i}}_{{j}}" #price="ngModel" (ngModelChange)="changeInEditFlow(slab)"
+                  [(ngModel)]="slab.descr" class="form-control" placeholder="" maxlength="50">
+              </mat-form-field>
+              <!-- <div *ngIf="(price.errors?.required && price.touched)" class="errorMsg">
+                Required !
+              </div>
+              <div *ngIf="(price.errors?.isNumeric && !(price.errors?.required && price.touched))"
+              class="errorMsg">
+                Invalid !
+            </div>  -->
+            </div>
+            <div class="col-lg-1 col-md-1  label-text">
+              <!-- (click)="removeCustomSLA(i)" *ngIf="field.isNewSla" -->
+              <!-- ((i == (paymentCommercialData.deliveryWtSlabChargeList.length - 1) ) && -->
+              <button mat-icon-button  (click)="deleteSlabRecord(i,j)" *ngIf=" ((j == (slabData?.deliveryExGratiaSlabList.length - 1) ) && j > 0)"    id="plusicon2" mat-card-avatar aria-label="delete icon" class="mat_icon_moz">
+                <mat-icon class="slaAddIcon" style=" position: relative;
+                top: 1rem;">delete</mat-icon>
+              </button>
+              </div>
+          </div>           
+      </div>
+    </form>
+   </div>
+  </div> 
+  <hr>
+  <div class="padding_10">
+    <div class="row form-group">
+      <div class="col-md-3" style="width: max-content;">
+        <mat-label><strong>Minimum Guarantee Applicable</strong><span class="redMark"> *</span></mat-label>
+      </div>
+      <div class="col-md-9">
+        <div class="module_area">
+          <mat-radio-group  name="minGuaranteeFlag" #minGuaranteeFlag="ngModel" [(ngModel)]="paymentCommercialData.mgFlag"
+          (ngModelChange)="changeInEditFlow(paymentCommercialData)" required>
+            <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+            </mat-radio-button>
+            <mat-radio-button [value]="0">No</mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="(minGuaranteeFlag.errors?.required && minGuaranteeFlag.touched)" class="errorMsg">
+            Required !
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt_10" *ngIf="paymentCommercialData.mgFlag == 1">
+      <div class="col-md-12">
+        <div class="table-responsive create_new_tale_mdm2">
+
+          <table aria-describedby="mgTable" mat-table [dataSource]="dataSourceMgBranch" class="mat-elevation-z8">
+
+            <!-- Position Column -->
+            <ng-container matColumnDef="MgBranch">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>BRANCH</strong></th>
+              <td mat-cell *matCellDef="let element">
+                <div class="row_center row_center_width" style="width: 20rem !important;"
+                (ngModelChange)="changeInEditFlow(element)" matTooltipPosition="above">{{element.branchName}}</div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="MgAmount">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>MG AMOUNT </strong> <span class="redMark"> *</span></th>
+              <td mat-cell *matCellDef="let element; let i = index ">
+                <div class="row_center row_center_width" style="width: 20rem !important;" matTooltipPosition="above">
+                  <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                    <input matInput name="mgAmount_{{i}}" (ngModelChange)="changeInEditFlow(element)" #exAmount="ngModel" [(ngModel)] ="element.amt" class="form-control" placeholder="" required maxlength="11" OnlyNumber="true" numeric>
+                  </mat-form-field>
+                  <div *ngIf="(exAmount.errors?.required && exAmount.touched)" class="errorMsg">
+                    Required !
+                  </div>
+                  <div *ngIf="(exAmount.errors?.isNumeric && !(exAmount.errors?.required && exAmount.touched))"
+                  class="errorMsg">
+                    Invalid !
+                </div> 
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="MgReaspm">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>REASON</strong></th>
+              <td mat-cell *matCellDef="let element ; let i = index">
+                <div class="row_center row_center_width" style="width: 20rem !important;" matTooltipPosition="above">
+                  <mat-form-field appearance="outline" class="input_table_width table_input_width">
+                    <input matInput  name="mgReason_{{i}}" (ngModelChange)="changeInEditFlow(element)" #exReason="ngModel" maxlength="50" [(ngModel)] ="element.rsn" class="form-control" placeholder="">
+                  </mat-form-field>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="MgSdate">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>START DATE</strong><span class="redMark"> *</span></th>
+              <td mat-cell *matCellDef="let element ; let i = index">
+                <div class="row_center row_center_width" matTooltipPosition="above">
+                  <div class="module_area mt_6">
+                    <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                      <mat-datepicker #msa114StartDate3 class="myDatepicker23">
+                      </mat-datepicker>
+                      <input matInput autocomplete="off" [matDatepicker]="msa114StartDate3" class="date_input_height" placeholder=""
+                          name="mgEffectiveDt_{{i}}" required  (blur)="dateFormatEffective(element)" (ngModelChange)="changeInEditFlow(element)"
+                          (dateChange)="dateFormatEffective(element)" #effectiveDt="ngModel" [(ngModel)] ="element.effectiveDt"  
+                        placeholder="DD/MM/YYYY" class="form-control" required numericSpecialChar/>
+                      <mat-datepicker-toggle matPrefix [for]="msa114StartDate3">
+                      </mat-datepicker-toggle>
+                    </mat-form-field>
+                    <div *ngIf="element.isValidEffectiveDt && !(effectiveDt.errors?.required)" class="errorMsg">
+                      Invalid Start Date!
+                    </div>
+                    <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
+                     Required !
+                   </div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="MgEdate">
+              <th scope="col" mat-header-cell *matHeaderCellDef> <strong>END DATE </strong></th>
+              <td mat-cell *matCellDef="let element ; let i = index">
+                <div class="row_center row_center_width">
+                  <div class="module_area mt_6">
+                    <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                      <mat-datepicker #msa114EndDate4 class="myDatepicker23">
+                      </mat-datepicker>
+                      <input matInput autocomplete="off" [matDatepicker]="msa114EndDate4" class="date_input_height" name="mgExpiryDate_{{i}}" #expDt="ngModel" [(ngModel)] ="element.expDt"  
+                        placeholder="DD/MM/YYYY" [min]="element.effectiveDt" (blur)="dateFormatExpiry(element)"
+                        (ngModelChange)="changeInEditFlow(element)" (dateChange)="dateFormatExpiry(element)" class="form-control" numericSpecialChar/>
+                      <mat-datepicker-toggle matPrefix [for]="msa114EndDate4">
+                      </mat-datepicker-toggle>
+                    </mat-form-field>
+                    <div *ngIf="element.isValidExpDt && !(expDt.errors?.required)" class="errorMsg">
+                      Invalid End Date!
+                    </div>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="mgCycle">
+                <th scope="col" mat-header-cell *matHeaderCellDef > <strong>MG CYCLE</strong> <span class="redMark"> *</span></th>
+                <td mat-cell *matCellDef="let element ; let i = index">
+                  <div class="row_center row_center_width" style="width: 20rem !important;"> 
+                    <div class="module_area mt_6">
+                        <mat-form-field class="select_box_dropwodn overline_hidden">
+                          <mat-label>Select</mat-label>
+                          <mat-select disableOptionCentering panelClass="creditSelect" name="mgCycle_{{i}}" #mgCycle="ngModel" 
+                            [(ngModel)]="element.amtCycle"  (ngModelChange)="changeInEditFlow(element)" required>
+                            <mat-option *ngFor="let cycle of mgCycles" [value]="cycle.name">
+                              {{cycle.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="(mgCycle.errors?.required && mgCycle.touched)" class="errorMsg">
+                          Required !
+                        </div>
+                      </div>
+                  </div>
+                </td>
+              </ng-container>
+
+               <!-- Name Column -->
+            <ng-container matColumnDef="Month">
+                <th scope="col" mat-header-cell *matHeaderCellDef>MONTH</th>
+                <td mat-cell *matCellDef="let element ; let i = index">
+                  <div class="row_center row_center_width" *ngIf="element.amtCycle == 'YEARLY'">
+                    <div class="module_area mt_6">
+                        <mat-form-field class="select_box_dropwodn overline_hidden" style="width: 20rem !important;">
+                          <mat-label>Select</mat-label>
+                          <mat-select disableOptionCentering panelClass="mat_ngx_booking" name="mpnth_{{i}}" #mnth="ngModel"  [(ngModel)]="element.mnth" 
+                          (ngModelChange)="changeInEditFlow(element)" [required]="element.amtCycle == 'YEARLY' ? true : false">
+                            <ngx-mat-select-search [(ngModel)]="searchMonth" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                          [noEntriesFoundLabel]="'Not found'" name="search">
+                          <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+                        </ngx-mat-select-search>
+                            <mat-option *ngFor="let month of (monthData | stringFilterBooking:searchMonth:'name')" 
+                            [value]="month.name">
+                              {{month.name}}
+                            </mat-option>
+                          </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="(mnth.errors?.required && mnth.touched)" class="errorMsg">
+                          Required !
+                        </div>
+                      </div>
+                  </div>
+                </td>
+              </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+  <div class="padding_10">
+    <div class="row form-group">
+      <div class="col-md-2">
+        <mat-label><strong>Promotion Applicable</strong><span class="redMark"> *</span></mat-label>
+      </div>
+      <div class="col-md-10">
+        <div class="module_area">
+          <mat-radio-group  name="promotionApplicableFlag" #promotionApplicableFlag="ngModel"  [(ngModel)]="paymentCommercialData.promoFlag" 
+          (ngModelChange)="changeInEditFlow(paymentCommercialData)" required>
+            <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+            </mat-radio-button>
+            <mat-radio-button [value]="0">No</mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="(promotionApplicableFlag.errors?.required && promotionApplicableFlag.touched)" class="errorMsg">
+            Required !
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row form-group">
+      <div class="col-md-2">
+        <mat-label><strong>Additional Expense</strong><span class="redMark"> *</span></mat-label>
+      </div>
+      <div class="col-md-10">
+        <div class="module_area">
+          <mat-radio-group  name="addtnlExpnsFlag" #addtnlExpnsFlag="ngModel"  [(ngModel)]="paymentCommercialData.addtnlExpnsFlag" 
+          (ngModelChange)="changeInEditFlow(paymentCommercialData)" required>
+            <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+            </mat-radio-button>
+            <mat-radio-button [value]="0">No</mat-radio-button>
+          </mat-radio-group>
+          <div *ngIf="(addtnlExpnsFlag.errors?.required && addtnlExpnsFlag.touched)" class="errorMsg">
+            Required
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" *ngIf="paymentCommercialData.addtnlExpnsFlag">
+      <div class="col-md-2">
+        <mat-label><strong>Remarks</strong><span class="redMark"> *</span></mat-label>
+      </div>
+      <div class="col-md-2">
+        <mat-form-field appearance="outline">
+          <input matInput name="addtnlExpnsRemarkN" #addtnlExpnsRemark="ngModel"  maxlength="100" [(ngModel)]="paymentCommercialData.addtnlExpnsRemark" 
+          (ngModelChange)="changeInEditFlow(paymentCommercialData)" class="form-control" placeholder="" required>
+        </mat-form-field>
+        <div *ngIf="(addtnlExpnsRemark.errors?.required && addtnlExpnsRemark.touched)" class="errorMsg">
+          Required !
+        </div>
+      </div>
+    </div>
+  </div>
+  <hr>
+
+  <div class="padding_10">
+    <div class="row mt_10">
+      <h5 class="zonalheading" style="padding-top: 2rem;" >Notepad Section</h5>
+      <div class="row" *ngIf=" radioButtontncData && radioButtontncData.length !== 0">
+        <div class="col-lg-6 col-md-6">
+          <div class="col-lg-4 col-md-4   zonalheadingbar">FIELD LABEL</div>
+          <div class="col-lg-6 col-md-6   zonalheadingbar">FIELD VALUE</div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 col-md-6  ">
+          <h4 *ngIf=" !radioButtontncData || radioButtontncData.length === 0"><em>No Data Available</em> </h4>
+        </div>
+      </div>
+      <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of radioButtontncData; let i = index">
+        <div class="col-lg-6 col-md-6  ">
+          <div class="col-lg-4 col-md-4   label-text"><mat-label><strong>{{item.notepadName}}</strong></mat-label></div>
+          <div class="col-lg-6 col-md-6  module_area">
+              <mat-radio-group 
+                #notepaadname="ngModel"  name="notepaadname-{{i}}"  [(ngModel)]="item.notepadInputVal" (ngModelChange)="changeInEditFlow(item)" *ngFor="let season of item.attributeValue">
+                  <mat-radio-button  [value]="season" >
+                    {{season}} 
+                  </mat-radio-button>
+                </mat-radio-group>
+            </div>
+        </div>
+      </div>
+      <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of selectortncData; let i = index">
+        <div class="col-lg-6 col-md-6 ">
+          <div class="col-lg-4 col-md-4   label-text"><mat-label><strong>{{item.notepadName}}</strong></mat-label></div>
+          <div class="col-lg-6 col-md-6  module_area">
+            <mat-form-field class="select_box_dropwodn overline_hidden">
+              <mat-select disableOptionCentering panelClass="mat_ngx_booking"  [(ngModel)]="item.notepadInputVal" 
+              #notepadname2="ngModel" name ="notepadname2-{{i}}" (ngModelChange)="changeInEditFlow(item)">
+              <ngx-mat-select-search [(ngModel)]="searchNotePad" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                [noEntriesFoundLabel]="'Not found'" name="search">
+                <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+              </ngx-mat-select-search>
+                <mat-option *ngFor="let season of (item.attributeValue | stringFilterBooking:searchNotePad:'season') | sortBy:'asc':'season'" [value]="season" 
+                matTooltipPosition="above" [matTooltip]="season | uppercase" [matTooltipDisabled]="season?.length<24">
+                  {{season}}
+                </mat-option>
+              </mat-select>
+              </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row" style=" margin-top: 1.5rem;" *ngFor="let item of stringtncData; let i = index">
+        <div class="col-lg-6 col-md-6  ">
+          <div class="col-lg-4 col-md-4   label-text"> <mat-label><strong>{{item.notepadName}}</strong></mat-label></div>
+          <div class="col-lg-6 col-md-6 module_area ">
+            <mat-form-field appearance="outline" style="width: 100%;">
+              <input matInput  autocomplete="true" class="form-control" [(ngModel)]="item.notepadInputVal" (ngModelChange)="changeInEditFlow(item)"
+              #notepadname3="ngModel" name="notepadname3-{{i}}" maxlength="8">
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

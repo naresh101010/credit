@@ -48,9 +48,11 @@ export class DashboardComponent implements OnInit {
   @Output() flagEdit: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private spinner: NgxSpinnerService, public router: Router, public dialog: MatDialog, private apiService: ApiService, private datePipe: DatePipe, private authorizationService: AuthorizationService,
-    private permissionsService: NgxPermissionsService, private tosterservice: ToastrService) { }
+    private permissionsService: NgxPermissionsService, private tosterservice: ToastrService) {
+    this.dataSource = new MatTableDataSource([]);
+  }
 
-  displayedColumns: string[] = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version','edit'];
+  displayedColumns: string[] = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'version', 'edit'];
   dataSource: any;  //= ELEMENT_DATA;
   dashboardTotalCount: any = new Object();
   selectedValue: string = 'ACTIVE';
@@ -60,7 +62,7 @@ export class DashboardComponent implements OnInit {
   exAttrKeyList1 = [];
   exAttrKeyList2 = [];
   dataEdit: any;
-  searchBy:string  = 'Org. Name'
+  searchBy: string = 'Org. Name'
 
   //start Greeting Message
   greeting() {
@@ -92,31 +94,31 @@ export class DashboardComponent implements OnInit {
     this.perList = this.authorizationService.getPermissions('DASHBOARD') == null ? [] : this.authorizationService.getPermissions('DASHBOARD');
     this.authorizationService.setPermissions('CONTRACT');
     this.perList = this.perList.concat(this.authorizationService.getPermissions('CONTRACT'));
-    this.authorizationService.setPermissions('COMMERCIAL');
-    this.perList = this.perList.concat(this.authorizationService.getPermissions('COMMERCIAL'));
-    this.authorizationService.setPermissions('DEDUCTION');
-    this.perList = this.perList.concat(this.authorizationService.getPermissions('DEDUCTION'));
+    // this.authorizationService.setPermissions('COMMERCIAL');
+    // this.perList = this.perList.concat(this.authorizationService.getPermissions('COMMERCIAL'));
+    // this.authorizationService.setPermissions('DEDUCTION');
+    // this.perList = this.perList.concat(this.authorizationService.getPermissions('DEDUCTION'));
     this.permissionsService.loadPermissions(this.perList);
     // console.log('perlist', this.perList);
 
     this.resetAppSetting();
-    if (window['defaultLandingTarget'] && window['defaultLandingTarget'] !== '' 
+    if (window['defaultLandingTarget'] && window['defaultLandingTarget'] !== ''
       && window['defaultLandingTarget'] !== 'ASSOCIATE MASTER' && window['defaultLandingTarget'] !== 'MSA') {
       this.onSelectBlock(window['defaultLandingTarget']);
       window['defaultLandingTarget'] = '';
-      } else {
-       window['defaultLandingTarget'] = '';
-       this.onSelectBlock(this.selectedValue);
-      }
+    } else {
+      window['defaultLandingTarget'] = '';
+      this.onSelectBlock(this.selectedValue);
+    }
 
     this.spinner.show();
-   
+
     /*  moved in above line for pinned functionality by Tejaswi */
-    
-    // this.apiService.get("secure/v1/bookingcontract/all/ACTIVE").subscribe((suc) => {
+
+    // this.apiService.get("secure/v1/deliverycontract/all/ACTIVE").subscribe((suc) => {
     //   this.spinner.hide();    
     //   console.log('data', suc);
-      
+
     //   this.rfrencList=suc.data.referenceData;
     //   AppSetting.deptRefList =this.rfrencList.assocDeptList;
     //   this.dataSource = new MatTableDataSource(suc.data.responseData);
@@ -127,7 +129,7 @@ export class DashboardComponent implements OnInit {
     //   this.tosterservice.error(ErrorConstants.getValue(404));
     // });
 
-    this.apiService.get("secure/v1/bookingcontract/countAssociateContracts").subscribe((suc) => {
+    this.apiService.get("secure/v1/deliverycontract/countAssociateContracts").subscribe((suc) => {
       this.dashboardTotalCount = suc.data.responseData;
       this.getModuleCardDetails();
     }, (err) => {
@@ -137,7 +139,7 @@ export class DashboardComponent implements OnInit {
 
   }
   newContract() {
-    this.router.navigate(['/asso_booking-contract/create-associate-contract'], { skipLocationChange: true }).then(nav => {
+    this.router.navigate(['/asso_delivery-contract/create-associate-contract'], { skipLocationChange: true }).then(nav => {
       console.log(nav); // true if navigation is successful
     }, err => {
       console.log(err) // when there's an error
@@ -147,7 +149,7 @@ export class DashboardComponent implements OnInit {
     if (object) {
       console.log('object', object);
       // return
-      this.router.navigate(['asso_booking-contract/assign-associate'], { skipLocationChange: true }).then(nav => {
+      this.router.navigate(['asso_delivery-contract/assign-associate'], { skipLocationChange: true }).then(nav => {
         AppSetting.associateId = object.id;
         AppSetting.associateObject = object;
         AppSetting.contractId = object.contractId;
@@ -182,9 +184,9 @@ export class DashboardComponent implements OnInit {
     this.minchar = false
     if (filterValue.length > 0 && filterValue.length < 3) {
       this.nomatch = false;
-      this.minchar= true
-      this.dataSource.filter = '';  
-    } 
+      this.minchar = true
+      this.dataSource.filter = '';
+    }
     else if (filterValue.length == 0) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
       this.minchar = false;
@@ -196,7 +198,7 @@ export class DashboardComponent implements OnInit {
       if (this.dataSource.filteredData.length > 0) {
         this.nomatch = false;
       }
-      else if(this.dataSource.filteredData.length === 0){
+      else if (this.dataSource.filteredData.length === 0) {
         this.nomatch = true;
       }
     }
@@ -209,6 +211,8 @@ export class DashboardComponent implements OnInit {
     this.dataSource.filter = value.trim().toLowerCase();
   }
 
+  //new Add
+  // drop(event: Event) { }
 
 
   goToMsa(user) { }
@@ -234,7 +238,6 @@ export class DashboardComponent implements OnInit {
 
   searchOption;
   onSelectBlock(value: string) {
-    console.log('onSelectBlock-1', value)
     this.searchBy = 'Org. Name'
     this.searchOption = ["Org. Name", "gst", "mobile No", "pan", "vendor Dept", "Branch Name"]
     this.activeStatusValue = 'ACTIVE';
@@ -242,7 +245,7 @@ export class DashboardComponent implements OnInit {
       this.selectedValue = value;
     // }
     if (this.selectedValue === 'PENDING') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData'];
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
       this.state = 'PENDING'
@@ -250,25 +253,25 @@ export class DashboardComponent implements OnInit {
       this.run(null, "PENDING");
       //this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'EXPIRING SOON') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version', 'edit'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version', 'edit'];
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
       this.state = 'EXPIRING'
       this.searchString = '';
       this.run(null, "EXPIRING");
-      
-     // this.dataSource.paginator.firstPage();
+
+      // this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'DRAFT') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData'];
       this.spinner.show();
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
       this.state = 'DRAFT'
       this.searchString = '';
       this.run(null, "DRAFT");
-     // this.dataSource.paginator.firstPage();
+      // this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'ACTIVE') {
-      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version', 'edit'];
+      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version', 'edit'];
       this.searchOption = ["Org. Name", "contract code", "mobile No", "vendor Dept", "Branch Name"];
       this.spinner.show();
       this.paginator.pageIndex = 0;
@@ -276,11 +279,11 @@ export class DashboardComponent implements OnInit {
       // this.callstatusapi("ACTIVE");
       this.state = 'ACTIVE'
       this.searchString = '';
-      this.run(null,"ACTIVE");
+      this.run(null, "ACTIVE");
 
-     // this.dataSource.paginator.firstPage();
+      // this.dataSource.paginator.firstPage();
     } else if (this.selectedValue === 'INACTIVE') {
-      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version'];
+      this.displayedColumns = ['contactFname', 'vendorDeptt', 'gstinNum', 'panNum', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version'];
       this.spinner.show();
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
@@ -289,14 +292,15 @@ export class DashboardComponent implements OnInit {
       this.run(null, "INACTIVE");
       // this.callstatusapi("INACTIVE");
       // this.dataSource.paginator.firstPage();
-    } else if(this.selectedValue == 'MSA' || this.selectedValue == 'ASSOCIATE MASTER') {
-      this.router.navigate(['/asso_booking-contract/create-associate-contract'], { skipLocationChange: true })
-    } else if(this.selectedValue === 'REPORTS'){
-      console.log('inside reports')
-      this.router.navigate(['/asso_booking-contract/reports'], { skipLocationChange: true })
-    }else {
+    } else if (this.selectedValue == 'MSA' || this.selectedValue == 'ASSOCIATE MASTER') {
+      this.router.navigate(['/asso_delivery-contract/create-associate-contract'], { skipLocationChange: true })
+    }
+    else if (this.selectedValue == 'REPORTS') {
+      this.router.navigate(['/asso_delivery-contract/reports'], { skipLocationChange: true })
+    } 
+    else {
       this.selectedValue = "ACTIVE"
-      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate','branchData', 'version', 'edit'];
+      this.displayedColumns = ['contactFname', 'cntrCode', 'vendorDeptt', 'mob', 'contractStartDate', 'contractCreationDate', 'branchData', 'version', 'edit'];
       this.spinner.show();
       this.paginator.pageIndex = 0;
       this.searchFlg = false;
@@ -304,12 +308,12 @@ export class DashboardComponent implements OnInit {
       this.searchString = '';
       this.run(null, "ACTIVE");
       // this.callstatusapi("ACTIVE");
-     // this.dataSource.paginator.firstPage();
+      // this.dataSource.paginator.firstPage();
     }
   }
 
 
-  hideMsg(){
+  hideMsg() {
     this.minchar = false;
   }
 
@@ -320,51 +324,51 @@ export class DashboardComponent implements OnInit {
   inputFild = false;
 
 
-  mktable(filteredExpirdArr){
-    if(this.enterPressed){
-      this.dataSource = new MatTableDataSource(filteredExpirdArr);    
+  mktable(filteredExpirdArr) {
+    if (this.enterPressed) {
+      this.dataSource = new MatTableDataSource(filteredExpirdArr);
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
-      if(filteredExpirdArr.length == 0){
+      if (filteredExpirdArr.length == 0) {
         this.nomatch = true;
         this.enterPressed = false;
-      }else{
+      } else {
         this.nomatch = false;
       }
     }
   }
-  runSearchBy(status, enterTrue?){
+  runSearchBy(status, enterTrue?) {
     // console.log('runsearch', this.activeStatusValue)
-    if(this.activeStatusValue == 'EXPIRED'){
+    if (this.activeStatusValue == 'EXPIRED') {
       let filteredExpirdArr = [];
-      if(this.searchString && this.searchString.length < 3 ){
+      if (this.searchString && this.searchString.length < 3) {
         this.minchar = true;
         this.nomatch = false;
         this.enterPressed = false;
         return;
       }
-     
+
       let searchStr = this.searchString.toUpperCase()
-      if(this.searchBy == 'Org. Name'){
-        filteredExpirdArr =  this.expiredArray.filter((v)=> {
+      if (this.searchBy == 'Org. Name') {
+        filteredExpirdArr = this.expiredArray.filter((v) => {
           return v.contactFname.includes(searchStr) || v.contactLname.includes(searchStr)
-        })  
+        })
         this.mktable(filteredExpirdArr)
-        if(filteredExpirdArr.length == 0){
+        if (filteredExpirdArr.length == 0) {
           this.minchar = false;
         }
-      }else if(this.searchBy == 'contract code'){
-         filteredExpirdArr = this.expiredArray.filter((v)=> {
+      } else if (this.searchBy == 'contract code') {
+        filteredExpirdArr = this.expiredArray.filter((v) => {
           return v.cntrCode.includes(searchStr)
-        })   
+        })
         this.mktable(filteredExpirdArr)
-      }else if(this.searchBy == 'mobile No'){
-        filteredExpirdArr = this.expiredArray.filter((v)=> {
+      } else if (this.searchBy == 'mobile No') {
+        filteredExpirdArr = this.expiredArray.filter((v) => {
           return v.mob.includes(searchStr)
-        })   
+        })
         this.mktable(filteredExpirdArr)
       }
-    
+
       this.minchar = false;
       return
     }
@@ -373,136 +377,136 @@ export class DashboardComponent implements OnInit {
 
 
     this.nomatch = false;
-    
-        
+
+
     let body = {};
-    
-    if(this.searchString && this.searchString.length < 3 ){
+
+    if (this.searchString && this.searchString.length < 3) {
       this.minchar = true;
       return;
     }
-    else{
-      if(this.searchString && this.searchString.length >= 3){
-        
+    else {
+      if (this.searchString && this.searchString.length >= 3) {
+
         this.minchar = false;
         let replaceKey = '';
-        if(this.searchBy == 'Org. Name'){
+        if (this.searchBy == 'Org. Name') {
           replaceKey = 'companyName'
-        }else if(this.searchBy == 'mobile No'){
+        } else if (this.searchBy == 'mobile No') {
           replaceKey = 'mobileNumber'
-        }else if(this.searchBy == 'vendor Dept'){
+        } else if (this.searchBy == 'vendor Dept') {
           replaceKey = 'vendorDept'
-        }else if(this.searchBy == 'contract code'){
+        } else if (this.searchBy == 'contract code') {
           replaceKey = 'contractCode'
-        }if(replaceKey){          
-          body[replaceKey] = this.searchString.toUpperCase();  
-        }else{
-          body[this.searchBy] = this.searchString.toUpperCase();  
+        } if (replaceKey) {
+          body[replaceKey] = this.searchString.toUpperCase();
+        } else {
+          body[this.searchBy] = this.searchString.toUpperCase();
         }
       }
     }
-    if(!this.enterPressed && !enterTrue){
+    if (!this.enterPressed && !enterTrue) {
       return;
-    }else{
+    } else {
       this.inputFild = true;
     }
-    if(status){this.state = status;}
+    if (status) { this.state = status; }
     this.spinner.show();
-    
-    this.apiService.post(`secure/v1/bookingcontract/search/${this.state}`, body).subscribe(
+    this.apiService.post(`secure/v1/deliverycontract/search/${this.state}`, body).subscribe(
       success => {
-          if (success) {
-            // this.dataSource = new MatTableDataSource([]);
-            // this.totalItems = 0; 
-           
-              this.searchFlg = true;
-              this.enterPressed = false;
-              // body = {};
-              this.dataSource = new MatTableDataSource(success.data.responseData);  
-              this.rfrencList = success.data.referenceData; 
-              if(success.data.responseData.length > 0){                       
-                this.totalItems = success.data.responseData.length;
-                this.paginator.pageIndex = 0;
-                this.nomatch = false;
-              }else if(!enterTrue){
-                this.nomatch = true;
-              }
-              AppSetting.deptRefList =this.rfrencList.assocDeptList;
-              this.dataSource.sort = this.sort;
-              this.dataSource.paginator = this.paginator;
-              this.inputFild = false;
-              this.spinner.hide();
-              
-          }  else {
-            this.spinner.hide();
+        if (success) {
+          // this.dataSource = new MatTableDataSource([]);
+          // this.totalItems = 0; 
+
+          this.searchFlg = true;
+          this.enterPressed = false;
+          // body = {};
+          this.dataSource = new MatTableDataSource(success.data.responseData);
+          if (success.data.responseData.length > 0) {
+            this.rfrencList = success.data.referenceData;
+
+            this.totalItems = success.data.responseData.length;
+            this.paginator.pageIndex = 0;
+            this.nomatch = false;
+          } else if (!enterTrue) {
+            this.nomatch = true;
           }
+          AppSetting.deptRefList = this.rfrencList.assocDeptList;
+          this.dataSource.sort = this.sort;
+          this.dataSource.paginator = this.paginator;
+          this.inputFild = false;
+          this.spinner.hide();
+
+        } else {
+          this.spinner.hide();
+        }
       },
       error => {
         this.spinner.hide();
         this.enterPressed = false;
         this.inputFild = false;
-      }  
+      }
     )
   }
 
-  
-   
+
+
 
   totalItems;
-  pageSize:any = 10;
+  pageSize: any = 10;
   activeStatue;
- run($event:any, status?){
-  //  console.log(this.activeStatusValue)
-   if(this.searchFlg || this.activeStatusValue == 'EXPIRED' ){return}
-   this.nomatch = false;
+  run($event: any, status?) {
+    //  console.log(this.activeStatusValue)
+    if (this.searchFlg || this.activeStatusValue == 'EXPIRED') { return }
+    this.nomatch = false;
 
-  //reset
-    if($event && $event.pageSize){
-        this.pageSize = $event.pageSize;
-    } 
+    //reset
+    if ($event && $event.pageSize) {
+      this.pageSize = $event.pageSize;
+    }
     this.dataSource = new MatTableDataSource([]);
     this.totalItems = 0;
-  //end reset
-  
-  
+    //end reset
 
-  if(status){
-    this.activeStatue = status
-  }
-  this.spinner.show();
-  this.getPageData(
-   this.activeStatue, 
-    $event && $event.pageIndex?$event.pageIndex+1:'1',
-    this.pageSize,
-    'DESC', 
-    'id'
+
+
+    if (status) {
+      this.activeStatue = status
+    }
+    this.spinner.show();
+    this.getPageData(
+      this.activeStatue,
+      $event && $event.pageIndex ? $event.pageIndex + 1 : '1',
+      this.pageSize,
+      'DESC',
+      'id'
     ).subscribe(
-    success => {
+      success => {
         if (success) {
           this.rfrencList = success.data.referenceData;
-          AppSetting.deptRefList =this.rfrencList.assocDeptList;
+          AppSetting.deptRefList = this.rfrencList.assocDeptList;
 
-          let data : DashboardModel[] = success.data.responseData;
+          let data: DashboardModel[] = success.data.responseData;
           this.sortEditedData(data);
 
-            if(success.data.responseData.length > 0){
-              this.totalItems = success.data.responseData[0].totalItems;
-            }
-            this.dataSource.sort = this.sort;
-            this.spinner.hide();
-        }  else {
+          if (success.data.responseData.length > 0) {
+            this.totalItems = success.data.responseData[0].totalItems;
+          }
+          this.dataSource.sort = this.sort;
+          this.spinner.hide();
+        } else {
           this.spinner.hide();
         }
-    },
-    error => {
-      this.spinner.hide();
-    }  
-  )
- }
- 
-  getPageData(status, pageNo, pageSize, sortDir, sortField){
-    // assocbbff/secure/v1/bookingcontract/all/page/ACTIVE?pageNo=1&pageSize=20&sortDir=DESC&sortField=id
-    return this.apiService.get(`secure/v1/bookingcontract/all/page/${status}?pageNo=${pageNo}&pageSize=${pageSize}&sortDir=${sortDir}&sortField=${sortField}`)
+      },
+      error => {
+        this.spinner.hide();
+      }
+    )
+  }
+
+  getPageData(status, pageNo, pageSize, sortDir, sortField) {
+    // assocbbff/secure/v1/deliverycontract/all/page/ACTIVE?pageNo=1&pageSize=20&sortDir=DESC&sortField=id
+    return this.apiService.get(`secure/v1/deliverycontract/all/page/${status}?pageNo=${pageNo}&pageSize=${pageSize}&sortDir=${sortDir}&sortField=${sortField}`)
   }
 
 
@@ -510,7 +514,7 @@ export class DashboardComponent implements OnInit {
     this.searchString = '';
     this.spinner.show();
     this.expiredArray = [];
-    this.apiService.get("secure/v1/bookingcontract/all/ACTIVE").subscribe( success => {
+    this.apiService.get("secure/v1/deliverycontract/all/ACTIVE").subscribe(success => {
       if (success) {
         success.data.responseData.forEach(element => {
           element['editStatus'] = this.getStatus(element) ? 1 : 0;
@@ -523,32 +527,32 @@ export class DashboardComponent implements OnInit {
           }
         });
         this.spinner.hide();
-        if(this.expiredArray && this.expiredArray.length > 0 ){
-          this.dataSource = new MatTableDataSource(this.expiredArray);          
+        if (this.expiredArray && this.expiredArray.length > 0) {
+          this.dataSource = new MatTableDataSource(this.expiredArray);
           this.paginator.pageIndex = 0;
 
           this.dataSource.sort = this.sort;
-          const sortState: Sort = {active: 'editStatus', direction: 'desc'};
+          const sortState: Sort = { active: 'editStatus', direction: 'desc' };
           this.sort.active = sortState.active;
           this.sort.direction = sortState.direction;
           this.sort.sortChange.emit(sortState);
           this.dataSource.paginator = this.paginator;
-        }else{
+        } else {
           this.dataSource = new MatTableDataSource();
           this.dataSource.sort = this.sort;
           this.dataSource.paginator = this.paginator;
         }
-        
+
       }
       else {
         this.spinner.hide();
       }
-      },
+    },
       error => {
         this.spinner.hide();
       });
-     
-     
+
+
   }
 
   showSfxCodeData(data) { }
@@ -560,7 +564,7 @@ export class DashboardComponent implements OnInit {
     this.setAppSetting(data);
 
     /**  Call get contract API to set contract object */
-    this.apiService.get('secure/v1/bookingcontract/' + AppSetting.contractId).subscribe(data => {
+    this.apiService.get('secure/v1/deliverycontract/' + AppSetting.contractId).subscribe(data => {
       let ob = ErrorConstants.validateException(data);
       if (ob.isSuccess) {
         AppSetting.wefDate = data.data.responseData.effectiveDt;        // set effective date (w.e.f)
@@ -607,9 +611,9 @@ export class DashboardComponent implements OnInit {
         cardDetail['favoriteIcon'] = 'favorite_border';
         if (cardDetail.moduleEntity == 'DASHBOARD') {
           cardDetail['permission'] = cardDetail.objectName + '_READ';
-        } else if(cardDetail.targetValue == 'MSA'){
+        } else if (cardDetail.targetValue == 'MSA') {
           cardDetail['permission'] = 'CREATE CONTRACT_CREATE';
-        } else if(cardDetail.targetValue == 'ASSOCIATE MASTER') {
+        } else if (cardDetail.targetValue == 'ASSOCIATE MASTER') {
           cardDetail['permission'] = 'CREATE CONTRACT_READ';
         }
       }
@@ -641,9 +645,9 @@ export class DashboardComponent implements OnInit {
         permissionArray['favoriteIcon'] = 'favorite_border';
         if (permissionArray.moduleEntity == 'DASHBOARD') {
           permissionArray['permission'] = permissionArray.objectName + '_READ';
-        }  else if(permissionArray.targetValue == 'MSA'){
+        } else if (permissionArray.targetValue == 'MSA') {
           permissionArray['permission'] = 'CREATE CONTRACT_CREATE';
-        } else if(permissionArray.targetValue == 'ASSOCIATE MASTER') {
+        } else if (permissionArray.targetValue == 'ASSOCIATE MASTER') {
           permissionArray['permission'] = 'CREATE CONTRACT_READ';
         }
         if (this.dashboardTotalCount) {
@@ -721,13 +725,13 @@ export class DashboardComponent implements OnInit {
   }
 
   getImagePath(pathName, targetValue) {
-    if(this.selectedValue === 'ACTIVE' && targetValue === 'ACTIVE') {
+    if (this.selectedValue === 'ACTIVE' && targetValue === 'ACTIVE') {
       let imageName = '/assets/images/searchContact_white.png';
       return imageName
-    } else if(pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
+    } else if (pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
       let imageName = '/assets/images/searchContract_icon.png';
       return imageName
-    } else if(pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
+    } else if (pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
       let imageName = '/assets/images/associatemaster.png';
       return imageName
     }
@@ -735,17 +739,17 @@ export class DashboardComponent implements OnInit {
       let image = pathName.split('.');
       let imageName = '/assets/images/' + image[0] + '_white' + '.' + image[1];
       return imageName
-    } 
+    }
     else {
       return '/assets/images/' + pathName;
     }
   }
 
   getImagePathCard(pathName, targetValue) {
-    if(pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
+    if (pathName === 'library_books-24px.png' && targetValue === 'ACTIVE') {
       let imageName = '/assets/images/searchContract_icon.png';
       return imageName
-    } else if(pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
+    } else if (pathName === 'library_books-24px.png' && targetValue === 'ASSOCIATE MASTER') {
       let imageName = '/assets/images/associatemaster.png';
       return imageName
     } else {
@@ -856,7 +860,6 @@ export class DashboardComponent implements OnInit {
     var finalObject: any = {};
     finalObject.pinnedObject = pinnedObj;
     finalObject.userId = this.userId;
-    console.log('pinned final', finalObject);
 
     this.spinner.show();
     this.apiService.postDragDropData(finalObject).subscribe(data => {
@@ -873,24 +876,30 @@ export class DashboardComponent implements OnInit {
       this.spinner.hide();
     });
   }
-  
-sortDataUsingDate(){
-  this.dataSource.sortingDataAccessor = (item, property) => {
-    switch (property) {
-      case 'contractCreationDate': return new Date(item.contractUpdateDate);
-      case 'contractStartDate': return new Date(item.contractStartDate);
-      default: return item[property];
+
+  getPermissionsForTable(selectedValue) {
+    console.log('selected', selectedValue)
+    if (selectedValue == 'EXPIRING SOON') {
+      return ['EXPIRING SOON CONTRACTS_READ']
+    } else if (selectedValue == 'DRAFT') {
+      return ['DRAFT CONTRACTS_READ']
+    } else if (selectedValue == 'ACTIVE') {
+      return ['ACTIVE CONTRACTS_READ']
+    } else if (selectedValue == 'INACTIVE') {
+      return ['TERMINATED CONTRACTS_READ']
+    } else {
+      return ['EXPIRING SOON CONTRACTS_READ', 'DRAFT CONTRACTS_READ', 'ACTIVE CONTRACTS_READ', 'TERMINATED CONTRACTS_READ']
     }
-  };
-}
 
-/*---- Sort Data using edit status ----- */
-sortEditedData(data){
-  data.forEach(element => {
-    element['editStatus'] = this.getStatus(element) ? 1 : 0;
-  });
+  }
 
-  this.dataSource = new MatTableDataSource(data);
+  /*---- Sort Data using edit status ----- */
+  sortEditedData(data) {
+    data.forEach(element => {
+      element['editStatus'] = this.getStatus(element) ? 1 : 0;
+    });
+
+    this.dataSource = new MatTableDataSource(data);
     this.dataSource.sort = this.sort;
     this.dataSource.sortingDataAccessor = (item, property) => {
       switch (property) {
@@ -899,70 +908,69 @@ sortEditedData(data){
         default: return item[property];
       }
     };
-    const sortState: Sort = {active: 'editStatus', direction: 'desc'};
+    const sortState: Sort = { active: 'editStatus', direction: 'desc' };
     this.sort.active = sortState.active;
     this.sort.direction = sortState.direction;
     this.sort.sortChange.emit(sortState);
-}
+  }
 
 /* 
 * open popup to view added branches 
 */
 
-openBranchPopup(element) {
-  this.spinner.show();
-  let branchData : any;
-  this.apiService.get(`secure/v1/bookingcontract/contracts/branches/${element.contractId}`).subscribe(res => {     
-    if(res.data){
-      if(res.data.responseData && res.data.responseData.length > 0){
-        branchData = res.data.responseData;
-        if(branchData.length > 0){
-          this.dialog.open(ViewBranchesComponent, {
-            data : {branchData: branchData},
-            width: '55vw',minHeight: '20rem',
-            panelClass: 'mat-dialog-responsive',
-            disableClose: true
-          });
-          this.spinner.hide();
-        }else {
-          console.log("Branch does not exits in contract");
-          this.spinner.hide();
+  openBranchPopup(element) {
+    this.spinner.show();
+    let branchData: any;
+    this.apiService.get(`secure/v1/deliverycontract/contracts/branches/${element.contractId}`).subscribe(res => {
+      if (res.data) {
+        if (res.data.responseData && res.data.responseData.length > 0) {
+          branchData = res.data.responseData;
+          if (branchData.length > 0) {
+            this.dialog.open(ViewBranchesComponent, {
+              data: { branchData: branchData },
+              width: '55vw', minHeight: '20rem',
+              panelClass: 'mat-dialog-responsive',
+              disableClose: true
+            });
+            this.spinner.hide();
+          } else {
+            console.log("Branch does not exits in contract");
+            this.spinner.hide();
+          }
         }
-      } 
-    }
-    this.spinner.hide();
-  },(error) => {
-    this.spinner.hide();
-    this.tosterservice.error(ErrorConstants.getValue(404));
-  })
-}
+      }
+      this.spinner.hide();
+    }, (error) => {
+      this.spinner.hide();
+      this.tosterservice.error(ErrorConstants.getValue(404));
+    })
+  }
 
-/* 
-* open popup to select branch and filter data using selected branch 
-*/
+  /* 
+  * open popup to select branch and filter data using selected branch 
+  */
 
-openBranchSearchPopup() {
-  //this.setAppSetting(data);
-  const dialogRef = this.dialog.open(DashboardBranchSearchComponent, {
-    data: {  statusList: this.rfrencList.statusList },
-    panelClass: 'mat-dialog-responsive',
-    disableClose: true
-  });
-  dialogRef.afterClosed().subscribe(result => {
-    console.log(result)
-    if(result) {
-      let searchCriteria = {};
-      searchCriteria['branchId'] = result;
+  openBranchSearchPopup() {
+    //this.setAppSetting(data);
+    const dialogRef = this.dialog.open(DashboardBranchSearchComponent, {
+      data: { statusList: this.rfrencList.statusList },
+      panelClass: 'mat-dialog-responsive',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        let searchCriteria = {};
+        searchCriteria['branchId'] = result;
 
-      this.spinner.show();
-      let expiredArrayData = [];
-    
-      this.apiService.post(`secure/v1/bookingcontract/search/${this.state}`, searchCriteria).subscribe(
-        success => {
+        this.spinner.show();
+        let expiredArrayData = [];
+
+        this.apiService.post(`secure/v1/deliverycontract/search/${this.state}`, searchCriteria).subscribe(
+          success => {
             if (success) {
-             
-                this.searchFlg = true;
-                this.enterPressed = false;
+
+              this.searchFlg = true;
+              this.enterPressed = false;
 
               if (this.activeStatusValue == 'EXPIRED') {
                 success.data.responseData.forEach(element => {
@@ -988,59 +996,61 @@ openBranchSearchPopup() {
                   this.dataSource.sort = this.sort;
                   this.dataSource.paginator = this.paginator;
                 }
-                this.spinner.hide();  
+                this.spinner.hide();
+
               } else {
-                
-                this.dataSource = new MatTableDataSource(success.data.responseData);  
-                this.rfrencList = success.data.referenceData; 
-                if(success.data.responseData.length > 0){                       
+
+                this.dataSource = new MatTableDataSource(success.data.responseData);
+                this.rfrencList = success.data.referenceData;
+                if (success.data.responseData.length > 0) {
                   this.totalItems = success.data.responseData.length;
                   this.paginator.pageIndex = 0;
                   this.nomatch = false;
                 } else {
                   this.nomatch = true;
                 }
-                AppSetting.deptRefList =this.rfrencList.assocDeptList;
+                AppSetting.deptRefList = this.rfrencList.assocDeptList;
                 this.dataSource.sort = this.sort;
                 this.dataSource.paginator = this.paginator;
                 this.inputFild = false;
                 this.spinner.hide();
-              } 
-                
-            }  else {
+              }
+
+            } else {
               this.spinner.hide();
             }
-        },
-        error => {
-          this.spinner.hide();
-          this.enterPressed = false;
-          this.inputFild = false;
-        }  
-      )
-    }
-  });
+          },
+          error => {
+            this.spinner.hide();
+            this.enterPressed = false;
+            this.inputFild = false;
+          }
+        )
+      }
+    });
 
-}
+  }
 
 
 }
 
 
 export interface DashboardModel {
-cntrCode: string;
-contactFname: string;
-contactLname: string;
-contractCreationDate: Date;
-contractId: number;
-contractStartDate: Date;
-contractUpdateDate: Date;
-expDt: Date;
-id: number;
-gstinNum : string;
-mob: string;
-panNum: string;
-status: number
-totalItems: any;
-totalPages: any;
-vendorDeptt: any;
+  cntrCode: string;
+  contactFname: string;
+  contactLname: string;
+  contractCreationDate: Date;
+  contractId: number;
+  contractStartDate: Date;
+  contractUpdateDate: Date;
+  expDt: Date;
+  id: number;
+  gstinNum: string;
+  mob: string;
+  panNum: string;
+  status: number
+  totalItems: any;
+  totalPages: any;
+  vendorDeptt: any;
 }
+

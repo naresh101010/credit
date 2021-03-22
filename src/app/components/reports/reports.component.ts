@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { NgxSpinner } from 'ngx-spinner/lib/ngx-spinner.enum';
 import { ApiService } from 'src/app/core/services/api.service';
 
 @Component({
@@ -45,7 +44,7 @@ export class ReportsComponent implements OnInit {
         this.vendorDepartment = this.departmentList[0].id;
         this.contractList = res.data.referenceData.assocCntrTypeList;
         // console.log('contract list', this.contractList);
-        this.contractList = this.contractList.filter(ref => ref.lookupVal === "BOOKING");
+        this.contractList = this.contractList.filter(ref => ref.lookupVal === "DELIVERY");
         // console.log('contract list', this.contractList);
         this.contractType = this.contractList[0].id;
       }
@@ -63,13 +62,12 @@ export class ReportsComponent implements OnInit {
       searchBy: this.finalObj.branchId,
       vendorDepartment: String(this.vendorDepartment)
     }
-    console.log('body', body);
     this.spinner.show();
     this.apiService.getReportDownload(body).subscribe((res:any)=>{
       console.log('res', res);
       // this.spinner.hide();
       // this.router.navigate(["/retail-contract/retail"]);
-      let filename = `booking_${
+      let filename = `Delivery_${
         this.reportName
       }__report_${new Date().getTime()}.${
         this.reportFormat
@@ -104,7 +102,7 @@ export class ReportsComponent implements OnInit {
   finalObj = {
     searchBy:'',
     branchName:'',
-    branchId:null,
+    branchId:'',
   }
   runSearchBy() {
     this.threeChar = true;
@@ -197,5 +195,7 @@ export class ReportsComponent implements OnInit {
       this.finalObj.branchName = "";
     }
   }
+
+  
 
 }

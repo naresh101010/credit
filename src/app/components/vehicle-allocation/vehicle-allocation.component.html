@@ -1,71 +1,71 @@
 <!-- breadcrumb start -->
 <section class="booking_breadcrumb_sec">
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-12">
-          <div>
-              <mat-toolbar class="breadcrumbs_nav">
-                <mat-toolbar-row class="breadcrumbs">
-                  <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
-                  <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
-                    arrow_right
-                  </mat-icon>
-                  <span>Associate</span>
-                </mat-toolbar-row>
-              </mat-toolbar>
-              <h2>Vehicle Allocation</h2>
-            </div>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div>
+                <mat-toolbar class="breadcrumbs_nav">
+                  <mat-toolbar-row class="breadcrumbs">
+                    <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
+                    <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                      arrow_right
+                    </mat-icon>
+                    <span>Associate</span>
+                  </mat-toolbar-row>
+                </mat-toolbar>
+                <h2>Vehicle Allocation</h2>
+              </div>
+        </div>
       </div>
     </div>
-  </div>
-</section>
-<!-- breadcrumb end -->
+  </section>
+  <!-- breadcrumb end -->
 
 <section class="req_table_sec booking_msa_sec">
-  <div class="container-fluid">
-    <div class="booking_card padding_0">
-      <div class="bg_gray_msa_4">
-        <div class="row">
-          <div class="col-md-3 col-sm-4" matTooltipPosition="above" [matTooltip]="(associateData?.contactFname).toUpperCase()">
-            <p><strong>Associate Name:</strong> {{(associateData?.contactFname).toUpperCase()}}</p>
-          </div>
-          <div class="col-md-3 col-sm-4">
-            <p><strong>Vendor Department:</strong> {{deptName}}</p>
-          </div>
-          <div class="col-md-3 col-sm-4">
-            <p><strong>Associate Type:</strong> {{associateData.assocTypeMaps[0].lkpAssocTypeId | lookupValue : "descr" : refData?.assocTypeList }}</p>
-          </div>
-        </div>
-      </div>
-      <div class="padding_10">
-        <div class="row">
-          <div class="col-md-3 col-sm-6 col_pr_0">
-            <div class="label_and_add" *ngxPermissionsOnly="['ADD VEHICLE_CREATE']">
-              <mat-label><strong>Add Vehicle</strong></mat-label>
-              <mat-icon class="add_icon" (click)="addEditVehicle(0)">add</mat-icon>
+    <div class="container-fluid">
+      <div class="booking_card padding_0">
+        <div class="bg_gray_msa_4">
+          <div class="row">
+            <div class="col-md-3 col-sm-4" matTooltipPosition="above" [matTooltip]="(associateData?.contactFname).toUpperCase()">
+              <p class="row_center" matTooltipPosition="above" [matTooltip]="associateData?.contactFname + ' ' + associateData?.contactLname | uppercase"><strong>Associate Name: </strong> {{(associateData?.contactFname).toUpperCase()}}</p>
+            </div>
+            <div class="col-md-3 col-sm-4">
+              <p><strong>Vendor Department: </strong> {{deptName}}</p>
+            </div>
+            <div class="col-md-3 col-sm-4">
+              <p><strong>Associate Type: </strong>{{associateData.assocTypeMaps[0].lkpAssocTypeId | lookupValue : "descr" : refData?.assocTypeList }}</p>
             </div>
           </div>
         </div>
-        <div class="row">
-          <div class="col-md-2 col-sm-6 col_pr_0">
-          <div class="search_bar_mdm2d searchbar_mdm2">
-            <em class="fa fa-search" aria-hidden="true" style="margin-top: 0rem;"></em>
-            <mat-form-field appearance="outline">
-              <input appSearchFieldCheck matInput name="searchVehicle" class="form-control" placeholder="Search" (keyup)="applyFilter($event)">
-            </mat-form-field>
-            <div class="error2"style="position: relative; top: -9px;" >
-              <label *ngIf="minchar" class="validation-message">Please Enter 3 Character</label>
-              <label *ngIf="nomatch" class="validation-message">No Match Found</label>
+        <div class="padding_10">
+          <div class="row">
+            <div class="col-md-3 col-sm-6 col_pr_0">
+            <div class="label_and_add" *ngxPermissionsOnly="['CREATE VEHICLE_CREATE']">
+                <mat-label><strong>Add Vehicle</strong></mat-label>
+                <mat-icon class="add_icon" (click)="addEditVehicle(0)">add</mat-icon>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 col-sm-6 col_pr_0">
+            <div class="search_bar_mdm2d searchbar_mdm2">
+              <em class="fa fa-search" aria-hidden="true" style="margin-top: 0rem;"></em>
+              <mat-form-field appearance="outline">
+                <input appSearchFieldCheck matInput name="searchVehicle" class="form-control" placeholder="Search" (keyup)="applyFilter($event)">
+              </mat-form-field>
+              <div class="error2"style="position: relative; top: -9px;" >
+                <label *ngIf="minchar" class="validation-message">Please Enter 3 Character</label>
+                <label *ngIf="nomatch" class="validation-message">No Match Found</label>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-        <mat-label><strong>Available Vehicle</strong></mat-label>
-        <div class="row">
-          <div class="col-md-12">
-            <div class="table-responsive create_new_tale_mdm2" style="overflow: hidden !important;">
+          <mat-label><strong>Available Vehicle</strong></mat-label>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="table-responsive create_new_tale_mdm2" style="overflow: hidden !important;">
 
-              <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngxPermissionsOnly="['AVAILABLE VEHICLES_READ']">
+              <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngxPermissionsOnly="['VIEW VEHICLE_READ']">
   
                 <!-- Vehicle Number Column -->
                 <ng-container matColumnDef="vehicleNum">
@@ -83,71 +83,72 @@
                   </td>
                 </ng-container>
 
-                <!-- Vehicle Model Column -->
-                <ng-container matColumnDef="vehicleModelId">
-                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>VEHICLE MODEL</strong></th>
-                  <td mat-cell *matCellDef="let element">
-                    <div class="row_center row_center_width" matTooltipPosition="above">{{element.vehicleModel}}</div>
-                  </td>
-                </ng-container>
+                  <!-- Vehicle Model Column -->
+                  <ng-container matColumnDef="vehicleModelId">
+                    <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>VEHICLE MODEL</strong></th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.vehicleModel}}</div>
+                    </td>
+                  </ng-container>
 
-                 <!-- Effective date  Column -->
-                 <ng-container matColumnDef="effectiveDt">
-                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>EFFECTIVE DATE</strong></th>
-                  <td mat-cell *matCellDef="let element">
-                    <div class="row_center row_center_width" matTooltipPosition="above">{{element.effectiveDt | date: 'dd/MM/yyyy'}}</div>
-                  </td>
-                </ng-container>
+                   <!-- Effective date  Column -->
+                   <ng-container matColumnDef="effectiveDt">
+                    <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>EFFECTIVE DATE</strong></th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+                    </td>
+                  </ng-container>
 
-                 <!-- Expiry Date Column -->
-                 <ng-container matColumnDef="expDt">
-                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>EXPIRY DATE</strong></th>
-                  <td mat-cell *matCellDef="let element">
-                    <div class="row_center row_center_width" matTooltipPosition="above">{{element.expDt | date: 'dd/MM/yyyy'}}</div>
-                  </td>
-                </ng-container>
+                   <!-- Expiry Date Column -->
+                   <ng-container matColumnDef="expDt">
+                    <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>EXPIRY DATE</strong></th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.expDt | date: 'dd/MM/yyyy'}}</div>
+                    </td>
+                  </ng-container>
 
-                 <!-- STATUS Column -->
-                 <ng-container matColumnDef="status">
-                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>STATUS</strong></th>
-                  <td mat-cell *matCellDef="let element">
-                    <div class="row_center row_center_width" matTooltipPosition="above">{{element.status == 1 ? 'ACTIVE' : 'INACTIVE'}}</div>
-                  </td>
-                </ng-container>
+                   <!-- STATUS Column -->
+                   <ng-container matColumnDef="status">
+                    <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>STATUS</strong></th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="row_center row_center_width" matTooltipPosition="above">{{element.status == 1 ? 'ACTIVE' : 'INACTIVE'}}</div>
+                    </td>
+                  </ng-container>
 
                  <!-- Name Column -->
                  <ng-container matColumnDef="Vicon">
                   <th scope="col" mat-header-cell *matHeaderCellDef> <strong></strong></th>
                   <td mat-cell *matCellDef="let element">
                     <div class="row_center row_center_width" matTooltipPosition="above">
-                      <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['ADD VEHICLE_UPDATE']" (click)="addEditVehicle(element.id)" style="cursor: pointer;">create</em>
+                      <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['CREATE VEHICLE_UPDATE']" (click)="addEditVehicle(element.id)" style="cursor: pointer;">create</em>
                       <img alt="img"src="/assets/images/documen.png" alt="Document" *ngxPermissionsOnly="['VEHICLEDOC_READ']" (click)="addVehicleDocument(element)">
                     </div>
                   </td>
                 </ng-container>
 
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-              </table>
-              <mat-paginator class="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
-            </div>
-            <div>
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator class="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+              </div>
+              <div>
 
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="padding_10">
-        <div class="row">
-          <div class="col-md-12 text-center mtb_30">
-            <button mat-button class="white-button" (click)="onBackClick($event)">Back</button>
-            <button mat-button class="theme-button" (click)="submit()">Submit</button>
+        <div class="padding_10">
+          <div class="row">
+            <div class="col-md-12 text-center mtb_30">
+              <button mat-button class="white-button" (click)="onBackClick($event)">Back</button>
+              <button mat-button class="theme-button" (click)="submit()">Submit</button>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
-</ngx-spinner>
+  <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+  </ngx-spinner>
+  

@@ -21,10 +21,12 @@ import { VehicleComponent } from './components/vehicle/vehicle.component';
 import { PreviewComponent } from './components/preview/preview.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { EmptyComponetComponent } from './empty-componet/empty-componet.component';
-import {ReportsComponent} from './components/reports/reports.component';
+import { StaffDocumentComponent } from './components/staff-document/staff-document.component';
+import { ReportsComponent } from './components/reports/reports.component';
+
 const routes: Routes = [
   {
-    path: 'asso_booking-contract',
+    path: 'asso_delivery-contract',
     children: [
       {
         path: "",
@@ -35,7 +37,7 @@ const routes: Routes = [
         component: BookingAssociateContractComponent
       },
       {
-        path: "asso_booking",
+        path: "asso_delivery",
         component: DashboardComponent
       },
       {
@@ -110,6 +112,10 @@ const routes: Routes = [
       {
         path: "preview",
         component: PreviewComponent
+      },
+      {
+        path: "staff-document",
+        component: StaffDocumentComponent
       },
       {
         path: "reports",

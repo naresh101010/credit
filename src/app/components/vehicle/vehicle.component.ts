@@ -8,7 +8,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { AppService } from '../../core/services/app.service';
 import { AppSetting } from '../../app.setting';
 import { ApiService } from '../../core/services/api.service';
-import { ErrorConstants } from '../../core/models/constants'
+import { ErrorConstants } from '../../core/models/constants';
+import { AuthorizationService } from '../../core/services/authorization.service';
+import { NgxPermissionsService } from 'ngx-permissions';
 
 
 @Component({
@@ -37,17 +39,26 @@ export class VehicleComponent implements OnInit {
   searchVehMake = '';
   searchVehModel = '';
   id ='';
+  perList:any = [];
 
   constructor(private fb: FormBuilder, private spinner: NgxSpinnerService,
     private appService: AppService,
     private router: Router,
     private apiService: ApiService,
     private datePipe: DatePipe,
-    private tosterservice : ToastrService) { }
+    private tosterservice : ToastrService,
+    private authorizationService : AuthorizationService,
+    private permissionsService: NgxPermissionsService) { }
+    
 
   ngOnInit() {
+
+    this.authorizationService.setPermissions('VEHICLE');
+    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
+    this.permissionsService.loadPermissions(this.perList);
+
     let e = new Date();
-    e.setDate(e.getDate());
+    e.setDate(e.getDate()+1);
     this.maxdate = e;
     this.associateData = AppSetting.associateData;
     this.spinner.show();
@@ -319,7 +330,7 @@ export class VehicleComponent implements OnInit {
     this.spinner.show();
     this.apiService.post('secure/v1/associates/vehicles', vehicleData).subscribe(res => {
       this.spinner.hide();
-      this.router.navigate(['/asso_booking-contract/vehicle-allocation'], {skipLocationChange: true});
+      this.router.navigate(['/asso_delivery-contract/vehicle-allocation'], {skipLocationChange: true});
     }, (error) => {
       this.tosterservice.error(error.error.errors.error[0].description);
       this.spinner.hide();
@@ -471,6 +482,8 @@ export class VehicleComponent implements OnInit {
 
   selected= null;
   getToolTipDEata(data){
+    console.log('data', data)
+    console.log('state list>>', this.stateList);
     if(data && data.length){
       let msg="";
       this.stateList.forEach(res=>{
@@ -488,6 +501,6 @@ export class VehicleComponent implements OnInit {
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_booking-contract/vehicle-allocation'], { skipLocationChange: true });
+    this.router.navigate(['/asso_delivery-contract/vehicle-allocation'], { skipLocationChange: true });
   }
 }

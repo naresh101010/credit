@@ -8,7 +8,6 @@ export class NumericSpecialCharDirective {
   key;
   @HostListener('keydown', ['$event']) onKeydown(event: KeyboardEvent) {
     this.key = event.keyCode;
-    console.log(this.key);
     if(this.key == 99 || this.key == 118 || this.key == 67 || this.key == 86) {
       return true
     }

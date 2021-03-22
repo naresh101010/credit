@@ -1,13 +1,12 @@
 import { Component, OnInit, Inject, ViewChild } from '@angular/core';
-import { MatTableDataSource, MAT_DIALOG_DATA, MatDialogRef, MatSort, MatPaginator } from '@angular/material';
+import { MatTableDataSource, MAT_DIALOG_DATA, MatDialogRef, MatSort, MatPaginator, MatDialog } from '@angular/material';
 import { AppSetting } from 'src/app/app.setting';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ApiService } from 'src/app/core/services/api.service';
 import { BookingCommercialCustomerListObj } from 'src/app/core/models/paymentTermsModel';
 import * as _ from 'lodash';
 import { ToastrService } from 'ngx-toastr';
-import { AuthorizationService } from '../../core/services/authorization.service';
-import { NgxPermissionsService } from 'ngx-permissions';
+import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-search-customer',
@@ -18,40 +17,30 @@ export class SearchCustomerComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   contractId :any;
-  searchText :string;
   custType = 0;
   dataSourceCustomers:any =[];
   selectedCustomer: any = [];
-  perList: any = [];
   custObj: BookingCommercialCustomerListObj = {
     msaCustId: null,
-    lkpAssocBkngPayoutCtgyId: null,
-    lkpAssocBkngExpnsTypeId: null,
-    maxAmtPerWaybl: null,
-    minAmtPerWaybl: null,
+    lkpAssocBkngPayoutCtgyId: 0,
+    lkpAssocBkngExpnsTypeId: 0,
+    maxAmtPerWaybl: 0,
+    minAmtPerWaybl: 0,
     addtnlParamFlag: 0,
-    lkpAssocAddtnlParamId: null,
-    addtnlParamVal: null,
+    lkpAssocAddtnlParamId: 0,
+    addtnlParamVal: 0,
     cntrCode: '',
     effectiveDt: '',
     expDt: '',
     customerName: '',
     commercialEntList: []
   };
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<SearchCustomerComponent> ,public spinner: NgxSpinnerService, private apiService: ApiService, public toastr: ToastrService,
-              private authorizationService : AuthorizationService,
-              private permissionsService: NgxPermissionsService) { 
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<SearchCustomerComponent> ,public spinner: NgxSpinnerService, private apiService: ApiService, public toastr: ToastrService,public dialog: MatDialog) { 
     this.contractId = AppSetting.contractId;
  
   }
 
   ngOnInit() {
-    this.authorizationService.setPermissions('COMMERCIAL');
-    this.perList = this.authorizationService.getPermissions('COMMERCIAL') == null ? [] : this.authorizationService.getPermissions('COMMERCIAL');
-    this.permissionsService.loadPermissions(this.perList);
-
-    console.log('perlist',this.perList)
-
     console.log('data', this.data);
     this.getCustomersList();
   }
@@ -60,9 +49,9 @@ export class SearchCustomerComponent implements OnInit {
     console.log("event", event, this.custType);
     this.getCustomersList();
   }
-  closeDailog(){
-    this.dialogRef.close({ "customerList" : this.selectedCustomer});
-  }
+  // closeDailog(){
+  //   this.dialogRef.close({ "customerList" : this.selectedCustomer});
+  // }
   sendCustomerList: any[] = []; 
   setCustomers(obj){
     if(obj.msaCustId){
@@ -82,7 +71,7 @@ export class SearchCustomerComponent implements OnInit {
 
   setCustomerArray(obj){
     console.log('this.data.customerList', this.data.customerList);
-    let tempArr = _.find(this.data.customerList , { 'msaCustId': obj.msaId , 'cntrCode' : obj.contractCode });
+    let tempArr = _.find(this.data.customerList , { 'msaCustId': obj.msaId });
     console.log('tempArr', tempArr);
     if(tempArr){
       tempArr['cntrCode'] = obj.contractCode;
@@ -99,11 +88,10 @@ export class SearchCustomerComponent implements OnInit {
     this.spinner.show();
     this.dataSourceCustomers = new MatTableDataSource();
     // this.data.BranchIds = [1]; 
-    let custType = (this.custType == 0) ? "CREDIT" : "PRC" ;      
+    let custType = (this.custType == 0) ? "CREDIT" : "PRC" ;        
       // this.spinner.show();
-      console.log(this.data.BranchIds ,"data", this.data)
       this.apiService
-        .post(`secure/v1/bookingcontract/commercial/assocBranchIds/customers?creditOrPrc=${custType}`, this.data.BranchIds )
+        .post(`secure/v1/deliverycontract/commercial/assocBranchIds/customers?creditOrPrc=${custType}`, this.data.BranchIds )
         .subscribe(
           (res) => {             
             console.log('res', res);
@@ -127,14 +115,13 @@ export class SearchCustomerComponent implements OnInit {
 
               this.spinner.hide();
             }else{
-              this.toastr.error('Customer doesn\'t exist');
+              this.toastr.error('Customer Not Exist in Branch');
               this.spinner.hide();
             }
           },
           (err) => {
-            console.log(err)
             // this.toastr.error()
-            this.toastr.error('Customer doesn\'t exist');
+            this.toastr.error('Customer Not Exist in Branch');
             this.spinner.hide();
           }
         );
@@ -160,6 +147,25 @@ export class SearchCustomerComponent implements OnInit {
     if (this.dataSourceCustomers.paginator) {
       this.dataSourceCustomers.paginator.firstPage();
     }
+  }
+  closeDialog(): void {
+      
+    const dialogRefConfirm = this.dialog.open(confimationdialog, {
+      width: '300px',
+      panelClass: 'creditDialog',
+      data:{message:'Are you sure ?'},
+      disableClose: true,
+      backdropClass: 'backdropBackground'
+    });
+
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if(value){
+        this.dialogRef.close(false);
+      }else{
+        console.log('Keep Open');
+      }
+    });
+
   }
 
   displayedColumns: string[] = ['customerName', 'contractCode', 'Abranch'];

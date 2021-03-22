@@ -7,7 +7,7 @@
             <div>
                 <mat-toolbar class="breadcrumbs_nav">
                   <mat-toolbar-row class="breadcrumbs">
-                    <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+                    <span><a skipLocationChange routerLink="/asso_delivery-contract/asso_delivery">Dashboard</a></span>
                     <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                       arrow_right
                     </mat-icon>
@@ -102,7 +102,7 @@
               </div>
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
-                  <input matInput name="contactMname" class="form-control" [readonly] ="isIDExist"  autocomplete="true" formControlName="contactMname"
+                  <input matInput name="contactMname" class="form-control" [readonly]="isIDExist"  autocomplete="true" formControlName="contactMname"
                   alphaSpecialChar maxlength="50">
                 </mat-form-field>
               </div>
@@ -150,14 +150,14 @@
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
                   <input matInput name="mob" class="form-control" autocomplete="true" formControlName="mob"
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  maxlength="10" minlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.mob.errors?.required && f.mob.touched">
                   <em>Required !</em> 
                 </div>
                 <div class="errorMsg" *ngIf="(f.mob.errors?.minlength || f.mob.errors?.maxlength) && !(f.mob.errors?.required && f.mob.touched)">
                     <em>Number should be 10 digits !</em></div>
-                <div class="errorMsg" *ngIf="(f.mob.errors?.isNumeric) && !(f.mob.errors?.minlength || f.mob.errors?.maxlength) && !(f.mob.errors?.required && f.mob.touched)"><em>Value is Invalid !</em></div>
+                <div class="errorMsg" *ngIf="(f.mob.errors?.pattern) && !(f.mob.errors?.minlength || f.mob.errors?.maxlength) && !(f.mob.errors?.required && f.mob.touched)"><em>Value is Invalid !</em></div>
               </div>
               <div class="col-md-2 col-md-offset-2 mo_ml_0">
                 <mat-label><strong>Personal Mobile No.<span class="redMark">*</span></strong></mat-label>
@@ -165,10 +165,11 @@
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
                   <input matInput name="altmob" class="form-control"  autocomplete="true" formControlName="altMob" 
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  maxlength="10" minlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.altMob.errors?.required && f.altMob.touched">
                   <em>Required !</em> </div>
+                  
                 <div class="errorMsg" *ngIf="(f.altMob.errors?.minlength || f.altMob.errors?.maxlength) && !(f.altMob.errors?.required && f.altMob.touched)">
                   <em>Number should be 10 digits !</em></div>
                   <div class="errorMsg" *ngIf="(f.altMob.errors?.isNumeric) && !(f.altMob.errors?.minlength || f.altMob.errors?.maxlength) && !(f.altMob.errors?.required && f.altMob.touched)"><em>Value is Invalid !</em></div>
@@ -184,13 +185,14 @@
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
                   <input matInput name="emergencyPhone" class="form-control"  autocomplete="true" formControlName="emergencyPhone" 
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  maxlength="10" minlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.emergencyPhone.errors?.required && f.emergencyPhone.touched">
                   <em>Required !</em> </div>
+                  
                 <div class="errorMsg" *ngIf="(f.emergencyPhone.errors?.minlength || f.emergencyPhone.errors?.maxlength) && !(f.emergencyPhone.errors?.required && f.emergencyPhone.touched)">
                   <em>Number should be 10 digits !</em></div>
-                  <div class="errorMsg" *ngIf="(f.emergencyPhone.errors?.isNumeric) && !(f.emergencyPhone.errors?.minlength || f.emergencyPhone.errors?.maxlength) && !(f.emergencyPhone.errors?.required && f.emergencyPhone.touched)"><em>Value is Invalid !</em></div>
+                  <div class="errorMsg" *ngIf="(f.emergencyPhone.errors?.pattern) && !(f.emergencyPhone.errors?.minlength || f.emergencyPhone.errors?.maxlength) && !(f.emergencyPhone.errors?.required && f.emergencyPhone.touched)"><em>Value is Invalid !</em></div>
               </div>
               <div class="col-md-2 col-md-offset-2 mo_ml_0">
                 <mat-label><strong>WhatsApp No.<span class="redMark">*</span></strong></mat-label>
@@ -198,13 +200,13 @@
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
                   <input matInput name="whatsappNum" class="form-control"  autocomplete="true" formControlName="whatsappNum" 
-                  maxlength="10" minlength="10" [numbersOnly] = true>
+                  maxlength="10" minlength="10" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.whatsappNum.errors?.required && f.whatsappNum.touched">
                   <em>Required !</em> </div>
                 <div class="errorMsg" *ngIf="(f.whatsappNum.errors?.minlength || f.whatsappNum.errors?.maxlength) && !(f.whatsappNum.errors?.required && f.whatsappNum.touched)">
                   <em>Number should be 10 digits !</em></div>
-                  <div class="errorMsg" *ngIf="(f.whatsappNum.errors?.isNumeric) && !(f.whatsappNum.errors?.minlength || f.whatsappNum.errors?.maxlength) && !(f.whatsappNum.errors?.required && f.whatsappNum.touched)"><em>Value is Invalid !</em></div>   
+                  <div class="errorMsg" *ngIf="(f.whatsappNum.errors?.pattern) && !(f.whatsappNum.errors?.minlength || f.whatsappNum.errors?.maxlength) && !(f.whatsappNum.errors?.required && f.whatsappNum.touched)"><em>Value is Invalid !</em></div>   
               </div>
             </div>
             <div class="row">
@@ -273,13 +275,13 @@
               <div class="col-md-2">
                 <mat-form-field appearance="outline">
                   <input matInput name="aadhaarNum" class="form-control"  autocomplete="true" formControlName="aadhaarNum" 
-                  maxlength="12" minlength="12" [numbersOnly] = true>
+                  maxlength="12" minlength="12" pattern="^[1-9][0-9]*$" [numbersOnly] = true>
                 </mat-form-field>
                 <div class="errorMsg" *ngIf="f.aadhaarNum.errors?.required && f.aadhaarNum.touched">
                   <em>Required !</em> </div>
                   <div class="errorMsg" *ngIf="(f.aadhaarNum.errors?.minlength || f.aadhaarNum.errors?.maxlength) && !(f.aadhaarNum.errors?.required && f.aadhaarNum.touched)">
                     <em>Aadhar No. should be 12 digits !</em></div>
-                  <div class="errorMsg" *ngIf="(f.aadhaarNum.errors?.isNumeric) && !(f.aadhaarNum.errors?.minlength || f.aadhaarNum.errors?.maxlength) && !(f.aadhaarNum.errors?.required && f.aadhaarNum.touched)">
+                  <div class="errorMsg" *ngIf="(f.aadhaarNum.errors?.pattern) && !(f.aadhaarNum.errors?.minlength || f.aadhaarNum.errors?.maxlength) && !(f.aadhaarNum.errors?.required && f.aadhaarNum.touched)">
                     <em>Value is Invalid !</em></div>
               </div>
               <div class="col-md-2 col-md-offset-2 mo_ml_0">
@@ -669,7 +671,7 @@
                     <mat-datepicker #caDob4 class="myDatepicker23">
                     </mat-datepicker>
                     <input matInput [matDatepicker]="caDob4" class="date_input_height"  name="effectiveDate" 
-                     formControlName="effectiveDt"
+                    formControlName="effectiveDt"
                       placeholder="DD/MM/YYYY" (dateChange)="effectiveDate()" (blur)="effectiveDate()" [min]="f.estDt.value" numericSpecialChar/>
                     <mat-datepicker-toggle matPrefix [for]="caDob4">
                     </mat-datepicker-toggle>
@@ -723,10 +725,10 @@
           <div class="row">
             <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['CREATE ASSOCIATE_CREATE','CREATE ASSOCIATE_UPDATE']">
               <button mat-button class="theme-button" *ngIf="!readMode" [disabled]="tdsFlag || (f.effectiveDt.value < f.estDt.value)"  (click)="saveAssociateContract()">Next</button>
-              <button mat-button class="theme-button" *ngIf="readMode"  skipLocationChange routerLink="/asso_booking-contract/create-associate-contract">Back</button>
             </div>
             <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['CREATE ASSOCIATE_CREATE','CREATE ASSOCIATE_UPDATE']">
               <button mat-button class="theme-button" *ngIf="!readMode" [disabled]="tdsFlag || (f.effectiveDt.value < f.estDt.value)"  (click)="nextReadMode()">Next</button>
+              <button mat-button class="theme-button" *ngIf="readMode"  skipLocationChange routerLink="/asso_delivery-contract/create-associate-contract">Back</button>
             </div>
           </div>
           <hr>
