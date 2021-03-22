@@ -9,7 +9,9 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:single-spa": "ng build --prod --output-hashing none",
-    "serve:single-spa": "ng serve --disable-host-check --port 4208 --deploy-url http://localhost:4208/ --live-reload false"
+    "serve:single-spa": "ng serve --disable-host-check --port 4208 --deploy-url http://localhost:4208/ --live-reload false",
+    "snyk-protect": "snyk protect",
+    "prepare": "npm run snyk-protect"
   },
   "private": true,
   "dependencies": {
@@ -18,7 +20,7 @@
     "@angular/cdk": "^8.2.3",
     "@angular/common": "^8.2.14",
     "@angular/compiler": "^8.2.14",
-    "@angular/core": "^8.2.14",
+    "@angular/core": "^11.0.5",
     "@angular/flex-layout": "^8.0.0-beta.27",
     "@angular/forms": "^8.2.14",
     "@angular/http": "^6.1.10",
@@ -33,7 +35,7 @@
     "classlist.js": "^1.1.20150312",
     "core-js": "^2.6.10",
     "express": "^4.17.1",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "moment": "^2.27.0",
     "ng-click-outside": "^6.0.0",
     "ng-flash-messages": "^0.3.0",
@@ -51,8 +53,9 @@
     "rxjs-compat": "^6.5.3",
     "single-spa-angular": "^3.0.0",
     "web-animations-js": "^2.3.2",
-    "xlsx": "^0.15.4",
-    "zone.js": "^0.9.1"
+    "xlsx": "^0.16.0",
+    "zone.js": "^0.9.1",
+    "snyk": "^1.503.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.20",
@@ -74,5 +77,6 @@
     "ts-node": "~5.0.1",
     "tslint": "~5.9.1",
     "typescript": "^3.4.5"
-  }
+  },
+  "snyk": true
 }
