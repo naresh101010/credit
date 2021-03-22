@@ -1,0 +1,50 @@
+{"msaCneeList": [
+    {
+      "id": 7020,
+      "name": "Con44",
+      "panNum": "AAGHY6578L",
+      "gstinNum": "12CBCDE1234F2Z5",
+      "tanNum": "PDES03028F",
+      "mob": "9812108121",
+      "email": "test@mail.com",
+      "msaCustId": 1057,
+      "lkpConsigntypeId": "45",
+      "addrBook": {
+        "id": 1,
+        "addr1": "Mahipalpur",
+        "addr2": "New Delhi",
+        "addr3": "India",
+        "longitude": 10,
+        "latitude": 20,
+        "pincodeId": 110036
+      },
+      "dealerCode": "DEL1",
+      "hubDeliveryFlag": 1,
+      "status": 1
+    }
+  ],
+  "msaCnorList": [
+    {
+      "id": 7021,
+      "name": "Conn45",
+      "panNum": "AAGHY6578L",
+      "gstinNum": "12CBCDE1234F2Z5",
+      "tanNum": "PDES03028F",
+      "mob": "9812108121",
+      "email": "test@mail.com",
+      "msaCustId": 1057,
+      "lkpConsigntypeId": "44",
+      "addrBook": {
+        "id": 1,
+        "addr1": "Mahipalpur",
+        "addr2": "New Delhi",
+        "addr3": "India",
+        "longitude": 10,
+        "latitude": 20,
+        "pincodeId": 110036
+      },
+      "dealerCode": "DEL1",
+      "hubDeliveryFlag": 1,
+      "status": 1
+    }
+  ]}

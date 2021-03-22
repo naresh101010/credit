@@ -1,0 +1,31 @@
+.is-invalid {
+    border-color: red !important;
+}
+
+.mat-select-disabled {
+    background-color: #fff !important;
+    border-bottom: 1.8px solid #6a6868 !important;
+}
+
+::ng-deep.mat-form-field-disabled .mat-select-value
+    { 
+    color: #6a6868 !important;
+    position: relative !important;
+    top: 0px !important;
+    } 
+
+::ng-deep.mat-form-field-disabled .mat-select-arrow
+    {
+        color: #6a6868 !important;
+    }
+.search_ico {
+    position: relative;
+}
+.search_ico .fa-search {
+    position: absolute;
+    top: 6px;
+    left: 16px;
+}
+.search_ico .form-control {
+    padding-left: 16px !important;
+}

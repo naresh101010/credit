@@ -1,0 +1,258 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div>
+          <mat-toolbar class="breadcrumbs_nav">
+            <mat-toolbar-row class="breadcrumbs">
+              <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span>Associate</span>
+            </mat-toolbar-row>
+          </mat-toolbar>
+          <h2>Associate KYC</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- breadcrumb end -->
+<section class="req_table_sec booking_msa_sec">
+  <div class="container-fluid">
+    <div class="booking_card padding_0">
+      <!--  Display Header -->
+      <div class="bg_gray_msa_4">
+        <div class="row">
+          <div class="col-md-3 col-sm-4" matTooltipPosition="above" [matTooltip]="(associateData?.contactFname).toUpperCase()">
+            <p class="row_center" matTooltipPosition="above" [matTooltip]="associateData?.contactFname + ' ' + associateData?.contactLname | uppercase"><strong>Associate Name: </strong> {{(associateData?.contactFname).toUpperCase()}}</p>
+          </div>
+          <div class="col-md-3 col-sm-4">
+            <p><strong>Vendor Department: </strong> {{deptName}}</p>
+          </div>
+          <div class="col-md-3 col-sm-4">
+            <p><strong>Associate Type: </strong>{{associateData.assocTypeMaps[0].lkpAssocTypeId | lookupValue : "descr" : refData?.assocTypeList }}</p>
+          </div>
+        </div>
+      </div>
+      <div class="padding_10">
+        <form name="docform" (ngSubmit)="docform.form.valid" #docform="ngForm" novalidate>
+          <div class="row ">
+           <div class="col-md-5 row_pd0">
+            <div class="col-md-6 ">
+              <div class="row">
+                <div class="col-md-6 row_pr0">
+                  <mat-label><strong>Document Type<span class="redMark">*</span></strong></mat-label>
+                </div>
+                <div class="col-md-6 ">
+                  <div class="module_area">
+                    <mat-form-field class="select_box_dropwodn overline_hidden">
+                      <mat-select disableOptionCentering panelClass="creditSelect" #doctype="ngModel" required
+                        name="docTypeId" [(ngModel)]="fileModel.docTypeId" placeholder="Select Option"
+                        (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
+                        <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
+                          [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15"
+                          matTooltipPosition="above">
+                          {{item.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <p *ngIf="(doctype.errors?.required && doctype.touched)" class="hasErrorMsgRight paddingtopone">
+                      Required&nbsp;!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 " >
+              <div class="row">
+                <div class="col-md-4 row_pr0">
+                  <mat-label><strong>Sub Type<span class="redMark">*</span></strong></mat-label>
+                </div>
+                <div class="col-md-6 ">
+                  <div class="module_area">
+                    <mat-form-field class="select_box_dropwodn overline_hidden">
+                      <mat-select disableOptionCentering panelClass="creditSelect" #Subdoctype="ngModel" required
+                        name="subTypeId" [(ngModel)]="fileModel.subTypeId" placeholder="Select Option">
+                        <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'lookupVal'" [value]="item.id"
+                          [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15"
+                          matTooltipPosition="above">
+                          {{item.descr}}
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <p *ngIf="(Subdoctype.errors?.required && Subdoctype.touched)"
+                      class="hasErrorMsgRight paddingtopone">Required&nbsp;!</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+           </div>
+
+           <div class="col-md-7 row_pd0 ">
+            <div class="col-md-3 row_pd0" *ngIf="(isToggle) == true">
+              <div class="row">
+                <div class="col-md-4 ">
+                  <mat-label><strong>Expiry</strong></mat-label>
+                </div>
+                <div class="col-md-8 ">
+                  <div class="module_area">
+                    <mat-form-field appearance="outline" class="date_picker_adjust datePickHeight uploaddateButton"style="margin-top: -2px;">
+                      <input #dtpicr="ngModel" matInput autocomplete="off" [matDatepicker]="picker2" name="rateCardSignDt"
+                        class="date_picker" [min]="minDate" placeholder="DD/MM/YYYY" (blur)="checkValidDate(fileModel.docExpiryDate)"
+                        [(ngModel)]="fileModel.docExpiryDate" numericSpecialChar />
+                      <mat-datepicker class="myDatepicker23" #picker2></mat-datepicker>
+                      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-3 " *ngIf="(isToggle) == false">
+              <button  mat-raised-button class="white-button box_shadow_none" id="secondry-button" color="primary" [disabled]="!docform.form.valid" (click)="searchDoc()">Search</button> 
+            </div>
+            <div class="col-md-9 "  *ngIf="(isToggle) == true">
+              <div class="row">
+                <div class="col-md-5 col-xs-5 " >
+                  <input type="file" #browseFile id="file" (click)="browseFile.value = null"
+                    (change)="handleFileInput($event)" style="display:none">
+                  <span class="fileUpload">File<span style="color: red;">* &nbsp;&nbsp;</span></span>
+                  <button  mat-raised-button class="white-button box_shadow_none" (click)="browseFile.click()">
+                     Browse</button>
+                  <p class="file_name" id="uploadedFileName" [matTooltip]="uploadedFileName_upper | uppercase" matTooltipPosition="left">
+                  </p>
+                </div>
+                <div class="col-md-7" *ngxPermissionsOnly="['ASSOCIATEDOC_CREATE','ASSOCIATEDOC_UPDATE']">
+                  <button mat-raised-button class="white-button box_shadow_none" [disabled]="!docform.form.valid"
+                    (click)="postDocumentUploadDetail()" style="margin-right: 0.5rem">Upload</button>
+                  <button mat-raised-button class="white-button box_shadow_none" style="margin: 0;" (click)="requestToUpload()"
+                    >Request To Upload</button>
+                </div>
+              </div>
+            </div>
+           </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-offset-6 col-md-2 toggleText">
+              Search<mat-slide-toggle class = "docToggle tp-margin" (click)="swapOffToggleButton()" ><span class="toggleText">Upload</span></mat-slide-toggle>
+            </div>
+            <div class="col-md-4">
+              <div *ngIf="(isToggle) == true" class="label-text"> Note : Allowed file formats are .jpg, .jpeg, .png, .doc, .pdf, .docx</div>
+            </div>
+          </div>
+        </form>
+
+
+        <!-- show init docs and search -->
+        <div class="row background" style="margin-top: 2rem !important" *ngIf="dataSource?.data?.length > 0 && noRecdFundMsg == false">
+          <h4 style="color: #27AE60; text-align:center; font-size: 1.8rem;">Uploaded Document </h4>
+        </div>
+        <div class="row" *ngIf="dataSource?.data?.length > 0  && noRecdFundMsg == false">
+          <div class="col-md-12">
+            <div class="table-responsive create_new_tale_mdm2">
+
+              <table aria-describedby="docTable" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                <ng-container matColumnDef="Kname">
+                  <th scope="col" mat-header-cell *matHeaderCellDef> <strong>NAME</strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.docRef">{{element.docRef}}</div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="KdocumentType">
+                  <th scope="col" mat-header-cell *matHeaderCellDef> <strong>DOCUMENT TYPE</strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" matTooltipPosition="above">{{element.docType}} </div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="subType">
+                  <th scope="col" mat-header-cell *matHeaderCellDef> <strong>DOCUMENT SUB TYPE</strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" matTooltipPosition="above">{{element.docSubtype}} </div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="expiry">
+                  <th scope="col" mat-header-cell *matHeaderCellDef> <strong>Expiry</strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width Sel_Expiry_Dt" matTooltipPosition="above">{{element.expDt | date: 'dd/MM/yyyy'}} </div>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="view">
+                  <th scope="col" mat-header-cell *matHeaderCellDef> <strong></strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <em class="material-icons iconSize green paddingZero" style="cursor: pointer;"
+                      (click)="downloadDocument(element)">visibility</em>
+                  </td>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                  <th scope="col" mat-header-cell *matHeaderCellDef> <strong></strong> </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" (click)="deleteKycDocument(element)" matTooltipPosition="above">
+                      <span class="material-icons" style="color: #27AE60; cursor: pointer;">delete</span></div>
+                  </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <!-- no record found -->
+        <div class="row" style="margin-top: 4rem !important; margin-left: 4rem !important; color:red"
+          *ngIf="noRecdFundMsg">
+          <div class="col">
+            <p class="danger">Oops! No Record Found</p>
+          </div>
+        </div>
+        <!-- pending docs upload -->
+        <div *ngIf="pendingDocsUplod.length > 0">
+          <div class="row background" style="margin-top: 2rem !important">
+            <h4 style="color:red; text-align: center;">Pending Document Upload</h4>
+          </div>
+          <div class="row" *ngIf="pendingDocsUplod.length > 0">
+            <div class="col-md-12">
+              <div class="table-responsive create_new_tale_mdm2">
+
+                <table aria-describedby="table"  mat-table [dataSource]="pengingListDataSource" class="mat-elevation-z8">
+
+                  <ng-container matColumnDef="docType">
+                    <th scope="col" mat-header-cell *matHeaderCellDef> <strong>DOCUMENT TYPE</strong></th>
+                    <td mat-cell *matCellDef="let element">
+                      <div class="row_center row_center_width">{{element.descr}} </div>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumnsForPending"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumnsForPending;"></tr>
+                </table>
+                <div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="padding_10">
+        <div class="row">
+          <div class="col-md-12 text-center mtb_30">
+            <button mat-button class="white-button" routerLink="/asso_booking-contract/create-associate" skipLocationChange>Back</button>
+            <button mat-button class="theme-button"
+            routerLink="/asso_booking-contract/vehicle-allocation" skipLocationChange>Next</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

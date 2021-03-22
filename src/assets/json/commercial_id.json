@@ -1,0 +1,256 @@
+{
+  "message": "SUCCESS",
+  "referenceList": {
+    "chargeByList": [
+      {
+        "id": 293,
+        "lookupVal": "BY INVOICE WITH GST"
+      },
+      {
+        "id": 294,
+        "lookupVal": "BY INVOICE W/O GST"
+      },
+      {
+        "id": 35,
+        "lookupVal": "BY WEIGHT"
+      },
+      {
+        "id": 36,
+        "lookupVal": "BY PIECE"
+      },
+      {
+        "id": 37,
+        "lookupVal": "BY PACKAGE"
+      }
+    ],
+    "productCategoryList": [
+      {
+        "id": 1,
+        "prdctCtgy": "APPAREL",
+        "hsnCodeId": 6,
+        "status": 1
+      },
+      {
+        "id": 2,
+        "prdctCtgy": "ELECTRONICS",
+        "hsnCodeId": 7,
+        "status": 1
+      },
+      {
+        "id": 169,
+        "prdctCtgy": "heyyy..",
+        "hsnCodeId": 6,
+        "status": 1
+      }
+    ],
+    "packagingTypeList": [
+      {
+        "id": 99,
+        "lookupVal": "CARTONS"
+      },
+      {
+        "id": 100,
+        "lookupVal": "BAGS"
+      },
+      {
+        "id": 101,
+        "lookupVal": "BARRELS"
+      }
+    ],
+    "slabProtectTypeList": [
+      {
+        "id": 131,
+        "lookupVal": "OPTION A "
+      },
+      {
+        "id": 132,
+        "lookupVal": "OPTION B"
+      },
+      {
+        "id": 133,
+        "lookupVal": "OPTION C"
+      }
+    ],
+    "safexTypeList": [
+      {
+        "id": 124,
+        "lookupVal": "GROUP A "
+      },
+      {
+        "id": 125,
+        "lookupVal": "GROUP B "
+      },
+      {
+        "id": 126,
+        "lookupVal": "GROUP C"
+      }
+    ],
+    "safexLevelList": [
+      {
+        "id": 206,
+        "lookupVal": "PINCODE"
+      },
+      {
+        "id": 207,
+        "lookupVal": "STATE"
+      }
+    ],
+    "rateGroupList": [
+      {
+        "id": 1,
+        "name": "gn1  ",
+        "sla": 2,
+        "price": 10
+      }
+    ],
+    "pricingParam": [
+      {
+        "id": 232,
+        "serviceOfferingId": 1,
+        "priceParameterResponseDTO": {
+          "id": 67,
+          "pricingLabel": "Minimum Chargable Weight",
+          "priceCalculationTypeId": 0,
+          "priceCalculationUnitId": 0,
+          "attributeTypeId": 3,
+          "attrVal": "",
+          "rrFlag": 1
+        },
+        "pricingParamRrs": [
+          {
+            "id": 199,
+            "rrVal": 2,
+            "status": 1
+          }
+        ]
+      },
+      {
+        "id": 166,
+        "serviceOfferingId": 1,
+        "priceParameterResponseDTO": {
+          "id": 102,
+          "pricingLabel": "Per Package Minimum Chargeable Weight",
+          "priceCalculationTypeId": 0,
+          "priceCalculationUnitId": 0,
+          "attributeTypeId": 3,
+          "attrVal": "",
+          "rrFlag": 0
+        },
+        "pricingParamRrs": [
+          {
+            "id": 133,
+            "rrVal": 12,
+            "status": 1
+          }
+        ]
+      },
+      {
+        "id": 201,
+        "serviceOfferingId": 1,
+        "priceParameterResponseDTO": {
+          "id": 101,
+          "pricingLabel": "Round OFF 5/ Round OFF 10",
+          "priceCalculationTypeId": 0,
+          "priceCalculationUnitId": 0,
+          "attributeTypeId": 1,
+          "attrVal": "5",
+          "rrFlag": 0
+        },
+        "pricingParamRrs": [
+          {
+            "id": 166,
+            "rrVal": 27,
+            "status": 1
+          }
+        ]
+      },
+      {
+        "id": 37,
+        "serviceOfferingId": 1,
+        "priceParameterResponseDTO": {
+          "id": 100,
+          "pricingLabel": "Volume Weight CFT",
+          "priceCalculationTypeId": 0,
+          "priceCalculationUnitId": 227,
+          "attributeTypeId": 3,
+          "attrVal": "",
+          "rrFlag": 1
+        },
+        "pricingParamRrs": []
+      },
+      {
+        "id": 1,
+        "serviceOfferingId": 1,
+        "priceParameterResponseDTO": {
+          "id": 1,
+          "pricingLabel": "Round OFF Flag",
+          "priceCalculationTypeId": 104,
+          "priceCalculationUnitId": 0,
+          "attributeTypeId": 1,
+          "rrFlag": 1
+        },
+        "pricingParamRrs": [
+          {
+            "id": 1,
+            "rrVal": 100,
+            "status": 1
+          }
+        ]
+      }
+    ],
+    "pricingCalculationTypeList": [
+      {
+        "id": 104,
+        "lookupVal": "TOTAL ITEM"
+      },
+      {
+        "id": 105,
+        "lookupVal": "LINE ITEM"
+      }
+    ],
+    "pricingCalculationUnitList": [
+      {
+        "id": 227,
+        "lookupVal": "INCH"
+      },
+      {
+        "id": 228,
+        "lookupVal": "M"
+      },
+      {
+        "id": 229,
+        "lookupVal": "CM"
+      },
+      {
+        "id": 230,
+        "lookupVal": "FEET"
+      }
+    ],
+    "attrTypeList": [
+      {
+        "id": 1,
+        "lookupVal": "RADIO BUTTON"
+      },
+      {
+        "id": 2,
+        "lookupVal": "DROP DOWN "
+      },
+      {
+        "id": 3,
+        "lookupVal": "TEXT"
+      }
+    ],
+    "gstTypeList": [
+      {
+        "id": 1,
+        "gstVal": 18,
+        "gstType": "Test Value"
+      },
+      {
+        "id": 2,
+        "gstVal": 12,
+        "gstType": "Test Value 2"
+      }
+    ]
+  }
+}

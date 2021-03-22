@@ -1,0 +1,239 @@
+{
+    "message": "SUCCESS",
+    "tnc": {
+        "id": 102,
+        "ratecardId": 860,
+        "lkpFuelTypeId": 75,
+        "lkpFuelIndexId": 73,
+        "baseFuelDt": "2019-11-25",
+        "fuelPrice": 10.00,
+        "fuelCalcBasedOn": "TOTAL",
+        "fuelSurchrg": 62.00,
+        "incrClauseFlag": 1,
+        "lkpIncrTypeId": 84,
+        "incrMnth": 688888,
+        "incrEffectiveDt": "2021-12-29",
+        "incrVal": 66,
+        "lkpIncrBasedOnId": 203,
+        "lkpIncrModeId": 201,
+        "insuFlag": 1,
+        "insuCo": "MAX HEALTH NEWYORK",
+        "insuPolicyNum": "BK000001",
+        "insuValidUptoDt": "2021-10-09",
+        "securityFlag": 1,
+        "lkpSecurityTypeId": 127,
+        "securityAmt": 10.00,
+        "securityRefNum": "SEC44",
+        "bankName": "STATE BANK OF INDIA",
+        "bankAddr": "MAHIPALPUR NEW DELHI",
+        "bankIfscCode": "SBI0606",
+        "pnltyFlag": 1,
+        "flfcFlag": 1,
+        "flfcClause1": 1,
+        "flfcClause2": 2,
+        "flfcAsOnDtFlag": 1,
+        "flfcAsOnDt": "2019-12-26",
+        "flfcThresholdMin": 10,
+        "flfcThresholdMax": 110,
+        "flfcAppcblDtType": "DATE55",
+        "flfcAppcblDt": "2019-12-26",
+        "customAmtFlag": 1,
+        "customAmt": 10.00,
+        "excessClauseFlag": 0,
+        "excessClauseAmt": 748375.00,
+        "securityProvidedBy": "AAA55",
+        "fuelDtlsFlag": 1,
+        "insuVal": 798734,
+        "fuelSurchrgMeasure": "%GE",
+        "notepadTrans": [
+            {
+                "id": 133,
+                "notepadId": 133,
+                "notepadInputVal": "TESTDATA          ",
+                "entityRefId": 102
+            }
+        ]
+    },
+    "referenceList": {
+        "fuelTypeList": [
+            {
+                "id": 75,
+                "lookupVal": "PETROL"
+            },
+            {
+                "id": 76,
+                "lookupVal": "DIESEL"
+            },
+            {
+                "id": 77,
+                "lookupVal": "CNG"
+            }
+        ],
+        "baseFuelIndexList": [
+            {
+                "id": 71,
+                "lookupVal": "ALL INDIA "
+            },
+            {
+                "id": 72,
+                "lookupVal": "8 METRO "
+            },
+            {
+                "id": 73,
+                "lookupVal": "4 METRO "
+            },
+            {
+                "id": 74,
+                "lookupVal": "STATE"
+            }
+        ],
+        "incrementTypeList": [
+            {
+                "id": 83,
+                "lookupVal": "RECURRING"
+            },
+            {
+                "id": 84,
+                "lookupVal": "ONE TIME"
+            }
+        ],
+        "incrementBasedOnList": [
+            {
+                "id": 203,
+                "lookupVal": "BASIC FREIGHT"
+            }
+        ],
+        "incrementModeList": [
+            {
+                "id": 200,
+                "lookupVal": "PERCENTAGE"
+            },
+            {
+                "id": 201,
+                "lookupVal": "AMOUNT"
+            }
+        ],
+        "securityTypeList": [
+            {
+                "id": 127,
+                "lookupVal": "TNC - CHECK"
+            }
+        ],
+        "notepadAttributesList": [
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 4,
+                "id": 69,
+                "notepadName": "newNote_test",
+                "attributeTypeId": 6,
+                "attributeIdentifier": "6                   ",
+                "attributeValue": "aaa",
+                "notepadOrder": 2
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 1,
+                "id": 2,
+                "notepadName": "note111",
+                "attributeTypeId": 2,
+                "attributeIdentifier": "1                   ",
+                "attributeValue": "11",
+                "notepadOrder": 7
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 2,
+                "id": 100,
+                "notepadName": "TestNote",
+                "attributeTypeId": 1,
+                "attributeIdentifier": "1                   ",
+                "attributeValue": "11",
+                "notepadOrder": 4
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 1,
+                "id": 1,
+                "notepadName": "note1",
+                "attributeTypeId": 2,
+                "attributeIdentifier": "1                   ",
+                "attributeValue": "11",
+                "notepadOrder": 6
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 0,
+                "id": 133,
+                "notepadName": "test update",
+                "attributeTypeId": 3,
+                "attributeIdentifier": "string              ",
+                "attributeValue": "string",
+                "notepadOrder": 20
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 88,
+                "id": 232,
+                "notepadName": "yuwqueuq",
+                "attributeTypeId": 3,
+                "attributeIdentifier": "str1                ",
+                "attributeValue": "3",
+                "notepadOrder": 9
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 7,
+                "id": 67,
+                "notepadName": "string",
+                "attributeTypeId": 1,
+                "attributeIdentifier": "string111           ",
+                "attributeValue": "string",
+                "notepadOrder": 2
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 2,
+                "id": 4,
+                "notepadName": "Textbox Test",
+                "attributeTypeId": 3,
+                "attributeIdentifier": "2                   ",
+                "attributeValue": "3",
+                "notepadOrder": 8
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 2,
+                "id": 101,
+                "notepadName": "Radio Test",
+                "attributeTypeId": 1,
+                "attributeIdentifier": "1                   ",
+                "attributeValue": "YES,NO",
+                "notepadOrder": 4
+            },
+            {
+                "moduleGroupId": 0,
+                "moduleEntityMapId": 10,
+                "id": 166,
+                "notepadName": "Dropdown Test",
+                "attributeTypeId": 2,
+                "attributeIdentifier": "string              ",
+                "attributeValue": "VALUE1,VALUE2",
+                "notepadOrder": 0
+            }
+        ],
+        "attrTypeList": [
+            {
+                "id": 1,
+                "lookupVal": "RADIO BUTTON"
+            },
+            {
+                "id": 3,
+                "lookupVal": "TEXT"
+            },
+            {
+                "id": 2,
+                "lookupVal": "DROP DOWN"
+            }
+        ]
+    }
+}

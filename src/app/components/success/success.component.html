@@ -1,0 +1,24 @@
+<section class="mtb_40 booking_success_m" >
+    <div>
+      <mat-card>
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1 text-center pd_top_50 mob_hide">
+            <div class=" success_img mr-top-80">
+              <img alt="img"src="../../assets/images/checked.svg" alt="">
+  
+  
+              <h3><br><strong>Success!</strong></h3>
+              <br>
+              <h3 style="text-transform: uppercase;"><strong>Associate Contract {{!this.id ? 'Created' : 'Submitted'}}.</strong></h3>
+              <h2>{{associateContractCode}}</h2>
+            </div>
+            <div class="para_test mr-top-bottom-50 ">
+              <p>You will be automatically redirected to the dashboard in <strong> {{counter}} seconds</strong> <br> <strong>OR</strong>
+                <br> You
+                can <em class="theme_color" style="cursor: pointer;" routerLink="/asso_booking-contract/asso_booking" skipLocationChange  [mat-dialog-close]="true">click here</em> to do it yourself.</p>
+            </div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+  </section>

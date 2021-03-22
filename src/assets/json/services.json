@@ -1,0 +1,32 @@
+{
+	"message": "Request Completed Successfully",
+	"data": {
+		"responseData": [{
+			"id": 958,
+			"lkpServiceLineId": 128,
+			"serviceOfferingId": 1,
+			"contractId": 992
+		}, {
+			"id": 566,
+			"lkpServiceLineId": 128,
+			"serviceOfferingId": 2,
+			"contractId": 992
+		}],
+		"referenceData": {
+			"serviceLineList": [{
+				"id": 359,
+				"lookupVal": "WMS+DISTRIBUTION"
+			}, {
+				"id": 128,
+				"lookupVal": "DISTRIBUTION"
+			}, {
+				"id": 129,
+				"lookupVal": "PROJECTS"
+			}, {
+				"id": 130,
+				"lookupVal": "WAREHOUSE"
+			}]
+		}
+	},
+	"status": "SUCCESS"
+}

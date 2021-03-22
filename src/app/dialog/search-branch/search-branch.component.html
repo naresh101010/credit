@@ -1,0 +1,132 @@
+<div mat-dialog-content id="userCreateDefault" class="associateContainer">
+    <div style="position: relative;" >
+        <h3 id="h3">Search Branch</h3>
+        <mat-icon class="modals_cancel_btn" (click)="closeDialog()" id="closeButton">close</mat-icon>
+      </div>
+      <hr id="popup-hr">
+
+    <div class="row form-group" style="min-width: 55rem; max-width: 55rem;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 " style="margin-bottom: 1.0rem; padding: 0;">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 margin-row searchby" style="margin-top: 1.1rem;">
+                Search By
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="margin-row">
+                    <div class="col-lg-4 col-md-4 paddingRightZero">
+                        <mat-form-field class="select_box_dropwodn overline_hidden branchType allc">
+                            <mat-select name="search" style="width: 100%;" [(ngModel)]="model.search" (selectionChange)="advanceDefaultBranchArea()">
+                                <mat-option *ngFor="let list of advanceSearchList" [value]=list.value>{{list.value}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div *ngIf="model.search == 'NAME'" class="col-lg-8 col-md-8 paddingLeftZero margin-row" style="margin-top: 4px;">
+                        <div class="mdm_searchbar marginLeftZero">
+                            <input minlength="3" appSearchFieldCheck type="text" (keyup.enter)="advanceDefaultBranchName(model.searchbyname)" class="form-control" required placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="model.searchbyname">
+                            <span  class="fa fa-search"  style="color: #BCBCCB; font-size: 1.7rem; top: .4rem !important;" (click)="advanceDefaultBranchName(model.searchbyname)"></span>
+                        </div>
+                        <!-- validation -->
+                        <div *ngIf="searchbyname.invalid && (searchbyname.dirty || searchbyname.touched)">
+                            <div *ngIf="searchbyname.errors.minlength || searchbyname.errors.maxlength" class="error2">Please Enter 3 Character
+                            </div>
+                        </div>
+                        <!-- validation -->
+                    </div>
+                    <div *ngIf="model.search == 'AREA' && (areaDataByName && areaDataByName.responseData)" class="col-lg-8 col-md-8 paddingLeftZero margin-row">
+
+                        <mat-form-field class="select_box_dropwodn overline_hidden">
+                            <mat-select disableOptionCentering panelClass="mat_ngx_booking" name="areaId" [(ngModel)]="model.areaId" (selectionChange)="advanceDefaultBranchAreaById()">
+                                <ngx-mat-select-search [(ngModel)]="searchAreaType" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                                  [noEntriesFoundLabel]="'Not found'" name="search">
+                                  <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+                                </ngx-mat-select-search>
+                                <mat-option *ngFor="let areaName of (areaDataByName.responseData | stringFilterBooking:searchAreaType:'branchCode') | sortBy:'asc':'branchCode'" [value]=areaName>
+                                    {{ areaName.branchCode }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="model.search == 'REGION' && (areaDataByName && areaDataByName.responseData)" class="col-lg-8 col-md-8 paddingLeftZero margin-row">
+
+                        <mat-form-field class="select_box_dropwodn overline_hidden">
+                            <mat-select disableOptionCentering panelClass="mat_ngx_booking" name="searchByRegion" [(ngModel)]="model.searchByRegion" (selectionChange)="advanceDefaultBranchRegionById()">
+                                <ngx-mat-select-search [(ngModel)]="searchRegionType" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                                  [noEntriesFoundLabel]="'Not found'" name="search">
+                                  <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+                                </ngx-mat-select-search>
+                                <mat-option *ngFor="let areaName of (areaDataByName.responseData | stringFilterBooking:searchRegionType:'branchCode') | sortBy:'asc':'branchCode'" [value]=areaName>
+                                    {{ areaName.branchCode }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="model.search == 'TYPE' && (areaDataByName && areaDataByName.responseData)" class="col-lg-8 col-md-8 paddingLeftZero margin-row">
+
+                        <mat-form-field class="select_box_dropwodn overline_hidden">
+                            <mat-select disableOptionCentering panelClass="mat_ngx_booking" name="searchByType" [(ngModel)]="model.searchByType" (selectionChange)="advanceDefaultBranchTypeById(model.searchByType)">
+                                <ngx-mat-select-search [(ngModel)]="searchType" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                                  [noEntriesFoundLabel]="'Not found'" name="search">
+                                  <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+                                </ngx-mat-select-search>
+                                <mat-option *ngFor="let areaName of areaDataByName.responseData | stringFilterBooking:searchType:'areaName'" [value]=areaName>
+                                    {{ areaName }}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="model.search == 'PINCODE'" class="col-lg-8 col-md-8 paddingLeftZero margin-row" style="margin-top: 4px;">
+                        <div class="mdm_searchbar" style="margin-left: 0 !important;">
+                            <input *ngIf="advancepincode==false" appSearchFieldCheck (keyup.enter)="advanceDefaultBranchPincode()" #searchbypincode="ngModel" required minlength="3" type="text" class="form-control" placeholder="244001" name="searchbypincode" [(ngModel)]="model.searchbypincode">
+                            <span class="fa fa-search" style="color: #BCBCCB; font-size: 1.7rem; top: .4rem !important;" *ngIf="advancepincode==false" (click)="advanceDefaultBranchPincode()"></span>
+                        </div>
+                        <mat-form-field class="select_box_dropwodn overline_hidden" *ngIf="advancepincode==true">
+                            <mat-select name="apincode" [(ngModel)]="model.apincode" (selectionChange)="advanceDefaultBranchPincodeByPincode('change')" (ngModelChange)="advanceDefaultBranchPincodeByPincode('changeModle') ">
+                                <mat-option *ngFor="let searchpincode of pinCodeList.responseData" [value]=searchpincode>
+                                    {{searchpincode.pincode}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- panal -->
+<section *ngIf="tabledataLength > 0" style="width: 100rem; max-height: 40rem;" class="associateContainer">
+        <div class="col-lg-12">
+            <div class="row" style="max-width: 68rem;">
+                <div class="col-lg-3 paddingLeftZero">
+                    <h5 class="searchby" style="margin-top: 12px !important;">Search Branch</h5>
+                </div>
+                <div class="col-lg-4" style="margin-bottom: 1rem !important;margin-left: -2.5rem;">
+                    <input appSearchFieldCheck (keyup)="branchDataFilter($event.target.value)" class="form-control" id="advance_search_input_branch" placeholder="search">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-3 zonalheadingbar">
+                    <mat-checkbox [disabled]="tableData?.length <=0" [(ngModel)]="checked" name="checked" (change)="selectAll($event, tableData.responseData)" [value]="tableData"></mat-checkbox>
+                 <span>BRANCH CODE</span>
+                </div>
+                <div class="col-lg-3 col-md-3 zonalheadingbar">BRANCH NAME</div>
+                <div class="col-lg-2 col-md-3 zonalheadingbar">ADDRESS</div>
+                <div class="col-lg-2 col-md-3 zonalheadingbar">STATUS</div>
+            </div>
+            <div class="search_branch_tbl">
+                <div *ngFor="let branch of tableData.responseData">
+                    <div class="row">
+                        <div class="col-lg-3 width20" style="display: inline-flex;">
+                            <mat-checkbox (change)="filterDataByAreaList($event, branch)" name="branchChecked" [(ngModel)]="branch.checked"></mat-checkbox>
+                        <span matTooltipPosition="above" [matTooltip]="branch.branchCode">{{ branch.branchCode}}</span>
+                        </div>
+                        <div class="col-lg-3 width20" matTooltipPosition="above" [matTooltip]="branch.branchName">{{branch.branchName }}</div>
+                        <div class="col-lg-3 width20">
+                            <em [matTooltip]="branch.address | uppercase" matTooltipPosition="above" class="material-icons primary-color">room</em>
+                        </div>
+                        <div class="col-lg-3 width20 ">{{branch.status | lookupValue : "lookupVal" : referenceData.statusList}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center" *ngxPermissionsOnly="['BRANCH ALLOCATION_CREATE','BRANCH ALLOCATION_UPDATE']">
+            <button id="branchSubmit" class="theme-button" style=" margin-top:2%;" mat-raised-button color="primary" (click)="allocateAreaData()">Assign</button>
+        </div>
+</section>

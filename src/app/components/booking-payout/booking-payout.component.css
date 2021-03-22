@@ -1,0 +1,29 @@
+.row_center_width{
+ width:80%
+}
+mat-radio-button {
+    width:13px;
+    height: 13px;
+    border-width: 0.2rem;
+    padding-right: 40px
+}
+.associateContainer .mat-select-value {
+    padding-top: 0rem! important;
+}
+.delete_icon {
+    position: absolute;
+    top: 10px;
+    right: 25px;
+}
+.delete_icon .material-icons {
+    font-size: 20px;
+}
+
+.module_area {
+    margin-top: 2px;
+}
+.mat-datepicker-toggle{position:  absolute !important; top: 0rem !important; right: 0rem !important;}
+
+.associateContainer .mat-form-field {
+    width: 60% !important;
+}

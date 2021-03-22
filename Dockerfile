@@ -1,15 +1,10 @@
-FROM httpd:alpine
+ARG ECR_URL
+ARG HTTPD_BASE_IMAGE_TAG_VERSION
+FROM $ECR_URL/baseimages:ui_base_image_$HTTPD_BASE_IMAGE_TAG_VERSION
 RUN rm -r /usr/local/apache2/htdocs/*
 RUN rm -r /usr/local/apache2/conf/httpd.conf
-ADD .htaccess /usr/local/apache2/htdocs/
-ADD httpd.config /usr/local/apache2/conf/httpd.conf
-ADD assets /usr/local/apache2/htdocs/assets
-ADD data.json /usr/local/apache2/htdocs/
-ADD favicon.png /usr/local/apache2/htdocs/
-# ADD run.js /usr/local/apache2/htdocs/
-ADD app_path.json /usr/local/apache2/htdocs/
-ADD router.js /usr/local/apache2/htdocs/
-ADD single_spa.js /usr/local/apache2/htdocs/
-ADD index.html /usr/local/apache2/htdocs
-RUN chmod -R 777 /usr/local/apache2/htdocs/
-EXPOSE 80    
+RUN mkdir /usr/local/apache2/htdocs/associate_booking_contract_ui
+COPY httpd.config /usr/local/apache2/conf/httpd.conf
+COPY ./dist/ /usr/local/apache2/htdocs/associate_booking_contract_ui/ 
+RUN chmod -R 755 /usr/local/apache2/htdocs/associate_booking_contract_ui/
+EXPOSE 80

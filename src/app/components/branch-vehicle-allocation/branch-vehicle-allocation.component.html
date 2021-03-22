@@ -1,0 +1,372 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-5">
+          <div>
+            <mat-toolbar class="breadcrumbs_nav">
+              <mat-toolbar-row class="breadcrumbs">
+                <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+                <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                  arrow_right
+                </mat-icon>
+                <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Contracts</a></span>
+                <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                  arrow_right
+                </mat-icon>
+                <span>Associate Contract</span>
+              </mat-toolbar-row>
+            </mat-toolbar>
+            <h2>Booking Associate Contract</h2>
+          </div>
+        </div>
+        <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
+          <stepper></stepper>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb end -->
+
+<section class="req_table_sec booking_msa_sec">
+    <div class="container-fluid">
+      <div class="booking_card padding_0">
+        <div class="bg_gray_msa_4">
+          <div class="row">
+            <div class="col-md-3">
+              <p><strong>Associate Name</strong> SAINATH</p>
+            </div>
+            <div class="col-md-3">
+              <p><strong>PAN</strong> AXPPB7112A</p>
+            </div>
+            <div class="col-md-3">
+              <p><strong>Associate Category</strong> Booking</p>
+            </div>
+            <div class="col-md-3">
+              <p><strong>W.E.F</strong> DD/MM/YYY</p>
+            </div>
+          </div>
+        </div>
+        <div class="padding_10">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-expansion-panel class="box_shadow_none" [expanded]="isExpand">
+                <mat-expansion-panel-header class="collapse_panel_header">
+                  
+                    Branch Allocation
+                  
+                </mat-expansion-panel-header>
+                <div class="row">
+                  <div class="col-md-2 col_pr_0">
+                    <mat-label><strong>Assign Branch</strong></mat-label>
+                  </div>
+                  <div class="col-md-2 col_plr_0">
+                    <div class="search_bar_mdm2d branch_allo_search">
+                      <em class="fa fa-search" aria-hidden="true"></em>
+                      <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" class="form-control" placeholder="MSA">
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <div class="mat-table">
+                        <div class="mat-row branch_table_head border_none">
+                          <div class="mat-cell"><strong>Branch Name</strong></div>
+                          <div class="mat-cell"><strong>Branch Type</strong></div>
+                          <div class="mat-cell"><strong>Start Date</strong></div>
+                          <div class="mat-cell"><strong>End Date</strong></div>
+                          <div class="mat-cell"><strong></strong></div>
+                        </div>
+                        <div class="mat-row branch_table_dis border_none">
+                          <div class="mat-cell">
+                            <mat-checkbox></mat-checkbox> DL1117
+                          </div>
+                          <div class="mat-cell">Arm</div>
+                          <div class="mat-cell">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                                <mat-datepicker #msa79tartDate1 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa79tartDate1" class="date_input_height" placeholder=""
+                                  name="expiryDate" placeholder="DD/MM/YYYY" />
+                                <mat-datepicker-toggle matPrefix [for]="msa79tartDate1">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="mat-cell">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                                <mat-datepicker #msa79EndDate1 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa79EndDate1" class="date_input_height" placeholder=""
+                                  name="expiryDate" placeholder="DD/MM/YYYY" />
+                                <mat-datepicker-toggle matPrefix [for]="msa79EndDate1">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="mat-cell text-right">
+                            <button mat-button class="mdm_active_btn bg_trans_border">Allocate</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="mt_30">
+                  <mat-label><strong>Allocated Branches</strong></mat-label>
+                </div>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="table-responsive">
+                      <div class="mat-table">
+                        <div class="mat-row branch_table_head border_none">
+                          <div class="mat-cell"><strong>Branch Name</strong></div>
+                          <div class="mat-cell"><strong>Branch Type</strong></div>
+                          <div class="mat-cell"><strong>Start Date</strong></div>
+                          <div class="mat-cell"><strong>End Date</strong></div>
+                          <div class="mat-cell"><strong></strong></div>
+                        </div>
+                        <div class="mat-row branch_table_dis border_none">
+                          <div class="mat-cell">
+                            <mat-checkbox></mat-checkbox> DL1117
+                          </div>
+                          <div class="mat-cell">Arm</div>
+                          <div class="mat-cell">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                                <mat-datepicker #msa79tartDate2 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa79tartDate2" class="date_input_height" placeholder=""
+                                  name="expiryDate" placeholder="DD/MM/YYYY" />
+                                <mat-datepicker-toggle matPrefix [for]="msa79tartDate2">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="mat-cell">
+                            <div class="module_area mt_6">
+                              <mat-form-field appearance="outline" class="date_picker_adjust input_table_width">
+                                <mat-datepicker #msa79EndDate2 class="myDatepicker23">
+                                </mat-datepicker>
+                                <input matInput [matDatepicker]="msa79EndDate2" class="date_input_height" placeholder=""
+                                  name="expiryDate" placeholder="DD/MM/YYYY" />
+                                <mat-datepicker-toggle matPrefix [for]="msa79EndDate2">
+                                </mat-datepicker-toggle>
+                              </mat-form-field>
+                            </div>
+                          </div>
+                          <div class="mat-cell text-right">
+                            <button mat-button><span class="material-icons" style="color: #27AE60; cursor: pointer;">delete</span></button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <mat-expansion-panel class="box_shadow_none">
+                <mat-expansion-panel-header class="collapse_panel_header">
+                  
+                    Vehicle Allocation To Branch
+                  
+                </mat-expansion-panel-header>
+                <div class="row mb_30">
+                  <div class="col-md-5">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <mat-label><strong>Branch DL177</strong></mat-label><br>
+                        <mat-label class="mt_10"><strong>Assign Vehicle</strong></mat-label>
+                        <div class="table-responsive">
+                          <div class="mat-table">
+                            <div class="mat-row branch_table_head border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> <strong> Vehicle Number</strong>
+                              </div>
+                              <div class="mat-cell"><strong>Vehicle Model</strong></div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 offset-1">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <mat-label><strong>Branch DL177</strong></mat-label><br>
+                        <mat-label class="mt_10"><strong>Assign Vehicle</strong></mat-label>
+                        <div class="table-responsive">
+                          <div class="mat-table">
+                            <div class="mat-row branch_table_head border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> <strong> Vehicle Number</strong>
+                              </div>
+                              <div class="mat-cell"><strong>Vehicle Model</strong></div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <mat-label><strong>Branch DL177</strong></mat-label><br>
+                        <mat-label class="mt_10"><strong>Assign Vehicle</strong></mat-label>
+                        <div class="table-responsive">
+                          <div class="mat-table">
+                            <div class="mat-row branch_table_head border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> <strong> Vehicle Number</strong>
+                              </div>
+                              <div class="mat-cell"><strong>Vehicle Model</strong></div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell Sel_checkbox_vehicle">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 offset-1">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <mat-label><strong>Branch DL177</strong></mat-label><br>
+                        <mat-label class="mt_10"><strong>Assign Vehicle</strong></mat-label>
+                        <div class="table-responsive">
+                          <div class="mat-table">
+                            <div class="mat-row branch_table_head border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> <strong> Vehicle Number</strong>
+                              </div>
+                              <div class="mat-cell"><strong>Vehicle Model</strong></div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                            <div class="mat-row branch_table_dis border_none">
+                              <div class="mat-cell">
+                                <mat-checkbox></mat-checkbox> HR26BY1230
+                              </div>
+                              <div class="mat-cell">Tata Ace</div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </div>
+        <div class="padding_10">
+          <div class="row">
+            <div class="col-md-6 mtb_30">
+              <button mat-button class="white-button bg_trans_border">Preview & Share</button><br><br>
+              <button mat-button class="white-button bg_trans_border">Save as Draft</button>
+            </div>
+            <div class="col-md-6 text-right mtb_30">
+              <button mat-button class="theme-button ml_15" skipLocationChange routerLink="/asso_booking-contract/success">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>

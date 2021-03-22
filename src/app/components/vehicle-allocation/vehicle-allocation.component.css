@@ -1,0 +1,8 @@
+.search_bar_mdm2d {
+    position: relative;
+}
+.search_bar_mdm2d em {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+}

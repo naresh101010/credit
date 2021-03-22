@@ -1,0 +1,49 @@
+<div class="modal_update">
+<div class="modal-container">
+    <h3 class="sub_heading">Booking Associate Contract Update</h3>
+    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="false">close</mat-icon>
+    <hr class="border_row">
+</div>
+<app-header-data></app-header-data>
+<div class="row mtb_15">
+    <div class="col-md-12">
+        <div class="row edit_popup" style="padding: 0 3rem;">
+            <div class="col-md-2 col-sm-6">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_booking-contract/create-associate')" >
+                    <p><strong>Edit <br> Associate</strong></p>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="bac_update_modal active" [mat-dialog-close]="true" (click)="contractTermRoute('/asso_booking-contract/assign-associate')" >
+                    <p><strong>Contract Termination</strong></p>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_booking-contract/branch-allocation')" >
+                    <p><strong>Branch & <br> Vehicle Allocation</strong></p>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_booking-contract/booking-payout')">
+                    <p><strong>Payment <br> Terms</strong></p>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_booking-contract/booking-sla')">
+                    <p><strong>Deductions</strong></p>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="generalEdit('/asso_booking-contract/assign-associate')">
+                    <p><strong>General Edit</strong></p>
+                </div>
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="bac_update_modal" [mat-dialog-close]="true" (click)="editmodules('/asso_booking-contract/booking-document')" >
+                    <p><strong>Document <br> Upload</strong></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

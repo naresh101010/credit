@@ -1,0 +1,55 @@
+<div mat-dialog-content id="userCreateDefault" class="associateContainer">
+    <div style="position: relative;" >
+        <h3 id="h3">Select Bank Branch</h3>
+        <mat-icon class="modals_cancel_btn" (click)="closeDialog()" id="closeButton">close</mat-icon>
+      </div>
+      <hr id="popup-hr">
+
+    <div class="row form-group" style="min-width: 55rem; max-width: 55rem;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 " style="margin-bottom: 1.0rem; padding: 0;">
+            <div class="col-lg-9 col-md-9">
+                <div class="margin-row">
+
+                    <div class="col-lg-8 col-md-8 paddingLeftZero margin-row" style="margin-top: 4px;">
+                        <div class="mdm_searchbar marginLeftZero">
+                            <input appSearchFieldCheck type="text" class="form-control" (keyup)="branchDataFilter($event.target.value)"  required placeholder="Search.." name="searchbyname" >
+                            <span  class="fa fa-search"  style="color: #BCBCCB; font-size: 1.7rem; top: .4rem !important;"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- panal -->
+<section style="padding: 0 1.5rem; max-height: 40rem;" class="associateContainer">
+        <div class="col-lg-12">
+
+            <div class="row">
+                <div class="col-lg-4 col-md-4 zonalheadingbar">BRANCH NAME</div>
+                <div class="col-lg-4 col-md-4 zonalheadingbar">ADDRESS</div>
+                <div class="col-lg-4 col-md-4 zonalheadingbar">IFSC</div>
+            </div>
+            <div class="search_branch_tbl">
+                <div>
+                    <div class="row" *ngFor="let branch of onLoadResponse; let i = index">
+                        <div class="col-lg-4 width20 row_center" style="display: inline-flex;">
+                            <mat-radio-group aria-label="Select an option" name="branch_{{i}}" [(ngModel)]="partyId" (change)="filterDataByAreaList($event, branch)">
+                                <mat-radio-button [checked] ="partyId == branch.BranchPartyId ? 'checked' : ''" [value]='branch.BranchPartyId'>
+                                    <span matTooltipPosition="above" [matTooltip]="branch.BankBranchName">{{branch.BankBranchName}}</span>
+                                </mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col-lg-4 width20">
+                            <em [matTooltip]="branch.BankBranchName | uppercase" matTooltipPosition="above" [matTooltip]="branch.BankName" class="material-icons primary-color">room</em>
+                        </div>
+                        <div class="col-lg-4 width20 ">{{branch.BranchNumber}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="text-center">
+            <button id="branchSubmit" class="theme-button" style=" margin-top:2%;" mat-raised-button color="primary" (click)="allocatedBranchData()">Assign</button>
+        </div>
+</section>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"></ngx-spinner>

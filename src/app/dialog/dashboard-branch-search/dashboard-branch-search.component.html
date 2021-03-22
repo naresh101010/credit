@@ -1,0 +1,84 @@
+<div mat-dialog-content id="userCreateDefault" class="associateContainer">
+    <div style="position: relative;" >
+        <h3 id="h3">Search Branch</h3>
+        <mat-icon class="modals_cancel_btn" (click)="closeDialog()" id="closeButton">close</mat-icon>
+      </div>
+      <hr id="popup-hr">
+
+    <div class="row form-group" style="min-width: 55rem; max-width: 55rem;">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xl-12 " style="margin-bottom: 1.0rem; padding: 0;">
+            <div class="col-lg-3 col-md-3 col-sm-3 col-xl-3 margin-row searchby" style="margin-top: 1.1rem;">
+                Search By
+            </div>
+            <div class="col-lg-9 col-md-9">
+                <div class="margin-row">
+                    <div class="col-lg-4 col-md-4 paddingRightZero">
+                        <mat-form-field class="select_box_dropwodn overline_hidden branchType allc">
+                            <mat-select name="search" style="width: 100%;" [(ngModel)]="searchBy">
+                                <mat-option value="NAME">NAME</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-lg-8 col-md-8 paddingLeftZero margin-row" style="margin-top: 4px;">
+                        <div class="mdm_searchbar marginLeftZero">
+                            <input minlength="3" appSearchFieldCheck type="text" (keyup.enter)="advanceDefaultBranchName(searchVal)" class="form-control" required placeholder="Search.." name="searchbyname" #searchbyname="ngModel" [(ngModel)]="searchVal">
+                            <span  class="fa fa-search"  style="color: #BCBCCB; font-size: 1.7rem; top: .4rem !important;" (click)="advanceDefaultBranchName(searchVal)"></span>
+                        </div>
+                        <!-- validation -->
+                        <div *ngIf="searchbyname.invalid && (searchbyname.dirty || searchbyname.touched)">
+                            <div *ngIf="searchbyname.errors.minlength || searchbyname.errors.maxlength" class="error2">Please Enter 3 Character
+                            </div>
+                        </div>
+                        <!-- validation -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- panal -->
+<section *ngIf="tabledataLength > 0" style="width: 100rem; max-height: 40rem;" class="associateContainer">
+        <div class="col-lg-12">
+            <div class="row" style="max-width: 68rem;">
+                <div class="col-lg-3 paddingLeftZero">
+                    <h5 class="searchby" style="margin-top: 12px !important;">Search Branch</h5>
+                </div>
+                <div class="col-lg-4" style="margin-bottom: 1rem !important;margin-left: -2.5rem;">
+                    <input appSearchFieldCheck (keyup)="branchDataFilter($event.target.value)" class="form-control" id="advance_search_input_branch" placeholder="search">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-3 col-md-3 zonalheadingbar">
+                    <!-- <mat-checkbox [disabled]="tableData?.length <=0" [(ngModel)]="checked" name="checked" (change)="selectAll($event, tableData.responseData)" [value]="tableData"></mat-checkbox> -->
+                 <span>BRANCH CODE</span>
+                </div>
+                <div class="col-lg-3 col-md-3 zonalheadingbar">BRANCH NAME</div>
+                <div class="col-lg-2 col-md-3 zonalheadingbar">ADDRESS</div>
+                <div class="col-lg-2 col-md-3 zonalheadingbar">STATUS</div>
+            </div>
+            <div class="search_branch_tbl">
+                <div *ngFor="let branch of tableData.responseData;let i=index">
+                    <div class="row">
+                        <div class="col-lg-3 width20" style="display: inline-flex;">
+                            <mat-radio-group aria-label="Select an option" name="branch_{{i}}" [(ngModel)]="selectedBranch">
+                                <mat-radio-button [checked] ="selectedBranch == branch.branchId ? 'checked' : ''" [value]='branch.branchId'>
+                                    <span matTooltipPosition="above" [matTooltip]="branch.branchCode">{{branch.branchCode}}</span>
+                                </mat-radio-button>
+                            </mat-radio-group>                      
+                        </div>
+                        <div class="col-lg-3 width20" matTooltipPosition="above" [matTooltip]="branch.branchName">{{branch.branchName }}</div>
+                        <div class="col-lg-3 width20">
+                            <em [matTooltip]="branch.address | uppercase" matTooltipPosition="above" class="material-icons primary-color">room</em>
+                        </div>
+                        <div class="col-lg-3 width20 ">{{branch.status | lookupValue : "lookupVal" : statusList}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center">
+            <button id="branchSubmit" class="theme-button" style=" margin-top:2%;" [disabled]="selectedBranch == undefined" mat-raised-button color="primary" (click)="submitBranchID()">Submit</button>
+        </div>
+</section>

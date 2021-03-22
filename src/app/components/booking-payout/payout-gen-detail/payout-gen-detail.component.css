@@ -1,0 +1,45 @@
+.tableRow {
+    height: 4.5rem;
+    background: #f1f1f1;
+    font-size: 1.6rem;
+    display: flex;
+    align-items: center;
+    text-align: left;
+    font-weight: bold;
+    padding-left: 3rem;
+}
+.tblDataRow{
+    height: 4.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.tableDataComman{
+    height: 6.5rem !important;
+    display: flex !important;
+    align-items: center;
+}
+/* .tableHead .tableRowItm{
+    background: red;
+} */
+
+.pd_zero{
+    padding: 1px !important;
+}
+
+.allc .mat-select-value {
+    padding-top: 0.4rem! important;
+}
+.prefixCom .mat-input-element {
+    padding-left: 6.5rem !important;
+}
+
+/* .col-md-3 .pd_zero .tableHead .ng-star-inserted {
+    
+} */
+
+@media (min-width: 992px) {
+    .col-md-3 {
+        width: 20% !important;
+    }
+}

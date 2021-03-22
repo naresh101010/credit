@@ -1,0 +1,193 @@
+.hero-content{margin-top: 9%;  width: 100%!important;  margin-left: 11%;}
+.retailContainer .hero-content {
+    /* margin-top: 9%; */
+    width: 100%!important;
+    margin-left: 11%;
+    margin-bottom: 5rem;
+    /* height: 100vh; */
+  }
+  .retailContainer .label-text.report {
+    font-size: 1.6rem;
+    padding-top: 0rem;
+  }
+  
+  
+  body .retailContainer.report span.mat-select-placeholder.ng-tns-c4-1.ng-star-inserted,
+  body .retailContainer.report span.ng-tns-c4-1.ng-star-inserted {
+    color: #fff !important;
+  }
+  
+  .retailContainer.report .mat-raised-button.mat-primary {
+    margin-left: 1rem;
+    margin-top: 3rem;
+  }
+  
+  .mat-select-panel.creditSelect.reportSelect {    
+    top: 2rem !important;
+  }
+  
+   .mat-select-panel.creditSelect.reportSelect{
+    top: 1.9rem !important;
+  }
+  .mat-select-panel.reportSelect {
+    min-width: calc(100% + 10px) !important;
+    width: 100% !important;
+    top: 8.9rem !important;
+    margin-top: 0rem !important;
+    left: 1.5rem !important;
+    box-shadow: none !important;
+    position: absolute !important;
+    border: .1rem solid #6A6868 !important;
+    border-radius: .2rem !important;
+    max-height: 29vh !important;
+    overflow-y: auto !important;
+}
+ /* Only for safari Browser */
+ @media not all and (min-resolution:.001dpcm) { 
+        body, .mat-card {
+        font-family: 'Open Sans',sans-serif !important;
+        }
+        .boxcontainer .col-lg-5 {
+        width: 49.67%;
+        }
+ }
+ .retailContainer .parent{position: relative !important;}
+ .control-label{
+  margin-top: 8px;
+  font-size: 10px;
+  font-weight: bold;
+  min-width:145px;
+}
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+::ng-deep  .mat-form-field-flex{
+  border:1px solid grey !important;  
+  width:auto !important;
+  max-width:150px;
+}
+ 
+
+.btn_submit {
+  color: #fff;
+  background: #27AE60;
+  font-size: 14px;
+  border-radius: 22px;
+  width: 85px;
+  outline: none;
+  border: none;
+  padding: 5px 5px 5px 6px;
+  margin-top: 25px;
+  text-align: center;
+  font-weight: bold;
+}
+.color-danger{
+  color:#b22f24
+}
+.form-control{
+  border:none !important;
+  margin-top: -9px !important;
+  text-indent: 10px;
+}
+
+.form-control:hover{
+  outline: none !important;
+  border: transparent !important;
+}
+.form-control:focus{
+  outline: none !important;
+  border: transparent !important;
+}
+.div-center{
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  margin-right: 0px;
+  margin-left: 0px;
+}
+input:-moz-placeholder 
+{ text-align:right;
+  font-size:16px;
+}
+::ng-deep .mat-datepicker-toggle{
+  width: 2em !important;
+}
+.main-div{
+  display: block;
+  width:100%;
+  float: left;
+  clear: both;
+  padding: 5px 10px;
+  min-height: 320px;	
+}
+.box-left{
+  width:50%;
+  float: left;	
+}
+.box-right{
+  width:50%;
+  float: left;
+}
+.submit-button{
+  display: block;
+  width:100%;
+  float: left;
+  clear: both;	
+  text-align:center;
+}
+.mat-card-width{
+  width: 100%;
+  float: left;
+  display: block;
+}
+.form-inline{
+  display: flex; 
+  align-items: center;
+}
+.radio-item{
+  width: 100%;
+  display: block;
+  margin-top: -7px;
+
+}
+
+.btn-dis {
+  opacity: 0.5 !important;
+}
+
+::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+    transform: initial;
+}
+
+.err-msg {
+  color: red;
+  font-size: 1.3rem;
+  position: absolute;
+  left: 0;
+  bottom: -7px;
+  width: 100%;
+}
+::ng-deep.select-search .mat-select-search-input{
+  padding: 0 !important;
+  padding-left: 15px !important;
+}
+
+::ng-deep.select-search .mat-icon {
+  height: auto;
+  width: auto;
+  font-size: 14px;
+  line-height: normal;
+}
+::ng-deep.select-search .mat-select-search-clear{
+  width: auto;
+  height: auto;
+  line-height: 24px;
+}
+::ng-deep body .advanceSearch {
+  top: 49px !important;
+}
+.icon-search {
+  position: absolute;
+    top: 3px;
+    left: 0;
+}

@@ -1,0 +1,78 @@
+{
+    "message": "string",
+    "status": "SUCCESS",
+    "data": {
+      "referenceData": {},
+      "responseData": [
+        {
+          "city": {
+            "cityCode": "string",
+            "cityName": "string",
+            "descr": "string",
+            "district": {
+              "descr": "string",
+              "districtName": "string",
+              "effectiveDt": "2020-02-08T18:16:10.998Z",
+              "expDt": "2020-02-08T18:16:10.998Z",
+              "id": 0,
+              "isUpdateOrRemove": "string",
+              "state": {
+                "country": {
+                  "countryName": "string",
+                  "descr": "string",
+                  "id": 0,
+                  "isUpdateOrRemove": "string",
+                  "status": 0
+                },
+                "descr": "string",
+                "effectiveDt": "2020-02-08T18:16:10.998Z",
+                "ewayblInterTh": 0,
+                "ewayblIntraTh": 0,
+                "expDt": "2020-02-08T18:16:10.998Z",
+                "gstNum": "string",
+                "gstStateCode": 0,
+                "id": 0,
+                "isUpdateOrRemove": "string",
+                "lkpStateTypeId": 0,
+                "stateName": "string",
+                "status": 0
+              },
+              "status": 0
+            },
+            "effectiveDt": "2020-02-08T18:16:10.998Z",
+            "expDt": "2020-02-08T18:16:10.998Z",
+            "id": 0,
+            "isUpdateOrRemove": "string",
+            "status": 0
+          },
+          "descr": "string",
+          "effectiveDt": "2020-02-08T18:16:10.998Z",
+          "expDt": "2020-02-08T18:16:10.998Z",
+          "id": 0,
+          "isUpdateOrRemove": "string",
+          "lkpSafextTypeId": 0,
+          "pincode": "string",
+          "pincodeFeature": [
+            {
+              "descr": "string",
+              "id": 0,
+              "isAddorUncheck": "string",
+              "pincodeFeatureId": 0,
+              "status": 0
+            }
+          ],
+          "status": 0
+        }
+      ]
+    },
+    "errors": {
+      "respCode": "string",
+      "message": "string",
+      "error": [
+        {
+          "code": "string",
+          "description": "string"
+        }
+      ]
+    }
+  }

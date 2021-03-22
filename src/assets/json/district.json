@@ -1,0 +1,16 @@
+[
+    {
+      "id": 1,
+      "descr": "South West Delhi District",
+      "districtName": "SOUTH WEST",
+      "status": 1,
+      "effectiveDt": "2019-10-15T05:06:40.198+0000"
+    },
+    {
+      "id": 2,
+      "descr": "LUCKNOW",
+      "districtName": "LUCKNOW",
+      "status": 1,
+      "effectiveDt": "2019-10-28T06:23:45.617+0000"
+    }
+  ]

@@ -1,0 +1,740 @@
+<!-- breadcrumb start -->
+<div class="dropDashboard">
+<section class="booking_breadcrumb_sec">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+            <div>
+                <mat-toolbar class="breadcrumbs_nav">
+                  <mat-toolbar-row class="breadcrumbs">
+                    <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+                    <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                      arrow_right
+                    </mat-icon>
+                    <span>Associate</span>
+                  </mat-toolbar-row>
+                </mat-toolbar>
+                <h2>{{isIDExist ? 'Update' : 'Create'}} Associate</h2>
+              </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb end -->
+<form [formGroup]="createAssociateFormGroup">
+  <section class="req_table_sec booking_msa_sec">
+      <div class="container-fluid">
+        <div class="black_card_blank"></div>
+        <div class="booking_card padding_0">
+          <div class="padding_10 pb_0">
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Associate/Organisation Name<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput [readonly] ="isIDExist" name="companyName" class="form-control"  autocomplete="true"  
+                  formControlName="companyName" maxlength="100">
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.companyName.errors?.required && f.companyName.touched">
+                    <em>Required !</em> </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>GST Registered<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-radio-group  formControlName="gstnRegdFlag">
+                    <mat-radio-button [value]="1" (change)="onChangeGstnRegFlag($event.value)" style="padding-right: 30px;">Yes
+                    </mat-radio-button>
+                    <mat-radio-button [value]="0" (change)="onChangeGstnRegFlag($event.value)">No</mat-radio-button>
+                  </mat-radio-group>
+                  <div class="errorMsg" *ngIf="f.gstnRegdFlag.errors?.required && f.gstnRegdFlag.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>GSTIN No.<span class="redMark" *ngIf="f.gstnRegdFlag.value == 1">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input [readonly]="gstFlag" matInput name="gstinNum" class="form-control"  autocomplete="true" formControlName="gstinNum"
+                  alphanumeric  maxlength="15" minlength="15" (input)="onGstnChange($event)">
+                 </mat-form-field>
+                 <div class="errorMsg" *ngIf="f.gstinNum.errors?.required && f.gstinNum.touched"><em>Required !</em></div>
+                 <div class="errorMsg" *ngIf="f.gstinNum.invalid && (f.gstinNum.dirty || f.gstinNum.touched) && !f.gstinNum.errors?.required"><em>Invalid GST !</em></div>
+                 <div class="errorMsg" *ngIf="!gstnChk && !f.gstinNum.errors?.required && !f.gstinNum.invalid"><em>Invalid GST !</em></div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>PAN No.<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="panNum" class="form-control"   autocomplete="true" formControlName="panNum"
+                  alphanumeric minlength="10" maxlength="10" (input)="onPanChange($event)">
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.panNum.errors?.required && f.panNum.touched"><em>Required !</em></div>
+                  <div class="errorMsg" *ngIf="f.panNum.invalid && (f.panNum.dirty || f.panNum.touched) && !f.panNum.errors?.required"><em>Invalid PAN !</em></div>
+                  <div class="errorMsg" *ngIf="!panChk && !f.panNum.errors?.required && !f.panNum.invalid"><em>Invalid PAN !</em></div>
+                </div>
+            </div>
+          </div>
+          <hr>
+          <div class="padding_10 pb_0">
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Associate First Name<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="contactFname" class="form-control" [readonly] ="isIDExist" autocomplete="true" formControlName="contactFname"
+                  alphaSpecialChar minlength="3" maxlength="50">
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.contactFname.errors?.required && f.contactFname.touched">
+                    <em>Required !</em> </div>
+                  <div class="errorMsg" *ngIf="f.contactFname.errors?.minlength && f.contactFname.touched">
+                    <em>Please enter minimum 3 characters !</em> </div>
+                </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Associate Middle Name</strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="contactMname" class="form-control" [readonly] ="isIDExist"  autocomplete="true" formControlName="contactMname"
+                  alphaSpecialChar maxlength="50">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Associate Last Name<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="contactLname" class="form-control" [readonly] ="isIDExist"  autocomplete="true" formControlName="contactLname"
+                  alphaSpecialChar maxlength="50">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.contactLname.errors?.required && f.contactLname.touched">
+                    <em>Required !</em> </div>
+                </div>
+                <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                  <mat-label><strong>Gender<span class="redMark">*</span></strong></mat-label>
+                </div>
+                <div class="col-md-2">
+                  <div class="module_area">
+                    <mat-form-field class="select_box_dropwodn overline_hidden">
+                      <mat-label>Select</mat-label>
+                      <mat-select name="gender" formControlName="gender">
+                        <mat-option value="MALE">
+                          Male
+                        </mat-option>
+                        <mat-option value="FEMALE">
+                          Female
+                        </mat-option>
+                        <mat-option value="OTHER">
+                          Other
+                        </mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <div class="errorMsg" *ngIf="f.gender.errors?.required && f.gender.touched">
+                      <em>Required !</em> </div>
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Official Mobile No.<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="mob" class="form-control" autocomplete="true" formControlName="mob"
+                  maxlength="10" minlength="10" [numbersOnly] = true>
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.mob.errors?.required && f.mob.touched">
+                  <em>Required !</em> 
+                </div>
+                <div class="errorMsg" *ngIf="(f.mob.errors?.minlength || f.mob.errors?.maxlength) && !(f.mob.errors?.required && f.mob.touched)">
+                    <em>Number should be 10 digits !</em></div>
+                <div class="errorMsg" *ngIf="(f.mob.errors?.isNumeric) && !(f.mob.errors?.minlength || f.mob.errors?.maxlength) && !(f.mob.errors?.required && f.mob.touched)"><em>Value is Invalid !</em></div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Personal Mobile No.<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="altmob" class="form-control"  autocomplete="true" formControlName="altMob" 
+                  maxlength="10" minlength="10" [numbersOnly] = true>
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.altMob.errors?.required && f.altMob.touched">
+                  <em>Required !</em> </div>
+                <div class="errorMsg" *ngIf="(f.altMob.errors?.minlength || f.altMob.errors?.maxlength) && !(f.altMob.errors?.required && f.altMob.touched)">
+                  <em>Number should be 10 digits !</em></div>
+                  <div class="errorMsg" *ngIf="(f.altMob.errors?.isNumeric) && !(f.altMob.errors?.minlength || f.altMob.errors?.maxlength) && !(f.altMob.errors?.required && f.altMob.touched)"><em>Value is Invalid !</em></div>
+                  <div class="errorMsg" *ngIf="f.altMob.errors?.pattern && !f.altMob.errors?.minlength">
+                    Invalid entry, Please enter number only !
+                  </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Emergency Contact No.<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="emergencyPhone" class="form-control"  autocomplete="true" formControlName="emergencyPhone" 
+                  maxlength="10" minlength="10" [numbersOnly] = true>
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.emergencyPhone.errors?.required && f.emergencyPhone.touched">
+                  <em>Required !</em> </div>
+                <div class="errorMsg" *ngIf="(f.emergencyPhone.errors?.minlength || f.emergencyPhone.errors?.maxlength) && !(f.emergencyPhone.errors?.required && f.emergencyPhone.touched)">
+                  <em>Number should be 10 digits !</em></div>
+                  <div class="errorMsg" *ngIf="(f.emergencyPhone.errors?.isNumeric) && !(f.emergencyPhone.errors?.minlength || f.emergencyPhone.errors?.maxlength) && !(f.emergencyPhone.errors?.required && f.emergencyPhone.touched)"><em>Value is Invalid !</em></div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>WhatsApp No.<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="whatsappNum" class="form-control"  autocomplete="true" formControlName="whatsappNum" 
+                  maxlength="10" minlength="10" [numbersOnly] = true>
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.whatsappNum.errors?.required && f.whatsappNum.touched">
+                  <em>Required !</em> </div>
+                <div class="errorMsg" *ngIf="(f.whatsappNum.errors?.minlength || f.whatsappNum.errors?.maxlength) && !(f.whatsappNum.errors?.required && f.whatsappNum.touched)">
+                  <em>Number should be 10 digits !</em></div>
+                  <div class="errorMsg" *ngIf="(f.whatsappNum.errors?.isNumeric) && !(f.whatsappNum.errors?.minlength || f.whatsappNum.errors?.maxlength) && !(f.whatsappNum.errors?.required && f.whatsappNum.touched)"><em>Value is Invalid !</em></div>   
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Official E-Mail<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="ofcEmail" class="form-control"  autocomplete="true" formControlName="ofcEmail"
+                  (input)="onEmailChangeOffice($event)">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.ofcEmail.errors?.required && f.ofcEmail.touched">
+                  <em>Required !</em> </div>                
+                  <div class="errorMsg" *ngIf="!emailChkOffice && !f.ofcEmail.errors?.required"><em>Invalid Email !</em></div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Personal E-Mail<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="personalEmail" class="form-control"  autocomplete="true" 
+                  formControlName="personalEmail" (input)="onEmailChangePersonal($event)">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.personalEmail.errors?.required && f.personalEmail.touched">
+                  <em>Required !</em> </div>
+                  <div class="errorMsg" *ngIf="!emailChkPerosnal && !f.personalEmail.errors?.required"><em>Invalid Email !</em></div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Marital Status<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-radio-group name="matital" formControlName="maritalStatus">
+                    <mat-radio-button value="SINGLE">Single
+                    </mat-radio-button>
+                    <mat-radio-button value="MARRIED">Married</mat-radio-button>
+                  </mat-radio-group>
+                  <div class="errorMsg" *ngIf="f.maritalStatus.errors?.required && f.maritalStatus.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>DOB<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #caDob1 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="caDob1" class="date_input_height"  name="dob" formControlName="dob"
+                    (blur)="checkValidDate(f.dob)" placeholder="DD/MM/YYYY" numericSpecialChar/>
+                    <mat-datepicker-toggle matPrefix [for]="caDob1">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.dob.errors?.required && f.dob.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Aadhaar No.<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="aadhaarNum" class="form-control"  autocomplete="true" formControlName="aadhaarNum" 
+                  maxlength="12" minlength="12" [numbersOnly] = true>
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.aadhaarNum.errors?.required && f.aadhaarNum.touched">
+                  <em>Required !</em> </div>
+                  <div class="errorMsg" *ngIf="(f.aadhaarNum.errors?.minlength || f.aadhaarNum.errors?.maxlength) && !(f.aadhaarNum.errors?.required && f.aadhaarNum.touched)">
+                    <em>Aadhar No. should be 12 digits !</em></div>
+                  <div class="errorMsg" *ngIf="(f.aadhaarNum.errors?.isNumeric) && !(f.aadhaarNum.errors?.minlength || f.aadhaarNum.errors?.maxlength) && !(f.aadhaarNum.errors?.required && f.aadhaarNum.touched)">
+                    <em>Value is Invalid !</em></div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Date of Anniversary</strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #caDob2 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="caDob2" class="date_input_height"  name="annivDate" formControlName="annivDt" (blur)="checkValidDate(f.annivDt)"
+                      placeholder="DD/MM/YYYY" [disabled]="f.maritalStatus.value == 'SINGLE' ? true : false" numericSpecialChar/>
+                    <mat-datepicker-toggle matPrefix [for]="caDob2">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="padding_10 pb_0">
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Associate Department Name<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden">
+                    <mat-label>Select</mat-label>
+                    <mat-select disableOptionCentering panelClass="mat_ngx_booking" formControlName="assocDeptMaps">
+                      <ngx-mat-select-search [(ngModel)]="searchDeptName" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                        [noEntriesFoundLabel]="'Not found'" name="search">
+                        <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+                      </ngx-mat-select-search>
+                      <mat-option  *ngFor="let adl of (assocDeptList | stringFilterBooking:searchDeptName:'descr') | sortBy:'asc':'descr'" [value]="adl.id" selected
+                      matTooltipPosition="above" [matTooltip]="adl.descr | uppercase" [matTooltipDisabled]="adl.descr?.length<24">
+                        {{adl.descr}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.assocDeptMaps.errors?.required && f.assocDeptMaps.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Associate Type<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden">
+                    <mat-label>Select</mat-label>
+                    <mat-select disableOptionCentering panelClass="mat_ngx_booking" formControlName="assocTypeMaps">
+                      <ngx-mat-select-search [(ngModel)]="searchDeptName1" [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                        [noEntriesFoundLabel]="'Not found'" name="search">
+                        <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search_booking">search</mat-icon>
+                      </ngx-mat-select-search>
+                      <mat-option  *ngFor="let atl of assocTypeList | stringFilterBooking:searchDeptName1:'descr' | sortBy:'asc':'descr'" [value]="atl.id" selected
+                      matTooltipPosition="above" [matTooltip]="atl.descr | uppercase" [matTooltipDisabled]="atl.descr?.length<24">
+                        {{atl.descr}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.assocTypeMaps.errors?.required && f.assocTypeMaps.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Cheque Favour of<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="chqFavour" class="form-control"  autocomplete="true" 
+                  formControlName="chqFavour" maxlength="200">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.chqFavour.errors?.required && f.chqFavour.touched">
+                  <em>Required !</em> </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Select Bank<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden">
+                    <mat-label>Select</mat-label>
+                    <mat-select formControlName="bankName" (selectionChange)="onSelectBank($event.value)">
+                      <mat-option *ngFor="let bank of cashBankList" [value]="bank.BankName">
+                        {{bank.BankName}}
+                      </mat-option> 
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.bankName.errors?.required && f.bankName.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Select Branch<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2 search_ico">
+                <span  class="fa fa-search"  style="color: #BCBCCB; font-size: 1.7rem;"></span>
+                <mat-form-field appearance="outline" (click)="selectBankBranch()">
+                  <input matInput name="bankAddr" style="background: inherit;" class="form-control" readonly formControlName="bankAddr" placeholder="Please Select">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.bankAddr.errors?.required && f.bankAddr.touched">
+                  <em>Required !</em> </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Account Type<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden">
+                    <mat-label>Select</mat-label>
+                    <mat-select formControlName="lkpAccountTypeId">
+                      <mat-option *ngFor="let account of accountTypeList | sortBy:'asc':'descr'" [value]="account.id">
+                        {{account.descr}}
+                      </mat-option> 
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.lkpAccountTypeId.errors?.required && f.lkpAccountTypeId.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Bank Account No.<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="bankAcc" class="form-control"  autocomplete="true" 
+                  formControlName="bankAcc" alphanumeric maxlength="100">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.bankAcc.errors?.required && f.bankAcc.touched">
+                  <em>Required !</em> </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>IFSC Code<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input readonly matInput name="ifscCode" class="form-control"  autocomplete="true" formControlName="ifscCode"
+                  alphanumeric maxlength="100">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.ifscCode.errors?.required && f.ifscCode.touched">
+                  <em>Required !</em> </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Advance Amount</strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="advncAmt" class="form-control"   autocomplete="true" formControlName="advncAmt" 
+                  numeric maxlength="10">
+                </mat-form-field>
+                <span *ngIf="(f.advncAmt.errors?.isNumeric && f.advncAmt.touched)"
+                  class="errorMsg">
+                    Invalid !
+                </span>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Mode of Payment<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden">
+                    <mat-label>Select</mat-label>
+                    <mat-select formControlName="lkpPymtMethodId">
+                      <mat-option *ngFor="let mop of paymentModeList" [value]="mop.id">
+                        {{mop.descr}}
+                      </mat-option> 
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.lkpPymtMethodId.errors?.required && f.lkpPymtMethodId.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">              
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Registered As<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden">
+                    <mat-label>Select</mat-label>
+                    <mat-select disableOptionCentering panelClass="creditSelect"  formControlName="assocRegdType" (selectionChange)="onSelectAassignTdsValue($event.value)">
+                      <mat-option *ngFor="let item of assocRegdTypeList" [value]="item.id">
+                        {{item.regdType}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.assocRegdType.errors?.required && f.assocRegdType.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>TDS Certificate<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-radio-group name="tdsCertFlag"  formControlName="tdsCertFlag">
+                    <mat-radio-button [value]="1" style="padding-right: 30px;" (change)="onChangeTDSCertifiate($event.value)">Yes
+                    </mat-radio-button>
+                    <mat-radio-button [value]="0" (change)="onChangeTDSCertifiate($event.value)">No</mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div class="errorMsg" *ngIf="f.tdsCertFlag.errors?.required && f.assocRegdType.touched">
+                  <em>Required !</em> </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Security Deposit Amount<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="securityDepositAmt" class="form-control"  formControlName="securityDepositAmt"
+                  maxlength="10">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="f.securityDepositAmt.errors?.required && f.securityDepositAmt.touched">
+                  <em>Required !</em> </div>
+                <div class="errorMsg" *ngIf="f.securityDepositAmt.errors?.pattern && f.securityDepositAmt.touched">
+                  <em>Invalid !</em> </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>TDS Percentage</strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="tdsPercent" class="form-control" placeholder="%" autocomplete="true" formControlName="tdsPercent"
+                  [required]="f.tdsCertFlag.value == 1 ? true : false" (input)="tdsValid($event)" maxlength="5" numeric>
+               </mat-form-field>
+               <div class="errorMsg" *ngIf="f.tdsPercent.errors?.required && f.tdsPercent.touched">
+                 <em>Required !</em> </div>
+                 <span *ngIf="(f.tdsPercent.errors?.isNumeric && !(f.tdsPercent.errors?.required && f.tdsPercent.touched))"
+                   class="errorMsg">
+                     Invalid !
+                 </span>
+                 <span *ngIf="tdsFlag && !(f.tdsPercent.errors?.isNumeric && !(f.tdsPercent.errors?.required && f.tdsPercent.touched))"
+                   class="errorMsg">
+                     Less than 100 !
+                 </span>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Residence Address<span class="redMark">*</span></strong></mat-label>
+              </div>
+              
+              <div class="col-md-2" formGroupName="resAddrBook">
+                <mat-form-field appearance="outline">
+                  <input matInput name="resAddr1" class="form-control" placeholder="Address Line 1" autocomplete="true" formControlName="addr1"
+                  maxlength="150" [matTooltip]="residentAddress.controls.addr1.value" [matTooltipDisabled]="residentAddress.controls.addr1.value?.length<17" 
+                  matTooltipPosition="above">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="residentAddress.controls.addr1.errors?.required && residentAddress.controls.addr1.touched">
+                  <em>Required !</em> </div>
+                <mat-form-field appearance="outline">
+                  <input matInput name="resaddr2" class="form-control" placeholder="Address Line 2 (City)" autocomplete="true" formControlName="addr2" [readonly]="readMode"
+                  matTooltipPosition="above" [matTooltip]="resCity?.cityName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput name="resaddr3" class="form-control" placeholder="Address Line 3 (State)" autocomplete="true" formControlName="addr3" [readonly]="readMode"
+                  matTooltipPosition="above" [matTooltip]="resCity?.district?.state?.stateName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
+                </mat-form-field>
+                  
+              </div>
+
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Official Address<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2" formGroupName="ofcAddrBook">
+                <mat-form-field appearance="outline">
+                  <input matInput name="addr1" class="form-control" placeholder="Address Line 1" autocomplete="true" formControlName="addr1"
+                  maxlength="150" [matTooltip]="officeAddress.controls.addr1.value" [matTooltipDisabled]="officeAddress.controls.addr1.value?.length<17" 
+                  matTooltipPosition="above">
+                </mat-form-field>
+                <div class="errorMsg" *ngIf="officeAddress.controls.addr1.errors?.required && officeAddress.controls.addr1.touched">
+                  <em>Required !</em> </div>
+                <mat-form-field appearance="outline">
+                  <input matInput name="addr2" class="form-control" placeholder="Address Line 2 (City)" autocomplete="true" formControlName="addr2" [readonly]="readMode"
+                  matTooltipPosition="above" [matTooltip]="offCity?.cityName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
+                </mat-form-field>
+                <mat-form-field appearance="outline">
+                  <input matInput name="addr3" class="form-control" placeholder="Address Line 3 (State)" autocomplete="true" formControlName="addr3" [readonly]="readMode"
+                  matTooltipPosition="above" [matTooltip]="offCity?.district?.state?.stateName | uppercase" [matTooltipDisabled]="!readMode" maxlength="150">
+                </mat-form-field>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-md-2">
+                  <mat-label><strong>Pincode<span class="redMark">*</span></strong></mat-label>
+              </div>
+              
+              <div class="col-md-2" formGroupName="resAddrBook">
+                  <ng-select [items]="resPincodeData" 
+                  name="pincode"
+                  bindLabel="pincode"
+                  class="creditNgDropdown"
+                  bindValue="pincodeId"
+                  appendTo="body"
+                  id="pincodeId"
+                  (search) ='resPincodeSearch($event)'
+                  (keypress)='numberOnly($event)'
+                  formControlName="pincodeId"
+                  (click)="resOnClear()"
+                  (keydown)="validateNumber($event)">
+                  </ng-select>
+                  <div class="errorMsg" style="margin-top:1rem !important;" *ngIf="residentAddress.controls.pincodeId.errors?.required && !resPincodeError && residentAddress.controls.pincodeId.touched">
+                    <em>Required !</em> </div>
+              </div>
+              <div class="col-md-2">
+                <div *ngIf="resPincodeError" class="errorMsg" style="margin-top: 0;">Enter min. 4 character !</div>
+              </div>
+
+              <div class="col-md-2 mo_ml_0">
+                <mat-label><strong>Pincode<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2" formGroupName="ofcAddrBook">
+                <ng-select [items]="offcPincodeData" 
+                name="pincodeOffc"
+                bindLabel="pincode"
+                class="creditNgDropdown"
+                bindValue="pincodeId"
+                appendTo="body"
+                id="pincodeOffc"
+                (search) ='offcPincodeSearch($event)'
+                (keypress)='numberOnly($event)'
+                formControlName="pincodeId"
+                (click)="offcOnClear()"
+                (keydown)="validateNumber($event)">
+                </ng-select>
+                <div class="errorMsg" style="margin-top:1rem !important;" *ngIf="officeAddress.controls.pincodeId.errors?.required && !offcPincodeError && officeAddress.controls.pincodeId.touched">
+                  <em>Required !</em> </div>
+              </div>
+              <div class="col-md-2">
+                <div *ngIf="offcPincodeError" class="errorMsg" style="margin-top: 0;">Enter min. 4 character !</div>
+              </div>
+            </div>
+          </div>
+          <hr>
+          <div class="padding_10 pb_0">
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Description</strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <mat-form-field appearance="outline">
+                  <input matInput name="descr" class="form-control" placeholder="Description" autocomplete="true" formControlName="descr"
+                   alphanumeric maxlength="100">
+                </mat-form-field>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>On Boarding Date<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #caDob3 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="caDob3" class="date_input_height"  name="estDt" 
+                    (blur)="checkValidDate(f.estDt)" placeholder="DD/MM/YYYY" formControlName="estDt" numericSpecialChar/>
+                    <mat-datepicker-toggle matPrefix [for]="caDob3">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.estDt.errors?.required && f.estDt.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Effective Date<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #caDob4 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="caDob4" class="date_input_height"  name="effectiveDate" 
+                     formControlName="effectiveDt"
+                      placeholder="DD/MM/YYYY" (dateChange)="effectiveDate()" (blur)="effectiveDate()" [min]="f.estDt.value" numericSpecialChar/>
+                    <mat-datepicker-toggle matPrefix [for]="caDob4">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.effectiveDt.errors?.required && f.effectiveDt.touched">
+                    <em>Required !</em> </div>
+                    <div *ngIf="(isValidEffectiveDt && !(f.effectiveDt.errors?.required)) || (f.effectiveDt.value !== '' && f.effectiveDt.value < f.estDt.value)" class="errorMsg">
+                      <em>Invalid !</em>
+                     </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2">
+                <mat-label><strong>Status<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field class="select_box_dropwodn overline_hidden" >
+                    <mat-label>Select</mat-label>
+                    <mat-select name="status" formControlName="status">
+                      <mat-option [value]="item.value" *ngFor="let item of statusList">
+                      {{item.text}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  <div class="errorMsg" *ngIf="f.status.errors?.required && f.status.touched">
+                    <em>Required !</em> </div>
+                </div>
+              </div>
+              <div class="col-md-2 col-md-offset-2 mo_ml_0">
+                <mat-label><strong>Expiry Date</strong></mat-label>
+              </div>
+              <div class="col-md-2">
+                <div class="module_area">
+                  <mat-form-field appearance="outline" class="date_picker_adjust">
+                    <mat-datepicker #caDob6c3 class="myDatepicker23">
+                    </mat-datepicker>
+                    <input matInput [matDatepicker]="caDob6c3" class="date_input_height"  name="expDate" formControlName="expDt"
+                      placeholder="DD/MM/YYYY" (dateChange)="expDate()" (blur)="expDate()" [min]="minDate" numericSpecialChar/>
+                    <mat-datepicker-toggle matPrefix [for]="caDob6c3">
+                    </mat-datepicker-toggle>
+                  </mat-form-field>
+                  <div *ngIf="isValidExpDt" class="errorMsg">
+                    <em>Invalid !</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['CREATE ASSOCIATE_CREATE','CREATE ASSOCIATE_UPDATE']">
+              <button mat-button class="theme-button" *ngIf="!readMode" [disabled]="tdsFlag || (f.effectiveDt.value < f.estDt.value)"  (click)="saveAssociateContract()">Next</button>
+              <button mat-button class="theme-button" *ngIf="readMode"  skipLocationChange routerLink="/asso_booking-contract/create-associate-contract">Back</button>
+            </div>
+            <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['CREATE ASSOCIATE_CREATE','CREATE ASSOCIATE_UPDATE']">
+              <button mat-button class="theme-button" *ngIf="!readMode" [disabled]="tdsFlag || (f.effectiveDt.value < f.estDt.value)"  (click)="nextReadMode()">Next</button>
+            </div>
+          </div>
+          <hr>
+        </div>
+      </div>
+    </section>
+</form>  </div>
+
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

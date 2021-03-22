@@ -1,0 +1,117 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div>
+          <mat-toolbar class="breadcrumbs_nav">
+            <mat-toolbar-row class="breadcrumbs">
+              <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+              <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                arrow_right
+              </mat-icon>
+              <span>Associate</span>
+            </mat-toolbar-row>
+          </mat-toolbar>
+          <h2>Associate Staff</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- breadcrumb end -->
+
+<section class="req_table_sec booking_msa_sec">
+  <div class="container-fluid">
+    <div class="black_card_blank"></div>
+    <div class="booking_card">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="title_search_add">
+            <mat-label><strong>Associate Staff </strong></mat-label>
+            <div class="mdm_searchbar">
+              <em class="fa fa-search" aria-hidden="true"></em>
+              <mat-form-field appearance="outline">
+                <input appSearchFieldCheck matInput (keyup)="applyFilter($event.target.value)" name="search" class="form-control"
+                  placeholder="Search...">
+              </mat-form-field>
+              <div class="error2" style="position: relative; top: -9px;">
+                <label *ngIf="minchar" class="validation-message">Please Enter 3 Character</label>
+                <label *ngIf="nomatch" class="validation-message">No Match Found</label>
+              </div>
+            </div>
+            <mat-icon class="add_icon" skipLocationChange routerLink="../create-associate-staff" *ngxPermissionsOnly="['CREATE ASSOCIATE STAFF_CREATE']">add</mat-icon>
+          </div>
+        </div>
+      </div>
+      <div class="row mt_10">
+        <div class="col-md-12">
+          <div class="table-responsive create_new_tale_mdm2">
+
+            <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" *ngxPermissionsOnly="['CREATE ASSOCIATE STAFF_READ']"> 
+              <caption></caption>
+              <!-- STAFF Name -->
+              <ng-container matColumnDef="staffFname">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>STAFF NAME</strong></th>
+                <td mat-cell *matCellDef="let element">
+                  <a>
+                    <div class="row_center row_center_width" [matTooltip]="element.staffFname" matTooltipPosition="above">{{element.staffFname}}</div>
+                  </a>
+                </td>
+              </ng-container>
+
+              <!-- CREATE DATE -->
+              <ng-container matColumnDef="crtdDt">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>CREATE DATE</strong></th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="row_center row_center_width">{{element.crtdDt | date : 'dd/MM/yyyy'}}</div>
+                </td>
+              </ng-container>
+
+              <!-- EMAIL -->
+              <ng-container matColumnDef="ofcEmail">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>EMAIL</strong></th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.ofcEmail">{{element.ofcEmail}}</div>
+                </td>
+              </ng-container>
+
+              <!-- MOBILE NUMBER -->
+              <ng-container matColumnDef="mob">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>MOBILE NUMBER</strong></th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.mob">{{element.mob}}</div>
+                </td>
+              </ng-container>
+
+              <!--Edit button -->
+              <ng-container matColumnDef="Sedit">
+                <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong></strong></th>
+                <td mat-cell *matCellDef="let element">
+                  <div class="row_center row_center_width" matTooltipPosition="above">
+                    <em class="material-icons iconSize green paddingZero" *ngxPermissionsOnly="['CREATE ASSOCIATE STAFF_UPDATE']" (click)="goToEditPage(element.id)" style="cursor: pointer;">create</em>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+            <div  panelClass="paginator">
+                <mat-paginator class="paginator" [pageSizeOptions]="[10, 20, 50]" showFirstLastButtons></mat-paginator>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12 text-center mtb_30">
+              <button mat-button class="white-button" (click)="onSkipClick($event)">Skip</button>
+              <button mat-button class="theme-button" (click)="onSubmitClick($event)">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

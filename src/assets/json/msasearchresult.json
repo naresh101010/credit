@@ -1,0 +1,165 @@
+{
+    "message": "Request Completed Successfully",
+    "data": {
+        "responseData": [
+            {
+                "id": 1323,
+                "pan": "BUGHY7578W1323",
+                "custName": "SAFEX DEMO 02",
+                "gstinNum": "12ABCDE1234F2Z61323",
+                "groupCode": "MSA10001322",
+                "sfdcAccId": "74225271323",
+                "baseLocation": "ABOHAR-02",
+                "sfdcMnthPotentialAir": 10000,
+                "sfdcMnthPotentialSurface": 10000.00,
+                "sfdcMnthPotential3pl": 100.00,
+                "accType": "CREDIT",
+                "descr": "DESCRIPTION",
+                "status": 1,
+                "originatingSrc": "SALESFORCE",
+                "email": "RAHUL@123.COM",
+                "segment": "HI TECH",
+                "subsegment": "IT",
+                "oldMsaCustId": 12,
+                "sla": 101,
+                "closeDt": "2020-10-30",
+                "tanNum": "PDES03038F1323",
+                "sfdcCrtdDt": "2019-10-30",
+                "effectiveDt": "2020-01-14",
+                "propelRefId": 0,
+                "contactPerson": "RAHUL",
+                "gstinExempt": 1,
+                "insuFlag": 0,
+                "packType": "CART",
+                "website": "TESTING.COM",
+                "prdctCtgy": "ELECTRONICS",
+                "sfdcStage": "INTERESTED",
+                "taxExempt": 0,
+                "valOfGoodsWaybl": 0,
+                "msaCustAddrs": [
+                    {
+                        "id": 1191,
+                        "msaCustId": 1323,
+                        "status": 1,
+                        "addr": "MAHIPALPUR",
+                        "addrTypeId": 156,
+                        "pincodeId": 110037,
+                        "propelRefId": 0,
+                        "effectiveDt": "2020-01-14"
+                    }
+                ]
+            },
+            {
+                "id": 1324,
+                "pan": "BUGHY7588W1324",
+                "custName": "SAFEX DEMO 03",
+                "gstinNum": "12ABCDE1234F2Z61324",
+                "groupCode": "MSA10001323",
+                "sfdcAccId": "74225281324",
+                "baseLocation": "ABOHAR-02",
+                "sfdcMnthPotentialAir": 10000,
+                "sfdcMnthPotentialSurface": 10000.00,
+                "sfdcMnthPotential3pl": 100.00,
+                "accType": "CREDIT",
+                "descr": "DESCRIPTION",
+                "status": 1,
+                "originatingSrc": "SALESFORCE",
+                "email": "RAHUL@123.COM",
+                "segment": "HI TECH",
+                "subsegment": "IT",
+                "oldMsaCustId": 12,
+                "sla": 10,
+                "closeDt": "2020-10-30",
+                "tanNum": "PDES03048F1324",
+                "sfdcCrtdDt": "2019-10-30",
+                "effectiveDt": "2020-01-14",
+                "propelRefId": 0,
+                "contactPerson": "RAHUL",
+                "gstinExempt": 1,
+                "insuFlag": 0,
+                "packType": "CART",
+                "website": "TESTING.COM",
+                "prdctCtgy": "ELECTRONICS",
+                "sfdcStage": "INTERESTED",
+                "taxExempt": 0,
+                "valOfGoodsWaybl": 0,
+                "msaCustAddrs": [
+                    {
+                        "id": 1192,
+                        "msaCustId": 1324,
+                        "status": 1,
+                        "addr": "MAHIPALPUR",
+                        "addrTypeId": 156,
+                        "pincodeId": 110037,
+                        "propelRefId": 0,
+                        "effectiveDt": "2020-01-14"
+                    }
+                ]
+            },
+            {
+                "id": 1322,
+                "pan": "BUGHY6578W1322",
+                "custName": "SAFEX DEMO 01",
+                "gstinNum": "12ABCDE1234F2Z51322",
+                "groupCode": "MSA10001321",
+                "sfdcAccId": "74225211322",
+                "baseLocation": "ABOHAR-03",
+                "sfdcMnthPotentialAir": 10000,
+                "sfdcMnthPotentialSurface": 10000.00,
+                "sfdcMnthPotential3pl": 100.00,
+                "accType": "CREDIT",
+                "descr": "DESCRIPTION",
+                "status": 1,
+                "originatingSrc": "SALESFORCE",
+                "email": "RAHUL@123.COM",
+                "segment": "HI TECH",
+                "subsegment": "IT",
+                "oldMsaCustId": 12,
+                "sla": 8999,
+                "closeDt": "2020-10-30",
+                "tanNum": "PDES03028F1322",
+                "sfdcCrtdDt": "2019-10-30",
+                "effectiveDt": "2020-01-14",
+                "propelRefId": 0,
+                "contactPerson": "RAHUL",
+                "gstinExempt": 1,
+                "insuFlag": 0,
+                "packType": "CART",
+                "website": "TESTING.COM",
+                "prdctCtgy": "ELECTRONICS",
+                "sfdcStage": "INTERESTED",
+                "taxExempt": 0,
+                "valOfGoodsWaybl": 0,
+                "msaCustAddrs": [
+                    {
+                        "id": 1190,
+                        "msaCustId": 1322,
+                        "status": 1,
+                        "addr": "MAHIPALPUR",
+                        "addrTypeId": 156,
+                        "pincodeId": 110037,
+                        "propelRefId": 0,
+                        "effectiveDt": "2020-01-14"
+                    }
+                ]
+            }
+        ],
+        "referenceData": {
+            "consignType": [
+                {
+                    "id": 44,
+                    "lookupVal": "CONSIGNOR"
+                },
+                {
+                    "id": 45,
+                    "lookupVal": "CONSIGNEE"
+                },
+                {
+                    "id": 46,
+                    "lookupVal": "BOTH"
+                }
+            ]
+        }
+    },
+    "status": "SUCCESS"
+}

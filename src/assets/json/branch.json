@@ -1,0 +1,114 @@
+{
+  "message": "Request Completed Successfully",
+  "data": {
+    "responseData": [
+      {
+        "id": 958,
+        "bkngBranchId": 1,
+        "bkngBranchName": "ABOHAR-01",
+        "ratecardId": 1502,
+        "billableWghtFlag": 0,
+        "bkngBranchHoldFlag": 0,
+        "effectiveDt": "2020-01-01",
+        "branchPinCneeCnorMap": []
+      },
+      {
+        "id": 959,
+        "bkngBranchId": 1,
+        "bkngBranchName": "ABOHAR-01",
+        "ratecardId": 1502,
+        "billableWghtFlag": 0,
+        "bkngBranchHoldFlag": 0,
+        "effectiveDt": "2020-01-01",
+        "branchPinCneeCnorMap": []
+      },
+      {
+        "id": 610,
+        "bkngBranchId": 3,
+        "bkngBranchName": "ABOHAR-03",
+        "ratecardId": 1502,
+        "billableWghtFlag": 1,
+        "bkngBranchHoldFlag": 1,
+        "lkpBkngBranchHoldRsn": 260,
+        "dlvryBranchHoldFlag": 0,
+        "lkpDlvryBranchHoldRsn": 1,
+        "effectiveDt": "2020-01-01",
+        "expDt": "2020-01-02",
+        "branchPinCneeCnorMap": []
+      },
+      {
+        "id": 430,
+        "bkngBranchName": "ABOHAR-05",
+        "bkngBranchId": 5,
+        "ratecardId": 793,
+        "billableWghtFlag": 1,
+        "bkngBranchHoldFlag": 1,
+        "lkpBkngBranchHoldRsn": 260,
+        "dlvryBranchHoldFlag": 1,
+        "effectiveDt": "2019-12-19",
+        "expDt": "2019-12-19",
+        "branchPinCneeCnorMap": [
+          {
+            "id": 67,
+            "cneeCnorId": 7015,
+            "pincode": "110037",
+            "preBkngFlag": 0,
+            "directFlag": 0,
+            "recIdentifier": 1577429770743,
+            "status": 195,
+            "effectiveDt": "2019-12-27",
+            "crtdDt": "2019-12-27",
+            "crtdBy": "1",
+            "updDt": "2019-12-27",
+            "updBy": "1"
+          }
+        ]
+      },
+      {
+        "id": 496,
+        "bkngBranchId": 5,
+        "bkngBranchName": "ABOHAR-06",
+        "ratecardId": 860,
+        "billableWghtFlag": 1,
+        "bkngBranchHoldFlag": 1,
+        "lkpBkngBranchHoldRsn": 260,
+        "dlvryBranchHoldFlag": 1,
+        "lkpDlvryBranchHoldRsn": 1,
+        "effectiveDt": "2020-01-01",
+        "expDt": "2020-01-02",
+        "branchPinCneeCnorMap": [
+          {
+            "id": 101,
+            "cneeCnorId": 7021,
+            "pincode": "string",
+            "preBkngFlag": 0,
+            "directFlag": 0,
+            "recIdentifier": 1011578486994468,
+            "status": 195,
+            "effectiveDt": "2020-01-01",
+            "crtdDt": "2020-01-01",
+            "crtdBy": "user123",
+            "updDt": "2020-01-08",
+            "updBy": "user123"
+          },
+          {
+            "id": 100,
+            "cneeCnorId": 7020,
+            "pincode": "string",
+            "preBkngFlag": 0,
+            "directFlag": 0,
+            "recIdentifier": 1001578486994468,
+            "status": 195,
+            "effectiveDt": "2020-01-01",
+            "crtdDt": "2020-01-01",
+            "crtdBy": "user123",
+            "updDt": "2020-01-08",
+            "updBy": "user123"
+          }
+        ]
+      }
+    ],
+    "referenceData": {}
+  },
+  "status": "SUCCESS"
+}

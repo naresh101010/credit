@@ -1,15 +1,15 @@
 apiVersion: apps/v1    
 kind: Deployment    
 metadata:    
-  name: micro-frontend-main1
+  name: booking-associate-ui
   namespace: uiapps
   labels:    
-    app: micro-frontend-main1 
+    app: booking-associate-ui  
 spec:    
   replicas: 1    
   selector:    
     matchLabels:    
-      app: micro-frontend-main1 
+      app: booking-associate-ui 
   strategy:    
     rollingUpdate:    
       maxSurge: 25%    
@@ -18,24 +18,23 @@ spec:
   template:    
     metadata:    
       labels:    
-        app: micro-frontend-main1   
+        app: booking-associate-ui      
     spec:    
       containers:    
-      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/micro-frontend-main1:stage_BUILDNUMBER   
+      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/booking-associate-ui:BUILDNUMBER    
         imagePullPolicy: Always    
-        name: micro-frontend-main1  
+        name: booking-associate-ui   
         ports:    
         - containerPort: 80    
           protocol: TCP    
       imagePullSecrets:    
       - name: aws-ecr  
-       
-       
+     
 --- 
 apiVersion: networking.istio.io/v1alpha3   
 kind: Gateway   
 metadata:   
-  name: micro-frontend-main1
+  name: booking-associate-ui 
 spec:   
   selector:   
     istio: pvt-ingressgateway # use istio default controller   
@@ -51,17 +50,16 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: VirtualService   
 metadata:   
-  name: micro-frontend-main1
+  name: booking-associate-ui
 spec:   
   hosts:   
   - "*"   
   gateways:   
-  - micro-frontend-main1  
+  - booking-associate-ui   
   http:   
   - match:   
     route:   
     - destination:   
-        host: micro-frontend-main1
+        host: booking-associate-ui  
         port:   
-          number: 80 
-
+          number: 80

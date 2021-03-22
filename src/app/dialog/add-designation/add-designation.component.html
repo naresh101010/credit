@@ -1,0 +1,39 @@
+<div class="modal-container">
+  <h5 class="sub_heading">Add Designation</h5>
+  <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true">close</mat-icon>
+  <hr class="border_row">
+</div>
+<div class="row">
+  <form name="CreateBranch" (ngSubmit)="fCreateBranch.form.valid" #fCreateBranch="ngForm" novalidate>
+    <div class="col-md-10 col-md-offset-1">
+      <div class="row">
+        <div class="col-md-5">
+          <mat-label><strong>Designation</strong></mat-label>
+        </div>
+        <div class="col-md-7">
+          <mat-form-field appearance="outline">
+            <input matInput name="Designation" #design="ngModel" [(ngModel)]="Designation" class="form-control" minlength="5" placeholder="" required>
+          </mat-form-field>
+          <div *ngIf="(design.errors?.required && design.touched)" class="errorMsg">
+            Required!
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <mat-label><strong>Description</strong></mat-label>
+        </div>
+        <div class="col-md-7">
+          <mat-form-field appearance="outline">
+            <input matInput name="Description" [(ngModel)]="Description" class="form-control" placeholder="">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center mtb_30">
+          <button mat-button class="theme-button" [disabled]="!fCreateBranch.form.valid" (click)="onSubmit()" [mat-dialog-close]="true">Submit</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

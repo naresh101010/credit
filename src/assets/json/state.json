@@ -1,0 +1,38 @@
+[
+    {
+      "id": 5,
+      "descr": "BIHAR desc",
+      "ewayblInterTh": 100,
+      "ewayblIntraTh": 120,
+      "gstNum": "12345678",
+      "gstStateCode": 2,
+      "lkpStateTypeId": 124,
+      "stateName": "BIHAR",
+      "status": 1,
+      "effectiveDt": "2019-10-29T08:23:14.481+0000"
+    },
+    {
+      "id": 2,
+      "descr": "UP DETAILS",
+      "ewayblInterTh": 10,
+      "ewayblIntraTh": 10,
+      "gstNum": "123456789",
+      "gstStateCode": 1,
+      "lkpStateTypeId": 1,
+      "stateName": "UTTAR PRADESH",
+      "status": 1,
+      "effectiveDt": "2019-10-28T06:20:33.518+0000"
+    },
+    {
+      "id": 1,
+      "descr": "delhi is the state",
+      "ewayblInterTh": 100000,
+      "ewayblIntraTh": 200000,
+      "gstNum": "gst_num_001",
+      "gstStateCode": 1000,
+      "lkpStateTypeId": 138,
+      "stateName": "DELHI",
+      "status": 1,
+      "effectiveDt": "2019-10-15T05:00:29.305+0000"
+    }
+  ]

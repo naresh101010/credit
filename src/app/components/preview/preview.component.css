@@ -1,0 +1,26 @@
+.mat-cell {
+    font-size: 1.6rem !important;
+}
+.preview_sec_3 h3 {
+    margin-left: 2rem;
+    margin-top: 2.5rem;
+}
+.customer_preview {
+    padding: 1rem;
+    background-color: #53af61;
+    color: #06161f;
+}
+.preview_sec_2 h3{
+    color: white;
+}
+.mgsg_print_sec {
+    padding: 15px 60px 15px 30px !important;
+}
+
+.backButton{
+    right: -20px;
+    top: 0px;
+    position: absolute;
+    cursor: pointer;
+}
+

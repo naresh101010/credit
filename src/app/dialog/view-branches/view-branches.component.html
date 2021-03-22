@@ -1,0 +1,56 @@
+<div style="position: relative;" class="associateContainer">
+  <h3 id="h3">View Branch</h3>
+  <em class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" [mat-dialog-close]="true"></em>
+</div>
+<hr id="popup-hr">
+
+
+<div class="row associateContainer">
+  <div class="col-md-12">
+    <div class="table-responsive create_new_tale_mdm2">
+
+      <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="Bname">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>BRANCH NAME</strong></th>
+          <td mat-cell *matCellDef="let element">
+            <a>
+              <div class="row_center row_center_width" matTooltipPosition="above">{{element.branchName}}</div>
+            </a>
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="Btype">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>
+            BRANCH TYPE</strong></th>
+          <td mat-cell *matCellDef="let element">
+              <div class="row_center row_center_width" matTooltipPosition="above">{{element.branchType}}</div>
+          </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="BstartDate">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>START DATE</strong></th>
+          <td mat-cell *matCellDef="let element">
+            <div class="row_center row_center_width">{{element.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+          </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="BendDate">
+          <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>END DATE</strong> </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="row_center row_center_width">{{element.expDt | date: 'dd/MM/yyyy'}}</div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <div>
+      </div>
+    </div>
+  </div>
+</div>

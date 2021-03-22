@@ -1,0 +1,140 @@
+<div class="modal-container">
+    <h5 class="sub_heading">EMI / Daily Deduction Calculation</h5>
+    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true">close</mat-icon>
+    <hr class="border_row">
+    <br>
+  </div>
+  <div class="row">
+    <div class="col-md-5">
+      <div class="search_bar_mdm2d searchbar_mdm2">
+        <em class="fa fa-search" aria-hidden="true"></em>
+        <mat-form-field appearance="outline">
+          <input matInput name="rateCardCode" class="form-control" placeholder="Search Vehicle">
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+  <div class="row emi_calculation_modla">
+    <div class="col-md-5">
+      <div class="mat-table">
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">Vehicle Number</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none active">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+        <div class="mat-row branch_table_dis border_none">
+          <div class="mat-cell">HR26BY1230</div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>EMI Amount (Per Cycle)</strong></p>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="outline">
+            <input matInput name="rateCardCode" class="form-control" placeholder="">
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Form Date</strong></p>
+        </div>
+        <div class="col-md-6">
+          <div class="module_area">
+            <mat-form-field appearance="outline" class="date_picker_adjust">
+              <mat-datepicker #emiFormDate class="myDatepicker23">
+              </mat-datepicker>
+              <input matInput [matDatepicker]="insuFormDate" class="date_input_height" placeholder="" name="expiryDate"
+                placeholder="DD/MM/YYYY" />
+              <mat-datepicker-toggle matPrefix [for]="emiFormDate">
+              </mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>To Date</strong></p>
+        </div>
+        <div class="col-md-6">
+          <div class="module_area">
+            <mat-form-field appearance="outline" class="date_picker_adjust">
+              <mat-datepicker #emiToDate class="myDatepicker23">
+              </mat-datepicker>
+              <input matInput [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
+                placeholder="DD/MM/YYYY" />
+              <mat-datepicker-toggle matPrefix [for]="emiToDate">
+              </mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row form-group">
+          <div class="col-md-6">
+            <p><strong>Deduction Type</strong></p>
+          </div>
+          <div class="col-md-6">
+            <div class="module_area">
+              <mat-radio-group name="rrFlag">
+                <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+                </mat-radio-button>
+                <mat-radio-button [value]="0">No</mat-radio-button>
+              </mat-radio-group>
+            </div>
+          </div>
+        </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Deduction Date</strong></p>
+        </div>
+        <div class="col-md-6">
+          <div class="module_area">
+            <mat-form-field appearance="outline" class="date_picker_adjust">
+              <mat-datepicker #emiToDate class="myDatepicker23">
+              </mat-datepicker>
+              <input matInput [matDatepicker]="insuToDate" class="date_input_height" placeholder="" name="expiryDate"
+                placeholder="DD/MM/YYYY" />
+              <mat-datepicker-toggle matPrefix [for]="emiToDate">
+              </mat-datepicker-toggle>
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12 text-center mtb_30">
+          <button mat-button class="mdm_active_btn">Add</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 text-center mtb_30">
+      <button mat-button class="mdm_active_btn" [mat-dialog-close]="true">Save</button>
+    </div>
+  </div>
+  

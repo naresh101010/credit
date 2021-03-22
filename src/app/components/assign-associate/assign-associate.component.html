@@ -1,0 +1,337 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-5">
+          <div>
+            <mat-toolbar class="breadcrumbs_nav">
+              <mat-toolbar-row class="breadcrumbs">
+                <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Dashboard</a></span>
+                <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                  arrow_right
+                </mat-icon>
+                <span><a skipLocationChange routerLink="/asso_booking-contract/asso_booking">Contracts</a></span>
+                <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                  arrow_right
+                </mat-icon>
+                <span>Associate Contract</span>
+              </mat-toolbar-row>
+            </mat-toolbar>
+            <h2>Booking Associate Contract</h2>
+          </div>
+        </div>
+
+        <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
+          <stepper></stepper>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb end -->
+
+<section class="req_table_sec booking_msa_sec form_theme_sec">
+    <div class="container-fluid">
+      <div class="booking_card">
+        <!-- <div class="row mt_10">
+          <div class="col-md-12">
+            <div class="title_search_add as_lsa">
+              <mat-label><strong>Assign Associate</strong></mat-label>
+              <div class="mdm_searchbar">
+                <span class="fa fa-search brancSearchIcon" aria-hidden="true"></span>
+                <mat-form-field appearance="outline">
+                  <input #searchfilter name="searchfilter" matInput name="rateCardCode" class="form-control" placeholder="Search Associate" (keyup)="applyFilter($event)">
+                </mat-form-field>
+                <div class="error2" style="position: relative; top: -9px;">
+                  <label *ngIf="minchar" class="validation-message" >Please Enter 3 Character</label>
+                  <label *ngIf="nomatch" class="validation-message">No Match Found</label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="row mt_10">
+          <div class="col-md-12">
+            <div class="table-responsive create_new_tale_mdm2">
+              <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  
+                <!-- Position Column -->
+                <ng-container matColumnDef="AssoName">
+                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>ASSOCIATE NAME </strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <a skipLocationChange routerLink="/asso_booking-contract/create-associate">
+                      <div class="row_center row_center_width"
+                        style="width: 13rem !important;"  matTooltipPosition="above" [matTooltip]="element.contactFname + ' ' + element.contactLname | uppercase" [matTooltipDisabled]="element.contactFname?.length<10">{{element.contactFname}}</div>
+                    </a>
+                  </td>
+                </ng-container>
+  
+                <!-- Name Column -->
+                <ng-container matColumnDef="CrDate">
+                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>CREATION DATE</strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" matTooltipPosition="above">{{element.crtdDt ? (element.crtdDt | date: 'dd/MM/yyyy') : (element.contractStartDate | date: 'dd/MM/yyyy') }}</div>
+                  </td>
+                </ng-container>
+  
+                <!-- Weight Column -->
+                <ng-container matColumnDef="VenDepartment">
+                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>VENDOR DEPARTMENT </strong></th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width">{{element.vendorDeptt  ? (element?.vendorDeptt | lookupValue : "lookupVal" : deptList) : (element?.assocDeptMaps[0]?.lkpAssocDeptId | lookupValue : "lookupVal" : deptList) }}</div>
+                  </td>
+                </ng-container>
+  
+                <!-- Symbol Column -->
+                <ng-container matColumnDef="gst">
+                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>
+                      GST</strong> </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.gstinNum">{{element.gstinNum}}</div>
+                  </td>
+                </ng-container>
+                <!-- Saleforce id -->
+                <ng-container matColumnDef="pan">
+                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>
+                      PAN</strong> </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.panNum">{{element.panNum}}</div>
+                  </td>
+                </ng-container>
+                <!-- msaCustAddrs id -->
+                <ng-container matColumnDef="mobile">
+                  <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>MOBILE NUMBER</strong> </th>
+                  <td mat-cell *matCellDef="let element">
+                    <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.mob">{{element.mob}}</div>
+                  </td>
+                </ng-container>
+                <!-- Saleforce id -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+              <div>
+              </div>
+            </div>
+          </div>
+        </div>
+       
+        <!-- msa end -->
+        <!-- msa-1 start -->
+        <div class="row mt_15" *ngxPermissionsOnly="['VIEW CONTRACT_READ']">
+          <div class="col-md-2 grey_card_width col-sm-6"  *ngFor="let contract of associateResData | sortBy:'asc':'cntrCode'">
+            <div class="gray_card_msa1" [ngStyle]="(selectedContractId == contract.id) ?  {'background': '#27AE60', 'color': '#fff'} : ''">
+              <h3 class="type_date_msa1" style="font-size: 1.4rem !important">{{contract.cntrCode}} <em class="fa fa-info" aria-hidden="true" (click)="openViewBranchesModal(contract)"></em></h3>
+              <div >
+                <p>Type: Booking</p>
+                <p>Start Date: {{contract.effectiveDt | date: 'dd/MM/yyyy'}}</p>
+                <p>End Date: {{contract.expDt | date: 'dd/MM/yyyy'}}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- msa-87 end -->
+        <!-- msa-2 start -->
+        <form name="createContract" (ngSubmit)="fCreateCntr.form.valid" #fCreateCntr="ngForm" novalidate  class="rateCardDetail">
+          <div class="row">
+            <div class="col-md-12">
+              <mat-expansion-panel class="box_shadow_none" [expanded]="true">
+                <mat-expansion-panel-header >
+                    {{tileFlag === 'true' ? 'Contract Termination' : 'Contract Creation'}}
+                </mat-expansion-panel-header>
+                <div class="row" *ngxPermissionsOnly="['CREATE CONTRACT_CREATE','CREATE CONTRACT_UPDATE']">
+                  <div class="col-md-2">
+                    <p><strong>Contract Type</strong><span class="redMark"> *</span></p>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="module_area">
+                      <div style="font-size: 12px;">{{'BOOKING'}}</div>
+                    </div>
+                  </div>
+                  <div class="col-md-2 col-md-offset-1 mo_ml_0">
+                    <mat-label><strong>Contract Sign Date</strong><span class="redMark"> *</span></mat-label>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="module_area">
+                      <mat-form-field appearance="outline" class="date_picker_adjust">
+                        <mat-datepicker 
+                          #bookingDate1 
+                          class="myDatepicker23">
+                        </mat-datepicker>
+                        <input 
+                          [disabled]="editFlag || tileFlag" 
+                          matInput 
+                          [matDatepicker]="bookingDate1" 
+                          class="date_input_height" 
+                          name="cntrSignDt" 
+                          #cntrSignDt ="ngModel" 
+                          [(ngModel)]="model.cntrSignDt" 
+                          placeholder="DD/MM/YYYY"
+                          (blur)="signDate()" 
+                          (dateChange)="signDate()" 
+                          required 
+                          numericSpecialChar
+                          [max]="maxdate"
+                        />
+                        <mat-datepicker-toggle 
+                          matPrefix 
+                          [for]="bookingDate1">
+                        </mat-datepicker-toggle>
+                      </mat-form-field>
+                      <div *ngIf="(cntrSignDt.errors?.required && cntrSignDt.touched)" class="errorMsg">
+                        Required!
+                      </div> 
+                      <div *ngIf="isValidSignDt && !(cntrSignDt.errors?.required)" class="errorMsg">
+                        Invalid Sign Date!
+                      </div>                         
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('START DATE'))">
+                  <div class="col-md-2">
+                    <mat-label><strong>Contract Start Date</strong><span class="redMark"> *</span></mat-label>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="module_area">
+                      <mat-form-field appearance="outline" class="date_picker_adjust">
+                        <mat-datepicker #bookingDate1 class="myDatepicker23">
+                        </mat-datepicker>
+                        <input [disabled]="generalFlag" matInput [matDatepicker]="bookingDate1" class="date_input_height" 
+                          name="effectiveDt" #effectiveDt ="ngModel" [(ngModel)]="model.effectiveDt" placeholder="DD/MM/YYYY" [min]="model.cntrSignDt" [max]="maxdate" 
+                          (blur)="effectiveDate(true)" (dateChange)="effectiveDate(true)" (ngModelChange)="editJourney(model)"  required numericSpecialChar/>
+                        <mat-datepicker-toggle matPrefix [for]="bookingDate1">
+                        </mat-datepicker-toggle>
+                      </mat-form-field>                          
+                      <div *ngIf="(isValidEffectiveDt && !(effectiveDt.errors?.required))" class="errorMsg">
+                        Invalid Start Date!
+                      </div>
+                      <div *ngIf="(effectiveDt.errors?.required && effectiveDt.touched)" class="errorMsg">
+                       Required!
+                     </div>
+
+                    </div>
+                  </div>
+                </div>
+                  <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('END DATE'))">
+                  <div class="col-md-2 col-md-offset-1 mo_ml_0">
+                    <mat-label><strong>Contract End Date</strong></mat-label>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="module_area" *ngIf="!generalFlag">
+                      <mat-form-field appearance="outline" class="date_picker_adjust">
+                        <mat-datepicker #bookingDate2 class="myDatepicker23">
+                        </mat-datepicker>
+                        <input  matInput [matDatepicker]="bookingDate2" class="date_input_height" #expDt ="ngModel" (ngModelChange)="editJourney(model)"  [(ngModel)]="model.expDt"
+                          name="expDt" placeholder="DD/MM/YYYY"  [min]="minDate" (dateChange)="expDate()" (blur)="expDate()" numericSpecialChar/>
+                        <mat-datepicker-toggle matPrefix [for]="bookingDate2">
+                        </mat-datepicker-toggle>
+                      </mat-form-field>
+                    </div>
+                    <div class="module_area" *ngIf="generalFlag">
+                      <mat-form-field appearance="outline" class="date_picker_adjust">
+                        <mat-datepicker #bookingDate3 class="myDatepicker23">
+                        </mat-datepicker>
+                        <input [disabled]="true"  matInput [matDatepicker]="bookingDate3" class="date_input_height" #expDt ="ngModel" [(ngModel)]="this.todayDate" value="this.todayDate"
+                          name="expDt" placeholder="DD/MM/YYYY"/>
+                        <mat-datepicker-toggle matPrefix [for]="bookingDate3">
+                        </mat-datepicker-toggle>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('BILLING CYCLE'))">
+                  <div class="col-md-2">
+                    <mat-label><strong>Billing Cycle</strong><span class="redMark"> *</span></mat-label>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="module_area">
+                      <mat-form-field class="select_box_dropwodn overline_hidden allc">
+                        <mat-select disableOptionCentering panelClass="creditSelect" [disabled]="generalFlag" #billingCyl='ngModel' placeholder ="Select Billing Cycle" name="billingCyl" (ngModelChange)="editJourney(model)" [(ngModel)]="model.lkpPymtFreqId" required>
+                          <mat-option *ngFor="let billingCyl of associateRefData?.billingCycleList" [value]="billingCyl.id" >
+                            {{billingCyl.descr}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                      <div *ngIf="billingCyl.errors?.required && billingCyl.touched" class="errorMsg" style="position: relative; top: -4px;">
+                        Required!
+                      </div>
+                    </div>
+                  </div>
+                  </div>
+                  <div class="col-md-2 col-md-offset-1 mo_ml_0">
+                    <mat-label><strong>Status</strong><span class="redMark"> *</span></mat-label>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="module_area">
+                      <mat-form-field class="select_box_dropwodn overline_hidden allc">
+                        <mat-select placeholder ="Select Status" #status='ngModel' [disabled]="isDisableflag" name="status" [(ngModel)]="model.status" required> 
+                          <mat-option *ngFor="let status of statusList" [value]="status.id">
+                            {{ tileFlag ? 'INACTIVE' : editFlag ? 'ACTIVE' : status.descr}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </div>
+                <!-- Termination -->
+                <div *ngIf="isDisable">
+                  <div class="row margintop20">
+                    <div class="col-lg-12 col-md-12">						
+                      <div class="row">              
+                        <div class="col-lg-2 col-md-2 label-text"><mat-label><strong>Remarks</strong><span class="redMark"> *</span></mat-label></div>
+                        <div class="col-lg-6 col-md-6  ">
+                          <textarea name="desc" [(ngModel)]="model.desc" #descModel = "ngModel" maxlength="100" style="width: 31%;height: 6.0rem;" required alphanumeric></textarea>
+                        </div>
+                        <div *ngIf="billingCyl?.invalid" class="errorMsg">
+                          <span *ngIf="descModel.errors?.required && descModel.touched" class="errorMsg">
+                            Required!
+                          </span>
+                          <span *ngIf="descModel.errors?.required && descModel.touched" class="errorMsg">
+                            Required!
+                          </span>
+                        </div>
+                        </div>
+                    </div>
+                  </div>
+                  </div>
+                  <div style="margin-top: 3%;">
+                    <div *ngIf="!isDisable">
+                    <mat-accordion>       
+                      <div class="example-button-row text-center" style="margin-top: 3rem; margin-bottom: 1rem;">
+                        <button mat-raised-button color="primary" class="theme-button" *ngxPermissionsOnly="['CREATE CONTRACT_CREATE','CREATE CONTRACT_UPDATE']"
+                         [disabled]='!fCreateCntr.form.valid || (model.effectiveDt < model.cntrSignDt)'  
+                          (click) ="createContractPost()" >{{model.id ? 'UPDATE' : 'CREATE'}}
+                          CONTRACT </button>
+                        </div>
+                    </mat-accordion>
+                  </div>
+                  <div *ngIf="isDisable">
+                    <div class="row">
+                    <div class="col-lg-3 col-lg-3  col-md-3 text-right">
+                      <div class="example-button-row text-center" style="margin-top: 5%;margin-bottom: 20% !important">
+                        <button id="opportunityCloseButton" style="margin-bottom: 20% !important" type="button" class="theme-button" mat-raised-button color="primary" 
+                        (click)="closeNRedirect()">CLOSE</button></div>
+                    </div>
+                    <div class="col-lg-6 col-lg-6  col-md-6"></div>
+                    <div class="col-lg-3 col-lg-3  col-md-3 text-right">
+                      <div class="example-button-row text-center" style="margin-top: 5%;margin-bottom: 20% !important">
+                        <button  class="theme-button" type="button" [disabled]='!fCreateCntr.form.valid' mat-raised-button color="primary" *ngxPermissionsOnly="['CREATE CONTRACT_CREATE','CREATE CONTRACT_UPDATE']"
+                        (click)="submitRenewal()" >{{ tileFlag === 'true' ? 'SUBMIT' : 'UPDATE CONTRACT' }}</button>
+                        <button  class="theme-button" type="button" [disabled]='!fCreateCntr.form.valid' mat-raised-button color="primary"  *ngxPermissionsExcept="['CREATE CONTRACT_CREATE','CREATE CONTRACT_UPDATE']"
+                        (click)="nextReadMode()" >NEXT</button>
+                  </div>
+                    </div>
+                    </div>
+                  </div>
+                  </div>
+              </mat-expansion-panel>
+            </div>
+          </div>
+        </form>
+        <!-- msa-2 end -->
+      </div>
+    </div>
+  </section>
+  <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+  </ngx-spinner>

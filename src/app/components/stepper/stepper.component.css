@@ -1,0 +1,12 @@
+.fa.fa-check {
+    color: #fff;
+    line-height: 16px;
+}
+.stepActive {
+    color: #27AE60;
+    font-weight: 600;
+}
+.stepInActive {
+    color: #000000de;
+    font-weight: 500;
+}

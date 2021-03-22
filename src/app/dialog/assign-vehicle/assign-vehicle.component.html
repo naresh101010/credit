@@ -1,0 +1,57 @@
+<div class="modal-container associateContainer">
+
+  <div style="position: relative;" >
+    <h3 id="h3">Assign Vehicle</h3>
+    <em class="fa fa-times fa-2x" aria-hidden="true"  id="closeButton" [mat-dialog-close]="false"></em>
+  </div>
+  <hr id="popup-hr">
+  </div>
+  <div class="row">
+    <div class="col-md-12">
+      <mat-label><strong>For Branch: {{data.obj.branchName}}</strong></mat-label>
+    </div>
+  </div>
+  <div class="row" style="margin-top: .5rem !important;">
+    <div class="col-md-12">
+      <div class="table-responsive create_new_tale_mdm2">
+
+        <table aria-describedby="table" mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+  
+          <!-- Position Column -->
+          <ng-container matColumnDef="vehicleNumber" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('VEHICLE NUMBER'))">
+            <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header class="width25"><mat-checkbox (change)="checkedAll($event)"></mat-checkbox> <strong> VEHICLE NUMBER</strong></th>
+            <td mat-cell *matCellDef="let element" class="width25">
+              <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.vehicleNumber"><mat-checkbox  [(ngModel)] = "element.checked"></mat-checkbox>{{element.vehicleNumber}}</div>
+            </td>
+          </ng-container>
+  
+          <!-- Name Column -->
+          <ng-container matColumnDef="vehicleModel" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('VEHICLE MODEL'))">
+            <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header class="width25"> <strong>VEHICLE MODEL</strong></th>
+            <td mat-cell *matCellDef="let element" class="width25">
+                <div class="row_center row_center_width" matTooltipPosition="above" [matTooltip]="element.vehicleModel | uppercase">{{element.vehicleModel}}</div>
+            </td>
+          </ng-container>
+  
+          <!-- Weight Column -->
+          <ng-container matColumnDef="vehicleTonnge" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('VEHICLE TONNAGE'))">
+            <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header class="width25"> <strong>VEHICLE TONNAGE</strong></th>
+            <td mat-cell *matCellDef="let element" class="width25">
+              <div class="row_center row_center_width">{{element.vehicleTonnge}}</div>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['ASSIGN VEHICLE_CREATE','ASSIGN VEHICLE_UPDATE']">
+      <button mat-button class="theme-button" *ngIf="dataSource.data && dataSource.data.length > 0" (click)="addVehicle()">Save</button>
+    </div>
+  </div>
+      

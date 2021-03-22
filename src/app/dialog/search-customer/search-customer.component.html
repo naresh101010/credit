@@ -1,0 +1,80 @@
+<div class="modal-container">
+    <h4 class="sub_heading"><strong>Search Customer</strong></h4>
+    <mat-icon class="modals_cancel_btn" [mat-dialog-close]="false">close</mat-icon>
+    <hr class="border_row">
+  </div>
+  <div class="row">
+    <div class="col-md-4">
+      <mat-label><strong>Select Customers Type </strong></mat-label>
+    </div>
+    <div class="col-md-8">
+      <div class="module_area">
+        <mat-radio-group  name="custType" #custTypeModel="ngModel" (change)="custTypeChange($event)" [(ngModel)]="custType"> 
+          <mat-radio-button [value]= "0" (click)="searchText=''">CREDIT</mat-radio-button>
+          <mat-radio-button [value]= "1" (click)="searchText=''">PRC</mat-radio-button>
+        </mat-radio-group>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-3">
+      <mat-label><strong>Search Customer</strong></mat-label>
+    </div>
+    <div class="col-md-4">
+      <div class="search_bar_mdm2d searchbar_mdm2">
+        <a style="cursor: pointer;">
+          <span class="fa fa-search fa-lg" id="defualtBranchSearch"></span>
+          <input appSearchFieldCheck class="form-control input-md" placeholder="Search" (keyup)="applyFilter($event)" [(ngModel)]="searchText"
+            style="height: 2.7rem; padding-left: 2.3rem;" />
+        </a>
+      </div>
+    </div>
+  </div>
+  <form>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="table-responsive create_new_tale_mdm2">
+
+          <table aria-describedby="table" mat-table [dataSource]="dataSourceCustomers" matSort class="mat-elevation-z8">
+    
+            <!-- Position Column -->
+            <ng-container matColumnDef="customerName">
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header><strong>CUSTOMER NAME</strong></th>
+              <td mat-cell *matCellDef="let element">
+                  <a>
+                    <div class="row_center row_center_width" matTooltipPosition="above"><mat-checkbox name="check_{{element.msaId}}" [(ngModel)] ="element.checked"></mat-checkbox>  {{element.customerName}}</div>
+                  </a>
+              </td>
+            </ng-container>
+    
+            <!-- Name Column -->
+            <ng-container matColumnDef="contractCode">
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>{{custType ? "PRC" : "SFX"}} CODE</strong></th>
+              <td mat-cell *matCellDef="let element">
+                  <div class="row_center row_center_width" matTooltipPosition="above">{{element.contractCode}}</div>
+              </td>
+            </ng-container>
+    
+            <!-- Weight Column -->
+            <ng-container matColumnDef="Abranch">
+              <th scope="col" mat-header-cell *matHeaderCellDef mat-sort-header> <strong>ASSIGN BRANCH</strong></th>
+              <td mat-cell *matCellDef="let element">
+                <div class="row_center row_center_width"> <span *ngFor="let branch of element.branches">{{branch?.branchName ? branch?.branchName : element}} </span></div>
+              </td>
+            </ng-container>
+    
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="dataSourceCustomers.data && dataSourceCustomers.data.length > 0" class="row">
+      <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['CUSTOMER COMMERCIAL_CREATE','CUSTOMER COMMERCIAL_UPDATE']">
+        <button mat-button class="theme-button" [disabled]="" (click) = "addCustomers()">Add</button>
+      </div>
+    </div>
+  </form>
+  
+  <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+  </ngx-spinner>

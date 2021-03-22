@@ -1,0 +1,23 @@
+{
+  "message": "Request Completed Successfully",
+  "data": {
+    "responseData": [
+      {
+        "id": 1,
+        "pincode": "110036",
+        "cityCode": "DEL",
+        "cityName": "DELHI",
+        "status": 1
+      },
+      {
+        "id": 2,
+        "pincode": "110037",
+        "cityCode": "LKO",
+        "cityName": "LUCKNOW",
+        "descr": "lucknow details",
+        "status": 1
+      }
+    ]
+  },
+  "status": "SUCCESS"
+}

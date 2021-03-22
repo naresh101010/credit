@@ -1,0 +1,496 @@
+{
+    "message": "Request Completed Successfully",
+    "data": {
+        "responseData": [],
+        "referenceData": {
+            "contractTypeList": [
+                {
+                    "id": 158,
+                    "lookupVal": "3PL"
+                },
+                {
+                    "id": 160,
+                    "lookupVal": "FTL"
+                },
+                {
+                    "id": 159,
+                    "lookupVal": "TRANSPORTATION+3PL"
+                },
+                {
+                    "id": 47,
+                    "lookupVal": "CREDIT"
+                },
+                {
+                    "id": 48,
+                    "lookupVal": "RETAIL"
+                },
+                {
+                    "id": 49,
+                    "lookupVal": "PRC"
+                }
+            ],
+            "consignType": [
+                {
+                    "id": 44,
+                    "lookupVal": "CONSIGNOR"
+                },
+                {
+                    "id": 45,
+                    "lookupVal": "CONSIGNEE"
+                },
+                {
+                    "id": 46,
+                    "lookupVal": "BOTH"
+                }
+            ],
+            "segmentList": [
+                {
+                    "id": 9,
+                    "segmentName": "INSTITUTION"
+                },
+                {
+                    "id": 10,
+                    "segmentName": "MULTIBRAND"
+                },
+                {
+                    "id": 11,
+                    "segmentName": "RETAILSPLSRV"
+                },
+                {
+                    "id": 12,
+                    "segmentName": "SERVICE"
+                },
+                {
+                    "id": 8,
+                    "segmentName": "HI TECH"
+                },
+                {
+                    "id": 1,
+                    "segmentName": "APPARELS"
+                },
+                {
+                    "id": 2,
+                    "segmentName": "AUTOMOTIVE"
+                },
+                {
+                    "id": 3,
+                    "segmentName": "BOOKS"
+                },
+                {
+                    "id": 4,
+                    "segmentName": "ENGINEERING"
+                },
+                {
+                    "id": 5,
+                    "segmentName": "FMCG"
+                },
+                {
+                    "id": 6,
+                    "segmentName": "HANDICRAFTS"
+                },
+                {
+                    "id": 7,
+                    "segmentName": "HEALTH"
+                }
+            ],
+            "subSegmentList": [
+                {
+                    "subsegmentName": "BANKS",
+                    "segmentId": 9,
+                    "id": 61
+                },
+                {
+                    "subsegmentName": "EVENT MANAGEMENT",
+                    "segmentId": 9,
+                    "id": 62
+                },
+                {
+                    "subsegmentName": "FINANCIAL INSTITUTIONS",
+                    "segmentId": 9,
+                    "id": 63
+                },
+                {
+                    "subsegmentName": "INDUSTRY ASSOCIATIONS",
+                    "segmentId": 9,
+                    "id": 64
+                },
+                {
+                    "subsegmentName": "INSURANCE",
+                    "segmentId": 9,
+                    "id": 65
+                },
+                {
+                    "subsegmentName": "IT INSTITUTES",
+                    "segmentId": 9,
+                    "id": 66
+                },
+                {
+                    "subsegmentName": "E-COMMERCE",
+                    "segmentId": 10,
+                    "id": 67
+                },
+                {
+                    "subsegmentName": "RETAIL CHAIN",
+                    "segmentId": 10,
+                    "id": 68
+                },
+                {
+                    "subsegmentName": "CAMPUS 2 HOME",
+                    "segmentId": 11,
+                    "id": 69
+                },
+                {
+                    "subsegmentName": "COMMODITY EXPRESS",
+                    "segmentId": 11,
+                    "id": 70
+                },
+                {
+                    "subsegmentName": "EASY 2 MOVE",
+                    "segmentId": 11,
+                    "id": 71
+                },
+                {
+                    "subsegmentName": "SAFE RETURNS (Exhibition)",
+                    "segmentId": 11,
+                    "id": 72
+                },
+                {
+                    "subsegmentName": "SAFE RETURNS(Retails Stores)",
+                    "segmentId": 11,
+                    "id": 73
+                },
+                {
+                    "subsegmentName": "SAFEHOME",
+                    "segmentId": 11,
+                    "id": 74
+                },
+                {
+                    "subsegmentName": "SAINIK EXPRESS",
+                    "segmentId": 11,
+                    "id": 75
+                },
+                {
+                    "subsegmentName": "COURIER",
+                    "segmentId": 12,
+                    "id": 76
+                },
+                {
+                    "subsegmentName": "FREIGHT FORWARDING",
+                    "segmentId": 12,
+                    "id": 77
+                },
+                {
+                    "subsegmentName": "LOGISTICS",
+                    "segmentId": 12,
+                    "id": 78
+                },
+                {
+                    "subsegmentName": "WAREHOUSING",
+                    "segmentId": 12,
+                    "id": 79
+                },
+                {
+                    "subsegmentName": "IT",
+                    "segmentId": 8,
+                    "id": 56
+                },
+                {
+                    "subsegmentName": "MOBILE PHONES/ACCESSORIES",
+                    "segmentId": 8,
+                    "id": 57
+                },
+                {
+                    "subsegmentName": "OFFICE AUTOMATION",
+                    "segmentId": 8,
+                    "id": 58
+                },
+                {
+                    "subsegmentName": "SECURITY SYSTEMS",
+                    "segmentId": 8,
+                    "id": 59
+                },
+                {
+                    "subsegmentName": "TELECOM EQUIPMENT",
+                    "segmentId": 8,
+                    "id": 60
+                },
+                {
+                    "subsegmentName": "ARTIFICIAL JEWELLERY /ACCESSORIES",
+                    "segmentId": 1,
+                    "id": 1
+                },
+                {
+                    "subsegmentName": "BLANKETS/QUILT",
+                    "segmentId": 1,
+                    "id": 2
+                },
+                {
+                    "subsegmentName": "CHIKAN CLOTHING",
+                    "segmentId": 1,
+                    "id": 3
+                },
+                {
+                    "subsegmentName": "FABRIC",
+                    "segmentId": 1,
+                    "id": 4
+                },
+                {
+                    "subsegmentName": "FOOTWEAR",
+                    "segmentId": 1,
+                    "id": 5
+                },
+                {
+                    "subsegmentName": "HOSIERY",
+                    "segmentId": 1,
+                    "id": 6
+                },
+                {
+                    "subsegmentName": "KHADI",
+                    "segmentId": 1,
+                    "id": 7
+                },
+                {
+                    "subsegmentName": "KNITWEAR",
+                    "segmentId": 1,
+                    "id": 8
+                },
+                {
+                    "subsegmentName": "LEATHER ACCESSORIES",
+                    "segmentId": 1,
+                    "id": 9
+                },
+                {
+                    "subsegmentName": "READYMADE GARMENTS",
+                    "segmentId": 1,
+                    "id": 10
+                },
+                {
+                    "subsegmentName": "SAREES",
+                    "segmentId": 1,
+                    "id": 11
+                },
+                {
+                    "subsegmentName": "WOOLLEN",
+                    "segmentId": 1,
+                    "id": 12
+                },
+                {
+                    "subsegmentName": "YARN",
+                    "segmentId": 1,
+                    "id": 13
+                },
+                {
+                    "subsegmentName": "AUTO ACCESSORIES",
+                    "segmentId": 2,
+                    "id": 14
+                },
+                {
+                    "subsegmentName": "AUTO BATTERY",
+                    "segmentId": 2,
+                    "id": 15
+                },
+                {
+                    "subsegmentName": "AUTO COMPONENTS",
+                    "segmentId": 2,
+                    "id": 16
+                },
+                {
+                    "subsegmentName": "AUTO PAINTS",
+                    "segmentId": 2,
+                    "id": 17
+                },
+                {
+                    "subsegmentName": "AUTO SPARE PARTS(FOR DISTRIBUTION)",
+                    "segmentId": 2,
+                    "id": 18
+                },
+                {
+                    "subsegmentName": "AUTO TYRES",
+                    "segmentId": 2,
+                    "id": 19
+                },
+                {
+                    "subsegmentName": "COACHING CENTRES",
+                    "segmentId": 3,
+                    "id": 20
+                },
+                {
+                    "subsegmentName": "COLLEGE/UNIVERSITY",
+                    "segmentId": 3,
+                    "id": 21
+                },
+                {
+                    "subsegmentName": "PRE-SCHOOLS",
+                    "segmentId": 3,
+                    "id": 22
+                },
+                {
+                    "subsegmentName": "PRINTING PRESS",
+                    "segmentId": 3,
+                    "id": 23
+                },
+                {
+                    "subsegmentName": "PROMOTIONAL MATERIAL",
+                    "segmentId": 3,
+                    "id": 24
+                },
+                {
+                    "subsegmentName": "PUBLISHING HOUSES",
+                    "segmentId": 3,
+                    "id": 25
+                },
+                {
+                    "subsegmentName": "ARMS n AMMUNITIONS",
+                    "segmentId": 4,
+                    "id": 26
+                },
+                {
+                    "subsegmentName": "BUILDING MATERIAL",
+                    "segmentId": 4,
+                    "id": 27
+                },
+                {
+                    "subsegmentName": "CHEMICALS",
+                    "segmentId": 4,
+                    "id": 28
+                },
+                {
+                    "subsegmentName": "ELECTRICAL",
+                    "segmentId": 4,
+                    "id": 29
+                },
+                {
+                    "subsegmentName": "GENSET",
+                    "segmentId": 4,
+                    "id": 30
+                },
+                {
+                    "subsegmentName": "HARDWARE",
+                    "segmentId": 4,
+                    "id": 31
+                },
+                {
+                    "subsegmentName": "INDUSTRIAL EQUIPMENT",
+                    "segmentId": 4,
+                    "id": 32
+                },
+                {
+                    "subsegmentName": "PACKAGING",
+                    "segmentId": 4,
+                    "id": 33
+                },
+                {
+                    "subsegmentName": "PUMPS",
+                    "segmentId": 4,
+                    "id": 34
+                },
+                {
+                    "subsegmentName": "TOOLS AND SPARES",
+                    "segmentId": 4,
+                    "id": 35
+                },
+                {
+                    "subsegmentName": "AGARBATTI",
+                    "segmentId": 5,
+                    "id": 36
+                },
+                {
+                    "subsegmentName": "CONSUMER ELECTRONICS",
+                    "segmentId": 5,
+                    "id": 37
+                },
+                {
+                    "subsegmentName": "COSMETICS PRODUCTS",
+                    "segmentId": 5,
+                    "id": 38
+                },
+                {
+                    "subsegmentName": "FMCG-FOOD",
+                    "segmentId": 5,
+                    "id": 39
+                },
+                {
+                    "subsegmentName": "FMCG-NON FOOD",
+                    "segmentId": 5,
+                    "id": 40
+                },
+                {
+                    "subsegmentName": "GIFT ITEMS",
+                    "segmentId": 5,
+                    "id": 41
+                },
+                {
+                    "subsegmentName": "HOME APPLIANCES",
+                    "segmentId": 5,
+                    "id": 42
+                },
+                {
+                    "subsegmentName": "HOME DECOR",
+                    "segmentId": 5,
+                    "id": 43
+                },
+                {
+                    "subsegmentName": "PERFUMERY",
+                    "segmentId": 5,
+                    "id": 44
+                },
+                {
+                    "subsegmentName": "SPORTS/TOYS",
+                    "segmentId": 5,
+                    "id": 45
+                },
+                {
+                    "subsegmentName": "STATIONARY",
+                    "segmentId": 5,
+                    "id": 46
+                },
+                {
+                    "subsegmentName": "WHITE GOODS",
+                    "segmentId": 5,
+                    "id": 47
+                },
+                {
+                    "subsegmentName": "HANDLOOM/ HANDICRAFTS",
+                    "segmentId": 6,
+                    "id": 48
+                },
+                {
+                    "subsegmentName": "JUTE PRODUCTS",
+                    "segmentId": 6,
+                    "id": 49
+                },
+                {
+                    "subsegmentName": "AYURVEDIC MEDICINE",
+                    "segmentId": 7,
+                    "id": 50
+                },
+                {
+                    "subsegmentName": "BULK DRUGS",
+                    "segmentId": 7,
+                    "id": 51
+                },
+                {
+                    "subsegmentName": "MEDICAL EQUIPMENTS",
+                    "segmentId": 7,
+                    "id": 52
+                },
+                {
+                    "subsegmentName": "PHARMACEUTICALS",
+                    "segmentId": 7,
+                    "id": 53
+                },
+                {
+                    "subsegmentName": "SCIENTIFIC EQUIPMENTS",
+                    "segmentId": 7,
+                    "id": 54
+                },
+                {
+                    "subsegmentName": "SURGICAL GOODS",
+                    "segmentId": 7,
+                    "id": 55
+                }
+            ]
+        }
+    },
+    "status": "SUCCESS"
+}

@@ -1,0 +1,60 @@
+
+ <div id="stepper" fxLayout="row" fxLayoutAlign="end center">  
+  <div class="line stepperLine"></div>
+  <mat-horizontal-stepper  labelPosition="bottom">      
+    <mat-step  > 
+        <ng-template matStepLabel matStepperIcon="edit" > 
+          <p name='assign-associate' [ngClass]="currentState === 'assign-associate' ? 'stepActive' : 'stepInActive'" (click)="onSelectLable('contract')">Contract</p>    
+          <div class="round" *ngIf='(currentState === "assign-associate")'  [ngStyle]="{'background-color':currentState === 'assign-associate' ? '#2E8B57' : '#ccc' } " name='assign-associate1' routerLink="/asso_booking-contract/assign-associate"  skipLocationChange  (click)="OnNextClick()"></div>
+          <div class="round" *ngIf='(step1 === "msaEdit")' [ngClass]="step1 === 'msaEdit' ? 'fa fa-check' : ' '"  [ngStyle]="{'background-color':step1 === 'msaEdit' ? '#81C784' : '#ccc' }" name='assign-associate2' (click)="OnNextClick('/assign-associate;edit')"></div>
+          <div class="round" *ngIf='(step1 === "assign-associate")' [ngClass]="step1 === 'assign-associate' ? 'fa fa-check' : ' '"  [ngStyle]="{'background-color':step1 === 'assign-associate' ? '#81C784' : '#ccc' }" name='assign-associate3' routerLink="/asso_booking-contract/assign-associate"  skipLocationChange (click)="OnNextClick()"></div>
+          <div class="round" *ngIf='(step1 != "assign-associate" && step1 !="msaEdit" && currentState != "assign-associate")' name='assign-associate4'></div>
+        </ng-template>
+    </mat-step>         
+    <mat-step >  
+        <ng-template matStepLabel >
+          <p name='branch-allocation' [ngClass]="currentState === 'branch-allocation' ? 'stepActive' : 'stepInActive' " (click)="onSelectLable('branch')">Allocation</p>  
+          <div class="round" *ngIf='(currentState === "branch-allocation")' [ngStyle]="{'background-color':currentState === 'branch-allocation' ? '#2E8B57' : '#ccc' }" name='branch-allocation1' routerLink="/asso_booking-contract/branch-allocation"  skipLocationChange></div>
+          <div class="round" *ngIf='(step2 === "opportunityEdit")' [ngClass]="step2 === 'opportunityEdit' ? 'fa fa-check' : ' '" [ngStyle]="{'background-color':step2 === 'opportunityEdit' ? '#81C784' : '#ccc' }" name='branch-allocation2' (click)="OnNextClick('/branch-allocation;edit')"></div>
+          <div class="round" *ngIf='(step2 === "branch-allocation")' [ngClass]="step2 === 'branch-allocation' ? 'fa fa-check' : ' '" [ngStyle]="{'background-color':step2 === 'branch-allocation' ? '#81C784' : '#ccc' }" name='branch-allocation3' routerLink="/asso_booking-contract/branch-allocation"  skipLocationChange (click)="OnNextClick()"></div>
+          <div class="round" *ngIf='(step2 != "branch-allocation" && step2 !="opportunityEdit"  && currentState != "branch-allocation" && currentState != "msaopportunity")' name='branch-allocation4' ></div>
+        </ng-template>
+    </mat-step>        
+    <mat-step [stepControl]=""  >
+    <ng-template matStepLabel>
+      <p  name='booking-payout' [ngClass]="currentState === 'booking-payout' ? 'stepActive' : 'stepInActive' " (click)="onSelectLable('payment')">Payment&nbsp;Terms</p>   
+      <div class="round" *ngIf='(currentState === "booking-payout")'  [ngStyle]="{'background-color':currentState === 'booking-payout' ? '#2E8B57' : '#ccc' }" name='booking-payout1' routerLink="/asso_booking-contract/booking-payout" skipLocationChange></div>
+      <div class="round" *ngIf='(step3 === "ratecardEdit")' [ngClass]="step3 === 'ratecardEdit' ? 'fa fa-check' : ' '" [ngStyle]="{'background-color':step3 === 'ratecardEdit' ? '#81C784' : '#ccc' }" name='booking-payout2' (click)="OnNextClick('/booking-payout;edit')"></div>
+      <div class="round" *ngIf='(step3 === "booking-payout")' [ngClass]="step3 === 'booking-payout' ? 'fa fa-check' : ' '"  [ngStyle]="{'background-color':step3 === 'booking-payout' ? '#81C784' : '#ccc' }" name='booking-payout3' routerLink="/asso_booking-contract/booking-payout"  skipLocationChange (click)="OnNextClick()"></div>
+      <div class="round" *ngIf='(step3 != "booking-payout" && step3 != "ratecardEdit" && currentState != "booking-payout")' name='booking-payout4' ></div>
+    </ng-template>
+      </mat-step>
+    <mat-step [stepControl]=""  >
+    <ng-template matStepLabel>
+      <p name='booking-sla' [ngClass]="currentState === 'booking-sla' ? 'stepActive' : 'stepInActive' " (click)="onSelectLable('deduction')">Deductions</p> 
+      <div class="round" *ngIf='(currentState === "booking-sla")' [ngStyle]="{'background-color':currentState === 'booking-sla' ? '#2E8B57' : '#ccc' }" name='booking-sla1' routerLink="/asso_booking-contract/booking-sla" skipLocationChange></div>
+      <div class="round" *ngIf='(step4 === "billingEdit")' [ngClass]="step4 === 'billingEdit' ? 'fa fa-check' : ' '" [ngStyle]="{'background-color':step4 === 'billingEdit' ? '#81C784' : '#ccc' }" name='booking-sla2' (click)="OnNextClick('/booking-sla;edit')"></div>
+      <div class="round" *ngIf='(step4 === "booking-sla")' [ngClass]="step4 === 'booking-sla' ? 'fa fa-check' : ' '"  [ngStyle]="{'background-color':step4 === 'booking-sla' ? '#81C784' : '#ccc' }" name='booking-sla3' routerLink="/asso_booking-contract/booking-sla" skipLocationChange (click)="OnNextClick()"></div>
+      <div class="round" *ngIf='(step4 != "booking-sla" && step4 !="billingEdit" && currentState != "booking-sla")' name='booking-sla4'></div>
+    </ng-template>
+      </mat-step>
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel>
+        <p  name='booking-document' [ngClass]="currentState === 'booking-document' ? 'stepActive' : 'stepInActive' " (click)="onSelectLable('document')">Document&nbsp;Upload</p> 
+        <div class="round" *ngIf='(currentState === "booking-document")' [ngStyle]="{'background-color':currentState === 'booking-document' ? '#2E8B57' : '#ccc' }" name='booking-document1' routerLink="/asso_booking-contract/booking-document" skipLocationChange></div>
+        <div class="round" *ngIf='(step5 === "documentuploadEdit")' [ngClass]="step5 === 'documentuploadEdit' ? 'fa fa-check' : ' '"  [ngStyle]="{'background-color':step5 === 'documentuploadEdit' ? '#81C784' : '#ccc' }" name='booking-document2' (click)="OnNextClick('/booking-document;edit')"></div>
+        <div class="round" *ngIf='(step5 === "booking-document")' [ngClass]="step5 === 'booking-document' ? 'fa fa-check' : ' '"  [ngStyle]="{'background-color':step5 === 'booking-document' ? '#81C784' : '#ccc' }" name='booking-document3' routerLink="/asso_booking-contract/booking-document" skipLocationChange (click)="OnNextClick()"></div>
+        <div class="round" *ngIf='(step5 != "booking-document" && step5 !="documentuploadEdit" && currentState != "booking-document")' name='booking-document4'></div>
+      </ng-template>
+    </mat-step>
+    <mat-step [stepControl]="">
+      <ng-template matStepLabel>
+        <p  name='preview' [ngClass]="currentState === 'preview' ? 'stepActive' : 'stepInActive' ">Success</p> 
+        <div class="round" *ngIf='(currentState === "preview")' [ngStyle]="{'background-color':currentState === 'preview' ? '#2E8B57' : '#ccc' }" name='preview'></div>
+        <div class="round" *ngIf='(step6 === "previewEdit")' [ngClass]="step6 === 'previewEdit' ? 'fa fa-check' : ' '"   [ngStyle]="{'background-color':step6 === 'previewEdit' ? '#81C784' : '#ccc' }" name='preview' (click)="OnNextClick('/preview;edit')"></div>
+        <div class="round" *ngIf='(step6 === "preview")' [ngClass]="step6 === 'preview' ? 'fa fa-check' : ' '"  [ngStyle]="{'background-color':step6 === 'preview' ? '#81C784' : '#ccc' }" name='preview' routerLink="/asso_booking-contract/preview"  skipLocationChange (click)="OnNextClick()"></div>
+        <div class="round" *ngIf='(step6 != "preview" && step6 !="previewEdit" && currentState != "preview")' name='preview'></div>
+      </ng-template>
+    </mat-step>
+</mat-horizontal-stepper>
+</div>
