@@ -15,7 +15,7 @@
             <div class="para_test mr-top-bottom-50 ">
               <p>You will be automatically redirected to the dashboard in <strong> {{counter}} seconds</strong> <br> <strong>OR</strong>
                 <br> You
-                can <em class="theme_color" style="cursor: pointer;" routerLink="/asso_cargo-contract/asso_cargo" skipLocationChange  [mat-dialog-close]="true">click here</em> to do it yourself.</p>
+                can <em class="theme_color" style="cursor: pointer;" (click)="closeSuccess()" skipLocationChange  [mat-dialog-close]="true">click here</em> to do it yourself.</p>
             </div>
           </div>
         </div>

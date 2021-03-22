@@ -1,5 +1,5 @@
 {
-  "name": "associate-cargo-contract",
+  "name": "associate-airfreight-contract",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -9,7 +9,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build:single-spa": "ng build --prod --output-hashing none",
-    "serve:single-spa": "ng serve --disable-host-check --port 4207 --deploy-url http://localhost:4207/ --live-reload false"
+    "serve:single-spa": "ng serve --disable-host-check --port 4206 --deploy-url http://localhost:4206/ --live-reload false"
   },
   "private": true,
   "dependencies": {

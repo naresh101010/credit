@@ -1,29 +1,26 @@
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatTableDataSource, MatSort } from '@angular/material';
+import { AssignVehicleComponent } from 'src/app/dialog/assign-vehicle/assign-vehicle.component';
 import { SearchBranchComponent } from 'src/app/dialog/search-branch/search-branch.component';
 import { ToastrService } from 'ngx-toastr';
-import { DatePipe } from '@angular/common';
+import { ApiService } from 'src/app/core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Router, ActivatedRoute } from '@angular/router';
-import { NgxPermissionsService } from 'ngx-permissions';
-
-import { AppSetting } from '../../app.setting';
-import { ApiService } from '../../core/services/api.service';
+import { AppSetting } from 'src/app/app.setting';
+import { DatePipe } from '@angular/common';
 import { AuthorizationService } from '../../core/services/authorization.service';
-import { confimationdialog } from '../../dialog/confirmationdialog/confimationdialog';
-import { ErrorConstants } from '../../core/models/constants';
+import { NgxPermissionsService } from 'ngx-permissions';
+import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-branch-allocation',
-  templateUrl: './branch-allocation.component.html',
-  styleUrls: ['./branch-allocation.component.css'],
-  providers: [DatePipe]
+  templateUrl: './branch-allocation.component.html',  
+  providers: [ApiService, DatePipe]
 })
 export class BranchAllocationComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
-  // displayedColumns: string[] = ['branchName', 'branchType', 'effectiveDt', 'expDt', 'Avehicle', 'delete'];
-  displayedColumns: string[] = ['branchName', 'branchType', 'effectiveDt', 'expDt', 'delete'];
+  displayedColumns: string[] = ['branchName', 'branchType', 'effectiveDt', 'expDt', 'Avehicle', 'delete'];
   dataSource: any;
   SearchType;
   userBranch;
@@ -35,6 +32,8 @@ export class BranchAllocationComponent implements OnInit {
   referenceData;
   editflow;
   perList:any=[];
+  exAttrMap = new Map();
+  exAttrKeyList =  [];
   flag: boolean = false;
 
   constructor(public dialog: MatDialog, private toast: ToastrService, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, public router: Router, private acRoute:ActivatedRoute, public datePipe: DatePipe,
@@ -43,20 +42,25 @@ export class BranchAllocationComponent implements OnInit {
 
   ngOnInit() {
 
+    this.authorizationService.setPermissions('VEHICLE');
+    this.perList = this.authorizationService.getPermissions('VEHICLE') == null ? [] : this.authorizationService.getPermissions('VEHICLE');
     this.authorizationService.setPermissions('BRANCH');
-    this.perList = this.authorizationService.getPermissions('BRANCH') == null ? [] : this.authorizationService.getPermissions('BRANCH');
+    this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
     this.permissionsService.loadPermissions(this.perList);
+    this.exAttrMap = this.authorizationService.getExcludedAttributes('BRANCH ALLOCATION');
+    this.exAttrKeyList = Array.from(this.exAttrMap.values());
+    console.log('Attribute List', this.exAttrKeyList);
     console.log('perlist',this.perList)
 
     this.getAllBranchWithCtr();
-    //this.getAllVehicle();
+    this.getAllVehicle();
     this.acRoute.params.subscribe(x => {
       if(x.editflow){
         this.editflow = x.editflow;
       }
       
     })
-   // this.getContract();
+    
   }
 
   getAllVehicle(){
@@ -79,48 +83,37 @@ export class BranchAllocationComponent implements OnInit {
   }
   backupBranch:any;
   getAllBranchWithCtr(){
-    
     this.SpinnerService.show();
     let contractId = AppSetting.contractId;
-    this.apiSer.get(`secure/v1/cargocontract/contracts/branches/${contractId}`).subscribe(res => {
+    this.apiSer.get(`secure/v1/airfreightcontract/contracts/branches/${contractId}`).subscribe(res => {
       if (res && res.data) {
         this.existBranch = res.data.responseData;
-        console.log('Exist Branch', this.existBranch);
-        if (this.branches.length > 0) {
-          for (var item of this.branches) {
-            for (var i of this.existBranch) {
-              if (i.id == item.id) {
-                i.expDt = item.expDt;
-                i.effectiveDt = item.effectiveDt;
-              }
-            }
-          }
-        }
         this.backupBranch = JSON.parse(JSON.stringify(this.existBranch))
         this.referenceData = res.data.referenceData;
         this.branches = this.existBranch;
         if (this.existBranch && this.existBranch.length > 0) {
           this.existBranch.forEach(element => {
             element.effectiveDate_min = new Date(element.effectiveDt);
+            console.log('Eff Date', element.effectiveDt);
             let e = new Date(element.effectiveDt);
             e.setDate(e.getDate()+1);
             element.expiryDate_min = e;
+            // element.expiryDate_min = new Date(element.expDt);
             element.effectiveDate_max = null;
+            // expiry
             element.expiryDate_max = null;
             element.checked = true;
 
+            element.assocBranchVehicles.forEach(obj => {
+              obj.checked = true;
+            });
           });
         }
         this.dataSource = new MatTableDataSource(this.existBranch);
-        console.log('dataSource 1',this.dataSource)
         this.dataSource.sort = this.sort;
-        this.SpinnerService.hide();
       }
-    },(error) => {
-      this.SpinnerService.hide();
-      this.toast.error(ErrorConstants.getValue(404));
     });
-   
+    this.SpinnerService.show();
   }
 
   openSearchBranchModal() {
@@ -152,19 +145,15 @@ export class BranchAllocationComponent implements OnInit {
         this.branches = result.defaultBranch;
         this.existBranch = this.branches;
         this.dataSource = new MatTableDataSource(this.branches);
-        console.log('dataSource 2',this.dataSource)
         this.dataSource.sort = this.sort;
-        
-        // let effYear = parseInt(this.datePipe.transform(result.effectiveDt, 'yyyy'))
-        // if (!effYear) {
-        //   this.flag = true;
-        // }
+        console.log('this.branches', this.branches);
       }
 
     });
 
   }
   trackById(index, item) {
+    console.log(item.branchId);
     return item.branchId;
   }
 
@@ -179,7 +168,7 @@ export class BranchAllocationComponent implements OnInit {
 
   setBranchWithVecle(element) {  
     if(!element.assocCntrId){ 
-      // element.assocBranchVehicles = [];
+      element.assocBranchVehicles = [];
       element.assocCntrId = AppSetting.contractId;
       element.effectiveDate_min = new Date();
       let e = new Date();
@@ -213,83 +202,75 @@ export class BranchAllocationComponent implements OnInit {
           console.log('id>>', obj.branchId, element.branchId);
           if(obj.branchId == element.branchId){            
             element.id = obj.id;
+              element.assocBranchVehicles.forEach(elementvel => {
+                obj.assocBranchVehicles.forEach(objVel => {
+                  console.log('vehicleId>>', objVel.vehicleId, objVel.vehicleId);
+                  if(objVel.vehicleId == elementvel.vehicleId){            
+                    elementvel.id = objVel.id;
+                  }
+                });
+              });
           }
         });
       }
     })
-    this.branches.forEach(el => {
-      el.effectiveDt = this.datePipe.transform(el.effectiveDt, 'yyyy-MM-dd');
-      el.expDt = this.datePipe.transform(el.expDt, 'yyyy-MM-dd')
-    });
-    console.log('branches',this.branches);
-    this.SpinnerService.show();
-      this.apiSer.post(`secure/v1/cargocontract/contracts/branches`, this.branches).subscribe((res) => {
+      this.apiSer.post(`secure/v1/airfreightcontract/contracts/branches`, this.branches).subscribe((res) => {
       if(res.data.responseData){
-        this.toast.success('Save Successfully');
+        this.toast.success('Saved Successfully');
         if(btnName == 'next'){
-          this.SpinnerService.hide();
           if(this.editflow){
-            this.router.navigate(['asso_cargo-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
+            this.router.navigate(['asso_air-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
           }else{
-            this.router.navigate(['asso_cargo-contract/booking-payout'], {skipLocationChange: true});
+            this.router.navigate(['asso_air-contract/booking-payout'], {skipLocationChange: true});
           }
         }else {
+          // this.getAllBranchWithCtr();
+          // this.getAllVehicle();
           this.ngOnInit();
         }
       }
-      
-    }, (err) =>{
-      if(btnName == 'save') {
-        return
-      } 
-      this.SpinnerService.hide();
+    }, (err) =>{      
       this.toast.error(err.error.errors.error[0].code + ' : ' + err.error.errors.error[0].description );
     })
   }
 
   nextReadMode() {
     if(this.editflow){
-      this.router.navigate(['asso_cargo-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
+      this.router.navigate(['asso_air-contract/booking-payout',{ steper:true,'editflow': 'true' }], {skipLocationChange: true});
     }else{
-      this.router.navigate(['asso_cargo-contract/booking-payout'], {skipLocationChange: true});
+      this.router.navigate(['asso_air-contract/booking-payout'], {skipLocationChange: true});
     }
   }
 
   validationBranchCheck(btnName){
-  
-   let cntrId = String(AppSetting.contractId);
+    let cntrId = String(AppSetting.contractId);
    let listBranchIds =  this.branches.map( obj=> {
       return  obj.branchId;
     });
     let branchMap = {};
     branchMap[cntrId] = [...listBranchIds];
-    this.SpinnerService.show();
-    this.apiSer.post(`secure/v1/cargocontract/validBranches/`, branchMap).subscribe(
+
+    this.apiSer.post(`secure/v1/airfreightcontract/validBranches/`, branchMap).subscribe(
       res => {
         let listBranchNames = [];
         if (res && res.data && res.data.responseData) {
           if (res.data.responseData.length > 0) {
             this.branches.forEach(element => {
-              res.data.responseData.filter((obj,index) => {
+              res.data.responseData.filter(obj => {
                 if (obj == element.branchId) {
                   listBranchNames.push(element.branchName);
                 }
               });
 
             });
-            // this.toast.error("Not Valid Branches", listBranchNames.toString());
-            this.SpinnerService.hide();
-            this.toast.error('Not a Valid Branch, Already Allocated ! ', listBranchNames.join(', '));
+            this.toast.error('Not a Valid Branch, Already Allocated ! ', listBranchNames[0].toString());
           } else {
             this.submit(btnName);
           }
         }
-      },(error) => {
-        this.SpinnerService.hide();
-      }
+      },
     );
   }
- 
   setVehicle(obj, ref) {
     if(ref){
       ref.vehicleModelList.forEach(element => {
@@ -318,19 +299,19 @@ export class BranchAllocationComponent implements OnInit {
 
   }
 
-  // openAssignVehicleModal(obj) {
-  //   console.log('this.tempArr', this.tempArr);
-  //   const vehicle = JSON.parse(JSON.stringify(this.tempArr));
-  //   const dialogRef = this.dialog.open(AssignVehicleComponent, {
-  //     data: { 'tempVehicle': vehicle, 'obj': obj },
-  //     panelClass: 'mat-dialog-responsive',
-  //     disableClose: true
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     console.log('result', result);
-  //   })
+  openAssignVehicleModal(obj) {
+    console.log('this.tempArr', this.tempArr);
+    const vehicle = JSON.parse(JSON.stringify(this.tempArr));
+    const dialogRef = this.dialog.open(AssignVehicleComponent, {
+      data: { 'tempVehicle': vehicle, 'obj': obj },
+      panelClass: 'mat-dialog-responsive',
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('result', result);
+    })
 
-  // }
+  }
 
   deleteBranchDialog(element) {
     const dialog = this.dialog.open(confimationdialog, {
@@ -355,9 +336,14 @@ export class BranchAllocationComponent implements OnInit {
       return flag = true;
     }
     this.branches.forEach(obj => {
-      if (!obj.effectiveDt) {
+      if (obj.effectiveDt) {
+        if(!obj.assocBranchVehicles || obj.assocBranchVehicles.length == 0){
+          return flag = true;
+        }
+      } else {
         return flag = true;
       }
+
     })
     return flag;
   }
@@ -408,11 +394,11 @@ export class BranchAllocationComponent implements OnInit {
     }
 
     // increment exp date by one year
-    // if(isExpToUpdate && b && !element.isValidEffectiveDt){
-    //   let f = new Date(b);
-    //   f.setFullYear(f.getFullYear()+1);
-    //   element.expDt = f;
-    // }
+    if(isExpToUpdate && b && !element.isValidEffectiveDt){
+      let f = new Date(b);
+      f.setFullYear(f.getFullYear()+1);
+      element.expDt = f;
+    }
   }
   this.expDate(element);
   }
@@ -454,28 +440,6 @@ export class BranchAllocationComponent implements OnInit {
       element.maxdate = e;
     }
   }
-  }
-
-  contractData: any;
-  minDate: any;
-  getContract(){
-    this.apiSer.get('/secure/v1/bookingcontract/'+AppSetting.contractId).subscribe(response => {
-      let ob = ErrorConstants.validateException(response);
-      if(ob.isSuccess){
-        if(response.data.responseData && Object.keys(response.data.responseData).length > 0){
-          this.contractData =  response.data.responseData;
-          this.minDate = this.contractData.cntrSignDt;
-        }
-        this.SpinnerService.hide();
-      } else {
-        this.toast.error(ob.message);
-        this.SpinnerService.hide();
-      }
-    }, (error) => {
-      this.toast.error(ErrorConstants.getValue(404));
-      this.SpinnerService.hide();
-    })
-
   }
 }
 

@@ -1,334 +1,312 @@
 <div class="modal-container">
   <div class="row">
-    <div class="col-md-1">
+    <div class="col-md-1">        
       <h5 class="sub_heading"><strong>Preview</strong></h5>
     </div>
     <div class="col-md-2">
       <div class="row">
+        <div class="col-md-6" >
+          <p style="cursor: pointer !important;" (click)="sendEmail()"><img alt="img"class="preview_email_icon" src="../assets/images/envelope.png" alt="email"> <strong>Email</strong></p>
+        </div>
         <div class="col-md-6">
-            <p (click)="sendEmail()"><img alt="img"class="preview_email_icon" src="../assets/images/envelope.png" alt="email"> <strong>{{data.btn}}</strong></p>
-          </div>
-          <div class="col-md-6">
-            <button style="cursor: pointer !important;width: 12rem;font-size: 2.8rem; border: none; background: transparent;left:0; top: 0.7rem; display: flex;" [useExistingCss]="true"
-                  printTitle="{{previewList?.assocName}}" printSectionId="previewContent" ngxPrint>   
-                  <img  alt="img" style="margin-right: 7px; width: 22px;" src="../assets/images/printer.png"> <p style="font-weight: bold;">Print</p>
-            </button>
-          </div>
+          <button style="cursor: pointer !important;width: 12rem;font-size: 2.8rem; border: none; background: transparent;left:0; top: 0.7rem; display: flex;" [useExistingCss]="true"
+                printTitle="{{previewList?.assocName}}" printSectionId="previewContent" ngxPrint>   
+                <img alt="img" style="margin-right: 7px; width: 22px;" src="../assets/images/printer.png"> <p style="font-weight: bold;">Print</p>
+          </button>
         </div>
       </div>
-      <div class="col-md-1 col-md-offset-8 text-right">
-        <button mat-button class="theme-button"  [mat-dialog-close]="true" >Close</button>
-      </div>
+    </div>
+    <div class="col-md-1 col-md-offset-8 text-right">
+      <button mat-button class="theme-button"  [mat-dialog-close]="true">Close</button>
+    </div>
   </div>
   <hr class="border_row">
 </div>
-  <div id="previewContent" #previewContent>
-      <section class="preview_sec preview_popup">
-        <div class="">
-          <div class="preview_main_card pd_0_20">
-            <section class="preview_sec_1 width-800">
-              <div class="row">
-                <div class="col-md-6">
-                  <h3><strong>Cargo Associate Contract</strong></h3>
-                </div>
-                <div class="col-md-6 text-right">
-                  <h2>Preview Generated on: {{this.currDate | date: 'dd MMM yy'}}</h2>
+<div id="previewContent" #previewContent>
+  <div>
+
+  </div>
+    <section class="preview_sec preview_popup">
+      <div class="width-1000"  style="margin: auto;">
+        <div class="preview_main_card pd_0_20">
+          <section class="mgsg_print_sec">
+          </section>
+          <section class="preview_sec_1 width-800">
+            <div class="row">
+              <div class="col-md-6">
+                <h3><strong>Air Freight Associate Contract</strong></h3>
+              </div>
+              <div class="col-md-6 text-right">
+                <h3>Preview Generated on: {{this.currDate | date: 'dd/MM/yyyy'}}</h3>
+              </div>
+            </div>
+          </section>
+          <section class="preview_sec_2 width-800">
+            <div class="row">
+              <div class="col-md-6">
+                <h3><strong class="strong-text">Associate Name:</strong> {{previewList?.assocName == null ? 'NA' : previewList?.assocName}}</h3>
+                <h3><strong class="strong-text">Associate Category:</strong> AIR FREIGHT</h3>
+              </div>
+              <div class="col-md-6">
+                <div class="text_right float_right">
+                  <h3><strong class="strong-text">Contract Code:</strong> {{previewList?.cntrCode == null ? 'NA' : previewList?.cntrCode}}</h3>
+                  <h3><strong class="strong-text">W.E.F:</strong> {{previewList?.wefDate == null ? 'NA' : previewList?.wefDate | date: 'dd/MM/yyyy'}}</h3>
                 </div>
               </div>
-            </section>
-            <section class="preview_sec_2 width-800">
-              <div class="row">
-                <div class="col-md-6">
-                  <h3  class="font-thin"><strong class="strong-text">Associate Name:</strong> {{previewList?.assocName == null ? 'NA' : previewList?.assocName}}</h3>
-                  <h3  class="font-thin"><strong class="strong-text">Associate Category:</strong> {{previewList?.asscoCtrgy == null ? 'NA' : previewList?.asscoCtrgy}}</h3>
-                </div>
-                <div class="col-md-6">
-                  <div class="pull-right">
-                    <h3  class="font-thin"><strong class="strong-text">Contract Code:</strong> {{previewList?.cntrCode == null ? 'NA' : previewList?.cntrCode}}</h3>
-                    <h3  class="font-thin"><strong class="strong-text">W.E.F:</strong> {{previewList?.wefDate == null ? 'NA' : previewList?.wefDate | date: 'dd/MM/yyyy'}}</h3>
+            </div>
+          </section>
+          <section class="preview_sec_3 width-800">
+            <h3><strong>Contract Details</strong></h3>
+            <div class="row">
+              <div class="col-md-5">
+                <div class="mat-table prvw_tbl  preview_table_1">
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Start Date</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4 flex4">{{previewList?.effectiveDt == null ? 'NA' : previewList?.effectiveDt | date: 'd MMM yy'}}</div>
                   </div>
-                </div>
-              </div>
-            </section>
-            <section class="preview_sec_3 width-800">
-              <h3><strong>Contract Details</strong></h3>
-              <div class="row">
-                <div class="col-md-5">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Cargo Associate Type</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4 flex4">{{previewList?.lkpAssocCargoTypeName == null ? 'NA' : previewList?.lkpAssocCargoTypeName}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>End Date</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.expDt == null ? 'NA' : previewList?.expDt | date: 'dd/MM/yyyy'}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Status</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cntrctStatus === 'EDIT' ? 'ACTIVE' :  previewList?.cntrctStatus}}</div>
-                     </div>
-                  </div>
-                </div>
-                <div class="col-md-5 col-md-offset-2">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Start Date</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4 flex4">{{previewList?.effectiveDt == null ? 'NA' : previewList?.effectiveDt | date: 'dd/MM/yyyy'}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Billing Cycle</div>
-                      <div class="mat-cell preview_table_bg_2 flex4 flex4">{{previewList?.billingCyle == null ? 'NA' : previewList?.billingCyle}}</div>
-                    </div>
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Billing Cycle</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4 flex4">{{previewList?.billingCyle == null ? 'NA' : previewList?.billingCyle}}</div>
                   </div>
                 </div>
               </div>
-            </section>
-            <!-------Contract Details End ----->
-    
-            <!--------- Branch Allocation Start ---------->
-            <section class="preview_sec_3 preview_sec_4 width-800">
-              <h3><strong>Allocation</strong></h3>
-              <h3 style="font-weight: bold;">Branch</h3>
-              <div class="row">
-                <div class="col-md-12">
-                  <div class="mat-table prvw_tbl preview_table_2">
-                    <div class="mat-row align_item_top border_none flex-box flex-box">
-                      <div class="mat-cell pab_table_head green_th flex1 width-200"><strong>Branch Name</strong></div>
-                      <div class="mat-cell pab_table_head green_th flex2 width-200"><strong>Branch Type</strong></div>
-                      <div class="mat-cell pab_table_head green_th flex3 width-200"><strong>Effective Date</strong></div>
-                      <div class="mat-cell pab_table_head green_th flex4 width-200"><strong>Expiry Date</strong></div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box" *ngFor="let branch of previewList?.branchAllocationPrev; let i = index"   style="page-break-inside: avoid;">
-                      <div class="mat-cell pab_table_dis1 flex1 pab_table_dis2 green_th width-200">{{branch?.branchName == null ? 'NA' : branch?.branchName}}</div>
-                      <div class="mat-cell pab_table_dis1 flex2 width-200">{{branch?.branchType == null ? 'NA' : branch?.branchType}}</div>
-                      <div class="mat-cell pab_table_dis1 flex3 width-200">{{branch?.efftvDate == null ? 'NA' : branch?.efftvDate | date: 'dd/MM/yyyy'}}</div>
-                      <div class="mat-cell pab_table_dis1 flex4 width-200">{{branch?.exprDate == null ? 'NA' : branch?.exprDate | date: 'dd/MM/yyyy'}}</div>
-                    </div>
+              <div class="col-md-5 col-md-offset-2">
+                <div class="mat-table prvw_tbl  preview_table_1">
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>End Date</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.expDt == null ? 'NA' : previewList?.expDt | date: 'd MMM yy'}}</div>
+                  </div>
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Status</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cntrctStatus === 'EDIT' ? 'ACTIVE' : previewList?.cntrctStatus}}</div>
                   </div>
                 </div>
               </div>
-            </section>
-             <!--------- Branch Allocation End ---------->
-    
-              <!--------- Payment Terns Start ---------->
-            <section class="preview_sec_3 preview_sec_4 width-800">
-              <h3  style="page-break-inside: avoid;"><strong>Payment Terms</strong></h3>
-              <div class="row"  style="page-break-inside: avoid;">
-                <div class="col-md-5">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Payment Based On</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == null ? 'NA' : previewList?.paymentTermsPrev?.lkpCargoPayoutOptName}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th" *ngIf="previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER TON'"><strong>Rate Per Ton</strong></div>
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th" *ngIf="previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER PERSON'"><strong>Rate Per Person</strong></div>
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th" *ngIf="previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER VEHICLE'"><strong>Rate Per Vehicle</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4">₹{{previewList?.paymentTermsPrev?.price == null ? '0' : previewList?.paymentTermsPrev?.price}}</div>
-                    </div>
+            </div>
+          </section>
+         
+          <section class="preview_sec_3 width-800 preview_sec_4">
+            <h3><strong>Payment Terms</strong></h3>
+            <div class="row payment_base_t" style="page-break-inside: avoid;">
+              <div class="col-md-5">
+                <div class="mat-table prvw_tbl  preview_table_1">
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Payout Based On</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">
+                      {{previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == null ? 'NA' : previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName}}</div>
                   </div>
+                  <!-- <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Payment Mode</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">
+                      {{previewList?.paymentTerms?.lkpAssocAirFreightPaymentMode == null ? 'NA' : previewList?.paymentTerms?.lkpAssocAirFreightPaymentMode}}</div>
+                  </div> -->
                 </div>
-                <div class="col-md-5 col-md-offset-2">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Weight Type</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTermsPrev?.wtType == null ? 'NA' : previewList?.paymentTermsPrev?.wtType}}</div>
-                    </div>
+              </div>
+              <div class="col-md-5 col-md-offset-2">
+                <div class="mat-table prvw_tbl  preview_table_1">
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Weight Type</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTerms?.weightType == null ? 'NA' : previewList?.paymentTerms?.weightType}}</div>
                   </div>
                 </div>
               </div>
-            </section>
+            </div>
+          </section>
+  
+          <ng-container *ngFor="let productData of previewList?.paymentTerms?.airFreightCityPrdctChrgs; let i = index" style="page-break-inside: avoid;">
             <section class="preview_sec_3 preview_sec_4 preview_sec_5 width-800">
-              <h3  style="page-break-inside: avoid;"><strong>Ex - Gratia</strong></h3>
-              <div class="row pb_15"  style="page-break-inside: avoid;">
+  
+              <!------ Payout Based on Product start ------->
+              <div class="row payment_base_t"
+                *ngIf="previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY'">
                 <div class="col-md-5">
                   <div class="mat-table prvw_tbl  preview_table_1">
                     <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3"><strong>Ex - Gratia Applicable</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTermsPrev?.exgratiaFlag === 1 ? 'YES' : 'NO'}}</div>
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Product Category</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4">
+                        {{productData?.prdctCtgyName == null ? 'NA' : productData?.prdctCtgyName}}
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <div class="row" *ngIf="(previewList?.paymentTermsPrev?.exgratiaFlag == 1 && graciaList.length > 0)">
-                <div class="col-md-12">
-                  <div class="mat-table prvw_tbl  preview_table_2">
-                    <div class="mat-row align_item_top border_none flex-box"  style="page-break-inside: avoid;">
-                      <div class="mat-cell pab_table_head flex1 width-200"><strong>Branch</strong></div>
-                      <div class="mat-cell pab_table_head flex2 width-200"><strong>Ex - Gratia Amount</strong></div>
-                      <div class="mat-cell pab_table_head flex3 width-200"><strong>Reason</strong></div>
-                      <div class="mat-cell pab_table_head flex4 width-100"><strong>Start Date</strong></div>
-                      <div class="mat-cell pab_table_head flex5 width-200"><strong>End Date</strong></div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box" *ngFor="let gratia of graciaList; let i = index"  style="page-break-inside: avoid;">
-                      <div class="mat-cell pab_table_dis1 flex1 pab_table_dis2 width-200">{{gratia.branchName == null ? 'NA' : gratia.branchName}}</div>
-                      <div class="mat-cell pab_table_dis1 flex2 width-200">₹ {{gratia.amt == null ? '0' : gratia.amt}}</div>
-                      <div class="mat-cell pab_table_dis1 flex3 width-200">{{gratia.reason == null ? 'NA' : gratia.reason}}</div>
-                      <div class="mat-cell pab_table_dis1 flex4 width-100">{{gratia.efftvDate == null ? 'NA' : gratia.efftvDate | date: 'dd/MM/yyyy'}}</div>
-                      <div class="mat-cell pab_table_dis1 flex5 width-100">{{gratia.exprDate == null ? 'NA' : gratia.exprDate | date: 'dd/MM/yyyy'}}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-             
-            </section>
-            <section class="preview_sec_3 preview_sec_4 preview_sec_5 width-800">
-              <h3  style="page-break-inside: avoid;"><strong>Minimum Guarantee</strong></h3>
-              <div class="row pb_15">
-                <div class="col-md-5">
-                  <div class="mat-table prvw_tbl  preview_table_1"  style="page-break-inside: avoid;">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>MG Applicable</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTermsPrev?.mgFlag === 1 ? 'YES' : 'NO'}}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div class="row" *ngIf="(previewList?.paymentTermsPrev?.mgFlag == 1 && mgList.length > 0)">
-                <div class="col-md-12">
-                  <div class="mat-table prvw_tbl  preview_table_2">
-                    <div class="mat-row align_item_top border_none flex-box"  style="page-break-inside: avoid;">
-                      <div class="mat-cell pab_table_head green_th width-200"><strong>Branch</strong></div>
-                      <div class="mat-cell pab_table_head green_th width-200"><strong>MG Amount</strong></div>
-                      <div class="mat-cell pab_table_head green_th width-200"><strong>Reason</strong></div>
-                      <div class="mat-cell pab_table_head green_th width-100"><strong>Start Date</strong></div>
-                      <div class="mat-cell pab_table_head green_th width-100"><strong>End Date</strong></div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box" *ngFor="let gratia of mgList; let i = index"  style="page-break-inside: avoid;">
-                      <div class="mat-cell pab_table_dis1 pab_table_dis2 width-200">{{gratia?.branchName == null ? 'NA' : gratia?.branchName}}</div>
-                      <div class="mat-cell pab_table_dis1 width-200">₹ {{gratia?.amt == null ? '0' : gratia?.amt}}</div>
-                      <div class="mat-cell pab_table_dis1 width-200">{{gratia?.reason == null ? 'NA' : gratia?.reason}}</div>
-                      <div class="mat-cell pab_table_dis1 width-100">{{gratia?.efftvDate == null ? 'NA' : gratia?.efftvDate | date: 'dd/MM/yyyy'}}</div>
-                      <div class="mat-cell pab_table_dis1 width-100">{{gratia?.exprDate == null ? 'NA' : gratia?.exprDate | date: 'dd/MM/yyyy'}}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-               <div class="row payment_base_t"  style="page-break-inside: avoid;">
+              <!------ Payout Based on Product end ------->
+  
+              <!------ Payout Based on City start ------->
+              <div class="row payment_base_t" style="page-break-inside: avoid;"
+                *ngIf="previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'CITY BASIS'">
                 <div class="col-md-5">
                   <div class="mat-table prvw_tbl  preview_table_1">
                     <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3">Promotion Applicable</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTermsPrev?.promoFlag === 1 ? 'YES' : 'NO'}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3">Remarks</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTermsPrev?.addtnlExpnsRemark ? previewList?.paymentTermsPrev?.addtnlExpnsRemark : 'NA' }}</div>
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>From City</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4">{{productData?.fromCity == null ? 'NA' : productData?.fromCity}}</div>
                     </div>
                   </div>
                 </div>
                 <div class="col-md-5 col-md-offset-2">
                   <div class="mat-table prvw_tbl  preview_table_1">
                     <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3">Additional Expense</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.paymentTermsPrev?.addtnlExpnsFlag === 1 ? 'YES' : 'NO'}}</div>
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>To City</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4">{{productData?.tocity == null ? 'NA' : productData?.tocity}}</div>
                     </div>
                   </div>
                 </div>
               </div>
+              <!------ Payout Based on City end ------->
+  
+              <!--  Rate Per KG start-->
+              <ng-container *ngIf="productData?.wtCalcCategory == 'RATE PER KG'">
+                <h3 style="page-break-inside: avoid;"><strong>Rate Per KG</strong></h3>
+                <div class="row" style="page-break-inside: avoid;">
+                    <div class="col-md-5">
+                      <div class="mat-table prvw_tbl  preview_table_1">
+                        <div class="mat-row align_item_top border_none flex-box">
+                          <div class="mat-cell preview_table_bg_1 flex3"><strong>Rate Per KG</strong></div>
+                          <div class="mat-cell preview_table_bg_2 flex4">₹ {{productData?.ratePerKg == null ? '0' : productData?.ratePerKg }}</div>
+                        </div>
+                        <div class="mat-row align_item_top border_none flex-box">
+                          <div class="mat-cell preview_table_bg_1 flex3"><strong>Start Date</strong></div>
+                          <div class="mat-cell preview_table_bg_2 flex4">
+                            {{productData?.startDate == null ? 'NA' : productData?.startDate | date: 'd MMM yy'}}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                      <div class="mat-table prvw_tbl  preview_table_1">
+                        <div class="mat-row align_item_top border_none flex-box">
+                          <div class="mat-cell preview_table_bg_1 flex3"><strong>Minimum Amt. Per Air Waybill</strong></div>
+                          <div class="mat-cell preview_table_bg_2 flex4">₹ {{productData?.minAmt == null ? '0' : productData?.minAmt}}</div>
+                        </div>
+                        <div class="mat-row align_item_top border_none flex-box">
+                          <div class="mat-cell preview_table_bg_1 flex3"><strong>End Date</strong></div>
+                          <div class="mat-cell preview_table_bg_2 flex4">
+                            {{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'd MMM yy' }}</div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+              </ng-container>
+              <!--  Rate Per KG end-->
+  
+              <!-- Total Weight start -->
+              <ng-container *ngIf="productData?.wtCalcCategory == 'TOTAL WEIGHT'">
+                <h3 style="page-break-inside: avoid;"><strong>Total Weight</strong></h3>
+                <div class="row payment_base_t" style="page-break-inside: avoid;">
+                  <div class="col-md-6">
+                    <div class="mat-table prvw_tbl  preview_table_2 pb_td">
+                      <div class="mat-row align_item_top border_none flex-box">
+                        <div class="mat-cell pab_table_head pb_tb_hd flex1"><strong>Slab Definition (In KG)</strong></div>
+                        <div class="mat-cell pab_table_head pb_tb_hd flex2"><strong>Rate Per KG</strong></div>
+                      </div>
+                      <div class="mat-row align_item_top border_none flex-box"
+                        *ngFor="let slab of productData?.airFreightWtSlabChrgs | sortBy:'asc':'slabFrom'; let i = index">
+                        <div class="mat-cell pab_table_dis1 pb_tb_hd flex1 pab_table_dis2">{{slab?.slabFrom == null ? '' : slab?.slabFrom}} -
+                          {{slab?.slabTo == null ? 'NA' : slab?.slabTo}}</div>
+                        <div class="mat-cell pab_table_dis1 pb_tb_hd flex2">₹ {{slab?.price == null ? '0' : slab?.price}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+  
+                <div class="row payment_base_t mt_15" style="page-break-inside: avoid;">
+                  <div class="col-md-5">
+                    <div class="mat-table prvw_tbl  preview_table_1">
+                      <div class="mat-row align_item_top border_none flex-box">
+                        <div class="mat-cell preview_table_bg_1 flex3"><strong>Minimum Amt. Per Air Waybill</strong></div>
+                        <div class="mat-cell preview_table_bg_2 flex4">₹ {{productData?.minAmt == null ? '0' : productData?.minAmt}}</div>
+                      </div>
+                      <div class="mat-row align_item_top border_none flex-box">
+                        <div class="mat-cell preview_table_bg_1 flex3"><strong>End Date</strong></div>
+                        <div class="mat-cell preview_table_bg_2 flex4">
+                          {{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'd MMM yy' }}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-5 col-md-offset-2">
+                    <div class="mat-table prvw_tbl  preview_table_1">
+                      <div class="mat-row align_item_top border_none flex-box">
+                        <div class="mat-cell preview_table_bg_1 flex3"><strong>Start Date</strong></div>
+                        <div class="mat-cell preview_table_bg_2 flex4">
+                          {{productData?.startDate == null ? 'NA' : productData?.startDate | date: 'd MMM yy'}}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+              <!-- Total Weight end -->
             </section>
-            <!---------Payment Terms End  ---------->
-    
-            <!--------- Deductions Start ---------->
-            <section class="preview_sec_3 preview_sec_4 width-800">
-              <h3  style="page-break-inside: avoid;"><strong>Deductions</strong></h3>
-              <!-- <div class="row">
-                <div class="col-md-5">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>SLA Applicable</strong></div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.slaFlag === 1 ? 'Yes' : 'No'}}</div>
-                    </div>
+          </ng-container>
+          
+          <section class="preview_sec_3 preview_sec_4 width-800">
+            <h3 style="page-break-inside: avoid;"><strong>Deductions</strong></h3>
+            <div class="row payment_base_t"style="page-break-inside: avoid;">
+              <div class="col-md-5">
+                <div class="mat-table prvw_tbl  preview_table_1">
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>SLA Applicable</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.deduction?.slaFlag === 1 ? 'Yes' : 'No'}}</div>
                   </div>
-                </div>
-              </div> -->
-              <div class="row payment_base_t" *ngIf="previewList?.cargoDeductionPrev?.cargoSlaList.length > 0">
-                <div class="col-md-9">
-                  <div class="mat-table prvw_tbl  preview_table_2"  style="page-break-inside: avoid;">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell pab_table_head green_th"><strong>Vehicle Type</strong></div>
-                      <div class="mat-cell pab_table_head green_th"><strong>Loading Time</strong></div>
-                      <div class="mat-cell pab_table_head green_th"><strong>Unloading Time</strong></div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box" *ngFor="let sla of previewList?.cargoDeductionPrev?.cargoSlaList; let i = index"  style="page-break-inside: avoid;">
-                      <div class="mat-cell pab_table_dis1 pab_table_dis2">{{sla.vehicleType == null ? 'NA' : sla.vehicleType}}</div>
-                      <div class="mat-cell pab_table_dis1">{{sla.loadingTime == null ? 'NA' : sla.loadingTime}}</div>
-                      <div class="mat-cell pab_table_dis1">{{sla.unloadingTime == null ? 'NA' : sla.unloadingTime}}</div>
-                    </div>
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Late Arrival Penalty</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.deduction?.lateArrFlag === 1 ? 'Yes' : 'No'}}</div>
+                  </div>
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Maximum Deduction</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">₹ {{previewList?.deduction?.maxDedctn == null ? '0' : previewList?.deduction?.maxDedctn}}</div>
                   </div>
                 </div>
               </div>
-              <div class="row"  style="page-break-inside: avoid;">
-                <div class="col-md-5">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Mishandling Charges</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.mishandlingFlag === 1 ? 'YES' : 'NO'}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Schedule Late Penalty</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.schLatePnltyFlag === 1 ? 'YES' : 'NO'}}</div>
-                    </div>
+              <div class="col-md-5 col-md-offset-2">
+                <div class="mat-table prvw_tbl  preview_table_1">
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Deduction Against Loss of Material</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.deduction?.dedctnLostFlag === 1 ? 'Yes' : 'No'}}</div>
                   </div>
-                </div>
-                <div class="col-md-5 col-md-offset-2">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Remarks</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.mishandlingRemark ? previewList?.cargoDeductionPrev?.mishandlingRemark : 'NA'}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Remarks</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.schLatePnltyRemark ? previewList?.cargoDeductionPrev?.schLatePnltyRemark : 'NA'}}</div>
-                    </div>
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Late Arrival Charge(Per Hour Delay)</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">₹ {{previewList?.deduction?.lateArrChrg == null ? '0' : previewList?.deduction?.lateArrChrg}}</div>
+                  </div>
+                  <div class="mat-row align_item_top border_none flex-box">
+                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Offload Deduction</strong></div>
+                    <div class="mat-cell preview_table_bg_2 flex4">₹ {{previewList?.deduction?.offloadDedctn == null ? '0' : previewList?.deduction?.offloadDedctn}}</div>
                   </div>
                 </div>
               </div>
-            </section>
-    
-            <section class="preview_sec_3 preview_sec_4 preview_sec_5 width-800">
-              <h3  style="page-break-inside: avoid;"><strong>Advance Amount Applicable</strong></h3>
-              <div class="row"  style="page-break-inside: avoid;">
-                <div class="col-md-5">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Advance Amount Applicable</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.advncDedctnAmtFlag === 1 ? 'YES' : 'NO'}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box" *ngIf="previewList?.cargoDeductionPrev?.advncDedctnAmtFlag==1">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Start Date</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.advncDedctnAmtFromDt == null ? 'NA' : previewList?.cargoDeductionPrev?.advncDedctnAmtFromDt | date: 'dd/MM/yyyy'}}</div>
-                    </div>
-                  </div>
-                </div>
-                <div class="col-md-5 col-md-offset-2" *ngIf="previewList?.cargoDeductionPrev?.advncDedctnAmtFlag==1">
-                  <div class="mat-table prvw_tbl  preview_table_1">
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Advance Amount to be Deducted</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">₹ {{previewList?.cargoDeductionPrev?.advncDedctnAmt == null ? '0' : previewList?.cargoDeductionPrev?.advncDedctnAmt}}</div>
-                    </div>
-                    <div class="mat-row align_item_top border_none flex-box">
-                      <div class="mat-cell preview_table_bg_1 flex3 green_th">End Date</div>
-                      <div class="mat-cell preview_table_bg_2 flex4">{{previewList?.cargoDeductionPrev?.advncDedctnAmtToDt == null ? 'NA' : previewList?.cargoDeductionPrev?.advncDedctnAmtToDt | date: 'dd/MM/yyyy'}}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-          <hr class="billingHr">
-        </section>
+            </div>
+          </section>
           </div>
+          <hr class="billingHr">
         </div>
       </section>
   </div>
   
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   <!-- only for prit use -->
   <!-- for print only naresh -->
   <div class="previewHeading" style=" display: none;" id="printing">
-    <h2>Cargo Associate Contract</h2>
+    <h2>Air Freight Associate Contract naresh singh</h2>
     <!-- customer details -->
-    <table aria-describedby="table" class="table_version" id="Cargo Associate Contract">
+    <table aria-describedby="table" class="table_version" id="Air Freight Associate Contract">
       <tbody>
         <tr>
           <th scope="col" style="width:400px">-</th>
@@ -336,10 +314,10 @@
         </tr>
         <tr>
           <td style="width:400px">Associate Name: {{previewList?.assocName == null ? 'NA' : previewList?.assocName}}</td>
-          <td style="width:400px"> Contract Code: {{previewList?.cntrCode == null ? 'NA' : previewList?.cntrCode }}</td>
+          <td style="width:400px">Associate Category: AIR FREIGHT </td>
         </tr>
         <tr>
-          <td style="width:400px">Associate Category:{{previewList?.asscoCtrgy == null ? 'NA' : previewList?.asscoCtrgy}} </td>
+          <td style="width:400px"> Contract Code: {{previewList?.cntrCode == null ? 'NA' : previewList?.cntrCode}}</td>
           <td style="width:400px"> W.E.F: {{previewList?.wefDate == null ? 'NA' : previewList?.wefDate | date: 'dd/MM/yyyy'}} </td>
         </tr>
       </tbody>
@@ -355,45 +333,21 @@
           <th scope="col" style="width:400px">----</th>
         </tr>
         <tr>
-          <td>Cargo Associate Type</td>
-          <td>{{previewList?.lkpAssocCargoTypeName == null ? 'NA' : previewList?.lkpAssocCargoTypeName}}</td>
-          <td><strong>Start Date</strong></td>
-          <td>{{previewList?.effectiveDt == null ? 'NA' : previewList?.effectiveDt | date: 'dd/MM/yyyy'}}</td>
+          <td>Start Date</td>
+          <td>{{previewList?.effectiveDt == null ? 'NA' : previewList?.effectiveDt | date: 'd MMM yy'}}</td>
+          <td>End Date</td>
+          <td>{{previewList?.expDt == null ? 'NA' : previewList?.expDt | date: 'd MMM yy'}}</td>
         </tr>
         <tr>
-          <td>End Date</td>
-          <td>{{previewList?.expDt  == null ? 'NA' : previewList?.expDt | date: 'dd/MM/yyyy'}}</td>
           <td>Billing Cycle</td>
           <td>{{previewList?.billingCyle == null ? 'NA' : previewList?.billingCyle}}</td>
-        </tr>
-        <tr>
           <td>Status</td>
           <td>{{previewList?.cntrctStatus === 'EDIT' ? 'ACTIVE' : previewList?.cntrctStatus}}</td>
-          <td></td>
-          <td></td>
         </tr>
       </tbody>
     </table>
     <!-- end Contract Details -->
-    <!--------- Branch Allocation Start ---------->
-    <table aria-describedby="table" class="table_version branch" id="Allocation" data-h5="Branch" data-heading="show">
-      <tbody>
-        <tr>
-          <th scope="col" style="width:400px">Branch Name</th>
-          <th scope="col" style="width:400px">Branch Type</th>
-          <th scope="col" style="width:400px">Effective Date</th>
-          <th scope="col" style="width:400px">Expiry Date</th>
-        </tr>
-        <tr *ngFor="let branch of previewList?.branchAllocationPrev; let i = index">
-          <td>{{branch?.branchName == null ? 'NA' : branch?.branchName}}</td>
-          <td>{{branch?.branchType == null ? 'NA' : branch?.branchType}}</td>
-          <td>{{branch?.efftvDate == null ? 'NA' : branch?.efftvDate | date: 'dd/MM/yyyy'}}</td>
-          <td>{{branch?.exprDate == null ? 'NA' : branch?.exprDate | date: 'dd/MM/yyyy'}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!--------- Branch Allocation End ---------->
-    <!--------- Payment Terns Start ---------->
+    <!-- payment terms -->
     <table aria-describedby="table" class="table_version fourCol" id="Payment Terms">
       <tbody>
         <tr>
@@ -403,198 +357,143 @@
           <th scope="col" style="width:400px">----</th>
         </tr>
         <tr>
-          <td>Payment Based On</td>
-          <td>{{previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == null ? 'NA' : previewList?.paymentTermsPrev?.lkpCargoPayoutOptName}}</td>
-          <td><strong>Weight Type</strong></td>
-          <td>{{previewList?.paymentTermsPrev?.wtType == null ? 'NA' : previewList?.paymentTermsPrev?.wtType}}</td>
+          <td>Payout Based On</td>
+          <td>{{previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == null ? 'NA' : previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName}}</td>
+          <td>Weight Type</td>
+          <td>{{previewList?.paymentTerms?.weightType == null ? 'NA' : previewList?.paymentTerms?.weightType }}</td>
         </tr>
         <tr>
-          <td>
-            <div *ngIf="previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER TON'"><strong>Rate Per
-                Ton</strong></div>
-            <div *ngIf="previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER PERSON'"><strong>Rate Per
-                Person</strong></div>
-            <div *ngIf="previewList?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER VEHICLE'"><strong>Rate Per
-                Vehicle</strong></div>
-          </td>
-          <td> RS.{{previewList?.paymentTermsPrev?.price == null ? '0' : previewList?.paymentTermsPrev?.price}}</td>
+          <td>Payment Mode</td>
+          <td> {{previewList?.paymentTerms?.lkpAssocAirFreightPaymentMode == null ? 'NA' : previewList?.paymentTerms?.lkpAssocAirFreightPaymentMode}}</td>
           <td></td>
           <td></td>
         </tr>
       </tbody>
     </table>
-    <!-- Ex - Gratia -->
-    <table aria-describedby="table" class="table_version fourCol" id="Ex - Gratia">
-      <tbody>
-        <tr>
-          <th scope="col" style="width:400px">-</th>
-          <th scope="col" style="width:400px">--</th>
-          <th scope="col" style="width:400px">---</th>
-          <th scope="col" style="width:400px">----</th>
-        </tr>
-        <tr>
-          <td>Ex - Gratia Applicable</td>
-          <td>{{previewList?.paymentTermsPrev?.exgratiaFlag === 1 ? 'YES' : 'NO'}}</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- end Ex - Gratia -->
-    <!-- Branch -->
-    <table aria-describedby="table" data-page="newPage" class="table_version fiveCol" id="`" data-heading="show"
-      *ngIf="(previewList?.paymentTermsPrev?.exgratiaFlag == 1 && graciaList.length > 0)">
-      <tbody>
-        <tr>
-          <th scope="col">Branch</th>
-          <th scope="col">Ex - Gratia Amount</th>
-          <th scope="col">Reason</th>
-          <th scope="col">Start Date</th>
-          <th scope="col">End Date</th>
-        </tr>
-        <tr *ngFor="let gratia of graciaList; let i = index">
-          <td>{{gratia.branchName == null ? 'NA' : gratia.branchName}}</td>
-          <td>Rs. {{gratia.amt == null ? '0' : gratia.amt}}</td>
-          <td>{{gratia.reason == null ? 'NA' : gratia.reason}}</td>
-          <td>{{gratia.efftvDate == null ? 'NA' : gratia.efftvDate | date: 'dd/MM/yyyy'}}</td>
-          <td>{{gratia.exprDate == null ? 'NA' : gratia.exprDate | date: 'dd/MM/yyyy'}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- end Branch -->
-    <!-- minium Guarantee -->
-    <table aria-describedby="table" class="table_version fourCol h5" id="Minimum Guarantee">
-      <tbody>
-        <tr>
-          <th scope="col">-</th>
-          <th scope="col">-</th>
-          <th scope="col">--</th>
-          <th scope="col">---</th>
-        </tr>
-        <tr>
-          <td>MG Applicable</td>
-          <td>{{previewList?.paymentTermsPrev?.mgFlag === 1 ? 'YES' : 'NO'}}</td>
-          <td>-</td>
-          <td>--</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- end minium Guarantee -->
-    <!-- Branch -->
-    <table aria-describedby="table" class="table_version fiveCol" data-heading="show"
-      *ngIf="(previewList?.paymentTermsPrev?.mgFlag == 1 && mgList.length > 0)">
-      <tbody>
-        <tr>
-          <th scope="col">Branch</th>
-          <th scope="col">MG Amount</th>
-          <th scope="col">Reason</th>
-          <th scope="col">Start Date</th>
-          <th scope="col">End Date</th>
-        </tr>
-        <tr *ngFor="let gratia of mgList; let i = index">
-          <td>{{gratia?.branchName == null ? 'NA' : gratia?.branchName}}</td>
-          <td>Rs. {{gratia?.amt == null ? '0' : gratia?.amt}}</td>
-          <td>{{gratia?.reason == null ? 'NA' : gratia?.reason}}</td>
-          <td>{{gratia?.efftvDate == null ? 'NA' : gratia?.efftvDate | date: 'dd/MM/yyyy'}}</td>
-          <td>{{gratia?.exprDate == null ? 'NA' : gratia?.exprDate | date: 'dd/MM/yyyy'}}</td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- end Branch -->
-    <!-- Promotion applicable -->
-    <table aria-describedby="table" class="table_version fourCol">
-      <tbody>
-        <tr>
-          <th scope="col">-</th>
-          <th scope="col">--</th>
-          <th scope="col">--</th>
-          <th scope="col">-</th>
-        </tr>
-        <tr>
-          <td>Promotion Applicable</td>
-          <td>{{previewList?.paymentTermsPrev?.promoFlag === 1 ? 'YES' : 'NO'}}</td>
-          <td>Remarks</td>
-          <td>{{previewList?.paymentTermsPrev?.addtnlExpnsRemark ? previewList?.paymentTermsPrev?.addtnlExpnsRemark : 'NA'}}</td>
-        </tr>
-        <tr>
-          <td>Additional Expense</td>
-          <td>{{previewList?.paymentTermsPrev?.addtnlExpnsFlag === 1 ? 'YES' : 'NO'}}</td>
-          <td></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
-    <!-- end Promotion applicable -->
-    <!---------Payment Terms End  ---------->
+    <!-- end payment terms -->
+    <ng-container *ngFor="let productData of previewList?.paymentTerms?.airFreightCityPrdctChrgs; let i = index">
+      <!------ Payout Based on Product start ------->
+      <table aria-describedby="table" class="table_version fourCol">
+        <tbody>
+          <tr>
+            <th scope="col" style="width:400px">-</th>
+            <th scope="col" style="width:400px">--</th>
+            <th scope="col" style="width:400px">---</th>
+            <th scope="col" style="width:400px">----</th>
+          </tr>
+          <tr *ngIf="previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'CITY BASIS'">
+            <td>From City</td>
+            <td>{{productData?.fromCity == null ? 'NA' : productData?.fromCity}}</td>
+            <td>To City</td>
+            <td>{{productData?.tocity == null ? 'NA' : productData?.tocity}}</td>
+          </tr>
+          <tr *ngIf="previewList?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY'">
+            <td> Product Category </td>
+            <td>{{productData?.categoryName == null ? 'NA' : productData?.categoryName}}</td>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      <!------ end Payout Based on Product start ------->
+      <ng-container *ngIf="productData?.wtCalcCategory == 'RATE PER KG'">
+        <!--  Rate Per KG start-->
+        <table aria-describedby="table" class="table_version fourCol h5" id="Rate Per KG">
+          <tbody>
+            <tr>
+              <th scope="col" style="width:400px">-</th>
+              <th scope="col" style="width:400px">--</th>
+              <th scope="col" style="width:400px">---</th>
+              <th scope="col" style="width:400px">----</th>
+            </tr>
+            <tr>
+              <td>Rate Per KG</td>
+              <td>Rs. {{productData?.ratePerKg == null ? '0' : productData?.ratePerKg}}</td>
+              <td>Start Date</td>
+              <td> {{productData?.startDate == null ? 'NA' : productData?.startDate | date: 'd MMM yy'}}</td>
+            </tr>
+            <tr>
+              <td>Minimum Amt. Per Air Waybill</td>
+              <td>Rs. {{productData?.minAmt == null ? '0' : productData?.minAmt}}</td>
+              <td>End Date</td>
+              <td>{{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'd MMM yy' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </ng-container>
+      <ng-container *ngIf="productData?.wtCalcCategory == 'TOTAL WEIGHT'">
+        <!--  Total Weight start-->
+        <table aria-describedby="table" data-heading="show" id="Total Weight" class="table_version twoCol h5"
+          *ngIf="productData?.wtCalcCategory == 'TOTAL WEIGHT'">
+          <tbody>
+            <tr>
+              <th scope="col" style="width:400px">Slab Definition (In KG)</th>
+              <th scope="col" style="width:400px">Rate Per KG</th>
+            </tr>
+            <tr *ngFor="let slab of productData?.airFreightWtSlabChrgs | sortBy:'asc':'slabFrom'; let i = index">
+              <td>{{slab?.slabFrom == null ? '0' : slab?.slabFrom}} - {{slab?.slabTo == null ? '0' : slab?.slabTo}}</td>
+              <td>Rs. {{slab?.price == null ? '0' : slab?.price}}</td>
+            </tr>
+          </tbody>
+        </table>
+        <table aria-describedby="table" class="table_version fourCol">
+          <tbody>
+            <tr>
+              <th scope="col" style="width:400px">-</th>
+              <th scope="col" style="width:400px">-</th>
+              <th scope="col" style="width:400px">-</th>
+              <th scope="col" style="width:400px">-</th>
+            </tr>
+            <tr>
+              <td>Minimum Amt. Per Air Waybill</td>
+              <td>Rs. {{productData?.minAmt == null ? '0' : productData?.minAmt}}</td>
+              <td>End Date</td>
+              <td>{{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'd MMM yy' }}</td>
+            </tr>
+            <tr>
+              <td>Start Date</td>
+              <td>{{productData?.startDate == null ? 'NA' : productData?.startDate | date: 'd MMM yy'}}</td>
+              <td></td>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+        <!--  end Total Weight start-->
+      </ng-container>
+    </ng-container>
     <!-- deduction -->
-    <table aria-describedby="table" class="table_version threeCol" id="Deductions"
-      *ngIf="previewList?.cargoDeductionPrev?.cargoSlaList.length > 0" >
-      <tbody>
-        <tr>
-          <th scope="col" style="width:400px">Vehicle Type</th>
-          <th scope="col" style="width:400px">Loading Time</th>
-          <th scope="col" style="width:400px">Unloading Time</th>
-        </tr>
-        <tr *ngFor="let sla of previewList?.cargoDeductionPrev?.cargoSlaList; let i = index">
-          <td>{{sla.vehicleType == null ? 'NA' : sla.vehicleType}}</td>
-          <td>{{sla.loadingTime == null ? 'NA' : sla.loadingTime }}</td>
-          <td>{{sla.unloadingTime == null ? 'NA' : sla.unloadingTime}}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <table aria-describedby="table" class="table_version fourCol" >
+    <table aria-describedby="table" class="table_version fourCol" id="Deductions">
       <tbody>
         <tr>
           <th scope="col" style="width:400px">-</th>
           <th scope="col" style="width:400px">-</th>
-          <th scope="col" style="width:400px">--</th>
-        </tr>
-        <tr>
-          <td>Mishandling Charges</td>
-          <td>{{previewList?.cargoDeductionPrev?.mishandlingFlag === 1 ? 'YES' : 'NO'}}</td>
-
-          <td>Remarks</td>
-          <td>{{previewList?.cargoDeductionPrev?.mishandlingRemark ? previewList?.cargoDeductionPrev?.mishandlingRemark : 'NA'}}</td>
-
-
-         
-        </tr>
-        <tr>
-           <td>Schedule Late Penalty</td>
-           <td>{{previewList?.cargoDeductionPrev?.schLatePnltyFlag === 1 ? 'YES' : 'NO'}}</td>
-          
-          <td>Remarks</td>
-          <td>{{previewList?.cargoDeductionPrev?.schLatePnltyRemark ? previewList?.cargoDeductionPrev?.schLatePnltyRemark : 'NA' }}</td>
-        </tr>
-      </tbody>
-    </table>
-    <table aria-describedby="table" class="table_version fourCol h5" id="Advance Amount Applicable">
-      <tbody>
-        <tr>
           <th scope="col" style="width:400px">-</th>
           <th scope="col" style="width:400px">-</th>
-          <th scope="col" style="width:400px">--</th>
         </tr>
         <tr>
-          <td>Advance Amount Applicable</td>
-          <td>{{previewList?.cargoDeductionPrev?.advncDedctnAmtFlag ===1 ? 'YES' : 'NO'}}</td>
+          <td>SLA Applicable</td>
+          <td>{{previewList?.deduction?.slaFlag === 1 ? 'Yes' : 'No'}}</td>
+          <td>Deduction Against Loss of Material</td>
+          <td>{{previewList?.deduction?.dedctnLostFlag === 1 ? 'Yes' : 'No'}}</td>
+        </tr>
+        <tr>
+          <td>Late Arrival Penalty</td>
+          <td>{{previewList?.deduction?.lateArrFlag === 1 ? 'Yes' : 'No'}}</td>
+          <td> Offload Deduction </td>
+          <td> RS. {{previewList?.deduction?.offloadDedctn == null ? '0' : previewList?.deduction?.offloadDedctn}} </td>
+        </tr>
+        <tr>
+          <td>Maximum Deduction</td>
+          <td>RS. {{previewList?.deduction?.maxDedctn == null ? '0' : previewList?.deduction?.maxDedctn}}</td>
           <td>
-            <div *ngIf="previewList?.cargoDeductionPrev?.advncDedctnAmtFlag==1"> Start Date </div>
+            <div > Late Arrival Charge(Per Hour Delay) </div>
           </td>
           <td>
-            <div *ngIf="previewList?.cargoDeductionPrev?.advncDedctnAmtFlag==1">
-              {{previewList?.cargoDeductionPrev?.advncDedctnAmtFromDt == null ? 'NA' : previewList?.cargoDeductionPrev?.advncDedctnAmtFromDt  | date: 'dd/MM/yyyy'}}</div>
+            <div > RS. {{previewList?.deduction?.lateArrChrg == null ? '0' : previewList?.deduction?.lateArrChrg}} </div>
           </td>
-        </tr>
-     
-        <tr *ngIf="previewList?.cargoDeductionPrev?.advncDedctnAmtFlag==1">
-          <td>Advance Amount to be Deducted</td>
-          <td>RS. {{previewList?.cargoDeductionPrev?.advncDedctnAmt == null ? '0' : previewList?.cargoDeductionPrev?.advncDedctnAmt}}</td>
-          <td>End Date</td>
-          <td> {{previewList?.cargoDeductionPrev?.advncDedctnAmtToDt == null ? 'NA' : previewList?.cargoDeductionPrev?.advncDedctnAmtToDt | date: 'dd/MM/yyyy'}}</td>
         </tr>
       </tbody>
     </table>
     <!-- end deduction -->
   </div>
+

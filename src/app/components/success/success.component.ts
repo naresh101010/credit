@@ -6,8 +6,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 @Component({
   selector: 'app-success',
-  templateUrl: './success.component.html',
-  styleUrls: ['./success.component.css']
+  templateUrl: './success.component.html'
 })
 export class SuccessComponent implements OnInit {
 
@@ -22,20 +21,22 @@ export class SuccessComponent implements OnInit {
     private successDialog: MatDialogRef<SuccessComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
    }
-
+timeData:any;
   ngOnInit() {
     this.countDown = timer(0, this.tick).subscribe(() => --this.counter);
     this.associateContractCode = AppSetting.sfxCode;
     this.id = this.data.id;
-    setTimeout(() => {
+    this.timeData= setTimeout(() => {
       this.successDialog.close();
-      this.router.navigate(['/asso_cargo-contract/asso_cargo'], {skipLocationChange: true}); 
+      this.router.navigate(['/asso_air-contract/asso_air'], {skipLocationChange: true}); 
   }, 15000);
   }
 
-
-
   ngOnDestroy(){
     this.countDown=null;
+  }
+  closeSuccess(){
+    clearTimeout(this.timeData);
+    this.router.navigate(['/asso_air-contract/asso_air'], {skipLocationChange: true}); 
   }
 }

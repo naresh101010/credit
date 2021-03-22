@@ -103,7 +103,7 @@ export class SearchCustomerComponent implements OnInit {
       // this.spinner.show();
       console.log(this.data.BranchIds ,"data", this.data)
       this.apiService
-        .post(`secure/v1/bookingcontract/commercial/assocBranchIds/customers?creditOrPrc=${custType}`, this.data.BranchIds )
+        .post(`secure/v1/airfreightcontract/commercial/assocBranchIds/customers?creditOrPrc=${custType}`, this.data.BranchIds )
         .subscribe(
           (res) => {             
             console.log('res', res);
@@ -127,14 +127,14 @@ export class SearchCustomerComponent implements OnInit {
 
               this.spinner.hide();
             }else{
-              this.toastr.error('Customer Not Exist in Branch');
+              this.toastr.error('Customer doesn\'t exist');
               this.spinner.hide();
             }
           },
           (err) => {
             console.log(err)
             // this.toastr.error()
-            this.toastr.error('Customer Not Exist in Branch');
+            this.toastr.error('Customer doesn\'t exist');
             this.spinner.hide();
           }
         );

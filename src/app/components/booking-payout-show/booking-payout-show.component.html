@@ -1,0 +1,148 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-5">
+                <div>
+                    <mat-toolbar class="breadcrumbs_nav">
+                        <mat-toolbar-row class="breadcrumbs">
+                            <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
+                            <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false"
+                                aria-label="Example heart icon">
+                                arrow_right
+                            </mat-icon>
+                            <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Contracts</a></span>
+                            <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false"
+                                aria-label="Example heart icon">
+                                arrow_right
+                            </mat-icon>
+                            <span>Associate Contract</span>
+                        </mat-toolbar-row>
+                    </mat-toolbar>
+                    <h2>Air Freight Contract</h2>
+                </div>
+            </div>
+            <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
+                <stepper></stepper>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- breadcrumb end -->
+
+<!-- msa 114 start -->
+<section class="req_table_sec booking_msa_sec mat_radio_btn_mb_0">
+    <div class="container-fluid">
+        <div class="booking_card padding_0">
+            <!--  Display Header -->
+            <app-header-data></app-header-data>
+            <form name="assoPay" (ngSubmit)="fAssoPay.form.valid" #fAssoPay="ngForm" novalidate class="rateCardDetail"
+                autocomplete="off">
+                <div class="padding_10">
+                    <mat-expansion-panel class="box_shadow_none" [expanded]="true">
+
+                        <div class="padding_10">
+                            <app-payout-gen-detail-show *ngIf="paymentCommercialData && paymentCommercialRefData"
+                                [payoutGenDetail]="paymentCommercialData" [indexValue]="gen"
+                                [payoutGenRefDetail]="paymentCommercialRefData"></app-payout-gen-detail-show>
+                        </div>
+                        <hr>
+                    </mat-expansion-panel>
+                </div>
+                <div class="padding_10" style="margin-left: 20px;" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('NOTEPAD SECTION'))">
+                    <div class="row mt_10" *ngIf="paymentCommercialData && paymentCommercialRefData">
+                        <h5 class="zonalheading" style="padding-top: 2rem;">Notepad Section</h5>
+                        <div class="row" *ngIf="!(radioButtontncData.length === 0)">
+                            <div class="col-lg-6 col-md-6">
+                                <div class="col-lg-4 col-md-4   zonalheadingbar">FIELD LABEL</div>
+                                <div class="col-lg-6 col-md-6   zonalheadingbar">FIELD VALUE</div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6 col-md-6  ">
+                                <h4 *ngIf="radioButtontncData.length === 0"><em>No Data Available</em></h4>
+                            </div>
+                        </div>
+                        <div class="row"
+                            *ngFor="let item of radioButtontncData; let i = index">
+                            <div class="col-lg-6 col-md-6  ">
+                                <div class="col-lg-4 col-md-4   label-text">
+                                    <mat-label><strong>{{item.notepadName}}</strong></mat-label>
+                                </div>
+                                <div class="col-lg-6 col-md-6  module_area" style="margin-top: 7px;">
+                                    <mat-radio-group #notepaadname="ngModel" name="notepaadname-{{i}}"
+                                        [(ngModel)]="item.notepadInputVal" (ngModelChange)="editInput(item)"
+                                        *ngFor="let season of item.attributeValue">
+                                        <mat-radio-button [value]="season">
+                                            {{season}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row"
+                            *ngFor="let item of selectortncData; let i = index">
+                            <div class="col-lg-6 col-md-6 ">
+                                <div class="col-lg-4 col-md-4   label-text">
+                                    <mat-label><strong>{{item.notepadName}}</strong></mat-label>
+                                </div>
+                                <div class="col-lg-6 col-md-6  module_area">
+                                    <mat-form-field class="select_box_dropwodn overline_hidden aF"  style="width: 60% !important;">
+                                        <mat-select disableOptionCentering panelClass="mat_ngx_booking"
+                                            [(ngModel)]="item.notepadInputVal" (ngModelChange)="editInput(item)"
+                                            #notepadname2="ngModel" name="notepadname2-{{i}}">
+                                            <ngx-mat-select-search [(ngModel)]="searchNotePad"
+                                                [ngModelOptions]="{standalone: true}" [placeholderLabel]="'Search...'"
+                                                [noEntriesFoundLabel]="'Not found'" name="search">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search_booking">
+                                                    search</mat-icon>
+                                            </ngx-mat-select-search>
+                                            <mat-option
+                                                *ngFor="let season of (item.attributeValue | stringFilterBooking:searchNotePad:'season') | sortBy:'asc':'season'"
+                                                [value]="season" matTooltipPosition="above"
+                                                [matTooltip]="season | uppercase"
+                                                [matTooltipDisabled]="season?.length<24">
+                                                {{season}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" *ngFor="let item of stringtncData; let i = index">
+                            <div class="col-lg-6 col-md-6  ">
+                                <div class="col-lg-4 col-md-4   label-text">
+                                    <mat-label><strong>{{item.notepadName}}</strong></mat-label>
+                                </div>
+                                <div class="col-lg-6 col-md-6 module_area">
+                                    <mat-form-field appearance="outline" style="width: 60% !important;">
+                                        <input matInput autocomplete="true" [(ngModel)]="item.notepadInputVal" (ngModelChange)="editInput(item)"
+                                            #notepadname3="ngModel" name="notepadname3-{{i}}" maxlength="15"
+                                            style="height: 2.7rem !important;">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <hr>
+                <div class="row">
+                    <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['COMMERCIAL_CREATE', 'COMMERCIAL_UPDATE']">
+                        <button mat-button class="white-button" [disabled]="paymentCommercialData.validationStatus || childValidation?.isInvalidSlabData" (click)="submitPayment('save')">Save as Draft </button>
+                        <button mat-button class="theme-button ml_15" [disabled]="paymentCommercialData.validationStatus || childValidation?.isInvalidSlabData" (click)="submitPayment('next')">Next </button>
+                    </div>
+                    <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['COMMERCIAL_CREATE', 'COMMERCIAL_UPDATE']">
+                      <button mat-button class="theme-button ml_15"   (click)="nextReadMode()" >Next  </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<!-- msa 114 end -->
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+</ngx-spinner>

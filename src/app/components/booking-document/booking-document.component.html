@@ -6,18 +6,18 @@
           <div>
             <mat-toolbar class="breadcrumbs_nav">
               <mat-toolbar-row class="breadcrumbs">
-                <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Dashboard</a></span>
+                <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
                 <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                   arrow_right
                 </mat-icon>
-                <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Contracts</a></span>
+                <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Contracts</a></span>
                 <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                   arrow_right
                 </mat-icon>
                 <span>Associate Contract</span>
               </mat-toolbar-row>
             </mat-toolbar>
-            <h2>Cargo Contract</h2>
+            <h2>Air Freight Contract</h2>
           </div>
         </div>
         <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
@@ -46,7 +46,7 @@
                 <div class="col-md-6">
                   <div class="module_area">
                     <mat-form-field  class="select_box_dropwodn overline_hidden">
-                      <mat-select disableOptionCentering panelClass="creditSelect" #doctype='ngModel' required name="docTypeId" [(ngModel)]="docTypeId" placeholder="Select Option" (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
+                      <mat-select disableOptionCentering panelClass="creditSelect" #doctype="ngModel" required name="docTypeId" [(ngModel)]="docTypeId" placeholder="Select Option" (selectionChange)="subDocTypeData(); getDocumentDetailbyId(); clearDate()">
                         <mat-option *ngFor="let item of docTypeList | sortBy:'asc':'lookupVal'" [value]="item.id" 
                         [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15" matTooltipPosition="above">
                           {{item.descr}}
@@ -66,14 +66,14 @@
                 <div class="col-md-6">
                   <div class="module_area">
                     <mat-form-field class="select_box_dropwodn overline_hidden">
-                      <mat-select disableOptionCentering panelClass="creditSelect"placeholder="Select Option" #Subdoctype='ngModel' required name="subTypeId" [(ngModel)]="subTypeId">
+                      <mat-select disableOptionCentering panelClass="creditSelect"placeholder="Select Option" #Subdoctype="ngModel" required name="subTypeId" [(ngModel)]="subTypeId">
                         <mat-option *ngFor="let item of subTypeList | sortBy:'asc':'lookupVal'" [value]="item.id" 
                         [matTooltip]="item.descr" [matTooltipDisabled]="item.descr.length<15" matTooltipPosition="above">
                           {{item.descr}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
-                    <p *ngIf="(Subdoctype.errors?.required && Subdoctype.touched)" class="hasErrorMsgRight paddingtopone">Required!</p>      
+                    <p *ngIf="(Subdoctype.errors?.required && Subdoctype.touched)" class="hasErrorMsgRight paddingtopone">Required !</p>      
                   </div>
                 </div>
               </div>
@@ -87,7 +87,7 @@
                   <div class="col-md-8 ">
                     <div class="module_area">
                       <mat-form-field appearance="outline" class="date_picker_adjust datePickHeight uploaddateButton"style="margin-top: -2px;">
-                        <input #dtpicr='ngModel' matInput autocomplete="off" [matDatepicker]="picker2" name="rateCardSignDt"
+                        <input #dtpicr="ngModel" matInput autocomplete="off" [matDatepicker]="picker2" name="rateCardSignDt"
                           class="date_picker" [min]="minDate" placeholder="DD/MM/YYYY" (blur)="expDate($event)"
                           [(ngModel)]="docExpiryDate" numericSpecialChar />
                         <mat-datepicker class="myDatepicker23" #picker2></mat-datepicker>
@@ -175,7 +175,7 @@
                   <ng-container matColumnDef="delete">
                     <th scope="col" mat-header-cell *matHeaderCellDef> <strong></strong> </th>
                     <td mat-cell *matCellDef="let element">
-                      <div class="row_center row_center_width" (click)="deleteBookingDocument(element)" matTooltipPosition="above">
+                      <div class="row_center row_center_width" (click)="deleteAirFrieghtDocument(element)" matTooltipPosition="above">
                         <span class="material-icons" style="color: #27AE60; cursor: pointer;">delete</span></div>
                     </td>
                   </ng-container>

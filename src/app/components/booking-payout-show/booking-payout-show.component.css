@@ -1,0 +1,14 @@
+button:active {
+    background-color: rgb(27, 160, 45);
+    color: white;
+  }
+  .weightbtn{
+      margin: 5px !important;
+      font-size: 11px !important;
+  }
+  .padding_10 {
+      padding: 2px 10px !important;
+  }
+  .module_area {
+      margin-bottom: 0.2rem;
+  }

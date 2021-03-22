@@ -1,17 +1,12 @@
-.highlight {
-  background: yellow  !important;
-  color: black !important;
-}
-.preview_sec_2 h3{
-  color: white;
+ .highlight {
+    background: yellow  !important;
+    color: black !important;
+  }
+  .preview_sec_2 h3{
+    color: white;
 }
 
 .mat-cell >.material-icons {
-  font-size: 18px !important;
-  color: #27AE60;
-}
-
-.mat-cell >span >.material-icons {
   font-size: 18px !important;
   color: #27AE60;
 }

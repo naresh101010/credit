@@ -15,23 +15,23 @@ declare let jspdf;
   selector: 'app-compare-version',
   templateUrl: './compare-version.component.html',
   styleUrls: ['./compare-version.component.css'],
-  providers : [DatePipe]
+  providers: [DatePipe]
 })
 export class CompareVersionComponent implements OnInit {
- // previewList: any;
-  versions : any[] = [];
-  islatest : boolean;
-  obj1 : any;
-  isv1 : boolean;
-  obj2 : any;
-  isv2 : boolean;
-  enableDialog : boolean;
-  versionDifference : any;
-  versionCompare : any;
-  graciaList: any = [];
-  mgList: any = [];
-  previewRefList : any;
-  currentDt: string;
+  // previewList: any;
+  versions: any[] = [];
+  islatest: boolean;
+  obj1: any;
+  isv1: boolean;
+  obj2: any;
+  isv2: boolean;
+  enableDialog: boolean;
+  versionDifference: any;
+  versionCompare: any;
+  previewRefList: any;
+  myDate = new Date();
+  currDate: string;
+  productategoryList: any[] = [];
 
   exportAsConfig: ExportAsConfig = {
     type: 'pdf', // the type you want to download
@@ -46,281 +46,32 @@ export class CompareVersionComponent implements OnInit {
     private datePipe: DatePipe,
     public dialog: MatDialog,
     private exportAsService: ExportAsService,
-    private confirmDialog : MatDialog) { }
+    private confirmDialog: MatDialog) { }
 
-  customerName : string= AppSetting.customerName;
+  customerName: string = AppSetting.customerName;
   ngOnInit() {
-  this.currentDt = this.datePipe.transform(new Date(), 'MM-dd-yyyy');
 
     this.spinner.show();
     if (this.data) {
       this.compareVersions(this.data);
     }
-   
+    this.currDate = this.datePipe.transform(this.myDate, 'MM-dd-yyyy');
   }
+
+
+
+  sendData(ob, file){
+    this.apiService.sendEmail(file, ob)
+    .subscribe(data => {
+      this.spinner.hide();
+      this.tosterservice.success("Email Sent Successfully !");
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue In Sending Email !');
+    });
+
+   }
   
-
-  compareVersions(data: any) {
-    this.versions = this.data.versions;
-    for (let i = 0; i < this.versions.length; i++) {
-      if (this.versions[i].index === 0) {
-        this.islatest = true;
-      }
-    }
-    if (this.islatest) {
-      let version2;
-      for (let i = 0; i < this.versions.length; i++) {
-        if (this.versions[i].index !== 0) {
-          version2 = this.versions[i].cntrVer;
-        }
-      }
-      this.apiService.get('secure/v1/cargocontractpreview/preview/' + this.data.data.contractId)
-        .subscribe(result => {
-          this.obj1 = result.data.responseData;
-          this.previewRefList = result.data.referenceData;
-          this.obj1 = this.renderPreviewData(this.obj1);
-          console.log('obj1',this.obj1)
-          this.isv1 = true;
-
-          this.apiService.get('secure/v1/cargocontractpreview/historypreview/' + this.data.data.contractId +'/' + version2)
-            .subscribe(result1 => {
-              this.obj2 = result1.data.responseData;
-              this.obj2 = this.renderPreviewData(this.obj2);
-              console.log('obj2',this.obj2)
-              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
-            
-              this.isv2 = true;
-              this.spinner.hide();
-            },
-              error => {
-                this.spinner.hide();
-                this.tosterservice.error(ErrorConstants.getValue(404));
-              });
-        },
-          error => {
-            this.tosterservice.error(ErrorConstants.getValue(404));
-            this.dialogRef.close();
-            this.spinner.hide();
-          });
-
-    }
-
-    else {
-      var version1 = (this.versions[0].cntrVer > this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
-      var version2 = (this.versions[0].cntrVer < this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
-
-      this.apiService.get('secure/v1/cargocontractpreview/historypreview/' + this.data.data.contractId +'/' + version1)
-        .subscribe(result => {
-          this.obj1 = result.data.responseData;
-          console.log('obj1',this.obj1)
-          this.previewRefList = result.data.referenceData;
-          this.obj1 = this.renderPreviewData(this.obj1);
-          
-          /**
-           * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
-           * and set the same at commercial level
-           */
-         
-          this.enableDialog = true;
-          this.apiService.get('secure/v1/cargocontractpreview/historypreview/' + this.data.data.contractId +'/' + version2)
-            .subscribe(result1 => {
-              this.obj2 = result1.data.responseData;
-              console.log('obj2',this.obj2)
-              this.obj2 = this.renderPreviewData(this.obj2);
-              /**
-               * Get the Distinct Safex category(Booking, Delivery) from child list for each commercial 
-               * and set the same at commercial level
-               */
-            
-              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
-             
-              this.isv2 = true;
-              this.spinner.hide();
-            },
-              error => {
-                this.spinner.hide();
-                this.tosterservice.error(ErrorConstants.getValue(404));
-              });
-        },
-          error => {
-            this.tosterservice.error(ErrorConstants.getValue(404));
-            this.dialogRef.close();
-            this.spinner.hide();
-          });
-    }
-  }
-
-  compareVersionDifference(obj1, obj2) {
-    const result = {};
-    if (Object.is(obj1, obj2)) {
-      return undefined;
-    }
-    if (!obj2 || typeof obj2 !== 'object') {
-      return obj2;
-    }
-    Object.keys(obj1 || {}).concat(Object.keys(obj2 || {})).forEach(key => {
-      if (obj2[key] !== obj1[key] && !Object.is(obj1[key], obj2[key])) {
-        result[key] = obj2[key];
-      }
-      if (typeof obj2[key] === 'object' && typeof obj1[key] === 'object') {
-        const value = this.compareVersionDifference(obj1[key], obj2[key]);
-        if (value !== undefined) {
-          result[key] = value;
-        }
-      }
-    });
-    return result;
-  }
-
-  /*------------ on close dialog ---------------- */
-  closeDialog() {
-    const dialogRefConfirm = this.confirmDialog.open(confimationdialog, {
-      width: '300px',
-      data: { message: 'Are you sure ?' },
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if (value) {
-        this.dialogRef.close();
-      }
-    });
-  }
-
-  renderPreviewData(obj:any) {
-    obj['paymentTermsPrev']['graciaList'] = [];
-    obj['paymentTermsPrev']['mgList'] = [];
-    obj['paymentTermsPrev']['cargoBranchCommerciaList'].forEach(elem => {
-      if (elem.type == 'EXGRATIA' || elem.type == 'EX-GRATIA') {
-        obj['paymentTermsPrev']['graciaList'].push(elem);
-      } else if (elem.type == 'MG') {
-        obj['paymentTermsPrev']['mgList'].push(elem);
-      }
-    });
-    return obj;
-    
-  }
-
-
-  /*---------- Compare branch Allocation ---------- */
-  ifBranchAllocationObjChanges(item, property) {
-    let branchObj;
-    let branchObj2: any = [];
-    branchObj = item; 
-    
-    if(this.obj2 !== undefined){
-    branchObj2 = _.find(this.obj2.branchAllocationPrev, { 'branchName': branchObj.branchName });
-
-    if (branchObj2) {
-      if (branchObj2[property] != branchObj[property]) {
-        return true
-      } else {
-        return false;
-      }
-    } else {
-      return true;
-    }
-   }
-  } 
-
-  /*-----------  compare payment -------- */
-  ifPaymentChange(obj,property){
-    let paymentObj = obj
-    if(this.obj2 !== undefined){
-      if(this.obj2.paymentTermsPrev[property] != paymentObj[property]) {
-        if (this.obj2.paymentTermsPrev[property] < paymentObj[property]) {
-          return {flage : true, compare: 'arrow_upward'}
-        } else if (this.obj2.paymentTermsPrev[property] > paymentObj[property]) {
-          return {flage : true, compare: 'arrow_downward'}
-        } else {
-          return {flage : true, compare: 'change'} 
-        } 
-      } else {
-        return {flage : false, compare: 'equall'}
-      }
-    } else {
-      return {flage : true, compare: ''}
-    }
-  }
-
-  ifPaymentArrayObjChange(item,property,value){
-    let offeringObj;
-    let offeringObj2: any;
-    offeringObj = item; 
-    
-    if(this.obj2 !== undefined){
-      if(value === 'GRATIA'){
-        offeringObj2 = _.find(this.obj2.paymentTermsPrev.graciaList, { 'branchName': offeringObj.branchName });
-      } else{
-        offeringObj2 = _.find(this.obj2.paymentTermsPrev.mgList, { 'branchName': offeringObj.branchName });
-      }
-    if (offeringObj2) {
-      if (offeringObj2[property] != offeringObj[property]) {
-        if (offeringObj2[property] < offeringObj[property]) {
-          return {flage : true, compare: 'arrow_upward'}
-        } else if (offeringObj2[property] > offeringObj[property]) {
-          return {flage : true, compare: 'arrow_downward'}
-        } else {
-          return {flage : true, compare: 'change'} 
-        } 
-      } else {
-        return {flage : false, compare: 'equall'}
-      }
-    } else {
-      return {flage : true, compare: ''}
-    }
-   } else {
-    return {flage : true, compare: ''}
-   }
-  }
-
-  /*-------------- Compare deduction data ----------- */
-  ifDeductionChange(obj,property) {
-    let deducionObj = obj;
-    if(this.obj2 !== undefined){
-      if(this.obj2.cargoDeductionPrev[property] != deducionObj[property]) {
-        if (this.obj2.cargoDeductionPrev[property] < deducionObj[property]) {
-          return {flage : true, compare: 'arrow_upward'}
-        } else if (this.obj2.cargoDeductionPrev[property] > deducionObj[property]) {
-          return {flage : true, compare: 'arrow_downward'}
-        } else {
-          return {flage : true, compare: 'change'}
-        } 
-      } else {
-        return {flage : false, compare: 'equall'}
-      }
-    } else {
-      return {flage : true, compare: 'abcd'}
-    }
-  }
-
-  /*------- Compare SLA Deduction ---------- */
-  compareSlaDeductions(obj,property) {
-    let vehicleDeductionObj = obj;
-    let vehicleDeductionObj2 : any;
-    if(this.obj2 !== undefined && this.obj2.cargoDeductionPrev !== undefined){
-     
-        vehicleDeductionObj2 = _.find(this.obj2.cargoDeductionPrev.cargoSlaList, { 'vehicleType': vehicleDeductionObj.vehicleType });
-
-      if (vehicleDeductionObj2) {
-        if (vehicleDeductionObj2[property] != vehicleDeductionObj[property]) {
-          if (vehicleDeductionObj2[property] < vehicleDeductionObj[property]) {
-            return {flage : true, compare: 'arrow_upward'}
-          } else if (vehicleDeductionObj2[property] > vehicleDeductionObj[property]) {
-            return {flage : true, compare: 'arrow_downward'}
-          } else {
-            return {flage : true, compare: 'change'} 
-          } 
-        } else {
-          return {flage : false, compare: 'equall'}
-        }
-      } else {
-        return {flage : true, compare: ''}
-      }
-    }
-  }
-
   sendEmail(){
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData.user;
     const addrDialog = this.dialog.open(EmailPreviewComponent, {
@@ -356,7 +107,7 @@ export class CompareVersionComponent implements OnInit {
       doc.setFont("helvetica");
 
 
-  document.querySelectorAll(".table_compare").forEach((v: any, i) => {
+  document.querySelectorAll(".table_version_compare").forEach((v: any, i) => {
     
     if (v.getAttribute('data-page') || doc.autoTableEndPosY() > 450) {
         doc.addPage();
@@ -382,7 +133,7 @@ export class CompareVersionComponent implements OnInit {
         if (v.getAttribute('data-page') || doc.autoTableEndPosY() > 450) {
             doc.text(h3, 10, 45);
         } else {
-            if (h3 == "Cargo Associate Contract") {
+            if (h3 == "Air Freight Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
             } else {
@@ -452,7 +203,7 @@ export class CompareVersionComponent implements OnInit {
         }
 
         // track individula tables
-        if (v.id == 'Cargo Associate Contract') {
+        if (v.id == 'Air Freight Contract') {
             tblMgn = 100;
         }
         if (h5 == 'MSA Details' || h5 == 'Opportunity' || h5 == 'Increment Clause' || h5 == 'Insurance Details' || h5 == 'Security Detail') {
@@ -679,7 +430,7 @@ export class CompareVersionComponent implements OnInit {
               columnWidth: 61.4,
             },
           };
-        } else if (v.id == "Cargo Associate Contract") {
+        } else if (v.id == "Air Freight Contract") {
           cs = {
             0: {
               fillColor: green,
@@ -806,7 +557,7 @@ export class CompareVersionComponent implements OnInit {
 
         } else {
             let startY = doc.autoTableEndPosY() + tblMgn;
-            if (v.id == 'Cargo Associate Contract') {
+            if (v.id == 'Air Freight Contract') {
                 startY = 70;
             }
             doc.autoTable(res.columns, res.data, {
@@ -964,17 +715,269 @@ export class CompareVersionComponent implements OnInit {
   }
 
 
-   sendData(ob, file){
-    this.apiService.sendEmail(file, ob)
-    .subscribe(data => {
-      this.spinner.hide();
-      this.tosterservice.success("Email Sent Successfully !");
-    }, error => {
-      this.spinner.hide();
-      this.tosterservice.error('Issue In Sending Email !');
+  compareVersions(data: any) {
+    this.versions = this.data.versions;
+    for (let i = 0; i < this.versions.length; i++) {
+      if (this.versions[i].index === 0) {
+        this.islatest = true;
+      }
+    }
+    if (this.islatest) {
+      let version2;
+      for (let i = 0; i < this.versions.length; i++) {
+        if (this.versions[i].index !== 0) {
+          version2 = this.versions[i].cntrVer;
+        }
+      }
+      this.apiService.get('secure/v1/airfreightcontractpreview/' + this.data.data.contractId)
+        .subscribe(result => {
+          this.obj1 = result.data.responseData;
+          this.previewRefList = result.data.referenceData;
+         // this.obj1 = this.renderPreviewData(this.obj1);
+          console.log('obj1', this.obj1);
+          this.isv1 = true;
+
+          this.apiService.get('secure/v1/airfreightcontractpreview/histpreview/' + this.data.data.contractId + '/' + version2)
+            .subscribe(result1 => {
+              this.obj2 = result1.data.responseData;
+             // this.obj2 = this.renderPreviewData(this.obj2);
+              console.log('obj2', this.obj2)
+              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
+              console.log('versionDifference', this.versionDifference)
+
+              this.isv2 = true;
+              this.spinner.hide();
+            },
+              error => {
+                this.spinner.hide();
+                this.tosterservice.error(ErrorConstants.getValue(404));
+              });
+        },
+          error => {
+            this.tosterservice.error(ErrorConstants.getValue(404));
+            this.dialogRef.close();
+            this.spinner.hide();
+          });
+
+    }
+
+    else {
+      var version1 = (this.versions[0].cntrVer > this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
+      var version2 = (this.versions[0].cntrVer < this.versions[1].cntrVer) ? this.versions[0].cntrVer : this.versions[1].cntrVer;
+
+      this.apiService.get('secure/v1/airfreightcontractpreview/histpreview/' + this.data.data.contractId + '/' + version1)
+        .subscribe(result => {
+          this.obj1 = result.data.responseData;
+          this.previewRefList = result.data.referenceData;
+         // this.obj1 = this.renderPreviewData(this.obj1);
+          console.log('obj1', this.obj1)
+
+
+          this.enableDialog = true;
+          this.apiService.get('secure/v1/airfreightcontractpreview/histpreview/' + this.data.data.contractId + '/' + version2)
+            .subscribe(result1 => {
+              this.obj2 = result1.data.responseData;
+             // this.obj2 = this.renderPreviewData(this.obj2);
+              console.log('obj2', this.obj2)
+
+              this.versionDifference = this.compareVersionDifference(this.obj2, this.obj1);
+
+              this.isv2 = true;
+              this.spinner.hide();
+            },
+              error => {
+                this.spinner.hide();
+                this.tosterservice.error(ErrorConstants.getValue(404));
+              });
+        },
+          error => {
+            this.tosterservice.error(ErrorConstants.getValue(404));
+            this.dialogRef.close();
+            this.spinner.hide();
+          });
+    }
+  }
+
+  compareVersionDifference(obj1, obj2) {
+    const result = {};
+    if (Object.is(obj1, obj2)) {
+      return undefined;
+    }
+    if (!obj2 || typeof obj2 !== 'object') {
+      return obj2;
+    }
+    Object.keys(obj1 || {}).concat(Object.keys(obj2 || {})).forEach(key => {
+      if (obj2[key] !== obj1[key] && !Object.is(obj1[key], obj2[key])) {
+        result[key] = obj2[key];
+      }
+      if (typeof obj2[key] === 'object' && typeof obj1[key] === 'object') {
+        const value = this.compareVersionDifference(obj1[key], obj2[key]);
+        if (value !== undefined) {
+          result[key] = value;
+        }
+      }
+    });
+    return result;
+  }
+
+  /*------------ on close dialog ---------------- */
+  closeDialog() {
+    const dialogRefConfirm = this.confirmDialog.open(confimationdialog, {
+      width: '300px',
+      data: { message: 'Are you sure ?' },
+      disableClose: true,
+      backdropClass: 'backdropBackground'
     });
 
-   }
+    dialogRefConfirm.afterClosed().subscribe(value => {
+      if (value) {
+        this.dialogRef.close();
+      } else {
+        console.log('Keep Open');
+      }
+    });
+  }
+
+  /*---------- get product category name -------- */
+  getProductCategoryName(productId) {
+    let product = this.productategoryList.find(x => x.id == productId)
+    if (product !== undefined) {
+      return product.prdctCtgy;
+    } else {
+      return '';
+    }
+  }
+
+  renderPreviewData(obj: any) {
+    if (obj.paymentTerms.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY') {
+      this.apiService.get('secure/v1/airfreightcontract/commercial/productcategory').subscribe(data => {
+        if (data.data && data.data.responseData) {
+          this.productategoryList = data.data.responseData;
+          obj.paymentTerms.airFreightCityPrdctChrgs.forEach(element => {
+            element['categoryName'] = this.getProductCategoryName(element.prdctCtgyId);
+          });
+        }
+      }, (err) => {
+        this.tosterservice.error(ErrorConstants.getValue(404));
+        this.spinner.hide();
+      });
+    }
+
+    return obj;
+  }
+
+
+  /*-----------  compare payment -------- */
+  ifPaymentChange(obj, property) {
+    let paymentObj = obj
+    if (this.obj2 !== undefined) {
+      if (this.obj2.paymentTerms[property] != paymentObj[property]) {
+        if (this.obj2.paymentTerms[property] < paymentObj[property]) {
+          return { flage: true, compare: 'arrow_upward' }
+        } else if (this.obj2.paymentTerms[property] > paymentObj[property]) {
+          return { flage: true, compare: 'arrow_downward' }
+        } else {
+          return { flage: true, compare: 'change' }
+        }
+      } else {
+        return { flage: false, compare: 'equall' }
+      }
+    } else {
+      return { flage: true, compare: '' }
+    }
+  }
+
+  /* --------- Compare City Product charges in payment terms ------- */
+  compareCityProductCharges(item, property) {
+    let cityProduct;
+    let cityProdut2: any;
+    cityProduct = item;
+
+    if (this.obj2 !== undefined) {
+
+      cityProdut2 = _.find(this.obj2.paymentTerms.airFreightCityPrdctChrgs, { 'id': cityProduct.id });
+
+      if (cityProdut2) {
+        if (cityProdut2[property] != cityProduct[property]) {
+          if (cityProdut2[property] < cityProduct[property]) {
+            return { flage: true, compare: 'arrow_upward' }
+          } else if (cityProdut2[property] > cityProduct[property]) {
+            return { flage: true, compare: 'arrow_downward' }
+          } else {
+            return { flage: true, compare: 'change' }
+          }
+        } else {
+          return { flage: false, compare: 'equall' }
+        }
+      } else {
+        return { flage: true, compare: '' }
+      }
+    } else {
+      return { flage: true, compare: '' }
+    }
+  }
+
+  /*--------- Compare slab for total weight -------- */
+  compareSlabData(data, obj, property) {
+    let slabData;
+    let slabData2: any;
+    slabData = obj;
+    let mainObj: any;
+
+    if (this.obj2 !== undefined) {
+
+      mainObj = _.find(this.obj2.paymentTerms.airFreightCityPrdctChrgs, { 'id': data.id });
+
+      if (mainObj) {
+        slabData2 = _.find(mainObj.airFreightWtSlabChrgs, { 'slabFrom': slabData.slabFrom })
+        if (slabData2) {
+          if (slabData2[property] != slabData[property]) {
+            if (slabData2[property] < slabData[property]) {
+              return { flage: true, compare: 'arrow_upward' }
+            } else if (slabData2[property] > slabData[property]) {
+              return { flage: true, compare: 'arrow_downward' }
+            } else {
+              return { flage: true, compare: 'change' }
+            }
+          } else {
+            return { flage: false, compare: 'equall' }
+          }
+        } else {
+          return { flage: true, compare: '' }
+        }
+      } else {
+        return { flage: true, compare: '' }
+      }
+    } else {
+      return { flage: true, compare: '' }
+    }
+  }
+
+  /*-------------- Compare deduction data ----------- */
+  ifDeductionChange(obj, property) {
+    let deducionObj = obj;
+    if (this.obj2 !== undefined) {
+      if (this.obj2.deduction[property] != deducionObj[property]) {
+        if (this.obj2.deduction[property] < deducionObj[property]) {
+          return { flage: true, compare: 'arrow_upward' }
+        } else if (this.obj2.deduction[property] > deducionObj[property]) {
+          return { flage: true, compare: 'arrow_downward' }
+        } else {
+          return { flage: true, compare: 'change' }
+        }
+      } else {
+        return { flage: false, compare: 'equall' }
+      }
+    } else {
+      return { flage: true, compare: '' }
+    }
+  }
+
+
+
+
+
+
 
 
 }

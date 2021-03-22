@@ -75,24 +75,8 @@ export class SearchBankBranchComponent implements OnInit {
   }
 
 
-  /*--- After close dialog --- */
   closeDialog(): void {
-      
-    const dialogRefConfirm = this.dialog.open(confimationdialog, {
-      width: '300px',
-      panelClass: 'creditDialog',
-      data:{message:'Are you sure ?'},
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if(value){
-        this.dialogRef.close(false);
-      }else{
-        console.log('Keep Open');
-      }
-    });
+    this.dialogRef.close();
   }
 
   allocatedBranchData() {

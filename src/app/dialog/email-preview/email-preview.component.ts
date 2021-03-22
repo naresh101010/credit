@@ -4,6 +4,7 @@ import { MatDialogRef, MatDialog, MAT_DIALOG_DATA } from '@angular/material';
 import { ToastrService } from 'ngx-toastr';
 import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
+
 @Component({
   selector: 'app-email-preview',
   templateUrl: './email-preview.component.html',
@@ -38,7 +39,7 @@ export class EmailPreviewComponent implements OnInit {
       if (event.keyCode === 27) { // esc [Close Dialog]
         event.preventDefault();
         if(document.getElementById('closeButton')){
-          let escElement: HTMLElement = document.getElementById('closeButton') as HTMLElement;
+          let escElement   = document.getElementById('closeButton')  ;
           escElement.click();
         }
       }

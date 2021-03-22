@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-branch-vehicle-allocation',
-  templateUrl: './branch-vehicle-allocation.component.html',
-  styleUrls: ['./branch-vehicle-allocation.component.css']
+  templateUrl: './branch-vehicle-allocation.component.html'
 })
 export class BranchVehicleAllocationComponent implements OnInit {
   isExpand;

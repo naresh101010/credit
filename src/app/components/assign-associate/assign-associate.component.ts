@@ -22,109 +22,100 @@ import { NgxPermissionsService } from 'ngx-permissions';
 })
 export class AssignAssociateComponent implements OnInit {
 
-  constructor(public dialog: MatDialog, private apiService: ApiService, private datePipe: DatePipe, private spinner: NgxSpinnerService, private toastr: ToastrService, private router: Router, private acRoute: ActivatedRoute,
-    private authorizationService: AuthorizationService,
-    private permissionsService: NgxPermissionsService) { }
-  nomatch: boolean = false;
-  minchar: boolean = false;
+  constructor(public dialog: MatDialog, private apiService: ApiService,private datePipe: DatePipe, private spinner: NgxSpinnerService, private toastr : ToastrService, private router: Router, private acRoute: ActivatedRoute,
+    private authorizationService : AuthorizationService,
+              private permissionsService: NgxPermissionsService) { }
+  nomatch: boolean=false;
+  minchar:boolean= false;
   associateResData: any;
   associateRefData: any;
   selectedContractId: any;
   displayedColumns: string[] = ['AssoName', 'CrDate', 'VenDepartment', 'gst', 'pan', 'mobile'];
-  dataSource: any;
-  deptList = AppSetting.deptRefList;
-  // contractTypeList = [{
-  //   id: '331',
-  //   lookupVal: 'CARGO' 
-  // }];
-  contractTypeList: any = [];
-  assocTypeList: any = [];
-  statusList: any = [];
+  dataSource:any;
+  cntrSignDtFlag:boolean=false;
+  deptList = AppSetting.deptRefList
+  assocTypeList = [{
+    id: '367',
+    lookupVal: 'AIRFREIGHT' 
+  }]
+  statusList = [{
+    id: 1411,
+    lookupVal: 'DRAFT' 
+  }]
   isDisable = false;
   isDisableflag = true;
   associateObj: any;
   model: any = {
-    "assocId": AppSetting.associateId,
+    "cntrType": '367',
     "effectiveDt": "",
     "expDt": "",
-    "cntrSignDt": "",
-    "lkpAssocCargoTypeId": "",
-    "lkpAssocCargoTypeArray": [],
-    "lkpPymtFreqId": "",
-    "status": null
+    "lkpPymtFreqId": null,
+    'status': null,
+    'cntrSignDt': ""
   };
   perList: any = [];
   exAttrMap = new Map();
-  exAttrKeyList = [];
-  editflow: any;
-  tileFlag: boolean;
+  exAttrKeyList =  [];
+  editflow:any;
+  tileFlag:any;
+  editFlag: any
   referenceData;
   generalFlag: boolean = false;
   myDate = new Date();
   todayDate: string;
-  cntrSignDtFlag: boolean = false;
-  contractId: any;
+  contractID:number;
 
   ngOnInit() {
-    this.contractId = AppSetting.contractId;
 
     this.authorizationService.setPermissions('CONTRACT');
     this.perList = this.authorizationService.getPermissions('CONTRACT') == null ? [] : this.authorizationService.getPermissions('CONTRACT');
     this.permissionsService.loadPermissions(this.perList);
-    if (this.contractId !== null) {
-      this.exAttrMap = this.authorizationService.getExcludedAttributes('VIEW CONTRACT');
-      this.exAttrKeyList = Array.from(this.exAttrMap.values());
+    this.contractID = AppSetting.contractId;
+    if(this.contractID !== null){
+    this.exAttrMap = this.authorizationService.getExcludedAttributes('VIEW CONTRACT');
+    this.exAttrKeyList = Array.from(this.exAttrMap.values());
     }
     console.log('Attribute List', this.exAttrKeyList);
-    console.log('perlist', this.perList)
-    this.getAllStatus();
+    console.log('perlist',this.perList)
+
     this.getAssociateContract();
     this.setAssociateObj();
     this.acRoute.params.subscribe(x => {
-      if (x['termination']) {
+      if (x['termination']) { 
+        this.editflow = x['termination'];
         this.tileFlag = x['termination'];
-        this.cntrSignDtFlag = true;
-        this.isDisable = true;
+        this.isDisable = true;  
+        console.log('Tile Flag', this.tileFlag);
+      } else {
+        this.editFlag = x['editflow'];
+        console.log('edit flag', this.editFlag);
       }
+      
 
-      if (x.editflow) {
-        this.cntrSignDtFlag = true;
+      if(x.editflow){
         this.editflow = x.editflow;
       }
-
+      
     })
     // this.getContractById();
     // this.getContract();
-   
-    if (this.tileFlag == true) {
-      this.generalFlag = true;
-    }
-    this.todayDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
-
-  }
-  getAllStatus() {
-    this.apiService.get(`secure/v1/cargocontract`).subscribe((res) => {
-      if (res.status == 'SUCCESS') {
-        if (res.data) {
-          this.statusList = res.data.referenceData.statusList;
-          this.assocTypeList = res.data.referenceData.contractAssociateTypeList;
-        }
+      if(this.tileFlag == "true") {
+        this.generalFlag = true;
+        this.todayDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
       }
-    }, (err) => {
-      this.spinner.hide();
-
-    });
   }
-  setAssociateObj() {
+
+  setAssociateObj(){
     let assData = AppSetting.associateObject;
-    if (!(assData.contractId)) {
+    if(!(assData.contractId)) {
       // this.minDate = new Date();
       let p = new Date();
       p.setDate(p.getDate()+1);
       this.minDate = p;
     }
+    console.log('AppSetting.associateObject',AppSetting.associateObject);
     let resArray = [];
-    if (AppSetting.associateObject) {
+    if(AppSetting.associateObject){
       resArray.push(AppSetting.associateObject);
       this.dataSource = new MatTableDataSource(resArray);
     }
@@ -133,11 +124,11 @@ export class AssignAssociateComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.minchar = false
-    if (filterValue.length > 0 && filterValue.length < 3) {
+
+    if (filterValue.length > 0 && filterValue.length<3){
       this.nomatch = false;
-      this.minchar = true
-      this.dataSource.filter = '';
+      this.minchar= true
+      this.dataSource.filter = null;  
     }
     else if (filterValue.length == 0) {
       this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -145,13 +136,10 @@ export class AssignAssociateComponent implements OnInit {
       this.nomatch = false;
     }
     else {
-      this.minchar = false
+      this.minchar= false
       this.dataSource.filter = filterValue.trim().toLowerCase();
-      if (this.dataSource.filteredData.length > 0) {
-        this.nomatch = false;
-      }
-      else if (this.dataSource.filteredData.length === 0) {
-        this.nomatch = true;
+      if( this.dataSource.filteredData.length == 0){
+        this.nomatch = true
       }
     }
 
@@ -159,112 +147,119 @@ export class AssignAssociateComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
-  getContractById() {
+  
+  getContractById(){
     this.spinner.show()
     let associateId = AppSetting.associateId;
     this.apiService.get(`secure/v1/associates/${associateId}`).subscribe((res) => {
-      if (res.status == 'SUCCESS') {
+      if(res.status == 'SUCCESS'){
         if (res.data) {
+          console.log('hel', res.data.responseData);
           let resArray = [];
           this.referenceData = res.data.referenceData;
 
-          if (res.data.responseData) {
+          if(res.data.responseData){
             resArray.push(res.data.responseData);
             this.dataSource = new MatTableDataSource(resArray);
           }
           this.spinner.hide();
-        } else {
-          this.spinner.hide();
-          this.toastr.error('Data not Found');
+        }else {
+            this.spinner.hide();
+            this.toastr.error('Data not Found');
         }
-      } else {
+      }else {
         this.spinner.hide();
         this.toastr.error(res.message);
       }
 
     }, (err) => {
+        console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
       this.spinner.hide();
-      console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
-
-
+      
     });
+    this.spinner.hide();
   }
-  getAssociateContract() {
+  getAssociateContract(){
     this.spinner.show()
     let assoId = AppSetting.associateId;
-    this.apiService.get(`secure/v1/cargocontract/associate/${assoId}`).subscribe((res) => {
-      if (res.status == 'SUCCESS') {
+    this.apiService.get(`secure/v1/airfreightcontract/associate/${assoId}`).subscribe((res) => {
+      if(res.status == 'SUCCESS'){
         if (res.data) {
           this.associateResData = res.data.responseData;
           this.associateRefData = res.data.referenceData;
           this.statusList = this.associateRefData.statusList;
+          this.assocTypeList = this.associateRefData.assocTypeList;
+          console.log('statusList', this.associateRefData);
           this.selectedContract(this.associateResData, this.associateRefData);
+          // this.effectiveDate(false)
           this.spinner.hide();
-        } else {
-          this.spinner.hide();
-          this.toastr.error('Data not Found');
+        }else {
+            this.spinner.hide();
+            this.toastr.error('Data not Found');
         }
-      } else {
+      }else {
         this.spinner.hide();
         this.toastr.error(res.message);
       }
 
     }, (err) => {
-      console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
+        console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
       this.spinner.hide();
-
+      
     });
+    this.spinner.hide();
+
   }
 
-  createContractPost() {
-    if (this.editflow) {
-      this.model.status = AppSetting.editStatus;
+  createContractPost(){
+  this.spinner.show();
+    if(this.editflow){
+      this.model.status = AppSetting.editStatus;    
     }
-
+    
     this.model.effectiveDt = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
-    this.model.expDt = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd');
+    this.model.expDt = this.model.expDt ? this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd') : null;
     this.model.cntrSignDt = this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd');
     AppSetting.wefDate = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');    // store effective date 
-    this.spinner.show();
-    this.apiService.post(`secure/v1/cargocontract`, this.model).subscribe((res) => {
-      if (res.status == 'SUCCESS') {
-        if (res.data) {
-          AppSetting.contractId = res.data.responseData;
-          if (this.isDisable) {
-            this.toastr.info(res.message);
-            this.router.navigate(['asso_cargo-contract/asso_cargo'], { skipLocationChange: true });
-          } else {
-            this.toastr.success('Saved Successfully');
-            if (this.editflow) {
-              this.router.navigate(['asso_cargo-contract/branch-allocation', { steper: true, 'editflow': 'true' }], { skipLocationChange: true })
-            } else {
-              this.router.navigate(['asso_cargo-contract/branch-allocation'], { skipLocationChange: true })
-            }
+    this.apiService.post(`secure/v1/airfreightcontract`,  this.model).subscribe((res) => {
+     if(res.status == 'SUCCESS'){
+       if (res.data) {
+         AppSetting.contractId = res.data.responseData;
+         if (this.isDisable) {
+          this.toastr.info(res.message);
+          this.router.navigate(['asso_air-contract/asso_air'], { skipLocationChange: true });
+        }else{
+          this.toastr.success('Saved Successfully');
+          if(this.editflow){
+            this.router.navigate(['asso_air-contract/booking-payout-show',{steper:true,'editflow': 'true' }], {skipLocationChange: true})
+          }else{
+            this.router.navigate(['asso_air-contract/booking-payout-show'], {skipLocationChange: true})
           }
-          this.spinner.hide();
-        } else {
-          this.spinner.hide();
-          this.toastr.error('Data not Found');
         }
-      } else {
-        this.spinner.hide();
-        this.toastr.error(res.message);
-      }
-
+         this.spinner.hide();
+       }else {
+           this.spinner.hide();
+           this.toastr.error('Data not Found');
+       }
+     }else {
+       this.spinner.hide();
+       this.toastr.error(res.message);
+     }
+ 
     }, (err) => {
+       console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
       this.spinner.hide();
-      console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
+      
     });
-
+    // this.spinner.hide();
   }
 
-
+  
   nextReadMode() {
-    if (this.editflow) {
-      this.router.navigate(['asso_cargo-contract/branch-allocation', { steper: true, 'editflow': 'true' }], { skipLocationChange: true })
-    } else {
-      this.router.navigate(['asso_cargo-contract/branch-allocation'], { skipLocationChange: true })
+    if(this.editflow){
+      this.router.navigate(['asso_air-contract/booking-payout-show',{steper:true,'editflow': 'true' }], {skipLocationChange: true})
+    }else{
+      this.router.navigate(['asso_air-contract/booking-payout-show'], {skipLocationChange: true})
     }
   }
 
@@ -286,91 +281,71 @@ export class AssignAssociateComponent implements OnInit {
 
   openViewBranchesModal(contract) {
     this.spinner.show();
-    let branchData: any;
-    this.apiService.get(`secure/v1/cargocontract/contracts/branches/${contract.id}`).subscribe(res => {
-      if (res.data) {
-        if (res.data.responseData && res.data.responseData.length > 0) {
+    let branchData : any;
+    this.apiService.get(`secure/v1/airfreightcontract/contracts/branches/${contract.id}`).subscribe(res => {     
+      if(res.data){
+        if(res.data.responseData && res.data.responseData.length > 0){
           branchData = res.data.responseData;
-          if (branchData.length > 0) {
+          if(branchData.length > 0){
             this.dialog.open(ViewBranchesComponent, {
-              data: { branchData: branchData },
-              width: '55vw', minHeight: '20rem',
+              data : {branchData: branchData},
+              width: '55vw',minHeight: '20rem',
               panelClass: 'mat-dialog-responsive',
               disableClose: true
             });
             this.spinner.hide();
-          } else {
+          }else {
             console.log("Branch does not exits in contract");
             this.spinner.hide();
           }
-        }
+        } 
       }
       this.spinner.hide();
     })
 
-
+    
   }
-
-  selectedContract(contract, refList) {
+ 
+  selectedContract(contract, refList){
     let contractID = AppSetting.contractId;
-    if (contractID) {
-      // let obj = contract.filter(ele => ele.id == contractID);
-      // if(obj && obj.length > 0){
-      //   this.model = JSON.parse(JSON.stringify(obj[0])) ;
-      //   this.model['lkpAssocCargoTypeArray'] = [];
-      //   let contractTypeSplit = this.model.lkpAssocCargoTypeId.split(',');
-      //   contractTypeSplit.forEach(ctsplit => {
-      //     let eobj = this.assocTypeList.find(({ id }) => id == ctsplit);
-      //     if (eobj != undefined) {
-      //       this.model.lkpAssocCargoTypeArray.push(eobj)
-      //     }
-      //   })
-      //   console.log('final array',this.model.lkpAssocCargoTypeArray)
-      //   this.selectedContractId = this.model.id;
-      //   this.model.cntrType = Number(this.model.cntrType); 
-      //   this.expDate();              
-      // }else{
-      this.getContract();
-      // }
-    } else {
-      this.model.cntrType = this.associateRefData.contractTypeList.find(x => x.lookupVal === 'CARGO').id;
-    }
-    this.model.assocId = AppSetting.associateId;
-
-    this.minDateStart = this.model.effectiveDt ? this.model.effectiveDt : new Date();
-
-
-    if (!this.model.status) {
-      let tempStatus = refList.statusList.filter(obj => obj.lookupVal == 'DRAFT');
-      this.model.status = tempStatus[0].id;
-    }
-
-  }
-  maxdate: any;
-  minDate: any = new Date();
-  minDateStart: any = new Date();
-  contractData: any;
-  getContract() {
-    this.spinner.show();
-    this.apiService.get('secure/v1/cargocontract/' + AppSetting.contractId).subscribe(response => {
-      let ob = ErrorConstants.validateException(response);
-      if (ob.isSuccess) {
-        this.assocTypeList = response.data.referenceData.contractAssociateTypeList;
-        if (response.data.responseData && Object.keys(response.data.responseData).length > 0) {
-          this.contractData = response.data.responseData;
-          this.model = this.contractData;
-          this.model['lkpAssocCargoTypeArray'] = [];
-          let contractTypeSplit = this.model.lkpAssocCargoTypeId.split(',');
-          contractTypeSplit.forEach(ctsplit => {
-            let eobj = this.assocTypeList.find(({ id }) => id == ctsplit);
-            if (eobj != undefined) {
-              this.model.lkpAssocCargoTypeArray.push(eobj)
-            }
-
-          })
-         
+      if(contractID) {
+        let obj = contract.filter(ele => ele.id == contractID);
+        if(obj && obj.length > 0){
+          this.model = JSON.parse(JSON.stringify(obj[0])) ;
+          this.minDateStart = this.model.effectiveDt ? this.model.effectiveDt : new Date();
+          let dateMin = this.model.effectiveDt ? this.model.effectiveDt : new Date();
+          let d = new Date(dateMin) ;
+          d.setDate(d.getDate()+1);
+          this.minDate = d;
           this.selectedContractId = this.model.id;
+          this.model.cntrType = Number(this.model.cntrType);          
+        }else{
+          this.getContract();
+        }
+      }  
+      
+      this.model.assocId =  AppSetting.associateId;
+      this.model.cntrType = Number(this.model.cntrType);
+      this.minDateStart = this.model.effectiveDt ? this.model.effectiveDt : new Date();
+      
+     
+      if(!this.model.status){
+        let tempStatus = refList.statusList.filter(obj => obj.lookupVal == 'DRAFT');
+        this.model.status = tempStatus[0].id;
+      }  
 
+    }
+  maxdate:any;
+  minDate:any = new Date();
+  minDateStart:any = new Date();
+  contractData:any;
+  getContract(){
+    this.apiService.get('secure/v1/airfreightcontract/'+AppSetting.contractId).subscribe(response => {
+      let ob = ErrorConstants.validateException(response);
+      if(ob.isSuccess){
+        if(response.data.responseData && Object.keys(response.data.responseData).length > 0){
+          this.contractData =  response.data.responseData;
+          this.model = this.contractData;
           this.model.cntrType = Number(this.model.cntrType);
           this.minDateStart = this.model.effectiveDt ? this.model.effectiveDt : new Date();
           let dateMin = this.model.effectiveDt ? this.model.effectiveDt : new Date();
@@ -382,7 +357,6 @@ export class AssignAssociateComponent implements OnInit {
           let e = new Date();
           e.setDate(e.getDate()+1);
           this.maxdate = e;
-
         }
         this.spinner.hide();
       } else {
@@ -396,9 +370,9 @@ export class AssignAssociateComponent implements OnInit {
 
   }
 
-  isValidSignDt: boolean = false;
-  isValidEffectiveDt: boolean = false;
-  isValidExpDt: boolean = false;
+  isValidSignDt:boolean = false;
+  isValidEffectiveDt:boolean = false;
+  isValidExpDt:boolean = false;
 
   // MatDatePicker Validation
 
@@ -407,46 +381,46 @@ export class AssignAssociateComponent implements OnInit {
     if (cntrYear > 9999) {
       this.model.cntrSignDt = "";
     } else {
-      let a = this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd')
-      let b = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd')
-      let c = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd')
-      if (c) {
-        if (a < c) {
-          this.isValidSignDt = false;
-        }
-        else {
-          this.isValidSignDt = true;
-        }
-      } else if (b) {
-        if (a <= b) {
-          this.isValidSignDt = false;
-        }
-        else if (b < a) {
-          this.isValidEffectiveDt = true;
-        }
-        else {
-          this.isValidSignDt = true;
-        }
-      } else {
+    let a = this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd')
+    let b = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd')
+    let c = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd')
+    if(c){
+      if (a < c) {
         this.isValidSignDt = false;
       }
-      if (!a) {
-        let e = new Date(a);
-        e.setDate(e.getDate() + 1);
-        this.minDate = e;
+      else {
+        this.isValidSignDt = true;
       }
+    }else if(b){
+      if (a <= b) {
+        this.isValidSignDt = false;
+      }
+      else if(b < a) {
+        this.isValidEffectiveDt = true;
+      }
+      else {
+        this.isValidSignDt = true;
+      }
+    }else{
+      this.isValidSignDt = false;
+    }
+    if(!a){
+      let e = new Date(a);
+      e.setDate(e.getDate()+1);
+      this.minDate = e;
+    }
     }
     console.log('>>>Sign Date')
     this.effectiveDate(false);
     this.expDate();
-
+  
   }
 
-  effectiveDate(isExpToUpdate) {
-    let effYear = parseInt(this.datePipe.transform(this.model.effectiveDt, 'yyyy'))
-    if (effYear > 9999) {
-      this.model.effectiveDt = "";
-    } else {
+    effectiveDate(isExpToUpdate) {
+      let effYear = parseInt(this.datePipe.transform(this.model.effectiveDt, 'yyyy'))
+      if (effYear > 9999) {
+        this.model.effectiveDt = "";
+      } else {
       let a = this.datePipe.transform(this.model.cntrSignDt, 'yyyy-MM-dd')
       let b = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd')
       let c = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd')
@@ -460,174 +434,202 @@ export class AssignAssociateComponent implements OnInit {
         }
       } else {
         this.isValidEffectiveDt = false
-        if (b >= a) {
+        if( b >= a){
           this.isValidEffectiveDt = false
-        } else {
+        }else{
           this.isValidEffectiveDt = true
         }
       }
-      if (b) {
+      if(b){
         let e = new Date(b);
-        e.setDate(e.getDate() + 1);
+        e.setDate(e.getDate()+1);
         this.minDate = e;
       }
-
-      // increment exp date by one year
-      // if(isExpToUpdate && b && !this.isValidEffectiveDt){
-      //   let f = new Date(b);
-      //   f.setFullYear(f.getFullYear()+1);
-      //   this.model.expDt = "";
-      // }
     }
     this.expDate();
-  }
-
-  expDate() {
-    let expYear = parseInt(this.datePipe.transform(this.model.expDt, 'yyyy'))
-    if (expYear > 9999) {
-      this.model.expDt = "";
-    } else {
+    }
+  
+    expDate() {
+      let expYear = parseInt(this.datePipe.transform(this.model.expDt, 'yyyy'))
+      if (expYear > 9999) {
+        this.model.expDt = "";
+      } else {
       let a = this.datePipe.transform(this.minDateStart, 'yyyy-MM-dd')
       let b = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd')
       let c = this.model.expDt ? this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd') : null
-
-      if (b && c) {
+  
+      if(b && c){
         if (b < c) {
           this.isValidExpDt = false;
-          // this.isValidEffectiveDt = false;
+         // this.isValidEffectiveDt = false;
         }
         else {
           this.isValidExpDt = true;
         }
-      } else if (a && c) {
-        if (a < c) {
+      } else if(a && c){
+        if ( a < c) {
           this.isValidExpDt = false;
         }
         else {
           this.isValidExpDt = true;
         }
-      } else {
+      }else{
         this.isValidExpDt = false;
       }
-      if (c) {
+      if(c){
         var e = new Date(c);
-        e.setDate(e.getDate() - 1);
+        e.setDate(e.getDate()-1);
         this.maxdate = e;
-      } else {
+      }else{
         this.maxdate = null
       }
+      }
     }
-  }
-
-  editJourney(object) {
-    if (this.editflow) {
-      object.status = AppSetting.editStatus;
-    }
-  }
-
-  terminateContract() {
-    if (this.editflow) {
-      this.model.status = AppSetting.editStatus;
+  
+    editJourney(object){
+      if(this.editflow){
+        object.status = AppSetting.editStatus;
+      }
     }
 
-    this.model.effectiveDt = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
-    this.model.expDt = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd');
-    AppSetting.wefDate = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
-    let contractId = AppSetting.contractId;
-    this.spinner.show();
-    this.apiService.post(`secure/v1/cargocontract/terminate`, { id: contractId, descr: this.model.desc }).subscribe((res) => {
-      if (res.status == 'SUCCESS') {
-        if (res.data) {
-          AppSetting.contractId = res.data.responseData;
-          if (this.isDisable) {
-            this.toastr.info(res.message);
-            this.router.navigate(['asso_cargo-contract/asso_cargo'], { skipLocationChange: true });
-          } else {
-            this.toastr.success('Saved Successfully');
-            if (this.editflow) {
-              this.router.navigate(['asso_cargo-contract/branch-allocation', { steper: true, 'editflow': 'true' }], { skipLocationChange: true })
-            } else {
-              this.router.navigate(['asso_cargo-contract/branch-allocation'], { skipLocationChange: true })
-            }
+    terminateContract() {
+      if(this.editflow){
+        this.model.status = AppSetting.editStatus;    
+      }
+      
+      this.model.effectiveDt = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
+      this.model.expDt = this.model.expDt ? this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd') : null;
+      AppSetting.wefDate = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd'); 
+      let contractId = AppSetting.contractId;
+      this.spinner.show();
+      this.apiService.post(`secure/v1/airfreightcontract/terminate/`, { id: contractId , descr: this.model.desc}).subscribe((res) => {
+        if(res.status == 'SUCCESS'){
+          if (res.data) {
+            AppSetting.contractId = res.data.responseData;
+            if (this.isDisable) {
+             this.toastr.info(res.message);
+             this.router.navigate(['asso_air-contract/asso_air'], { skipLocationChange: true });
+           }else{
+             this.toastr.success('Saved Successfully');
+             if(this.editflow){
+               this.router.navigate(['asso_air-contract/booking-payout-show',{steper:true,'editflow': 'true' }], {skipLocationChange: true})
+             }else{
+               this.router.navigate(['asso_air-contract/booking-payout-show'], {skipLocationChange: true})
+             }
+           }
+   
+            this.spinner.hide();
+          }else {
+              this.spinner.hide();
+              this.toastr.error('Data not Found');
           }
-
+        }else {
           this.spinner.hide();
-        } else {
-          this.spinner.hide();
-          this.toastr.error('Data not Found');
+          this.toastr.error(res.message);
         }
+    
+       }, (err) => {
+          console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
+         this.spinner.hide();
+         
+       }); 
+    }
+
+
+    submitRenewal() {
+      this.model.effectiveDt = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
+      this.model.expDt = this.model.expDt ? this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd') : null;
+      if(this.tileFlag == "false") {
+        console.log('working');
+        this.apiService.post(`secure/v1/airfreightcontract`, this.model).subscribe(res => {
+          console.log('data', res);
+          this.toastr.info(res.message);
+          this.router.navigate(['asso_air-contract/booking-payout-show'], { skipLocationChange: true });
+        })
       } else {
-        this.spinner.hide();
-        this.toastr.error(res.message);
+        console.log('termination');
+        this.submitTermNClose();
       }
+        // const dialogRefEdit = this.dialog.open(confimationdialog,{  
+        //   data: { message: "Are you sure you want continue ?" },
+        //   disableClose: true,
+        //   panelClass: 'creditDialog',
+        //   width: '300px'
+        // });
+      
+        // dialogRefEdit.afterClosed().subscribe(result => {
+        //   if(result){
+        //     let temp =  _.find(this.statusList, {'lookupVal' : 'ACTIVE' })
+        //     this.model.status = temp.id;
+        //     this.editflow = false;
+        //     this.createContractPost()
+        //     this.model.expDt =  new Date();
+        //     console.log('this model date>>', this.model.expDt);
+        //   }
+        // });
+      
+      //AppSetting.associateObject
+      // let date = new Date();
+      // let dt = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
+      // let dt2 = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd')
+      // let nDt = this.datePipe.transform(date, 'yyyy-MM-dd')
+      // if(AppSetting.associateObject.expDt < nDt) { 
+      //   const dialog = this.dialog.open(confimationdialog, {
+      //     data: { message: "Are you sure want to renew?"},
+      //     disableClose: true,
+      //     panelClass: 'creditDialog',
+      //     width: '300px'  
+      //   });
+  
+      //   dialog.afterClosed().subscribe(res => {
+      //     if(res) {
+      //       console.log('res', res)
+      //       let tem = _.find(this.statusList, {'lookupVal' : 'EDIT'})
+      //       this.model.status = tem.id;
+      //       console.log('tem', tem)
+      //       console.log('modal status', this.model)
+      //       this.editflow = false;
+      //       this.createContractPost()
+      //     }
+      //     console.log('The dialog was closed with pinocde ' ,res);
+      //   })
+      // } else if(this.gflag) {
+      //   this.submitTermNClose();
+      // }
+      
+    }
+    
+    submitTermNClose(){
+      const dialogRefEdit = this.dialog.open(confimationdialog,{  
+        data: { message: "Are you sure you want to terminate contract ?" },
+        disableClose: true,
+        panelClass: 'creditDialog',
+        width: '300px'
+      });
+    
+      dialogRefEdit.afterClosed().subscribe(result => {
+        if(result){
+          let temp =  _.find(this.statusList, {'lookupVal' : 'INACTIVE' })
+          this.model.status = temp.id;
+          this.editflow = false;
+          this.terminateContract()
 
-    }, (err) => {
-      console.log('Message : ' + err.error.message, + 'Path : ' + err.error.path);
-      this.spinner.hide();
-
-    });
-  }
-
-
-  submitRenewal() {
-    this.model.effectiveDt = this.datePipe.transform(this.model.effectiveDt, 'yyyy-MM-dd');
-    this.model.expDt = this.datePipe.transform(this.model.expDt, 'yyyy-MM-dd');
-    if (this.tileFlag == false) {
-      this.apiService.post(`secure/v1/cargocontract`, this.model).subscribe(res => {
-        this.toastr.info(res.message);
-        this.router.navigate(['asso_cargo-contract/branch-allocation'], { skipLocationChange: true });
-      })
-    } else {
-      this.submitTermNClose();
+          this.model.expDt =  new Date();
+        }
+        console.log('The dialog was closed with pinocde ' ,result);
+      });
+  
+    }
+    modelChange(){
+      this.model.cntrType = Number(this.model.cntrType)
+    }
+  
+    closeNRedirect(){
+      this.router.navigate(['asso_air-contract/asso_air'], {skipLocationChange: true});
     }
 
-  }
 
-  submitTermNClose() {
-    const dialogRefEdit = this.dialog.open(confimationdialog, {
-      data: { message: "Are you sure you want to terminate contract ?" },
-      disableClose: true,
-      panelClass: 'creditDialog',
-      width: '300px'
-    });
-
-    dialogRefEdit.afterClosed().subscribe(result => {
-      if (result) {
-        let temp = _.find(this.statusList, { 'lookupVal': 'INACTIVE' })
-        this.model.status = temp.id;
-        this.editflow = false;
-        this.terminateContract()
-
-        this.model.expDt = new Date();
-      }
-      console.log('The dialog was closed with pinocde ', result);
-    });
-
-  }
-  // modelChange(){
-  //   this.model.cntrType = Number(this.model.cntrType)
-  // }
-
-  closeNRedirect() {
-    this.router.navigate(['asso_cargo-contract/asso_cargo'], { skipLocationChange: true });
-  }
-
-  selectMulCargoType(evObj) {
-    //  console.log(evObj.value,this.model,evObj.value.map(x => x.lookupVal).toString())
-    this.model.lkpAssocCargoTypeId = evObj.value.map(x => x.id).toString();
-  }
-
-  /*---  Display Tooltip for Cargo Associate Type ---- */
-  getTooltipData(data) {
-    if(data && data.length){
-      let msg="";
-      data.forEach((res,i)=>{
-        msg += res.descr + (data.length-1 == i ? " " : ", ");
-      })
-      return msg;
-    }else{
-      return;
-    }
-
-  }
 }
+
+
+

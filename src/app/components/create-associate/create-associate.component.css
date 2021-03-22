@@ -1,7 +1,6 @@
 .is-invalid {
     border-color: red !important;
 }
-
 .mat-select-disabled {
     background-color: #fff !important;
     border-bottom: 1.8px solid #6a6868 !important;

@@ -13,7 +13,6 @@ import { confimationdialog } from '../confirmationdialog/confimationdialog';
 @Component({
   selector: 'app-search-branch',
   templateUrl: './search-branch.component.html',
-  styleUrls: ['./search-branch.component.css'],
   providers: [ApiService]
 })
 export class SearchBranchComponent implements OnInit {
@@ -64,6 +63,7 @@ export class SearchBranchComponent implements OnInit {
     this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
     this.permissionsService.loadPermissions(this.perList);
 
+    console.log('perlist',this.perList)
     this.model.search = 'NAME';
     this.referenceData = this.data.referenceData;
     this.referenceData.statusList.forEach(element => {
@@ -81,11 +81,9 @@ export class SearchBranchComponent implements OnInit {
   setExistBranch(tableDataObj) {
    let addArrElement = [];
     let tempTable = tableDataObj;
-    let previousData = JSON.parse(JSON.stringify(this.data.data));
-    //previousData = [...this.data.data];
     if (this.data.data && this.data.data.length > 0) {
 
-      previousData.forEach(element => {
+      this.data.data.forEach(element => {
         tempTable.forEach(objTemp => {
           // console.log('element', element);
           // objTemp.status = this.activeStatus;
@@ -105,23 +103,9 @@ export class SearchBranchComponent implements OnInit {
           }
         });
       });
-     
-      addArrElement = previousData.filter(newObj => !newObj.exist);
+      addArrElement = this.data.data.filter(newObj => !newObj.exist);
     }
     this.tableData.responseData = [...tempTable, ...addArrElement];
-    if (this.tableData.responseData && this.tableData.responseData.length > 0) {
-      this.tableData.responseData.sort((a, b) => {
-        const branchNameA = a.branchName.toUpperCase();
-        const branchNameB = b.branchName.toUpperCase();
-        let comparison = 0;
-        if (branchNameA > branchNameB) {
-          comparison = 1;
-        } else if (branchNameA < branchNameB) {
-          comparison = -1;
-        }
-        return comparison;
-      });
-    }
     this.branchStatus();
   }
   //default Branch Advance Search
@@ -141,7 +125,7 @@ export class SearchBranchComponent implements OnInit {
               this.arr = [];
               this.twoAPIdata = data.data;
               this.tableData = data.data;
-
+              console.log(this.tableData, 'print tabledata')
               this.SpinnerService.hide();
               this.tableData.responseData.forEach(element => {
                 if (element.branchType == 'REGION') {
@@ -241,7 +225,6 @@ export class SearchBranchComponent implements OnInit {
           this.tableData = data.data;
           this.SpinnerService.hide();
           this.tabledataLength = this.tableData.responseData.length;
-        
           this.setExistBranch(this.tableData.responseData);
           this.branchStatus();
         }
@@ -269,27 +252,29 @@ export class SearchBranchComponent implements OnInit {
 
   filterDataByAreaList($event, data) {
     if ($event.checked == false) {
-      this.finalAreaData.forEach((element, i) => {
-        if (element.branchCode == data.branchCode) {
-          
-          const dialog = this.dialog.open(confimationdialog, {
-            data: { message: "Do you want to delete branch?"},
-            disableClose: true,
-            panelClass: 'creditDialog',
-            width: '300px'  
-          });
-    
-          dialog.afterClosed().subscribe(res => {
-            if(res) {
-              console.log('res', res)
-              this.finalAreaData.splice(i, 1);
-              return
-            }
-            console.log('The dialog was closed with pinocde ' ,res);
-          })         
-        }
+      const dialog = this.dialog.open(confimationdialog, {
+        data: { message: "Do you want to delete branch?"},
+        disableClose: true,
+        panelClass: 'creditDialog',
+        width: '300px'  
       });
-      
+
+      dialog.afterClosed().subscribe(res => {
+        if(res) {
+          console.log('res', res)
+          // this.finalAreaData.splice(i, 1);
+          this.finalAreaData.forEach((element, i) => {
+            this.finalAreaData.splice(i, 1);
+          });
+          
+        } else if(res === false && data.checked === false) {
+          $event.checked = true;
+          data.checked = true;
+          data.addOrRemoveOrUpdate = "Add";
+          this.finalAreaData.push(data);
+        }
+        console.log('The dialog was closed with pinocde ' ,res);
+      })         
     }
     if ($event.checked == true) {
       data.addOrRemoveOrUpdate = "Add";
@@ -307,7 +292,6 @@ export class SearchBranchComponent implements OnInit {
           this.tableData = data.data;
           this.SpinnerService.hide();
           this.tabledataLength = this.tableData.responseData.length;
-        
           this.setExistBranch(this.tableData.responseData);
           this.branchStatus();
         }
@@ -336,7 +320,6 @@ export class SearchBranchComponent implements OnInit {
           this.tableData = data.data;
           this.SpinnerService.hide();
           this.tabledataLength = this.tableData.responseData.length;
-         
           this.setExistBranch(this.tableData.responseData);
           this.branchStatus();
         }
@@ -401,7 +384,6 @@ export class SearchBranchComponent implements OnInit {
             this.tableData = [];
           }
           else {
-            
             this.tableData.responseData.forEach(element => {
               if (element.branchType == 'REGION') {
                 element.regionBranch = element.branchName;
@@ -532,21 +514,8 @@ export class SearchBranchComponent implements OnInit {
   }
 
   closeDialog(): void {
-      
-    const dialogRefConfirm = this.dialog.open(confimationdialog, {
-      width: '300px',
-      panelClass: 'creditDialog',
-      data:{message:'Are you sure ?'},
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if(value){
-        this.dialogRef.close(false);
-      }else{
-        console.log('Keep Open');
-      }
-    });
+    this.dialogRef.close();
   }
+
+
 }

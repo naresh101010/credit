@@ -150,12 +150,10 @@ input:-moz-placeholder
   margin-top: -7px;
 
 }
-.btn-dis{
-  opacity: 0.5 !important;
-}
 ::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper {
   transform: initial;
 }
+
 .err-msg {
   color: red;
   font-size: 1.3rem;
@@ -188,4 +186,3 @@ input:-moz-placeholder
     top: 3px;
     left: 0;
 }
-

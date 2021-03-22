@@ -1,4 +1,8 @@
-html{opacity:1}
+html{opacity:1 !important}
+
+.mat-dialog-responsive .mat-select-value-text {
+    top: 3px !important;
+}
 body .radio-item .mat-radio-button{
     margin-right:15px !important;
 }

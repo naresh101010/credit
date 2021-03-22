@@ -7,7 +7,7 @@ import { MatDialog } from "@angular/material";
 
 import { NgxSpinnerService } from 'ngx-spinner';
 import { AppSetting } from '../../app.setting';
-
+import { AppService } from '../../core/services/app.service';
 import { ApiService } from '../../core/services/api.service';
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
@@ -32,7 +32,8 @@ export class VehicleAllocationComponent implements OnInit {
   perList: any = [];
   minchar:boolean= false;
   nomatch: boolean=false;
-  refData: any;
+  assocType:string;
+  refData:any;
 
   constructor(private spinner: NgxSpinnerService,
               private router : Router,
@@ -51,10 +52,16 @@ export class VehicleAllocationComponent implements OnInit {
 
     this.associateData = AppSetting.associateData;
     this.refData = AppSetting.associateRefData;
+    // if(this.associateData.assocTypeMaps[0].lkpAssocTypeId == 1934){
+    //   this.assocType = " MARKET"
+    // }
+    // else{
+    //   this.assocType = " REGISTERED"
+    // }
     this.deptName = AppSetting.associateDepartment;
     this.spinner.show();
     this.apiService.get('secure/v1/associates/vehicles/associate/'+AppSetting.associateId).subscribe(res => {
-        if(res.status == 'SUCCESS'){ 
+        if(res.status == 'SUCCESS'){           
           this.vehicleMakeList = res.data.referenceData.vehicleMakeList;
           this.vehicleModelList = res.data.referenceData.vehicleModelList;
           let vehicleData = res.data.responseData;
@@ -86,28 +93,28 @@ export class VehicleAllocationComponent implements OnInit {
 
     dialog.afterClosed().subscribe(res => {
       if(res) {
-        this.router.navigate(['/asso_cargo-contract/associate-staff'], {skipLocationChange: true})
+        this.router.navigate(['/asso_air-contract/associate-staff'], {skipLocationChange: true})
       } else {
-        this.router.navigate(['/asso_cargo-contract/asso_cargo'], {skipLocationChange: true})
+        this.router.navigate(['/asso_air-contract/asso_air'], {skipLocationChange: true})
       }
     })
   }
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_cargo-contract/associate-kyc'], { skipLocationChange: true });
+    this.router.navigate(['/asso_air-contract/associate-kyc'], { skipLocationChange: true });
   }
 
   addEditVehicle(id){
   AppSetting.vehicleId = id;
-    this.router.navigate(['/asso_cargo-contract/vehicle'], {skipLocationChange: true})
+    this.router.navigate(['/asso_air-contract/vehicle'], {skipLocationChange: true})
   }
 
   /*-------- Upload Vehicle Document ------- */
   addVehicleDocument(data) {
     AppSetting.vehicleId = data.id;
     AppSetting.vehicleNumber = (data.vehicleNum).toUpperCase();
-      this.router.navigate(['/asso_cargo-contract/vehicle-document'], {skipLocationChange: true});
+      this.router.navigate(['/asso_air-contract/vehicle-document'], {skipLocationChange: true});
   }
   /*---- get vehicle model ------- */
   getVehicleModel(modelId){
@@ -136,8 +143,7 @@ export class VehicleAllocationComponent implements OnInit {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.minchar = false
-    if (filterValue.length > 0 && filterValue.length < 3) {
+    if (filterValue.length > 0 && filterValue.length<3){
       this.nomatch = false;
       this.minchar= true
       this.dataSource.filter = null;  
@@ -148,9 +154,9 @@ export class VehicleAllocationComponent implements OnInit {
       this.nomatch = false;
     }
     else {
-      this.minchar = false
+      this.minchar= false
       this.dataSource.filter = filterValue.trim().toLowerCase();
-      if (this.dataSource.filteredData.length > 0) {
+      if( this.dataSource.filteredData.length > 0){
         this.nomatch = false;
       }
       else{

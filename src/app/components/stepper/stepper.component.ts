@@ -20,15 +20,14 @@ export class StepperComponent implements OnInit {
   currentState;
   step1; step2; step3; step4; step5; step6; step7;
   stperIconStyleChange() {
+  
    let urll = this.router.url;
-   console.log('url',urll)
     if (!urll.includes('contract')) {
       this.currentState = urll.slice(1).split(";")[0].toLowerCase();
     }
     else {
-      this.currentState = urll.slice(21).split(";")[0].toLowerCase();
+      this.currentState = urll.slice(19).split(";")[0].toLowerCase();
     }
-
     // if (this.currentState == 'assign-associate') {
     // }
 
@@ -48,21 +47,23 @@ export class StepperComponent implements OnInit {
     //   }
     // }
 
-    if (this.currentState == 'booking-payout') {
+    if (this.currentState == 'booking-payout-show') {
       if (urll.includes('steper=true')) {
         this.step1 = "msaEdit"; this.step2 = "opportunityEdit";
       } else {
-        this.step1 = 'assign-associate'; this.step2 = 'branch-allocation';
+        this.step1 = 'assign-associate';
+        // this.step2 = 'branch-allocation';
       }
     }
 
-    if (this.currentState == 'booking-sla') {
+    if (this.currentState == 'booking-sla-show') {
       if (urll.includes('steper=true')) {
         this.step1 = "msaEdit"; this.step2 = "opportunityEdit";
         this.step3 = "ratecardEdit";
       } else {
-        this.step1 = 'assign-associate'; this.step2 = 'branch-allocation';
-        this.step3 = 'booking-payout';
+        this.step1 = 'assign-associate'; 
+        //this.step2 = 'branch-allocation';
+        this.step3 = 'booking-payout-show';
       }
     }
 
@@ -72,20 +73,26 @@ export class StepperComponent implements OnInit {
         this.step3 = "ratecardEdit";
         this.step4 = "billingEdit";
       } else {
-        this.step1 = 'assign-associate'; this.step2 = 'branch-allocation';
-        this.step3 = 'booking-payout';
-        this.step4 = 'booking-sla';
+        this.step1 = 'assign-associate';
+        // this.step2 = 'branch-allocation';
+        this.step3 = 'booking-payout-show';
+        this.step4 = 'booking-sla-show';
       }
     }
 
     if (this.currentState == 'preview') {
       if (urll.includes('steper=true')) {
-        this.step1 = "msaEdit"; this.step2 = "opportunityEdit";
-        this.step3 = "ratecardEdit"; this.step4 = "billingEdit"; this.step5 = "documentuploadEdit";
+        this.step1 = "msaEdit"; 
+        this.step2 = "opportunityEdit";
+        this.step3 = "ratecardEdit"; 
+        this.step4 = "billingEdit"; 
+        this.step5 = "documentuploadEdit";
       } else {
-        this.step1 = 'assign-associate'; this.step2 = 'branch-allocation';
-        this.step3 = 'booking-payout';
-        this.step4 = 'booking-sla';this.step5 = 'booking-document';
+        this.step1 = 'assign-associate'; 
+        this.step2 = 'branch-allocation';
+        this.step3 = 'booking-payout-show';
+        this.step4 = 'booking-sla';
+        this.step5 = 'booking-document';
       }
     }
   }
@@ -96,19 +103,19 @@ export class StepperComponent implements OnInit {
       exactUrl = url.slice(0).split(";")[0].toLowerCase();
       this.CommonService_.steperNextFlg = true;
       if (!url.includes('edit')) {
-        if(!this.router.url.includes('asso_cargo-contract')){
+        if(!this.router.url.includes('asso_air-contract')){
           this.router.navigate([exactUrl], {skipLocationChange: true});
         }
         else{
-          this.router.navigate(['/asso_cargo-contract'+exactUrl], {skipLocationChange: true});
+          this.router.navigate(['/asso_air-contract'+exactUrl], {skipLocationChange: true});
         }
       }
       else {
-        if(!this.router.url.includes('asso_cargo-contract')){
+        if(!this.router.url.includes('asso_air-contract')){
           this.router.navigate([exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
         }
         else{
-          this.router.navigate(['/asso_cargo-contract'+exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
+          this.router.navigate(['/asso_air-contract'+exactUrl, { steper: true, 'editflow': 'true' }], {skipLocationChange: true});
         }
       }
     }
@@ -121,13 +128,13 @@ export class StepperComponent implements OnInit {
     switch (lableValue) {
       case 'contract':
         if (this.currentState == "assign-associate") {
-          this.router.navigate(['/asso_cargo-contract/assign-associate'], { skipLocationChange: true });
+          this.router.navigate(['/asso_air-contract/assign-associate'], { skipLocationChange: true });
           return;
         } else if (this.step1 == "msaEdit") {
           this.OnNextClick('/assign-associate;edit');
           return;
         } else if (this.step1 === "assign-associate") {
-          this.router.navigate(['/asso_cargo-contract/assign-associate'], { skipLocationChange: true });
+          this.router.navigate(['/asso_air-contract/assign-associate'], { skipLocationChange: true });
           return;
         } else if (this.step1 != "assign-associate" && this.step1 != "msaEdit" && this.currentState != "assign-associate") {
           return;
@@ -135,35 +142,18 @@ export class StepperComponent implements OnInit {
           return;
         }
 
-      case 'branch':
-
-        if (this.currentState == "branch-allocation") {
-          this.router.navigate(['/asso_cargo-contract/branch-allocation'], { skipLocationChange: true });
-          return;
-        } else if (this.step2 == "opportunityEdit") {
-          this.OnNextClick('/branch-allocation;edit');
-          return;
-        } else if (this.step2 === "branch-allocation") {
-          this.router.navigate(['/asso_cargo-contract/branch-allocation'], { skipLocationChange: true });
-          return;
-        } else if (this.step2 != "branch-allocation" && this.step2 != "opportunityEdit" && this.currentState != "branch-allocation") {
-          return;
-        } else {
-          return;
-        }
-
       case 'payment':
 
-        if (this.currentState == "booking-payout") {
-          this.router.navigate(['/asso_cargo-contract/booking-payout'], { skipLocationChange: true });
+        if (this.currentState == "booking-payout-show") {
+          this.router.navigate(['/asso_air-contract/booking-payout-show'], { skipLocationChange: true });
           return;
         } else if (this.step3 == "ratecardEdit") {
-          this.OnNextClick('/booking-payout;edit');
+          this.OnNextClick('/booking-payout-show;edit');
           return;
-        } else if (this.step3 === "booking-payout") {
-          this.router.navigate(['/asso_cargo-contract/booking-payout'], { skipLocationChange: true });
+        } else if (this.step3 === "booking-payout-show") {
+          this.router.navigate(['/asso_air-contract/booking-payout-show'], { skipLocationChange: true });
           return;
-        } else if (this.step3 != "booking-payout" && this.step3 != "ratecardEdit" && this.currentState != "booking-payout") {
+        } else if (this.step3 != "booking-payout-show" && this.step3 != "ratecardEdit" && this.currentState != "booking-payout-show") {
           return;
         } else {
           return;
@@ -171,16 +161,16 @@ export class StepperComponent implements OnInit {
 
       case 'deduction':
 
-        if (this.currentState == "booking-sla") {
-          this.router.navigate(['/asso_cargo-contract/booking-sla'], { skipLocationChange: true });
+        if (this.currentState == "booking-sla-show") {
+          this.router.navigate(['/asso_air-contract/booking-sla-show'], { skipLocationChange: true });
           return;
         } else if (this.step4 == "billingEdit") {
-          this.OnNextClick('/booking-sla;edit');
+          this.OnNextClick('/booking-sla-show;edit');
           return;
-        } else if (this.step4 === "booking-sla") {
-          this.router.navigate(['/asso_cargo-contract/booking-sla'], { skipLocationChange: true });
+        } else if (this.step4 === "booking-sla-show") {
+          this.router.navigate(['/asso_air-contract/booking-sla-show'], { skipLocationChange: true });
           return;
-        } else if (this.step4 != "booking-sla" && this.step4 != "billingEdit" && this.currentState != "booking-sla") {
+        } else if (this.step4 != "booking-sla-show" && this.step4 != "billingEdit" && this.currentState != "booking-sla-show") {
           return;
         } else {
           return;
@@ -189,13 +179,13 @@ export class StepperComponent implements OnInit {
       case 'document':
 
         if (this.currentState == "booking-document") {
-          this.router.navigate(['/asso_cargo-contract/booking-document'], { skipLocationChange: true });
+          this.router.navigate(['/asso_air-contract/booking-document'], { skipLocationChange: true });
           return;
         } else if (this.step5 == "documentuploadEdit") {
           this.OnNextClick('/booking-document;edit');
           return;
         } else if (this.step5 === "booking-document") {
-          this.router.navigate(['/asso_cargo-contract/booking-document'], { skipLocationChange: true });
+          this.router.navigate(['/asso_air-contract/booking-document'], { skipLocationChange: true });
           return;
         } else if (this.step5 != "booking-document" && this.step5 != "documentuploadEdit" && this.currentState != "booking-document") {
           return;
@@ -207,6 +197,5 @@ export class StepperComponent implements OnInit {
           return;
     }
   }
-
-
 }
+

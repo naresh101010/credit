@@ -1,11 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { BookingAssociateContractComponent } from './components/booking-associate-contract/booking-associate-contract.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { CreateAssociateContractComponent } from './components/create-associate-contract/create-associate-contract.component';
 import { BranchAllocationComponent } from './components/branch-allocation/branch-allocation.component';
-import { BookingPayoutComponent } from './components/booking-payout/booking-payout.component';
-import { BookingSlaComponent } from './components/booking-sla/booking-sla.component';
 import { BookingDocumentComponent } from './components/booking-document/booking-document.component';
 import { SuccessComponent } from './components/success/success.component';
 import { CreateAssociateComponent } from './components/create-associate/create-associate.component';
@@ -21,23 +18,20 @@ import { VehicleComponent } from './components/vehicle/vehicle.component';
 import { PreviewComponent } from './components/preview/preview.component';
 import { APP_BASE_HREF } from '@angular/common';
 import { EmptyComponetComponent } from './empty-componet/empty-componet.component';
-import { StaffDocumentComponent } from './components/staff-document/staff-document.component';
+import { BookingPayoutShowComponent } from './components/booking-payout-show/booking-payout-show.component';
+import { BookingSlaShowComponent } from './components/booking-sla-show/booking-sla-show.component';
 import { ReportsComponent } from './components/reports/reports.component';
 
 const routes: Routes = [
   {
-    path: 'asso_cargo-contract',
+    path: 'asso_air-contract',
     children: [
       {
         path: "",
         component: EmptyComponetComponent
       },
       {
-        path: "booking-associate-contract",
-        component: BookingAssociateContractComponent
-      },
-      {
-        path: "asso_cargo",
+        path: "asso_air",
         component: DashboardComponent
       },
       {
@@ -52,14 +46,15 @@ const routes: Routes = [
         path: "branch-allocation",
         component: BranchAllocationComponent
       },
-      {
-        path: "booking-payout",
-        component: BookingPayoutComponent
-      },
-      {
-        path: "booking-sla",
-        component: BookingSlaComponent
-      },
+      // {
+      //   path: "booking-payout-show",
+      //   component: BookingPayoutShowComponent
+      // },
+      // {
+      //   path: "booking-sla-show",
+      //   component: BookingSlaShowComponent
+      // },
+      
       {
         path: "booking-document",
         component: BookingDocumentComponent
@@ -84,10 +79,6 @@ const routes: Routes = [
       {
         path: "vehicle-document",
         component: VehicleDocumentComponent
-      },
-      {
-        path: "staff-document",
-        component: StaffDocumentComponent
       },
       {
         path: "associate-staff",
@@ -118,9 +109,17 @@ const routes: Routes = [
         component: PreviewComponent
       },
       {
+        path: "booking-payout-show",
+        component: BookingPayoutShowComponent
+      },
+      {
+        path: "booking-sla-show",
+        component: BookingSlaShowComponent
+      },
+      {
         path: "reports",
         component: ReportsComponent
-      }
+      },
     ]
   }
 ];

@@ -3,7 +3,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import { NgxSpinnerService } from "ngx-spinner";
 import { AppSetting } from 'src/app/app.setting';
 import { Router } from '@angular/router';
-import { MatPaginator } from '@angular/material';
+import { MatDialog, MatPaginator } from '@angular/material';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthorizationService } from '../../core/services/authorization.service';
@@ -66,15 +66,13 @@ export class AssociateStaffComponent implements OnInit {
   }
 
   goToEditPage(id) {
-    this.router.navigate(['/asso_cargo-contract/create-associate-staff'], {skipLocationChange: true, queryParams: { id: id } });
+    this.router.navigate(['/asso_air-contract/create-associate-staff'], {skipLocationChange: true, queryParams: { id: id } });
   }
 
   getAssociateStaffList() {
     this.spinner.show();
     let assocId = AppSetting.associateId;
-    console.log(assocId)
     this.apiService.get(`secure/v1/associates/staffs/associate/${assocId}`).subscribe((suc) => {
-      console.log("success",suc)
       this.spinner.hide();
       this.dataSource = new MatTableDataSource(suc.data.responseData);
       setTimeout(() =>
@@ -86,22 +84,21 @@ export class AssociateStaffComponent implements OnInit {
       this.spinner.hide();
     });
   }
-/*---------- Go to Associate saff document page--------- */
-addStaffDocument(element) {
-  this.router.navigate(['/asso_cargo-contract/staff-document'], {skipLocationChange: true, queryParams: { id: element.id, staffName: element.staffFname } });
-}
 
-onSkipClick($event) {
-  $event.preventDefault();
-  this.router.navigate(['/asso_cargo-contract/create-associate-contract'], { skipLocationChange: true });
-}
+   /*---------- Go to Associate saff document page--------- */
+   addStaffDocument(element) {
+    this.router.navigate(['/asso_air-contract/staff-document'], {skipLocationChange: true, queryParams: { id: element.id, staffName: element.staffFname } });
+  }
+  onSkipClick($event) {
+    $event.preventDefault();
+    this.router.navigate(['/asso_air-contract/create-associate-contract'], { skipLocationChange: true });
+  }
 
-onSubmitClick($event) {
-  $event.preventDefault();
-  this.toaster.success('Saved Successfully');
-  this.router.navigate(['/asso_cargo-contract/create-associate-contract'], { skipLocationChange: true });
-}
-
+  onSubmitClick($event) {
+    $event.preventDefault();
+    this.toaster.success('Saved Successfully');
+    this.router.navigate(['/asso_air-contract/create-associate-contract'], { skipLocationChange: true });
+  }
 
 }
 

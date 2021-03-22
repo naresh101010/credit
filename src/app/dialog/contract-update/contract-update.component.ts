@@ -2,12 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { AssignVehicleComponent } from '../assign-vehicle/assign-vehicle.component';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { BookingAssociateContractUpdateComponent } from '../booking-associate-contract-update/booking-associate-contract-update.component';
-import { confimationdialog } from '../confirmationdialog/confimationdialog';
 
 @Component({
   selector: 'app-contract-update',
-  templateUrl: './contract-update.component.html',
-  styleUrls: ['./contract-update.component.css']
+  templateUrl: './contract-update.component.html'
 })
 export class ContractUpdateComponent implements OnInit {
 
@@ -21,7 +19,7 @@ export class ContractUpdateComponent implements OnInit {
     })
   }
 
-  openBookingContractUpdateModal() {
+  openairfreightcontractUpdateModal() {
     let dialog = this.dialog.open(BookingAssociateContractUpdateComponent, {
       width: '50vw',
       panelClass: 'mat-dialog-responsive',
@@ -37,25 +35,5 @@ export class ContractUpdateComponent implements OnInit {
   }
   submitData(data = null) {
     this.dialogRef.close(data);
-  }
-
-  closeDialog(): void {
-      
-    const dialogRefConfirm = this.dialog.open(confimationdialog, {
-      width: '300px',
-      panelClass: 'creditDialog',
-      data:{message:'Are you sure ?'},
-      disableClose: true,
-      backdropClass: 'backdropBackground'
-    });
-
-    dialogRefConfirm.afterClosed().subscribe(value => {
-      if(value){
-        this.dialogRef.close(false);
-      }else{
-        console.log('Keep Open');
-      }
-    });
-
   }
 }

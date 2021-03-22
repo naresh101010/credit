@@ -9,14 +9,15 @@ import { NgxPermissionsService } from 'ngx-permissions';
 
 @Component({
   selector: 'app-assign-vehicle',
-  templateUrl: './assign-vehicle.component.html',
-  styleUrls: ['./assign-vehicle.component.css']
+  templateUrl: './assign-vehicle.component.html'
 })
 export class AssignVehicleComponent implements OnInit {
   displayedColumns: string[] = ['vehicleNumber', 'vehicleModel', 'vehicleTonnge'];
   dataSource: any;
   allVehicle = [];
   perList: any =[];
+  exAttrMap = new Map();
+  exAttrKeyList =  [];
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private apiSer: ApiService, private SpinnerService: NgxSpinnerService, public router: Router, private toast: ToastrService, public dialogRef: MatDialogRef<AssignVehicleComponent>,
               private authorizationService : AuthorizationService,
               private permissionsService: NgxPermissionsService) { }
@@ -28,6 +29,9 @@ export class AssignVehicleComponent implements OnInit {
     this.authorizationService.setPermissions('BRANCH');
     this.perList = this.perList.concat(this.authorizationService.getPermissions('BRANCH'));
     this.permissionsService.loadPermissions(this.perList);
+    this.exAttrMap = this.authorizationService.getExcludedAttributes('ASSIGN VEHICLE');
+    this.exAttrKeyList = Array.from(this.exAttrMap.values());
+    console.log('Attribute List', this.exAttrKeyList);
     console.log('perlist',this.perList)
 
     let addArrElement = [];

@@ -6,7 +6,7 @@
         <div>
           <mat-toolbar class="breadcrumbs_nav mat-toolbar-multiple-rows">
             <mat-toolbar-row class="breadcrumbs">
-              <span><a skipLocationChange routerLink="/asso_cargo-contract/asso_cargo">Dashboard</a></span>
+              <span><a skipLocationChange routerLink="/asso_air-contract/asso_air">Dashboard</a></span>
               <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
                 arrow_right
               </mat-icon>
@@ -152,7 +152,7 @@
                     <div class="col-md-6">
                       <mat-form-field appearance="outline">
                         <input matInput name="modelYear" class="form-control" placeholder=""
-                          formControlName="vehicleModelYear" autocomplete="off" appNumberOnly pattern="^[0-9]\d*$" maxlength="8" required>
+                          formControlName="vehicleModelYear" autocomplete="off" [numbersOnly] = true pattern="^[0-9]\d*$" maxlength="8" required>
                       </mat-form-field>
                       <div class="errorMsg" *ngIf="f.vehicleModelYear.errors?.required && f.vehicleModelYear.touched">
                         <em>Required !</em></div>
@@ -234,7 +234,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate1 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate1" class="date_input_height" placeholder="" (blur)="checkValidDate(f.regUpto)"
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate1" class="date_input_height" placeholder="" (blur)="checkValidDate(f.regUpto)"
                             formControlName="regUpto" name="regUpto" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate1">
                           </mat-datepicker-toggle>
@@ -279,7 +279,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate2 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate2" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate2" class="date_input_height" placeholder=""
                             formControlName="insuUpto" (blur)="checkValidDate(f.insuUpto)" name="insuUpto" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate2">
                           </mat-datepicker-toggle>
@@ -317,7 +317,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate3 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate3" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate3" class="date_input_height" placeholder=""
                             formControlName="taxPaidDt" (blur)="checkValidDate(f.taxPaidDt)" name="taxPaidDt" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate3">
                           </mat-datepicker-toggle>
@@ -337,7 +337,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate4 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate4" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate4" class="date_input_height" placeholder=""
                             formControlName="taxPaidValidity" (blur)="checkValidDate(f.taxPaidValidity)" name="taxPaidValidity" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate4">
                           </mat-datepicker-toggle>
@@ -392,7 +392,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate5 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate5" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate5" class="date_input_height" placeholder=""
                             formControlName="pollutionCheckDt" (blur)="checkValidDate(f.pollutionCheckDt)" name="pollutionCheckDt" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate5">
                           </mat-datepicker-toggle>
@@ -411,7 +411,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate6 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate6" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate6" class="date_input_height" placeholder=""
                             formControlName="pollutionValidity" (blur)="checkValidDate(f.pollutionValidity)" name="pollutionValidity" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate6">
                           </mat-datepicker-toggle>
@@ -451,7 +451,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate7 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate7" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate7" class="date_input_height" placeholder=""
                             formControlName="fitnessCheckDt" (blur)="checkValidDate(f.fitnessCheckDt)" name="fitnessCheckDt" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate7">
                           </mat-datepicker-toggle>
@@ -470,7 +470,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate8 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate8" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate8" class="date_input_height" placeholder=""
                             formControlName="fitnessCheckValidity" (blur)="checkValidDate(f.fitnessCheckValidity)" name="fitnessCheckValidity"
                             placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate8">
@@ -533,7 +533,7 @@
                       <div class="module_area">
                         <mat-form-field class="select_box_dropwodn overline_hidden">
                           <mat-label>Select</mat-label>
-                          <mat-select formControlName="lkpVehicleBodyId">
+                          <mat-select disableOptionCentering panelClass="creditSelect" formControlName="lkpVehicleBodyId">
                             <mat-option *ngFor="let vBody of vehicleBodyList" [value]="vBody.id">
                               {{vBody.descr}}
                             </mat-option>
@@ -550,7 +550,7 @@
                     </div>
                     <div class="col-md-6">
                       <mat-form-field appearance="outline">
-                        <input matInput name="tareWt" class="form-control" placeholder="" autocomplete="off" formControlName="tareWt" appNumberOnly maxlength="4" required>
+                        <input matInput name="tareWt" class="form-control" placeholder="" autocomplete="off" formControlName="tareWt" [numbersOnly] = true maxlength="4" required>
                       </mat-form-field>
                       <div class="errorMsg" *ngIf="f.tareWt.errors?.required && f.tareWt.touched"><em>Required !</em>
                       </div>
@@ -583,7 +583,7 @@
                         <mat-form-field appearance="outline" class="date_picker_adjust">
                           <mat-datepicker #vrDate9 class="myDatepicker23">
                           </mat-datepicker>
-                          <input matInput [matDatepicker]="vrDate9" class="date_input_height" placeholder=""
+                          <input matInput autocomplete="off" [matDatepicker]="vrDate9" class="date_input_height" placeholder=""
                             formControlName="bodyPaintDt" (blur)="checkValidDate(f.bodyPaintDt)" name="bodyPaintDt" placeholder="DD/MM/YYYY" numericSpecialChar/>
                           <mat-datepicker-toggle matPrefix [for]="vrDate9">
                           </mat-datepicker-toggle>

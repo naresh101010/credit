@@ -13,8 +13,7 @@ import { AppSetting } from 'src/app/app.setting';
 
 @Component({
   selector: 'app-contractversion',
-  templateUrl: './contractversion.component.html',
-  styleUrls: ['./contractversion.component.css']
+  templateUrl: './contractversion.component.html'
 })
 export class ContractversionComponent implements OnInit {
   isEnabled:boolean=false;
@@ -51,16 +50,15 @@ export class ContractversionComponent implements OnInit {
     this.versions=[];
     this.contractVersionData=[];
     if (this.data) {
-      this.displayedColumns = [ 'checked','cntrVer', 'updDt'];
+      this.displayedColumns = ['checked', 'cntrVer','updDt'];
       this.getContractVersions(this.data.contractId);
     }
   }
   displayedColumns: string[];
-  // dataSource = this.contractVersionData;
 
   getContractVersions(id: any) {
     this.spinner.show();
-    this.apiService.get("/secure/v1/cargocontractpreview/historypreview/version/"+id)
+    this.apiService.get("secure/v1/airfreightcontractpreview/historypreview/version/"+id)
       .subscribe(suc => {
         if (suc) {
           let resData: any = suc;
@@ -73,8 +71,8 @@ export class ContractversionComponent implements OnInit {
             disabled: false,
             index: 0
           }
-          objnew.cntrVer = Number(key), 
-          objnew.date = obj[key]
+          objnew.cntrVer = Number(key);
+          objnew.date = obj[key];
           return objnew;
           });
           this.contractVersionData.push(result);
@@ -114,7 +112,7 @@ export class ContractversionComponent implements OnInit {
       if(value){
         this.dialogRefVersion.close();
       }else{
-        console.log('Keep Open');
+        //console.log('Keep Open');
       }
     });
   }
@@ -137,9 +135,10 @@ export class ContractversionComponent implements OnInit {
      if (this.rowSelected == 1) {
        this.isPreview = true;
 
-       let data = this.dataSource.find(x => x.checked);
-       this.selectedVersion= data.cntrVer;
-       this.selectedIndex= data.index;
+      let data = this.dataSource.find(x => x.checked);
+      this.selectedVersion= data.cntrVer;
+      this.selectedIndex= data.index;
+ 
      }
      if (this.rowSelected == 2) {
        this.isPreview = false;
@@ -173,7 +172,7 @@ export class ContractversionComponent implements OnInit {
       this.spinner.show();
       let ob = {
         "userId": userDt.userId, "associateEmailId": result,
-        "assocId": this.data.id
+        "assocId": AppSetting.associateId
       }
       this.exportAsService.get(this.exportAsConfig).subscribe(content => {
         let file1 = this.b64toBlob(content)
@@ -205,7 +204,36 @@ export class ContractversionComponent implements OnInit {
 
    }
 
-  openDialogPreview(btn) {
+  // openDialogVersionpreview(): void {
+  //   this.dialogRefVersion.close();
+  //   const dialogRefVersionPreview = this.dialog.open(VersionpreviewComponent, {
+  //     width: '140rem',
+  //     maxHeight: '70rem',
+  //     panelClass: 'creditDialog',
+  //     data: {contractId:this.data.contractId,version: this.selectedVersion,versionIndex:this.selectedIndex},
+  //     disableClose: true,
+  //     backdropClass: 'backdropBackground'
+  //   });
+
+  //   dialogRefVersionPreview.afterClosed().subscribe(result => {
+  //   });
+  // }
+  // openDialogCompareVersions(): void {
+  //   const dialogCompareVersions = this.dialog.open(CompareversionsComponent, {
+  //     width: '140rem',
+  //     height: '70rem',
+  //     panelClass: 'creditDialog',
+  //     data: {contractId:this.data.contractId,versions: this.versions},
+  //     disableClose: true,
+  //     backdropClass: 'backdropBackground'
+  //   });
+
+  //   dialogCompareVersions.afterClosed().subscribe(result => {
+  //   });
+  // }
+  
+
+  openDialogPreview(btn:any) {
     const dialogRefVersion = this.dialog.open(PreviewPopupComponent, {
       width: '80vw',
       panelClass: 'mat-dialog-responsive',
@@ -213,7 +241,7 @@ export class ContractversionComponent implements OnInit {
     });
 
     dialogRefVersion.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
     });
   }
 
@@ -226,7 +254,7 @@ export class ContractversionComponent implements OnInit {
     });
 
     dialogRefCompare.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      //console.log('The dialog was closed');
     });
   }
 
@@ -236,7 +264,7 @@ export class ContractversionComponent implements OnInit {
         if (event.keyCode === 27) { // esc [Close Dialog]
           event.preventDefault();
           if(document.getElementById('closeButton')){
-            let element   = document.getElementById('closeButton')  ;
+            let element: HTMLElement = document.getElementById('closeButton') as HTMLElement;
             element.click();
           }
         }

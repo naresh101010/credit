@@ -6,817 +6,662 @@
       <div class="col-md-2">
         <div class="row">
           <div class="col-md-6">
-          <p (click)="sendEmail()"><img alt="img"class="preview_email_icon" src="../assets/images/envelope.png" alt="email"> <strong>Email</strong></p>
-        </div>
-        <div class="col-md-6">
-          <button style="cursor: pointer !important;width: 12rem;font-size: 2.8rem; border: none; background: transparent;left:0; top: 0.7rem; display: flex;" [useExistingCss]="true"
-                printTitle="{{obj1?.assocName}}" printSectionId="previewContent" ngxPrint>   <img alt="img" style="margin-right: 7px; width: 22px;" src="../assets/images/printer.png"> <p style="font-weight: bold;">Print</p></button>
+            <p style="cursor: pointer !important;" (click)="sendEmail()"><img alt="img"class="preview_email_icon" src="../assets/images/envelope.png" alt="email"> <strong>Email</strong></p>
+          </div>
+          <div class="col-md-6">
+            <button style="cursor: pointer !important;width: 12rem;font-size: 2.8rem; border: none; background: transparent;left:0; top: 0.7rem; display: flex;" [useExistingCss]="true"
+                  printTitle="{{obj1?.assocName}}" printSectionId="previewContent" ngxPrint>   <img style="margin-right: 7px; width: 22px;" src="../assets/images/printer.png"> <p style="font-weight: bold;">Print</p></button>
+          </div>
         </div>
       </div>
+      <div class="col-md-1 col-md-offset-7 text-right">
+        <button mat-button class="theme-button"  [mat-dialog-close]="true">Close</button>
+      </div>
     </div>
-    <div class="col-md-1 col-md-offset-7 text-right">
-      <button mat-button class="theme-button"  [mat-dialog-close]="true">Close</button>
-    </div>
+    <hr class="border_row">
   </div>
-  <hr class="border_row">
-</div>
-<div id="previewContent" #previewContent>
-    <section class="preview_sec preview_popup">
-      <div class="container">
-        <div class="preview_main_card">
-          <section class="preview_sec_1 width-800">
-            <div class="row">
-              <div class="col-md-6">
-                <h3><strong>Cargo Associate Contract</strong></h3>
-              </div>
-              <div class="col-md-6 text-right">
-                <h3>Preview Generated on: {{currentDt | date: 'dd MMM yy'}}</h3>
-              </div>
-            </div>
-          </section>
-          <section class="preview_sec_2 width-800">
-            <div class="row">
-              <div class="col-md-6">
-                <h3  class="font-thin" [ngClass]="versionDifference?.assocName ? 'highlight' : ''"><strong class="strong-text">Associate Name:</strong> {{obj1?.assocName == null ? 'NA' : obj1?.assocName}}</h3>
-                <h3  class="font-thin" [ngClass]="versionDifference?.asscoCtrgy ? 'highlight' : ''"><strong class="strong-text">Associate Category:</strong> {{obj1?.asscoCtrgy == null ? 'NA' : obj1?.asscoCtrgy}}</h3>
-              </div>
-              <div class="col-md-6">
-                <div class="pull-right">
-                  <h3 class="font-thin" [ngClass]="versionDifference?.cntrCode ? 'highlight' : ''"><strong class="strong-text">Contract Code:</strong> {{obj1?.cntrCode == null ? 'NA' : obj1?.cntrCode}}</h3>
-                  <h3 class="font-thin" [ngClass]="versionDifference?.wefDate ? 'highlight' : ''"><strong class="strong-text">W.E.F:</strong> {{obj1?.wefDate == null ? 'NA' : obj1?.wefDate | date: 'dd/MM/yyyy'}}</h3>
+
+
+
+
+
+
+
+  <div id="previewContent" #previewContent>
+    <div class="width-1000"  style="margin: auto;">
+      <section class="preview_sec preview_popup">
+        <div class="container">
+          <div class="preview_main_card">
+            <section class="preview_sec_1 width-800">
+              <div class="row">
+                <div class="col-md-6">
+                  <h3><strong>Air Freight Contract</strong></h3>
+                </div>
+                <div class="col-md-6 text-right">
+                  <h3>Preview Generated on: {{this.currDate | date: 'dd/MM/yyyy'}}</h3>
                 </div>
               </div>
-            </div>
-          </section>
-          <section class="preview_sec_3 width-800">
-            <h3><strong>Contract Details</strong></h3>
-            <div class="row">
-              <div class="col-md-5">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Cargo Associate Type</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4 flex4" [ngClass]="versionDifference?.lkpAssocCargoTypeName ? 'highlight' : ''">
-                      {{obj1?.lkpAssocCargoTypeName == null ? 'NA' : obj1?.lkpAssocCargoTypeName}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>End Date</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4" [ngClass]="versionDifference?.expDt ? 'highlight' : ''">
-                      {{obj1?.expDt == null ? 'NA' : obj1?.expDt | date: 'dd/MM/yyyy'}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Status</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" [ngClass]="versionDifference?.cntrctStatus ? 'highlight' : ''">
-                      {{obj1?.cntrctStatus == 'EDIT' ? 'ACTIVE' : obj1?.cntrctStatus}}</div>
-                   </div>
+            </section>
+            <section class="preview_sec_2 width-800">
+              <div class="row">
+                <div class="col-md-6">
+                  <h3 [ngClass]="versionDifference?.assocName ? 'highlight' : ''"><strong class="strong-text">Associate Name:</strong> {{obj1?.assocName == null ? 'NA' : obj1?.assocName}}</h3>
+                  <h3><strong class="strong-text">Associate Category:</strong> AIR FREIGHT</h3>
                 </div>
-              </div>
-              <div class="col-md-5 col-md-offset-2">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Start Date</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4 flex4" [ngClass]="versionDifference?.effectiveDt ? 'highlight' : ''">
-                      {{obj1?.effectiveDt == null ? 'NA' : obj1?.effectiveDt | date: 'dd/MM/yyyy'}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Billing Cycle</div>
-                    <div class="mat-cell preview_table_bg_2 flex4 flex4" [ngClass]="versionDifference?.billingCyle ? 'highlight' : ''">
-                      {{obj1?.billingCyle == null ? 'NA' : obj1?.billingCyle}}</div>
+                <div class="col-md-6">
+                  <div class="text_right float_right">
+                    <h3 [ngClass]="versionDifference?.cntrCode ? 'highlight' : ''"><strong class="strong-text">Contract Code:</strong> {{obj1?.cntrCode == null ? 'NA' : obj1?.cntrCode}}</h3>
+                    <h3 [ngClass]="versionDifference?.wefDate ? 'highlight' : ''"><strong class="strong-text">W.E.F:</strong> {{obj1?.wefDate == null ? 'NA' : obj1?.wefDate | date: 'dd/MM/yyyy'}}</h3>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-          <!-------Contract Details End ----->
-  
-          <!--------- Branch Allocation Start ---------->
-          <section class="preview_sec_3 preview_sec_4 width-800">
-            <h3><strong>Allocation</strong></h3>
-            <h3 style="font-weight: bold;">Branch</h3>
-            <div class="row">
-              <div class="col-md-12">
-                <div class="mat-table prvw_tbl preview_table_2">
-                  <div class="mat-row align_item_top border_none flex-box flex-box">
-                    <div class="mat-cell pab_table_head green_th flex1 width-200"><strong>Branch Name</strong></div>
-                    <div class="mat-cell pab_table_head green_th flex2 width-200"><strong>Branch Type</strong></div>
-                    <div class="mat-cell pab_table_head green_th flex3 width-200"><strong>Effective Date</strong></div>
-                    <div class="mat-cell pab_table_head green_th flex4 width-200"><strong>Expiry Date</strong></div>
+            </section>
+            <section class="preview_sec_3 width-800">
+              <h3><strong>Contract Details</strong></h3>
+              <div class="row">
+                <div class="col-md-5">
+                  <div class="mat-table prvw_tbl  preview_table_1">
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Start Date</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4 flex4" [ngClass]="versionDifference?.effectiveDt ? 'highlight' : ''">{{obj1?.effectiveDt == null ? 'NA' : obj1?.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+                    </div>
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Billing Cycle</div>
+                      <div class="mat-cell preview_table_bg_2 flex4 flex4" [ngClass]="versionDifference?.billingCyle ? 'highlight' : ''">{{obj1?.billingCyle == null ? 'NA'  : obj1?.billingCyle}}</div>
+                    </div>
                   </div>
-                  <div class="mat-row align_item_top border_none flex-box" *ngFor="let branch of obj1?.branchAllocationPrev; let i = index"  style="page-break-inside: avoid;">
-                    <div class="mat-cell pab_table_dis1 flex1 pab_table_dis2 green_th width-200" [ngClass]="ifBranchAllocationObjChanges(branch,'branchName')?'highlight':''">
-                      {{branch?.branchName == null ? 'NA' : branch?.branchName}}</div>
-                    <div class="mat-cell pab_table_dis1 flex2 width-200" [ngClass]="ifBranchAllocationObjChanges(branch,'branchType')?'highlight':''">
-                      {{branch?.branchType == null ? 'NA' : branch?.branchType}}</div>
-                    <div class="mat-cell pab_table_dis1 flex3 width-200" [ngClass]="ifBranchAllocationObjChanges(branch,'efftvDate')?'highlight':''">
-                      {{branch?.efftvDate == null ? 'NA' : branch?.efftvDate | date: 'dd/MM/yyyy'}}</div>
-                    <div class="mat-cell pab_table_dis1 flex4 width-200" [ngClass]="ifBranchAllocationObjChanges(branch,'exprDate')?'highlight':''">
-                      {{branch?.exprDate == null ? 'NA' : branch?.exprDate | date: 'dd/MM/yyyy'}}</div>
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                  <div class="mat-table prvw_tbl  preview_table_1">
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>End Date</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" [ngClass]="versionDifference?.expDt ? 'highlight' : ''">{{obj1?.expDt == null ? 'NA' : obj1?.expDt  | date: 'dd/MM/yyyy'}}</div>
+                    </div>
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th">Status</div>
+                      <div class="mat-cell preview_table_bg_2 flex4" [ngClass]="versionDifference?.cntrctStatus ? 'highlight' : ''">{{obj1?.cntrctStatus == null ? 'NA'  : obj1?.cntrctStatus}}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </section>
-           <!--------- Branch Allocation End ---------->
-  
-            <!--------- Payment Terns Start ---------->
-          <section class="preview_sec_3 preview_sec_4 width-800">
-            <h3  style="page-break-inside: avoid;"><strong>Payment Terms</strong></h3>
-            <div class="row"  style="page-break-inside: avoid;">
-              <div class="col-md-5">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Payment Based On</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'lkpCargoPayoutOptName') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == null ? 'NA' : obj1?.paymentTermsPrev?.lkpCargoPayoutOptName}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th" *ngIf="obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER TON'"><strong>Rate Per Ton</strong></div>
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th" *ngIf="obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER PERSON'"><strong>Rate Per Person</strong></div>
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th" *ngIf="obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER VEHICLE'"><strong>Rate Per Vehicle</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'price') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">₹ {{obj1?.paymentTermsPrev?.price == null ? "0" : obj1?.paymentTermsPrev?.price }}
-                    <span *ngIf="respObject.flage"  class="material-icons">
-                      {{respObject.compare}}
-                    </span>
-                  </div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5 col-md-offset-2">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Weight Type</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'wtType') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTermsPrev?.wtType == null ? "NA" : obj1?.paymentTermsPrev?.wtType}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <section class="preview_sec_3 preview_sec_4 preview_sec_5 width-800">
-            <h3  style="page-break-inside: avoid;"><strong>Ex - Gratia</strong></h3>
-            <div class="row pb_15"  style="page-break-inside: avoid;">
-              <div class="col-md-5">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3"><strong>Ex - Gratia Applicable</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'exgratiaFlag') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTermsPrev?.exgratiaFlag === 1 ? 'YES' : 'NO'}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row" *ngIf="(obj1?.paymentTermsPrev?.exgratiaFlag == 1 && obj1?.paymentTermsPrev?.graciaList.length > 0)">
-              <div class="col-md-12">
-                <div class="mat-table prvw_tbl  preview_table_2">
-                  <div class="mat-row align_item_top border_none flex-box"  style="page-break-inside: avoid;">
-                    <div class="mat-cell pab_table_head flex1 width-200"><strong>Branch</strong></div>
-                    <div class="mat-cell pab_table_head flex2 width-200"><strong>Ex - Gratia Amount</strong></div>
-                    <div class="mat-cell pab_table_head flex3 width-200"><strong>Reason</strong></div>
-                    <div class="mat-cell pab_table_head flex4 width-100"><strong>Start Date</strong></div>
-                    <div class="mat-cell pab_table_head flex5 width-100"><strong>End Date</strong></div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box" *ngFor="let gratia of obj1?.paymentTermsPrev?.graciaList; let i = index"  style="page-break-inside: avoid;">
-                    <div class="mat-cell pab_table_dis1 flex1 pab_table_dis2  width-200" *ngIf="ifPaymentArrayObjChange(gratia,'branchName','GRATIA') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.branchName == null ? "NA" : gratia.branchName}}</div>
-                    <div class="mat-cell pab_table_dis1 flex2 width-200" *ngIf="ifPaymentArrayObjChange(gratia,'amt','GRATIA') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">₹ {{gratia.amt == null ? "0" : gratia.amt}}
-                    <span *ngIf="respObject.flage"  class="material-icons">
-                      {{respObject.compare}}
-                    </span>
-                  </div>
-                    <div class="mat-cell pab_table_dis1 flex3 width-200" *ngIf="ifPaymentArrayObjChange(gratia,'reason','GRATIA') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.reason == null ? "NA" : gratia.reason}}</div>
-                    <div class="mat-cell pab_table_dis1 flex4 width-100" *ngIf="ifPaymentArrayObjChange(gratia,'efftvDate','GRATIA') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.efftvDate == null ? "NA" : gratia.efftvDate | date: 'dd/MM/yyyy'}}</div>
-                    <div class="mat-cell pab_table_dis1 flex5 width-100" *ngIf="ifPaymentArrayObjChange(gratia,'exprDate','GRATIA') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.exprDate == null ? "NA" : gratia.exprDate | date: 'dd/MM/yyyy'}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </section>
            
-          </section>
-          <section class="preview_sec_3 preview_sec_4 preview_sec_5 width-800">
-            <h3  style="page-break-inside: avoid;"><strong>Minimum Guarantee</strong></h3>
-            <div class="row pb_15">
-              <div class="col-md-5">
-                <div class="mat-table prvw_tbl  preview_table_1"  style="page-break-inside: avoid;">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>MG Applicable</strong></div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'mgFlag') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTermsPrev?.mgFlag === 1 ? 'YES' : 'NO'}}</div>
+            <section class="preview_sec_3 width-800 preview_sec_4">
+              <h3 style="page-break-inside: avoid;"><strong>Payment Terms</strong></h3>
+              <div class="row payment_base_t" style="page-break-inside: avoid;">
+                <div class="col-md-5">
+                  <div class="mat-table prvw_tbl  preview_table_1">
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Payout Based On</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTerms,'lkpAssocAirFreightPayoutCtgyName') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">
+                        {{obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == null ? 'NA'  : obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName}}</div>
+                    </div>
+                    <!-- <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Payment Mode</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTerms,'lkpAssocAirFreightPaymentMode') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">
+                        {{obj1?.paymentTerms?.lkpAssocAirFreightPaymentMode == null ? 'NA' : obj1?.paymentTerms?.lkpAssocAirFreightPaymentMode}}</div>
+                    </div> -->
+                  </div>
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                  <div class="mat-table prvw_tbl  preview_table_1">
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Weight Type</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTerms,'weightType') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTerms?.weightType == null ? 'NA' : obj1?.paymentTerms?.weightType}}</div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div class="row" *ngIf="(obj1?.paymentTermsPrev?.mgFlag == 1 && obj1?.paymentTermsPrev?.mgList.length > 0)">
-              <div class="col-md-12">
-                <div class="mat-table prvw_tbl  preview_table_2">
-                  <div class="mat-row align_item_top border_none flex-box"  style="page-break-inside: avoid;">
-                    <div class="mat-cell pab_table_head green_th width-200"><strong>Branch</strong></div>
-                    <div class="mat-cell pab_table_head green_th width-200"><strong>MG Amount</strong></div>
-                    <div class="mat-cell pab_table_head green_th width-200"><strong>Reason</strong></div>
-                    <div class="mat-cell pab_table_head green_th width-100"><strong>Start Date</strong></div>
-                    <div class="mat-cell pab_table_head green_th width-100"><strong>End Date</strong></div>
+            </section>
+    
+            <ng-container *ngFor="let productData of obj1?.paymentTerms?.airFreightCityPrdctChrgs; let i = index"  style="page-break-inside: avoid;">
+              <section class="preview_sec_3 width-800 preview_sec_4 preview_sec_5">
+    
+                <!------ Payout Based on Product start ------->
+                <div class="row payment_base_t mt_15" style="page-break-inside: avoid;"
+                  *ngIf="obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY'">
+                  <div class="col-md-5">
+                    <div class="mat-table prvw_tbl  preview_table_1">
+                      <div class="mat-row align_item_top  border_none flex-box">
+                        <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Product Category</strong></div>
+                        <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'categoryName') as respObject" 
+                        [ngClass]="respObject.flage? 'highlight' : ''">
+                        {{productData?.prdctCtgyName == null ? 'NA' : productData?.prdctCtgyName}}
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                  <div class="mat-row align_item_top border_none flex-box" *ngFor="let gratia of obj1?.paymentTermsPrev?.mgList; let i = index"  style="page-break-inside: avoid;">
-                    <div class="mat-cell pab_table_dis1 pab_table_dis2 width-200" *ngIf="ifPaymentArrayObjChange(gratia,'branchName','MG') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia?.branchName == null ? "NA" : gratia?.branchName}}</div>
-                    <div class="mat-cell pab_table_dis1 width-200" *ngIf="ifPaymentArrayObjChange(gratia,'amt','MG') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">₹ {{gratia?.amt == null ? "0" : gratia?.amt}}
-                    <span *ngIf="respObject.flage"  class="material-icons">
-                      {{respObject.compare}}
-                    </span>
+                </div>
+                <!------ Payout Based on Product end ------->
+    
+                <!------ Payout Based on City start ------->
+                <div class="row payment_base_t"  style="page-break-inside: avoid;"
+                  *ngIf="obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'CITY BASIS'">
+                  <div class="col-md-5">
+                    <div class="mat-table prvw_tbl  preview_table_1">
+                      <div class="mat-row align_item_top  border_none flex-box">
+                        <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>From City</strong></div>
+                        <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'fromCity') as respObject" 
+                        [ngClass]="respObject.flage? 'highlight' : ''">{{productData?.fromCity == null ? 'NA' : productData?.fromCity}}</div>
+                      </div>
+                    </div>
                   </div>
-                    <div class="mat-cell pab_table_dis1 width-200" *ngIf="ifPaymentArrayObjChange(gratia,'reason','MG') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia?.reason == null ? "NA" : gratia?.reason}}</div>
-                    <div class="mat-cell pab_table_dis1 width-100" *ngIf="ifPaymentArrayObjChange(gratia,'efftvDate','MG') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia?.efftvDate == null ? "NA" : gratia?.efftvDate | date: 'dd/MM/yyyy'}}</div>
-                    <div class="mat-cell pab_table_dis1 width-100" *ngIf="ifPaymentArrayObjChange(gratia,'exprDate','MG') as respObject"
-                    [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia?.exprDate == null ? "NA" : gratia?.exprDate | date: 'dd/MM/yyyy'}}</div>
+                  <div class="col-md-5 col-md-offset-2">
+                    <div class="mat-table prvw_tbl  preview_table_1">
+                      <div class="mat-row align_item_top  border_none flex-box">
+                        <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>To City</strong></div>
+                        <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'tocity') as respObject" 
+                        [ngClass]="respObject.flage? 'highlight' : ''">{{productData?.tocity == null ? 'NA' : productData?.tocity }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!------ Payout Based on City end ------->
+    
+                <!--  Rate Per KG start-->
+                <ng-container *ngIf="productData?.wtCalcCategory == 'RATE PER KG'">
+                  <h3  style="page-break-inside: avoid;"><strong>Rate Per KG</strong></h3>
+                  <div class="row"  style="page-break-inside: avoid;">
+                      <div class="col-md-5">
+                        <div class="mat-table prvw_tbl  preview_table_1">
+                          <div class="mat-row align_item_top  border_none flex-box">
+                            <div class="mat-cell preview_table_bg_1 flex3">Rate Per KG</div>
+                            <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'ratePerKg') as respObject" 
+                            [ngClass]="respObject.flage? 'highlight' : ''">₹ {{productData?.ratePerKg == null ? '0' : productData?.ratePerKg}}
+                            <span *ngIf="respObject.flage"  class="material-icons">
+                              {{respObject.compare}}
+                            </span>
+                          </div>
+                          </div>
+                          <div class="mat-row align_item_top  border_none flex-box">
+                            <div class="mat-cell preview_table_bg_1 flex3">Start Date</div>
+                            <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'startDate') as respObject" 
+                            [ngClass]="respObject.flage? 'highlight' : ''">
+                              {{productData?.startDate == null ? 'NA' : productData?.startDate  | date: 'dd/MM/yyyy'}}</div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-md-5 col-md-offset-2">
+                        <div class="mat-table prvw_tbl  preview_table_1">
+                          <div class="mat-row align_item_top  border_none flex-box">
+                            <div class="mat-cell preview_table_bg_1 flex3">Minimum Amt. Per Air Waybill</div>
+                            <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'minAmt') as respObject" 
+                            [ngClass]="respObject.flage? 'highlight' : ''">₹ {{productData?.minAmt == null ? '0' : productData?.minAmt}}
+                            <span *ngIf="respObject.flage"  class="material-icons">
+                              {{respObject.compare}}
+                            </span>
+                          </div>
+                          </div>
+                          <div class="mat-row align_item_top  border_none flex-box">
+                            <div class="mat-cell preview_table_bg_1 flex3">End Date</div>
+                            <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'endDate') as respObject" 
+                            [ngClass]="respObject.flage? 'highlight' : ''">
+                              {{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'dd/MM/yyyy' }}</div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                </ng-container>
+                <!--  Rate Per KG end-->
+    
+                <!-- Total Weight start -->
+                <ng-container *ngIf="productData?.wtCalcCategory == 'TOTAL WEIGHT'">
+                  <h3 style="page-break-inside: avoid;"><strong>Total Weight</strong></h3>
+                  <div class="row payment_base_t" style="page-break-inside: avoid;">
+                    <div class="col-md-6">
+                      <div class="mat-table prvw_tbl  preview_table_2 pb_td">
+                        <div class="mat-row align_item_top  border_none flex-box">
+                          <div class="mat-cell pab_table_head pb_tb_hd flex1">Slab Definition (In KG)</div>
+                          <div class="mat-cell pab_table_head pb_tb_hd flex2">Rate Per KG</div>
+                        </div>
+                        <div class="mat-row align_item_top  border_none flex-box"
+                          *ngFor="let slab of productData?.airFreightWtSlabChrgs | sortBy:'asc':'slabFrom'; let i = index">
+                          <div class="mat-cell pab_table_dis1 pb_tb_hd flex1 pab_table_dis2" *ngIf="compareSlabData(productData,slab,'slabTo') as respObject" 
+                          [ngClass]="respObject.flage? 'highlight' : ''">{{slab?.slabFrom == null ? 'NA' : slab?.slabFrom}} -
+                            {{slab?.slabTo == null ? 'NA' : slab?.slabTo}}</div>
+                          <div class="mat-cell pab_table_dis1 pb_tb_hd flex2" *ngIf="compareSlabData(productData,slab,'price') as respObject" 
+                          [ngClass]="respObject.flage? 'highlight' : ''">₹ {{slab?.price == null ? '0' : slab?.price}}
+                          <span *ngIf="respObject.flage"  class="material-icons">
+                            {{respObject.compare}}
+                          </span>
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+    
+                  <div class="row payment_base_t mt_15" style="page-break-inside: avoid;">
+                    <div class="col-md-5">
+                      <div class="mat-table prvw_tbl  preview_table_1">
+                        <div class="mat-row align_item_top  border_none flex-box">
+                          <div class="mat-cell preview_table_bg_1 flex3">Minimum Amt. Per Air Waybill</div>
+                          <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'minAmt') as respObject" 
+                          [ngClass]="respObject.flage? 'highlight' : ''">₹ {{productData?.minAmt == null ? '0' : productData?.minAmt}}
+                          <span *ngIf="respObject.flage"  class="material-icons">
+                            {{respObject.compare}}
+                          </span>
+                        </div>
+                        </div>
+                        <div class="mat-row align_item_top  border_none flex-box">
+                          <div class="mat-cell preview_table_bg_1 flex3">End Date</div>
+                          <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'endDate') as respObject" 
+                          [ngClass]="respObject.flage? 'highlight' : ''">
+                            {{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'dd/MM/yyyy' }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-5 col-md-offset-2">
+                      <div class="mat-table prvw_tbl  preview_table_1">
+                        <div class="mat-row align_item_top  border_none flex-box">
+                          <div class="mat-cell preview_table_bg_1 flex3">Start Date</div>
+                          <div class="mat-cell preview_table_bg_2 flex4" *ngIf="compareCityProductCharges(productData,'startDate') as respObject" 
+                          [ngClass]="respObject.flage? 'highlight' : ''">
+                            {{productData?.startDate == null ? 'NA' : productData?.startDate  | date: 'dd/MM/yyyy'}}</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </ng-container>
+                <!-- Total Weight end -->
+              </section>
+            </ng-container>
+            
+            <section class="preview_sec_3 width-800 preview_sec_4">
+              <h3 style="page-break-inside: avoid;"><strong>Deductions</strong></h3>
+              <div class="row payment_base_t" style="page-break-inside: avoid;">
+                <div class="col-md-5">
+                  <div class="mat-table prvw_tbl  preview_table_1">
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>SLA Applicable</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.deduction,'slaFlag') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.deduction?.slaFlag === 1 ? 'Yes' : 'No'}}</div>
+                    </div>
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Late Arrival Penalty</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.deduction,'lateArrFlag') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.deduction?.lateArrFlag === 1 ? 'Yes' : 'No'}}</div>
+                    </div>
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Maximum Deduction</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.deduction,'maxDedctn') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">₹ {{obj1?.deduction?.maxDedctn == null ? '0' : obj1?.deduction?.maxDedctn}}
+                      <span *ngIf="respObject.flage"  class="material-icons">
+                        {{respObject.compare}}
+                      </span>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-5 col-md-offset-2">
+                  <div class="mat-table prvw_tbl  preview_table_1">
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Deduction Against Loss of Material</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.deduction,'dedctnLostFlag') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.deduction?.dedctnLostFlag === 1 ? 'Yes' : 'No'}}</div>
+                    </div>
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Late Arrival Charge(Per Hour Delay)</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.deduction,'lateArrChrg') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">₹ {{obj1?.deduction?.lateArrChrg == null ? '0' : obj1?.deduction?.lateArrChrg}}
+                      <span *ngIf="respObject.flage"  class="material-icons">
+                        {{respObject.compare}}
+                      </span>
+                    </div>
+                    </div>
+                    <div class="mat-row align_item_top  border_none flex-box">
+                      <div class="mat-cell preview_table_bg_1 flex3 green_th"><strong>Offload Deduction</strong></div>
+                      <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.deduction,'offloadDedctn') as respObject" 
+                      [ngClass]="respObject.flage? 'highlight' : ''">₹ {{obj1?.deduction?.offloadDedctn  ? obj1?.deduction?.lateArrChrg : '0'}}
+                      <span *ngIf="respObject.flage"  class="material-icons">
+                        {{respObject.compare}}
+                      </span>
+                    </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-             <div class="row payment_base_t"  style="page-break-inside: avoid;">
-              <div class="col-md-5">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3">Promotion Applicable</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'promoFlag') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTermsPrev?.promoFlag === 1 ? 'YES' : 'NO'}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3">Remarks</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'addtnlExpnsRemark') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTermsPrev?.addtnlExpnsRemark ? obj1?.paymentTermsPrev?.addtnlExpnsRemark  : 'NA'}}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5 col-md-offset-2">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3">Additional Expense</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'addtnlExpnsFlag') as respObject"
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTermsPrev?.addtnlExpnsFlag === 1 ? 'YES' : 'NO'}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-          <!---------Payment Terms End  ---------->
-  
-          <!--------- Deductions Start ---------->
-          <section class="preview_sec_3 preview_sec_4 width-800">
-            <h3><strong>Deductions</strong></h3>
-            <div class="row payment_base_t" *ngIf="obj1?.cargoDeductionPrev?.cargoSlaList.length > 0">
-              <div class="col-md-9">
-                <div class="mat-table prvw_tbl  preview_table_2">
-                  <div class="mat-row align_item_top border_none flex-box"  style="page-break-inside: avoid;">
-                    <div class="mat-cell pab_table_head green_th"><strong>Vehicle Type</strong></div>
-                    <div class="mat-cell pab_table_head green_th"><strong>Loading Time</strong></div>
-                    <div class="mat-cell pab_table_head green_th"><strong>Unloading Time</strong></div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box" *ngFor="let sla of obj1?.cargoDeductionPrev?.cargoSlaList; let i = index"  style="page-break-inside: avoid;">
-                    <div class="mat-cell pab_table_dis1 pab_table_dis2" *ngIf="compareSlaDeductions(sla,'vehicleType') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{sla.vehicleType == null ? 'NA' : sla.vehicleType}}</div>
-                    <div class="mat-cell pab_table_dis1" *ngIf="compareSlaDeductions(sla,'loadingTime') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{sla.loadingTime == null ? 'NA' : sla.loadingTime}}</div>
-                    <div class="mat-cell pab_table_dis1" *ngIf="compareSlaDeductions(sla,'unloadingTime') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{sla.unloadingTime == null ? 'NA' : sla.unloadingTime}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row"  style="page-break-inside: avoid;">
-              <div class="col-md-5">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Mishandling Charges</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'mishandlingFlag') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.mishandlingFlag === 1 ? 'YES' : 'NO'}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Schedule Late Penalty</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'schLatePnltyFlag') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.schLatePnltyFlag === 1 ? 'YES' : 'NO'}}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5 col-md-offset-2">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Remarks</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'mishandlingRemark') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.mishandlingRemark ? obj1?.cargoDeductionPrev?.mishandlingRemark : 'NA'}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Remarks</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'schLatePnltyRemark') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.schLatePnltyRemark ? obj1?.cargoDeductionPrev?.schLatePnltyRemark : 'NA'}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
-  
-          <section class="preview_sec_3 preview_sec_4 preview_sec_5 width-800">
-            <h3  style="page-break-inside: avoid;"><strong>Advance Amount Applicable</strong></h3>
-            <div class="row"  style="page-break-inside: avoid;">
-              <div class="col-md-5">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Advance Amount Applicable</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmtFlag') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.advncDedctnAmtFlag ===1 ? 'YES' : 'NO'}}</div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box" *ngIf="obj1?.cargoDeductionPrev?.advncDedctnAmtFlag==1">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Start Date</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmtFromDt') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.advncDedctnAmtFromDt == null ? 'NA' : obj1?.cargoDeductionPrev?.advncDedctnAmtFromDt | date: 'dd/MM/yyyy'}}</div>
-                  </div>
-                </div>
-              </div>
-              <div class="col-md-5 col-md-offset-2" *ngIf="obj1?.cargoDeductionPrev?.advncDedctnAmtFlag==1">
-                <div class="mat-table prvw_tbl  preview_table_1">
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">Advance Amount to be Deducted</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmt') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">₹ {{obj1?.cargoDeductionPrev?.advncDedctnAmt == null ? '0' : obj1?.cargoDeductionPrev?.advncDedctnAmt}}
-                    <span *ngIf="respObject.flage"  class="material-icons">
-                      {{respObject.compare}}
-                    </span>
-                  </div>
-                  </div>
-                  <div class="mat-row align_item_top border_none flex-box">
-                    <div class="mat-cell preview_table_bg_1 flex3 green_th">End Date</div>
-                    <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmtToDt') as respObject" 
-                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.advncDedctnAmtToDt == null ? 'NA' : obj1?.cargoDeductionPrev?.advncDedctnAmtToDt | date: 'dd/MM/yyyy'}}</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          <hr class="billingHr">
-          </section>
+            </section>
           </div>
         </div>
       </section>
+     
+    </div>
+    <hr class="billingHr width-1000">
   </div>
   
 
 
 
-<!-- for print only naresh -->
-<div class="previewHeading" style=" display: none;" id="printing">
-  <h2>Cargo Associate Contract</h2>
-  <!-- customer details -->
-  <table aria-describedby="table" class="table_compare" id="Cargo Associate Contract">
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">--</th>
-      </tr>
-      <tr>
-        <td style="width:400px">
-          <div [ngClass]="versionDifference?.assocName ? 'highlight' : ''">
-            Associate Name:{{obj1?.assocName == null  ? 'NA' : obj1?.assocName}}
-          </div>
-        </td>
-
-        <td style="width:400px">
-          <div [ngClass]="versionDifference?.cntrCode ? 'highlight' : ''"><strong>Contract Code:</strong>
-            {{obj1?.cntrCode == null  ? 'NA' : obj1?.cntrCode}}</div>
-       </td>
-      
-      </tr>
-      <tr>
-        <td style="width:400px">
-          <div [ngClass]="versionDifference?.asscoCtrgy ? 'highlight' : ''">
-            Associate Category: {{obj1?.asscoCtrgy == null  ? 'NA' : obj1?.asscoCtrgy}}
-          </div>
-        </td>
-      
-        <td style="width:400px">
-          <div [ngClass]="versionDifference?.wefDate ? 'highlight' : ''"><strong>W.E.F:</strong>
-            {{obj1?.wefDate == null  ? 'NA' : obj1?.wefDate | date: 'dd/MM/yyyy'}}</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- end customer details -->
-  <!-- Contract Details -->
-  <table aria-describedby="table" class="table_compare fourCol" id="Contract Details">
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">--</th>
-        <th scope="col" style="width:400px">---</th>
-        <th scope="col" style="width:400px">----</th>
-      </tr>
-      <tr>
-        <td>Cargo Associate Type</td>
-        <td>
-          <div [ngClass]="versionDifference?.lkpAssocCargoTypeName ? 'highlight' : ''"> {{obj1?.lkpAssocCargoTypeName == null  ? 'NA' : obj1?.lkpAssocCargoTypeName}}
-          </div>
-        </td>
-        <td><strong>Start Date</strong></td>
-        <td>
-          <div [ngClass]="versionDifference?.effectiveDt ? 'highlight' : ''"> {{obj1?.effectiveDt == null  ? 'NA' : obj1?.effectiveDt | date: 'dd/MM/yyyy'}}
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>End Date</td>
-        <td>
-          <div [ngClass]="versionDifference?.expDt ? 'highlight' : ''"> {{obj1?.expDt == null  ? 'NA' : obj1?.expDt | date: 'dd/MM/yyyy'}}</div>
-        </td>
-        <td>Billing Cycle</td>
-        <td>
-          <div [ngClass]="versionDifference?.billingCyle ? 'highlight' : ''"> {{obj1?.billingCyle == null  ? 'NA' : obj1?.billingCyle}}</div>
-        </td>
-      </tr>
-      <tr>
-        <td>Status</td>
-        <td>
-          <div [ngClass]="versionDifference?.cntrctStatus ? 'highlight' : ''">
-            {{obj1?.cntrctStatus == 'EDIT' ? 'ACTIVE' : obj1?.cntrctStatus}}</div>
-        </td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- end Contract Details -->
-  <!--------- Branch Allocation Start ---------->
-  <table aria-describedby="table" class="table_compare fourCol" id="Allocation" data-h5="Branch" data-heading="show">
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">Name</th>
-        <th scope="col" style="width:400px">Branch Type</th>
-        <th scope="col" style="width:400px">Effective Date</th>
-        <th scope="col" style="width:400px">Expiry Date</th>
-      </tr>
-      <tr *ngFor="let branch of obj1?.branchAllocationPrev; let i = index">
-        <td>  <div [ngClass]="ifBranchAllocationObjChanges(branch,'branchName')?'highlight':''">{{branch?.branchName == null  ? 'NA' : branch?.branchName}}</div></td>
-        <td> <div [ngClass]="ifBranchAllocationObjChanges(branch,'branchType')?'highlight':''"> {{branch?.branchType == null  ? 'NA' : branch?.branchType}}</div></td>
-        <td> <div [ngClass]="ifBranchAllocationObjChanges(branch,'efftvDate')?'highlight':''">{{branch?.efftvDate == null  ? 'NA' : branch?.efftvDate | date: 'dd/MM/yyyy'}}</div></td>
-        <td> <div [ngClass]="ifBranchAllocationObjChanges(branch,'exprDate')?'highlight':''"> {{branch?.exprDate == null  ? 'NA' : branch?.exprDate | date: 'dd/MM/yyyy'}}</div></td>
-                  
-                  
-                  
-                  
-      </tr>
-    </tbody>
-  </table>
-
- 
-  <!--------- Branch Allocation End ---------->
-  <!--------- Payment Terns Start ---------->
-  <table aria-describedby="table" class="table_compare fourCol" id="Payment Terms">
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">--</th>
-        <th scope="col" style="width:400px">---</th>
-        <th scope="col" style="width:400px">----</th>
-      </tr>
-      <tr>
-        <td>Payment Based On</td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'lkpCargoPayoutOptName') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> {{obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == null  ? 'NA' : obj1?.paymentTermsPrev?.lkpCargoPayoutOptName }}</div>
-        </td>
-
-        <td><strong>Weight Type</strong></td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'wtType') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> {{obj1?.paymentTermsPrev?.wtType == null  ? 'NA' : obj1?.paymentTermsPrev?.wtType}}</div>
-        </td>
-      </tr>
-
-
-
-      <tr>
-        <td>
-             <div *ngIf="obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER TON'">
-               <strong>Rate Per Ton</strong></div>
-             <div *ngIf="obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER PERSON'">
-               <strong>Rate Per Person</strong></div>
-             <div *ngIf="obj1?.paymentTermsPrev?.lkpCargoPayoutOptName == 'RATE PER VEHICLE'">
-               <strong>Rate Per Vehicle</strong></div>
-        </td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'price') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> RS.{{obj1?.paymentTermsPrev?.price == null  ? '0' : obj1?.paymentTermsPrev?.price}} <span
-              *ngIf="respObject.flage" class="material-icons"> {{respObject.compare}} </span>
-          </div>
-        </td>
-        <td></td>
-        <td></td>
-      </tr>
-
-
-
-
-    </tbody>
-  </table>
-  <!-- Ex - Gratia -->
-  <table aria-describedby="table" class="table_compare fourCol" id="Ex - Gratia">
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">--</th>
-        <th scope="col" style="width:400px">---</th>
-        <th scope="col" style="width:400px">----</th>
-      </tr>
-      <tr>
-        <td>Ex - Gratia Applicable</td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'exgratiaFlag') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''">
-            {{obj1?.paymentTermsPrev?.exgratiaFlag === 1 ? 'YES' : 'NO'}}</div>
-        </td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-
-  <!-- <div class="row" *ngIf="(obj1?.paymentTermsPrev?.exgratiaFlag == 1 && obj1?.paymentTermsPrev?.graciaList.length > 0)">
-    <div class="col-md-11">
-      <div class="mat-table prvw_tbl  preview_table_2">
-        <div class="mat-row border_none flex-box">
-          <div class="mat-cell pab_table_head flex1"><strong>Branch</strong></div>
-          <div class="mat-cell pab_table_head flex2"><strong>Ex - Gratia Amount</strong></div>
-          <div class="mat-cell pab_table_head flex3"><strong>Reason</strong></div>
-          <div class="mat-cell pab_table_head flex4"><strong>Start Date</strong></div>
-          <div class="mat-cell pab_table_head flex5"><strong>End Date</strong></div>
-        </div>
-        <div class="mat-row border_none flex-box" *ngFor="let gratia of obj1?.paymentTermsPrev?.graciaList; let i = index">
-          <div class="mat-cell pab_table_dis1 flex1 pab_table_dis2" *ngIf="ifPaymentArrayObjChange(gratia,'branchName','GRATIA') as respObject"
-          [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.branchName}}</div>
-          <div class="mat-cell pab_table_dis1 flex2" *ngIf="ifPaymentArrayObjChange(gratia,'amt','GRATIA') as respObject"
-          [ngClass]="respObject.flage ? 'highlight' : ''">Rs. {{gratia.amt}}
-          <span *ngIf="respObject.flage"  class="material-icons">
-            {{respObject.compare}}
-          </span>
-        </div>
-          <div class="mat-cell pab_table_dis1 flex3" *ngIf="ifPaymentArrayObjChange(gratia,'reason','GRATIA') as respObject"
-          [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.reason}}</div>
-          <div class="mat-cell pab_table_dis1 flex4" *ngIf="ifPaymentArrayObjChange(gratia,'efftvDate','GRATIA') as respObject"
-          [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.efftvDate | date: 'dd/MM/yyyy'}}</div>
-          <div class="mat-cell pab_table_dis1 flex5" *ngIf="ifPaymentArrayObjChange(gratia,'exprDate','GRATIA') as respObject"
-          [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.exprDate | date: 'dd/MM/yyyy'}}</div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-  <!-- end Ex - Gratia -->
-  <!-- Branch -->
-  <table aria-describedby="table" data-page="newPage" class="table_compare fiveCol" id="`" data-heading="show"
-  *ngIf="(obj1?.paymentTermsPrev?.exgratiaFlag == 1 && obj1?.paymentTermsPrev?.graciaList.length > 0)">
-    <tbody>
-      <tr>
-        <th scope="col">Branch</th>
-        <th scope="col">Ex - Gratia Amount</th>
-        <th scope="col">Reason</th>
-        <th scope="col">Start Date</th>
-        <th scope="col">End Date</th>
-      </tr>
-      <tr *ngFor="let gratia of obj1?.paymentTermsPrev?.graciaList; let i = index">
-        <td>
-          <div *ngIf="ifPaymentArrayObjChange(gratia,'branchName','GRATIA') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.branchName == null  ? 'NA' : gratia.branchName}}</div>
-        </td>
-        <td>
-          <div *ngIf="ifPaymentArrayObjChange(gratia,'amt','GRATIA') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''">Rs. {{gratia.amt == null  ? '0' : gratia.amt}} <span *ngIf="respObject.flage"
-              class="material-icons"> {{respObject.compare}} </span>
-          </div>
-        </td>
-        <td>
-          <div *ngIf="ifPaymentArrayObjChange(gratia,'reason','GRATIA') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia.reason == null  ? 'NA' : gratia.reason}}</div>
-        </td>
-        <td>
-          <div *ngIf="ifPaymentArrayObjChange(gratia,'efftvDate','GRATIA') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''"> {{gratia.efftvDate == null  ? 'NA' : gratia.efftvDate  | date: 'dd/MM/yyyy'}}</div>
-        </td>
-        <td>
-          <div class="mat-cell pab_table_dis1 flex5"
-            *ngIf="ifPaymentArrayObjChange(gratia,'exprDate','GRATIA') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''"> {{gratia.exprDate == null  ? 'NA' : gratia.exprDate | date: 'dd/MM/yyyy'}}</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- end Branch -->
-  <!-- minium Guarantee -->
-  <table aria-describedby="table" class="table_compare fourCol h5" id="Minimum Guarantee">
-    <tbody>
-      <tr>
-        <th scope="col">-</th>
-        <th scope="col">-</th>
-        <th scope="col">--</th>
-        <th scope="col">---</th>
-      </tr>
-      <tr>
-        <td>MG Applicable</td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'mgFlag') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> {{obj1?.paymentTermsPrev?.mgFlag === 1 ? 'YES' : 'NO'}}
-          </div>
-        </td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- end minium Guarantee -->
-  <!-- Branch -->
-  <table aria-describedby="table" class="table_compare fiveCol" data-heading="show"
-   *ngIf="(obj1?.paymentTermsPrev?.mgFlag == 1 && obj1?.paymentTermsPrev?.mgList.length > 0)">
-    <tbody>
-      <tr>
-        <th scope="col">Branch</th>
-        <th scope="col">MG Amount</th>
-        <th scope="col">Reason</th>
-        <th scope="col">Start Date</th>
-        <th scope="col">End Date</th>
-      </tr>
-      <tr *ngFor="let gratia of obj1?.paymentTermsPrev?.mgList; let i = index">
-        <td>
-          <div *ngIf="ifPaymentArrayObjChange(gratia,'branchName','MG') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia?.branchName == null  ? 'NA' : gratia?.branchName }}</div>
-        </td>
-        <td>
-          <div class="mat-cell pab_table_dis1" *ngIf="ifPaymentArrayObjChange(gratia,'amt','MG') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''">Rs. {{gratia?.amt == null  ? '0' : gratia?.amt }} <span *ngIf="respObject.flage"
-              class="material-icons"> {{respObject.compare}} </span>
-          </div>
-        </td>
-        <td>
-          <div class="mat-cell pab_table_dis1" *ngIf="ifPaymentArrayObjChange(gratia,'reason','MG') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''">{{gratia?.reason == null  ? 'NA' : gratia?.reason}}</div>
-        </td>
-        <td>
-          <div class="mat-cell pab_table_dis1" *ngIf="ifPaymentArrayObjChange(gratia,'efftvDate','MG') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''"> {{gratia?.efftvDate == null  ? 'NA' : gratia?.efftvDate  | date: 'dd/MM/yyyy'}}</div>
-        </td>
-        <td>
-          <div class="mat-cell pab_table_dis1" *ngIf="ifPaymentArrayObjChange(gratia,'exprDate','MG') as respObject"
-            [ngClass]="respObject.flage ? 'highlight' : ''"> {{gratia?.exprDate == null  ? 'NA' : gratia?.exprDate | date: 'dd/MM/yyyy'}}</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- end Branch -->
-  <!-- Promotion applicable -->
-  <table aria-describedby="table" class="table_compare fourCol">
-    <tbody>
-      <tr>
-        <th scope="col">-</th>
-        <th scope="col">--</th>
-        <th scope="col">--</th>
-        <th scope="col">-</th>
-      </tr>
-      <tr>
-        <td>Promotion Applicable</td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'promoFlag') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> {{obj1?.paymentTermsPrev?.promoFlag === 1 ? 'YES' : 'NO'}}
-          </div>
-        </td>
-        <td>Additional Expense</td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'addtnlExpnsFlag') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''">
-            {{obj1?.paymentTermsPrev?.addtnlExpnsFlag === 1 ? 'YES' : 'NO'}}</div>
-        </td>
-      </tr>
-      <tr>
-        <td>Remarks</td>
-        <td>
-          <div *ngIf="ifPaymentChange(obj1?.paymentTermsPrev,'addtnlExpnsRemark') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> {{obj1?.paymentTermsPrev?.addtnlExpnsRemark ? obj1?.paymentTermsPrev?.addtnlExpnsRemark : 'NA'}}</div>
-        </td>
-        <td></td>
-        <td></td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- end Promotion applicable -->
-  <!---------Payment Terms End  ---------->
-  <table aria-describedby="table" class="table_compare threeCol" id="Deductions"
-  *ngIf="obj1?.cargoDeductionPrev?.cargoSlaList.length > 0" data-heading="show">
-   
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">Vehicle Type</th>
-        <th scope="col" style="width:400px">Loading Time</th>
-        <th scope="col" style="width:400px">Unloading Time</th>
-      </tr>
-      <tr *ngFor="let sla of obj1?.cargoDeductionPrev?.cargoSlaList; let i = index">
-        <td>
-          <div *ngIf="compareSlaDeductions(sla,'vehicleType') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''">{{sla.vehicleType == null  ? 'NA' : sla.vehicleType}}</div>
-        </td>
-        <td>
-          <div class="mat-cell pab_table_dis1" *ngIf="compareSlaDeductions(sla,'loadingTime') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''">{{sla.loadingTime == null  ? 'NA' : sla.loadingTime }}</div>
-        </td>
-        <td>
-          <div class="mat-cell pab_table_dis1" *ngIf="compareSlaDeductions(sla,'unloadingTime') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''">{{sla.unloadingTime == null  ? 'NA' : sla.unloadingTime }}</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-
-  <table aria-describedby="table" class="table_compare fourCol"  >
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">--</th>
-        <th scope="col" style="width:400px">--</th>
-      </tr>
-      <tr>
-        <td>Mishandling Charges</td>
-        <td>
-          <div *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'mishandlingFlag') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''">
-            {{obj1?.cargoDeductionPrev?.mishandlingFlag === 1 ? 'YES' : 'NO'}}</div>
-        </td>
-        <td>Remarks</td>
-        <td>
-          <div *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'mishandlingRemark') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> {{obj1?.cargoDeductionPrev?.mishandlingRemark ? obj1?.cargoDeductionPrev?.mishandlingRemark : 'NA' }}</div>
-        </td>
-      </tr>
-      <tr>
-        <td>Schedule Late Penalty</td>
-        <td>
-          <div *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'schLatePnltyFlag') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''">
-            {{obj1?.cargoDeductionPrev?.schLatePnltyFlag === 1 ? 'YES' : 'NO'}}</div>
-        </td>
-        <td>Remarks</td>
-        <td>
-          <div *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'schLatePnltyRemark') as respObject"
-            [ngClass]="respObject.flage? 'highlight' : ''"> {{obj1?.cargoDeductionPrev?.schLatePnltyRemark ? obj1?.cargoDeductionPrev?.schLatePnltyRemark : 'NA' }}</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <table aria-describedby="table" class="table_compare fourCol h5" id="Advance Amount Applicable">
-    <tbody>
-      <tr>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">-</th>
-        <th scope="col" style="width:400px">--</th>
-        <th scope="col" style="width:400px">--</th>
-      </tr>
-      <tr>
-        <td>Advance Amount Applicable</td>
-        <td>
-          <div *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmtFlag') as respObject" 
-          [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.advncDedctnAmtFlag ===1 ? 'YES' : 'NO'}}</div>
-        </td>
-
-
-
-
-        <td>
-          <div *ngIf="obj1?.cargoDeductionPrev?.advncDedctnAmtFlag==1"> Start Date </div>
-        </td>
-        <td>
-          <div class="mat-cell preview_table_bg_2 flex4" *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmtFromDt') as respObject" 
-          [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.advncDedctnAmtFromDt == null  ? 'NA' : obj1?.cargoDeductionPrev?.advncDedctnAmtFromDt | date: 'dd/MM/yyyy'}}</div>
-        </td>
-
-
-
-      </tr>
-      <tr *ngIf="obj1?.cargoDeductionPrev?.advncDedctnAmtFlag==1">
-        <td>Advance Amount to be Deducted</td>
-        <td>
-          <div  *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmt') as respObject" [ngClass]="respObject.flage? 'highlight' : ''">RS. {{obj1?.cargoDeductionPrev?.advncDedctnAmt == null  ? '0' : obj1?.cargoDeductionPrev?.advncDedctnAmt}}</div>
-        </td>
-        <td>End Date</td>
-        <td>
-          <div  *ngIf="ifDeductionChange(obj1?.cargoDeductionPrev,'advncDedctnAmtToDt') as respObject" 
-          [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.cargoDeductionPrev?.advncDedctnAmtToDt == null  ? 'NA' : obj1?.cargoDeductionPrev?.advncDedctnAmtToDt | date: 'dd/MM/yyyy'}}</div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <!-- end deduction -->
-</div>
 
 
 
   
+
+  <div class="previewHeading" style=" display: none;" id="printing">
+    <h2>Delivery Associate Contract</h2>
+    <!-- customer details -->
+    <table aria-describedby="table" class="table_version_compare" id="Air Freight Contract">
+      <tbody>
+        <tr>
+          <th scope="col">-</th>
+          <th scope="col">--</th>
+        </tr>
+        <tr>
+          <td>
+            <div [ngClass]="versionDifference?.assocName ? 'highlight' : ''">Associate Name: {{obj1?.assocName == null ? 'NA' : obj1?.assocName}}</div>
+          </td>
+          <td>
+            <div [ngClass]="versionDifference?.cntrCode ? 'highlight' : ''">Contract Code: {{obj1?.cntrCode == null ? 'NA' : obj1?.cntrCod}}</div>
+          </td>
+        </tr>
+        <tr>
+          <td>  Associate Category: AIR FREIGHT</td>
+          <td>
+            <div [ngClass]="versionDifference?.wefDate ? 'highlight' : ''">W.E.F: {{obj1?.wefDate == null ? 'NA' : obj1?.wefDate | date: 'dd/MM/yyyy'}}</div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <!-- end customer details -->
+
+
+
+
+    <!-- Contract Details -->
+    <table aria-describedby="table" class="table_version_compare fourCol" id="Contract Details">
+      <tbody>
+        <tr>
+          <th scope="col">-</th>
+          <th scope="col">--</th>
+          <th scope="col">---</th>
+          <th scope="col">----</th>
+        </tr>
+        <tr>
+          <td>Start Date</td>
+          <td>
+            <div  [ngClass]="versionDifference?.effectiveDt ? 'highlight' : ''">{{obj1?.effectiveDt == null ? 'NA' : obj1?.effectiveDt | date: 'dd/MM/yyyy'}}</div>
+          </td>
+          <td>Billing Cycle</td>
+          <td>
+            <div  [ngClass]="versionDifference?.billingCyle ? 'highlight' : ''">{{obj1?.billingCyle == null ? 'NA' : obj1?.billingCyle}}</div>
+          </td>             
+        </tr>
+
+        <tr>
+          <td>End Date</td>
+          <td>  <div  [ngClass]="versionDifference?.expDt ? 'highlight' : ''">{{obj1?.expDt == null ? 'NA' : obj1?.expDt | date: 'dd/MM/yyyy'}}</div></td>
+
+          <td>Status</td>
+          <td>  <div  [ngClass]="versionDifference?.cntrctStatus ? 'highlight' : ''">{{obj1?.cntrctStatus == null ? 'NA' : obj1?.cntrctStatus}}</div></td>
+
+        </tr>
+      </tbody>
+    </table>
+    <!-- end Contract Details -->
+
+
+
+
+    <!-- Payment Terms -->
+    <!--  Schedule Payout if not PCD selected start -->
+    <table aria-describedby="table h5" class="table_version_compare fourCol" id="Payment Terms">
+      <tbody>
+        <tr>
+          <th scope="col">-</th>
+          <th scope="col">--</th>
+          <th scope="col">---</th>
+          <th scope="col">----</th>
+        </tr>
+
+        <tr>
+          <td>Payout Based On</td>
+          <td> <div  *ngIf="ifPaymentChange(obj1?.paymentTerms,'lkpAssocAirFreightPayoutCtgyName') as respObject" 
+            [ngClass]="respObject.flage? 'highlight' : ''">
+              {{obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == null ? 'NA' : obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName}}</div></td>
+
+          <td>Weight Type</td>
+          <td> <div  *ngIf="ifPaymentChange(obj1?.paymentTerms,'weightType') as respObject" 
+            [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.paymentTerms?.weightType == null ? 'NA' : obj1?.paymentTerms?.weightType}}</div></td>
+        </tr>
+      </tbody>
+    </table>
+
+
+
+
+
+
+
+    <ng-container *ngFor="let productData of obj1?.paymentTerms?.airFreightCityPrdctChrgs; let i = index">
+      <section class="preview_sec_3 preview_sec_4 preview_sec_5">
+
+        <!------ Payout Based on Product start ------->
+        
+          <table aria-describedby="table h5" class="table_version_compare fourCol"  *ngIf="obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY'">
+            <tbody>
+              <tr>
+                <th scope="col">-</th>
+                <th scope="col">--</th>
+                <th scope="col">---</th>
+                <th scope="col">----</th>
+              </tr>
+      
+              <tr>
+                <td>Product Category</td>
+                <td>      <div  *ngIf="compareCityProductCharges(productData,'prdctCtgyName') as respObject" 
+                  [ngClass]="respObject.flage? 'highlight' : ''">
+                    {{productData?.prdctCtgyName == null ? 'NA' : productData?.prdctCtgyName}}
+                  </div></td>
+      
+                <td></td>
+                <td> </td>
+              </tr>
+            </tbody>
+          </table>
+ 
+        <!------ Payout Based on Product end ------->
+
+        <!------ Payout Based on City start ------->
+        <table   *ngIf="obj1?.paymentTerms?.lkpAssocAirFreightPayoutCtgyName == 'CITY BASIS'" aria-describedby="table h5" class="table_version_compare fourCol" >
+          <tbody>
+            <tr>
+              <th scope="col">-</th>
+              <th scope="col">--</th>
+              <th scope="col">---</th>
+              <th scope="col">----</th>
+            </tr>
+    
+            <tr>
+              <td>From City</td>
+              <td>     <div  *ngIf="compareCityProductCharges(productData,'fromCity') as respObject" 
+                [ngClass]="respObject.flage? 'highlight' : ''">{{productData?.fromCity == null ? 'NA' : productData?.fromCity}}</div></td>
+    
+              <td>To City</td>
+              <td>  <div  *ngIf="compareCityProductCharges(productData,'tocity') as respObject" 
+                [ngClass]="respObject.flage? 'highlight' : ''">{{productData?.tocity == null ? 'NA' : productData?.tocity}}</div></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!------ Payout Based on City end ------->
+
+        <!--  Rate Per KG start-->
+        <ng-container *ngIf="productData?.wtCalcCategory == 'RATE PER KG'">
+          <table    aria-describedby="table h5" id="Rate Per KG" class="table_version_compare fourCol" >
+            <tbody>
+              <tr>
+                <th scope="col">-</th>
+                <th scope="col">--</th>
+                <th scope="col">---</th>
+                <th scope="col">----</th>
+              </tr>
+      
+              <tr>
+                <td>Rate Per KG</td>
+                <td> <div  *ngIf="compareCityProductCharges(productData,'ratePerKg') as respObject" 
+                  [ngClass]="respObject.flage? 'highlight' : ''">Rs. {{productData?.ratePerKg == null ? '0' : productData?.ratePerKg}}
+             
+                </div>
+                </td>
+      
+                <td>Start Date</td>
+                <td>   <div  *ngIf="compareCityProductCharges(productData,'startDate') as respObject" 
+                  [ngClass]="respObject.flage? 'highlight' : ''">
+                    {{productData?.startDate == null ? 'NA' : productData?.startDate | date: 'dd/MM/yyyy'}}</div></td>
+              </tr>
+
+              <tr>
+                <td>Minimum Amt. Per Air Waybill/td>
+                <td>   <div  *ngIf="compareCityProductCharges(productData,'minAmt') as respObject" 
+                  [ngClass]="respObject.flage? 'highlight' : ''">Rs. {{productData?.minAmt == null ? '0' : productData?.minAmt}}
+                  <span *ngIf="respObject.flage"  class="material-icons">
+                    {{respObject.compare}}
+                  </span>
+                </div></td>
+
+                <td>End Date</td>
+                <td> <div  *ngIf="compareCityProductCharges(productData,'endDate') as respObject" 
+                  [ngClass]="respObject.flage? 'highlight' : ''">
+                    {{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'dd/MM/yyyy' }}</div></td>
+              </tr>
+            </tbody>
+          </table>
+
+
+     
+        </ng-container>
+        <!--  Rate Per KG end-->
+
+        <!-- Total Weight start -->
+        <ng-container *ngIf="productData?.wtCalcCategory == 'TOTAL WEIGHT'">
+
+<!-- require heading naresh -->
+          <table    aria-describedby="table h5" class="table_version_compare fourCol" id="Total Weight">
+            <tbody>
+              <tr>
+                <th scope="col">Slab Definition (In KG)</th>
+                <th scope="col">Rate Per KG</th>
+              
+              </tr>
+      
+              <tr  *ngFor="let slab of productData?.airFreightWtSlabChrgs | sortBy:'asc':'slabFrom'; let i = index">
+                <td>  
+                      <div class="mat-cell pab_table_dis1 pb_tb_hd flex1 pab_table_dis2" *ngIf="compareSlabData(productData,slab,'slabTo') as respObject" [ngClass]="respObject.flage? 'highlight' : ''">{{slab?.slabFrom == null ? '0' : slab?.slabFrom}} -  {{slab?.slabTo == null ? '0' : slab?.slabTo}}  </div>
+                </td>
+                <td>  
+                  <div class="mat-cell pab_table_dis1 pb_tb_hd flex2" *ngIf="compareSlabData(productData,slab,'price') as respObject" [ngClass]="respObject.flage? 'highlight' : ''">Rs. {{slab?.price == null ? '0' : slab?.price}} </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+
+
+
+          <table    aria-describedby="table h5" class="table_version_compare fourCol" >
+            <tbody>
+              <tr>
+                <th scope="col">-</th>
+                <th scope="col">--</th>         
+                 <th scope="col">-</th>
+                <th scope="col">--</th>
+              
+              </tr>
+      
+              <tr >
+                <td>  Minimum Amt. Per Air Waybill  </td>
+                <td>  
+                  <div  *ngIf="compareCityProductCharges(productData,'minAmt') as respObject"  [ngClass]="respObject.flage? 'highlight' : ''">Rs. {{productData?.minAmt == null ? '0' : productData?.minAmt}}</div>
+                </td>
+
+                <td>Start Date</td>
+                <td><div  *ngIf="compareCityProductCharges(productData,'startDate') as respObject" 
+                  [ngClass]="respObject.flage? 'highlight' : ''">
+                    {{productData?.startDate == null ? 'NA' : productData?.startDate | date: 'dd/MM/yyyy'}}</div></td>
+
+              </tr>
+
+              <tr>
+                <td>End Date</td>
+                <td>        <div  *ngIf="compareCityProductCharges(productData,'endDate') as respObject" 
+                  [ngClass]="respObject.flage? 'highlight' : ''">
+                    {{productData?.endDate == null ? 'NA' : productData?.endDate | date: 'dd/MM/yyyy' }}</div></td>
+
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+ 
+        </ng-container>
+        <!-- Total Weight end -->
+      </section>
+    </ng-container>
+
+
+
+
+
+
+
+
+
+     <table aria-describedby="table" class="table_version_compare  fourCol" id="Deductions">
+      <tbody>
+        <tr>
+          <th scope="col">-</th>
+          <th scope="col">--</th>
+          <th scope="col">---</th>
+          <th scope="col">----</th>
+        </tr>
+        <tr>
+          <td>SLA Applicable</td>
+          <td>
+            <div  *ngIf="ifDeductionChange(obj1?.deduction,'slaFlag') as respObject" 
+            [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.deduction?.slaFlag === 1 ? 'Yes' : 'No'}}</div>
+          </td>
+          <td>Late Arrival Penalty</td>
+          <td>
+            <div  *ngIf="ifDeductionChange(obj1?.deduction,'lateArrFlag') as respObject" 
+                    [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.deduction?.lateArrFlag === 1 ? 'Yes' : 'No'}}</div>
+          </td>
+        </tr>
+        <tr>
+          <td>Maximum Deduction</td>
+          <td>
+            <div  *ngIf="ifDeductionChange(obj1?.deduction,'maxDedctn') as respObject" 
+                    [ngClass]="respObject.flage? 'highlight' : ''">RS. {{obj1?.deduction?.maxDedctn == null ? '0' : obj1?.deduction?.maxDedctn }}
+                   
+                  </div>
+          </td>
+          <td>Deduction Against Loss of Material</td>
+          <td>
+            <div  *ngIf="ifDeductionChange(obj1?.deduction,'dedctnLostFlag') as respObject" 
+            [ngClass]="respObject.flage? 'highlight' : ''">{{obj1?.deduction?.dedctnLostFlag === 1 ? 'Yes' : 'No'}}</div>
+          </td>
+        </tr>
+        <tr>
+          <td>Late Arrival Charge(Per Hour Delay)</td>
+          <td>           <div  *ngIf="ifDeductionChange(obj1?.deduction,'lateArrChrg') as respObject" 
+            [ngClass]="respObject.flage? 'highlight' : ''">RS. {{obj1?.deduction?.lateArrChrg == null ? '0' : obj1?.deduction?.lateArrChrg}}
+        
+          </div>
+          </td>
+          <td>Offload Deduction</td>
+          <td>
+            <div  *ngIf="ifDeductionChange(obj1?.deduction,'offloadDedctn') as respObject" 
+            [ngClass]="respObject.flage? 'highlight' : ''">RS. {{obj1?.deduction?.offloadDedctn == null ? '0' : obj1?.deduction?.offloadDedctn}}
+        
+          </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
 
 
 

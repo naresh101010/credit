@@ -3,11 +3,11 @@
 }
 .preview_sec_3 h3 {
     margin-left: 2rem;
-    margin-top: 1.5rem;
+    margin-top: 1.3rem;
 }
 .customer_preview {
     padding: 1rem;
-    background-color: #27AE60;
+    background-color: #53af61;
     color: #06161f;
 }
 .preview_sec_2 h3{
@@ -18,8 +18,8 @@
 }
 
 .backButton{
-    right: -20px;
-    top: 0;
+    right: -30px;
+    top: 0px;
     position: absolute;
     cursor: pointer;
 }

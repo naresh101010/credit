@@ -1,0 +1,168 @@
+<!-- breadcrumb start -->
+<section class="booking_breadcrumb_sec">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-5">
+          <div>
+            <mat-toolbar class="breadcrumbs_nav">
+              <mat-toolbar-row class="breadcrumbs">
+                <span><a [routerLink]="['/asso_air-contract/asso_air']">Dashboard</a></span>
+                <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                  arrow_right
+                </mat-icon>
+                <span><a [routerLink]="['/asso_air-contract/asso_air']">Contracts</a></span>
+                <mat-icon class="example-icon breadcrumbs_icon" aria-hidden="false" aria-label="Example heart icon">
+                  arrow_right
+                </mat-icon>
+                <span>Associate Contract</span>
+              </mat-toolbar-row>
+            </mat-toolbar>
+            <h2>Air Freight Contract</h2>
+          </div>
+        </div>
+        <div class="col-md-7 mt_40 mob_hide progress_bar_booking">
+          <stepper></stepper>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- breadcrumb end -->
+  
+  <!-- msa-10 start -->
+  <section class="req_table_sec booking_msa_sec">
+    <div class="container-fluid">
+      <form [formGroup]="deductionForm">
+        <div class="booking_card padding_0">
+         <!--  Display Header -->
+          <app-header-data></app-header-data>
+          <div class="padding_10 mob_sla_1">
+            <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('SLA APPLICABLE'))">
+              <div class="col-md-3">
+                <mat-label><strong>SLA Applicable<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-9">
+                <div class="module_area">
+                  <mat-radio-group name="slaFlag" formControlName="slaFlag">
+                    <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+                    </mat-radio-button>
+                    <mat-radio-button [value]="0">No</mat-radio-button>
+                  </mat-radio-group>
+                  <div class="errorMsg" *ngIf="f.slaFlag.errors?.required && f.slaFlag.touched"><em>Required !</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <hr>
+            <div>
+              <h5><strong>Deduction Calculation</strong></h5>
+            </div>
+            <br>
+            <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('DEDUCTION AGAINST LOSS OF MATERIAL'))">
+              <div class="col-md-3">
+                <mat-label><strong>Deduction Against Loss of Material<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-9">
+                <div class="module_area">
+                  <mat-radio-group name="dedctnLostFlag" formControlName="dedctnLostFlag">
+                    <mat-radio-button [value]="1" style="padding-right: 30px;">Yes
+                    </mat-radio-button>
+                    <mat-radio-button [value]="0">No</mat-radio-button>
+                  </mat-radio-group>
+                  <div class="errorMsg" *ngIf="f.dedctnLostFlag.errors?.required && f.dedctnLostFlag.touched"><em>Required
+                      !</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('LATE ARRIVAL PENALTY'))">
+              <div class="col-md-3">
+                <mat-label><strong>Late Arrival Penalty<span class="redMark">*</span></strong></mat-label>
+              </div>
+              <div class="col-md-9">
+                <div class="module_area">
+                  <mat-radio-group name="lateArrFlag" formControlName="lateArrFlag">
+                    <mat-radio-button [value]="1" (change)="onChangeLateArrival($event.value)" style="padding-right: 30px;" >Yes
+                    </mat-radio-button>
+                    <mat-radio-button [value]="0" (change)="onChangeLateArrival($event.value)">No</mat-radio-button>
+                  </mat-radio-group>
+                  <div class="errorMsg" *ngIf="f.lateArrFlag.errors?.required && f.lateArrFlag.touched"><em>Required
+                      !</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="!(exAttrKeyList && exAttrKeyList.includes('LATE ARRIVAL CHARGE'))">
+            <div class="row" *ngIf="f.lateArrFlag.value">
+                <div class="col-md-3">
+                    <mat-label><strong>Late Arrival Charge (Per Hour Delay)<span class="redMark">*</span></strong> </mat-label>  
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field appearance="outline">
+                      <input matInput name="latecharge" [numbersOnly] = true numeric maxlength="8" formControlName="lateArrChrg"
+                         OnlyNumber="true" class="form-control" placeholder="Enter Amount Here" >
+                    </mat-form-field>  
+                    <div class="errorMsg" *ngIf="f.lateArrChrg.errors?.required && f.lateArrChrg.touched"><em>Required
+                      !</em>
+                  </div>  
+                  <div *ngIf="(f.lateArrChrg.errors?.isNumeric && !(f.lateArrChrg.errors?.required && f.lateArrChrg.touched))"
+                  class="errorMsg">
+                    <em> Invalid !</em>
+                </div>                      
+                  </div>
+                  </div>
+            </div>
+            <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('MAXIMUM DEDUCTION'))">
+                <div class="col-md-3">
+                    <mat-label><strong>Maximum Deduction<span class="redMark">*</span></strong> </mat-label>  
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field appearance="outline">
+                      <input matInput name="maxdeduction" [numbersOnly] = true numeric maxlength="8" formControlName="maxDedctn"
+                         OnlyNumber="true" class="form-control" placeholder="Enter Amount Here" >
+                    </mat-form-field>
+                    <div class="errorMsg" *ngIf="f.maxDedctn.errors?.required && f.maxDedctn.touched"><em>Required
+                      !</em>
+                  </div>  
+                  <div *ngIf="(f.maxDedctn.errors?.isNumeric && !(f.maxDedctn.errors?.required && f.maxDedctn.touched))"
+                  class="errorMsg">
+                    <em> Invalid !</em>
+                </div>                         
+                  </div>
+            </div>
+            <div class="row" *ngIf="!(exAttrKeyList && exAttrKeyList.includes('OFFLOAD DEDUCTION'))">
+                <div class="col-md-3">
+                    <mat-label><strong>Offload Deduction<span class="redMark">*</span></strong> </mat-label>  
+                  </div>
+                  <div class="col-md-2">
+                    <mat-form-field appearance="outline">
+                      <input matInput name="maxdeduction" [numbersOnly] = true numeric maxlength="8" formControlName="offloadDedctn"
+                         OnlyNumber="true" class="form-control" placeholder="Enter Amount Here" >
+                    </mat-form-field>
+                    <div class="errorMsg" *ngIf="f.offloadDedctn.errors?.required && f.offloadDedctn.touched"><em>Required
+                      !</em>
+                  </div>                         
+                  <div *ngIf="(f.offloadDedctn.errors?.isNumeric && !(f.offloadDedctn.errors?.required && f.offloadDedctn.touched))"
+                  class="errorMsg">
+                    <em> Invalid !</em>
+                </div>        
+                  </div>
+            </div>
+            <hr>
+            <div class="row">
+              <div class="col-md-12 text-center mtb_30" *ngxPermissionsOnly="['DEDUCTION_CREATE', 'DEDUCTION_UPDATE']">
+                <button mat-button class="white-button" [disabled]="deductionForm.invalid" (click)="onSaveDeduction(1)">Save As
+                  Draft</button>
+                <button mat-button class="theme-button ml_15" [disabled]="deductionForm.invalid" (click)="onSaveDeduction(0)">Next</button>
+              </div>
+              <div class="col-md-12 text-center mtb_30" *ngxPermissionsExcept="['DEDUCTION_CREATE', 'DEDUCTION_UPDATE']">
+                <button mat-button class="theme-button ml_15"   (click)="nextReadMode()" >Next  </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </form>
+    </div>
+  </section>
+  <ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">
+  </ngx-spinner>

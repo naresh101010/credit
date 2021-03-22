@@ -5,94 +5,97 @@ import { ErrorConstants } from '../../core/models/constants';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material';
-import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { DatePipe } from '@angular/common';
+import { SuccessComponent } from 'src/app/components/success/success.component';
+import { confimationdialog } from '../confirmationdialog/confimationdialog';
 import { ExportAsService, ExportAsConfig } from 'ngx-export-as';
 import { EmailPreviewComponent } from '../email-preview/email-preview.component';
 declare let jspdf;
 @Component({
-  selector: "app-preview-popup",
-  templateUrl: "./preview-popup.component.html",
-  styleUrls: ["./preview-popup.component.css"],
-  providers: [DatePipe],
+  selector: 'app-preview-popup',
+  templateUrl: './preview-popup.component.html',
+  styleUrls: ['./preview-popup.component.css'],
+  providers: [DatePipe]
 })
 export class PreviewPopupComponent implements OnInit {
+
   previewList: any;
   previewRefList;
-  graciaList: any = [];
-  mgList: any = [];
-  insuranceList: any = [];
-  emiList: any = [];
   versionIndex: number;
-  uniqueOfferings: any[] = [];
-  uniqueOfferingsForCustomer: any = [];
   myDate = new Date();
   currDate: string;
+  productategoryList: any[] = [];
 
   exportAsConfig: ExportAsConfig = {
-    type: "pdf", // the type you want to download
-    elementIdOrContent: "previewContent", // the id of html/table element
-  };
+    type: 'pdf', // the type you want to download
+    elementIdOrContent: 'previewContent', // the id of html/table element
+  }
 
-  constructor(
-    public dialogRef: MatDialogRef<PreviewPopupComponent>,
+  constructor(public dialogRef: MatDialogRef<PreviewPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private apiService: ApiService,
     private tosterservice: ToastrService,
     private datePipe: DatePipe,
     private exportAsService: ExportAsService,
     public dialog: MatDialog,
-    private spinner: NgxSpinnerService
-  ) {}
+    private spinner: NgxSpinnerService) { }
 
   customerName: string = AppSetting.customerName;
   ngOnInit() {
-    this.versionIndex = this.data.versionIndex;
 
-    this.currDate = this.datePipe.transform(new Date(), "MM-dd-yyyy");
+    this.versionIndex = this.data.versionIndex;
+    this.currDate = this.datePipe.transform(this.myDate, 'MM-dd-yyyy');
 
     this.spinner.show();
     if (this.versionIndex !== 0) {
-      this.apiService
-        .get(
-          "secure/v1/cargocontractpreview/historypreview/" +
-            this.data.data.contractId +
-            "/" +
-            this.data.version
-        )
-        .subscribe(
-          (data) => {
-            this.previewList = data.data.responseData;
-            this.previewRefList = data.data.referenceData;
-            this.renderPreviewData();
-            this.spinner.hide();
-          },
-          (error) => {
-            this.tosterservice.error(ErrorConstants.getValue(404));
-            this.spinner.hide();
-          }
-        );
-    } else {
-      this.apiService
-        .get(
-          "secure/v1/cargocontractpreview/preview/" + this.data.data.contractId
-        )
-        .subscribe(
-          (response) => {
-            this.previewList = response.data.responseData;
-            this.previewRefList = response.data.referenceData;
-            this.renderPreviewData();
-            this.spinner.hide();
-          },
-          (error) => {
-            this.tosterservice.error(ErrorConstants.getValue(404));
-            this.spinner.hide();
-          }
-        );
+      this.apiService.get('secure/v1/airfreightcontractpreview/histpreview/'+ this.data.data.contractId + '/' + this.data.version).subscribe(data => {
+        this.previewList = data.data.responseData;
+        this.previewRefList = data.data.referenceData;
+       // this.renderPreviewData();
+        this.spinner.hide();
+      }, (error) => {
+        this.tosterservice.error(ErrorConstants.getValue(404));
+        this.spinner.hide();
+      });
+    }
+    else {
+      this.apiService.get('secure/v1/airfreightcontractpreview/' + this.data.data.contractId).subscribe(response => {
+        this.previewList = response.data.responseData;
+        this.previewRefList = response.data.referenceData;
+       // this.renderPreviewData();
+        this.spinner.hide();
+      }, (error) => {
+        this.tosterservice.error(ErrorConstants.getValue(404));
+        this.spinner.hide();
+      });
     }
   }
 
-  sendContractId() {}
+  sendContractId() {
+    this.spinner.show();
+    this.apiService.put(`secure/v1/airfreightcontract/submit/${this.data.data.contractId}`).subscribe((suc) => {
+      console.log(suc.data.responseData);
+      let ob = ErrorConstants.validateException(suc);
+      if (ob.isSuccess) {
+        this.spinner.hide();
+        AppSetting.sfxCode = suc.data.responseData;
+        // this.router.navigate(['/asso_air-contract/success'])
+        const dialogRef = this.dialog.open(SuccessComponent, {
+          data: { id: true },
+          disableClose: true,
+          panelClass: 'mat-dialog-responsive',
+          width: '64rem'
+        });
+
+      } else {
+        this.tosterservice.error(ob.message);
+        this.spinner.hide();
+      }
+    }, error => {
+      this.spinner.hide();
+      this.tosterservice.error('Issue in generating Associate Contract Code.');
+    });
+  }
 
   sendEmail() {
     let userDt = JSON.parse(sessionStorage.getItem("all")).data.responseData
@@ -147,7 +150,7 @@ export class PreviewPopupComponent implements OnInit {
             if (v.getAttribute("data-page") || doc.autoTableEndPosY() > 450) {
               doc.text(h3, 10, 45);
             } else {
-              if (h3 == "Cargo Associate Contract") {
+              if (h3 == "Air Freight Associate Contract") {
                 // doc.text('Preview For Edited Data', 10, 45)
                 doc.text(h3, 10, 60);
               } else {
@@ -229,7 +232,7 @@ export class PreviewPopupComponent implements OnInit {
             }
 
             // track individula tables
-            if (v.id == "Cargo Associate Contract") {
+            if (v.id == "Air Freight Associate Contract") {
               tblMgn = 100;
             }
             if (
@@ -365,33 +368,6 @@ export class PreviewPopupComponent implements OnInit {
                 },
                 2: {
                   fillColor: green,
-                  textColor: blk,
-                  lineColor: white,
-                  columnWidth: 107.5,
-                },
-                3: {
-                  fillColor: grey,
-                  textColor: blk,
-                  lineColor: white,
-                  columnWidth: 107.5,
-                },
-              };
-            }else if (v.getAttribute("class").includes("branch")) {
-              cs = {
-                0: {
-                  fillColor: green,
-                  textColor: blk,
-                  lineColor: white,
-                  columnWidth: 107.5,
-                },
-                1: {
-                  fillColor: grey,
-                  textColor: blk,
-                  lineColor: white,
-                  columnWidth: 107.5,
-                },
-                2: {
-                  fillColor: grey,
                   textColor: blk,
                   lineColor: white,
                   columnWidth: 107.5,
@@ -694,7 +670,7 @@ export class PreviewPopupComponent implements OnInit {
                 },
               };
             } else if (
-              v.id == "Cargo Associate Contract" ||
+              v.id == "Air Freight Associate Contract" ||
               v.getAttribute("class").includes("billingTwo")
             ) {
               cs = {
@@ -813,7 +789,7 @@ export class PreviewPopupComponent implements OnInit {
               });
             } else {
               let startY = doc.autoTableEndPosY() + tblMgn;
-              if (v.id == "Cargo Associate Contract") {
+              if (v.id == "Air Freight Associate Contract") {
                 startY = 70;
               }
               doc.autoTable(res.columns, res.data, {
@@ -953,17 +929,31 @@ export class PreviewPopupComponent implements OnInit {
     );
   }
 
-  renderPreviewData() {
-    this.previewList["paymentTermsPrev"]["cargoBranchCommerciaList"].forEach(
-      (elem) => {
-        if (elem.type == "EXGRATIA" || elem.type == "EX-GRATIA") {
-          this.graciaList.push(elem);
-        } else if (elem.type == "MG") {
-          this.mgList.push(elem);
-        }
-      }
-    );
-    console.log("preview", this.previewList);
+  /*---------- get product category name -------- */
+  getProductCategoryName(productId) {
+    let product = this.productategoryList.find(x => x.id == productId)
+    if (product !== undefined) {
+      return product.prdctCtgy;
+    } else {
+      return '';
+    }
   }
+
+  renderPreviewData() {
+    if (this.previewList.paymentTerms.lkpAssocAirFreightPayoutCtgyName == 'PRODUCT CATEGORY') {
+      this.apiService.get('secure/v1/airfreightcontract/commercial/productcategory').subscribe(data => {
+        if (data.data && data.data.responseData) {
+          this.productategoryList = data.data.responseData;
+          this.previewList.paymentTerms.airFreightCityPrdctChrgs.forEach(element => {
+            element['categoryName'] = this.getProductCategoryName(element.prdctCtgyId);
+          });
+        }
+      }, (err) => {
+        this.tosterservice.error(ErrorConstants.getValue(404));
+        this.spinner.hide();
+      });
+    }
+  }
+
 }
 

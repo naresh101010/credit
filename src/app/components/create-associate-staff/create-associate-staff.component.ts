@@ -51,6 +51,7 @@ export class CreateAssociateStaffComponent implements OnInit {
     this.authorizationService.setPermissions('ASSOCIATE');
     this.perList = this.authorizationService.getPermissions('ASSOCIATE') == null ? [] : this.authorizationService.getPermissions('ASSOCIATE');
     this.permissionsService.loadPermissions(this.perList);
+    console.log('Per List', this.perList);
 
     this.associateData = AppSetting.associateData;
     this.GetreferenceList();
@@ -73,13 +74,13 @@ export class CreateAssociateStaffComponent implements OnInit {
   CreateAssociateStaff() {
     this.spinner.show();
     this.AssociateStaffData.assocId = AppSetting.associateId;
-    this.AssociateStaffData.panNum = this.AssociateStaffData.panNum ? this.AssociateStaffData.panNum : null;
+    this.AssociateStaffData.panNum = this.AssociateStaffData.panNum ? this.AssociateStaffData.panNum.toUpperCase()  : null;
     this.AddNewDesignation();
     this.AssociateStaffData.effectiveDt = this.datePipe.transform(this.AssociateStaffData.effectiveDt, 'yyyy-MM-dd');
     this.AssociateStaffData.expDt = this.datePipe.transform(this.AssociateStaffData.expDt, 'yyyy-MM-dd');
     this.apiService.post(`secure/v1/associates/staff`, this.AssociateStaffData).subscribe((suc) => {
       this.spinner.hide();
-      this.router.navigate(['/asso_cargo-contract/associate-staff'], {skipLocationChange: true});
+      this.router.navigate(['/asso_air-contract/associate-staff'], {skipLocationChange: true});
       this.dataSource = suc.data.responseData;
     }, (error) => {
       this.spinner.hide();
@@ -119,15 +120,14 @@ export class CreateAssociateStaffComponent implements OnInit {
 
   UpdateAssociateStaff() {
     this.spinner.show();
-    this.AssociateStaffData.panNum = this.AssociateStaffData.panNum ? this.AssociateStaffData.panNum : null;
+    this.AssociateStaffData.panNum = this.AssociateStaffData.panNum ? this.AssociateStaffData.panNum.toUpperCase() : null;
     this.AddNewDesignation();
     this.AssociateStaffData.effectiveDt = this.datePipe.transform(this.AssociateStaffData.effectiveDt, 'yyyy-MM-dd');
     this.AssociateStaffData.expDt = this.datePipe.transform(this.AssociateStaffData.expDt, 'yyyy-MM-dd');
     this.apiService.post(`secure/v1/associates/staff`, this.AssociateStaffData).subscribe((suc) => {
       this.spinner.hide();
-      this.router.navigate(['/asso_cargo-contract/associate-staff'], {skipLocationChange: true});
+      this.router.navigate(['/asso_air-contract/associate-staff'], {skipLocationChange: true});
       this.dataSource = suc.data.responseData;
-      console.log("this.dataSource",this.dataSource)
     }, (error) => {
       this.spinner.hide();
       this.tosterservice.error(error.error.errors.error[0].description);
@@ -135,7 +135,7 @@ export class CreateAssociateStaffComponent implements OnInit {
   }
 
   nextReadMode() {
-    this.router.navigate(['/asso_cargo-contract/associate-staff'], {skipLocationChange: true});
+    this.router.navigate(['/asso_air-contract/associate-staff'], {skipLocationChange: true});
   }
 
   designationvalue;
@@ -267,7 +267,7 @@ export class CreateAssociateStaffComponent implements OnInit {
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_cargo-contract/associate-staff'], { skipLocationChange: true });
+    this.router.navigate(['/asso_air-contract/associate-staff'], { skipLocationChange: true });
   }
 
 

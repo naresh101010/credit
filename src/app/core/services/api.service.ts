@@ -4,7 +4,6 @@ import { Observable, throwError  } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 import { AppSetting } from '../../app.setting';
-import { MSA } from '../models/msa';
 // import { JwtService } from './jwt.service';
 
 @Injectable()
@@ -13,15 +12,6 @@ export class ApiService {
     private http: HttpClient,
    // private jwtService: JwtService
   ) {}
-
-  headerData = {
-    'userId': '123',
-    'Content-Type': 'application/json'
-  }
-
-  headerDoc = {
-    'userId': '123'
-  }
   getReportRefrence() {
     var headers = new HttpHeaders(this.headerData);
     return this.http.get(AppSetting.API_REPORT_ENDPOINT + `/secure/v1/reports/associateContractReport/reference`, { headers: headers }).catch((error: Response) => {
@@ -34,6 +24,13 @@ export class ApiService {
       return Observable.throw("Something went wrong");
     })
    }
+  headerData = {
+    'userId': '123',
+    'Content-Type': 'application/json'
+  }
+  headerDoc = {
+    'userId': '123'
+  }
 
   get(path: string, params: HttpParams = new HttpParams()): Observable<any> {
     let headers = new HttpHeaders(this.headerData);
@@ -82,7 +79,7 @@ export class ApiService {
     return this.http
       .post<any>(
         AppSetting.API_ENDPOINT +
-          "/secure/v1/cargocontractpreview/previewEmail",
+          "/secure/v1/airfreightcontractpreview/previewEmail",
         formData,
         { headers: headers }
       )
@@ -135,7 +132,7 @@ export class ApiService {
     });
   }
 
-  postDownloadDocument(fileName: String) {
+  postDownloadDocument(fileName: string) {
     var headers = new HttpHeaders(this.headerData);
     console.log("calling download service..");
     return this.http.post<any>(AppSetting.API_ENDPOINT + "secure/v1/document/download", fileName, { responseType: 'blob' as 'json', headers: headers }).catch((error: Response) => {
@@ -143,32 +140,69 @@ export class ApiService {
     });
   }
 
+   // get module card details for Dashboard
+   getCardDetails(menuHierarchyId) {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT_UM +"secure/v1/dashboard/moduleCardDetails/"+ menuHierarchyId, { headers: headers }).pipe(catchError((error: Response) => {
+      return throwError("Something went wrong");
+    }));
+  }
   // post drag and drop data
   postDragDropData(data) {
     var headers = new HttpHeaders(this.headerData);
-    return this.http.post<any>(AppSetting.API_ENDPOINT_UM  + "secure/v1/dashboard/bookmark",data, { headers: headers }).pipe(catchError((error: Response) => {
+    return this.http.post<any>(AppSetting.API_ENDPOINT_UM + "secure/v1/dashboard/bookmark",data, { headers: headers }).pipe(catchError((error: Response) => {
       return throwError("Something went wrong");
     }));
   }
 
- // get module card details for Dashboard
- getCardDetails(menuHierarchyId) {
-  var headers = new HttpHeaders(this.headerData);
-  return this.http.get<any>(AppSetting.API_ENDPOINT_UM +"secure/v1/dashboard/moduleCardDetails/"+ menuHierarchyId, { headers: headers }).pipe(catchError((error: Response) => {
-    return throwError("Something went wrong");
-  }));
-}
+   // get dragged data, feature data
+   getDragDropData(menuHierarchyId) {
+      var headers = new HttpHeaders(this.headerData);
+      return this.http.get<any>(AppSetting.API_ENDPOINT_UM + "secure/v1/dashboard/bookmark/"+ menuHierarchyId, { headers: headers }).pipe(catchError((error: Response) => {
+        return throwError("Something went wrong");
+      }));
+   }
 
 
- // get dragged data, feature data
- getDragDropData(menuHierarchyId) {
+  getPincodeByFeature( cityId) {
     var headers = new HttpHeaders(this.headerData);
-    return this.http.get<any>(AppSetting.API_ENDPOINT_UM + "secure/v1/dashboard/bookmark/"+ menuHierarchyId, { headers: headers }).pipe(catchError((error: Response) => {
-      return throwError("Something went wrong");
-    }));
- }
+    let baseUrl = AppSetting.API_ENDPOINT + "secure/v1/geography/pincode/city/" + cityId ;
+    return this.http.get<any>(baseUrl,
+      { headers: headers }).catch((error: Response) => {
+        return Observable.throw("Something went wrong");
+      });
+  }
 
- isUserSwitchedBranch = sessionStorage.getItem('switchBranchWith')
+  getCityByStateNPinFeatureId(stateId): Observable<any> {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT + 'secure/v1/geography/city/state/'+ stateId, { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
+
+  getStatesByPinFeatureId() {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/geography/state", { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
+  
+  getPinCodeFromPincodeId(pincodeId) {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "secure/v1/geography/pincode/id/" + pincodeId, { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+
+  getPinCodeFromPincode(pincode) {
+    var headers = new HttpHeaders(this.headerData);
+    return this.http.get<any>(AppSetting.API_ENDPOINT + "/secure/v1/geography/pincode/" + pincode, { headers: headers }).catch((error: Response) => {
+      return Observable.throw("Something went wrong");
+    });
+  }
+  isUserSwitchedBranch = sessionStorage.getItem('switchBranchWith')
   isUserOnlyReadPer = false;
   userId = JSON.parse(sessionStorage.getItem('userDetails')).userId;  
   manualSearch(branchName) {
@@ -185,5 +219,6 @@ export class ApiService {
       return this.http.get<any>(AppSetting.API_REPORT_ENDPOINT + "/secure/v1/reports/" + first + "/" + second);
     }    
   }
+
 }
 

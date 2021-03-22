@@ -319,7 +319,7 @@ export class VehicleComponent implements OnInit {
     this.spinner.show();
     this.apiService.post('secure/v1/associates/vehicles', vehicleData).subscribe(res => {
       this.spinner.hide();
-      this.router.navigate(['/asso_cargo-contract/vehicle-allocation'], {skipLocationChange: true});
+      this.router.navigate(['/asso_air-contract/vehicle-allocation'], {skipLocationChange: true});
     }, (error) => {
       this.tosterservice.error(error.error.errors.error[0].description);
       this.spinner.hide();
@@ -488,6 +488,6 @@ export class VehicleComponent implements OnInit {
 
   onBackClick($event) {
     $event.preventDefault();
-    this.router.navigate(['/asso_cargo-contract/vehicle-allocation'], { skipLocationChange: true });
+    this.router.navigate(['/asso_air-contract/vehicle-allocation'], { skipLocationChange: true });
   }
 }

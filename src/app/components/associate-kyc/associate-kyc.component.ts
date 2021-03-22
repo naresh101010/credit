@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { AppSetting } from '../../app.setting';
 import { ApiService } from '../../core/services/api.service';
 import { NgxSpinnerService } from 'ngx-spinner';
@@ -8,12 +8,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatSort, MatPaginator, MatTableDataSource, MatDialog } from '@angular/material';
 import { ErrorConstants } from '../../core/models/constants';
 import { DatePipe } from '@angular/common';
+import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 import { AuthorizationService } from '../../core/services/authorization.service';
 import { NgxPermissionsService } from 'ngx-permissions';
-import { confimationdialog } from 'src/app/dialog/confirmationdialog/confimationdialog';
 import { BehaviorSubject } from 'rxjs-compat/BehaviorSubject';
-
-
 
 @Component({
   selector: 'app-associate-kyc',
@@ -48,8 +46,8 @@ export class AssociateKycComponent implements OnInit {
   pendingDocsUplod : any = [];
   noRecdFundMsg: boolean = false;
   pengingListDataSource : any;
-  minDate : Date;
   refData: any;
+  minDate : Date;
   assocType: string;
   fileToUpload: File = null;
   uploadedFileName: string = '';
@@ -70,9 +68,9 @@ export class AssociateKycComponent implements OnInit {
     private router: Router,
     private acrouter: ActivatedRoute,
     private datePipe : DatePipe,
+    public dialog: MatDialog,
     private authorizationService : AuthorizationService,
-    private permissionsService: NgxPermissionsService,
-    public dialog: MatDialog) { }
+    private permissionsService: NgxPermissionsService) { }
 
   ngOnInit() {
  
@@ -96,12 +94,14 @@ export class AssociateKycComponent implements OnInit {
     });
 
     this.apiSer.get("secure/v1/associates/" + AppSetting.associateId)
-    .subscribe((suc) => {
-      const data = suc.data.responseData;
-      this.refData = suc.data.referenceData;
-      AppSetting.associateRefData = this.refData;
-      AppSetting.associateData = data;
-    });
+      .subscribe((suc) => {
+        const data = suc.data.responseData;
+        this.refData = suc.data.referenceData;
+        AppSetting.associateRefData = this.refData;
+        console.log('data', data);
+        
+        AppSetting.associateData = data;
+      });
     this.spinner.show();
     this.getDocumentDetailbyId();
 
@@ -115,25 +115,25 @@ export class AssociateKycComponent implements OnInit {
 
   }
 
-  requestToUpload() {
+  requestToUpload(){
     console.log(this.associateId)
     this.spinner.show();
-    this.apiSer.post("secure/v1/associates/docUpload/email", AppSetting.associateId)
-      .subscribe(
-        data => {
-          console.log(data);
-          if (data.status == 'SUCCESS') {
-            this.spinner.hide();
-            this.toaster.success("Email sent to " + data.data.responseData + " Successfully");
-          }
-          else {
-            console.log(data)
-          }
-        },
-        Error => {
-          this.toaster.warning(Error.error.errors.error[0].description);
+    this.apiSer.post("secure/v1/associates/docUpload/email" , AppSetting.associateId)
+    .subscribe(
+      data => {
+        console.log(data);
+        if (data.status == 'SUCCESS') { 
           this.spinner.hide();
-        });
+          this.toaster.success("Email sent to " + data.data.responseData + " Successfully");
+        }
+        else{
+          console.log(data)
+        }
+      },
+      Error => {
+        this.toaster.warning(Error.error.errors.error[0].description);
+        this.spinner.hide();
+      });
   }
 
   //On file browse
@@ -188,11 +188,11 @@ export class AssociateKycComponent implements OnInit {
 
       requestData = {
         entityId: this.associateId,
-        entityType: 'ASSOCIATE',
-        expDt: formattedDate ? formattedDate: '',
-        lkpDocTypeId: this.fileModel.docTypeId,
-        lkpDocSubtypeId: this.fileModel.subTypeId
-      }
+        entityType : 'ASSOCIATE',
+        expDt : formattedDate ? formattedDate : '',
+        lkpDocTypeId : this.fileModel.docTypeId,
+        lkpDocSubtypeId : this.fileModel.subTypeId
+    }
 
       this.apiSer.postDocumentUploadDetail(requestData, this.fileToUpload)
         .subscribe(data => {
@@ -231,7 +231,7 @@ export class AssociateKycComponent implements OnInit {
     this.noRecdFundMsg = false;
     this.apiSer.documentTypeData(this.entityType, this.associateId)
       .subscribe(data => {
-        this.docData = data; 
+        this.docData = data;
 
         this.docTypeList = this.docData.data.referenceData.docTypeList;
         this.subTypeNameList = this.docData.data.referenceData.docSubTypeList;
@@ -272,7 +272,6 @@ export class AssociateKycComponent implements OnInit {
           docObj.lkpDocSubtypeId = obj.lkpDocSubtypeId;
           docObj.signedUrl = obj.signedUrl;
           for (let docTypeObj of this.docTypeList) {
-            // debugger
             if (obj.lkpDocTypeId == docTypeObj.id) {
               docObj.docType = docTypeObj.lookupVal;
             }
@@ -287,7 +286,7 @@ export class AssociateKycComponent implements OnInit {
           this.cloneDoc = new MatTableDataSource(this.docList);
           this.dataSource.sort = this.sort
         }
-     },(error) => {
+      },(error) => {
           this.spinner.hide();
           this.toaster.error(ErrorConstants.getValue(404));
         });
@@ -447,15 +446,19 @@ export class AssociateKycComponent implements OnInit {
       }else{
         this.dataSource = new MatTableDataSource(this.docList);
       }
+      // setTimeout(() => {
+      //   this.noRecdFundMsg = false;
+      //   this.dataSource = this.cloneDoc;
+      // }, 2000);
     }
   }
 /*---------- check valid date ---------- */
-  checkValidDate(value) {
-    let expYear = parseInt(this.datePipe.transform(value, 'yyyy'));
-    if (expYear > 9999) {
-      this.fileModel.docExpiryDate = '';
-    }
+checkValidDate(value) {
+  let expYear = parseInt(this.datePipe.transform(value, 'yyyy'));
+  if (expYear > 9999) {
+    this.fileModel.docExpiryDate = '';
   }
+}
 
   deleteKycDocument(element) {
     const dialog = this.dialog.open(confimationdialog, {

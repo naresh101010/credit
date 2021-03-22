@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { FormBuilder, FormGroup,  Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppSetting } from 'src/app/app.setting';
-// import { PincodesearchComponent } from '../pincodesearch/pincodesearch.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from "ngx-spinner";
 import { CreateAssoModel } from 'src/app/core/models/createAssoModel';
@@ -72,6 +71,7 @@ export class CreateAssociateComponent implements OnInit {
     this.authorizationService.setPermissions('ASSOCIATE');
     this.perList = this.authorizationService.getPermissions('ASSOCIATE') == null ? [] : this.authorizationService.getPermissions('ASSOCIATE');
     this.permissionsService.loadPermissions(this.perList);
+    console.log('Per list', this.perList)
 
     this.id = AppSetting.associateId;
 
@@ -116,7 +116,7 @@ export class CreateAssociateComponent implements OnInit {
             {value: 0, text : 'INACTIVE'}
           ]
           this.setAssociateFormValue();
-          this.effMinDate = this.associateData.effectiveDt ? this.associateData.effectiveDt : new Date();      
+          this.effMinDate = this.associateData.effectiveDt ? this.associateData.effectiveDt : new Date();    
           this.spinner.hide();
         }, (err) => {
           this.spinner.hide();
@@ -159,22 +159,6 @@ export class CreateAssociateComponent implements OnInit {
   }
 
 
-  // openDialogPincodeSearch(isResidence): void {
-  //   const dialogRefEdit = this.dialog.open(PincodesearchComponent, {
-  //     data: { msaId: null, isEditflow: false, isSafexttype: [] },
-  //     width: '50vw',
-  //   });
-
-  //   dialogRefEdit.afterClosed().subscribe(result => {
-  //     if (isResidence) {
-  //       var resAddress = this.createAssociateFormGroup.controls.resAddrBook as FormGroup;
-  //       resAddress.controls.pincodeId.setValue(result);
-  //     } else {
-  //       var offAddress = this.createAssociateFormGroup.controls.ofcAddrBook as FormGroup;
-  //       offAddress.controls.pincodeId.setValue(result);
-  //     }
-  //   });
-  // }
   createAssociateFormBuilder() {
 
     this.createAssociateFormGroup = this.fb.group({
@@ -402,14 +386,12 @@ export class CreateAssociateComponent implements OnInit {
   }
 
   onChangeTDSCertifiate(value) {
-    console.log('this.f.assocRegdType', this.f.assocRegdType);
     if(value == 0) {
       if(this.f.assocRegdType.value) {
         this.onSelectAassignTdsValue(this.f.assocRegdType.value);
       } 
     }
   }
-
 
   saveAssociateContract() {
 
@@ -472,7 +454,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_cargo-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_air-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -515,7 +497,7 @@ export class CreateAssociateComponent implements OnInit {
           } else {
             AppSetting.associateDepartment = '';
           }
-          this.router.navigate(['/asso_cargo-contract/associate-kyc'], {skipLocationChange: true});
+          this.router.navigate(['/asso_air-contract/associate-kyc'], {skipLocationChange: true});
          
         }, (err) => {
           this.spinner.hide();
@@ -526,16 +508,7 @@ export class CreateAssociateComponent implements OnInit {
 
   //------------------------Pincode----------------------
   nextReadMode() {
-    AppSetting.associateData = this.associateData;
-    if (this.associateData.assocDeptMaps) {
-      let dept = this.assocDeptList.find(x => x.id === this.associateData.assocDeptMaps[0].lkpAssocDeptId);
-      if (dept !== undefined) {
-        AppSetting.associateDepartment = dept.lookupVal;
-      } else {
-        AppSetting.associateDepartment = '';
-      }
-    }
-    this.router.navigate(['/asso_cargo-contract/associate-kyc'], {skipLocationChange: true});
+    this.router.navigate(['/asso_air-contract/associate-kyc'], {skipLocationChange: true});
   }
 
   resPincodeSearch(str) {
@@ -555,7 +528,6 @@ export class CreateAssociateComponent implements OnInit {
               return;
             }
             for (let val of this.resPincodeData) {
-              // val["pincode"] = val.pincode;
               val["pincodeId"] = val.pincode;
               //val["city"] = val.city.cityName;
             }
@@ -689,7 +661,7 @@ export class CreateAssociateComponent implements OnInit {
       let b = this.datePipe.transform(this.f.effectiveDt.value, 'yyyy-MM-dd')
       let c = this.datePipe.transform(this.f.expDt.value, 'yyyy-MM-dd')
       if (b && c !== null) {
-        if (b <= c && c > a) {
+        if (b < c && c > a) {
           this.isValidExpDt = false;
           this.isValidEffectiveDt = false;
         }
@@ -783,5 +755,6 @@ export class CreateAssociateComponent implements OnInit {
       }
     });
   }
+
 }
 

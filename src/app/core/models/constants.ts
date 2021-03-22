@@ -42,8 +42,9 @@ export class ErrorConstants {
   
   public static B_ERR_521	 = 'Document upload failed'
   public static B_ERR_522	 = 'Error in fetching Documents'
-  public static UM_VAL_ERR_400 = "You already have 5 favourite objects";
   
+  public static UM_VAL_ERR_400 = "You already have 5 favourite objects";
+
   constructor() { }
 
   public static getValue(key){
@@ -88,6 +89,7 @@ map.set("B_ERR-519",ErrorConstants.B_ERR_519 );
   
 map.set("B_ERR-521",ErrorConstants.B_ERR_521);
 map.set("B_ERR-522",ErrorConstants.B_ERR_522);
+
 map.set("UM_VAL_ERR-400",ErrorConstants.UM_VAL_ERR_400);
 
     return map.get(key);

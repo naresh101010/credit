@@ -1,6 +1,6 @@
 <div class="modal-container">
   <h5 class="sub_heading"><strong>Contract Update</strong></h5>
-  <mat-icon class="modals_cancel_btn" aria-hidden="true" id="closeButton" (click)="closeDialog()">close</mat-icon>
+  <mat-icon class="modals_cancel_btn" [mat-dialog-close]="true">close</mat-icon>
   <hr class="border_row">
   <br>
 </div>
@@ -34,7 +34,7 @@
 </div>
 <div class="row mt_15">
   <div class="col-md-3 col-sm-6">
-    <div class="gray_card_msa1 gray1_card_msa1 heading_with_icon active" (click)="openBookingContractUpdateModal()">
+    <div class="gray_card_msa1 gray1_card_msa1 heading_with_icon active" (click)="openairfreightcontractUpdateModal()">
       <em class="fa fa-info" aria-hidden="true"></em>
       <div class="row">
         <div class="col-md-8">

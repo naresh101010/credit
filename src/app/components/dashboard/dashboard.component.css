@@ -392,6 +392,9 @@ tr.mat-row {
   color: rgba(0,0,0,.54);
 }
 
+
+
+
 .mat-row {
    height: auto !important;
   background: #fff !important;
@@ -526,4 +529,9 @@ tr.mat-row {
 
 label.validation-message {
   margin-top: 0;
+}
+
+/***** Solve favourite and bookmark icon css issue if table data less than 10 *****/ 
+.dragDrp_zindx {
+  z-index: 1 !important;
 }
