@@ -255,8 +255,8 @@ export class BookingPayoutComponent implements OnInit {
             exBranchTemp.filter(element => {
               element.amtType = "EX-GRATIA"              
               element.assocBranchId = element.id;
-              element.amt = element.amt;
-              element.reason = element.reason;
+              // element.amt = element.amt;
+              // element.reason = element.reason;
               delete element.id;
               delete element.assocBranchVehicles;
               delete element.branchName;
