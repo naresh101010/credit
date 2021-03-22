@@ -239,18 +239,24 @@ export class StaffDocumentComponent implements OnInit {
       this.subTypeList = [];
       this.fileModel.subTypeId = '';
     } else {
-      this.spinner.show()
-      this.apiSer.getSubDocTypeData(this.fileModel.docTypeId).subscribe(data => {
-          var resData: any = data;
-          this.subTypeList = resData.data.responseData;
-          this.spinner.hide();
-          console.log(data, "sub Document list");
-        }),(error) => {
-          this.spinner.hide();
-          this.toaster.error(ErrorConstants.getValue(404));
-      }
-
+      this.run();
     }
+  }
+
+  run(){
+         this.spinner.show();
+         this.apiSer
+           .getSubDocTypeData(this.fileModel.docTypeId)
+           .subscribe((data) => {
+             var resData: any = data;
+             this.subTypeList = resData.data.responseData;
+             this.spinner.hide();
+             console.log(data, "sub Document list");
+           }),
+           (error) => {
+             this.spinner.hide();
+             this.toaster.error(ErrorConstants.getValue(404));
+           };
   }
 
   /*
