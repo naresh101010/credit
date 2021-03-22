@@ -268,8 +268,22 @@ export class BookingSlaComponent implements OnInit {
       finalDeductionData.expDt =  this.datePipe.transform(this.deductionForm.value.expDt, 'yyyy-MM-dd') ;
     }
     
-    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd') : '';
-    finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd') : '';
+
+    if (finalDeductionData.advncDedctnAmtFlag == 1) {
+      finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(
+        this.deductionForm.value.advncDedctnAmtFromDt,
+        "yyyy-MM-dd"
+      ); 
+
+      finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(
+        this.deductionForm.value.advncDedctnAmtToDt,
+        "yyyy-MM-dd"
+      );
+    }
+
+  
+    // finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtFromDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtFromDt, 'yyyy-MM-dd') : '';
+    // finalDeductionData.advncDedctnAmtFlag == 1 ? finalDeductionData.advncDedctnAmtToDt = this.datePipe.transform(this.deductionForm.value.advncDedctnAmtToDt, 'yyyy-MM-dd') : '';
 
     for(let i=0; i< finalDeductionData.vehicleDeductions.length; i++){
       if(finalDeductionData.vehicleDeductions[i].id === 0){
@@ -279,7 +293,11 @@ export class BookingSlaComponent implements OnInit {
     if(this.deductionID == 0){
      delete finalDeductionData.id;
     }
-    (this.editflow && this.deductionForm.dirty) ? finalDeductionData.status = AppSetting.editStatus : '';
+
+    if (this.editflow && this.deductionForm.dirty) {
+        finalDeductionData.status = AppSetting.editStatus;
+    }
+    // (this.editflow && this.deductionForm.dirty) ? finalDeductionData.status = AppSetting.editStatus : '';
     console.log('final data',finalDeductionData)
     this.spinner.show();
     this.apiService.post('secure/v1/deliverycontract/deliveryDeduction',finalDeductionData).subscribe(res => {

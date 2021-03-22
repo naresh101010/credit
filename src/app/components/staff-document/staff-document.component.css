@@ -14,6 +14,6 @@ button:focus {outline:0;}
 .mat-select-value-text{top: 0rem;}
 .mat-select-trigger{top: .5rem !important;}
 
-#buttonDesign{background-color: transparent !important;color: #1a1a1a !important;border: none !important;font-weight: 700;
+#buttonDesign{background-color: transparent !important;border: none !important;font-weight: 700;
     box-sizing: border-box !important;box-shadow: none !important;color: #27AE60 !important;cursor: pointer !important;font-style: italic !important;}
 .mat-form-field-appearance-legacy .mat-form-field-infix{margin-left: -1rem !important;}

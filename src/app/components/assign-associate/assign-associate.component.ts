@@ -286,7 +286,10 @@ export class AssignAssociateComponent implements OnInit {
         d.setDate(d.getDate()+1);
         this.minDate = d;
         
-        !this.isDisable ? this.expDate() : '';
+        if (!this.isDisable)  {
+          this.expDate();
+        }
+        // !this.isDisable ? this.expDate() : '';
 
         this.f.cntrType.disable();
         if(this.tileFlag == 'true'){
@@ -296,7 +299,9 @@ export class AssignAssociateComponent implements OnInit {
           this.f.descr.updateValueAndValidity();
         }
 
-        this.editflow ? this.f.cntrSignDt.disable() : '';
+        if(this.editflow){
+          this.f.cntrSignDt.disable()
+        } 
 
         this.spinner.hide();
       } else {
