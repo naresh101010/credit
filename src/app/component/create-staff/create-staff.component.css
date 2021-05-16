@@ -32,7 +32,6 @@
   [type=file] + label.btn-2::before {
     color: #fff;
     content: "";
-    font-family: FontAwesome;
     font-size: 100%;
     height: 100%;
     right: 130%;

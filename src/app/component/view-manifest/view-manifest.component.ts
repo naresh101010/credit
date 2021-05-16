@@ -139,12 +139,12 @@ export class ViewManifestComponent implements OnInit {
         this.waybillList = new MatTableDataSource(this.viewListArray);
         // this.spinner.hide();
         console.log('datasource', this.waybillList)
-      }), (err: any) => {
-        this.spinner.hide();
-      }
+      }, err=>{
+         this.spinner.hide();
+        }
+      )
     }
     this.spinner.hide();
-    return null;
   }
 
   openEmailModal() {
