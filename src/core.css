@@ -586,10 +586,10 @@ textarea.form-control {
   width: 100% !important;
 }
 
-.mat-datepicker-toggle-default-icon ng-star-inserted {
+/* .mat-datepicker-toggle-default-icon ng-star-inserted {
   position: absolute;
   top: -0.5rem;
-}
+} */
 
 .mat-calendar-body-selected {
   background-color: #27ae60 !important;
@@ -718,7 +718,6 @@ thead.mat-calendar-table-header tr th {
   height: 20px;
   overflow: hidden;
   white-space: nowrap;
-  overflow: hidden;
   text-overflow: ellipsis;
 }
 .mat-plus-icon {
@@ -1622,9 +1621,8 @@ hr.bdr_theme_color {
 }
 .end_day_label p{
   font-size: 1.6rem !important;
-    margin-right: 5rem !important;
-    margin: 2rem 8rem 2rem 0 !important;
-    display: inline-block;
+  margin: 2rem 5rem 2rem 0 !important;
+  display: inline-block;
 }
 .ce_date{
   background: #6a6868;
@@ -1930,11 +1928,10 @@ p.selected_branch_name{
   border-radius: 0 !important;
   border: 1px solid #686868 !important;
   font-size: 1.4rem !important;
-  height: 2.7rem !important;
-  margin-bottom: 0 !important; 
+  height: 2.7rem !important;  
   box-shadow: 0 0.2rem 0.2rem #00000029 !important;
   font-family: 'Open Sans', sans-serif !important;
-  margin: 2px 0 0 0;
+  margin: 2px 0 0 0 !important;
 }
 .ngx-timepicker__time-colon{
   margin-left: 0 !important;
