@@ -3308,12 +3308,9 @@ export class OutboundStartBookingComponent implements OnInit {
     }
     else {
       this.selectedProductCategoryCardList = [];
-      if (this.bookingInfoObj.waybillId && this.isEditCheck) {
+  
         this.bookingInfoObj.packageList = [];
-      }
-      else {
-        this.bookingInfoObj.packageList = [];
-      }
+      
       selectedProductCategory = this.categoryListWithAlisList.find(elem => elem.localId == selectedProductCategory);
       this.selectedProductCategoryCardList.push(selectedProductCategory);
       if (this.isPeaceType == false) {
