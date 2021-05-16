@@ -58,7 +58,7 @@
                 <div class="col-md-6">
                     <h4><strong>Select Manifest Vehicle</strong></h4>
                     <div class="table-responsive">
-                        <table mat-table [dataSource]="vehicleLists" class="mat-elevation-z8">
+                        <table  aria-describedby="table"  mat-table [dataSource]="vehicleLists" class="mat-elevation-z8">
                             <ng-container matColumnDef="checkbox">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element">
@@ -108,7 +108,7 @@
                              alt="">
                     </h4>
                     <div class="table-responsive">
-                        <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
+                        <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
 
                             <ng-container matColumnDef="request">
                                 <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
@@ -217,7 +217,7 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
+                        <!-- <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
   
                           <ng-container matColumnDef="request">
                               <th mat-header-cell *matHeaderCellDef>Waybill No.</th>

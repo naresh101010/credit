@@ -20,7 +20,7 @@
         <h4 class="scan_load_heading bg_red"><strong>Pending / Total Packages:<br>{{ remainingPackageCount }}/{{ totalPackageCount }}</strong></h4>
         <div class="card_inner_sec">
           <div class="table-responsive">
-            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <table  aria-describedby="table"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
               <ng-container matColumnDef="waybill">
                 <th mat-header-cell *matHeaderCellDef> Customer Id </th>
@@ -47,7 +47,7 @@
         <h4 class="scan_load_heading"><strong>Scanned Packages:<br>{{ remainingPackageCount }}/{{ totalPackageCount }}</strong></h4>
         <div class="card_inner_sec">
             <div class="table-responsive">
-              <table mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
+              <table  aria-describedby="table"  mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
   
                 <ng-container matColumnDef="waybill">
                   <th mat-header-cell *matHeaderCellDef> Customer Id </th>

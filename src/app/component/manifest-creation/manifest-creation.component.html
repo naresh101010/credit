@@ -157,7 +157,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                    <table  aria-describedby="table"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
                         <ng-container matColumnDef="request">
                             <th mat-header-cell *matHeaderCellDef> Manifest <br> No. </th>
@@ -279,7 +279,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive">
-                    <table mat-table [dataSource]="createdManifaests" class="mat-elevation-z8">
+                    <table  aria-describedby="table"  mat-table [dataSource]="createdManifaests" class="mat-elevation-z8">
 
                         <ng-container matColumnDef="request">
                             <th mat-header-cell *matHeaderCellDef> Manifest No. </th>

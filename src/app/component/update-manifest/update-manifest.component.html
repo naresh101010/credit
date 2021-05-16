@@ -49,7 +49,7 @@
                 <div class="col-md-6">
                     <h4><strong>Select Manifest Vehicle</strong></h4>
                     <div class="table-responsive">
-                        <table mat-table [dataSource]="vehicleLists" class="mat-elevation-z8">
+                        <table  aria-describedby="table"  mat-table [dataSource]="vehicleLists" class="mat-elevation-z8">
                             <ng-container matColumnDef="checkbox">
                                 <th mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element">
@@ -97,7 +97,7 @@
                     <h4><strong style="margin: 0 10px 0 0;">Scan Packages</strong> <img src="../assets/images/scanner.png" style="height: 2.7rem;cursor:pointer"  alt="">
                     </h4>
                     <div class="table-responsive">
-                        <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
+                        <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
     
                             <ng-container matColumnDef="request">
                                 <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
@@ -205,7 +205,7 @@
                                 </div>
                             </div>
                         </form>
-                        <!-- <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
+                        <!-- <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
   
                           <ng-container matColumnDef="request">
                               <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
@@ -251,7 +251,7 @@
                 <div class="col-md-10">
     
                     <div class="table-responsive">
-                        <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
+                        <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
     
                             <ng-container matColumnDef="request">
                                 <th mat-header-cell *matHeaderCellDef>Waybill No.</th>

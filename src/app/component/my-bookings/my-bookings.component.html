@@ -92,7 +92,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="table-responsive" *ngIf="dataSource">
-                    <table mat-table [dataSource]="dataSource" matSort 
+                    <table  aria-describedby="table"  mat-table [dataSource]="dataSource" matSort 
                      class="mat-elevation-z8" id="my-booking-table">
                         <ng-container matColumnDef="waybillNumber">
                             <th mat-header-cell *matHeaderCellDef>WAYBILL <br> NO.</th>
