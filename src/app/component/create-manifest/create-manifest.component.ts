@@ -531,13 +531,7 @@ export class CreateManifestComponent implements OnInit {
     this.spinner.show();
     this.manifestService.scanPackages(body).subscribe((res: any) => {
       this.spinner.hide();
-      console.log('updated list', res)
-      if (res.status == 'SUCCESS') {
-        // this.router.navigate(['/bookings-web-booking/view-manifest'])
-      }
-      else {
-
-      }
+   
     })
   }
   selectedOffering(event) {

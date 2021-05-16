@@ -773,6 +773,7 @@ export class CreateReBookingRequestComponent implements OnInit {
       this.getCommercials();
     } else {
       this.getCommercials();
+      console.log('test')
     }
   }
 
