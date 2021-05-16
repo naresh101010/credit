@@ -9,21 +9,21 @@
         <div class="table-responsive" style="overflow:hidden">
             <table  aria-describedby="table"  *ngIf="!isDeleteButtonReq && !hideEwayBillCol" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <ng-container matColumnDef="waybill">
-                    <th mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
+                    <th scope="head" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
                     <td mat-cell *matCellDef="let element"> {{element.ewaybillInvoiceDetail.ewaybillNumber}} </td>
                 </ng-container>
 
                 <ng-container  matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice No. </th>
+                    <th scope="head" mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice No. </th>
                     <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="packages">
-                    <th mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice Amount </th>
+                    <th scope="head" mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice Amount </th>
                     <td mat-cell *matCellDef="let element"> {{element.invoiceAmount}} </td>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <th scope="head" mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let element">
                         <em class="material-icons icon_btn_display icon_theme_color" *ngIf="!isViewMode"
                             (click)="deleteEwayBill(element)">delete</em></td>
@@ -37,17 +37,17 @@
                 <div class="col-md-12">
                     <table  aria-describedby="table"  mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
                         <ng-container matColumnDef="waybill">
-                            <th id="" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
+                            <th scope="head" id="" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
                             <td mat-cell *matCellDef="let element"> {{element.ewaybillInvoiceDetail.ewaybillNumber}} </td>
                         </ng-container>
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <th scope="head" mat-header-cell *matHeaderCellDef> </th>
                             <td mat-cell *matCellDef="let element">
                                 <em class="material-icons icon_btn_display icon_theme_color" *ngIf="!isViewMode"
                                     (click)="deleteEwayBill(element)">delete</em></td>
                         </ng-container>
                         <!-- <ng-container matColumnDef="barcode">
-                            <th  mat-header-cell *matHeaderCellDef>
+                            <th scope="head"  mat-header-cell *matHeaderCellDef>
                                 <img src="../assets/images/scanner.png" style="height: 2.7rem;" alt="">
                             </th>
                             <td mat-cell *matCellDef="let element"></td>
@@ -68,16 +68,16 @@
             <div class="col-md-12">
               <table  aria-describedby="table"  mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
                 <ng-container matColumnDef="waybill">
-                  <th id="" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
+                  <th scope="head" id="" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
                   <td mat-cell *matCellDef="let element"> {{element.ewaybillNumber}} </td>
                 </ng-container>
                 <ng-container  matColumnDef="weight">
-                  <th mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice No. </th>
+                  <th scope="head" mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice No. </th>
                   <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="packages">
-                  <th mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice Amount </th>
+                  <th scope="head" mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice Amount </th>
                   <td mat-cell *matCellDef="let element"> {{element.invoiceAmount}} </td>
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>

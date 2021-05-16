@@ -319,7 +319,7 @@ export class CreateStaffComponent implements OnInit {
       this.details.staffLname = ' ';
     }
     this.details.panNum = this.details.panNum.toUpperCase();
-    this.details.status = this.details.status;
+    // this.details.status = this.details.status;
     this.details.assocId = this.staffResponse.id;
     // console.log('this.staffname', this.details.staffFname);
     // console.log('this.middle name', this.details.staffMname);
