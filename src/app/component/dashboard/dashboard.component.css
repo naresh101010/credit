@@ -50,7 +50,6 @@ header {
 h1 {
   margin: 0;
   padding: 100px 0;
-  font: 44px "Arial";
   text-align: center;
 }
 
@@ -325,7 +324,7 @@ h2 {
   text-align: center;
   padding: 15px 10px;
   margin-bottom: 15px;
-  cursor: pointer;
+
   background: #27ae60 !important; 
   cursor: pointer;
   padding-top: 4rem;  
