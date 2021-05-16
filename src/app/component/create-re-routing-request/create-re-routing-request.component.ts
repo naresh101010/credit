@@ -935,11 +935,6 @@ export class CreateReRoutingRequestComponent implements OnInit {
   }
 
   callCommercial(){
-    if (this.wayBillData.sfxPrcContractcode && this.wayBillData.sfxPrcContractcode !== '' && this.wayBillData.msaCustId) {
-      this.getCommercials();
-    } else {
-      this.getCommercials();
-    }
-    //042200000008456
+        this.getCommercials();
   }
 }

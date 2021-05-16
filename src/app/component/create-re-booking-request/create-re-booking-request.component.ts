@@ -769,12 +769,9 @@ export class CreateReBookingRequestComponent implements OnInit {
   }
 
   callCommercial(){
-    if (this.wayBillData.sfxPrcContractcode && this.wayBillData.sfxPrcContractcode !== '' && this.wayBillData.msaCustId) {
+  
       this.getCommercials();
-    } else {
-      this.getCommercials();
-      console.log('test')
-    }
+  
   }
 
 }
