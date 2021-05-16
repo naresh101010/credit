@@ -37,7 +37,7 @@ p{margin: 0 0 1rem;}
 /* User Management */
 #RoleS{color: #27AE60; position: absolute; font-size: 4.0rem; right: 4%; top: 12%;}
 
-.error{font:1.0rem; margin-left: 1.5rem; color: rgb(163, 63, 63); height: 0rem; margin:0rem; padding: 0rem;}
+.error{font:1.0rem; color: rgb(163, 63, 63); height: 0rem; margin:0rem; padding: 0rem;}
 a{cursor: pointer; color:#27AE60}
 
 
