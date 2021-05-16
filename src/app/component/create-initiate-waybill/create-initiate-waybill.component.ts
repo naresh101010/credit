@@ -3478,17 +3478,18 @@ if(this.sampleBody.consigneeId){
 
   }
 
-  makeid(length = 5) {
+   makeid(length = 5) {
+    var array = new Uint32Array(500);
+    let rand_no_arr:any= window.crypto.getRandomValues(array);
     var result = "";
     var characters =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     var charactersLength = characters.length;
     for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
+      result += characters.charAt(rand_no_arr[i].toString()[0]);
     }
     return result;
   }
-
   deletePackageInfoRow(index) {
     
     if (this.fieldsetDisabled == false) {
