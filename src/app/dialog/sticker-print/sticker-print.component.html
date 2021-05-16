@@ -1,0 +1,68 @@
+<div class="modal-container">
+  <div class="mat-dialog-header">
+    <h4 class="margin-zero"><strong>Sticker Printing</strong></h4>
+    <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+  </div>
+  <hr>
+  <div class="mat-dialog-content">
+    <div class="">
+      <button class="theme-button" (click)="stickerPrint2=false; stickerPrint1=false; stickerPrint3=false">Print All</button>
+      <button class="white-button" style="margin: 0 1rem;" (click)="stickerPrint2=false; stickerPrint1=false; stickerPrint3=true">Scan & Print</button>
+      <button class="white-button" (click)="stickerPrint2=false; stickerPrint1=true; stickerPrint3=false">Partial Print</button>
+    </div>
+    <div class="row pt_20" *ngIf="stickerPrint1">
+      <div class="col-md-3">
+        <p><strong>Sticker IDs:</strong></p>
+      </div>
+      <div class="col-md-4">
+        <mat-form-field appearance="outline">
+          <input matInput name="rateCardCode" class="form-control" placeholder="COMMA SEPERATED">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="all_print_card" *ngIf="!stickerPrint2">
+      <div class="padding_15">
+        <p><strong>Total Packags</strong> 100</p>
+        <p><strong>From Location:</strong> Pune, Chakan</p>
+        <p><strong>To Location:</strong> Lonavala</p>
+        <p><strong>Customer Referance No.: </strong> TATA0123123</p>
+      </div>
+      <div class="all_print_greencard">
+        <p>PRINT STICKER <img src="../assets/images/tick.png"></p>
+      </div>
+    </div>
+  </div>
+  <div class="row padding_15" *ngIf="stickerPrint3">
+    <div class="col-md-12">
+      <p><strong>Scanned Packages</strong></p>
+    </div>
+    <div class="col-md-10">
+      <div class="table-responsive">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="request">
+            <th mat-header-cell *matHeaderCellDef>CUSTOMER PACKAGE ID</th>
+            <td mat-cell *matCellDef="let element"> {{element.request}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="waybill">
+            <th mat-header-cell *matHeaderCellDef>STICKER ID</th>
+            <td mat-cell *matCellDef="let element"> {{element.waybill}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="pick">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let element">
+              <em class="fa fa-trash"></em>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <em class="fa fa-barcode" style="font-size: 5rem;"></em>
+    </div>
+  </div>
+</div>

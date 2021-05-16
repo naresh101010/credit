@@ -1,0 +1,30 @@
+.dis-btn{
+    opacity: 0.5;
+}
+.color-danger {
+    color: red;
+}
+
+.safextnsn{
+    color: #27ae60;
+    font-size: 10px !important;
+    margin:0px !important;
+}
+
+
+.uploadbtn{
+    text-transform: uppercase;
+    margin: 0px;
+}
+
+::ng-deep .desticode span.ng-value-label{
+    top: -1px !important;
+    left: 5px !important;
+}
+  
+::ng-deep .desticode .ng-clear-wrapper{
+    height: 20px!important;
+    width: auto !important;
+    margin-right: 5px !important;
+    top: -6px;
+}

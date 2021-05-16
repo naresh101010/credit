@@ -1,27 +1,21 @@
 node {  
-  stage('SCM Checkout assoc_cntr_network_ui'){  
-    git branch: "${env.BRANCH}",credentialsId: 'jenkins-codecommit', url: "https://git-codecommit.ap-south-1.amazonaws.com/v1/repos/assoc_cntr_network_ui"  
+  stage('SCM Checkout usermodule_ui'){  
+    git branch: "${env.BRANCH}",credentialsId: 'jenkins-codecommit', url: "${env.GITURL_CREDIT_CONTRACT_UI}"  
   } 
   def commitSha = sh(returnStdout: true, script: 'git rev-parse HEAD').trim()
     println("commitSha: ${commitSha}")
-    sh "sed -i 's/assoc-cntr-network-ui:BUILDNUMBER/dev:assoc-cntr-network-ui_${BUILD_NUMBER}_${commitSha}/' $WORKSPACE/k8s-config.yaml"
+    sh "sed -i 's/credit-contract-ui:BUILDNUMBER/dev:credit-contract-ui_${BUILD_NUMBER}_${commitSha}/' $WORKSPACE/k8s-config.yaml"
   stage('build source'){ 
       sh 'cp package*.json ./src/app/'  
       sh 'npm install'  
       sh 'npm run build  --output-path=./dist'  
   }
-  stage('sonar'){
-    sh 'sonar-scanner   -Dsonar.projectKey=assoc_cntr_network_ui   -Dsonar.sources=.'
-  }  
   stage('build docker image'){  
-     sh label: '', script: "docker build -t 183454673550.dkr.ecr.ap-south-1.amazonaws.com/dev:assoc-cntr-network-ui_${BUILD_NUMBER}_${commitSha} ."
-  }
-    stage("docker_scan"){
-      sh "clair-scanner --ip=10.41.11.179 183454673550.dkr.ecr.ap-south-1.amazonaws.com/dev:assoc-cntr-network-ui_${BUILD_NUMBER}_${commitSha}"
-    }  
+     sh label: '', script: "docker build -t 183454673550.dkr.ecr.ap-south-1.amazonaws.com/dev:credit-contract-ui_${BUILD_NUMBER}_${commitSha} ."
+  }  
   stage('push ECR_Dev'){  
      withDockerRegistry(credentialsId: 'ecr:ap-south-1:Jenkins-ECR', url: 'https://183454673550.dkr.ecr.ap-south-1.amazonaws.com/dev') {  
-            sh "docker push 183454673550.dkr.ecr.ap-south-1.amazonaws.com/dev:assoc-cntr-network-ui_${BUILD_NUMBER}_${commitSha}"  
+            sh "docker push 183454673550.dkr.ecr.ap-south-1.amazonaws.com/dev:credit-contract-ui_${BUILD_NUMBER}_${commitSha}"  
          }  
     }
      stage('dev'){
@@ -36,13 +30,19 @@ node {
    stage('Deployment approval'){
     input "dev to ECR_QA?"
    }
+   stage('build source'){
+      sh "sed -i 's/internal-ade22be1927c711ea9bac0a3257c4306-803686038.ap-south-1.elb.amazonaws.com/internal-a6a08c80c308711eaa69b0a7ef785cff-527668279.ap-south-1.elb.amazonaws.com/' $WORKSPACE/src/app/app.setting.ts" 
+      sh 'cp package*.json ./src/app/'  
+      sh 'npm install'  
+      sh 'npm run build  --output-path=./dist'  
+  }
    stage('docker image test'){   
    sh "sed -i 's/dev/qa/' $WORKSPACE/k8s-config.yaml"
-    sh "docker tag 183454673550.dkr.ecr.ap-south-1.amazonaws.com/dev:assoc-cntr-network-ui_${BUILD_NUMBER}_${commitSha} 183454673550.dkr.ecr.ap-south-1.amazonaws.com/qa:assoc-cntr-network-ui_${BUILD_NUMBER}_${commitSha}"  
+   sh label: '', script: "docker build -t 183454673550.dkr.ecr.ap-south-1.amazonaws.com/qa:credit-contract-ui_${BUILD_NUMBER}_${commitSha} ."
   } 
   stage('push ECR_Test'){  
      withDockerRegistry(credentialsId: 'ecr:ap-south-1:Jenkins-ECR', url: 'https://183454673550.dkr.ecr.ap-south-1.amazonaws.com/qa') {  
-            sh "docker push 183454673550.dkr.ecr.ap-south-1.amazonaws.com/qa:assoc-cntr-network-ui_${BUILD_NUMBER}_${commitSha}"  
+            sh "docker push 183454673550.dkr.ecr.ap-south-1.amazonaws.com/qa:credit-contract-ui_${BUILD_NUMBER}_${commitSha}"  
          }  
     }
    stage('test'){   

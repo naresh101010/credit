@@ -1,0 +1,46 @@
+<div style="padding: 1.8rem;" class="contractContainer">
+    <div style="position: relative;
+    display: flex;
+    align-content: space-between;">
+        <h3 id="h3"> E-MAIL ID</h3>
+        <i class="fa fa-times fa-2x" aria-hidden="true" id="closeButton" (click)="closeDialog()"></i>
+      </div>
+    <hr id="popup-hr"> 
+            <form name="form" #f="ngForm" novalidate>                 
+                <div class="row multiple-mail marginRightZero">
+                    <div class="col-lg-2 col-md-2 label-text" style="font-size: 2rem;">Email id<sup class="required"> *</sup></div>
+                    <div class="col-lg-10 col-md-10 multipleMail">
+                        <mat-form-field appearance="outline" class="bdm">
+                            <mat-chip-list #emailList aria-label="Email Selection">
+                              <mat-chip *ngFor="let email of communicationemailList" [selectable]="true"
+                                       [removable]="true" (removed)="remove(email)">{{email}}<mat-icon matChipRemove>cancel</mat-icon>
+                              </mat-chip>
+                              <input placeholder="Add New Email..."
+                                     [matChipInputFor]="emailList"
+                                     [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                     [matChipInputAddOnBlur]="true"
+                                     (matChipInputTokenEnd)="add($event)"
+                                     autocomplete="true"
+                                     maxlength="400" email #email>
+                            </mat-chip-list>
+                          </mat-form-field>                     
+                    </div>
+                </div>
+            </form>
+            <div style="margin-top: 3%;display: flex; justify-content: center;" >
+                <mat-accordion>
+                    <div class="example-button-row text-center" style="margin-top: 5%">
+                        <button mat-raised-button mat-button style="background: #27AE60 !important;
+                        font-size: 1.8rem !important;
+                        color: white;
+                        height: 4rem !important;
+                        display: flex !important;
+                        justify-content: center !important;
+                        align-items: center !important;
+                        border-radius: 3rem !important;"
+                            (click)="communicationEmail()" [disabled]="!f.form.valid || !communicationemailList.length">Send Email</button>
+                    </div>
+                </mat-accordion>
+            </div>
+</div>
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">  </ngx-spinner>

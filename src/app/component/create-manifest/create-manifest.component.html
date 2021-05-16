@@ -1,0 +1,264 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a>
+        <span class="fa fa-caret-right"></span>
+        <a [routerLink]="['/bookings-web-booking/web-booking']">Booking</a>
+        <span class="fa fa-caret-right"></span>
+        <a [routerLink]="['/bookings-web-booking/manifest-creation']">Manifest</a>
+        <span class="fa fa-caret-right"></span> Create Manifest
+        <!-- <li><a [routerLink]="['/bookings-web-booking/web-booking']">Home</a></li>
+        <li><a href="#">Booking</a></li>
+        <li class="active" style="background: none;">Create Manifest</li> -->
+    </ol>
+    <div>
+        <h3>Create Manifest</h3>
+
+        <mat-card class="generated_mat_card">
+            <div class="row manifest_card_sec">
+                <div class="col-md-4">
+                    <h4 class="table_heading"><strong>To Location</strong></h4>
+                    <div class="module_area position-relative">
+                        <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control">
+                            <!-- <mat-label>ALL</mat-label> -->
+                            <mat-select (selectionChange)="selectBranch($event)">
+                                <mat-option [value]="hub.branchId" *ngFor="let hub of hubList">
+                                    {{hub.branchName}}
+                                </mat-option>
+                            </mat-select>
+                         </mat-form-field>
+                        <!-- <input type="text" class="form-control"  name="hubname" (keyup)="onKeyUp($event)" [(ngModel)]="hubname">
+                        <ng-container *ngIf="hubList && hubList.length && showHubList" >
+                            <ul class="hub-lists">
+                                <li *ngFor="let item of hubList" class="hub-item" (click)="selectLocation(item)">{{item.branchName}}</li>
+                            </ul>
+                        </ng-container> -->
+                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-1">
+                    <h4 class="table_heading"><strong>Service Offering</strong></h4>
+                    <div class="module_area">
+                        <mat-form-field class="select_box_dropwodn overline_hidden " class="form-control">
+                            <!-- <mat-label>{{getSelectedService()}}</mat-label> -->
+                            <mat-select [(ngModel)]="serviceOfferId" multiple
+                                (ngModelChange)="selectedOffering($event)">
+                                <mat-option [value]="offering.id" *ngFor="let offering of serviceOfferingList">
+                                    <!-- [disabled]="manifestId && serviceOfferId.includes(offering.id)" -->
+                                    {{offering.value}}
+                                </mat-option>
+
+                            </mat-select>
+
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <h4><strong>Select Manifest Vehicle</strong></h4>
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="vehicleLists" class="mat-elevation-z8">
+                            <ng-container matColumnDef="checkbox">
+                                <th mat-header-cell *matHeaderCellDef></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="module_area">
+                                        <mat-radio-group name="rrFlag">
+                                            <mat-radio-button [value]="element.id" (change)="radioChange(element.id, i)">
+                                            </mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="waybill">
+                                <th mat-header-cell *matHeaderCellDef> Vehicle Number </th>
+                                <td mat-cell *matCellDef="let element"> {{element.vehicleNum}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="pickup">
+                                <th mat-header-cell *matHeaderCellDef> Vehicle Model </th>
+                                <td mat-cell *matCellDef="let element"> {{element.vehicleModelId}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="mop">
+                                <th mat-header-cell *matHeaderCellDef> Vehicle Tonnage </th>
+                                <td mat-cell *matCellDef="let element"> {{element.tareWt}} </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="row" *ngIf="isBranchScannable">
+                <div class="col-md-2">
+                    <div class="searchbar_bw">
+                        <mat-form-field appearance="outline">
+                            <input matInput name="rateCardCode" class="form-control" placeholder="Sticker number"
+                                (keyDown.enter)="scanAndSavePakages($event.target.value)"  [(ngModel)]="stickerNumber">
+                        </mat-form-field>
+                        <em class="fa fa-search"></em>
+                    </div>
+                </div>
+                <div class="col-md-11">
+                    <h4><strong style="margin: 0 10px 0 0;">Scan Packages</strong> <img
+                            src="../assets/images/scanner.png" style="height: 2.7rem;cursor:pointer"
+                             alt="">
+                    </h4>
+                    <div class="table-responsive">
+                        <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
+
+                            <ng-container matColumnDef="request">
+                                <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
+                                <td mat-cell *matCellDef="let element"> {{element.wayBillNumber}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="congsigneename">
+                                <th mat-header-cell *matHeaderCellDef>Consignor Name.</th>
+                                <td mat-cell *matCellDef="let element"> {{element.consignerName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="custtype">
+                                <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+                                <td mat-cell *matCellDef="let element"> {{element.custTypeLookupId}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="booking">
+                                <th mat-header-cell *matHeaderCellDef>Total Packages</th>
+                                <td mat-cell *matCellDef="let element"> {{element.availablepackage}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="remaning">
+                                <th mat-header-cell *matHeaderCellDef>Remaining Packages</th>
+                                <td mat-cell *matCellDef="let element"> {{ element.remaninigPackages }}
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 col-md-offset-5">
+                            <button mat-raised-button class="btn theme-button" [disabled]="waybillNumbersWihScan.length == 0" (click)="consolidateManifest()">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="!isBranchScannable">
+                <div class="col-md-12">
+                    <h4><strong style="margin: 0 10px 0 0;">Add Packages</strong></h4>
+                </div>
+                <div class="col-md-12">
+
+                    <div class="table-responsive">
+                        <form [formGroup]="addForm" (ngSubmit)="createManifest()">
+                            <!-- <div formArrayName="rows"> -->
+                            <div class="col-md-9">
+                                <div class="form-group">
+
+                                    <table>
+                                        <thead>
+                                            <th>Waybillnumber</th>
+                                            <th>Consignor Name</th>
+                                            <th>Customer Type</th>
+                                            <th>Total Package</th>
+                                            <th>Load Packages</th>
+                                            <th></th>
+                                        </thead>
+                                        <tbody formArrayName="rows">
+                                            <ng-container *ngFor="let row of rows.controls; let i = index">
+
+                                                <tr [formGroupName]="i">
+                                                    <td>
+                                                        <input formControlName="wayBillNumber"
+                                                            (keyup)="keyValue($event,i)" maxlength="15">
+                                                    </td>
+                                                    <td>
+                                                        {{rows.controls[i].value?.consignerName}}
+                                                    </td>
+                                                    <td>
+                                                        {{rows.controls[i].value?.customerType}}
+                                                    </td>
+                                                    <td>
+                                                        {{rows.controls[i].value?.totalPackage}}
+                                                    </td>
+                                                    <td>
+                                                        <input formControlName="loadPackages" (keyup)="onKeyUpInLoadedPackage(i)">
+                                                    </td>
+                                                    <td>
+                                                        <!-- <img style="margin-bottom: -10px; margin-left:15px; vertical-align: middle;"
+                                                            class="tile-img" src="../assets/images/delete.png" alt=""
+                                                            (click)="onRemoveRow(i)"> -->
+                                                            <em class="material-icons icon_btn_display icon_theme_color"  (click)="onRemoveRow(i)">delete</em>
+                                                    </td>
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table>
+
+                                    <div class="row">
+                                        <div class="col-md-2 col-md-offset-5">
+                                            <button mat-raised-button class="btn theme-button"
+                                                style="margin-top: 50px; " [disabled]="addForm.invalid || waybillNumbers.length == 0" >Submit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- </div> -->
+                            <div class="col-md-3">
+                                <div style="padding: 0;">
+                                    <mat-icon mat-card-avatar class="mat-plus-icon" aria-label="Example icon"
+                                        type="button" (click)="onAddRow()">add_circle
+                                    </mat-icon>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
+  
+                          <ng-container matColumnDef="request">
+                              <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
+                              <td mat-cell *matCellDef="let element"> <input class="form-control mr_bottom_0" type="text"></td>
+                          </ng-container>
+  
+                          <ng-container matColumnDef="waybill">
+                              <th mat-header-cell *matHeaderCellDef>Consignor Name.</th>
+                              <td mat-cell *matCellDef="let element"> {{element.waybill}} </td>
+                          </ng-container>
+  
+                          <ng-container matColumnDef="pick">
+                              <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+                              <td mat-cell *matCellDef="let element"> {{element.pick}} </td>
+                          </ng-container>
+  
+                          <ng-container matColumnDef="booking">
+                              <th mat-header-cell *matHeaderCellDef>Total Packages</th>
+                              <td mat-cell *matCellDef="let element"> {{element.booking}} </td>
+                          </ng-container>
+  
+                          <ng-container matColumnDef="remaning">
+                              <th mat-header-cell *matHeaderCellDef>loaded packages</th>
+  
+                              <td mat-cell *matCellDef="let element">
+                                  <div><input class="form-control img_adjust mr_bottom_0" type="text"> <img src="../assets/images/red_delete.png" alt="" style="cursor: pointer;" class="del_img"></div>
+                              </td>
+                          </ng-container>
+  
+                          <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                          <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+                      </table> -->
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+        </mat-card>
+    </div>
+
+</div>

@@ -1,0 +1,91 @@
+<div class="container">
+    <div class="breadcrumb">
+        <a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a>
+        <span class="fa fa-caret-right"></span>
+        <a [routerLink]="['/bookings-web-booking/web-booking']">Booking</a>
+        <span class="fa fa-caret-right"></span>
+        <a [routerLink]="['/bookings-web-booking/manifest-creation']">Manifest</a>
+        <span class="fa fa-caret-right"></span> View Manifest
+    </div>
+    <h3>View Manifest</h3>
+
+    <mat-card class="generated_mat_card view_manifest_sec">
+        <div class="row card_inner_sec box_shadow_size">
+            <div class="col-md-12 shadow_white">
+                <button mat-raised-button class="btn transparent-button" (click)="openEmailModal()"> <a><em class="fa fa-envelope"></em>
+                        Email</a> </button>
+                <button mat-raised-button class="btn transparent-button"> <a
+                        (click)="downloadExcel()"><em class="fa fa-download"></em>
+                        Download</a></button>
+                <button mat-raised-button class="btn transparent-button"> <a
+                        [routerLink]="['/bookings-web-booking/manifest-creation']"><em class="fa fa-print"></em>
+                        Print</a></button>
+            </div>
+        </div>
+        <div class="card_inner_sec">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4><strong>Manifest Content</strong></h4>
+                    <div class="table-responsive" *ngIf="isNic==false">
+                        <table mat-table [dataSource]="waybillList" class="mat-elevation-z8" id="waybill-table">
+
+                            <ng-container matColumnDef="waybill">
+                                <th mat-header-cell *matHeaderCellDef> Waybill No. </th>
+                                <td mat-cell *matCellDef="let element"> {{element.wayBillNumber}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="pickup">
+                                <th mat-header-cell *matHeaderCellDef> Consignor Name </th>
+                                <td mat-cell *matCellDef="let element"> {{element.consignorName}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="mop">
+                                <th mat-header-cell *matHeaderCellDef> Destination Pincode </th>
+                                <td mat-cell *matCellDef="let element"> {{destpinCode}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="service">
+                                <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                                <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+                    </div>
+                    <div class="table-responsive" *ngIf="isNic">
+                        <table mat-table [dataSource]="eWaybillList" class="mat-elevation-z8" id="consolidate-table">
+                            <ng-container matColumnDef="Consolidation">
+                                <th mat-header-cell *matHeaderCellDef> Consolidation No. </th>
+                                <td mat-cell *matCellDef="let element"> {{element.ewayblCnsolNum}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="Vehicle">
+                                <th mat-header-cell *matHeaderCellDef> Vehicle No. </th>
+                                <td mat-cell *matCellDef="let element"> {{getVehicleNumber(element.vehicleId)}} </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="ewaybill">
+                                <th mat-header-cell *matHeaderCellDef> No. OF E-WAYBILL </th>
+                                <td mat-cell *matCellDef="let element"> {{ getNoOfEwayBill(element) }} </td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-3 text-center">
+                    <div class="qr_code_scan">
+                        <img [src]="manifestQrCode" class="barcode_img_1" alt="" (click)="showConsilidateData()" />
+                        <h4 class="text-center"><strong>Manifest No</strong> : {{ manifestDeatils ? manifestDeatils.manifestNum : ''}} <br> <strong>To Location</strong> : {{ toLocation }}</h4><br>
+                        <ng-container *ngIf="nicNumber">
+                            <img [src]="nicQrCode" class="barcode_img_2" alt="" />
+                            <h4 class="text-center"><strong>NIC</strong> <span style="color: #27AE60; cursor:pointer" (click)="nicData()"> : {{ nicNumber }}  </span></h4>
+                        </ng-container>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </mat-card>
+
+</div>

@@ -1,0 +1,953 @@
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise"> </ngx-spinner>
+<section class="bookingsContainer">
+    <div class="container">
+        <div class="row ">
+            <div class="col-md-6 text-left">
+                <p style="color: white;font-size: 3.2rem !important;">{{greet}},
+                    <strong style="padding-left: 8px;">{{userName}}!</strong>
+                </p>
+            </div>
+            <div class="col-md-offset-3 col-md-3 text-right">
+                <label style="color: white;font-size: 3rem; line-height: 20px; margin-top: 2rem;"
+                    class="dash_associate_title">BOOKING<br> <button (click)="openSearchBranchModal('Switch Branch')"
+                        class="search_branch_wb" [disabled]="textDisable" style="background: transparent;
+          border: none;">Switch Branch</button></label>
+          <p class="selected_branch_name">{{branchName}}</p>
+          
+            </div>
+        </div>
+    </div>
+    <div class="container containerWidth d_top_3card" style="margin-top: 19rem;">
+        <div class="row countCard">
+            <div class="col-md-4">
+                <mat-card class="count_card" style="border-radius: 1rem">
+                    <mat-card-content>
+                        <label style="color: #27AE60;font-size: 2.2rem;">
+                            Total Booking
+                        </label>
+                        <h2 class="cardPointer">
+                            {{totalBookings ? totalBookings : 0}}
+                        </h2>
+                        <h5>For Today</h5>
+                        <div class="topCircle"></div>
+                        <div class="bottomCircle"></div>
+                    </mat-card-content>
+
+                </mat-card>
+
+            </div>
+            <div class="col-md-4">
+                <mat-card class="count_card">
+                    <mat-card-content>
+                        <label style="color: #27AE60;font-size: 2.2rem;">Pending For Assignment</label>
+                        <h2 class="cardPointerRed">{{pendingAssignment ? pendingAssignment : 0}}</h2>
+                        <h5>For Today</h5>
+                        <div class="topCircle"></div>
+                        <div class="bottomCircle"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col-md-4">
+                <mat-card class="count_card">
+                    <mat-card-content>
+                        <label style="color: #27AE60;font-size: 2.2rem;">
+                            Pending Action
+                        </label>
+                        <h2 class="cardPointerRed">{{pendingAction ? pendingAction : 0}}</h2>
+                        <h5>For Today</h5>
+                        <div class="topCircle"></div>
+                        <div class="bottomCircle"></div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+
+    <section class="container mt15 containerWidth">
+
+        <div class="row">
+            <div class="col-md-10" *ngIf="!openBooking">
+                <mat-card style="height: 60rem;">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="open_booking_tab topHeadml" *ngIf="this.permission.waybillApi.length">
+                                <button (click)="wayBill('wayBill')"
+                                    [ngClass]="wayBillchange ? 'theme-button' : 'white-button' " class="topHead">WAYBILL
+                                    API</button>
+                                <button (click)="getActiveStaffList();getAllLookups();wayBill('preBook');"
+                                    [ngClass]="!wayBillchange ? 'theme-button' : 'white-button' " #pre_booking_tab class=" topHead">Pre
+                                    Booking</button>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="label_and_add" *ngIf="isPresentBranch && directBookingEnabled">
+                                <label for="" class="control-label">Initiate Direct Booking</label>
+                                <mat-icon mat-card-avatar class="mat-plus-icon" aria-label="Example icon"
+                                    [routerLink]="['/bookings-web-booking/start-booking']" (click)="removeWaybillId()">
+                                    add_circle
+                                </mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="this.permission.waybillApi.length">
+                        <div class="col-md-8">
+                            <h4><strong>Open Booking Requests <span>({{count}})</span></strong></h4>
+                        </div>
+                        <div class="col-md-4" style="display: flex;">
+                            <div style="width: 50%;">
+                                <mat-form-field class="cust-searchname" appearance="outline"
+                                    style="background: #27ae60;height: 2.8rem; border-radius: 2px 0px 0px 2px; margin-top:-1px; border: none; color: white;">
+                                    <!-- <input matInput panelClass="uploadDocument" name="searchByVal" class="form-control" > -->
+                                    <!-- <mat-label style="color: white;">MSA NAME</mat-label> -->
+                                    <mat-select [(ngModel)]="searchOption" panelClass="cust-searchbd"
+                                        class="search-dashboard">
+                                        <mat-option value="Customer" class="search-dashboard-text"
+                                            style="margin-top: 0px !important;">Customer Name</mat-option>
+                                        <mat-option value="Sfx" class="search-dashboard-text"
+                                            style="margin-top: 0px !important;">SFX CODE</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="searchbar_bw" style="width: 50%;">
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="rateCardCode" class="form-control" placeholder="Search"
+                                        (keyup)="searchBooking($event.target.value)">
+                                </mat-form-field>
+                                <em class="fa fa-search"></em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="searchPickUp">
+                        <div class="col-md-10">
+                            <h4><strong>Pick Up Person Summary</strong></h4>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="searchbar_bw">
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="rateCardCode" class="form-control" placeholder="Search">
+                                </mat-form-field>
+                                <em class="fa fa-search"></em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive" [hidden]="!dataaourceWaybillRebookin?.data?.length > 0">
+                                <table mat-table [dataSource]="dataaourceWaybillRebookin" matSort class="mat-elevation-z8">
+                                    <ng-container matColumnDef="request">
+                                        <th mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <a (click)="openTataAerocityModal(element)">
+                                                <div class="table_discription">{{getCustmName(element)}}</div>
+                                            </a>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="waybill">
+                                        <th mat-header-cell *matHeaderCellDef>BOOKING TYPE</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="table_description"
+                                                *ngIf="element.businessType === 'ANYWHERE TO ANYWHERE'">A2A</div>
+                                            <div class="table_description"
+                                                *ngIf="element.businessType !== 'ANYWHERE TO ANYWHERE'">
+                                                {{element.businessType}}</div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pick">
+                                        <th mat-header-cell *matHeaderCellDef>CUSTOMER CODE</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="{{element.pick}}">{{element.sfxCode || element.prcContractCode}}
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="booking">
+                                        <th mat-header-cell *matHeaderCellDef>MOBILE NO.</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="table_discription" *ngIf="storewayBill !== 'wayBill'">
+                                                {{getCnorMobileNum(element)}}</div>
+                                            <div class="table_discription" *ngIf="storewayBill === 'wayBill'">
+                                                {{getCnorMobileNum(element)}}</div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="destination">
+                                        <th mat-header-cell *matHeaderCellDef>PICKUP DATE</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="table_discription">{{element.pickUpDate}}</div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="sfx">
+                                        <th mat-header-cell *matHeaderCellDef>PICKUP TIME</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="table_discription">{{element.pickUpFromTime}}</div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="customer">
+                                        <th mat-header-cell *matHeaderCellDef class="textCenter">ADDRESS</th>
+                                        <td mat-cell *matCellDef="let element" class="textCenter">
+                                            <div class="table_discription">
+                                                <em class="material-icons icon_theme_color"
+                                                    [matTooltip]="getAddress(element)"
+                                                    [matTooltipPosition]="'above'">room</em>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+                                    <!-- <ng-container *ngIf="storewayBill=='preBook'"> -->
+
+                                    <ng-container matColumnDef="assignTo" *ngIf="storewayBill=='preBook'">
+                                        <th mat-header-cell *matHeaderCellDef>ASSIGNED TO</th>
+                                        <td mat-cell *matCellDef="let element" class="textCenter">
+                                            <div class="table_discription">
+                                                <em class="material-icons veiw" [matTooltip]="View"
+                                                    [matTooltipPosition]="'above'"
+                                                    *ngIf="!element.pickupUserId && !element.userId">visibility</em>
+                                                    <em class="material-icons veiw" [matTooltipPosition]="'above'"
+                                                    matTooltip=" {{ element.lkpPickupUserTypeId ? getAssignedPickupUserName(element) : element.pickupUserId}}"
+                                                    style="color: #27ae60 !important; cursor: pointer !important;"
+                                                    *ngIf="element.userId || element.pickupUserId">visibility</em>
+                                                    
+                                            </div>
+
+                                            <!-- [matTooltip]="getPickUpName(element.pickupUserId)" -->
+                                            <!-- <div class="table_discription">{{element.assignTo}}</div> -->
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="assignBtn" *ngIf="storewayBill=='preBook'">
+                                        <th mat-header-cell *matHeaderCellDef>.</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="whitBut">
+                                                <button class="btn theme-button p-0 assgnBt" mat-raised-button
+                                                    (click)="openAssignBookingModal(element)"
+                                                    *ngIf="!element.pickupUserId">ASSIGN</button>
+                                                <button class="btn theme-button p-0 assgnBt" mat-raised-button
+                                                    (click)="openAssignBookingModal(element)"
+                                                    *ngIf="element.pickupUserId">RE-ASSIGN</button>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="laying">
+                                        <th mat-header-cell *matHeaderCellDef>.</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <div class="">
+                                                <button class="btn theme-button p-0" mat-raised-button
+                                                    (click)="openSelectWaybillModal(element)">INITIATE</button>
+                                            </div>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedWaybillColumns"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedWaybillColumns;"></tr>
+
+                                </table>
+                                <div panelClass="paginator">
+                                    <mat-paginator #WayBillPreBook class="paginator"
+                                      [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons>
+                                    </mat-paginator>
+                                </div> 
+                            </div>
+                            <div *ngIf="dataaourceWaybillRebookin?.data.length == 0">No data found</div>
+                        </div>
+                    </div>
+                    <!-- <div><mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator></div> -->
+                </mat-card>
+            </div>
+
+            <!-- sale dashboard start -->
+            <div class="col-md-10" *ngIf="saleDashboard">
+                <!-- <img src="../assets/images/dashboard_top.png" alt="dashboard_top" class="imageWidth" /> -->
+                <div>
+
+                    <p class="total_outstanding"><strong>TOTAL OUTSTANDING : </strong> Rs. {{totalOutstandigAmount}}</p>
+                    
+                    <div class="row sale_web_sec">
+                        <div class="col-md-6" style="margin-bottom: 1rem;">
+                            <div class="d-flex">
+                                <mat-form-field style="width: 50%!important;">
+                                    <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY"
+                                        [value]="salesFromDate" (dateChange)="onChangeSalesFromDate($event)" [max]="maxToDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                </mat-form-field>
+                                <mat-form-field style="width: 50%!important">
+                                    <input matInput class="form-control" [matDatepicker]="picker2" placeholder="DD/MM/YYYY"
+                                        [value]="salesToDate" (dateChange)="onChangeSalesToDate($event)"  [min]="salesFromDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                            <mat-card class="padding_0 mb_15">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <p class="active text-center"><strong>Total<br>Sale</strong></p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p><strong *ngIf="saleDashboard">Rs. {{saleDashboard.totalSaleAmount}}</strong><br>
+                                            {{daysDifference}}
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p class="bg_gray text-center"><strong>Surface: <br>Rs. {{totalSurface}}</strong></p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <p>Air:<br>Rs. {{totalAir}}</p>
+                                    </div>
+                                </div>
+                            </mat-card>
+                            <div class="row"
+                                *ngIf="saleDashboard && saleDashboard.salesByMop && saleDashboard.salesByMop.length > 0">
+                                <div class="col-md-4" *ngFor="let mop of saleDashboard.salesByMop">
+                                    <mat-card class="padding_0 mb_15">
+                                        <p class="active text-center"><strong>{{refType(mop.branchMopId)}}</strong></p>
+                                        <p class="text-center"><strong>Rs. {{mop.totalAmount}}</strong></p>
+                                        <p class="text-center" *ngFor="let offering of mop.salesByOffering; let i=index" [ngClass]="i%2!=0 ? '' : 'bg_gray'">
+                                            <strong>{{refOffer(offering.offeringId)}} Rs. {{offering.totalAmount}}</strong>
+                                        </p>
+                                        <!-- <p class="text-center"><strong>Air Rs. 20,000</strong></p> -->
+                                    </mat-card>
+
+
+                                    <!-- <p class="active text-center"><strong>{{refType(mop.branchMopId)}}</strong></p>
+                                        <p class="text-center"><strong>Rs. {{mop.totalAmount}}</strong></p>
+                                        <p class="text-center" *ngFor="let offering of mop.salesByOffering; let i = index"><strong>{{refOffer(offering.id)}} Rs. {{offering.totalAmount}}</strong></p> -->
+                                </div>
+                                <!-- <div class="col-md-4">
+                                    <mat-card class="padding_0 mb_15">
+                                        <p class="active text-center"><strong>To Pay</strong></p>
+                                        <p class="text-center"><strong>Rs. 40,000</strong></p>
+                                        <p class="bg_gray text-center"><strong>Surface Rs. 20,000</strong></p>
+                                        <p class="text-center"><strong>Air Rs. 20,000</strong></p>
+                                    </mat-card>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-card class="padding_0 mb_15">
+                                        <p class="active text-center"><strong>Paid</strong></p>
+                                        <p class="text-center"><strong>Rs. 30,000</strong></p>
+                                        <p class="bg_gray text-center"><strong>Surface Rs. 20,000</strong></p>
+                                        <p class="text-center"><strong>Air Rs. 10,000</strong></p>
+                                    </mat-card>
+                                </div> -->
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <mat-card style="padding: 2px!important; margin-bottom: 1rem;">
+                                <p><strong>Total Sales </strong> </p>
+                                <!-- <p class="total_amount_adjust"><strong>Rs.</strong> <br> <strong>1,00,000</strong></p> -->
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <!-- <div><div style="height: 1rem; width: 1rem; background-color: green;"></div><p>Credit: {{ 'RS ' + credit }}</p></div> -->
+                                        <h4><div class="circle_credit"></div><h6>Credit: {{ 'RS ' + credit }}</h6></h4>
+                                        <h4><div class="circle_toPay"></div><h6>To Pay: {{ 'RS ' + toPay }}</h6></h4>
+                                        <h4><div class="circle_paid"></div><h6>Paid: {{ 'RS '  + paid }}</h6></h4>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div style="display: block">
+                                            <canvas baseChart [data]="doughnutChartData" [labels]="doughnutChartLabels"
+                                            [colors]="doughnutChartColors" [options]="chartOptions"
+                                                [chartType]="doughnutChartType"></canvas>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!-- <br>
+                                <div class="row">
+                                    <div class="col-md-7">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="module_area">
+                                                    <mat-radio-group name="rrFlag">
+                                                        <mat-radio-button [value]="1">Credit
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" *ngFor="let mop of saleDashboard.salesByMop">
+                                                <mat-label *ngIf="refType(mop.branchMopId) === 'CREDIT'"><strong>Rs. {{mop.totalAmount}}</strong></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="module_area blue_radio_button">
+                                                    <mat-radio-group name="rrFlag">
+                                                        <mat-radio-button [value]="1">To Pay
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" *ngFor="let mop of saleDashboard.salesByMop">
+                                                <mat-label *ngIf="refType(mop.branchMopId) === 'TO PAY'"><strong>Rs. {{mop.totalAmount}}</strong></mat-label>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="module_area orange_radio_button">
+                                                    <mat-radio-group name="rrFlag">
+                                                        <mat-radio-button [value]="1">Paid
+                                                        </mat-radio-button>
+                                                    </mat-radio-group>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6" *ngFor="let mop of saleDashboard.salesByMop">
+                                                <mat-label *ngIf="refType(mop.branchMopId) === 'PAID'"><strong>Rs. {{mop.totalAmount}}</strong></mat-label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <img src="../assets/images/piechart.png" alt="" class="pieImage">
+                                    </div>
+                                </div> -->
+                                <br>
+                            </mat-card>
+                        </div>
+                    </div>
+                </div>
+                <mat-card>
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h4><strong>Pick Up Person Summary</strong></h4>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="form-group">
+                                <input class="form-control" type="text" (keyup)="onSearchUserData($event.target.value)"
+                                placeholder="Search By Name">
+                                <em class="fa fa-search input-icon"></em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" [hidden]="!salesUsers?.data?.length > 0">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table mat-table [dataSource]="salesUsers" class="mat-elevation-z8">
+
+                                    <ng-container matColumnDef="request">
+                                        <th mat-header-cell *matHeaderCellDef>PICK UP PERSON</th>
+                                        <td mat-cell *matCellDef="let element"> <a>{{element.staffFname}}
+                                                {{element.staffMname || ''}} {{element.staffLname || ''}}</a> </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="waybill">
+                                        <th mat-header-cell *matHeaderCellDef class="textCenter">TOTAL WAYBILL</th>
+                                        <td mat-cell *matCellDef="let element" class="textCenter">
+                                            {{element.totalWaybills}}
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pick">
+                                        <th mat-header-cell *matHeaderCellDef class="textCenter">CREDIT-
+                                            <P class="m-0">SURFACE/AIR</P>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" class="textCenter">
+                                            <ng-container *ngIf="element.waybillsReport">
+                                                <div *ngFor="let mop of element.waybillsReport.waybillsByMop">
+                                                    <p *ngIf="refType(mop.branchMopId) === 'CREDIT'">
+                                                        {{mop.totalAmount}}
+                                                    </p>
+                                                    <p *ngIf="refType(mop.branchMopId) === 'CREDIT'">
+                                                        {{offeringValues(mop)}}
+                                                    </p>
+                                                </div>
+                                            </ng-container>
+                                            <!-- <p class="m-0">
+                                                {{element.pick2}}</p> -->
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="booking">
+                                        <th mat-header-cell *matHeaderCellDef class="textCenter">TO PAY-
+                                            <p class="m-0">SURFACE/AIR</p>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" class="textCenter">
+                                            <!-- {{element.booking}}
+                                            <p class="m-0">
+                                                {{element.booking2}}</p> -->
+                                            <ng-container *ngIf="element.waybillsReport">
+
+                                                <div *ngFor="let mop of element.waybillsReport.waybillsByMop">
+                                                    <p *ngIf="refType(mop.branchMopId) === 'TO PAY'">
+                                                        {{mop.totalAmount}}
+                                                    </p>
+                                                    <p *ngIf="refType(mop.branchMopId) === 'TO PAY'">
+                                                        {{offeringValues(mop)}}
+                                                    </p>
+                                                </div>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="destination">
+                                        <th mat-header-cell *matHeaderCellDef class="textCenter">PAID-
+                                            <p class="m-0">SURFACE/AIR</p>
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" class="textCenter">
+                                            <!-- {{element.destination}}
+                                            <p class="m-0">
+                                                {{element.destination2}}</p> -->
+                                            <ng-container *ngIf="element.waybillsReport">
+
+                                                <div *ngFor="let mop of element.waybillsReport.waybillsByMop">
+                                                    <p *ngIf="refType(mop.branchMopId) === 'PAID'">
+                                                        {{mop.totalAmount}}
+                                                    </p>
+                                                    <p *ngIf="refType(mop.branchMopId) === 'PAID'">
+                                                        {{offeringValues(mop)}}
+                                                    </p>
+                                                </div>
+                                            </ng-container>
+                                        </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="sfx">
+                                        <th mat-header-cell *matHeaderCellDef class="textCenter">COMPLETED BOOKINGS</th>
+                                        <td mat-cell *matCellDef="let element" class="textCenter"> <span
+                                                class="cColor">{{getOpenBookingCount(element.staffId)}}</span> <span
+                                                class="pColor">/{{getAssignedBookingCount(element.staffId)}}</span>
+                                        </td>
+                                    </ng-container>
+
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div panelClass="paginator" [hidden]="!salesUsers?.data?.length > 0">
+                        <mat-paginator class="paginator" [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+                    </div>
+                    <div *ngIf="salesUsers?.data.length == 0">No data found</div>
+                </mat-card>
+            </div>
+
+            <!-- e payment dashboard start -->
+            <div class="col-md-10" *ngIf="ePayment">
+                <mat-card>
+                    <div class="row">
+                        <div class="col-md-1 col-md-half">
+                            <label for="" class="control-label">From</label>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY"
+                                    [value]="fromDate" (dateChange)="onChangeFromDate($event)" [max]="maxDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-1 col-md-half">
+                            <label for="" class="control-label">To</label>
+                        </div>
+                        <div class="col-md-2">
+                            <mat-form-field>
+                                <input matInput class="form-control" [matDatepicker]="picker" placeholder="DD/MM/YYYY"
+                                    [value]="toDate" (dateChange)="onChangeToDate($event)" [min]="fromDate"
+                                    [max]="maxToDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn theme-button" (click)="getEpaymentList()"
+                                mat-raised-button>Search</button>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="label_and_add" *ngIf="epaymentEnabled">
+                                <label for="" class="control-label">Initiate New Payment</label>
+                                <mat-icon mat-card-avatar class="mat-plus-icon" aria-label="Example icon"
+                                    (click)="openCreateNewRequestModal()">add_circle</mat-icon>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <div class="searchbar_bw">
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="rateCardCode" class="form-control" placeholder="Search"
+                                        (keyup)="applyFilter($event.target.value)">
+                                </mat-form-field>
+                                <em class="fa fa-search"></em>
+                            </div>
+                        </div>
+                        <div class="col-md-10 text-right">
+                            <a (click)="downloadExcel()"><img src="../assets/images/download.png" alt=""><em> Download
+                                    Excel</em></a>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table mat-table [dataSource]="ePayemntsList" class="mat-elevation-z8">
+
+                                    <ng-container matColumnDef="request">
+                                        <th mat-header-cell *matHeaderCellDef>RECEIPT ID</th>
+                                        <td mat-cell *matCellDef="let element"> <a
+                                                style="cursor: default;">{{element.pymtRefNum}}</a> </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="waybill">
+                                        <th mat-header-cell *matHeaderCellDef>WAYBILL NO.</th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.paymentWaybills | toString :
+                                            'waybillNumber' }} </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="reqRaisedDate">
+                                        <th mat-header-cell *matHeaderCellDef>REQ. RAISED DATE</th>
+                                        <td mat-cell *matCellDef="let element"> {{ element.createdDate | date:
+                                            'dd/MM/yyyy' }} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="pick">
+                                        <th mat-header-cell *matHeaderCellDef>AMOUNT</th>
+                                        <td mat-cell *matCellDef="let element"> {{element.totalPaymentAmount}} </td>
+                                    </ng-container>
+
+                                    <ng-container matColumnDef="booking">
+                                        <th mat-header-cell *matHeaderCellDef>STATUS</th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <span
+                                                *ngIf="element.lkpPymtRecvdStatusId && element.lkpPymtRecvdStatusId!==0"
+                                                class="cColor">
+                                                PAID </span>
+                                            <span
+                                                *ngIf="!element.lkpPymtRecvdStatusId || element.lkpPymtRecvdStatusId===0"
+                                                class="pColor">
+                                                PENDING </span>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container matColumnDef="confirm">
+                                        <th mat-header-cell *matHeaderCellDef></th>
+                                        <td mat-cell *matCellDef="let element">
+                                            <button class="btn theme-button" mat-raised-button
+                                                (click)="confirmPayment(element)">CONFIRM</button>
+                                        </td>
+                                    </ng-container>
+                                    <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
+                                    <tr mat-row *matRowDef="let row; columns: displayedColumns3;"></tr>
+
+                                </table>
+                                <div panelClass="paginator">
+                                    <mat-paginator class="paginator" [length]="length" [pageSize]="pageSize"
+                                        [pageSizeOptions]="pageSizeOptions" (page)="onPagechange($event)">
+                                    </mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div><mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator></div> -->
+                </mat-card>
+            </div>
+
+            <!-- day end dashboard start -->
+            <div class="col-md-10" *ngIf="dayEnd">
+                <mat-card >
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="open_booking_tab day_end_tab topHeadml">
+                                <button class="topHead" [ngClass]="dayEndBookingTab ? 'theme-button' : 'white-button' "
+                                    style="padding: 1.5rem !important;"
+                                    (click)="getDayEndBookingList();dayEndBookingTab=true; dayFinancialTab=false; dayEndMenualTab=false; dayEndcompleted=false">BOOKING
+                                    RECONCILIATION ({{dayEndBookings && dayEndBookings.data.length}})</button>
+                                <button class="topHead" [ngClass]="dayFinancialTab ? 'theme-button' : 'white-button' "
+                                    style="padding: 1.5rem !important;"
+                                    (click)="getDayFinancialList();dayEndBookingTab=false; dayFinancialTab=true; dayEndMenualTab=false; dayEndcompleted=false">FINANCIAL
+                                    INFORMATION ({{dayFinanceBookings && dayFinanceBookings.data.length}})</button>
+                                <button class="topHead" *ngIf="isManualBranch"
+                                    [ngClass]="dayEndMenualTab ? 'theme-button' : 'white-button' "
+                                    style="padding: 1.5rem !important;"
+                                    (click)="getMissingWaybillList();dayEndBookingTab=false; dayFinancialTab=false; dayEndMenualTab=true; dayEndcompleted=false">MANUAL
+                                    MISSING WAYBILLS
+                                    ({{missingWaybillLists && missingWaybillLists.data.length}})</button>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
+                            <div class="searchbar_bw">
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="rateCardCode" class="form-control" placeholder="Search"
+                                        (keyup)="applyFilter($event.target.value)">
+                                </mat-form-field>
+                                <em class="fa fa-search"></em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="col-md-4 end_day_label"><strong>Branch:</strong> {{branchName}}</div>
+                            <div class="col-md-4 end_day_label"><strong>Devices Status:</strong> {{ activeDeviceCount ?
+                                activeDeviceCount : 'All devices logged off'}}
+                            </div>
+                            <div class="col-md-4 end_day_label"><strong>Last Day End Date: </strong> <span *ngIf="previousDate">
+                                {{previousDate |
+                                    date: 'dd/MM/yyyy'}}
+                            </span><span *ngIf="!previousDate">Day end not done yet</span> </div>
+                        </div>
+                        <div class="col-md-3">
+                            <p class="ce_date enDate"><strong>Current Day End Date:</strong><br>{{currentDate | date:
+                                'dd/MM/yyyy'}}</p>
+                        </div>
+
+                    </div>
+                    <div [hidden]="!(dayEndBookingTab && bookingStatus === 0)">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="table-responsive">
+                                    <table mat-table [dataSource]="dayEndBookings" class="mat-elevation-z8">
+
+                                        <ng-container matColumnDef="request">
+                                            <th mat-header-cell *matHeaderCellDef>WAYBILL NO.</th>
+                                            <td mat-cell *matCellDef="let element"> <a>{{element.wayBillNumber}}</a>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="waybill">
+                                            <th mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
+                                            <td mat-cell *matCellDef="let element"> {{custName(element.consignorId)}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="pick">
+                                            <th mat-header-cell *matHeaderCellDef>WAYBILL STATUS</th>
+                                            <td mat-cell *matCellDef="let element"> {{refType(element.bookingStatusId)}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="booking">
+                                            <th mat-header-cell *matHeaderCellDef>PICK UP DATE</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.pickUpate}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="destination">
+                                            <th mat-header-cell *matHeaderCellDef>PICK UP TIME</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.pickupTime}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="sfx">
+                                            <th mat-header-cell *matHeaderCellDef class="textCenter">ADDRESS</th>
+                                            <td mat-cell *matCellDef="let element" class="textCenter">
+                                                <em class="material-icons icon_theme_color" [matTooltip]="getDayEndCnorAddr(element)"
+                                                    [matTooltipPosition]="'above'">room</em>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="customer">
+                                            <th mat-header-cell *matHeaderCellDef>BOOKING CANCELLED?</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <mat-radio-group aria-label="Select an option"
+                                                    (change)="radioChange($event, element)">
+                                                    <mat-radio-button value="1">Yes</mat-radio-button>
+                                                    <mat-radio-button value="0" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns4"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns4;"></tr>
+                                    </table>
+                                </div>
+                                <div panelClass="paginator">
+                                    <mat-paginator #bookingRecon class="paginator" [pageSizeOptions]="[10,20, 50 , 100]"
+                                        showFirstLastButtons>
+                                    </mat-paginator>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn theme-button" mat-raised-button
+                                (click)="nextReconcilation()">Next</button>
+                        </div>
+                    </div>
+                    <div *ngIf="dayFinancialTab && finanicalStatus === 0">
+                        <div class="row">
+                            <div class="col-md-9">
+                                <div class="table-responsive">
+                                    <table mat-table [dataSource]="dayFinanceBookings" class="mat-elevation-z8 wayB">
+
+                                        <ng-container matColumnDef="request">
+                                            <th mat-header-cell *matHeaderCellDef>WAYBILL NUMBER</th>
+                                            <td mat-cell *matCellDef="let element"> <a>{{element.waybillNumber}}</a>
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="waybill">
+                                            <th mat-header-cell *matHeaderCellDef>AMOUNT</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.gttlAmount}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="pick">
+                                            <th mat-header-cell *matHeaderCellDef>MODE OF PAYMENT</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                {{refType(element.paymentMethodLookupId)}}
+                                            </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="booking">
+                                            <th mat-header-cell *matHeaderCellDef>PAYMENT RECEIVED</th>
+                                            <td mat-cell *matCellDef="let element">
+                                                <mat-radio-group aria-label="Select an option"
+                                                    (change)="changePaymentReceived($event, element)">
+                                                    <mat-radio-button value="1">Yes</mat-radio-button>
+                                                    <mat-radio-button value="0" checked>No</mat-radio-button>
+                                                </mat-radio-group>
+                                            </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns5"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns5;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <mat-card class="p-0">
+                                    <div class="row">
+                                        <!-- <div class="col-md-4 p-0">
+                                            <p class="active text-center p-1" style="background: #b00020">
+                                                <strong>Total<br>Amount</strong>
+                                            </p>
+                                        </div>
+                                        <div class="col-md-8 tAmt p-0">
+                                            <div class="ptb-1 pl-1">
+                                                <strong>Rs. 1,00,000</strong>
+                                                <p>Case / Cheque</p>
+                                            </div>
+                                        </div> -->
+                                    </div>
+                                </mat-card>
+                            </div>
+                        </div>
+                        <div  panelClass="paginator">
+                            <mat-paginator class="paginator" #finnanceInfo [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn theme-button" mat-raised-button (click)="nextInformation()">{{
+                                isManualBranch ? 'Next' : 'Submit'}}</button>
+
+                        </div>
+                    </div>
+                    <div *ngIf="dayEndMenualTab && manualStatus === 0">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="table-responsive">
+                                    <table mat-table [dataSource]="missingWaybillLists" class="mat-elevation-z8">
+
+                                        <ng-container matColumnDef="request">
+                                            <th mat-header-cell *matHeaderCellDef>WAYBILL NUMBER</th>
+                                            <td mat-cell *matCellDef="let element"> {{element.wayBillNumber}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="waybill">
+                                            <th mat-header-cell *matHeaderCellDef></th>
+                                            <td mat-cell *matCellDef="let element"> {{element.waybill}} </td>
+                                        </ng-container>
+
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns6"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns6;"></tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div  panelClass="paginator">
+                            <mat-paginator class="paginator" #manualWaybill [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons>
+                            </mat-paginator>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn theme-button" mat-raised-button (click)="submitWaybill()">Submit</button>
+                        </div>
+                    </div>
+                    <div class="day_end_completed" *ngIf="dayEndcompleted">
+                        <img src="../assets/images/tick.png" alt="">
+                        <p><strong>Day End Completed!</strong></p>
+                    </div>
+                </mat-card>
+            </div>
+
+                <!-- left side -->
+
+
+               <!-- <pre>{{draggedObjects | json}}</pre> -->
+
+            <div class="col-md-2 dragDrp_zindx" cdkDropList  [ngClass]="draggedObjects?.length == 0 ? 'border' : 'drag_drop_box_without_border'" #bookmarked="cdkDropList"
+            [cdkDropListData]="draggedObjects" [cdkDropListConnectedTo]="[simple]" (cdkDropListDropped)="drop($event)">
+            <p *ngIf="draggedObjects.length == 0" style="display: block; border: 1px solid grey; height: 400px; padding: .5rem;">Drop Here...</p>
+            <div *ngFor="let item of draggedObjects; let j=index">
+              <div class="pull-right" [ngClass]="selectedValue === item?.targetValue ? 'greenBlock' : 'whiteBlock'" cdkDrag (click)="onSelectBlock(item?.targetValue, item?.routingPath)" *ngIf="item.permission?.length" >
+                <img style="margin-bottom: 0px;" width="26px" [src]="getImagePath(item?.imagePath,item?.targetValue)"
+                  alt="icon" />
+                <h3 *ngIf="item.targetValue == 'MSA'" class="fontSizeDashboard text-center" [title]="item?.targetValue"
+                  style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;">New {{item?.targetValue}} </h3>
+      
+                <h3 *ngIf="item.targetValue == 'ASSOCIATE MASTER'" class="fontSizeDashboard text-center"
+                  [title]="item?.targetValue" style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;">
+                  {{item?.targetValue | titlecase}} </h3>
+      
+                <h3 *ngIf="item.targetValue != 'ASSOCIATE MASTER' && item.targetValue != 'MSA'" class="fontSizeDashboard text-center" [title]="item?.objectName"
+                  style="text-overflow: ellipsis;width: 100%; padding: 0rem 0.7rem;"> {{item?.objectName | titlecase}} </h3>
+      
+                <h3 class="fontSizeDashboard" [ngClass]="selectedValue === item?.targetValue ? 'white' : 'red'"><span
+                    *ngIf="item.count">({{item?.count}})</span></h3>
+                <div style="margin-top: 5px;">
+                  <mat-icon matTooltip="Mark the object as pinned" class="blockIconSize" (click)="addToPinnedObj(item,j)"
+                    [ngClass]="checkIsPinned(item) ? 'orange' : selectedValue === item.targetValue ? 'white' : 'black'" >
+                    {{item.bookmarkIcon}}</mat-icon>
+                  <mat-icon matTooltip="Mark the object as favourite" class="blockIconSize" (click)="addToFavorite(item,j)"
+                    [ngClass]="checkIsFavorite(item) ? 'red' : selectedValue === item?.targetValue ? 'white' : 'green'">
+                    {{item.favoriteIcon}}</mat-icon>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+    </section>
+
+
+    <section class="dashboard_last_sec">
+        <!-- <pre>{{cardDetails | json}}</pre> 
+         <pre>{{draggedObjects | json}}</pre> -->
+        <!-- bottom side -->
+        <div class="row" cdkDropList [ngClass]="cardDetails?.length == 0 ? 'favourite_block' : '' " #simple="cdkDropList"
+      [cdkDropListData]="cardDetails" [cdkDropListConnectedTo]="[bookmarked]" (cdkDropListDropped)="drop($event)">
+      <p *ngIf="cardDetails.length == 0" style="height: 100px; width: 81%;">Drop Here...</p>
+ 
+      <span *ngFor="let data of cardDetails;  let k=index">
+      <div class="item item-3 col-md-3 col-sm-6 mo_mb10 paddingrightzero dropdown bottomMargin" cdkDrag *ngIf="data.permission?.length">
+        <!-- <mat-card class="example-card matCardBottom dropdown" (click)="onSelectBlock(data?.targetValue)"   > -->
+            <mat-card class="example-card matCardBottom dropdown" (click)="onSelectBlock(data?.targetValue, data?.routingPath)"  >
+
+          <mat-card-content>
+            <mat-icon matTooltip="Mark the object as pinned" matTooltipPosition="above" class="bookmark"
+              (click)="addToPinnedObj(data,k)" [ngClass]="checkIsPinned(data) ? 'orange' : 'black'">
+              {{data.bookmarkIcon}}</mat-icon>
+            <mat-icon matTooltip="Mark the object as favourite" matTooltipPosition="above" class="heartIcon1"
+              (click)="addToFavorite(data,k)" [ngClass]="checkIsFavorite(data) ? 'red' : 'green'">{{data.favoriteIcon}}
+            </mat-icon>
+            <div class="row cursor">
+              <div class="col-md-9 cursor">
+                <label *ngIf="data.targetValue == 'MSA'" class="fontSizeDashboard cursor" style="color: #27AE60; font-size: 2rem;display: block;white-space: nowrap;"
+                  [title]="data?.targetValue"> New {{data?.targetValue}}
+                </label>
+                <label *ngIf="data.targetValue == 'ASSOCIATE MASTER'"  class="fontSizeDashboard cursor" style="color: #27AE60; font-size: 2rem;display: block;" [title]="data?.targetValue">
+                  {{data?.targetValue | titlecase}}
+                </label>
+                <label *ngIf="data.targetValue != 'ASSOCIATE MASTER' && data.targetValue != 'MSA'" class="fontSizeDashboard cursor"
+                  style="color: #27AE60; font-size: 2rem;display: block;" [title]="data?.objectName">
+                  {{data?.objectName | titlecase}}
+                </label>
+              </div>
+              <div class="col-md-3">
+                <img class="iconImage" alt="icon" [src]="getImagePathCard(data?.imagePath,data?.targetValue)" />
+              </div>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+
+    </span>
+
+
+
+    </div>
+    </section>

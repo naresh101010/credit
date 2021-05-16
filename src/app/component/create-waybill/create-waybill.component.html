@@ -1,0 +1,39 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+        <li><a href="#">Booking</a></li>
+        <li><a href="#">Waybill API</a></li>
+        <li class="active" style="background: none;">Start Booking</li>
+    </ol>
+
+    <div>
+        <mat-card>
+          <div class="start_booking_success">
+            <img src="../assets/images/tick.png" alt="">
+            <p><strong>Success!</strong></p>
+            <h2>Waybill Generated</h2>
+            <h3>69123456</h3>
+          </div>
+        </mat-card>
+        <mat-card class="start_booking_print">
+          <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+              <div class="row">
+                <div class="col-md-4">
+                  <p><a (click)="openStickerPrint()"><img src="../assets/images/event-date-and-time.png" alt=""> Sticker Print</a></p>
+                </div>
+                <div class="col-md-4">
+                  <p><img src="../assets/images/envelope.png" alt=""> Email</p>
+                </div>
+                <div class="col-md-4">
+                  <p><img src="../assets/images/printer.png" alt=""> Print</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+</div>
+<!-- SXF10002145 -->
+

@@ -1,0 +1,26 @@
+.fa-2x {
+    font-size: 2rem;
+    margin-left: auto;
+    color: #685858;
+}
+.bdm{
+    min-height: 50px;
+    border: 1px solid;
+    margin-top: 10px;
+    margin-right: 5px;
+    max-height: 120px !important;
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+    padding: 5px !important;
+}
+.mat-chip.mat-standard-chip {
+    background-color: #27AE60;
+    color: white;
+}
+.contractContainer .mat-standard-chip .mat-chip-remove.mat-icon {
+    color: #fff !important;
+}
+.mat-standard-chip .mat-chip-remove.mat-icon {
+    width: 18px;
+    height: 18px;
+}

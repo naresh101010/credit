@@ -1,15 +1,14 @@
 apiVersion: apps/v1    
 kind: Deployment    
 metadata:    
-  name: assoc-cntr-network-ui
-  namespace: uiapps
+  name: credit-contract-ui    
   labels:    
-    app: assoc-cntr-network-ui  
+    app: credit-contract-ui 
 spec:    
   replicas: 2    
   selector:    
     matchLabels:    
-      app: assoc-cntr-network-ui 
+      app: credit-contract-ui   
   strategy:    
     rollingUpdate:    
       maxSurge: 25%    
@@ -18,23 +17,43 @@ spec:
   template:    
     metadata:    
       labels:    
-        app: assoc-cntr-network-ui      
+        app: credit-contract-ui    
     spec:    
       containers:    
-      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/assoc-cntr-network-ui:BUILDNUMBER    
+      - image: 183454673550.dkr.ecr.ap-south-1.amazonaws.com/credit-contract-ui:BUILDNUMBER    
         imagePullPolicy: Always    
-        name: assoc-cntr-network-ui   
+        name: credit-contract-ui   
         ports:    
         - containerPort: 80    
           protocol: TCP    
       imagePullSecrets:    
       - name: aws-ecr  
+       
+--- 
+apiVersion: v1    
+kind: Service    
+metadata:    
+  name: credit-contract-ui    
+  labels:    
+    app: credit-contract-ui 
+  annotations:    
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"    
+    prometheus.io/scrape: 'true'    
+    prometheus.io/port:   '80'  
+     
+spec:    
+  type: LoadBalancer    
+  ports:    
+  - protocol: TCP    
+    port: 80    
+  selector:    
+    app: credit-contract-ui 
      
 --- 
 apiVersion: networking.istio.io/v1alpha3   
 kind: Gateway   
 metadata:   
-  name: assoc-cntr-network-ui 
+  name: credit-contract-ui 
 spec:   
   selector:   
     istio: pvt-ingressgateway # use istio default controller   
@@ -50,16 +69,16 @@ spec:
 apiVersion: networking.istio.io/v1alpha3   
 kind: VirtualService   
 metadata:   
-  name: assoc-cntr-network-ui
+  name: credit-contract-ui
 spec:   
   hosts:   
   - "*"   
   gateways:   
-  - assoc-cntr-network-ui   
+  - credit-contract-ui   
   http:   
   - match:   
     route:   
     - destination:   
-        host: assoc-cntr-network-ui  
+        host: credit-contract-ui  
         port:   
-          number: 80
+          number: 80 

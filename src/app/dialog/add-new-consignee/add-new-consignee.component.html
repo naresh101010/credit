@@ -1,0 +1,181 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+        <h4 *ngIf="!isConsigner" class="margin-zero"><strong>Add New Consignee</strong></h4>
+        <h4 *ngIf="isConsigner" class="margin-zero"><strong>Add New Consignor</strong></h4>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr>
+    <div class="mat-dialog-content">
+        <form name="consignerForm" autocomplete="off" (ngSubmit)="f.form.valid && saveConsigner()" #f="ngForm"
+            novalidate>
+
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" class="control-label">Name <sup class="required"> *</sup></label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.name" name="name" [disabled]="isDisableName" class="form-control" placeholder="" maxlength="30"
+                            [ngClass]="{ 'mandatory_input': f.submitted && name.invalid }" #name="ngModel" required>
+                    </mat-form-field>
+                    <div *ngIf="name.touched || (f.submitted && name.invalid)" class="hasErrorMsg">
+                        <div *ngIf="name.errors?.required">Required!</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-md-offset-2 text-right">
+                    <label for="" class="control-label">Email <sup class="required"> *</sup></label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput  [(ngModel)]="consignerObj.email" name="email" class="form-control" type="email"
+                        pattern="^[_a-zA-Z0-9]+(\.[_a-zA-Z0-9]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.[a-zA-Z]{2,4})$"
+                            placeholder="" [ngClass]="{ 'mandatory_input': f.submitted && email.invalid }"
+                            #email="ngModel" required>
+                    </mat-form-field>
+                    <div *ngIf="consignerObj.email && email.invalid " class="hasErrorMsg">Invalid Email</div>
+                    <div *ngIf="email.touched || (f.submitted && email.invalid)" class="hasErrorMsg">
+                        <div *ngIf="email.errors?.required">Required!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" class="control-label">Contact No.(M) <sup class="required"> *</sup></label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.mob" name="mob" class="form-control" appNumbersOnly placeholder="" maxlength="10"
+                            [ngClass]="{ 'mandatory_input': f.submitted && mob.invalid }"
+                            pattern="^[0-9]{10}$"
+                            #mob="ngModel" required>
+                    </mat-form-field>
+                    <div *ngIf="mob.errors?.pattern && mob.touched" class="hasErrorMsg">Invalid Contact No (M)</div>
+                    <div *ngIf="mob.touched || (f.submitted && mob.invalid)" class="hasErrorMsg">
+                        <div *ngIf="mob.errors?.required">Required!</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-md-offset-2 text-right">
+                    <label for="" class="control-label">Contact No.(O)</label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.phone" name="phone" class="form-control" maxlength="11"
+                            placeholder=""
+                            pattern="^[0-9]{11}$"
+                            #phone="ngModel">
+                    </mat-form-field>
+
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" class="control-label">Address Line 1 <sup class="required"> *</sup></label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.addrBook.addr1"  name="addr1" class="form-control" maxlength="100"
+                            placeholder="" [ngClass]="{ 'mandatory_input': f.submitted && addr1.invalid }"
+                            #addr1="ngModel" required>
+                    </mat-form-field>
+                    <div *ngIf="addr1.touched || (f.submitted && addr1.invalid)" class="hasErrorMsg">
+                        <div *ngIf="addr1.errors?.required">Required!</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-md-offset-2 text-right">
+                    <label for="" class="control-label">Address Line 2</label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.addrBook.addr2" name="addr2" class="form-control"  maxlength="100"
+                            placeholder="">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" class="control-label">Address Line 3</label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.addrBook.addr3" name="addr3" class="form-control"  maxlength="100"
+                            placeholder="">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-2 col-md-offset-2 text-right">
+                    <label for="" class="control-label">Pincode <sup class="required"> *</sup></label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.addrBook.pincodeId" name="pincodeId" appNumbersOnly  maxlength="6" [disabled]="isDisablePincode"
+                            [ngClass]="{ 'mandatory_input': f.submitted && pincodeId.invalid }" #pincodeId="ngModel" required
+                            class="form-control" placeholder="">
+                    </mat-form-field>
+                    <div *ngIf="pincodeId.touched || (f.submitted && pincodeId.invalid)" class="hasErrorMsg">
+                        <div *ngIf="pincodeId.errors?.required">Required!</div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" class="control-label">GSTIN <sup class="required"> *</sup></label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.gstinNum" name="gstinNum" class="form-control" maxlength="15" [disabled]="isGstinDisable"
+                            [ngClass]="{ 'mandatory_input': f.submitted && gstinNum.invalid }" #gstinNum="ngModel" required
+                              pattern="\d{2}[A-Za-z]{5}\d{4}[A-Za-z]{1}[A-Za-z\d]{1}[Zz]{1}[A-Za-z\d]{1}"
+                            placeholder="">
+                    </mat-form-field>
+                    <div *ngIf="gstinNum.touched || (f.submitted && gstinNum.invalid)" class="hasErrorMsg">
+                        <div *ngIf="gstinNum.errors?.required">Required!</div>
+                                    <div *ngIf="consignerObj.gstinNum && gstinNum.invalid">GST No is invalid</div>
+                    </div>
+                </div>
+                <div class="col-md-2 col-md-offset-2 text-right">
+                    <label for="" class="control-label">TAN </label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.tanNum" [ngClass]="{ 'mandatory_input':  !tanChk && tanLength  && tanNum.invalid}" name="tanNum"  (input)="onTanChange(consignerObj.tanNum)"  minlength="10" maxlength="15" name="tanNum" class="form-control" #tanNum="ngModel"
+
+                            placeholder="">
+                    </mat-form-field>
+                        <div *ngIf="tanNum.touched || !tanChk && tanNum.invalid" class="hasErrorMsg">
+                         <div *ngIf=' tanLength && (!tanChk || tanNum.invalid)'>TAN No is invalid</div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" class="control-label">Dealer Code</label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.dealerCode" name="dealerCode"  maxlength="15" class=" form-control"
+                            placeholder="">
+                    </mat-form-field>
+                </div>
+                <!-- <div class="col-md-2  col-md-offset-2 text-right">
+                    <label for="" class="control-label">PAN <sup class="required"> *</sup></label>
+                </div>
+                <div class="col-md-3">
+                    <mat-form-field appearance="outline">
+                        <input matInput [(ngModel)]="consignerObj.panNum"  (input)="onPanChange(consignerObj.panNum)" name="panNum" class="form-control"  minlength="15" maxlength="15" type="text"
+                            [ngClass]="{ 'mandatory_input': f.submitted && panNum.invalid || !panChk && panLength }" #panNum="ngModel" [required]="!consignerObj.panNum || !panChk"
+                            placeholder="">
+                    </mat-form-field>
+                    <div *ngIf="panNum.touched || (f.submitted && panNum.invalid)" class="hasErrorMsg">
+                        <div *ngIf="panNum.errors?.required">Required!</div>
+                         <div *ngIf='!panChk && panLength'>PAN No is invalid</div>
+                    </div>
+                </div> -->
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-5">
+                    <button class="btn theme-button btn-block" type="submit">SUBMIT</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

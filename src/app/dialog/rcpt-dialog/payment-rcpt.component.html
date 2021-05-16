@@ -1,0 +1,12 @@
+<div class="breadcrumb pl-2">
+    <a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a>
+  </div>
+<div class="text-center" style="padding: 2rem !important;margin-bottom: 4rem !important;">
+    <img src="../../../assets/images/tick.png" style="height: 65px;" alt="img tick">
+    <p> </p>
+    <p style="margin: 0;font-weight: bolder;">PAYMENT RECEIPT : </p>
+    <p style="margin: 20px 0;font-weight: bolder;">{{message}}</p>
+    <p>You will automatically redirected to Dashboard in <strong>10 Seconds</strong></p>
+    <p><strong>OR</strong></p>
+    <p>You can <a (click)="stopautoRun()"><strong>click here</strong></a> to do it yourself</p>
+</div>

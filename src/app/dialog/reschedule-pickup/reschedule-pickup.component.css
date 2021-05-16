@@ -1,0 +1,14 @@
+hr{
+    margin-top: 0;
+}
+.greenTab:hover {
+    text-decoration: underline;
+}
+.whiteTab:hover{
+    text-decoration: underline;
+}
+
+.custom-timepicker-class{
+    position: relative;
+    z-index: 99;
+}

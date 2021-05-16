@@ -2,6 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
+    "module": "es2015",
     "types": []
   },
   "files": [
@@ -16,3 +17,5 @@
     "src/**/*.spec.ts"
   ]
 }
+
+

@@ -1,0 +1,31 @@
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    border: 1px solid #ddd;
+  }
+  
+  th, td {
+    text-align: left;
+    padding: 8px;
+  }
+  .position-relative {
+    position: relative;
+  }
+  .hub-lists {
+    position: absolute;
+    background: white;
+    border: 1px solid grey;
+    z-index: 9;
+    top: 63%;
+    list-style: none;
+    min-width: 130px;
+  }
+  .hub-item {
+    padding: 6px;
+  }
+  .hub-item:hover {
+    cursor: pointer;
+    background-color: #27AE60 !important;
+    color: #fff;
+  }

@@ -1,0 +1,175 @@
+.card_active {
+    background-color: #27ae60 !important;
+    color: #fff !important;
+  }
+  
+  .card_active h4 {
+    color: #fff;
+  }
+  
+  .width-13rem {
+    width: 14rem !important;
+  }
+  
+  .width-16rem {
+    width: 16rem !important;
+  }
+  
+  .add_new_row span {
+    margin: 10px 6px;
+    font-weight: 600;
+  }
+  
+  .add_new_row em {
+    position: absolute;
+    top: -3px;
+  }
+  
+  .add_new_row {
+    margin: 20px 0;
+  }
+  
+  .mr_00 {
+    margin: 0px !important;
+  }
+  
+  .mat-expansion-panel-header,
+  .mat-expansion-panel-header.mat-expanded:focus,
+  .mat-expansion-panel-header.mat-expanded:hover {
+    background: #6a6868;
+    height: 45px !important;
+  }
+  
+  .mat-expansion-panel .mat-expansion-panel-header.cdk-keyboard-focused:not([aria-disabled=true]),
+  .mat-expansion-panel .mat-expansion-panel-header.cdk-program-focused:not([aria-disabled=true]),
+  .mat-expansion-panel:not(.mat-expanded) .mat-expansion-panel-header:hover:not([aria-disabled=true]) {
+    background: #6a6868;
+  }
+  ::ng-deep .mat-expansion-indicator::after{
+    color: white !important;
+  }
+  
+  .measurement {
+    font-size: 1.2rem !important;
+    margin: 3px 0 0 !important;
+  }
+  
+  th.mat-header-cell {
+    vertical-align: top;
+  }
+  
+  .mat-expansion-panel {
+    margin: 0 0 20px !important;
+  }
+  
+  .ng-select .ng-arrow-wrapper {
+    display: none !important;
+  }
+  
+  .Product_Card {
+    display: flex;
+    padding: 10px 10px;
+    box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(175, 171, 171, 0.12), 0 5px 5px -3px rgba(162, 162, 162, 0.2);
+    background-color: #FFFCFC;
+    border-top: 0 solid transparent;
+    border-bottom: 0 solid transparent;
+    padding: 1rem 1.5rem;
+    margin-bottom: 15px;
+    height: 31px;
+    overflow: hidden;
+  }
+  
+  .Product_Card i {
+    margin-left: 5px;
+    margin: 3px 0 0 0;
+    color: #27ae60;
+    cursor: pointer;
+  }
+  
+  .Product_Card p {
+    width: 90%;
+    margin: 0;
+    margin-bottom: 0 !important;
+    cursor: pointer;
+  }
+  
+  
+  .mr-top-4 {
+    margin: 4px 0 0;
+  }
+  
+  .font-20 {
+    font-size: 20px !important;
+  }
+  .searchbar_bw em {
+    top: 0.9rem;
+  }
+  .time {
+    margin-left: -50px !important;
+    /* margin-top: -10px; */
+  }
+  .discount{
+    margin-bottom:0.6rem !important
+  }
+  .grand_cher{
+    margin-bottom:0.6rem !important;
+    font-size: 2rem !important;
+    color:#27ae60;
+  }
+  .percentage{
+    background-color: #27ae60; 
+    color:white; padding:2px;
+    font-size: xx-small !important; 
+    border-radius:2px 0px 0px 2px; 
+    height:2.7rem
+  }
+  .noneditable{
+    background: #c7c7c7 !important;
+    opacity: 0.2;
+    color: black !important;
+  }
+  
+  body .col-md-2.mg {
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .fa-search:before {
+    content: "\f002";
+    margin-left: -3px !important;
+  }
+  #commercialprod, #commercial,#ratcard { text-transform: lowercase;} 
+  #commercialprod::first-letter, #commercial::first-letter,#ratcard::first-letter { text-transform: uppercase;}
+  .editWaybillAfterCalculate{
+    margin: 0 0 13px;
+    cursor: pointer;
+    text-align: right;
+    color: #27ae60;
+  }
+  @media only screen and (max-width: 1290px){
+    .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9{
+  padding-right: 1.2rem !important;
+    }
+    
+  }
+  
+  
+  .pd_mozila{
+    padding-right:0rem !important;
+  }
+  
+  @-moz-document url-prefix() {
+    input[type="time"].form-control {
+      line-height: 10px  !important;
+  }
+    @supports (animation: calc(0s)) {
+      input[type="time"].form-control {
+        line-height: 10px !important;
+    }
+    }
+    
+  @media only screen and (max-width: 1260px) {
+    .pd_mozila{
+      padding-right: 1.2rem !important;
+    }
+  }
+  }

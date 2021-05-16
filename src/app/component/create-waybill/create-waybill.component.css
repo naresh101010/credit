@@ -1,0 +1,27 @@
+.card_active{
+    background-color: #27ae60 !important;
+    color: #fff !important;
+}
+.card_active h4{
+   color: #fff;
+}
+.width-13rem{
+    width: 13rem !important;
+}
+.width-16rem{
+    width: 16rem !important;
+}
+.add_new_row span{
+        margin: 10px 6px;
+    font-weight: 600;
+}
+.add_new_row em{
+    position: absolute;
+    top: -3px;
+}
+.add_new_row{
+    margin: 20px 0;
+}
+.mr_00{
+    margin: 0px !important;
+}

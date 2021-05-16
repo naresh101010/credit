@@ -19,17 +19,10 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.app.json",
             "assets": [
-              "src/favicon.ico",
+              "src/favicon.png",
               "src/assets"
             ],
-            "styles": [
-              {
-                "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-              },
-              "src/styles.css",
-              "src/core.css",
-              "node_modules/ngx-toastr/toastr.css"
-            ],
+            "styles": [],
             "scripts": [],
             "customWebpackConfig": {
               "path": "./extra-webpack.config.js"
@@ -82,9 +75,7 @@
             "styles": [
               {
                 "input": "node_modules/@angular/material/prebuilt-themes/indigo-pink.css"
-              },
-              "src/styles.css",
-              "src/core.css"
+              }
             ],
             "scripts": [],
             "assets": [
@@ -137,6 +128,6 @@
   },
   "defaultProject": "angular6-sidenav-example",
   "cli": {
-    "analytics": "8af5d1d2-014c-4456-98f3-af38eaaf6188"
+    "analytics": false
   }
 }

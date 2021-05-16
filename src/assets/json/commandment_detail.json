@@ -1,1212 +1,318 @@
 {
-  "message": "Request Completed Successfully",
-  "data": {
-    "referenceData": {
-      "commandmentCategoryList": [
+    "cmdmntCharge": {
+      "applicableFlag": 0,
+      "cmdmntId": 0,
+      "cmdmntLevel": "string",
+      "entityId": 0,
+      "id": 0,
+      "lkpCalcMeasureId": 0,
+      "lkpCalcTypeId": 0,
+      "lkpCalcUnitId": 0,
+      "maxVal": 0,
+      "minVal": 0,
+      "price": 0,
+      "rrFlag": 0
+    },
+    "cmdmntOffering": {
+      "cmdmntRrsList": [
         {
-          "id": 38,
-          "lookupVal": "ADD"
-        },
-        {
-          "id": 39,
-          "lookupVal": "DEDUCT"
-        }
-      ],
-      "commandmentTypeList": [
-        {
-          "id": 40,
-          "lookupVal": "GEOGRAPHIC"
-        },
-        {
-          "id": 41,
-          "lookupVal": "NON-GEOGRAPHIC"
-        },
-        {
-          "id": 42,
-          "lookupVal": "ADDRESS"
-        },
-        {
-          "id": 43,
-          "lookupVal": "OTHERS"
-        }
-      ],
-      "calculationTypeList": [
-        {
-          "id": 25,
-          "lookupVal": "NON-SLAB"
-        },
-        {
-          "id": 24,
-          "lookupVal": "SLAB"
-        }
-      ],
-      "calculationMeasureList": [
-        {
-          "id": 22,
-          "lookupVal": "PERCENTAGE"
-        },
-        {
-          "id": 23,
-          "lookupVal": "NON-PERCENTAGE"
-        }
-      ],
-      "calculationUnitList": [
-        {
-          "id": 26,
-          "lookupVal": "PERKG"
-        },
-        {
-          "id": 27,
-          "lookupVal": "PERWAYBILL"
-        },
-        {
-          "id": 28,
-          "lookupVal": "PERPKT"
-        },
-        {
-          "id": 29,
-          "lookupVal": "TOTAL INVOICE AMT"
-        },
-        {
-          "id": 30,
-          "lookupVal": "FIXED"
-        }
-      ],
-      "cmdmntChargesOnList": [
-        {
-          "id": 697,
-          "lookupVal": "BKNG"
-        },
-        {
-          "id": 698,
-          "lookupVal": "DLVRY"
-        }
-      ],
-      "cmdmntGeoTypeList": [
-        {
-          "id": 691,
-          "lookupVal": "PINCODE"
-        },
-        {
-          "id": 692,
-          "lookupVal": "STATE"
-        },
-        {
-          "id": 693,
-          "lookupVal": "ADDRESS"
-        }
-      ],
-      "cmdmntMDMReference": [
-        {
-          "id": 1,
-          "commandmentName": "HILLY CHARGES",
-          "rrFlag": 0,
-          "minAmountFlag": 0,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 1,
-          "geoFeatureName": "Hilly",
-          "cmdmntRrsList": [
+          "calculationMeasureId": 0,
+          "calculationTypeId": 0,
+          "calculationUnitId": 0,
+          "cmdmntRrSlabList": [
             {
-              "id": 133,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 400,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            },
-            {
-              "id": 27,
-              "lookupVal": "SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 691,
-              "lookupVal": "PINCODE"
-            }
-          ]
-        },
-        {
-          "id": 2,
-          "commandmentName": "SENSITIVE AREA",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 145,
-              "calculationMeasureId": 22,
-              "calculationUnitId": 29,
+              "cmdmntRrId": 0,
+              "id": 0,
               "rrValue": 0,
-              "cmdmntRrSlabList": []
+              "slabFrom": 0,
+              "slabTo": 0
             }
           ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 697
-            }
-          ]
-        },
+          "commandmentOfferingMapId": 0,
+          "id": 0,
+          "rrValue": 0
+        }
+      ],
+      "commandmentId": 0,
+      "commandmentResponseDTO": {
+        "atribute3PostTitle": "string",
+        "attr1Flag": 0,
+        "attr2Flag": 0,
+        "attr3Flag": 0,
+        "attribute1PostTitle": "string",
+        "attribute1PreTitle": "string",
+        "attribute2PostTitle": "string",
+        "attributr2PreTitle": "string",
+        "attributr3PreTitle": "string",
+        "calculationMeasureId": "string",
+        "calculationTypeId": "string",
+        "calculationUnitId": "string",
+        "commandmentCategoryId": 0,
+        "commandmentName": "string",
+        "commandmentOrder": 0,
+        "commandmentTypeId": 0,
+        "geoFeatureId": 0,
+        "id": 0,
+        "maxAmountFlag": 0,
+        "minAmountFlag": 0,
+        "rrFlag": 0
+      },
+      "customerType": "string",
+      "customerTypeId": 0,
+      "id": 0,
+      "serviceOffering": "string",
+      "serviceOfferingId": 0
+    },
+    "message": "string",
+    "referenceList": {
+      "baseFuelIndexList": [
         {
-          "id": 3,
-          "commandmentName": "GREEN SURCHARGE",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 157,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 450,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 698
-            }
-          ]
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "billingByList": [
         {
-          "id": 4,
-          "commandmentName": "CONGESTION CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 1,
-          "geoFeatureName": "Hilly",
-          "cmdmntRrsList": [
-            {
-              "id": 169,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 26,
-              "rrValue": 10,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 691,
-              "lookupVal": "PINCODE"
-            }
-          ]
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "billingCycleList": [
         {
-          "id": 5,
-          "commandmentName": "AIRPORT CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 181,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 500,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 697
-            }
-          ]
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "billingLevelList": [
         {
-          "id": 6,
-          "commandmentName": "METRO CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 193,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 29,
-              "rrValue": 0,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 698
-            }
-          ]
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "billingSubLevelList": [
         {
-          "id": 7,
-          "commandmentName": "MALL CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 2,
-          "geoFeatureName": "Green",
-          "cmdmntRrsList": [
-            {
-              "id": 205,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 500,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 691,
-              "lookupVal": "PINCODE"
-            }
-          ]
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "billingSubTypeList": [
         {
-          "id": 8,
-          "commandmentName": "STATE CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "geoFeatureId": 1,
-          "geoFeatureName":"STATE",
-          "cmdmntRrsList": [
-            {
-              "id": 217,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 27,
-              "rrValue": 0,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": [
-            {
-              "id": 697,
-              "lookupVal":"STATE"
-            }
-          ]
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "bookingBranchList": [
+        {}
+      ],
+      "businessTypeList": [
         {
-          "id": 9,
-          "commandmentName": "WAYBILL CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 229,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 200,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "chargeByList": [
         {
-          "id": 10,
-          "commandmentName": "VALUE SURCHARGE",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 241,
-              "calculationMeasureId": 22,
-              "calculationUnitId": 30,
-              "rrValue": 350,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "collectionBranchList": [
+        {}
+      ],
+      "contractTypeList": [
         {
-          "id": 11,
-          "commandmentName": "HANDLING CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 253,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 28,
-              "rrValue": 700,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "fuelTypeList": [
         {
-          "id": 12,
-          "commandmentName": "POD CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 265,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 27,
-              "rrValue": 0,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "incrementBasedOnList": [
         {
-          "id": 13,
-          "commandmentName": "HUB DELIVERY CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 277,
-              "calculationMeasureId": 22,
-              "calculationUnitId": 30,
-              "rrValue": 300,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "incrementModeList": [
         {
-          "id": 14,
-          "commandmentName": "SCHEDULED DELIVERY CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 289,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 150,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "incrementTypeList": [
         {
-          "id": 15,
-          "commandmentName": "E-WAYBILL CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 301,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 28,
-              "rrValue": 700,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "msaCneeList": [
         {
-          "id": 16,
-          "commandmentName": "RE-ROUTING CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 313,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 28,
-              "rrValue": 0,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "addrBook": {
+            "addr1": "string",
+            "addr2": "string",
+            "addr3": "string",
+            "id": 0,
+            "latitude": 0,
+            "longitude": 0,
+            "pincodeId": 0
+          },
+          "addrBookId": 0,
+          "address": "string",
+          "city": "string",
+          "email": "string",
+          "gstinNum": "string",
+          "id": 0,
+          "lkpConsigntypeId": "string",
+          "mob": "string",
+          "msaCustId": 0,
+          "name": "string",
+          "panNum": "string",
+          "pincode": "string",
+          "tanNum": "string"
+        }
+      ],
+      "msaCnorList": [
         {
-          "id": 17,
-          "commandmentName": "RE-BOOKING CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 325,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 350,
-              "cmdmntRrSlabList": []
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 25,
-              "lookupVal": "NON-SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "addrBook": {
+            "addr1": "string",
+            "addr2": "string",
+            "addr3": "string",
+            "id": 0,
+            "latitude": 0,
+            "longitude": 0,
+            "pincodeId": 0
+          },
+          "addrBookId": 0,
+          "address": "string",
+          "city": "string",
+          "email": "string",
+          "gstinNum": "string",
+          "id": 0,
+          "lkpConsigntypeId": "string",
+          "mob": "string",
+          "msaCustId": 0,
+          "name": "string",
+          "panNum": "string",
+          "pincode": "string",
+          "tanNum": "string"
+        }
+      ],
+      "notepadAttributesList": [
         {
-          "id": 18,
-          "commandmentName": "DOD/DACC CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 337,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 30,
-              "rrValue": 200,
-              "cmdmntRrSlabList": [
-                {
-                  "id": 166,
-                  "cmdmntRrId": 337,
-                  "slabFrom": 0,
-                  "slabTo": 50000,
-                  "rrValue": 300
-                }
-              ]
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 24,
-              "lookupVal": "SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
-        },
+          "attributeIdentifier": "string",
+          "attributeTypeId": 0,
+          "attributeValue": "string",
+          "moduleEntity": "string",
+          "moduleEntityId": 0,
+          "moduleGroup": "string",
+          "moduleGroupId": 0,
+          "notepadId": 0,
+          "notepadName": "string",
+          "notepadOrder": 0
+        }
+      ],
+      "opporTypeList": [
         {
-          "id": 19,
-          "commandmentName": "TO-PAY SERVICE CHARGES",
-          "rrFlag": 1,
-          "minAmountFlag": 1,
-          "maxAmountFlag": 1,
-          "commandmentOrder": 1,
-          "cmdmntRrsList": [
-            {
-              "id": 349,
-              "calculationMeasureId": 23,
-              "calculationUnitId": 28,
-              "rrValue": 750,
-              "cmdmntRrSlabList": [
-                {
-                  "id": 178,
-                  "cmdmntRrId": 349,
-                  "slabFrom": 0,
-                  "slabTo": 50000,
-                  "rrValue": 1100
-                }
-              ]
-            }
-          ],
-          "calcTypeList": [
-            {
-              "id": 24,
-              "lookupVal": "SLAB"
-            }
-          ],
-          "calcMeasureList": [
-            {
-              "id": 22,
-              "lookupVal": "PERCENTAGE"
-            },
-            {
-              "id": 23,
-              "lookupVal": "NON-PERCENTAGE"
-            }
-          ],
-          "calcUnitList": [
-            {
-              "id": 26,
-              "lookupVal": "PERKG"
-            },
-            {
-              "id": 27,
-              "lookupVal": "PERWAYBILL"
-            },
-            {
-              "id": 28,
-              "lookupVal": "PERPKT"
-            },
-            {
-              "id": 29,
-              "lookupVal": "TOTAL INVOICE AMT"
-            },
-            {
-              "id": 30,
-              "lookupVal": "FIXED"
-            }
-          ],
-          "chargesOnList": [],
-          "geoType": []
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "packagingTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "paymentTermList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "productCategoryList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "rateGroupList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "safexPincodeGroupList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "safexTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "securityTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "serviceLineList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "serviceOfferingList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "slabProtectTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "stateGroupList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "statusList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "submissionBranchList": [
+        {}
+      ],
+      "todBasedOnList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "vmiTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "zoneMatrixList": [
+        {
+          "id": 0,
+          "name": 0
         }
       ]
     }
-  },
-  "status": "SUCCESS"
-}
+  }

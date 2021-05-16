@@ -1,0 +1,41 @@
+/* .breadcrumb {
+    background: none !important;
+    color: #1a1a1a;
+    font-size: 1.6rem;
+    font-weight: normal;
+    text-align: left;
+    position: relative;
+    top: 0%;
+    font-family: 'Open Sans', sans-serif;
+} */
+.go-label{
+    margin-top:7px !important;
+    outline: none !important;
+}
+.goback{
+    margin-top: 10px !important;
+    text-align: center !important;
+}
+th.mat-header-cell {
+    text-transform: uppercase !important;
+    line-height: 1.4 !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+}
+.tile-img{
+    height: 50px !important; 
+    width: 50px !important; 
+    padding:5px !important; 
+    margin-top: 5px !important;
+}
+.search{
+    text-transform: inherit !important;
+}
+.cardImageIcon {
+    float: right;
+    width: 6.5rem;
+    height: 6.5rem;
+    position: absolute;
+    right: 0.6rem;
+    margin-top: 40px!important;
+  }

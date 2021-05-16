@@ -1,0 +1,120 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+    </ol>
+    <div class="navigation_section">
+
+        <div class="row">
+            <div class="col-md-4 pl-0">
+                <div class="col-md-5">
+                    <div class="nav_card navPro cursor_pointer forNav"
+                        [routerLink]="['/bookings-web-booking/web-booking']">
+                        <label for="" class="control-label color-primary flexD"><img src="../assets/images/leftArr.png"
+                                alt="" class="postionArro"><span>Go Back</span> </label>
+                    </div>
+                </div>
+                <div class="col-md-7 forNav p-0">
+                    <div class="nav_card active groupNav ">
+                        <label for="" class="control-label color-primary textCen"> <span style="color: #fff !important; font-weight: lighter;">Active
+                                Devices</span><br>
+                                <span style="color: #fff !important;font-weight: lighter;"> There are </span><br><strong>{{activeDeviceCount > 9 ? activeDeviceCount : '0'+activeDeviceCount}}</strong><br> <span
+                                 style="color: #fff !important;font-weight: lighter;">Active
+                                    Devices</span></label>
+                        <img src="../assets/images/activeD.png" alt="" class="groupImg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="row">
+            <div class="col-md-2">
+                <div class="nav_card cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                  <label for="" class="control-label color-primary"><em class="fa fa-angle-left"></em> Go Back</label>
+                </div>
+              </div>
+            <div class="col-md-3">
+                <div class="nav_card nav_card_line_two active">
+                    <label for="" class="control-label color-primary">Active Devices<br>There
+                        are <strong>05</strong> Active Devices</label>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <mat-card class="generated_mat_card">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="" class="control-label">Active&nbsp;Devices&nbsp;({{activeDeviceCount}})</label>
+                    </div>
+                    <div class="col-md-4" style="margin-left: -2rem;">
+                        <mat-form-field appearance="outline">
+                            <input matInput name="rateCardCode" class="form-control" placeholder="search"
+                                [(ngModel)]="searchModel1">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="device_detail_scrollbar">
+                    <div class="device_detail_sec">
+                        <div class="row"
+
+                            *ngFor="let staff of activeDevices | activeMobileFilter : searchModel1; let i = index">
+
+                            <div class="col-md-6">
+                                <div class="device_detail_flex">
+                                    <h4>{{ i + 1 }}</h4>
+                                    <div class="device_detail" style="width: 100% !important;">
+                                        <p><strong>{{ staff.staffName}}</strong></p>
+                                        <p><strong>Device ID </strong> {{staff.deviceId}}</p>
+                                        <p><strong>Device Model </strong> {{staff.name}}</p>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <p class="device_contact_active"><strong>Contact No.: </strong> {{staff.mobileNumber}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+        <div class="col-md-6">
+            <mat-card class="generated_mat_card">
+                <div class="row">
+                    <div class="col-md-3">
+                        <label for="" class="control-label pColor">Inactive&nbsp;Devices&nbsp;({{inActiveCount}})</label>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field appearance="outline">
+                            <input matInput name="rateCardCode" class="form-control" placeholder="Search"
+                                [(ngModel)]="searchModel2">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="device_detail_scrollbar">
+                    <div class="device_detail_sec">
+                        <div class="row"
+                            *ngFor="let inDevice of inActiveDevices | searchFilter : searchModel2; let i = index">
+                            <div class="col-md-12">
+                                <div class="device_detail_flex">
+                                    <h4>{{ i + 1 }}</h4>
+                                    <div class="device_detail" style="width: 100% !important;">
+                                        <p><strong>NA</strong></p>
+                                        <br>
+                                        <p><strong>Device ID </strong> {{inDevice.deviceId}}</p>
+                                        <p><strong>Device Model </strong> {{inDevice.name}}
+                                        </p>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,245 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+    </ol>
+    <div class="navigation_section mb-0">
+
+        <div class="row">
+            <div class="col-md-2 forNav">
+                <div class="nav_card cursor_pointer flexDD" [routerLink]="['/bookings-web-booking/web-booking']"
+                    style="cursor: pointer;">
+                    <label for="" class="control-label color-primary flexD"><img src="../assets/images/leftArr.png"
+                            alt="" class="postionArro"> Go Back</label>
+                </div>
+            </div>
+            <div class="col-md-2 pl-0">
+                <div class="nav_card nav_card_line_two active" [routerLink]="['/bookings-web-booking/re-booking']"
+                    style="cursor: pointer;">
+                    <label for="" class="control-label color-primary">Re - Booking Request</label>
+                </div>
+            </div>
+            <div class="col-md-2 pl-0">
+                <div class="nav_card nav_card_line_two" [routerLink]="['/bookings-web-booking/re-routing']"
+                    style="cursor: pointer;">
+                    <label for="" class="control-label color-primary">Re - Routing Request</label>
+                </div>
+            </div>
+            <div class="col-md-2 pl-0">
+                <div class="nav_card nav_card_line_two" [routerLink]="['/bookings-web-booking/ugd']"
+                    style="cursor: pointer;">
+                    <label for="" class="control-label color-primary">UGD <br> Request</label>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <!-- <div class="row">
+            <div class="col-md-2 forNav">
+                <div class="nav_card cursor_pointer flexDD" [routerLink]="['/bookings-web-booking/web-booking']">
+                  <label for="" class="control-label color-primary flexD"><img src="../assets/images/leftArr.png" alt="" class="postionArro"> Go Back</label>
+                </div>
+              </div>
+            <div class="col-md-2 pl-0">
+                <div class="nav_card nav_card_line_two">
+                    <label for="" class="control-label color-primary" [routerLink]="['/bookings-web-booking/re-booking']">Re - Booking Request</label>
+                </div>
+            </div>
+            <div class="col-md-2 pl-0">
+                <div class="nav_card nav_card_line_two">
+                    <label for="" class="control-label color-primary" [routerLink]="['/bookings-web-booking/re-routing']">Re - Routing Request</label>
+                </div>
+            </div>
+            <div class="col-md-2 pl-0">
+                <div class="nav_card active nav_card_line_two">
+                    <label for="" class="control-label color-primary" [routerLink]="['/bookings-web-booking/ugd']">UGD <br> Request</label>
+                </div>
+            </div>
+        </div> -->
+
+
+
+
+
+        <!-- 
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="nav_card cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                  <label for="" class="control-label color-primary"><em class="fa fa-angle-left"></em> Go Back</label>
+                </div>
+              </div>
+            <div class="col-md-2">
+                <div class="nav_card nav_card_line_two active">
+                    <label for="" class="control-label color-primary" [routerLink]="['/bookings-web-booking/re-booking']">Re - Booking Request</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="nav_card nav_card_line_two">
+                    <label for="" class="control-label color-primary" [routerLink]="['/bookings-web-booking/re-routing']">Re - Routing Request</label>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="nav_card nav_card_line_two">
+                    <label for="" class="control-label color-primary" [routerLink]="['/bookings-web-booking/ugd']">UGD <br> Request</label>
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-10 mat_text_icon forNav">
+            <label for="" class="control-label" (click)="openReBooking()">Create Request
+                <mat-icon mat-card-avatar class="mat-plus-icon" aria-label="Example icon">add_circle
+                </mat-icon>
+            </label>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+    <mat-card class="generated_mat_card">
+
+        <div class="row">
+            <div class="col-md-3">
+                <h4><strong class="margBot">Re-Booking Request <span>({{length}})</span></strong></h4>
+            </div>
+            <div class="col-md-1 col-md-half">
+                <label for="" class="control-label">From</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input class="form-control" matInput [matDatepicker]="picker1" placeholder="DD/MM/YYYY"
+                        [(ngModel)]="fromDateValue" [max]="curDate" (dateChange)="fromdateValue($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1 col-md-half">
+                <label for="" class="control-label">To</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input class="form-control" matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY"
+                        [(ngModel)]="toDateVal" [max]="curDate" (dateChange)="toDateValue($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+                <div *ngIf="invalidDate" style="color: red;">
+                    <div *ngIf="invalidDate">Invalid Date!</div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <button class="btn theme-button margBot" mat-raised-button (click)="search()">Search</button>
+            </div>
+            <div class="col-md-2">
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="search" maxlength="15" class="form-control" [(ngModel)]="searchReqNo"
+                            (keyup)="onkeyUp($event)" placeholder="Search">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="request">
+                            <th mat-header-cell *matHeaderCellDef> Req No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.reScheduleReqNum}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="waybill">
+                            <th mat-header-cell *matHeaderCellDef> Waybill No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.waybillNumber}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pick">
+                            <th mat-header-cell *matHeaderCellDef> Pick Up Date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.pickupDate|date:'dd/MM/yyyy'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="booking">
+                            <th mat-header-cell *matHeaderCellDef> Booking Branch </th>
+                            <td mat-cell *matCellDef="let element"> {{element.bookingBranch}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="destination">
+                            <th mat-header-cell *matHeaderCellDef> Destination Branch </th>
+                            <td mat-cell *matCellDef="let element"> {{element.destinationBranch}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sfx">
+                            <th mat-header-cell *matHeaderCellDef> SFX Code </th>
+                            <td mat-cell *matCellDef="let element"> {{element.sfxCode}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="customer">
+                            <th mat-header-cell *matHeaderCellDef> Customer name </th>
+                            <td mat-cell *matCellDef="let element"> {{element.custName}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="location">
+                            <th mat-header-cell *matHeaderCellDef> Location </th>
+                            <td mat-cell *matCellDef="let element"> {{element.location}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="created">
+                            <th mat-header-cell *matHeaderCellDef> Created By </th>
+                            <td mat-cell *matCellDef="let element"> {{element.reScheduleDataDTO.actionUserId}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <td mat-cell *matCellDef="let element"> <span
+                                    [ngClass]="
+                                {'ipColor': (element.reScheduleStatus == 'PENDING FOR APPROVAL'),
+                                'pColor': (element.reScheduleStatus == 'REJECTED'),
+                                'cColor': (element.reScheduleStatus == 'APPROVED')}">{{element.reScheduleStatus}}</span> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="laying">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <div class="module_area">
+                                    <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control">
+                                        <mat-label>Laying At / Raised</mat-label>
+                                        <mat-select [(ngModel)]="raiseLayingAt" (selectionChange)="getRebookinData()">
+                                            <mat-option [value]="raise.id" *ngFor="let raise of raisedlookUp">
+                                                {{raise.lookupVal}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </th>
+                            <td mat-cell *matCellDef="let element"> <button class="btn theme-button fontWeight"
+                                    mat-raised-button (click)="requestAgain(element)"
+                                    *ngIf="element.reScheduleStatus == 'REJECTED'">REQUEST
+                                    AGAIN</button>
+                                <button class="btn theme-button fontWeight" mat-raised-button
+                                    (click)="createWaybill(element)"
+                                    *ngIf="element.reScheduleStatus == 'APPROVED'">CREATE WAYBILL</button>
+                            </td>
+
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <div panelClass="paginator">
+                    <mat-paginator class="paginator" [length]="length" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+                        (page)="onPagechange($event)">
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+</div>

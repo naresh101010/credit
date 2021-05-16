@@ -1,0 +1,71 @@
+td.mat-cell, td.mat-footer-cell, th.mat-header-cell {
+    font-size: 1.6rem !important;
+    text-transform: uppercase !important;
+    font-family: 'Open Sans', sans-serif !important;
+}
+/* .breadcrumb {
+    background: none !important;
+    color: #1a1a1a;
+    font-size: 1.6rem;
+    font-weight: normal;
+    text-align: left;
+    position: relative;
+    top: 0%;
+    font-family: 'Open Sans', sans-serif;
+} */
+.go-label{
+    margin-top:7px !important;
+    outline: none !important;
+}
+.goback{
+    margin-top: 10px !important;
+    text-align: center !important;
+}
+th.mat-header-cell {
+    text-transform: uppercase !important;
+    line-height: 1.4 !important;
+    font-weight: 600 !important;
+    color: #1a1a1a !important;
+}
+.tile-img{
+    height: 50px !important; 
+    width: 50px !important; 
+    padding:5px !important; 
+    margin-top: 5px !important;
+}
+.search{
+    text-transform: inherit !important;
+}
+.cardImageIcon {
+    float: right;
+    width: 6.5rem;
+    height: 6.5rem;
+    position: absolute;
+    right: 0.6rem;
+    margin-top: 40px!important;
+  }
+.generated_section {
+    background-color: #27ae60 !important;
+    color: #fff !important;
+    padding: 1rem 4rem 0.5rem 4rem;
+    border-radius: 2px 0 0 2px;
+  }
+  .generated_mat_card {
+    margin-bottom: 2rem !important;
+    border-radius: 0 !important;
+    box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+}
+.card-height{
+    height: 50px !important;
+    margin-bottom: 15px !important;
+}
+.card-height1{
+    height: 60px !important;
+    margin-bottom: 15px !important;
+}
+.input-align{
+    margin-left: -35px !important;
+}
+.label-align{
+    margin-top: -2px !important;
+}

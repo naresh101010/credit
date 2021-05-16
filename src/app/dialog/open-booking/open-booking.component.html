@@ -1,0 +1,103 @@
+<div class="modal-container" *ngIf="waybilRequestDetail">
+    <div class="mat-dialog-header">
+        <h4 class="margin-zero"><strong>{{customerName}}</strong></h4>
+        <div class="close_side_icon" [hidden] = 'this.data.waybillNo ?.length'>
+            <img (click)="openResechedulePickupModal()" matTooltip="Re Schedule"
+            [matTooltipPosition]="'above'" style="margin-right: 20px;" src="../assets/images/clock.png" alt="" class="iconWidth" >
+            <!-- [ngClass]="{'btn-dis':getStatus()}" *ngIf="!isDisabled" -->
+            <!-- <img matTooltip="Re Schedule"
+            [matTooltipPosition]="'above'" style="margin-right: 20px;" src="../assets/images/clock.png" alt="" class="iconWidth" [ngClass]="{'btn-dis':getStatus()}" *ngIf="isDisabled"> -->
+            <!-- <em (click)="openResechedulePickupModal()" style="cursor: pointer;" class="fa fa-clock-o ">
+            </em>
+            <em (click)="openForwardBookingModal()" style="cursor: pointer;" class="fa fa-forward " [mat-dialog-close]="true" *ngIf="type === 'dayend' || type === 'preBook'">
+            </em> -->
+            <img src="../assets/images/cancel_schedule_send.png" alt="src" matTooltip="Forward"
+            [matTooltipPosition]="'above'" style="margin-right: 20px;" (click)="openForwardBookingModal()" alt="" class="iconWidth"  *ngIf="type === 'dayend' || type === 'preBook'">
+            <!-- && !isDisabled [ngClass]="{'btn-dis':getStatus()}" -->
+            <!-- <img src="../assets/images/cancel_schedule_send.png" matTooltip="Forward"
+            [matTooltipPosition]="'above'" style="margin-right: 20px;" alt="" class="iconWidth"  *ngIf="type === 'dayend' || type === 'preBook' && isDisabled" [ngClass]="{'btn-dis':getStatus()}"> -->
+            <em class="fa fa-trash removeIcon" matTooltip="Cancel Request"
+            [matTooltipPosition]="'above'" style="cursor: pointer;" alt="src"  (click)="openCancelBookingModal()" *ngIf="type === 'dayend' || type === 'preBook'"></em>
+        </div>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr class="m-0">
+    <div class="mat-dialog-content mb-2">
+        <div class="row">
+            <div class="col-md-5">
+                <p class="label_text"><strong>Booking Request ID:</strong>
+                    <span>{{waybilRequestDetail.preBookingRequestId}}</span></p>
+                <p class="label_text"><strong>Mode of Payment:</strong> <span>{{ refType(waybilRequestDetail.mopId)}}</span></p>
+                <p class="label_text"><strong>Pick Up Date:</strong>
+                    <span>{{waybilRequestDetail.pickUpDate | date : 'dd/MM/yyyy'}}</span></p>
+                <p class="label_text"><strong>Waybill No.:</strong>
+                    <span>{{ data.waybillNo ? data.waybillNo  : 'NA'}}</span></p>
+                <p class="label_text"><strong>Total Packages:</strong>
+                    <span>{{ waybilRequestDetail.totalPackageCount}}</span></p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>SFX Code:</strong>
+                    <span>{{ waybilRequestDetail.prcContractCode ? waybilRequestDetail.prcContractCode : 'NA' }}</span></p>
+                <p class="label_text"><strong>Safexperience #:</strong>
+                    <span>{{waybilRequestDetail.safexpReferenceNumber ? waybilRequestDetail.safexpReferenceNumber : 'NA'}}</span></p>
+                <p class="label_text"><strong>Business Type:</strong>
+                    <span>{{ refType(waybilRequestDetail.businessTypeLkpId) ?  refType(waybilRequestDetail.businessTypeLkpId) : 'NA'}}</span></p>
+                <p class="label_text"><strong>Total Weight:</strong> <span>{{ waybilRequestDetail.totalWeight }}</span>
+                </p>
+            </div>
+        </div>
+        <hr class="m-0">
+        <div class="row">
+            <div class="col-md-12">
+                <h5><strong>Consignor</strong></h5>
+            </div>
+            <div class="col-md-5">
+                <p class="label_text"><strong>Consignor Name:</strong>
+                    <span>{{consignorDetails.name ? consignorDetails.name : 'NA'}}</span></p>
+                <p class="label_text"><strong>Contact No:</strong>
+                    <span>{{ consignorDetails.mob ? consignorDetails.mob : 'NA'}}</span></p>
+                <p class="label_text"><strong>GSTIN:</strong> <span>{{ consignorDetails.gstinNum ? consignorDetails.gstinNum : 'NA'}}</span></p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>Address:</strong>
+                    <span *ngIf="consignorDetails.addrBook">{{consignorDetails.addrBook?.addr1}} {{consignorDetails.addrBook?.addr2}} {{consignorDetails.addrBook?.addr3}}</span>
+                    <span *ngIf="!consignorDetails.addrBook">NA</span>
+                </p>
+                
+                    <p class="label_text"><strong>Pincode:</strong> 
+                        <span *ngIf="consignorDetails.addrBook">{{ consignorDetails.addrBook.pincodeId}}</span>
+                        <span *ngIf="!consignorDetails.addrBook">NA</span>
+
+                </p>
+                <p class="label_text"><strong>TAN:</strong> <span>{{ consignorDetails.tanNum ? consignorDetails.tanNum : 'NA'}}</span></p>
+            </div>
+        </div>
+        <hr class="m-0">
+        <div class="row" *ngIf="consigneeDetails">
+            <div class="col-md-12">
+                <h5><strong>Consignee</strong></h5>
+            </div>
+            <div class="col-md-5">
+                <p class="label_text"><strong>Consignee Name:</strong>
+                    <span>{{consigneeDetails.name ? consigneeDetails.name: 'NA'}}</span></p>
+                <p class="label_text"><strong>Contact No:</strong>
+                    <span>{{consigneeDetails.mob ? consigneeDetails.mob : 'NA'}}</span></p>
+                <p class="label_text"><strong>GSTIN:</strong> <span>{{consigneeDetails.gstinNum ? consigneeDetails.gstinNum: 'NA'}}</span></p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>Address:</strong>
+                    <span *ngIf="consigneeDetails.addrBook">{{consigneeDetails.addrBook.addr1}} {{consigneeDetails.addrBook.addr2}} {{consigneeDetails.addrBook.addr3}}</span>
+                    <span *ngIf="!consigneeDetails.addrBook">
+                        NA
+                    </span>
+                </p>
+                <p class="label_text"><strong>Pincode:</strong>
+                    <span *ngIf="consigneeDetails.addrBook">{{ consigneeDetails.addrBook.pincodeId}}</span>
+                    <span *ngIf="!consigneeDetails.addrBook">NA</span>
+
+                </p>
+                <p class="label_text"><strong>TAN:</strong> <span>{{ consigneeDetails.tanNum ? consigneeDetails.tanNum : 'NA' }}</span></p>
+            </div>
+        </div>
+    </div>
+</div>

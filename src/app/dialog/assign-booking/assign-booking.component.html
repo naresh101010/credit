@@ -1,0 +1,45 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+        <h4 class="margin-zero"><strong>Assign Booking</strong></h4>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr style="margin: 0;">
+    <div class="mat-dialog-content">
+        <div class="row">
+            <div class="col-md-3 pr-0">
+                <h5 class="color-primary active_device mb-4"><strong>Active Device
+                        <span>({{ activeDeviceCount }})</span></strong></h5>
+            </div>
+            <div class="col-md-4">
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" #filter class="form-control" placeholder="Search"
+                            [(ngModel)]="searchModel">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+            </div>
+        </div>
+        <ng-container *ngFor="let staff of staffList | search : 'staffName' : searchModel; let i = index">
+            <div class="row">
+                <div class="col-md-1">
+                    <p class="assign_book_num m-0">{{ i + 1 }}</p>
+                </div>
+                <div class="col-md-8">
+                    <h5 class="assign_book_head m-0"><strong>{{staff.staffName}}</strong></h5>
+                    <p class="assign_book_content"><strong>Completed Bookings:&nbsp;&nbsp;</strong><span
+                            class="cColor mL-0">{{getOpenBookingCount(staff.userId)}}</span><span class="pColor mL-0">/{{getAssignedBookingCount(staff.userId)}}</span></p>
+                    <p class="assign_book_content m-0"><strong>Device ID:&nbsp;&nbsp;</strong> <span class=" mL-0">{{
+                            staff.deviceId}}</span></p>
+                    <p class="assign_book_content m-0"><strong>Contact No.:&nbsp;&nbsp;</strong> <span span
+                            class=" mL-0">{{ staff.mobileNumber }}</span></p>
+                </div>
+                <div class="col-md-3">
+                    <button mat-raised-button class="btn theme-button margin-top-6"
+                        (click)="assign(staff)">Assign</button>
+                </div>
+            </div>
+            <hr class="border-gray mt-2 mb-1">
+        </ng-container>
+    </div>
+</div>

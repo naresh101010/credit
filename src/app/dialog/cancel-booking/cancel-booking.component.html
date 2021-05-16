@@ -1,0 +1,38 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+        <h4 class="margin-zero"><strong>Cancel Booking</strong></h4>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr style="margin: 0 !important;">
+    <form class="mat-dialog-content" #reasonForm="ngForm" (ngSubmit)="cancelRequest(reasonForm)">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="" class="control-label">Reason:</label>
+            </div>
+            <div class="col-md-6" *ngIf="reasonList">
+                <!-- <select name="reason" #reason="ngModel" ngModel id="" class="form-control" required>
+                    <option [value]="reason.id" *ngFor="let reason of reasonList">{{ reason.lookupVal }}</option>
+                </select> -->
+                <mat-form-field appearance="outline" class="form-control">
+                    <mat-select name="reason" #reason="ngModel" ngModel id="">
+                        <mat-option [value]="reason.id" *ngFor="let reason of reasonList">{{ reason.lookupVal }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <label for="" class="control-label">Remarks:</label>
+            </div>
+            <div class="col-md-6">
+                <textarea class="form-control" ngModel name="remarks" #remarks="ngModel" cols="4" required></textarea>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <button mat-raised-button class="btn theme-button" [disabled]="!reasonForm.valid">Confirm</button>
+            </div>
+        </div>
+    </form>
+</div>

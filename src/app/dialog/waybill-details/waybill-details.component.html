@@ -1,0 +1,92 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+        <h4 class="margin-zero" *ngIf="waybilRequestDetail"><strong>{{waybilRequestDetail.msaName}}</strong></h4>
+        <div class="close_side_icon">
+            <em (click)="openResechedulePickupModal()" class="fa fa-clock-o ">
+                <!-- <img src="../assets/images/clock.png" alt="" class="iconWidth"> -->
+            </em>
+            <!-- <em (click)="openForwardBookingModal()" class="fa fa-forward " [mat-dialog-close]="true">
+                <img src="../assets/images/cancel_schedule_send.png" alt="" class="iconWidth">
+            </em>
+            <em class="fa fa-trash removeIcon" (click)="openCancelBookingModal()"></em> -->
+        </div>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr class="m-0">
+    <div class="mat-dialog-content mb-2" *ngIf="waybilRequestDetail">
+        <div class="row">
+            <div class="col-md-5">
+                <p class="label_text"><strong>Booking Request ID:</strong>
+                    <span>{{waybilRequestDetail.preBookingRequestId ? waybilRequestDetail.preBookingRequestId :
+                        waybilRequestDetail.bookingRequestNumber }}</span>
+                </p>
+                <p class="label_text"><strong>Mode of Payment:</strong>
+                    <span>{{refType(waybilRequestDetail.modeOfPaymentId)}}</span></p>
+                <p class="label_text"><strong>Pick Up Date:</strong>
+                    <span>{{waybilRequestDetail.pickUpDate}}</span>
+                </p>
+                <p class="label_text"><strong>Requested Waybills:</strong>
+                    <span>{{ data.waybilRequest?.waybillCount }}</span>
+                </p>
+                <p class="label_text"><strong>Generated Waybills:</strong>
+                    <span>{{ generatedWaybills() }}</span>
+                </p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>SFX Code:</strong>
+                    <span>{{ waybilRequestDetail.sfxCode }}</span>
+                </p>
+                <!-- <p class="label_text"><strong>Safexperience #:</strong>
+                    <span>{{ waybilRequestDetail.Safexperience}}</span></p> -->
+                <p class="label_text"><strong>Business Type:</strong>
+                    <span>{{ waybilRequestDetail.businessType }}</span>
+                </p>
+                <p class="label_text"><strong>Total Weight:</strong> <span>{{ waybilRequestDetail.weight }}</span>
+                </p>
+                <p class="label_text"><strong>Total Packages:</strong>
+                    <span>{{ waybilRequestDetail.noOfPackages}}</span>
+                </p>
+            </div>
+        </div>
+        <!-- <hr class="m-0">
+        <div class="row">
+            <div class="col-md-12">
+                <h5><strong>Consignor</strong></h5>
+            </div>
+            <div class="col-md-5">
+                <p class="label_text"><strong>Consignor Name:</strong>
+                    <span>{{waybilRequestDetail.consignorName}}</span></p>
+                <p class="label_text"><strong>Contact No:</strong>
+                    <span>{{ waybilRequestDetail.consignorContactNumber}}</span></p>
+                <p class="label_text"><strong>GSTIN:</strong> <span>{{ waybilRequestDetail.gstin}}</span></p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>Address:</strong>
+                    <span>{{ waybilRequestDetail.consignorAddressLine1}}</span></p>
+                <p class="label_text"><strong>Pincode:</strong> <span>{{ waybilRequestDetail.consignorPincodeId}}</span>
+                </p>
+                <p class="label_text"><strong>TIN:</strong> <span>{{ waybilRequestDetail.tin}}</span></p>
+            </div>
+        </div>
+        <hr class="m-0">
+        <div class="row">
+            <div class="col-md-12">
+                <h5><strong>Consignee</strong></h5>
+            </div>
+            <div class="col-md-5">
+                <p class="label_text"><strong>Consignee Name:</strong>
+                    <span>{{waybilRequestDetail.consigneeName}}</span></p>
+                <p class="label_text"><strong>Contact No:</strong>
+                    <span>{{waybilRequestDetail.consigneeContactNumber}}</span></p>
+                <p class="label_text"><strong>GSTIN:</strong> <span>{{waybilRequestDetail.gstin}}</span></p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>Address:</strong>
+                    <span>{{ waybilRequestDetail.consigneeAddressLine1 }}</span></p>
+                <p class="label_text"><strong>Pincode:</strong>
+                    <span>{{ waybilRequestDetail.consigneePincodeId }}</span></p>
+                <p class="label_text"><strong>TIN:</strong> <span>{{ waybilRequestDetail.tin }}</span></p>
+            </div>
+        </div> -->
+    </div>
+</div>

@@ -1,0 +1,1951 @@
+/* You can add global styles to this file, and also import other style files */
+/* @import "~@angular/material/prebuilt-themes/indigo-pink.css"; */
+
+html {
+  font-size: 45% !important;
+}
+.bg-green{
+  background-color: #27AE60!important;
+}
+.bg-red {
+  background-color: #ef4848!important;
+}
+.text-white{
+  color: #fff!important;
+}
+body {
+  font-size: 1.4rem;
+  overflow-x: hidden;
+  box-sizing: border-box;
+  font-family: "Open Sans", sans-serif !important;
+  line-height: 1.8;
+  overflow-y: scroll !important;
+}
+
+::-webkit-scrollbar {
+  width: 1rem;
+  height: 1rem;
+}
+
+::-webkit-scrollbar-track {
+  background: #ebebf2;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #6a6868;
+  border-radius: 1rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #585757;
+}
+
+/* GLOBAL CSS */
+/* green color code  = #27AE60
+   disabled color code =  #ccc
+   heading background color = #f1f1f1  */
+
+
+h1 {
+  font-size: 4.2rem !important;
+}
+
+h2 {
+  font-size: 3.2rem !important;
+}
+
+h3 {
+  font-size: 2.4rem !important;
+}
+
+h4 {
+  font-size: 1.8rem !important;
+}
+
+h5 {
+  font-size: 1.8rem !important;
+}
+
+h6 {
+  font-size: 1.6rem !important;
+}
+
+p {
+  margin: 0 0 1.4rem !important;
+  font-size: 1.6rem !important;
+}
+
+strong {
+  font-weight: 700 !important;
+}
+
+.col-lg-1,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-md-1,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-sm-1,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-xs-1,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9 {
+  min-height: 0.1rem !important;
+  padding-right: 1.5rem !important;
+  padding-left: 1.5rem !important;
+}
+
+.row {
+  margin-left: -1.5rem !important;
+  margin-right: -1.5rem !important;
+}
+
+a {
+  color: #27ae60;
+}
+
+
+hr.border-gray {
+  border-color: #a8a8a8 !important;
+}
+
+.color-primary {
+  color: #27ae60 !important;
+}
+
+.padding-zero {
+  padding: 0 !important;
+}
+
+.margin-zero {
+  margin: 0 !important;
+}
+
+.margin-top-4 {
+  margin-top: 4rem !important;
+}
+
+.margin-top-6 {
+  margin-top: 6rem !important;
+}
+
+.margin-bottom-4 {
+  margin-bottom: 4rem !important;
+}
+
+.col-md-half {
+  width: 4.1555% !important;
+}
+
+::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  font-family: "Open Sans", sans-serif !important;
+}
+
+::-moz-placeholder {
+  /* Firefox 19+ */
+  font-family: "Open Sans", sans-serif !important;
+}
+
+:-ms-input-placeholder {
+  /* IE 10+ */
+  font-family: "Open Sans", sans-serif !important;
+}
+
+:-moz-placeholder {
+  /* Firefox 18- */
+  font-family: "Open Sans", sans-serif !important;
+}
+
+/********** Dialog Box CSS **********/
+.bookingDialog .mat-dialog-container {
+  padding: 0;
+  border-radius: 2rem;
+}
+
+.mat-dialog-header {
+  position: relative;
+  padding: 1.5rem;
+}
+
+.mat-dialog-content {
+  padding: 2rem !important;
+  margin: 0 !important;
+}
+
+.mat-dialog-header .modal-close {
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  color: #685858;
+  cursor: pointer;
+  font-size: 2rem;
+}
+
+.label_text span {
+  margin-left: 1rem;
+}
+
+.assign_book_num {
+  text-align: center;
+  background: #27ae60;
+  line-height: 4rem;
+  border-radius: 2rem;
+  width: 4rem;
+  height: 4rem;
+  font-weight: 700;
+  color: #fff;
+  margin: 1rem 0 0 0 !important;
+}
+
+.assign_book_content span {
+  margin-left: 2rem;
+}
+
+.assign_book_head {
+  text-transform: uppercase;
+}
+
+.active_device {
+  margin: 0.5rem 0;
+}
+
+.theme-button.margin-top-6 {
+  margin-top: 6rem !important;
+}
+
+.resend_text {
+  position: relative;
+}
+
+.resend_text span {
+  position: absolute;
+  bottom: -2.4rem;
+  right: 2rem;
+}
+
+.mat-tab-label,
+.mat-tab-link,
+.mat-tab-group,
+.mat-expansion-panel-header {
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.mat-tab-group.mat-primary .mat-ink-bar,
+.mat-tab-nav-bar.mat-primary .mat-ink-bar {
+  background-color: #27ae60 !important;
+}
+
+.mat-tab-label-active {
+  background-color: #27ae60 !important;
+  color: #fff !important;
+  text-transform: uppercase !important;
+}
+
+.mat-tab-label {
+  height: 5rem !important;
+}
+
+.mat-tab-section {
+  padding: 2rem 0;
+}
+
+.mat-tab-body-content {
+  overflow: inherit !important;
+}
+
+/********** Dialog Box CSS **********/
+
+/********** Buttons CSS **********/
+.theme-button {
+  color: #fff !important;
+  cursor: pointer !important;
+  font-size: 1.6rem !important;
+  background-color: #27AE60 !important;
+  border: 0.2rem solid #27AE60 !important;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+  margin: 2px 1rem;
+  font-family: "Open Sans", sans-serif !important;
+  border-radius: 2rem !important;
+  padding: 0 2.6rem !important;
+  line-height: 1.8 !important;
+}
+
+.theme-button:hover,
+.theme-button:focus,
+.theme-button:visited {
+  background-color: #81c784 !important;
+  border-color: #81c784 !important;
+  outline: none !important;
+}
+
+.white-button {
+  color: #1a1a1a !important;
+  cursor: pointer !important;
+  font-size: 1.6rem !important;
+  background-color: #fff !important;
+  border: 0.2rem solid #27AE60 !important;
+  margin: 0 1rem;
+  font-weight: bold !important;
+  font-family: "Open Sans", sans-serif !important;
+  border-radius: 2rem !important;
+  padding: 0 2.6rem !important;
+  line-height: 1.8 !important;
+}
+
+.white-button:hover,
+.white-button:focus,
+.white-button:visited {
+  border-color: #27AE60 !important;
+  color: #27AE60 !important;
+}
+
+.transparent-button {
+  color: #27ae60 !important;
+  cursor: pointer !important;
+  font-size: 1.6rem !important;
+  background-color: #fff0 !important;
+  border: none !important;
+  box-shadow: none !important;
+  margin: 0 1rem;
+  font-family: "Open Sans", sans-serif !important;
+  border-radius: 0 !important;
+  padding: 0 1.6rem !important;
+  line-height: 1.8 !important;
+}
+
+.transparent-button:hover,
+.transparent-button:focus,
+.transparent-button:visited {
+  color: #21914f !important;
+}
+
+.tab-button {
+  color: #fff !important;
+  cursor: pointer !important;
+  font-size: 1.6rem !important;
+  background-color: #27ae60 !important;
+  border: 0.2rem solid #27ae60 !important;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+  font-family: "Open Sans", sans-serif !important;
+  margin: 0 1rem !important;
+  border-radius: 0.2rem !important;
+  padding: 0 1.6rem !important;
+  line-height: 2.4 !important;
+}
+
+.tab-white-button {
+  color: #1a1a1a !important;
+  cursor: pointer !important;
+  font-size: 1.6rem !important;
+  background-color: #fff !important;
+  border: 0.2rem solid #fff !important;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+  margin: 0 1rem !important;
+  border-radius: 0.2rem !important;
+  padding: 0 1.6rem !important;
+  line-height: 2.4 !important;
+}
+
+/********** Buttons CSS **********/
+
+/********** Table CSS **********/
+.mat-table {
+  font-family: "Open Sans", sans-serif !important;
+  margin-bottom: 4rem !important;
+  box-shadow: none !important;
+}
+
+td.mat-cell,
+td.mat-footer-cell,
+th.mat-header-cell {
+  font-size: 1.6rem !important;
+  padding: 1rem !important;
+}
+
+th.mat-header-cell {
+  text-transform: uppercase !important;
+  line-height: 1.4 !important;
+  font-weight: 600 !important;
+  color: #1a1a1a !important;
+}
+
+td.mat-cell:first-of-type,
+td.mat-footer-cell:first-of-type,
+th.mat-header-cell:first-of-type,
+td.mat-cell:last-of-type,
+td.mat-footer-cell:last-of-type,
+th.mat-header-cell:last-of-type {
+  padding-left: 2.4rem !important;
+}
+
+tr.mat-footer-row,
+tr.mat-header-row,
+tr.mat-row {
+  height: 4.4rem !important;
+}
+
+/********** Table CSS **********/
+/* mat form css start */
+.overline_hidden {
+  overflow: hidden;
+  height: 38px;
+  margin-bottom: 8px !important;
+}
+
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background: #27ae60;
+  color: #fff !important;
+}
+
+.mat-select-panel .mat-optgroup-label,
+.mat-select-panel .mat-option {
+  height: 2em !important;
+  font-size: 12px !important;
+}
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled){
+  color: #333 !important;
+}
+
+.mat-option:hover:not(.mat-option-disabled) {
+  background: #27ae60;
+  color: #fff;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  display: none !important;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-flex {
+  padding: 0px !important;
+}
+
+.mat-form-field-appearance-legacy.mat-form-field-can-float .mat-input-server:focus+.mat-form-field-label-wrapper .mat-form-field-label,
+.mat-form-field-appearance-legacy.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.28125em) scale(0) perspective(100px) translateZ(.001px);
+}
+
+.mat-form-field .mat-form-field-label span {
+  margin-left: 10px !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: transparent !important;
+}
+
+.mat-form-field.mat-focused .mat-form-field-ripple,
+.mat-form-field.mat-form-field-invalid .mat-form-field-ripple {
+  opacity: 0 !important;
+}
+
+.mat-form-field .mat-select-value span {
+  font-size: 1.4rem !important;
+  line-height: 16px !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+}
+
+.mat-form-field-type-mat-select .mat-form-field-label {
+  font-size: 1.4rem !important;
+}
+
+.mat-form-field-flex {
+  align-items: center !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-label {
+  font-size: 1.4rem !important;
+  line-height: 16px !important;
+}
+
+td.mat-cell,
+td.mat-footer-cell,
+th.mat-header-cell {
+  font-size: 1.6rem !important;
+  text-transform: uppercase !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+/********** Form CSS **********/
+.form-group {
+  position: relative !important;
+}
+
+.input-icon {
+  position: absolute !important;
+  top: 0.6rem;
+  left: 0.4rem;
+  color: #777;
+}
+
+.form-control {
+  border-radius: 0 !important;
+  border: 1px solid #686868 !important;
+  padding: 0.2rem 1rem 0.2rem 1rem !important;
+  font-size: 1.4rem !important;
+  height: 2.7rem !important;
+  margin-bottom: 1.4rem !important;
+  box-shadow: 0 0.2rem 0.2rem #00000029 !important;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.form-control:hover,
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+.form-group .form-control {
+  padding: 0.2rem 1rem 0.2rem 2.4rem !important;
+}
+
+.control-label {
+  font-family: "Open Sans", sans-serif !important;
+  font-size: 1.6rem !important;
+  margin-bottom: 3.3rem !important;
+}
+
+textarea.form-control {
+  height: auto !important;
+}
+
+.input-unit {
+  position: relative;
+}
+
+.input_date_pcker {
+  position: relative;
+}
+
+.input-unit span {
+  position: absolute;
+  right: -1.6rem;
+  top: 0;
+}
+
+.input_date_pcker span {
+  position: absolute !important;
+  right: 2.4rem !important;
+  top: 14px !important;
+  font-size: 9px !important;
+  overflow: hidden;
+}
+
+.mat-radio-button {
+  margin-right: 2rem !important;
+}
+
+.mat-radio-label-content {
+  font-size: 1.6rem !important;
+  font-weight: 500;
+}
+
+#datepickerwidth {
+  width: 100% !important;
+}
+
+.mat-datepicker-toggle-default-icon ng-star-inserted {
+  position: absolute;
+  top: -0.5rem;
+}
+
+.mat-calendar-body-selected {
+  background-color: #27ae60 !important;
+}
+
+.mat-calendar-body-today:not(.mat-calendar-body-selected) {
+  border-color: #27ae60 !important;
+}
+
+.mat-datepicker-toggle-active {
+  color: #27ae60 !important;
+}
+
+.mat-datepicker-content .mat-calendar {
+  width: 29.6rem !important;
+  height: 35.4rem !important;
+}
+
+.mat-datepicker-toggle .mat-icon-button {
+  top: -0.8rem !important;
+  border-radius: 0 !important;
+  font-size: 2rem !important;
+}
+
+.mat-calendar-body-selected {
+  background-color: #27ae60 !important;
+}
+
+td.mat-calendar-body-cell {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  padding: 1.8rem 0 !important;
+}
+
+thead.mat-calendar-table-header tr th {
+  background-color: #f1f1f1;
+  color: #1a1a1a;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.mat-calendar-controls .mat-icon-button {
+  width: 5.5rem !important;
+  height: 5.5rem !important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+.mat-form-field-infix {
+  padding: 0 !important;
+  border-top: 0 !important;
+}
+
+.mat-form-field {
+  width: 100% !important;
+}
+
+.mat-form-field-prefix,
+.mat-form-field-suffix {
+  margin-left: -20px !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  height: 0 !important;
+}
+
+.breadcrumb {
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;
+}
+
+/********** Form CSS **********/
+
+/********** Components CSS **********/
+.generated_mat_card {
+  margin-bottom: 4rem;
+  border-radius: 0 !important;
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 5px 0 rgba(0, 0, 0, 0.12) !important;
+}
+
+.generated_section {
+  background-color: #27ae60 !important;
+  color: #fff !important;
+  padding: 1rem 4rem 0.5rem 4rem;
+}
+
+.class_text {
+  text-transform: uppercase;
+  margin: 0.5rem 0 0 0 !important;
+}
+
+.tab_data_section {
+  padding: 1rem 1rem 0 1rem;
+}
+
+.mat-expansion-panel-content {
+  font-family: "Open Sans", sans-serif !important;
+}
+
+.barcode_icon {
+  font-size: 3rem !important;
+  margin-top: 0.5rem;
+  cursor: pointer;
+}
+
+.expansion_section {
+  margin-bottom: 20rem;
+}
+
+.succes_Screen {
+  margin: 20rem 0 0;
+}
+.addjust_on_left{
+  padding: 0 2.5rem 0 0 !important;
+    margin: 0 -2rem 2rem;
+}
+.green-card {
+  background-color: #27ae60;
+  padding: 0.5rem 3.4rem;
+  color: #fff;
+}
+.text_overflow_hidden{
+  height: 20px;
+  overflow: hidden;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mat-plus-icon {
+  color: #27ae60 !important;
+  margin: 0.1rem 0 !important;
+  cursor: pointer;
+  outline: none;
+}
+
+.bookingsContainer .grand_charges {
+  position: fixed;
+  background-color: #fff;
+  width: 100%;
+  height: auto;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 1rem 15rem 1rem 25rem;
+  box-shadow: 0 -1px 2px 0 rgba(0, 0, 0, 0.14),
+    0 -2px 1px -2px rgba(0, 0, 0, 0.12), 0 -1px 1px 0 rgba(0, 0, 0, 0.2);
+}
+
+.bookingsContainer .rate_card {
+  box-shadow: 0 8px 17px 2px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(175, 171, 171, 0.12),
+    0 5px 5px -3px rgba(162, 162, 162, 0.2);
+  background-color: #fff;
+  border-left: 1.5rem solid #27ae60;
+  border-top: 0 solid transparent;
+  border-bottom: 0 solid transparent;
+  padding: 1rem 1.5rem;
+  cursor: pointer;
+}
+.bookingsContainer .card_tab_Selected{
+  border: 2px solid #27ae60 !important;
+}
+.bookingsContainer .card_btn_direct{
+  background: transparent;
+  border: none;
+  width: 100%;
+}
+.bookingsContainer .mrgin_btm_20{
+  margin-bottom: 20px;
+}
+.bookingsContainer .rate_card_active {
+  background-color: #27ae60;
+  color: #fff;
+}
+
+.mat_text_icon {
+  text-align: right;
+}
+
+.mat_text_icon .mat-plus-icon {
+  float: right;
+  margin-top: -3px !important;
+  margin-left: 5px !important;
+}
+
+.navigation_section {
+  margin-bottom: 20px;
+}
+
+.nav_card {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 0;
+  height: 120px;
+  box-shadow: 0 2px 1px -2px rgba(0, 0, 0, 0.2), 0 2px 2px 0 rgba(0, 0, 0, 0.14),
+    0 1px 3px 0 rgba(0, 0, 0, 0.12) !important;
+  text-align: center;
+  outline: none;
+}
+
+.nav_card.active {
+  background-color: #27ae60;
+}
+
+.nav_card.active .color-primary {
+  color: #fff !important;
+}
+
+.nav_card .control-label {
+  font-size: 2rem !important;
+}
+
+.manifest_card {
+  padding: 5px;
+  text-align: left;
+  border-radius: 0;
+  height: 120px;
+  position: relative;
+}
+
+.manifest_card p:nth-child(1) {
+  margin-bottom: 10px !important;
+}
+
+.manifest_card p {
+  font-size: 1.8rem !important;
+  margin-bottom: 1px !important;
+  color: #fff;
+}
+
+.em_heading {
+  font-size: 2rem !important;
+}
+
+.nav_card_box_icon {
+  position: absolute;
+  bottom: 2rem;
+  right: 2rem;
+  font-size: 5rem;
+  color: #fff !important;
+}
+
+.table_heading {
+  margin-top: 0px;
+}
+
+/********** Components CSS **********/
+/* Media Queries */
+
+@media only screen and (max-width: 1534px) {
+  html {
+    font-size: 57%;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  ::ng-deep .mat-stepper-horizontal-line {
+    min-width: 6rem !important;
+  }
+}
+
+@media only screen and (max-width: 1440px) {
+  html {
+    font-size: 55%;
+  }
+
+  ::ng-deep .mat-stepper-horizontal-line {
+    min-width: 5rem !important;
+  }
+}
+
+@media only screen and (max-width: 1366px) {
+  html {
+    font-size: 52%;
+  }
+
+  ::ng-deep .mat-stepper-horizontal-line {
+    min-width: 4rem !important;
+  }
+}
+
+
+
+/* adarsh css start */
+.print_position strong {
+  position: absolute;
+  top: 10px;
+  left: 0px;
+  background: #27ae60;
+  padding: 5px 15px;
+  color: #fff;
+}
+
+.padding_0 {
+  padding: 0px;
+}
+
+.print_sticker_inner {
+  padding: 15px;
+}
+
+.print_sticker_icon {
+  background: #27ae60;
+  padding: 1px 15px;
+}
+
+.print_sticker_icon img {
+  position: absolute;
+  top: -4px;
+  right: 0px;
+}
+
+.print_sticker_icon h4 {
+  color: #fff;
+}
+
+.padding_0 {
+  padding: 0px !important;
+}
+
+.print_upload_icon {
+  position: absolute;
+  top: 0px;
+  right: 15px;
+}
+
+.mr_10 {
+  margin-right: 10px;
+}
+
+.device_detail_sec {
+  border-bottom: 1px solid #ddd;
+  margin-top: 15px;
+  padding-bottom: 15px;
+}
+
+.device_detail_flex {
+  display: flex;
+}
+
+.device_detail_flex h4 {
+  background: #27ae60;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+  color: #fff;
+  margin-right: 15px;
+  margin-top: 0px;
+}
+
+.device_detail_flex p {
+  margin: 0px !important;
+}
+
+.device_contact_active {
+  padding-top: 8%;
+  padding-right: 15px;
+  text-align: right;
+}
+
+.device_detail_scrollbar {
+  min-height: auto;
+  max-height: 60vh;
+  overflow: hidden;
+  overflow-y: auto;
+}
+.label_and_add {
+  display: flex;
+  float: right;
+}
+
+.label_and_add .control-label {
+  margin: 0.3rem 1rem;
+}
+
+.total_outstanding {
+  background: #b00020;
+  color: #fff;
+  padding: 6px 15px;
+  border-radius: 4px;
+}
+
+.active {
+  background: #27ae60;
+  color: #fff;
+}
+
+.sale_web_sec p {
+  padding: 5px;
+  line-height: 16px;
+  margin: 0px !important;
+  font-size: 11px !important;
+}
+
+.mb_15 {
+  margin-bottom: 15px;
+}
+
+.pl_0 {
+  padding-left: 0px !important;
+}
+
+.bg_gray {
+  background: #707070;
+  color: #fff;
+}
+
+.mat-dialog-container {
+  padding: 0px !important;
+  border-radius: 15px !important;
+}
+
+.searchbar_bw .form-control {
+  padding-left: 22px !important;
+  outline: none;
+}
+
+.searchbar_bw em {
+  position: absolute !important;
+    top: 0.9rem;
+    left: 2rem;
+    color: #777;
+    font-size: 1.5rem;
+}
+
+.mat-form-field-type-mat-select .mat-form-field-label {
+  margin-top: -0.4em !important;
+}
+
+.dayTotalAmount {
+  border: 1px solid #ddd;
+}
+
+.dayTotalAmount p {
+  margin-bottom: 0px !important;
+}
+
+.search_branch_wb {
+  font-size: 12px;
+  font-style: italic;
+}
+
+.mat-radio-outer-circle,
+.mat-radio-inner-circle {
+  height: 12px !important;
+  width: 12px !important;
+  top: 4px !important;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color: #27AE60 !important;
+}
+
+.mat-radio-button.mat-accent .mat-radio-inner-circle,
+.mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple),
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple,
+.mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+  background-color: #27AE60 !important;
+}
+
+.mat-radio-label-content {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.mat-form-field-label-wrapper {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.day_end_completed {
+  padding: 12% 0%;
+  text-align: center;
+}
+
+.day_end_completed img {
+  width: 100px;
+  margin-bottom: 15px;
+}
+
+.mat-radio-label-content {
+  padding-left: 0px !important;
+}
+
+.nav_card {
+  padding: 25px;
+  height: 102px;
+}
+
+.manifest_card {
+  padding: 5px;
+  height: 102px;
+}
+
+.manifest_card p {
+  line-height: 18px;
+}
+
+.cursor_pointer {
+  cursor: pointer;
+}
+
+.nav_card_line_two {
+  padding: 26px;
+}
+
+.start_booking_success {
+  padding: 4% 0%;
+  text-align: center;
+}
+
+.start_booking_success img {
+  width: 100px;
+  margin-bottom: 15px;
+}
+
+.start_booking_success h3 {
+  font-weight: 400;
+  font-size: 36px;
+}
+
+.start_booking_print {
+  text-align: center;
+  margin-top: 30px
+}
+
+.start_booking_print img {
+  width: 25px;
+  margin-right: 8px;
+}
+
+.start_booking_print p {
+  margin: 0px !important;
+}
+
+.dashboard_last_sec h3 {
+  color: #27AE60;
+  font-size: 2rem !important;
+  margin-top: 3rem;
+  font-weight: 600;
+}
+a:focus, a:hover{
+    color: #27AE60 !important;
+}
+.table_discription {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.mat-select-panel {
+  border-radius: 0px !important;
+}
+
+/****** Mat Select Panel ********/
+.cdk-overlay-pane {
+  transform: translateX(-16px) !important;
+}
+
+.mat-select-panel .mat-option {
+  background: #fff !important;
+  font-size: 1.5rem !important;
+  margin-top:1px !important;
+  text-transform: uppercase;
+  height: 2.7rem !important;
+  padding: 0 0.5rem;
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.mat-select-panel .mat-option:hover {
+  background: #27AE60 !important;
+  color: #fff !important;
+}
+.mat-select-panel .mat-active{
+  background: #27AE60 !important;
+  color: #fff !important;
+}
+ .mat-select:hover .mat-select-arrow {
+  color: #27AE60;
+}
+ .mat-select:hover {
+  border-color: #27AE60;
+}
+.mat-select-panel:not([class*=mat-elevation-z]) {
+  border: 2px solid #27AE60;
+  box-shadow: none;
+}
+.form-control:hover{
+  border: 2px solid #27AE60 !important;
+}
+.mat-select-panel .mat-option.mat-selected:not(.mat-option-multiple) {
+  background-color: #27AE60 !important;
+  color: #fff !important;
+}
+
+.mat-select-panel {
+  min-width: calc(100% + 17px) !important;
+     width: 100% !important;
+   top: 2.1rem !important;
+     margin-top: 0rem !important;
+   left: 1.1rem !important;
+     box-shadow: none !important;
+     position: absolute !important;
+	     border: .1rem solid #6A6868 
+}
+
+.mat-select {
+  font-family: 'Open Sans', sans-serif !important;
+}
+
+.overline_hidden {
+  overflow: hidden;
+}
+
+/****** MAt Select Panel ********/
+
+.all_print_card {
+  border: 1px solid #ddd;
+  margin-top: 15px;
+}
+
+.padding_15 {
+  padding: 15px;
+}
+
+.all_print_greencard {
+  background: #27ae60;
+  padding: 5px 15px;
+}
+
+.all_print_greencard img {
+  float: right;
+  width: 30px;
+  margin-top: -2px;
+}
+
+.all_print_greencard p {
+  margin: 0rem !important;
+  font-size: 2rem !important;
+  font-weight: 700;
+  color: #fff;
+}
+
+.mandatory_input {
+  border: 1px solid red !important;
+}
+
+.required {
+  color: red;
+}
+
+.required_absolute {
+  color: red;
+  
+}
+
+.pt_20 {
+  padding-top: 20px;
+}
+
+.track_left_bar {
+  padding: 2rem 0rem 5rem 0rem;
+  border-right: 1px solid #ddd;
+}
+
+.track_h {
+  text-align: center;
+}
+
+.track_h h3 {
+  color: #27ae60;
+  font-weight: 600;
+  font-size: 3rem !important;
+}
+
+.track_h h2 {
+  margin-top: 1rem;
+}
+
+.track_right_bar {
+  margin-bottom: 7rem;
+}
+
+
+/* pagination css start */
+
+.listbtn_tab .btn_order_tab {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  border-radius: 50%;
+}
+
+.listbtn_tab .displa_one_tab {
+  display: inline-block;
+  width: 25%;
+  text-align: center;
+}
+
+.vlistbtn_tab .text-active {
+  color: #27AE60;
+  font-weight: 700;
+}
+
+hr.bdr_theme_color {
+  border: 2px solid #27AE60 !important;
+}
+
+.listbtn_tab .mat-checkbox-disabled.mat-checkbox-checked .mat-checkbox-background {
+  background-color: #27AE60 !important;
+  border-radius: 50% !important;
+}
+
+.listbtn_tab .mat-checkbox-frame {
+  border-radius: 50% !important;
+  background: #1a1a1a !important;
+}
+
+.listbtn_tab {
+  margin-top: -6.7rem;
+}
+
+.listbtn_tab .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+.listbtn_tab .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+  background: #27AE60 !important;
+  border-radius: 50% !important;
+}
+
+/* pagination css end */
+.view_track_card .form-control {
+  margin-bottom: 0 !important;
+}
+
+.view_track_card .mat-radio-label-content {
+  font-weight: 600 !important;
+  margin-right: 4rem !important;
+}
+
+/* select search css start 05/sep/2020 */
+
+/* .mat-select-panel {
+  overflow-y: hidden !important;
+  min-height: initial !important;
+  max-height: initial !important;
+} */
+
+.asdf {
+  min-height: auto !important;
+  margin-top: 0rem !important;
+}
+
+.mat-option.contains-mat-select-search {
+  margin-top: -2rem !important;
+}
+
+.mat-option.contains-mat-select-search .mat-icon {
+  margin-right: 0;
+  position: absolute;
+  top: 8px;
+  left: 5px;
+  font-size: 2rem;
+}
+
+.mat-select-search-input {
+  padding: 0px 0px 0px 24px !important;
+}
+
+.mat_ngx_select_search.mat-icon {
+  position: absolute !important;
+  left: 0 !important;
+  top: 2px !important;
+  font-size: 15px !important;
+}
+
+.mat-select-search-clear.mat-icon-button {
+  position: absolute;
+  right: -3px !important;
+  top: -11px !important;
+}
+
+.mat-select-search-clear.mat-icon-button .mat-icon-button {
+  font-size: 16px !important;
+}
+
+/* select search css end 05/sep/2020 */
+
+/* Adarsh some bug fixing css add 16/sep/2020 */
+.start_booking_tab .generated_section {
+  height: 58px;
+}
+
+.booking_colapse_sec .mat-expansion-panel-body {
+  padding: 15px 24px 16px !important;
+}
+
+.booking_colapse_sec .mat-content>mat-panel-title {
+  color: #fff !important;
+}
+
+.search_pin_start .mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin-bottom: 0px !important;
+  padding-bottom: 0px !important;
+}
+
+.search_pin_start .cdk-text-field-autofill-monitored {
+  margin-bottom: 0px !important;
+}
+
+.manifest_card_sec .table_heading {
+  margin-top: 5px;
+  display: inline-block;
+  margin-right: 15px;
+}
+
+.manifest_card_sec .module_area {
+  display: inline-block;
+}
+
+.theme_button_black,
+.theme_button_black:hover,
+.theme_button_black:focus {
+  background: #6a6868 !important;
+  border: 0.2rem solid #6a6868 !important;
+}
+
+.mat-expansion-indicator::after {
+  border-style: hidden !important;
+  border-left: 10px solid transparent !important;
+  border-right: 10px solid transparent !important;
+  border-top: 15px solid !important;
+  margin: 0 4px !important;
+  transform: rotate(0deg) !important;
+  padding: 0 !important;
+  color: #fff;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0rem !important;
+}
+
+.add_product_btn,
+.add_product_btn:hover,
+.add_product_btn:focus {
+  background: #27ae60;
+  border: 1px solid #27ae60;
+  color: #fff;
+  margin-bottom: 15px;
+  outline: 0;
+  outline-offset: 0;
+}
+
+.view_manifest_sec {
+  padding: 0px !important;
+}
+
+.card_inner_sec {
+  padding: 12px;
+}
+
+.qr_code_scan em {
+  font-size: 20rem !important;
+  margin: 0 0 1rem 10rem;
+}
+
+.mat-expansion-panel-body {
+  padding: 12px 24px 16px !important;
+}
+
+.mat-expansion-panel-header-title {
+  color: rgb(255 255 255) !important;
+  font-size: 1.8rem !important;
+}
+.expan_panelExpand .mat-expanded{
+  background: #27AE60 !important;
+}
+.scan_load_heading {
+  background: #1b904d;
+  text-align: center;
+  color: #fff;
+  padding: 1rem;
+}
+
+.icon_theme_color {
+  color: #27ae60;
+  cursor: pointer;
+  font-size: 17px;
+}
+
+.start_bookinng_sec .mat-expansion-panel-body {
+  padding: 15px 24px 16px !important;
+}
+
+.start_bookinng_sec .mat-content>mat-panel-title {
+  color: #fff !important;
+}
+
+.invalid-feedback {
+  font-size: 12px;
+  color: red;
+}
+
+.ng-select .ng-arrow-wrapper {
+  display: none !important;
+}
+.ng-select-container:focus{
+  border: 1px solid #27ae60  !important;
+}
+.bookingNgDropdown.ng-select .ng-select-container {
+  border-radius: 0 !important;
+   border: 1px solid #686868 ;
+  font-size: 2.4rem !important;
+  height: 2.7rem !important;
+  margin-bottom: 1.4rem !important;
+  box-shadow: 0 0.2rem 0.2rem #00000029 !important;
+  font-family: 'Open Sans', sans-serif !important;
+  min-height: 2.7rem;
+
+}
+.pagination_area .ngx-pagination .current {
+  padding: 2px 7px !important;
+  background: #27AE60 !important;
+  color: #fefefe;
+  cursor: default;
+  margin: 0 5px !important;
+}
+.pagination_area {
+  padding: 10px 20px 0 !important;
+  text-align: right;
+}
+/* .bookingNgDropdown.ng-select .ng-clear-wrapper {
+  top: 7px !important;
+} */
+
+.bookingNgDropdown.ng-select span.ng-value-label {
+  position: absolute;
+  font-size: 11px;
+  top: 0px;
+  left: 7px;
+}
+.bookingNgDropdown.ng-select .ng-select-container .ng-value-container{
+    padding: 0px !important;
+}
+.bookingNgDropdown.ng-select.ng-select-single .ng-select-container {
+  height: 2.7rem !important;
+}
+
+.bookingNgDropdown.ng-select .ng-select-container .ng-value-container .ng-input>input {
+  font-size: 11px;
+}
+
+.bookingNgDropdown.ng-select.ng-select-single .ng-select-container .ng-value-container .ng-input {
+  padding-left: 6px !important;
+  position: relative !important;
+}
+
+.ng-dropdown-panel.bookingNgDropdown .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background: #27AE60 !important;
+  color: #fff;
+}
+
+#ngselect.ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background: #27AE60 !important;
+  color: #1a1a1a
+}
+
+.ng-dropdown-panel.bookingNgDropdown .ng-dropdown-panel-items .ng-option {
+  font-size: 1.4rem !important;
+  padding: .2rem 1.0rem !important;
+  background: #fff !important;
+}
+
+.ng-dropdown-panel.bookingNgDropdown .ng-dropdown-panel-items .ng-option.ng-option-selected .ng-option-label,
+.ng-dropdown-panel.bookingNgDropdown .ng-dropdown-panel-items .ng-option.ng-option-selected.ng-option-marked .ng-option-label {
+  font-weight: normal !important;
+}
+
+.ng-dropdown-panel.bookingNgDropdown.ng-select-bottom {
+  border: .1rem solid #6A6868 !important;
+  border-radius: .2rem !important;
+}
+ .ng-dropdown-panel.custom-class.ng-select-bottom{
+  display: none !important;
+}
+
+.ng-dropdown-panel.bookingNgDropdown .scroll-host {
+  max-height: 32rem !important;
+  overflow-y: auto;
+}
+
+/* adarsh some css add 9/30/2020 start */
+.searchbar_bw em {
+  top: 0.5rem;
+}
+.mat-dialog-header .modal-close {
+  top: 1.5rem;
+  font-size: 2.5rem;
+  right: 2rem;
+}
+.close_side_icon{
+  position: absolute;
+  top: 1.5rem;
+  right: 7rem;
+  font-size: 1.5rem;
+}
+.close_side_icon em {
+  margin: 0 1rem;
+  color: #27ae60;
+}
+.blue_radio_button .mat-radio-outer-circle{
+  border-color: #27ae60 !important;
+}
+.blue_radio_button .mat-radio-button.mat-accent .mat-radio-inner-circle{
+  background: #27ae60 !important;
+}
+.blue_radio_button .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #27ae60 !important;
+}
+.orange_radio_button .mat-radio-outer-circle{
+  border-color: #ffa10b !important;
+}
+.orange_radio_button .mat-radio-button.mat-accent .mat-radio-inner-circle{
+  background: #ffa10b !important;
+}
+.orange_radio_button .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle{
+  border-color: #ffa10b !important;
+}
+.end_day_label p{
+  font-size: 1.6rem !important;
+    margin-right: 5rem !important;
+    margin: 2rem 8rem 2rem 0 !important;
+    display: inline-block;
+}
+.ce_date{
+  background: #6a6868;
+  color: #fff;
+  text-align: center;
+  padding: 5px;
+}
+.print_sticker_icon em{
+  position: absolute;
+  top: 4px;
+  right: 8px;
+  font-size: 3rem;
+}
+.print_upload_icon{
+  text-align: center;
+  margin-top: 1rem !important;
+}
+.print_upload_icon em{
+  font-size: 3rem;
+  color: #27ae60;
+}
+.print_barcode{
+  font-size: 4rem;
+}
+.print_sticker_inner{
+  box-shadow: 0 4px 5px 0 rgba(0,0,0,0.14), 0 1px 10px 0 rgba(0,0,0,0.12), 0 2px 4px -1px rgba(0,0,0,0.3);
+}
+.mat-elevation-z8 tr{
+  border: 1px solid #EAEAEA !important; 
+}
+.mat-elevation-z8{
+  box-shadow: none !important;
+}
+.scrollbar_booking_web{
+  max-height: 26rem;
+    /* box-shadow: none; */
+    /* box-shadow: 1px 2px 2px; */
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+/* .mat-select-search-inner{
+  position: fixed !important;
+  top: 45.5px !important;
+} */
+.mat-primary .mat-pseudo-checkbox-checked,
+.mat-primary .mat-pseudo-checkbox-indeterminate {
+  background: #27ae60 !important;
+}
+.mat-primary .mat-option.mat-option-multiple.mat-selected.mat-active .mat-option-text {
+  color: #fff !important ;
+}
+.mat-expansion-panel-header.cdk-keyboard-focused {
+  border: 2px solid #27AE60 !important;;
+}
+.mat-expansion-panel-header.cdk-keyboard-focused .mat-expansion-indicator::after{
+  color: #27AE60 !important;;
+}
+.mat-expansion-panel-header.mat-expanded .mat-expansion-indicator::after{
+  color: #fff !important;;
+}
+
+.mat-radio-button.cdk-keyboard-focused {border-bottom: 2px solid #27AE60 !important;}
+.mat-calendar-content.cdk-keyboard-focused {border-bottom: 0px !important;}
+.mat-primary .mat-option.mat-option-multiple.mat-selected:hover .mat-option-text {
+  color: #fff !important ;
+}
+.mat-primary .mat-option:hover .mat-option-text{
+  color: #fff !important ;
+}
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus{
+  outline: none;
+}
+.kyc_menifest_section{
+  height: 7rem;
+  background:#6A6868;
+  color: #fff;
+  margin: -18px 0px !important;
+  padding: 6px 0 0;
+}
+
+.form-control:hover{
+border-color: #27ae60 !important;
+}
+.form-control:active{
+  border: 2px solid #27ae60 !important;
+}
+.form-control:visited{
+  border-color: #27ae60 !important;
+}
+.form-control:focus{
+  border:2px solid #27ae60 !important;
+}
+.form-control:focus-within{
+  border:2px solid #27ae60 !important;
+}
+
+
+.form-control:hover .mat-select-arrow {
+  color: #27ae60 !important;
+  }
+  .form-control:active .mat-select-arrow {
+    color: #27ae60 !important;
+  }
+  .form-control:visited .mat-select-arrow {
+   color: #27ae60 !important;
+  }
+  .form-control:focus .mat-select-arrow {
+   color: #27ae60 !important;
+  }
+  .form-control:focus-within .mat-select-arrow {
+    color: #27ae60 !important;
+  }
+  .mat-form-field-type-mat-select.mat-form-field-disabled{
+    background-color:rgb(238 238 238)  !important;
+  }
+  /* button.transparent_btn:focus{
+    padding: 2px 3px 0;
+    border: 1px solid red;
+  } */
+  button.transparent_btn{
+    padding:0;
+      background: none !important;
+  }
+  .ipColor{
+    color: #FFA10B !important
+}
+.pColor {
+    color: #B00020 !important
+}
+.cColor {
+    color: #27AE60 !important
+}
+.ng-select.ng-select-focused:not(.ng-select-opened)>.ng-select-container{
+  border-color:#27ae60 !important;
+  border-width: 2px !important;
+}
+
+.mat-calendar-previous-button {
+  position: absolute !important;
+  left: 0 !important;
+  color: #27AE60 !important;
+  top: 5.5% !important;
+}
+.mat-calendar-period-button {
+  min-width: 0;
+  position: absolute !important;
+  display: flex !important;
+  font-weight: bold !important;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 13.5%;
+}
+.mat-calendar-next-button {
+  color: #27AE60 !important;
+}
+.mat-calendar-arrow {
+  display: none !important;
+} 
+thead.mat-calendar-table-header tr th{
+  background-color : transparent  !important;
+}
+.mat-calendar-table-header {
+  box-shadow: 0 3px 5px -6px #000 !important;
+}
+.mat-calendar-body-label{
+  visibility: hidden!important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+.pd_mozila{
+  padding-right:0rem !important;
+}
+@media only screen and (max-width: 1290px) {
+  .control-label {
+    font-size: 1.4rem !important;
+  }
+}
+@-moz-document url-prefix() {
+ 
+@media only screen and (max-width: 1260px) {
+  .control-label {
+    font-size: 1.3rem !important;
+  }
+  p{
+    font-size: 1.3rem !important;
+  }
+  .pd_mozila{
+    padding-right: 1.2rem !important;
+  }
+}
+.search_pin_start.searchbar_bw em{
+  top: 0.4rem !important;
+}
+}
+.clock-face__number > span.active{
+  background-color:#27ae60 !important;
+}
+.timepicker__header{
+  background-color:#27ae60 !important;
+}
+.clock-face__clock-hand{
+  background-color:#27ae60 !important;
+}
+.timepicker-dial__control_editable:focus{
+  color: #27AE60 !important;
+}
+.clock-face__clock-hand_minute:before{
+  border-color: #27AE60 !important;
+}
+.timepicker-button{
+  color: #27AE60 !important;
+}
+
+.expansion_consignor_class .mat-expansion-indicator{
+  position: absolute !important;
+  right: 24px !important;
+}
+.mr_00_freight .control-label{
+  margin: 0px  !important;
+}
+.direct_booking_tab_btn{
+  width: 100%;
+  height: 45px;
+  background: transparent;
+  border: none;
+  padding: 0 24px;
+}
+
+body .ssbox .mat-form-field-label {
+  top: 9px !important;
+}
+.bookingsContainer .position_relative {
+  position: relative !important;
+}
+
+
+/* Shubham css here */
+
+.cus-error .hasErrorMsg{
+  top:17px;
+  right:0px;
+}
+
+.cust-searchname .mat-select-panel{
+   background: red !important;
+   font-size: 25px !important;
+}
+
+body .cust-searchbd {
+  min-width: calc(100% + 2px) !important;
+  top: 21px !important;
+  left: 16px !important;
+}
+
+
+/* .ngx-timepicker__control--first{
+  display: none !important;
+}
+.ngx-timepicker__control--second{
+  display: none !important;
+}
+.ngx-timepicker__control--third{
+  display: none !important;
+} */
+.ngx-timepicker{
+  border-bottom: 0px !important;
+}
+.ngx-timepicker-control{
+  width: 30px !important;
+    height: 17px !important;
+}
+.ngx-timepicker__toggle{
+  position: absolute;
+  top: -8px;
+  border: none;
+  display: none;
+  border-bottom: 0px !important;
+  right: 0px;
+}
+.ngx-timepicker__toggle svg{
+  width: 14px !important;
+}
+.ngx-timepicker-control__arrows{
+  display: none !important;
+}
+.ngx-timepicker-control__input {
+  width: 100%;
+  height: 100%;
+   padding: 0 !important;
+  border: 0;
+  font-size: 1.4rem !important;
+  color: inherit;
+  outline: 0;
+  text-align: center;
+}
+p.selected_branch_name{
+  margin: -4px 0 !important;
+    font-weight: 800;
+    color: #fff;
+}
+.custom_time_picker_ui{
+  padding: 0 !important;
+  border-radius: 0 !important;
+  border: 1px solid #686868 !important;
+  font-size: 1.4rem !important;
+  height: 2.7rem !important;
+  margin-bottom: 0 !important; 
+  box-shadow: 0 0.2rem 0.2rem #00000029 !important;
+  font-family: 'Open Sans', sans-serif !important;
+  margin: 2px 0 0 0;
+}
+.ngx-timepicker__time-colon{
+  margin-left: 0 !important;
+}
+.ngx-timepicker-control--active:after {
+  background-color: transparent !important;
+}
+.mat-checkbox.cdk-focused{
+  border-bottom: 2px solid #4caf50 !important;
+}
+.focus_btn_delete:active:focus, .focus_btn_delete:focus{
+  border: 2px solid red !important;
+  }
+  

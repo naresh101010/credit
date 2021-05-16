@@ -1,6 +1,16 @@
-::ng-deep.mat-form-field-disabled .mat-select-value
-    { 
-     color: #6a6868 !important;
-    position: relative !important;
-    top: -3px !important;
-    } 
+.searchbar_bw em {
+    top: 0.5rem;
+    left: 1rem;
+}
+.lable_left_web{
+    float: left;
+    margin-right: 15px;
+}
+.form_right_web{
+    float: left;
+    position: relative;
+}
+
+hr{
+    margin-top: 0;
+}

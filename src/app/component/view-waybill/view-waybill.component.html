@@ -1,0 +1,200 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+    </ol>
+    <div class="navigation_section">
+
+
+        <div class="row">
+            <div class="col-md-4 pl-0">
+                <div class="col-md-5">
+                    <div class="nav_card navPro cursor_pointer forNav" [routerLink]="['/bookings-web-booking/web-booking']">
+                        <label for="" class="control-label color-primary flexD"><img src="../assets/images/leftArr.png"
+                                alt="" class="postionArro"><span>Go Back</span> </label>
+                    </div>
+                </div>
+                <div class="col-md-7 forNav">
+                    <div class="nav_card active groupNav pr-0">
+                        <label for="" class="control-label color-primary">View Waybill</label>
+                        <img src="../assets/images/white_waybill.png" alt="" class="groupImg" style="right: -9.5rem !important;">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- <div class="row">
+            <div class="col-md-2">
+                <div class="nav_card cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                    <div style="margin-top: 10px !important;">
+                        <div class="col-md-2 color-primary">
+                            <em class="fa fa-angle-left fa-4x"></em>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="" class="control-label color-primary" style="margin-top:7px;">Go Back</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="nav_card active" style="width: 80%;">
+                    <div class="col-md-9">
+                        <label for="" class="control-label color-primary" style="font-size: small !important; margin-top:10px !important">View Waybill</label>
+                    </div>
+                    <div class="col-md-3">
+                        <img src="../assets/images/white_waybill.png" alt="" style="height: 50px; width: 50px;">
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <mat-card class="generated_mat_card">
+        <div class="row">
+            <div class="col-md-1" style="width: 7rem !important;">
+                <label for="" class="control-label">Search:</label>
+            </div>
+            <div class="col-md-2" >
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" class="form-control" [(ngModel)] ="waybillNumber" 
+                            (keyup.enter)="gettingWaybillbyWaybillNumber()" placeholder="Waybill">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+            </div>
+            <div class="col-md-1" style="width: 5rem !important;">
+                <label for="" class="control-label">From</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY" [value]="fromDate" (dateChange)="onChangeFromDate($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1" style="width: 3rem !important;">
+                <label for="" class="control-label">To</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input matInput class="form-control" [matDatepicker]="picker" placeholder="DD/MM/YYYY" [value]="toDate" (dateChange)="onChangeToDate($event)">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <button class="btn theme-button searchBu" (click)="viewWaybillList()" mat-raised-button>SEARCH</button>
+            </div>
+        </div>
+
+
+       
+
+        <div class="row">
+            <div class="col-md-2">
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" class="form-control" placeholder="Search" (keyup)="applyFilter($event.target.value)">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+            </div>
+            <div class="col-md-3 col-md-offset-7 text-right">
+                <div class="col-md-5">
+                    <button mat-raised-button class="btn transparent-button emailBut" (click)="openEmailModalMultiple()"><img
+                            src="../assets/images/envelope.png" alt="" class="emailIc"> <strong
+                            class="ml-1">Email</strong></button>
+                </div>
+                <div class="col-md-5 col-md-offset-1">
+                    <button mat-raised-button class="btn transparent-button"><img src="../assets/images/printer.png"
+                            alt="" class="emailIc" style="margin-left: 5px !important;"> <strong
+                            class="ml-1">Print</strong></button>
+                </div>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive" [hidden]="!dataSource" >
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                        <ng-container matColumnDef="checkbox">
+                            <th mat-header-cell *matHeaderCellDef>
+                                <mat-checkbox (change)="onChangeMultiple($event)"></mat-checkbox>
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <mat-checkbox class="check" (change)="CheckedIndividual(element)" [checked]="element.checked"></mat-checkbox>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="waybill">
+                            <th mat-header-cell *matHeaderCellDef> Waybill No. </th>
+                            <td mat-cell *matCellDef="let element"> <a href="javascript: void(0);" (click)="navigateTo(element)">{{element.waybillNumber}}</a>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pickup">
+                            <th mat-header-cell *matHeaderCellDef> Pick Up date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.pickupDate | date: 'MM/dd/yyyy'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="mop">
+                            <th mat-header-cell *matHeaderCellDef> Mop </th>
+                            <td mat-cell *matCellDef="let element"> {{mapId(element.branchMOPLookupId, 'BRANCH_MOP')}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="service">
+                            <th mat-header-cell *matHeaderCellDef> service offering </th>
+                            <td mat-cell *matCellDef="let element"> {{ getOfferingFromId(element.serviceOfferingId)}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="consignor">
+                            <th mat-header-cell *matHeaderCellDef> consignor </th>
+                            <td mat-cell *matCellDef="let element"> {{element.consignorId ? getCnor_cneeName(element.consignorId) : ''}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="consignee">
+                            <th mat-header-cell *matHeaderCellDef> consignee </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.consigneeId ? getCnor_cneeName(element.consigneeId) : ''}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="package">
+                            <th mat-header-cell *matHeaderCellDef> No. of Packages </th>
+                            <td mat-cell *matCellDef="let element"> {{element.totalPackageCount}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="weight">
+                            <th mat-header-cell *matHeaderCellDef> Total Weight </th>
+                            <td mat-cell *matCellDef="let element"> {{element.actualWeight}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="email">
+                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <td mat-cell *matCellDef="let element"> <button (click)="openEmailModal(element)" mat-raised-button class="btn transparent-button"><img src="../assets/images/envelope.png" alt=""
+                                        class="emailIc"><strong class="ml-1">Email</strong> </button> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="print">
+                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <td mat-cell *matCellDef="let element"> <button (click)="printMe()" mat-raised-button class="btn transparent-button"><img src="../assets/images/printer.png" alt=""
+                                        class="emailIc"><strong class="ml-1">Print</strong></button> </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                    <div panelClass="paginator">
+                        <mat-paginator class="paginator" [length]='100' [pageSize]="10"
+                          [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons>
+                        </mat-paginator>
+                    </div>  
+                </div>
+                
+            </div>
+        </div>
+    </mat-card>
+
+</div>

@@ -1,0 +1,150 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+    </ol>
+    <div class="navigation_section">
+
+        <div class="row">
+            <div class="col-md-4 pl-0">
+                <div class="col-md-5">
+                    <div class="nav_card navPro cursor_pointer forNav"
+                        [routerLink]="['/bookings-web-booking/web-booking']">
+                        <label for="" class="control-label color-primary flexD"><img src="../assets/images/leftArr.png"
+                                alt="" class="postionArro"><span>Go Back</span> </label>
+                    </div>
+                </div>
+                <div class="col-md-7 forNav">
+                    <div class="nav_card active groupNav">
+                        <label for="" class="control-label color-primary mr_left_10">Staff Master</label>
+                        <img src="../assets/images/staff.png" style="right: -5rem;" alt="" class="groupImg">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <!-- 
+        <div class="row">
+            <div class="col-md-2">
+                <div class="nav_card cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                    <div class="goback">
+                        <div class="col-md-2 color-primary">
+                            <em class="fa fa-angle-left fa-4x"></em>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="" class="control-label color-primary go-label">Go Back</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="nav_card active" style="width: 80%;">
+                    <div class="col-md-9">
+                        <label for="" class="control-label color-primary" style="font-size: small !important; margin-top:10px !important">Staff Master</label>
+                    </div>
+                    <div class="col-md-3">
+                        <img class="tile-img" src="../assets/images/staff.png" alt="">
+                    </div>
+
+                </div>
+            </div>
+        </div> -->
+    </div>
+    <div class="row">
+        <div class="col-md-2 col-md-offset-10 mat_text_icon">
+            <label for="" class="control-label" style="margin-bottom: 0px !important;">Create Staff
+                <mat-icon (click)="navigateTocreateStaff()" mat-card-avatar class="mat-plus-icon"
+                    aria-label="Example icon">add_circle
+                </mat-icon>
+            </label>
+        </div>
+        <div class="col-md-1">
+        </div>
+    </div>
+    <mat-card class="generated_mat_card">
+        <div class="row">
+            <div class="col-md-2">
+                <h4 class="table_heading"><strong>Total Staff <span>({{ totalCount }})</span></strong></h4>
+            </div>
+            <div class="col-md-2 col-md-offset-8">
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" class="form-control" placeholder="Search"
+                            style="text-transform: inherit;" (keyup)="applyFilter($event.target.value)">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="request">
+                            <th mat-header-cell *matHeaderCellDef>STAFF NAME</th>
+                            <td mat-cell *matCellDef="let element" (click)="openViewStaffDetailModal(element)">
+                                <a>{{ getFullName(element)}}</a>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="waybill">
+                            <th mat-header-cell *matHeaderCellDef>DESIGNATION</th>
+                            <td mat-cell *matCellDef="let element">{{ refType(element.desigId)}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pick">
+                            <th mat-header-cell *matHeaderCellDef>CONTACT (M)</th>
+                            <td mat-cell *matCellDef="let element">{{ element.altMob }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="booking">
+                            <th mat-header-cell *matHeaderCellDef>EMAIL</th>
+                            <td mat-cell *matCellDef="let element">{{ element.ofcEmail }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="destination">
+                            <th mat-header-cell *matHeaderCellDef>KYC COMPLETED</th>
+                            <td mat-cell *matCellDef="let element">{{ element.kycFlag ? 'YES' : 'NO' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sfx1">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <img style="cursor: pointer;" (click)="edit(element)" src="../assets/images/edit.png" alt=""> -->
+                                <div class="d-flex align-items-center">
+                                    <span style="position: relative;
+                                    top: 6px;">
+                                        <em class="material-icons icon_btn_display icon_theme_color"
+                                            (click)="edit(element)">edit</em>
+                                    </span>
+                                    <span> <img src="../assets/images/documen.png" style="cursor: pointer;"
+                                            (click)="navigateToFolder(element)" alt="" style="margin:0 0 0 10px"></span>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="sfx">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element">
+      
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div panelClass="paginator">
+            <mat-paginator #matPaginator class="paginator"
+              [pageSizeOptions]="[10, 25, 100]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </mat-card>
+
+</div>

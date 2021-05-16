@@ -1,0 +1,32 @@
+<div class="modal-container">
+  <div class="mat-dialog-header">
+       <h4 class="margin-zero Text_color_amount" ><strong>Are you sure ?</strong></h4> 
+  <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+  </div>
+  
+  <hr style="margin: 0px;">
+  
+  <div class="mat-dialog-content">
+  <div class="row">
+      <div class="col-md-12" *ngIf="type == 'mop'">
+          <p style="font-size: 1.9rem !important;"> If Mode of payment is changed it will reset all dependent data.
+            Do you want to continue ?
+          </p>
+      </div>
+      <div class="col-md-12" *ngIf="type == 'pincode'">
+        <p style="font-size: 1.9rem !important;"> If pincode is changed it will reset all dependent data.
+          Do you want to continue ?
+        </p>
+    </div>
+  </div>
+  <div class="row">
+      <div class="col-md-3 col-md-offset-6">
+          <button class="btn white-button" [mat-dialog-close]="true" style="padding: 0 4rem !important">No</button>
+      </div>
+      <div class="col-md-3">
+          <button class="btn theme-button btn-block" [mat-dialog-close]="1" style="margin: 0px;">Yes</button>
+      </div>
+   
+  </div>
+</div>
+</div>

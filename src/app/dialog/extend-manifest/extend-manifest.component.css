@@ -1,0 +1,25 @@
+hr{
+    margin-top: 0;
+}
+ul {
+    list-style-type: none;
+}  
+.hub-lists {
+    position: absolute;
+    background: white;
+    border: 1px solid grey;
+    z-index: 9;
+    top: 63%;
+    list-style: none;
+    min-width: 170px;
+    max-height: 60px;
+    overflow: scroll;
+  }
+  .hub-item {
+    padding: 6px;
+  }
+  .hub-item:hover {
+    cursor: pointer;
+    background-color: #27AE60 !important;
+    color: #fff;
+  }

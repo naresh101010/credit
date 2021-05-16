@@ -1,0 +1,11 @@
+.searchbar_bw em {
+    position: absolute !important;
+    top: 1.5rem;
+    left: 34%;
+    color: #777;
+}
+.view_track_card .form-control {
+    margin-bottom: 0 !important;
+    height: auto !important;
+    padding: 1.5rem 1rem 1.5rem 37% !important;
+}

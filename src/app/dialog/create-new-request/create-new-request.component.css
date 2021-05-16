@@ -1,0 +1,11 @@
+hr{
+    margin-top: 0;
+}
+.input-width{
+    width: 30%;
+    height: 20px;
+    margin-left: 10px;
+}
+.display-div{
+    display:inline-flex;
+}

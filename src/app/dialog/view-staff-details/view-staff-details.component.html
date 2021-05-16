@@ -1,0 +1,30 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+        <h4 class="margin-zero"><strong>View Staff Details</strong></h4>
+        <div class="close_side_icon">
+            <!-- <img class="edit-margin" src="../assets/images/edit.png" alt="" [routerLink]="['/bookings-web-booking/create-staff']" [queryParams]="{staffId: staffDetails.id}"> -->
+            <em (click)="edit(staffDetails.id)" class="material-icons icon_btn_display icon_theme_color"
+            >edit</em>
+            <img src="../assets/images/document.png" alt="">
+            <img src="" alt="">
+        </div>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr>
+    <div class="mat-dialog-content">
+        <div class="row">
+            <div class="col-md-5">
+                <p class="label_text"><strong>Name:</strong> <span>{{getFullName(staffDetails)}}</span></p>
+                <p class="label_text"><strong>Contact(M):</strong> <span>{{staffDetails.mob}}</span></p>
+                <p class="label_text"><strong>Aadhar No:</strong> <span>{{staffDetails.aadhaarNum}}</span></p>
+                <p class="label_text"><strong>DL No:</strong> <span>{{staffDetails.dlNum}}</span></p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>Designation:</strong> <span>{{ getDesignation() }}</span></p>
+                <p class="label_text"><strong>Contact(O):</strong> <span>{{ staffDetails.mob }}</span></p>
+                <p class="label_text" style="word-break: break-all;"><strong>Email ID:</strong> <span>{{staffDetails.ofcEmail}}</span></p>
+                <p class="label_text"><strong>PAN:</strong> <span>{{ staffDetails.panNum }}</span></p>
+            </div>
+        </div>
+    </div>
+</div>

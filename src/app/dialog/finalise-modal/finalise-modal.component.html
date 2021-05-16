@@ -1,0 +1,24 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+        <h4 class="margin-zero Text_color_amount"><strong>Finalise Manifest</strong></h4>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr style="margin: 0px; border-color: #27ae60;">
+    
+    <div class="mat-dialog-content">
+    <div class="row">
+        <div class="col-md-12">
+            <p style="font-size: 1.9rem !important;">Material submitted at Hub?
+            </p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-md-offset-3">
+            <button class="btn white-button" [mat-dialog-close]="true" style="padding: 0 4rem !important">No</button>
+        </div>
+        <div class="col-md-3">
+            <button class="btn theme-button btn-block" style="margin: 0px;" (click)="finalizeManifest()">Yes</button>
+        </div>
+    </div>
+</div>
+</div>

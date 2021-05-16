@@ -1,0 +1,340 @@
+<div class="container">
+    <div class="breadcrumb">
+        <a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a>
+        <span class="fa fa-caret-right"></span>
+        <a [routerLink]="['/bookings-web-booking/staff-master']">Staff master</a>
+        <span class="fa fa-caret-right"></span> <span *ngIf='staffId ? false : true'>Create</span><span
+            *ngIf='staffId? true : false'>Edit</span> Staff
+    </div>
+
+
+    <div *ngIf="isCreateStaff">
+        <h3 class="margin-top-0"><strong> <span *ngIf='staffId ? false : true'>Create</span><span
+                    *ngIf='staffId? true : false'>Edit</span> Staff</strong></h3>
+        <mat-card class="generated_mat_card">
+            <form #staffForm="ngForm" class="staff-form" (ngSubmit)='submitForm(staffForm)'>
+                <div class="row">
+                    <div class="col-md-5">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Associate Code <sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" (keypress)="numberOnly($event)" name="assocId"
+                                    [(ngModel)]="details.assocCode" #assocId="ngModel" [disabled]="idDisabled" required>
+                                <span *ngIf="(staffForm.submitted || assocId.touched) && assocId.invalid" class="required">Required
+                                    field.</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Name <sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" required name="staffName"
+                                    [(ngModel)]="details.name" #staffName="ngModel" matTooltip="{{details.name}}"
+                                    [matTooltipPosition]="'above'">
+                                <span *ngIf="(staffForm.submitted || staffName.touched) && staffName.invalid" class="required">Required
+                                    field.</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Contact No.(M) <sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" name="contactNum" #contactNum="ngModel"
+                                    maxlength="10" [(ngModel)]="details.altMob" required minlength="10" maxlength="10"
+                                    (keypress)="numberOnly($event)">
+                                <div *ngIf="(staffForm.submitted || contactNum.touched) && contactNum.invalid" class="required">
+                                    <span *ngIf="contactNum.errors.required">Required field.</span>
+                                    <span *ngIf="contactNum.errors.minlength">Contact number should have minimum 10
+                                        characters</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Email<sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="email" name="email" [(ngModel)]="details.ofcEmail"
+                                    #email="ngModel" required email>
+                                <p *ngIf="(staffForm.submitted || email.touched) && email.invalid" class="required m-0">
+                                    <span *ngIf="email.errors.required">Required field.</span>
+                                    <span *ngIf="email.errors.email">Enter valid email.</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="row" >
+                            <div class="col-md-5">
+                                <label for="" class="control-label">DL No.<sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" name="dlNum" #dlNum="ngModel"
+                                    [(ngModel)]="details.dlNum" required maxlength="16" minlength="16"
+                                    pattern="^(([A-Z]{2}[0-9]{2})( )|([A-Z]{2}-[0-9]{2}))((19|20)[0-9][0-9])[0-9]{7}$">
+                                <span *ngIf="(staffForm.submitted || dlNum.touched) && dlNum.invalid && !details.dlNum.length" class="required">Required
+                                    field.</span>
+                                    <span *ngIf="(staffForm.submitted || dlNum.touched) && dlNum.invalid && details.dlNum.length" class="required">Invalid
+                                        DL Number.</span>
+                            </div>
+                            <!-- <mat-icon style="height: 0; width: 0; color: #27ae60;" matTooltip="Formate 'DL-1420110012345'">info</mat-icon> -->
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Status<sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+
+                                <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control">
+                                    <!-- <mat-label>ALL</mat-label> -->
+                                    <mat-select name="status" #status="ngModel" [(ngModel)]="details.status" required>
+                                        <mat-option value="1" style="margin-top: 0px !important;">
+                                            {{ 'Active' | uppercase }}
+                                        </mat-option>
+                                        <mat-option value="0" style="margin-top: 0px !important;">
+                                            {{ 'INActive' | uppercase }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <span *ngIf="(staffForm.submitted) && status.invalid" class="required">Required
+                                    field.</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-5 col-md-offset-1">
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label" style="min-height: 16px;"></label>
+                            </div>
+                            <div class="col-md-7">
+
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Designation<sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+
+                                <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control">
+                                    <mat-select name="status" name="designation" #designation="ngModel"
+                                        [(ngModel)]="details.desigId" required>
+                                        <mat-option *ngFor="let desg of design" [value]="desg.id"
+                                            style="margin-top: 0px !important;">
+                                            {{ desg.lookupVal |
+                                            uppercase}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <span *ngIf="(staffForm.submitted || designation.touched) && designation.invalid" class="required">Required
+                                    field.</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Contact No. (O) <sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" name="mobOf" #mobOf="ngModel"
+                                    [(ngModel)]="details.mob" required minlength="10" maxlength="10"
+                                    (keypress)="numberOnly($event)">
+                                <div *ngIf="(staffForm.submitted || mobOf.touched) && mobOf.invalid" class="required">
+                                    <span *ngIf="mobOf.errors.required">Required field.</span>
+                                    <span *ngIf="mobOf.errors.minlength">Contact number should have minimum 10
+                                        characters</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">Aadhaar No.<sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" name="adharNum" #adharNum="ngModel"
+                                    [(ngModel)]="details.aadhaarNum" required minlength="12" maxlength="12"
+                                    (keypress)="numberOnly($event)">
+                                <div *ngIf="(staffForm.submitted || adharNum.touched) && adharNum.invalid" class="required">
+                                    <span *ngIf="adharNum.errors.required">Required field.</span>
+                                    <span *ngIf="adharNum.errors.minlength">Aadhaar Must have 12 Characters</span>
+                                    <span *ngIf="adharNum.errors.maxlength">Aadhaar Must have 12 Characters</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-5">
+                                <label for="" class="control-label">PAN No.<sup class="required">
+                                        *</sup></label>
+                            </div>
+                            <div class="col-md-7">
+                                <input class="form-control" type="text" name="pan" #pan="ngModel"
+                                    [(ngModel)]="details.panNum" (input)="validatePAN()" required
+                                    pattern="^[A-Za-z]{5}[0-9]{4}[A-Za-z]$">
+                                <div class="required" *ngIf="(staffForm.submitted || pan.touched) && pan.invalid">
+                                    <span *ngIf="pan.errors.required" class="required">Required
+                                        field.</span>
+                                    <span *ngIf="pan.errors.pattern" class="required">
+                                        Invalid Pan Number.
+                                    </span>
+                                </div>
+                                <!-- <span *ngIf="(pan.touched || pan.dirty) && pan.invalid" class="required">Required
+                                    field.</span>
+                                <span *ngIf="(pan.touched || pan.dirty) && !validatePan" class="required">
+                                    Invalid Pan Number.
+                                </span> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="row">
+                    <div class="col-md-2 col-md-offset-5">
+                        <button mat-raised-button class="btn theme-button">NEXT</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card>
+    </div>
+    <br>
+    <div *ngIf="!isCreateStaff">
+        <h3 class="margin-top-0"><strong> Staff KYC</strong></h3>
+        <br>
+        <div class="row kyc_menifest_section">
+            <div class="col-md-3">
+                <label for="" class="control-label"><strong>Staff Name</strong><span style="font-weight: 100;"
+                        matTooltip="{{details.name}}" [matTooltipPosition]="'above'">&nbsp;&nbsp; {{details.name |
+                        uppercase }} </span></label>
+            </div>
+            <!-- <div class="col-md-3">
+                <label for="" class="control-label"><strong>Vendor Department</strong><span
+                        style="font-weight: 100;">&nbsp;&nbsp;{{ getDepartment()}}</span></label>
+            </div>
+            <div class="col-md-3">
+                <label for="" class="control-label"><strong>Associate Type</strong><span
+                        style="font-weight: 100;">&nbsp;&nbsp; {{ getAssociate()}}</span></label>
+            </div> -->
+            <div class="col-md-3">
+                <label for="" class="control-label"><strong>Designation</strong><span
+                        style="font-weight: 100;">&nbsp;&nbsp;{{ getDesignation() | uppercase }}</span></label>
+            </div>
+        </div>
+        <mat-card class="generated_mat_card">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="display_flex_inline Pd_right_5">
+                                <!-- <div class="row"> -->
+                                    <label for="" class="control-label">Document Type</label>
+    
+                                    <select name="" id="" class="form-control width_60" [(ngModel)]="docTypeId"
+                                        (ngModelChange)="docTypeChange()">
+                                        <option [value]="1" selected hidden>Please Select</option>
+                                        <option [value]="doc.id" *ngFor="let doc of docType">{{doc.lookupVal}}</option>
+                                        <!-- <option value="">Inactive</option> -->
+                                    </select>
+                            </div>
+                            <p *ngIf="isValidType" class="required mandatery">
+                                Required
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="display_flex_inline Pd_right_5">
+                                <label for="" class="control-label">Sub Type</label>
+                                <select name="" id="" class="form-control width_60" [(ngModel)]='docSubTypeId'
+                                 (ngModelChange)="docsubTypeChange()" [disabled] = 'docTypeId == 1 ? true : false'>
+                                    <option [value]="1" selected hidden>Please Select</option>
+                                    <option [value]="doc.id" *ngFor="let doc of docSubType">{{doc.lookupVal}}</option>
+                                </select>
+                            </div>
+                            <p *ngIf="isValidSubType" class="required mandatery" style="margin-left: -7em !important;">
+                                Reuired
+                            </p>
+                        </div>
+                        
+                        <div class="col-md-2 display_flex_inline Pd_right_5">
+                            <label for="" class="control-label">Expiry</label>
+                            <mat-form-field class="width_60">
+                                <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+
+                        </div>
+                        <input type="file" (change)="handleFileInput($event.target.files)" #file hidden
+                            accept="image/*,application/vnd.ms-excel,application/pdf,.csv,.xls,.xlsx"
+                            style="display: none;">
+                        <div class="col-md-2 Pd_right_5">
+                            <div class="display_flex_inline ">
+                                <label for="" class="control-label">File : </label>
+                                <label for="" class="control-label" (click)="file.click()"><a>Click here to
+                                        browse</a></label>
+                            </div>
+                            <div>
+                                <label *ngIf="fileName"
+                                    style="max-width: 30px; white-space: nowrap;margin-top: -20px !important;">{{fileName}}</label>
+                                <p *ngIf="checkFileSize"
+                                    style="color: red;font-size: 9px !important;margin-top: -20px !important;">
+                                    File Size Must Be Less Than 5MB.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <!-- <input type="file" id="file" class="Upladt_Bdt" /> -->
+                            <label class="btn-1 white-button" (click)="uploadDoc()">upload</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table class="mat-elevation-z8" mat-table [dataSource]="documents">
+                            <!-- <tr>
+                                <th class="mat-header-cell"> Name </th>
+                                <th class="mat-header-cell"> Document Name </th>
+                            </tr> -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef> <strong>NAME</strong></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <a>{{element.docRef}}</a>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="designation">
+                                <th mat-header-cell *matHeaderCellDef> <strong>DOCUMENT TYPE</strong> </th>
+                                <td mat-cell *matCellDef="let element">{{ fromLookup(element.lkpDocTypeId)}}</td>
+                            </ng-container>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-2 col-md-offset-5 text-center">
+
+                    <button type="file" mat-raised-button class="btn theme-button"
+                        [routerLink]="['/bookings-web-booking/staff-master']">SUBMIT</button>
+                </div>
+            </div>
+        </mat-card>
+
+    </div>
+</div>

@@ -1,0 +1,75 @@
+.breadcrumb {
+    background: none !important;
+    color: #1a1a1a;
+    font-size: 1.6rem;
+    font-weight: normal;
+    text-align: left;
+    position: relative;
+    top: 0%;
+    font-family: 'Open Sans', sans-serif;
+}
+.display_flex_inline{
+    display: flex;
+}
+.mandatery{
+    display: flex;
+    justify-content: center;
+    margin-left: -2em !important;
+    margin-top: -2em !important;
+}
+.staff-form .form-control {
+  margin-bottom: 0!important;
+}
+.width_60{
+    width: 60% !important;
+    margin: 0 0px 0 11px;
+}
+[type=file] + label.btn-2 {
+    background-color: #99c793;
+    border-radius: 50px;
+    overflow: hidden;
+  }
+  [type=file] + label.btn-2::before {
+    color: #fff;
+    content: "";
+    font-family: "Font Awesome 5 Pro";
+    font-size: 100%;
+    height: 100%;
+    right: 130%;
+    line-height: 3.3;
+    position: absolute;
+    top: 0px;
+    transition: all 0.3s;
+  }
+  [type=file] + label.btn-2:hover {
+    background-color: #497f42;
+  }
+  [type=file] + label.btn-2:hover::before {
+    right: 75%;
+  }
+  input.Upladt_Bdt{
+    height: 0;
+    overflow: hidden;
+    width: 0;
+  }
+  
+  [type=file] + label {
+    background: #f15d22;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Rubik", sans-serif;
+    font-size: inherit;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    outline: none;
+    padding: 1rem 50px;
+    position: relative;
+    transition: all 0.3s;
+    vertical-align: middle;
+  }
+  [type=file] + label:hover {
+    background-color: #d3460d;
+  }

@@ -1,0 +1,54 @@
+<div class="modal-container track_waybill_modal">
+  <!-- <div class="mat-dialog-header">
+    <h4 class="margin-zero"><strong>Switch Branch</strong></h4>
+    <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+  </div>
+  <hr> -->
+  <div class="mat-dialog-content">
+    <div class="row">
+      <div class="col-md-3">
+        <div class="track_left_bar">
+          <p><strong>Waybill No.:</strong> WB001001</p>
+          <p><strong>SFXperience #:</strong> 1231162</p>
+          <button class="white-button" [routerLink]="['/bookings-web-booking/track-waybill']">VIEW DETAILS</button>
+        </div>
+      </div>
+      <div class="col-md-9">
+        <div class="track_right_bar">
+          <div class="track_h">
+            <h3>Status:</h3>
+            <h2>In Transit</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-10 col-md-offset-1">
+            <hr class="bdr_theme_color">
+            <ul class="listbtn_tab">
+              <li class="displa_one_tab">
+                <p class="text-active"><strong>Created</strong></p>
+                <mat-checkbox class="btn_order_tab" checked=true active [disabled]=true></mat-checkbox>
+                <p>8:00 AM<br>30/01/2020</p>
+              </li>
+              <li class="displa_one_tab">
+                <p><strong>Picked Up</strong></p>
+                  <mat-checkbox class="btn_order_tab" checked></mat-checkbox>
+                  <p>11:00 AM<br>30/01/2020</p>
+              </li>
+              <li class="displa_one_tab">
+                <p><strong>In Transit</strong></p>
+                <mat-checkbox class="btn_order_tab" checked></mat-checkbox>
+                <p><strong>From:</strong> Gurgaon, Haryana<br><strong>To:</strong>Mumbai, Maharashtra</p>
+              </li>
+              <li class="displa_one_tab">
+                <p><strong>Delivered</strong></p>
+                <mat-checkbox class="btn_order_tab" checked></mat-checkbox>
+                <p style="visibility: hidden;">.<br>.</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

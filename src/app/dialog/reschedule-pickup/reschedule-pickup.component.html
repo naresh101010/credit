@@ -1,0 +1,134 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+        <h4 class="margin-zero"><strong>Re-Schedule Pick Up</strong></h4>
+        <em class="fa fa-times modal-close" [mat-dialog-close]="true"></em>
+    </div>
+    <hr>
+    <div class="mat-dialog-content">
+        <div class="row" *ngIf="details">
+            <div class="col-md-5">
+                <p class="label_text"><strong>Booking Request ID:</strong> <span>{{ details.preBookingRequestId ?
+                        details.preBookingRequestId : details.bookingRequestNumber}}</span>
+                </p>
+                <p class="label_text"><strong>Customer Name:</strong> <span>{{details.msaName}}</span></p>
+                <p class="label_text"><strong>Current Pick Up Date:</strong> <span>{{details.pickUpDate}}</span></p>
+                <p class="label_text"><strong>Current Pick Up Time:</strong> <span>{{details.pickUpFromTime}}</span></p>
+            </div>
+            <div class="col-md-5 col-md-offset-2">
+                <p class="label_text"><strong>Payment Type:</strong> <span>Offline</span></p>
+                <p class="label_text"><strong>Business Type:</strong> <span>{{details.businessType}}</span></p>
+                <p class="label_text"><strong>Contact:</strong> <span
+                        *ngIf="consignorDetails">{{consignorDetails.mob}}</span></p>
+                <!-- <p class="label_text" *ngIf="type === 'wayBill'"><strong>Contact:</strong> <span>{{details.consignorPhoneNo}}</span></p> -->
+            </div>
+        </div>
+
+        <section>
+            <div class="row" style="cursor: pointer;">
+                <div class="col-md-6 flexBox" [ngClass]="initateFlag=='CUSTOMER'? 'greenTab': 'whiteTab' "
+                    (click)="backGround('CUSTOMER')">CUSTOMER INITIATED</div>
+                <div class="col-md-6 flexBox" [ngClass]="initateFlag=='SAFEXPRESS'? 'greenTab': 'whiteTab' "
+                    (click)="backGround('SAFEXPRESS')">SAFEXPRESS INITIATED</div>
+            </div>
+            <ng-container *ngIf="initateFlag == 'CUSTOMER'">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="flexD">
+                            <label for="" class="control-label">Customer OTP:&nbsp;&nbsp;</label>
+                            <label *ngIf="sendOtp==0 && consignorDetails" for="" style="cursor: pointer;"
+                                class="control-label color-primary" (click)="Otp()">Send
+                                OTP</label>
+                            <span *ngIf="sendOtp==1">
+                                <input type="text" class="form-control" (keyup)="validateOtp($event.target.value)"
+                                    maxlength="6">
+                                <span class="color-primary resend" style="cursor: pointer;"
+                                    (click)="Otp()"><small><em>Resend</em></small></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="initateFlag=='SAFEXPRESS'">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="flexD">
+                            <label for="" class="control-label">Re-Schedule Reason:&nbsp;&nbsp;</label>
+                            <div class="mb-2">
+                                <!-- <select name="" id="" class="form-control" [(ngModel)]="safeReason">
+                                    <option value="none" [selected]="(safeReason != '' || safeReason != undefined) ? false : true" disabled>
+                                        Select
+                                    </option>
+                                    <option *ngFor="let reason of reScheduleReason;let i = index" [value]="reason.id">
+                                        {{reason.lookupVal}}</option>
+                                </select> -->
+                                <mat-form-field appearance="outline" class="select_box_dropwodn overline_hidden form-control">
+                                    <mat-select [(ngModel)]="safeReason" name="reSchedule_rsn">
+                                        <mat-option *ngFor="let reason of reScheduleReason;let i = index" [value]="reason.id">
+                                            {{reason.lookupVal}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+
+
+            <div class="row">
+                <div class="col-md-12" style="margin-bottom: 1rem !important;">
+                    <h4><strong>Re-Schedule Details</strong></h4>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="flexD">
+                        <label for="" class="control-label">Pick Up Date:&nbsp;&nbsp;</label>
+                        <span class="mb-2" style="max-width: 22rem !important;">
+                            <mat-form-field>
+                                <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY"
+                                    [(ngModel)]="safePickUpDate" [min]="currentDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </mat-form-field>
+                        </span>
+                    </div>
+                </div>
+                <!-- <div class="col-md-4">
+                <mat-form-field>
+                    <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                  </mat-form-field>
+            </div> -->
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="flexD">
+                        <label for="" class="control-label">Pick Up Time:&nbsp;&nbsp;</label>
+                        <span class="mb-2">
+                            <input type="time" class="form-control" placeholder="HH:MM" [(ngModel)]="safePickUpTime">
+                        </span>
+                        <!-- <mat-form-field appearance="outline" style=" width: 13rem !important;">
+                            <input style="background-color: #fff !important;"  (change) ="changevalue = true;"  matInput name="temppickupTime" readonly [format] = "24" (keyup.tab)="Timepicker.open()"  [(ngModel)]="safePickUpTime" 
+                                class="form-control"  [ngxTimepicker]="Timepicker" placeholder="HH:MM" #temppickupTime="ngModel" required>
+                        </mat-form-field>
+                        <ngx-material-timepicker timepickerClass="custom-timepicker-class" #Timepicker [enableKeyboardInput]=true></ngx-material-timepicker> -->
+                    </div>
+                </div>
+                <!-- <div class="col-md-4">
+                <input type="text" class="form-control" placeholder="HH:MM">
+            </div> -->
+            </div>
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <button class="btn theme-button btn-block" *ngIf="initateFlag == 'CUSTOMER'" (click)="reSchedule()"
+                        [disabled]="(!validatedOtp || !this.safePickUpDate || !this.safePickUpTime)">Re-Schedule</button>
+                    <button class="btn theme-button btn-block" *ngIf="initateFlag == 'SAFEXPRESS'"
+                        (click)="reSchedule()">Re-Schedule</button>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

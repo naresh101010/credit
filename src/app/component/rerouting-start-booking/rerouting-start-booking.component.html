@@ -1,0 +1,1844 @@
+<div class="breadcrumb pl-2">
+    <a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a>
+    <span class="fa fa-caret-right"></span>
+    <a [routerLink]="['/bookings-web-booking/web-booking']">Booking</a>
+    <span class="fa fa-caret-right"></span>
+    <a [routerLink]="['/bookings-web-booking/web-booking']">Waybill API</a>
+    <span class="fa fa-caret-right"></span> START BOOKING
+</div>
+<div class="container bookingContainer" *ngIf="!successMsg">
+    <mat-card class="generated_mat_card padding-zero start_booking_tab">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="generated_section">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="margin-zero">
+                                <strong>{{ bookingInfoObj.waybillNumber ? bookingInfoObj.waybillNumber :' WB Not
+                                    Generated' }}</strong>
+                            </h3>
+                            <p>
+                                <small
+                                    *ngIf="bookingInfoObj.sfxPrcContractcode"><em>{{bookingInfoObj.sfxPrcContractcode}}</em></small>
+                            </p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="class_text">{{MopName}}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>Service Offering</strong></p>
+                    <p *ngIf="bookingInfoObj.serviceOfferingId">
+                        {{bookingInfoObj.serviceOfferingId | showName : 'descr' : allServiceOfferings}}</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>Booking Type</strong></p>
+                    <p>{{bookingInfoObj.businessTypeLookupId | showName : 'lookupVal' : allLookupList}}</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>From Branch</strong></p>
+                    <p>{{branchName}}</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>To Branch</strong></p>
+                    <p *ngIf="bookingInfoObj.deliveryGatewayBranchName">
+                        {{bookingInfoObj.deliveryGatewayBranchName ? bookingInfoObj.deliveryGatewayBranchName : '-'}}
+                    </p>
+                    <!-- <p *ngIf="selectedpincodeBranch && bookingInfoObj.hubDeliveryFlag==0">{{selectedpincodeBranch}}</p> -->
+                </div>
+            </div>
+        </div>
+    </mat-card>
+    <section>
+        <form autocomplete="off" name="bookingInfoForm" (keydown.enter)="$event.preventDefault()"
+            (ngSubmit)="f.form.valid && saveWayBill('calculateWaybill')" #f="ngForm" novalidate>
+            <fieldset [disabled]="fieldsetDisabled">
+                <h4 *ngIf="fieldsetDisabled" class="text-right"><span class="editWaybillAfterCalculate"
+                        (click)="enabledField()"> <strong>Edit Waybill <img src="../assets/images/edit.png"
+                                style="height: 2rem;" alt=""></strong></span></h4>
+                <div class="expansion_section">
+                    <mat-accordion>
+
+                        <mat-expansion-panel [expanded]="isExpand" class="expan_panelExpand">
+                            <mat-expansion-panel-header (click)="onScreenHeader('isExpand');">
+                                <mat-panel-title>
+                                    Booking Information
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">Old Waybill No</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <span>{{ oldWaybillId }}</span>
+                                </div>
+                                <div class="col-md-2 col-md-offset-2">
+                                    <label for="" class="control-label">Old Waybill status
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <span *ngIf="oldWaybillStatus">{{refType(oldWaybillStatus)}}</span>
+                                    <!-- <span *ngIf="fieldsetDisabled">Re Booked</span> -->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">E-Waybill No. <sup class="required">
+                                            *</sup></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <mat-radio-group aria-label="Select an option"
+                                        [(ngModel)]="bookingInfoObj.ewaybillAvailableFlag"
+                                        (change)="handleChange($event)" name="ewaybillAvailableFlag"
+                                        #ewaybillAvailableFlag="ngModel">
+                                        <mat-radio-button *ngFor="let ewaybill of ewaybillflagList"
+                                            [checked]="ewaybill.checked" [value]="ewaybill.id">{{ewaybill.name}}
+                                        </mat-radio-button>
+
+                                    </mat-radio-group>
+                                    <div *ngIf="ewaybillAvailableFlag.touched || (f.submitted && ewaybillAvailableFlag.invalid)"
+                                        class="hasErrorMsg">
+                                        <div *ngIf="ewaybillAvailableFlag.errors?.required">Required!</div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="bookingInfoObj.ewaybillAvailableFlag==1">
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">Add E-Waybill No. <sup class="required"
+                                            *ngIf="!bookingInfoObj.invoiceList && bookingInfoObj.invoiceList.length === 0">
+                                            *</sup></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput [(ngModel)]="searchWayBill" (keyup)="getWaybillBuId($event)"
+                                                name="c" maxlength="15" appNumbersOnly #c="ngModel" minlength="12"
+                                                [required]="!bookingInfoObj.invoiceList.length && bookingInfoObj.invoiceList.length ==0"
+                                                class="form-control" placeholder="">
+                                        </mat-form-field>
+                                        <!-- <em class="fa fa-search" (click)="getWaybillBuId($event)"></em> -->
+                                    </div>
+                                    <div *ngIf="c.touched || (c.invalid)" class="hasErrorMsg">
+                                        <div *ngIf="c.errors?.required">Required!</div>
+                                        <div *ngIf="c.invalid && searchWayBill ">Invalid E-waybill No.!</div>
+                                    </div>
+                                </div>
+                                <div class="col-md-1">
+                                    <!-- <em class="fa fa-barcode color-primary barcode_icon"></em> -->
+                                    <img src="../assets/images/scanner.png" style="height: 2.7rem;" alt="">
+
+                                    <!-- <span class="iconify" data-icon="mdi-barcode-scan" data-inline="false" style="color: #27ae60;"></span> -->
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="label_text"><strong>Total E-Waybills </strong> <span
+                                            class="color-primary"><a (click)="openEwaybillModal('boinfo')">
+                                                {{ waybillList.length < 10 ? '0'
+                                                    :' ' }}{{totalWayBill}}</a></span></p>
+                                </div>
+                                <div class="col-md-3">
+                                    <p class="label_text"><strong>Total Invoice Value</strong> <span>{{invoiceCost}}</span>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">Mode of Payment <sup class="required">
+                      *</sup></label>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="module_area">
+
+
+                                        <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control" style="background-color: #eee!important;" >
+                                            <mat-select [(ngModel)]="bookingInfoObj.branchMOPLookupId" panelClass="anyClass" name="branchMOPLookupId" required [disabled]="true" (selectionChange)="getSfxonMop(bookingInfoObj.branchMOPLookupId);RefreshOnChange(1);">
+                                                <div class="asdf">
+                                                    <ngx-mat-select-search [(ngModel)]="mopModeSearch" [placeholderLabel]="' Search...'"
+                                                    [noEntriesFoundLabel]="'Not found'" name="mopModeSearch">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                    </ngx-mat-select-search>
+
+                                                    <mat-option [value]="mopObj.branchMOPLookupId"
+                                                        *ngFor="let mopObj of mopList | stringFilter:mopModeSearch:'lookupVal' | sortBy:'branchMOPValue'">
+                                                        {{mopObj.branchMOPValue}}
+                                                    </mat-option>
+                                </div>
+                                </mat-select>
+                                </mat-form-field>
+                            </div>
+                </div>
+
+                <div class="col-md-2 col-md-offset-2">
+                    <label for="" class="control-label">Waybill No. <sup class="required"
+                            *ngIf="isWaybillNoDisable==false">
+                            *</sup></label>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="waybillNumber" uppercase [(ngModel)]="bookingInfoObj.waybillNumber"
+                            #waybillNumber="ngModel" [disabled]="isWaybillNoDisable"
+                            (focusout)="checkWaybillNumberLength()" maxlength="15" minlength="15"
+                            (keyup)="$event.preventDefault();validateWaybillNummanually($event)" class="form-control"
+                            placeholder="">
+                    </mat-form-field>
+                    <div *ngIf="waybillNumber.touched || (f.submitted && waybillNumber.invalid)" class="hasErrorMsg"
+                        style="position: absolute;
+                top: 3rem;
+                width: max-content;">
+                        <div *ngIf="waybillNumber.errors?.required">Required!</div>
+                        <div *ngIf="waybillNumber.invalid && bookingInfoObj.waybillNumber && isKeyType">waybill No. Not
+                            be less than 15 Digit!</div>
+                    </div>
+                </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <label for="" class="control-label">Pick Up Date</label>
+    </div>
+    <div class="col-md-2">
+        <mat-form-field>
+            <input matInput class="form-control" name="pickUpDate" validDate
+                (dateChange)="checkForExpiryDate(localBookingObj.pickupDate)" disabled
+                (click)="checkForExpiryDate(localBookingObj.pickupDate);" (focus)="picker1.open()"
+                [(ngModel)]="localBookingObj.pickupDate" [matDatepicker]="picker1" [min]="todayDate"
+                placeholder="DD/MM/YYYY">
+            <mat-datepicker-toggle (onMenuOpen)="checkForExpiryDate(localBookingObj.pickupDate)" matSuffix
+                [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+    </div>
+    <div class="col-md-1">
+        <label for="" class="control-label">Time <sup class="required">
+                *</sup></label>
+    </div>
+    <div class="col-md-1">
+        <mat-form-field appearance="outline" style="margin-left: -7rem; width: 13rem !important;">
+            <input matInput name="pickupTime" [(ngModel)]="bookingInfoObj.pickupTime" (blur)="checkTimeWithCutOffTime()"
+                class="form-control" type="time" placeholder="HH:MM" #pickupTime="ngModel" required>
+        </mat-form-field>
+        <div *ngIf="pickupTime.touched || (f.submitted && pickupTime.invalid)" class="hasErrorMsg" style="left: -40px;">
+            <div *ngIf="pickupTime.errors?.required">Required!</div>
+        </div>
+        <!-- <div class="hasErrorMsg time" *ngIf="bookingInfoObj.pickupTime  && pickupTime.invalid && pickupTime.touched"> Invalid Time</div> -->
+    </div>
+    <div class="col-md-2">
+        <label for="" class="control-label">Ship Date</label>
+    </div>
+    <div class="col-md-2">
+        <mat-form-field>
+            <input matInput class="form-control" name="shipmentDate" validDate (focus)="picker.open()" disabled
+                [(ngModel)]="localBookingObj.shipmentDate" [matDatepicker]="picker" [min]="expiryMinDate"
+                (dateChange)="changeDateFormat(localBookingObj.pickupDate,localBookingObj.shipmentDate);"
+                (change)="isVar=true" placeholder="DD/MM/YYYY">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker (opened)="checkForExpiryDate(localBookingObj.pickupDate)"
+                (closed)="removeMinDate(localBookingObj.pickupDate)"></mat-datepicker>
+        </mat-form-field>
+        <div *ngIf="isVar" class="invalid-feedback">
+            <div
+                *ngIf=" localBookingObj.shipmentDate <= localBookingObj.pickupDate && !localBookingObj.id &&localBookingObj.pickupDate">
+                Must be Greater than Pickup Date .
+            </div>
+            <div
+                *ngIf="( localBookingObj.shipmentDate <= localBookingObj.pickupDate ||currentDate>localBookingObj.shipmentDate) && localBookingObj.id">
+                Must be Greater than Current Date.</div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <label for="" class="control-label" style="color: gray;">{{isCreditCheck ? 'SFX Code' : 'PRC Code'}} <sup
+                class="required" *ngIf="isCreditCheck">
+                *</sup></label>
+    </div>
+    <div class="col-md-3">
+        <div class="col-md-5 mg" style="margin: 2px 0px !important; padding: 0px !important">
+            <mat-form-field appearance="outline"
+                style="width: 50%; background: #27ae60;height: 2.7rem; border-radius: 2px 0px 0px 2px; margin-top:1px; border: none;">
+                <!-- <input matInput panelClass="uploadDocument" name="searchByVal" class="form-control" > -->
+                <!-- <mat-label style="color: white;">MSA NAME</mat-label> -->
+                <mat-select disableOptionCentering [(ngModel)]="contractOption" name="contractOption" [disabled]="true"
+                    (selectionChange)="clearSfxCode()" panelClass="uploadDocument">
+                    <mat-option *ngIf="isCreditCheck" [value]="1" (click)="onContractOption('SFX')"
+                        style="margin-top: 0px !important;">SFX CODE</mat-option>
+                    <mat-option *ngIf="!isCreditCheck" [value]="2" (click)="onContractOption('PRC')"
+                        style="margin-top: 0px !important;">PRC CODE</mat-option>
+                    <mat-option [value]="3" (click)="onContractOption('MSA')" style="margin-top: 0px !important;">
+                        MSA NAME
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-md-7 mg" style="margin: 0px !important; padding: 0px !important">
+            <div class="searchbar_bw">
+                <mat-form-field appearance="outline">
+                    <input matInput name="sfxPrcContractcode" uppercase style="margin: 3px 0;" [disabled]="true"
+                        [ngClass]="{ 'mandatory_input': f.submitted && sfxPrcContractcode.invalid }"
+                        (keydown.Tab)="searchSafexId(bookingInfoObj.sfxPrcContractcode);"
+                        [(ngModel)]="bookingInfoObj.sfxPrcContractcode" maxlength="11" (keyup)="RefreshOnChange(2)"
+                        (keydown.enter)="$event.preventDefault();searchSafexId(bookingInfoObj.sfxPrcContractcode);"
+                        #sfxPrcContractcode="ngModel" [required]="isCreditCheck" class="form-control">
+                </mat-form-field>
+                <div *ngIf="sfxPrcContractcode.touched || (f.submitted && sfxPrcContractcode.invalid)"
+                    class="hasErrorMsg">
+                    <div *ngIf="sfxPrcContractcode.errors?.required"> Required!</div>
+                </div>
+                <em class="fa fa-search" (click)="searchSafexId(bookingInfoObj.sfxPrcContractcode)"></em>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-2 col-md-offset-1">
+        <label for="" class="control-label">Service Offering <sup class="required">
+                *</sup></label>
+    </div>
+    <div class="col-md-2">
+        <div class="module_area">
+            <mat-form-field [ngClass]="{ 'mandatory_input': f.submitted && serviceOfferingId.invalid }"
+                hideRequiredMarker style="background-color: #eee!important;" class="select_box_dropwodn overline_hidden"
+                class="form-control">
+                <mat-label>Select offering</mat-label>
+                <mat-select [(ngModel)]="bookingInfoObj.serviceOfferingId" panelClass="anyClass" [disabled]="true"
+                    panelClass="anyClass" name="serviceOfferingId" #serviceOfferingId="ngModel" required>
+
+                    <div class="asdf">
+                        <ngx-mat-select-search [(ngModel)]="serviceOfferCtrl" [placeholderLabel]="'Search...'"
+                            [noEntriesFoundLabel]="'Not found'" name="serviceOfferCtrl">
+                            <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                search
+                            </mat-icon>
+                        </ngx-mat-select-search>
+                        <mat-option [value]="Offering.id" *ngFor="let Offering of allServiceOfferings">
+                            {{Offering.descr}}
+                        </mat-option>
+                    </div>
+                </mat-select>
+            </mat-form-field>
+            <div *ngIf="serviceOfferingId.touched || (f.submitted && serviceOfferingId.invalid)" class="hasErrorMsg">
+                <div *ngIf="serviceOfferingId.errors?.required">Required!</div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <label for="" class="control-label">Hub Delivery <sup class="required">
+                *</sup> </label>
+    </div>
+    <div class="col-md-2">
+        <mat-radio-group aria-label="Select an option" name="hubDeliveryFlag"
+            (change)="OnchangeHubDelivery($event) ; changevalue = true;">
+            <mat-radio-button *ngFor="let hub of hubflagList;let i=index;" [tabindex]="i" [checked]="hub.checked"
+                [value]="hub.id">{{hub.name}}</mat-radio-button>
+        </mat-radio-group>
+        <!-- <div *ngIf="hubDeliveryFlag.touched || (step1.submitted && hubDeliveryFlag.invalid)"
+                  class="hasErrorMsg">
+                  <div *ngIf="hubDeliveryFlag.errors?.required">Required!</div>
+                </div> -->
+    </div>
+    <div class="col-md-2 col-md-offset-2">
+        <label for="" class="control-label">{{bookingInfoObj.hubDeliveryFlag==1 ? 'Search Hub' : 'Destination Pincode'
+            }}
+            <sup class="required"> *</sup></label>
+    </div>
+    <div class="col-md-2" *ngIf="bookingInfoObj.hubDeliveryFlag!=1" style="position: relative;">
+        <ng-select panelClass="anyClass" [items]="pincodeList" id="baseLoacation" name="baseLocation"
+            (keypress)="checkPinCodeLength(destPincode)" bindLabel="pincode" class="bookingNgDropdown"
+            bindValue="pincode" appendTo="body" dropdownPosition="bottom" minlength="6" [(ngModel)]="destPincode"
+            uppercase (search)='getpincodeDetailsByPincode($event)' (click)="onClear()" [disabled]="true"
+            [(ngModel)]="destPincode" (clear)="emptyData()" (blur)="checkWaybillSelceted()"
+            (change)='getPincodebyId($event) ; changevalue = true;' required #h="ngModel">
+        </ng-select>
+        <!-- <mat-form-field appearance="outline">
+                    <input matInput name="h" class="form-control" appNumbersOnly maxlength="6" minlength="6"
+                      [disabled]="bookingInfoObj.ewaybillAvailableFlag==1" 
+                      (keyup)="getpincodeDetailsByPincode(destPincode)" [(ngModel)]="destPincode"
+                      [ngClass]="{ 'mandatory_input': step1.submitted || (h.invalid && destPincode) }" #h="ngModel" required placeholder=""
+                      autocomplete="off">
+                  </mat-form-field> -->
+        <div style="position: absolute; top: 3rem;"
+            *ngIf="bookingInfoObj.hubDeliveryFlag!=1 && bookingInfoObj.destPincodeId && !invalidPincode && destPincode">
+            <p style="color: #27ae60;
+                       padding: 4px 0;" *ngIf="isSafextension">SAFEXTENSION [ {{lkpSafextType}} ]</p>
+            <p style="color: #27ae60;
+                        padding: 4px 0;" *ngIf="!isSafextension">SCHEDULED</p>
+
+        </div>
+        <div *ngIf="h.touched || h.invalid" class="hasErrorMsg">
+            <div *ngIf="h.errors?.required">Required!</div>
+            <div *ngIf="h.invalid && destPincode ">Invalid Pincode !</div>
+        </div>
+    </div>
+
+
+    <!-- Search Hub By Hub Name Search Input -->
+
+    <div class="col-md-2" *ngIf="bookingInfoObj.hubDeliveryFlag==1">
+        <ng-select panelClass="anyClass" [items]="hubList" id="baseLoacation" name="baseLocation" bindLabel="branchName"
+            class="bookingNgDropdown" bindValue="branchId" appendTo="body" dropdownPosition="bottom" minlength="3"
+            [(ngModel)]="searchtext" uppercase (search)='searchHubByHubName($event)' (click)="onClear()" maxlength="20"
+            [(ngModel)]="bookingInfoObj.hubDeliveryBranchId" (clear)="emptyData()"
+            (change)="getpincodeDetailsById(bookingInfoObj.hubDeliveryBranchId) ; changevalue = true;" required
+            #d="ngModel" disabled>
+        </ng-select>
+        <div class="invalid-feedback" *ngIf="strLengthValid" style="margin-top: 20px; font-size: 10px;">
+            Enter Minimum 3 Characters
+        </div>
+        <div *ngIf="!strLengthValid">
+            <div *ngIf="d.touched || (d.invalid)" class="hasErrorMsg">
+                <div *ngIf="d.errors?.required">Required!</div>
+            </div>
+        </div>
+    </div>
+    <!-- <div class="col-md-2" style="    padding-right: 0 !important;padding-left: 0 !important;" *ngIf="bookingInfoObj.hubDeliveryFlag==1 && bookingInfoObj.destPincodeId">
+                              <p style="color: #27ae60;padding: 4px 0;">{{lkpSafextType ?  lkpSafextType : 'SCHEDULED'}}</p>
+                          </div> -->
+</div>
+
+<div class="row"
+    *ngIf="!isFullyRebooked && RateCardList.length && bookingInfoObj.serviceOfferingId && !invalidPincode && bookingInfoObj.destPincodeId && bookingInfoObj.sfxPrcContractcode && destPincode">
+    <div class="col-md-3 addjust_on_left">
+        <p class="green-card "><strong>SELECT RATE
+                CARD</strong>
+        </p>
+    </div>
+
+</div>
+<div class="row margin-bottom-4"
+    *ngIf="!isFullyRebooked && RateCardList.length && bookingInfoObj.serviceOfferingId && !invalidPincode && bookingInfoObj.destPincodeId && bookingInfoObj.sfxPrcContractcode && destPincode">
+    <div class="col-md-2" *ngFor="let rateCard of RateCardList;let i = index">
+        <div class="rate_card" (click)="RefreshOnChange(4); getCommercialByRateCard(rateCard.id,i)"
+            [ngClass]="{ 'card_active': rateCard.checked }">
+            <h4 matTooltip="{{rateCard.rateCardCode}}" [matTooltipPosition]="'above'"
+                style="margin-top: 0.5rem !important;">
+                <strong>{{rateCard.rateCardCode}}</strong>
+            </h4>
+            <p id="ratcard" matTooltip="{{serviceOfferingName}}" [matTooltipPosition]="'above'"
+                style="margin: 0rem !important;">{{serviceOfferingName}}</p>
+        </div>
+    </div>
+    <div class="col-md-12" *ngIf="isRateCardRequired==true">
+        <p class="hasErrorMsg"> Required!</p>
+    </div>
+</div>
+
+<div class="row"
+    *ngIf="!isFullyRebooked && commercialTypeList.length && bookingInfoObj.serviceOfferingId && !invalidPincode && bookingInfoObj.destPincodeId && bookingInfoObj.sfxPrcContractcode && destPincode">
+    <div class="col-md-3 addjust_on_left">
+        <p class="green-card"><strong>SELECT
+                COMMERCIAL</strong></p>
+    </div>
+</div>
+<div class="row"
+    *ngIf="!isFullyRebooked && commercialTypeList.length && bookingInfoObj.serviceOfferingId && !invalidPincode && bookingInfoObj.destPincodeId && bookingInfoObj.sfxPrcContractcode && destPincode">
+    <div class="col-md-2" *ngFor="let commercial of commercialTypeList;let i = index">
+        <div class="rate_card" (click)=" RefreshOnChange(); getProductCategoriBycommercialCatId(commercial,i);checkMark(commercial)"
+            [ngClass]="{ 'card_active': commercial.checked }">
+            <h4 style="margin:0.3rem 0 !important;"><strong>{{commercial.id}}</strong></h4>
+            <p id="commercial" style="margin: 0px !important;" class="text_overflow_hidden"
+                matTooltip="{{commercial.value}}" [matTooltipPosition]="'above'"> {{commercial.value}}</p>
+            <p id="commercialprod" class="margin-zero text_overflow_hidden" matTooltip="{{commercial.productValue}}"
+                [matTooltipPosition]="'above'">
+                {{commercial.productValue}}
+            </p>
+        </div>
+    </div>
+    <div class="col-md-12" *ngIf="isCommercialRequired==true">
+        <p class="hasErrorMsg"> Commercial is Required!</p>
+    </div>
+</div>
+</mat-expansion-panel>
+<!-- (click)="onScreenHeader('consignerisExpand')" -->
+<mat-expansion-panel [expanded]="consignerisExpand" class="expan_panelExpand">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Consignor & Consignee Details
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+
+
+
+
+    <ng-container>
+        <form>
+            <div class="row forNav">
+                <div class="col-md-6" *ngIf="consignorDetails">
+                    <div class="row">
+                        <div class="col-md-3 addjust_on_left">
+                            <p class="green-card">Consignor</p>
+                        </div>
+
+                    </div>
+
+                    <div class="row fontSiz">
+                        <div class="col-md-12">
+                            <span class="control-label fontWeight">Consignor Name:</span>
+                            <span>&nbsp; {{ consignorDetails.name }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row fontSiz spaceRow">
+                        <div class="col-md-12">
+                            <span class="control-label fontWeight">Address:</span>
+                            <span>&nbsp; {{ consignorDetails.addrBook?.addr1 }}{{ consignorDetails.addrBook?.addr2 ? ','
+                                : ''}}&nbsp;{{ consignorDetails.addrBook?.addr2}}{{
+                                consignorDetails.addrBook?.addr3 ? ',' : '' }}&nbsp;{{
+                                consignorDetails.addrBook?.addr3 }}</span>
+                        </div>
+                    </div>
+
+                    <div class="row fontSiz spaceRow">
+                        <div class="col-md-4"><span class="fontWeight">Pincode:</span> <span>{{
+                                consignorDetails.addrBook?.pincodeId }}</span>
+                        </div>
+                        <div class="col-md-4 "> <span class="fontWeight">City:</span> <span
+                                *ngIf="consignorPinDetails">&nbsp;{{consignorPinDetails.city.district.districtName}}</span>
+                        </div>
+                        <div class="col-md-4 "><span class="fontWeight">State:</span> <span
+                                *ngIf="consignorPinDetails">&nbsp;{{consignorPinDetails.city.district.state.stateName}}</span>
+                        </div>
+                    </div>
+
+                    <div class="row fontSiz spaceRow">
+                        <div class="col-md-4"><span class="fontWeight">Contact No.:</span> <span>&nbsp;{{
+                                consignorDetails.mob }}</span>
+                        </div>
+                        <div class="col-md-4"><span class="fontWeight">GSTIN:</span> <span>&nbsp;{{
+                                consignorDetails.gstinNum }}</span>
+                        </div>
+                        <div class="col-md-4"><span class="fontWeight">TAN:</span> <span>&nbsp;{{
+                                consignorDetails.tanNum }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3 addjust_on_left">
+                            <p class="green-card ">Consignee</p>
+                        </div>
+                        <div class="col-md-1" *ngIf="bookingInfoObj.destPincodeId">
+                            <button (keydown.enter)="openAddNewConsignee(consigneeTypeId)" type="button"
+                                class="btn transparent_btn">
+                                <mat-icon mat-card-avatar class="mat-plus-icon"
+                                    (click)="openAddNewConsignee(consigneeTypeId)" aria-label="Example icon"
+                                    type="button">add_circle
+                                </mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-md-12" *ngIf="RateCardList.length">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">Type<sup class="required">
+                                            *</sup></label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="module_area">
+                                        <mat-form-field class="select_box_dropwodn overline_hidden"
+                                            class="form-control">
+                                            <mat-label>Search From</mat-label>
+                                            <mat-select [(ngModel)]="selectedType" name="selectedType"
+                                                [disabled]="fieldsetDisabled==true"
+                                                (selectionChange)="getConsigneerConsigneeByExsisting(selectedType)">
+                                                <mat-option [value]="1" style="margin-top: 0px !important;">
+                                                    CONTRACT
+                                                </mat-option>
+                                                <mat-option [value]="2" style="margin-top: 0px !important;">
+                                                    EXISTING
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+                        <div class="col-md-12">
+
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">Name</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput name="Nameconsignee" [(ngModel)]="searchConsignee.name"
+                                            (keyup)="clearSearch()" minlength="3" #name="ngModel"
+                                            (keydown.enter)="$event.preventDefault();searchByConsignee()"
+                                            (input)="searchConsignee.name=$event.target.value.toUpperCase()"
+                                            class="form-control" placeholder="">
+                                    </mat-form-field>
+                                    <div *ngIf="searchConsignee.name && name.invalid" class="hasErrorMsg">
+                                        Enter Min 3 Character
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">Contact No.</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput name="contactNumconsignee" appNumbersOnly maxlength="10"
+                                            (keyup)="clearSearch()" minlength="10"
+                                            (keydown.enter)="$event.preventDefault();searchByConsignee()"
+                                            [(ngModel)]="searchConsignee.contactNum" class="form-control"
+                                            placeholder="">
+                                    </mat-form-field>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">GSTIN</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput name="gstinconsignee"
+                                            [ngClass]="{ 'mandatory_input': gstinconsignee.invalid && searchConsignee.gstin}"
+                                            [(ngModel)]="searchConsignee.gstin" (keyup)="clearSearch()"
+                                            (keydown.enter)="$event.preventDefault();searchByConsignee()"
+                                            #gstinconsignee="ngModel" required
+                                            pattern="\d{2}[A-Za-z]{5}\d{4}[A-Za-z]{1}[A-Za-z\d]{1}[Zz]{1}[A-Za-z\d]{1}"
+                                            class="form-control" placeholder="">
+                                    </mat-form-field>
+                                    <div *ngIf="gstinconsignee.invalid && searchConsignee.gstin" class="hasErrorMsg">
+                                        invalid
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <label for="" class="control-label">Pincode</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <mat-form-field appearance="outline">
+                                        <input matInput name="pconsignee" appNumbersOnly maxlength="6"
+                                            (keyup)="clearSearch()"
+                                            (keydown.enter)="$event.preventDefault();searchByConsignee()"
+                                            [disabled]="destPincode && !invalidPincode" [(ngModel)]="destPincode"
+                                            class="form-control" placeholder="">
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-md-2" style="padding: 0  !important;">
+                                    <div class="text-center">
+                                        <button mat-raised-button class="btn theme-button"
+                                            [disabled]="!searchConsignee.gstin && !searchConsignee.contactNum && !searchConsignee.name"
+                                            style="margin: 0; padding: 0 !important;"
+                                            (click)="searchByConsignee()">SEARCH</button>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="searchbar_bw search_pin_start">
+                                <mat-form-field appearance="outline">
+                                    <input matInput name="ConsigneesearchObj" class="form-control"
+                                        [(ngModel)]="ConsigneesearchObj" (keyup)="p=1" placeholder="Search Consignee"
+                                        style="text-transform: inherit;">
+                                </mat-form-field>
+                                <em class="fa fa-search left"></em>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table class="mat-elevation-z8">
+                                    <tr>
+                                        <th class="mat-header-cell"> </th>
+                                        <th class="mat-header-cell"> Name</th>
+                                        <th class="mat-header-cell"> Address </th>
+                                        <th class="mat-header-cell"> contact </th>
+                                    </tr>
+                                    <tr
+                                        *ngFor="let consignee of consigneeList  | multiplefilter : {name: ConsigneesearchObj, mob:ConsigneesearchObj} | paginate: { itemsPerPage: 10, currentPage: p ,id: 'second' };let i=index">
+                                        <td class="mat-cell" *ngIf="bookingInfoObj.destPincodeId">
+                                            <mat-radio-group aria-label="Select an option" [disabled]="fieldsetDisabled"
+                                                (click)="consigneeData(consignee.id);packagingTabOpen(consignee.id , 'consignee')"
+                                                [(ngModel)]="bookingInfoObj.consigneeId" name="consigneeId">
+                                                <mat-radio-button [value]="consignee.id" [disabled]="fieldsetDisabled">
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </td>
+                                        <td class="mat-cell" *ngIf="bookingInfoObj.destPincodeId"> {{consignee.name}}
+                                        </td>
+                                        <td class="mat-cell" *ngIf="bookingInfoObj.destPincodeId">
+                                            {{consignee.addrBook.addr1}}
+                                            {{consignee.addrBook.addr2}} {{consignee.addrBook.addr3}} ,
+                                            {{consignee.addrBook.pincodeId}}</td>
+                                        <td class="mat-cell" *ngIf="bookingInfoObj.destPincodeId"> {{consignee.mob}}
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="pagination_area" *ngIf="bookingInfoObj.destPincodeId">
+                                <pagination-controls (pageChange)="p = $event" id="second"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+</mat-expansion-panel>
+
+<mat-expansion-panel [expanded]="isPackaging" class="expan_panelExpand">
+    <mat-expansion-panel-header (click)="onScreenHeader('isPackaging')">
+        <mat-panel-title>
+            Operational Information
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4 addjust_on_left" style="margin:0 -2rem 0rem">
+                            <p class="green-card"><strong>Package Details</strong></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="" class="control-label">Actual Weight (KG) <sup class="required_absolute">
+                                    *</sup></label>
+                        </div>
+                        <div class="col-md-3 input-unit">
+                            <mat-form-field appearance="outline">
+                                <input matInput name="actualWeight" [(ngModel)]="bookingInfoObj.actualWeight"
+                                    appNumbersOnly maxlength="5" (focusout)="removeactualWaight()"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && actualWeight.invalid || bookingInfoObj.actualWeight==0 && bookingInfoObj.actualWeight}"
+                                    #actualWeight="ngModel" required class="form-control" placeholder=""
+                                    [disabled]="isFullyRebooked || isActualWeightDisabled">
+                            </mat-form-field>
+                            <div *ngIf="actualWeight.touched || (f.submitted && actualWeight.invalid)"
+                                class="hasErrorMsg">
+                                <div *ngIf="actualWeight.errors?.required"> Required!</div>
+                                <div *ngIf="bookingInfoObj.actualWeight==0 && bookingInfoObj.actualWeight"> Value not
+                                    allowed!
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-3">
+                            <label for="" class="control-label">Total Packages <sup class="required"> *</sup></label>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <input matInput name="totalPackageCount" appNumbersOnly
+                                    [(ngModel)]="bookingInfoObj.totalPackageCount" maxlength="5"
+                                    (focusout)="removeNpOfPackage()"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && totalPackageCount.invalid || bookingInfoObj.totalPackageCount==0 && bookingInfoObj.totalPackageCount}"
+                                    #totalPackageCount="ngModel" required class="form-control" placeholder="" disabled>
+                            </mat-form-field>
+                            <div *ngIf="totalPackageCount.touched || (f.submitted && totalPackageCount.invalid)"
+                                class="hasErrorMsg">
+                                <div *ngIf="totalPackageCount.errors?.required"> Required!</div>
+                                <div *ngIf="bookingInfoObj.totalPackageCount==0 && bookingInfoObj.totalPackageCount">
+                                    Value not allowed!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <p class="green-card text-center"><strong>Special Service</strong></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="" class="control-label">DOD Instrument <sup class="required"> *</sup></label>
+                        </div>
+                        <div class="col-md-9">
+                            <mat-radio-group aria-label="Select an option" (change)="dodHandle($event)" required
+                                name="dodDaccFlag" disabled>
+                                <mat-radio-button *ngFor="let op of pdcList" [checked]="op.checked" [value]="op.id">
+                                    {{op.name}}</mat-radio-button>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3" style="padding-right: 0px !important;">
+                            <label for="" class="control-label">Charge Weight (KG) <sup class="required">
+                                    *</sup></label>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <input matInput name="chargeWeight" [(ngModel)]="bookingInfoObj.chargeWeight"
+                                    appNumbersOnly maxlength="5" [disabled]="isChargeWeight"
+                                    (focusout)="removeChargeWeight()"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && chargeWeight.invalid || bookingInfoObj.chargeWeight ==0 && bookingInfoObj.chargeWeight}"
+                                    #chargeWeight="ngModel" required class="form-control" placeholder="">
+                            </mat-form-field>
+                            <div *ngIf="chargeWeight.touched || (f.submitted && chargeWeight.invalid)"
+                                class="hasErrorMsg">
+                                <div *ngIf="chargeWeight.errors?.required"> Required!</div>
+                                <div *ngIf="bookingInfoObj.chargeWeight==0 && bookingInfoObj.chargeWeight"> Value not
+                                    allowed!
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <!--<div class="col-md-3">
+                            <label for="" class="control-label">Type <sup class="required">
+                                    *</sup></label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="module_area">
+                                <mat-form-field class="select_box_dropwodn overline_hidden"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && dodTypeId.invalid }"
+                                    class="form-control">
+                                    <mat-select [(ngModel)]="bookingInfoObj.dodTypeId"
+                                        [disabled]="bookingInfoObj.dodDaccFlag==0 || fieldsetDisabled" name="dodTypeId"
+                                        #dodTypeId="ngModel" required>
+                                        <mat-option [value]="type.id"
+                                            *ngFor="let type of dodTypeList  | sortBy:'lookupVal'">
+                                            {{type.lookupVal}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div *ngIf="dodTypeId.touched || (f.submitted && dodTypeId.invalid)"
+                                    class="hasErrorMsg">
+                                    <div *ngIf="dodTypeId.errors?.required"> Required!</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="" class="control-label">In Favour of <sup class="required">
+                                    *</sup></label>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field appearance="outline">
+                                <input matInput [(ngModel)]="bookingInfoObj.payeeName" uppercase
+                                    [disabled]="bookingInfoObj.dodDaccFlag==0" name="payeeName"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && payeeName.invalid }"
+                                    #payeeName="ngModel" required class="form-control" placeholder="">
+                            </mat-form-field>
+                            <div *ngIf="payeeName.touched || (f.submitted && payeeName.invalid)" class="hasErrorMsg">
+                                <div *ngIf="payeeName.errors?.required"> Required!</div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <label for="" class="control-label">Said to Contain <sup class="required"> *</sup></label>
+                        </div>
+                        <div class="col-md-4">
+                            <mat-form-field appearance="outline">
+                                <input matInput name="pkgSaidToContain" [(ngModel)]="bookingInfoObj.pkgSaidToContain"
+                                    maxlength="100"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && pkgSaidToContain.invalid }"
+                                    #pkgSaidToContain="ngModel" required class="form-control" placeholder=""
+                                    [disabled]="isFullyRebooked">
+                            </mat-form-field>
+                            <div *ngIf="pkgSaidToContain.touched || (f.submitted && pkgSaidToContain.invalid)"
+                                class="hasErrorMsg">
+                                <div *ngIf="pkgSaidToContain.errors?.required"> Required!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <!-- <div class="row">
+                        <div class="col-md-3">
+                            <label for="" class="control-label">PDC Date <sup class="required">
+                                    *</sup></label>
+                        </div>
+                        <div class="col-md-3">
+                            <mat-form-field hideRequiredMarker>
+                                <input matInput [(ngModel)]="bookingInfoObj.pdcDate" name="pdcDate"
+                                    (focus)="picker2221.open()" validDate [disabled]="bookingInfoObj.dodDaccFlag==0"
+                                    class="form-control"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && pdcDate.invalid }" #pdcDate="ngModel"
+                                    required placeholder="DD/MM/YYYY" [matDatepicker]="picker2221">
+                                <mat-datepicker-toggle matSuffix [for]="picker2221">
+                                </mat-datepicker-toggle>
+                                <mat-datepicker #picker2221></mat-datepicker>
+                            </mat-form-field>
+                            <div *ngIf="pdcDate.touched || (f.submitted && pdcDate.invalid)" class="hasErrorMsg">
+                                <div *ngIf="pdcDate.errors?.required"> Required!</div>
+                            </div>
+                        </div>
+                    </div> -->
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-2" style="width: 12.5%;">
+                            <label for="" class="control-label">Add Product Category <sup class="required">
+                                    *</sup></label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="module_area" *ngIf="isPeaceType ">
+                                <mat-form-field class="select_box_dropwodn overline_hidden"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && b.invalid }" class="form-control">
+                                    <mat-select [(ngModel)]="productCategoryId" name="b" #b="ngModel" required
+                                        panelClass="anyClass" panelClass="anyClass"
+                                        (selectionChange)="getproductByproductCateId(productCategoryId)"
+                                        disabled>
+                                        <div class="asdf">
+                                            <ngx-mat-select-search [(ngModel)]="addProductCategorySearch"
+                                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                name="addProductCategorySearch">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                    search
+                                                </mat-icon>
+                                            </ngx-mat-select-search>
+
+
+                                            <mat-option [value]="product.id" matTooltip=" {{product.prdctCtgy}}"
+                                                [matTooltipPosition]="'above'"
+                                                *ngFor="let product of categoryListWithAlisList | stringFilter:addProductCategorySearch:'prdctCtgy'  | sortBy:'prdctCtgy'">
+                                                {{product.prdctCtgy}}
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div *ngIf="b.touched || (f.submitted && b.invalid)" class="hasErrorMsg">
+                                    <div *ngIf="b.errors?.required"> Required!</div>
+                                </div>
+                            </div>
+                            <div class="module_area"
+                            *ngIf="(!isPeaceType && RateCardList.length && categoryListWithAlisList.length > 1) || (refType(bookingInfoObj.businessTypeLookupId) === 'ANYWHERE TO ANYWHERE') || isMultiple">
+                                <mat-form-field class="select_box_dropwodn overline_hidden" hideRequiredMarker
+                                    [ngClass]="{ 'mandatory_input': f.submitted && fsdfs.invalid }" class="form-control"
+                                    hideRequiredMarker>
+                                    <mat-label>SELECT HERE</mat-label>
+                                    <div>
+                                        <mat-select multiple [(ngModel)]="selectedProductCategoryList"
+                                            panelClass="anyClass" [compareWith]="productCategoryType"
+                                            (selectionChange)="addProductCategoryInCardList(selectedProductCategoryList)"
+                                            name="fsdfs" #fsdfs="ngModel" required disabled>
+
+                                            <div class="asdf">
+                                                <ngx-mat-select-search [(ngModel)]="addProductCategorySearch"
+                                                    [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                    name="addProductCategorySearch">
+                                                    <mat-icon
+                                                        class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                        search
+                                                    </mat-icon>
+                                                </ngx-mat-select-search>
+                                                <mat-option [value]="product"
+                                                    matTooltip=" {{product.prdctCtgy}} {{product.packAlias && !RateCardList.length ? ( product.packAlias ) : null }}"
+                                                    [matTooltipPosition]="'above'"
+                                                    *ngFor="let product of categoryListWithAlisList | stringFilter:addProductCategorySearch:'prdctCtgy'  | sortBy:'prdctCtgy'">
+                                                    {{product.prdctCtgy}} <span
+                                                        *ngIf="product.packAlias && !RateCardList.length">({{product.packAlias}})</span>
+                                                </mat-option>
+                                            </div>
+                                        </mat-select>
+                                    </div>
+                                </mat-form-field>
+                                <div *ngIf="fsdfs.touched || (f.submitted && fsdfs.invalid)" class="hasErrorMsg">
+                                    <div *ngIf="fsdfs.errors?.required"> Required!</div>
+                                </div>
+                            </div>
+                            <div class="module_area"
+                            *ngIf="(!isPeaceType && !RateCardList.length || categoryListWithAlisList.length==1) && (refType(bookingInfoObj.businessTypeLookupId) !== 'ANYWHERE TO ANYWHERE') && !isMultiple &&  !isPeaceType">
+                                <mat-form-field class="select_box_dropwodn overline_hidden"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && abcd.invalid }" class="form-control"
+                                    hideRequiredMarker>
+                                    <mat-label>SELECT HERE</mat-label>
+                                    <mat-select [(ngModel)]="selectedProductCategoryList" panelClass="anyClass"
+                                        [multiple]="multiple1" (selected)="onMultipleSelected($event)"
+                                        (selectionChange)="addProductCategoryInCardList(selectedProductCategoryList)"
+                                        name="abcd" #abcd="ngModel" required disabled>
+                                        <div class="asdf">
+                                            <ngx-mat-select-search [(ngModel)]="addProductCategorySearch"
+                                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                name="addProductCategorySearch">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                    search
+                                                </mat-icon>
+                                            </ngx-mat-select-search>
+                                            <mat-option [value]="productobj.localId"
+                                                matTooltip=" {{productobj.prdctCtgy}} {{productobj.packAlias && !RateCardList.length ? ( productobj.packAlias ) : null }}"
+                                                [matTooltipPosition]="'above'"
+                                                *ngFor="let productobj of categoryListWithAlisList | stringFilter:addProductCategorySearch:'prdctCtgy'  | sortBy:'prdctCtgy'">
+                                                {{productobj.prdctCtgy}} <span
+                                                    *ngIf="productobj.packAlias && !RateCardList.length">({{productobj.packAlias}})</span>
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
+                                </mat-form-field>
+                                <div *ngIf="abcd.touched || (f.submitted && abcd.invalid)" class="hasErrorMsg">
+                                    <div *ngIf="abcd.errors?.required"> Required!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row margin-bottom-4" *ngIf="!isPeaceType">
+                        <div class="col-md-2" *ngFor="let product of selectedProductCategoryCardList ; let i =index">
+
+                            <div class="Product_Card" [ngClass]="{ 'card_active': product.checked }">
+                                <p matTooltip="{{product.prdctCtgy}}  {{product.packAlias && !RateCardList.length ? ( product.packAlias ) : null }} "
+                                    [matTooltipPosition]="'above'" (click)="getFilterProductCategory(product,i)">
+                                    <strong style="word-break: break-all;">{{product.prdctCtgy}}</strong>
+                                </p>
+                                <em class="fa fa-trash" style="margin-left: 5px; cursor: pointer;"
+                                    (click)="deleteProductCategory(product,i)" *ngIf="!isFullyRebooked && selectedProductCategoryCardList.length > 1"></em>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="isPeaceType">
+                        <div class="col-md-2" style="width: 12.5%;">
+                            <label for="" class="control-label">Add Product<sup class="required">
+                                    *</sup></label>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="module_area">
+                                <mat-form-field class="select_box_dropwodn overline_hidden"
+                                    [ngClass]="{ 'mandatory_input': f.submitted && a.invalid }" class="form-control">
+
+                                    <mat-select panelClass="anyClass" [(ngModel)]="selectedProduct"
+                                        [compareWith]="compareProduct" (selectionChange)="changeProductIndex()" multiple
+                                        name="a" #a="ngModel" required [disabled]="isFullyRebooked">
+                                        <div class="asdf">
+                                            <ngx-mat-select-search [(ngModel)]="addProductSearch"
+                                                [placeholderLabel]="'Search...'" [noEntriesFoundLabel]="'Not found'"
+                                                name="addProductSearch">
+                                                <mat-icon
+                                                    class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                                    search
+                                                </mat-icon>
+                                            </ngx-mat-select-search>
+                                            <mat-option [value]="product" matTooltip=" {{product.prdctName}}"
+                                                [matTooltipPosition]="'above'"
+                                                *ngFor="let product of ProductList | stringFilter:addProductSearch:'prdctName'">
+                                                {{product.prdctName}}
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
+
+
+                                    <!-- <mat-select [(ngModel)]="selectedProduct" multiple name="a"
+                                                      #a="ngModel" required>
+                                                      <mat-option [value]="product"
+                                                          *ngFor="let product of ProductList">
+                                                          {{product.prdctName}}
+                                                      </mat-option>
+                                                  </mat-select> -->
+                                </mat-form-field>
+                                <div *ngIf="a.touched || (f.submitted && a.invalid)" class="hasErrorMsg">
+                                    <div *ngIf="a.errors?.required"> Required!</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row margin-bottom-4" *ngIf="isPeaceType">
+                <div class="col-md-2" *ngFor="let product of selectedProduct ; let i =index">
+                    <div class="Product_Card" [ngClass]="{ 'card_active': product.checked }">
+                        <p matTooltip="{{product.prdctName}}" [matTooltipPosition]="'above'"
+                            (click)="getFilterProductCategory(product,i)">
+                            <strong style="word-break: break-all;">{{product.prdctName}}</strong>
+                        </p>
+                        <em class="fa fa-trash" style="margin-left: 5px;" (click)="deleteProduct(product,i)" *ngIf="!isFullyRebooked && selectedProduct.length > 1"></em>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2" style="width: 12.5%;">
+                    <label for="" class="control-label">Packing Type <sup class="required">
+                            *</sup></label>
+                </div>
+                <div class="col-md-2">
+                    <div class="module_area">
+                        <mat-form-field hideRequiredMarker class="select_box_dropwodn overline_hidden"
+                            [ngClass]="{ 'mandatory_input': f.submitted && packageId.invalid }" class="form-control">
+                            <mat-label>SELECT</mat-label>
+                            <mat-select [(ngModel)]="packageTypeId" name="packageId" panelClass="anyClass"
+                                (selectionChange)="getcommercialRateCardIdByAlias();setPackageIdInTable()"
+                                #packageId="ngModel" required disabled>
+
+                                <div class="asdf">
+                                    <ngx-mat-select-search [(ngModel)]="packTypeSearch" [placeholderLabel]="'Search...'"
+                                        [noEntriesFoundLabel]="'Not found'" name="packTypeSearch">
+                                        <mat-icon class="mat-select-search-custom-header-content mat_ngx_select_search">
+                                            search
+                                        </mat-icon>
+                                    </ngx-mat-select-search>
+                                    <mat-option [value]="package.id"
+                                        *ngFor="let package of packageList | stringFilter:packTypeSearch:'lookupVal'   | sortBy:'lookupVal'">
+                                        {{package.lookupVal}}
+                                    </mat-option>
+                                </div>
+                            </mat-select>
+                        </mat-form-field>
+                        <div *ngIf="packageId.touched || (f.submitted && packageId.invalid)" class="hasErrorMsg">
+                            <div *ngIf="packageId.errors?.required"> Required!</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-10">
+            <div class="row margin-bottom-4">
+                <div class="col-md-11">
+                    <div class="table-responsive scrollbar_booking_web">
+                        <table class="mat-elevation-z8">
+                            <tr>
+                                <th class="mat-header-cell">
+                                    <p>Actual WEIGHT <sup class="required">
+                                            *</sup></p>
+                                </th>
+                                <th class="mat-header-cell">
+                                    <p> No. of PKGS. <sup class="required">
+                                            *</sup></p>
+                                </th>
+                                <th class="mat-header-cell" *ngIf="isPeaceType"> No. of Piece. <sup class="required">
+                                        *</sup></th>
+                                <th class="mat-header-cell">
+                                    <p> Length<sup class="required"> *</sup></p>
+                                    <p class="measurement" *ngIf="unitCalculationType">
+                                        ({{unitCalculationType}})</p>
+                                </th>
+                                <th class="mat-header-cell">
+                                    <p> Breadth <sup class="required"> *</sup></p>
+                                    <p class="measurement" *ngIf="unitCalculationType">
+                                        ({{unitCalculationType}})</p>
+                                </th>
+                                <th class="mat-header-cell">
+                                    <p> Height<sup class="required"> *</sup></p>
+                                    <p class="measurement" *ngIf="unitCalculationType">
+                                        ({{unitCalculationType}})</p>
+                                </th>
+                                <th class="mat-header-cell"> <span style="visibility: hidden;">Delete</span>
+                                </th>
+                            </tr>
+                            <tr *ngFor="let packageDetails of  bookingInfoObj.packageList;let i = index">
+                                <td class="mat-cell"
+                                    *ngIf="(isGeneralRetail && isProductIndex == packageDetails.localId) || (!isGeneralRetail && isProductIndex == packageDetails.productCategoryId)  || packageDetails.productId== isProductIndex && ( selectedProductCategoryCardList.length || selectedProduct.length)">
+                                    <div class="input-unit width-13rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput name="actualWeight-{{packageDetails.tempId}}" maxlength="5"
+                                                appNumbersOnly (focusout)="removeActualWaightTable()"
+                                                [ngClass]="{ 'mandatory_input':actualWeight.invalid || packageDetails.actualWeight==0}"
+                                                #actualWeight="ngModel" required class="form-control mr"
+                                                [(ngModel)]="packageDetails.actualWeight" placeholder="" [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="actualWeight.touched || (actualWeight.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="actualWeight.errors?.required"> Required!
+                                            </div>
+                                            <div *ngIf="packageDetails.actualWeight==0 && packageDetails.actualWeight">
+                                                Value not
+                                                allowed!</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="mat-cell"
+                                    *ngIf="(isGeneralRetail && isProductIndex == packageDetails.localId) || (!isGeneralRetail && isProductIndex == packageDetails.productCategoryId)  || packageDetails.productId== isProductIndex  && ( selectedProductCategoryCardList.length || selectedProduct.length)">
+                                    <div class="input-unit width-13rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput name="numOfPackage-{{packageDetails.tempId}}" maxlength="5"
+                                                appNumbersOnly (focusout)="removeNoOfPackageTable()"
+                                                [ngClass]="{ 'mandatory_input': numOfPackage.invalid || packageDetails.numOfPackage==0}"
+                                                #numOfPackage="ngModel" required class="form-control"
+                                                [(ngModel)]="packageDetails.numOfPackage" placeholder="" [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="numOfPackage.touched || (numOfPackage.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="numOfPackage.errors?.required"> Required!
+                                            </div>
+                                            <div *ngIf="packageDetails.numOfPackage==0 && packageDetails.numOfPackage">
+                                                Value not
+                                                allowed!</div>
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="mat-cell"
+                                    *ngIf="((isGeneralRetail && isProductIndex == packageDetails.localId) || (!isGeneralRetail && isProductIndex == packageDetails.productCategoryId)  || packageDetails.productId== isProductIndex  && ( selectedProductCategoryCardList.length || selectedProduct.length)) && isPeaceType">
+                                    <div class="input-unit width-13rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput appNumbersOnly name="numOfPieces-{{packageDetails.tempId}}"
+                                                class="form-control" maxlength="5" (focusout)="removeByPeace()"
+                                                [ngClass]="{ 'mandatory_input': numOfPieces.invalid || packageDetails.numOfPieces==0}"
+                                                #numOfPieces="ngModel" required [(ngModel)]="packageDetails.numOfPieces"
+                                                placeholder="" [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="numOfPieces.touched || (numOfPieces.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="numOfPieces.errors?.required"> Required!
+                                            </div>
+                                            <div *ngIf="packageDetails.numOfPieces==0  && packageDetails.numOfPieces">
+                                                Value not
+                                                allowed!</div>
+
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td class="mat-cell"
+                                    *ngIf="(isGeneralRetail && isProductIndex == packageDetails.localId) || (!isGeneralRetail && isProductIndex == packageDetails.productCategoryId)  || packageDetails.productId== isProductIndex && ( selectedProductCategoryCardList.length || selectedProduct.length)">
+                                    <div class="input-unit width-13rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput name="pkgLength-{{packageDetails.tempId}}"
+                                                class="form-control" (focusout)="removeLength()" appNumbersOnly
+                                                [ngClass]="{ 'mandatory_input': pkgLength.invalid || packageDetails.pkgLength==0}"
+                                                #pkgLength="ngModel" required [(ngModel)]="packageDetails.pkgLength"
+                                                [maxlength]="maxLength" placeholder="" [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="pkgLength.touched || (pkgLength.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="pkgLength.errors?.required"> Required!</div>
+                                            <div *ngIf="packageDetails.pkgLength==0 && packageDetails.pkgLength"> Value
+                                                not allowed!
+                                            </div>
+
+                                        </div>
+
+                                    </div>
+                                </td>
+
+                                <td class="mat-cell"
+                                    *ngIf="(isGeneralRetail && isProductIndex == packageDetails.localId) || (!isGeneralRetail && isProductIndex == packageDetails.productCategoryId)   || packageDetails.productId== isProductIndex  && ( selectedProductCategoryCardList.length || selectedProduct.length)">
+                                    <div class="input-unit width-13rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput appNumbersOnly name="pkgBreadth-{{packageDetails.tempId}}"
+                                                class="form-control" (focusout)="removeWidth()"
+                                                [ngClass]="{ 'mandatory_input': pkgBreadth.invalid || packageDetails.pkgBreadth==0}"
+                                                #pkgBreadth="ngModel" required [(ngModel)]="packageDetails.pkgBreadth"
+                                                [maxlength]="maxLength" placeholder="" [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="pkgBreadth.touched || (pkgBreadth.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="pkgBreadth.errors?.required"> Required!</div>
+                                            <div *ngIf="packageDetails.pkgBreadth==0 && packageDetails.pkgBreadth">
+                                                Value not
+                                                allowed!</div>
+
+                                        </div>
+
+                                    </div>
+                                </td>
+                                <td class="mat-cell"
+                                    *ngIf="(isGeneralRetail && isProductIndex == packageDetails.localId) || (!isGeneralRetail && isProductIndex == packageDetails.productCategoryId)  || packageDetails.productId== isProductIndex  && ( selectedProductCategoryCardList.length || selectedProduct.length)">
+                                    <div class="input-unit width-13rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput appNumbersOnly name="pkgHeight-{{packageDetails.tempId}}"
+                                                class="form-control" (focusout)="removeHeight()"
+                                                [ngClass]="{ 'mandatory_input': pkgHeight.invalid || packageDetails.pkgHeight==0}"
+                                                #pkgHeight="ngModel" required [(ngModel)]="packageDetails.pkgHeight"
+                                                [maxlength]="maxLength" placeholder="" [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="pkgHeight.touched || (pkgHeight.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="pkgHeight.errors?.required"> Required!</div>
+                                            <div *ngIf="packageDetails.pkgHeight==0  && packageDetails.pkgHeight"> Value
+                                                not
+                                                allowed!</div>
+
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="mat-cell" style="vertical-align: top;"
+                                    *ngIf="(isGeneralRetail && isProductIndex == packageDetails.localId) || (!isGeneralRetail && isProductIndex == packageDetails.productCategoryId)  || packageDetails.productId== isProductIndex  && ( selectedProductCategoryCardList.length || selectedProduct.length)">
+                                    <!-- <mat-icon mat-card-avatar class="mat-plus-icon font-20" aria-label="Example icon"
+                                type="button" (click)="deletePackageInfoRow(i)">delete
+                              </mat-icon> -->
+                                    <button (keydown.enter)="deletePackageInfoRow()" type="button"
+                                        class="btn transparent_btn" *ngIf="!isFullyRebooked">
+                                        <img src="../assets/images/red_delete.png" (click)="deletePackageInfoRow(i)"
+                                            alt="" style="cursor: pointer;">
+                                    </button>
+
+
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-md-1" *ngIf="!isFullyRebooked">
+                    <mat-icon mat-card-avatar class="mat-plus-icon" aria-label="Example icon" type="button"
+                        (click)="addPackageDetailsRow()">add_circle
+                    </mat-icon>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 addjust_on_left">
+                    <p class="green-card"><strong>Invoice Details</strong></p>
+                </div>
+                <div class="col-md-3">
+                    <mat-checkbox (change)="invoiceDetailsChecked(bookingInfoObj.ncvFlag,$event)"
+                        [disabled]="(bookingInfoObj.ewaybillAvailableFlag==1 ) || (isInvoiceCommercial && bookingInfoObj.ewaybillAvailableFlag==0) || isInvoiceDisabled"
+                        [(ngModel)]="bookingInfoObj.ncvFlag" name="invoiceDetailDTO">NCV
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div class="row" *ngIf="bookingInfoObj.ncvFlag==0">
+                <div class="col-md-11">
+                    <div class="table-responsive scrollbar_booking_web">
+                        <table class="mat-elevation-z8" *ngIf="bookingInfoObj.ewaybillAvailableFlag==0">
+                            <tr>
+                                <th class="mat-header-cell  width-16rem">INVOICE NO <sup class="required"> *</sup></th>
+                                <th class="mat-header-cell  width-16rem"> DATE <sup class="required"> *</sup></th>
+                                <th class="mat-header-cell  width-16rem"> AMOUNT <sup class="required"> *</sup></th>
+                                <th class="mat-header-cell width-16rem"> <span style="visibility: hidden;">Delete</span>
+                                </th>
+                            </tr>
+                            <tr *ngFor="let packageDetails of bookingInfoObj.invoiceList;let i = index">
+                                <td class="mat-cell">
+                                    <div class="input-unit width-16rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput name="invoiceNumber-{{i}}" class="form-control mr_00"
+                                                uppercase
+                                                [ngClass]="{ 'mandatory_input': f.submitted && invoiceNumber.invalid }"
+                                                #invoiceNumber="ngModel" required
+                                                [(ngModel)]="packageDetails.invoiceNumber" maxlength="20"
+                                                appAlphaNumeric placeholder="" [disabled]="isInvoiceDisabled">
+                                        </mat-form-field>
+                                        <div *ngIf="invoiceNumber.touched || (f.submitted && invoiceNumber.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="invoiceNumber.errors?.required"> Required!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="mat-cell">
+                                    <div class=" input_date_pcker width-16rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput class="form-control mr_00" name="invoiceDate-{{i}}"
+                                                (focus)="picker21.open()" validDate
+                                                [ngClass]="{ 'mandatory_input': f.submitted && invoiceDate.invalid }"
+                                                #invoiceDate="ngModel" required [(ngModel)]="packageDetails.invoiceDate"
+                                                [matDatepicker]="picker21" placeholder="DD/MM/YYYY"
+                                                [disabled]="isInvoiceDisabled">
+                                            <mat-datepicker-toggle matSuffix [for]="picker21">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker21></mat-datepicker>
+                                        </mat-form-field>
+                                        <div *ngIf="invoiceDate.touched || (f.submitted && invoiceDate.invalid)"
+                                            class="hasErrorMsg" style="top: 28px;">
+                                            <div *ngIf="invoiceDate.errors?.required"> Required!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="mat-cell">
+                                    <div class="input-unit width-16rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput name="invoiceAmount-{{i}}" class="form-control mr_00"
+                                                appNumericAndDecimal (keyup)="openAmountConfirmationModal()"
+                                                [ngClass]="{ 'mandatory_input': f.submitted && invoiceAmount.invalid }"
+                                                #invoiceAmount="ngModel" required
+                                                [(ngModel)]="packageDetails.invoiceAmount" maxlength="12" placeholder=""
+                                                [disabled]="isInvoiceDisabled">
+                                        </mat-form-field>
+                                        <div *ngIf="invoiceAmount.touched || (f.submitted && invoiceAmount.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="invoiceAmount.errors?.required"> Required!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="mat-cell" style="text-align: center;">
+                                    <img src="../assets/images/red_delete.png" (click)="deleteInvoiceInfoRow(i)" alt=""
+                                        style="cursor: pointer;" *ngIf="!isInvoiceDisabled">
+
+                                    <!-- <mat-icon mat-card-avatar class="mat-plus-icon font-20" aria-label="Example icon"
+                              type="button" (click)="deleteInvoiceInfoRow(i)">delete
+                            </mat-icon> -->
+
+                                </td>
+                            </tr>
+                        </table>
+                        <table class="mat-elevation-z8" *ngIf="bookingInfoObj.ewaybillAvailableFlag==1">
+                            <tr>
+                                <th class="mat-header-cell  width-16rem">INVOICE NO <sup class="required"> *</sup></th>
+                                <th class="mat-header-cell  width-16rem"> DATE <sup class="required"> *</sup></th>
+                                <th class="mat-header-cell  width-16rem"> AMOUNT <sup class="required"> *</sup></th>
+                            </tr>
+                            <tr *ngFor="let packageDetails of bookingInfoObj.invoiceList;let i = index">
+                                <td class="mat-cell">
+                                    <div class="input-unit width-16rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput name="invoiceNumber-{{i}}" class="form-control mr_00"
+                                                disabled
+                                                [ngClass]="{ 'mandatory_input': f.submitted && invoiceNumber.invalid }"
+                                                #invoiceNumber="ngModel" required
+                                                [(ngModel)]="packageDetails.invoiceNumber" maxlength="20"
+                                                appAlphaNumeric placeholder="" [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="invoiceNumber.touched || (f.submitted && invoiceNumber.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="invoiceNumber.errors?.required"> Required!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="mat-cell">
+                                    <div class=" input_date_pcker width-16rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput class="form-control mr_00" name="invoiceDate-{{i}}"
+                                                validDate
+                                                [ngClass]="{ 'mandatory_input': f.submitted && invoiceDate.invalid }"
+                                                #invoiceDate="ngModel" required disabled
+                                                [(ngModel)]="packageDetails.invoiceDate" [matDatepicker]="picker21"
+                                                placeholder="DD/MM/YYYY" [disabled]="isFullyRebooked">
+                                            <mat-datepicker-toggle matSuffix [for]="picker21">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #picker21></mat-datepicker>
+                                        </mat-form-field>
+                                        <div *ngIf="invoiceDate.touched || (f.submitted && invoiceDate.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="invoiceDate.errors?.required"> Required!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="mat-cell">
+                                    <div class="input-unit width-16rem">
+                                        <mat-form-field appearance="outline">
+                                            <input matInput name="invoiceAmount-{{i}}" class="form-control mr_00"
+                                                appNumericAndDecimal
+                                                [ngClass]="{ 'mandatory_input': f.submitted && invoiceAmount.invalid }"
+                                                #invoiceAmount="ngModel" required disabled
+                                                [(ngModel)]="packageDetails.invoiceAmount" maxlength="12" placeholder=""
+                                                [disabled]="isFullyRebooked">
+                                        </mat-form-field>
+                                        <div *ngIf="invoiceAmount.touched || (f.submitted && invoiceAmount.invalid)"
+                                            class="hasErrorMsg">
+                                            <div *ngIf="invoiceAmount.errors?.required"> Required!
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+
+
+                    </div>
+                </div>
+                <div class="col-md-12 add_new_row" *ngIf="bookingInfoObj.ewaybillAvailableFlag==0 && !isFullyRebooked  && !fieldsetDisabled">
+                    <span class="">Add New Row</span> <em>
+                        <mat-icon mat-card-avatar class="mat-plus-icon" aria-label="Example icon" type="button"
+                            (click)="addNcvDetailsRow()">add_circle
+                        </mat-icon>
+                    </em>
+                </div>
+            </div>
+        </div>
+        <!-- <button type="button" (click)="EditWaybill()"> Edit</button> -->
+    </div>
+</mat-expansion-panel>
+
+<mat-expansion-panel *ngIf="fieldsetDisabled" [expanded]="isFrieghtExpand" class="expan_panelExpand">
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+            Waybill Freight (₹)
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style="margin: 0 0 3.5rem !important;"><strong>Basic Freight Charges</strong></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" *ngFor="let frieght of frieghtypeList">
+                <div class="row">
+                    <div class="col-md-6"> <label for="" class="control-label">{{frieght.contractEntityType}}:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{frieght.systemAmount}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style="margin: 0 0 3.5rem !important;"><strong>Non-Geography Charges</strong></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" *ngFor="let frieght of nonGeoTypeList">
+                <div class="row">
+                    <div class="col-md-6"> <label for="" class="control-label">{{frieght.contractEntityType}}:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{frieght.systemAmount}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <h3 style="margin: 0 0 3.5rem !important;"><strong>Geography Charges</strong></h3>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6" *ngFor="let frieght of geoTypeList">
+                <div class="row">
+                    <div class="col-md-6"> <label for="" class="control-label">{{frieght.contractEntityType}}:</label>
+                    </div>
+                    <div class="col-md-3">
+                        <p>{{frieght.systemAmount}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</mat-expansion-panel>
+
+</mat-accordion>
+</div>
+
+</fieldset>
+<div class="grand_charges">
+    <div class="row">
+        <div *ngIf="fieldsetDisabled==false" class="col-md-4"></div>
+        <div *ngIf="fieldsetDisabled==true" class="col-md-4">
+            <div class="row" *ngIf="!RateCardList.length && isDiscountAllowed">
+                <div class="col-md-4">
+                    <label for="" class="control-label discount">Add Discount:</label>
+                </div>
+                <div class="col-md-1 padding-zero">
+                    <p type="text" class="percentage">%GE</p>
+                </div>
+                <div class="col-md-4 padding-zero">
+                    <input type="text" [(ngModel)]="percentage" name="percentage" class="form-control">
+                </div>
+                <div class="col-md-3">
+                    <button class="btn theme-button" type="button" (click)="onApplyDiscount()">APPLY DISCOUNT</button>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="" class="control-label discount">Sub Total: {{totalCharges | number : '1.2-2'}}</label>
+                </div>
+                <div class="col-md-6">
+                    <label for="" class="control-label discount" *ngIf="gstAmount">GST@{{gstPercent ? gstPercent :
+                        '18%'}}:
+                        {{gstAmount | number : '1.2-2'}}</label>
+                    <label for="" class="control-label discount" *ngIf="!gstAmount">GST@{{gstPercent ? gstPercent :
+                        '18%'}}:
+                        NA</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <label for="" class="control-label discount">Grand Total: {{grandCharges | number :
+                        '1.2-2'}}</label>
+                </div>
+                <div class="col-md-6" *ngIf="isDiscountAllowed">
+                    <label for="" class="control-label discount"
+                        *ngIf="!RateCardList.length && isDiscountAllowed">Discount :
+                        {{discountAmount ? discountAmount : '00' | number : '1.2-2'}}</label>
+                    <label for="" class="control-label discount"
+                        *ngIf="RateCardList.length || !isDiscountAllowed">Discount : NA</label>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-10">
+                    <label for="" class="control-label grand_cher">Total Amount: {{grandTotalCharges ? grandTotalCharges
+                        : grandCharges | number : '1.2-2'}}</label>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div *ngIf="false" class="row">
+                <div class="col-md-3 col-md-offset-9">
+                    <button class="col-md-3 btn theme-button btn-block btn-block"
+                        [routerLink]="['/bookings-web-booking/web-booking']">CLOSE</button>
+                </div>
+            </div>
+            <div class="row" *ngIf="fieldsetDisabled==false">
+                <div class="col-md-3 col-md-offset-9">
+                    <button *ngIf="true" class="btn white-button btn-block" [disabled]="!f.form.valid" type="submit"
+                        (keydown.enter)="$event.preventDefault(); saveWayBill('calculateWaybill')">{{reCalculate==true ?
+                        'Re Calculate' : 'Calculate'}}</button>
+                </div>
+            </div>
+            <div class="row" *ngIf="fieldsetDisabled==true">
+                <div class="col-md-3 ">
+
+                </div>
+                <div class="col-md-3 col-md-offset-3">
+                    <button *ngIf="true" disabled class="btn white-button btn-block" type="button">Preview</button>
+                </div>
+                <!-- <div class="col-md-3 ">
+                    <button *ngIf="!editMode" class="btn theme-button btn-block" type="button"
+                        (click)="generateWayBill('generateCreate')">Generate & Create
+                        New</button>
+                </div> -->
+                <div class="col-md-3">
+                    <button *ngIf="!editMode" class="btn white-button btn-block" type="button"
+                        (click)="generateWayBill('create')">Create
+                        Waybill</button>
+                </div>
+            </div>
+            <!-- <div class="col-md-2 col-md-offset-10">
+            <button class="btn theme-button" type="button" (click)="saveWayBill('generateCreate')"
+              [disabled]="!f.form.valid">Generate & Create
+              New</button>
+          </div> -->
+        </div>
+
+    </div>
+
+</div>
+</form>
+
+</section>
+</div>
+
+
+<div class="container" style="width: 86% !important;">
+    <!-- <div class="succes_Screen"> -->
+    <div *ngIf="successMsg">
+        <mat-card>
+            <div class="start_booking_success" style="padding: 2% 0%;">
+                <img src="../assets/images/tick.png" alt="" style="width: 75px !important;">
+                <p style="font-size: 2rem !important;margin: 0 !important;"><strong>Success!</strong></p>
+                <h2 style="font-size: 2.5rem !important;"><strong> WAYBILL GENERATED</strong></h2>
+                <h3 style="font-size: 3rem !important;">{{bookingInfoObj.waybillNumber}}</h3>
+            </div>
+        </mat-card>
+        <mat-card class="start_booking_print">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3">
+                    <div class="row" *ngIf="isCreditCheck">
+                        <div class="col-md-4">
+                            <p>
+                                <a (click)="openStickerPrint()"><img src="../assets/images/group.png" alt="">
+                                    <strong> Sticker Print</strong></a>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                <a (click)="openEmailModal()"><img src="../assets/images/envelope.png" alt=""><strong> Email</strong></a>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p>
+                                <a><img src="../assets/images/printer.png" alt=""><strong> Print</strong></a>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="!isCreditCheck">
+                        <div class="col-md-3">
+                            <p>
+                                <a><img src="../assets/images/e_payment.png" alt="">
+                                    <strong>E-Payment</strong></a>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                <a (click)="openStickerPrint()"><img src="../assets/images/group.png" alt="">
+                                    <strong> Sticker Print</strong></a>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                <a><img src="../assets/images/envelope.png" alt=""><strong> Email</strong></a>
+                            </p>
+                        </div>
+                        <div class="col-md-3">
+                            <p>
+                                <a><img src="../assets/images/printer.png" alt=""><strong> Print</strong></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <!-- </div> -->
+</div>
+<br>
+<div class="container" style="width: 86% !important;">
+    <div class="expansion_section">
+        <mat-accordion>
+            <mat-expansion-panel *ngIf="successMsg" [expanded]="isFrieghtExpand" class="expan_panelExpand">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        Waybill Freight (₹)
+                    </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 style="margin: 0 0 3.5rem !important;"><strong>Basic Freight Charges</strong></h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" *ngFor="let frieght of frieghtypeList">
+                            <div class="row">
+                                <div class="col-md-6"> <label for=""
+                                        class="control-label">{{frieght.contractEntityType}}:</label></div>
+                                <div class="col-md-3">
+                                    <p>{{frieght.systemAmount}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 style="margin: 0 0 3.5rem !important;"><strong>Non-Geography Charges</strong></h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" *ngFor="let frieght of nonGeoTypeList">
+                            <div class="row">
+                                <div class="col-md-6"> <label for=""
+                                        class="control-label">{{frieght.contractEntityType}}:</label></div>
+                                <div class="col-md-3">
+                                    <p>{{frieght.systemAmount}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h3 style="margin: 0 0 3.5rem !important;"><strong>Geography Charges</strong></h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6" *ngFor="let frieght of geoTypeList">
+                            <div class="row">
+                                <div class="col-md-6"> <label for=""
+                                        class="control-label">{{frieght.contractEntityType}}:</label></div>
+                                <div class="col-md-3">
+                                    <p>{{frieght.systemAmount}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>
+
+
+<div class="container" *ngIf="successMsg && !editMode">
+    <div class="grand_charges">
+        <div class="row">
+            <div *ngIf="false" class="col-md-4"></div>
+            <div *ngIf="true" class="col-md-4">
+                <div class="row" *ngIf="!RateCardList.length && successMsg==false ">
+                    <div class="col-md-4">
+                        <label for="" class="control-label discount">Add Discount:</label>
+                    </div>
+                    <div class="col-md-1 padding-zero">
+                        <p type="text" class="percentage">%GE</p>
+                    </div>
+                    <div class="col-md-4 padding-zero">
+                        <input type="text" [(ngModel)]="percentage" name="percentage" class="form-control">
+                    </div>
+                    <div class="col-md-3">
+                        <button class="btn theme-button" type="button" (click)="onApplyDiscount()">APPLY
+                            DISCOUNT</button>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="" class="control-label discount">Sub Total: {{totalCharges | number :
+                            '1.2-2'}}</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="control-label discount" *ngIf="gstAmount">GST@{{gstPercent ? gstPercent :
+                            '18%'}}:
+                            {{gstAmount | number : '1.2-2'}}</label>
+                        <label for="" class="control-label discount" *ngIf="!gstAmount">GST@{{gstPercent ? gstPercent :
+                            '18%'}}:
+                            NA</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <label for="" class="control-label discount">Grand Total: {{grandCharges | number :
+                            '1.2-2'}}</label>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="" class="control-label discount" *ngIf="!RateCardList.length">Discount :
+                            {{discountAmount ? discountAmount : '00' | number : '1.2-2'}}</label>
+                        <label for="" class="control-label discount" *ngIf="RateCardList.length">Discount : NA</label>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-10">
+                        <label for="" class="control-label grand_cher">Total Amount: {{grandTotalCharges ? grandTotalCharges
+                            : grandCharges | number : '1.2-2'}}</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-8">
+
+                    </div>
+                    <!-- <div class="col-md-4 col-md-offset-8">
+                        <button *ngIf="false" class="btn theme-button btn-block" type="button"
+                            (click)="generateWayBill('generateCreate')">Generate & Create
+                            New</button>
+                    </div> -->
+                </div>
+                <div *ngIf="true" class="row">
+                    <div class="col-md-3 col-md-offset-9">
+                        <button class="col-md-3 btn theme-button btn-block btn-block"
+                            [routerLink]="['/bookings-web-booking/web-booking']">CLOSE</button>
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <button *ngIf="false" class="btn white-button btn-block" type="button"
+                            (click)="generateWayBill('create')">Create
+                            Waybill</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button *ngIf="false" class="btn white-button btn-block" type="button">Preview</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+</div>

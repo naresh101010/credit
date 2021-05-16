@@ -1,0 +1,172 @@
+<div class="container">
+    <div class="breadcrumb">
+        <a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a>
+    </div>
+
+    <div class="navigation_section">
+
+        <div class="row">
+            <div class="col-md-4 pl-0">
+                <div class="col-md-5">
+                    <div class="nav_card navPro cursor_pointer forNav"
+                        [routerLink]="['/bookings-web-booking/web-booking']">
+                        <label for="" class="control-label color-primary flexD"><img src="../assets/images/leftArr.png"
+                                alt="" class="postionArro"><span>Go Back</span> </label>
+                    </div>
+                </div>
+                <div class="col-md-7 forNav">
+                    <div class="nav_card active groupNav">
+                        <label for="" class="control-label color-primary mr_left_10">Manage VMI</label>
+                        <img src="../assets/images/vmiIcon.png" class="groupImg" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+        <!-- <div class="row">
+            <div class="col-md-2">
+                <div class="nav_card cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                    <div class="goback">
+                        <div class="col-md-2 color-primary">
+                            <em class="fa fa-angle-left fa-4x"></em>
+                        </div>
+                        <div class="col-md-9">
+                            <label for="" class="control-label color-primary go-label">Go Back</label>
+                        </div>
+                    </div>
+                    <div class="col-md-9">
+                        <label for="" class="control-label color-primary" style="font-size: small !important; margin-top:10px !important">Manage VMI</label>
+                    </div>
+                    <div class="col-md-3">
+                    </div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+
+    <!-- <mat-card class="generated_mat_card">
+        <div class="row">
+            <div style="margin-top: -10px;">
+                <div class="col-md-2">
+                    <label for="" class="control-label"><strong> Enter Waybill Number</strong></label>
+                </div>
+                <div class="col-md-2">
+                    <mat-form-field appearance="outline">
+                        <input  matInput name="rateCardCode" class="form-control" placeholder="">
+                      </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-card> -->
+    <mat-card class="card-height">
+        <div class="row">
+            <div class="col-md-2">
+                <label for="" class="control-label label-align"><strong> Enter Waybill Number</strong></label>
+            </div>
+            <div class="col-md-2 input-align">
+                <mat-form-field appearance="outline">
+                    <input matInput name="rateCardCode" class="form-control" placeholder="" (keyDown.enter)="onKeyUp($event)"
+                        [(ngModel)]="waybillNumbers">
+                </mat-form-field>
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="card-height1 padding-zero" *ngIf="wayBilldata">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="generated_section">
+                    <div class="row">
+                        <div class="col-md-10">
+                            <h3 class="margin-zero"><strong>{{wayBilldata.waybillNumber}}</strong></h3>
+                            <p><small>{{wayBilldata.sfxPrcContractcode}}</small></p>
+                        </div>
+                        <div class="col-md-2">
+                            <p class="class_text"><strong>{{mop}}</strong></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>Service Offering:</strong></p>
+                    <p>{{ serviceOffering }}</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>Booking Type:</strong></p>
+                    <p>{{ businessType }}</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>From Branch:</strong></p>
+                    <p>{{ fromBranchName }}</p>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="tab_data_section">
+                    <p class="margin-zero"><strong>To Branch:</strong></p>
+                    <p>{{ toBranchName }}</p>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+    <mat-card class="generated_mat_card" *ngIf="dataSource">
+        <div class="row">
+            <div class="col-md-12">
+                <h4 style="margin-top: 0px;"><strong>Attach Part No. with Invoice</strong></h4>
+            </div>
+            <div class="col-md-7">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="invoice">
+                            <th mat-header-cell *matHeaderCellDef> Invoice No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="date">
+                            <th mat-header-cell *matHeaderCellDef> Date </th>
+                            <td mat-cell *matCellDef="let element"> {{element.invoiceDate}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="amount">
+                            <th mat-header-cell *matHeaderCellDef> Amount </th>
+                            <td mat-cell *matCellDef="let element"> {{element.invoiceAmount}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="attach">
+                            <th mat-header-cell *matHeaderCellDef> Attach Part No. </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button *ngIf="!element.attachData" mat-raised-button class="btn transparent-button"
+                                    (click)="openAttachPartNumber(element)">Attach</button>
+                                <span *ngIf="element.attachData">
+                                    <a (click)="openAttachPartNumber(element)" >
+                                        {{ getPartsNumber(element.attachData) }}
+                                    </a>
+                                </span>
+                            </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: center;">
+            <button mat-raised-button class="btn theme-button" (click)="onSubmit()">Submit</button>
+        </div>
+
+    </mat-card>
+    <mat-card *ngIf="isWaybillApicalled && !dataSource">
+        <p>No invoice found for the entered waybill</p>
+    </mat-card>
+
+</div>

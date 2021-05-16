@@ -1,0 +1,339 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+    </ol>
+    <div class="navigation_section">
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="col-md-5 pl-0">
+                    <div class="nav_card navPro cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                        <div style="margin-top: 20px !important;">
+                            <div class="col-md-2 color-primary">
+                                <img src="../assets/images/go_back.png" style="margin-top:6px" alt="" width="25px">
+                            </div>
+                            <div class="col-md-9">
+                                <label for="" class="control-label color-primary" style="margin-top:7px; margin-left:5px; padding: 0px;">Go Back</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <mat-card-content>
+                        <div class="nav_card manifest_card active">
+                            <p>Manifest Creation</p>
+                            <p>Manifest for</p>
+                            <p><strong>{{ dataLength }}</strong></p>
+                            <p>Waybills Pending</p>
+                            <img src="../assets/images/manifest_active.png" class="cardImageIcon" width="35px" />
+                        </div>
+                    </mat-card-content>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="row" *ngIf="isManifest">
+        <div class="col-md-4 color-primary">
+            <em class="em_heading color-primary" (click)="ProgressScreen()"><strong style="cursor: pointer;">View Created Manifest</strong></em>
+        </div>
+
+        <div class="col-md-2 col-md-offset-6 mat_text_icon">
+            <label for="" class="control-label" style="margin-bottom: 0px !important;">Create Manifest
+                <mat-icon mat-card-avatar class="mat-plus-icon" aria-label="Example icon"
+                  (click)="createManifest()">add_circle
+                </mat-icon></label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 color-primary" *ngIf="isManifest ==false">
+            <em class="em_heading color-primary" (click)="ProgressScreen()"><strong style="cursor: pointer;">See In Progress</strong></em>
+        </div>
+    </div>
+    <mat-card class="generated_mat_card manifest_card_sec" *ngIf="isManifest">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="col-md-3 pl-0">
+                    <h4 class="table_heading"><strong>In Progress ({{dataLength}})</strong></h4>
+                </div>
+                <div class="col-md-4 p-0">
+                    <h4 class="table_heading col-md-6 mr-0 pl-0"><strong class="float-r">Service Offering</strong></h4>
+                    <div class="module_area col-md-6 p-0">
+                        <mat-form-field class="select_box_dropwodn overline_hidden " class="form-control">
+                            <mat-label>All</mat-label>
+                            <mat-select [(ngModel)]="serviceOfferId" (ngModelChange)="selectedOffering($event)"  multiple>
+                                <mat-option [value]="offering.id" *ngFor="let offering of serviceOfferingList">
+                                    {{offering.value}}
+                                </mat-option>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-4 p-0">
+                    <h4 class="table_heading col-md-6 mr-0"><strong class="float-r">Stage</strong></h4>
+                    <div class="module_area col-md-6 p-0">
+                        <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control">
+                            <!-- <mat-label>ALL</mat-label> -->
+                            <mat-select [(ngModel)]="stage" (ngModelChange)="onSelectedStage($event)">
+                                <mat-option value="">All</mat-option>
+                                <mat-option [value]="stage.lookupVal" *ngFor="let stage of stageList">
+                                    {{ stage.lookupVal }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-2"></div>
+
+            <div class="col-md-2">
+
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" class="form-control" placeholder="Search" (keyup)="applyFilter($event.target.value)">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- <div class="row">
+      <div class="col-md-2">
+        <h4 class="table_heading"><strong>In Progress (10)</strong></h4>
+      </div>
+      <div class="col-md-4">
+        <h4 class="table_heading"><strong>Service Offering</strong></h4>
+        <div class="module_area">
+          <mat-form-field class="select_box_dropwodn overline_hidden " class="form-control">
+            <mat-label>ALL</mat-label>
+            <mat-select>
+              <mat-option [value]="1">
+                ALL
+              </mat-option>
+              <mat-option [value]="0">
+                ALL
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <h4 class="table_heading"><strong>Stage</strong></h4>
+        <div class="module_area">
+          <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control">
+            <mat-label>ALL</mat-label>
+            <mat-select>
+              <mat-option [value]="1">
+                ALL
+              </mat-option>
+              <mat-option [value]="0">
+                ALL
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="col-md-2">
+        <div class="searchbar_bw">
+          <mat-form-field appearance="outline">
+            <input matInput name="rateCardCode" class="form-control" placeholder="Search">
+          </mat-form-field>
+          <em class="fa fa-search"></em>
+        </div>
+      </div>
+    </div> -->
+
+
+
+
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="request">
+                            <th mat-header-cell *matHeaderCellDef> Manifest <br> No. </th>
+                            <td mat-cell *matCellDef="let element" (click)="navigateToViewManifest(element)">
+                                <a>{{element.manifestNum}}</a>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="waybill">
+                            <th mat-header-cell *matHeaderCellDef> Vehicle <br> No. </th>
+                            <td mat-cell *matCellDef="let element"> {{vehicleType(element.vehicleId)}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pick">
+                            <th mat-header-cell *matHeaderCellDef> #Waybill /<br>#Package </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="w-11" *ngIf="element.manifestWaybillList.length > 0">{{  element.waybillPackages }}</div>
+                                <div class="w-11" *ngIf="element.manifestWaybillList.length === 0">-</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="booking">
+                            <th mat-header-cell *matHeaderCellDef> Service <br> Offering </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.offerings }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="destination">
+                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="w-8">{{element.lkpManifestShipmentType ? refType(element.lkpManifestShipmentType) : 'HUB'}} </div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sfx">
+                            <th mat-header-cell *matHeaderCellDef> Created On </th>
+                            <td mat-cell *matCellDef="let element">
+                                <div class="w-13">{{element.createdDate | date: 'dd/MM/yyyy'}}</div>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="customer">
+                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <td mat-cell *matCellDef="let element"> {{refType(element.lkpManifestStatusId)}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="location">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element"> <button class="btn theme-button p-0" mat-raised-button  [ngClass]="{'theme_button_black':refType(element.lkpManifestStatusId) !== 'CREATED'}" [disabled]="refType(element.lkpManifestStatusId) !== 'CREATED'" (click)="openUpdate(element)">UPDATE</button> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="created">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element"> <button class="btn p-0 theme-button" [ngClass]="{'theme_button_black':refType(element.lkpManifestStatusId) !== 'CREATED'}" [disabled]="refType(element.lkpManifestStatusId) !== 'CREATED'" (click)="openConfirmMenifestModel(element)" mat-raised-button>CONFIRM</button> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="finalish">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element"> <button class="btn theme-button p-0" mat-raised-button [ngClass]="{'theme_button_black':getDisabled(element.lkpManifestStatusId)}" [disabled]="getDisabled(element.lkpManifestStatusId)"  (click)="openFinaliseModal(element)">FINALISE</button>
+                            </td>
+                        </ng-container>
+
+                        <!-- <ng-container matColumnDef="extrand">
+                            <th mat-header-cell *matHeaderCellDef></th>
+                            <td mat-cell *matCellDef="let element"> <button class="btn p-0 theme-button" [ngClass]="{'theme_button_black':getDisabled(element.lkpManifestStatusId) || element.shipmentType == 'HUB'}" [disabled]="getDisabled(element.lkpManifestStatusId) || element.shipmentType == 'HUB'" (click)="openExtendModel(element)" mat-raised-button>EXTEND</button> </td>
+                        </ng-container> -->
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <div class="paginator">
+                    <mat-paginator [pageSizeOptions]="[10,20, 50 , 100]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+    <mat-card class="generated_mat_card" *ngIf="isManifest ==false">
+
+        <div class="row">
+            <div class="col-md-4" style="display: inline-flex;">
+                <h4 class="table_heading"><strong>Service Offering</strong></h4>
+                <div class="module_area" style="margin: 0px 0px 0 20px;">
+                    <mat-form-field class="select_box_dropwodn overline_hidden " class="form-control">
+                        <mat-label>All</mat-label>
+                        <mat-select [(ngModel)]="serviceOfferId1" multiple>
+                            <mat-option [value]="offering.id" *ngFor="let offering of serviceOfferingList">
+                                {{offering.value}}
+                            </mat-option>
+
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="col-md-1 col-md-half">
+                <label for="" class="control-label">From</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY" [value]="fromDate" (dateChange)="onChangeFromDate($event)" [max]='currentDate'>
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1 col-md-half">
+                <label for="" class="control-label">To</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input matInput class="form-control" [matDatepicker]="picker" placeholder="DD/MM/YYYY" [value]="toDate" (dateChange)="onChangeToDate($event)" [max]="maxToDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <button (click)="getManifestByserviceOfferingAndDate()" class="btn theme-button" mat-raised-button style="margin: -20px 0;">Search</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="createdManifaests" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="request">
+                            <th mat-header-cell *matHeaderCellDef> Manifest No. </th>
+                            <td mat-cell *matCellDef="let element"> {{element.manifestNum}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="waybill">
+                            <th mat-header-cell *matHeaderCellDef> Service Offering </th>
+                            <td mat-cell *matCellDef="let element"> {{ getOfferings(element.lkpServiceOfferingTypeIdList) }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pick">
+                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <td mat-cell *matCellDef="let element"> {{element.lkpManifestShipmentType ? refType(element.lkpManifestShipmentType) : 'HUB'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="booking">
+                            <th mat-header-cell *matHeaderCellDef> To Location </th>
+                            <td mat-cell *matCellDef="let element"> {{ element.toBranchId | mapToBranchName | async }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="destination">
+                            <th mat-header-cell *matHeaderCellDef> Created On </th>
+                            <td mat-cell *matCellDef="let element"> {{element.createdDate | date: 'dd/MM/yyyy'}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sfx">
+                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <td mat-cell *matCellDef="let element"> {{ refType(element.lkpManifestStatusId) }} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="customer">
+                            <th mat-header-cell *matHeaderCellDef> Unloading <br>Date & Time </th>
+                            <td mat-cell *matCellDef="let element"> {{element.customer}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="location">
+                            <th mat-header-cell *matHeaderCellDef> Manifest <br>View </th>
+                            <td mat-cell *matCellDef="let element"> <em class="fa fa-eye color-primary" style="cursor: pointer;" (click)="navigateToViewManifest(element)"></em> </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="created">
+                            <th mat-header-cell *matHeaderCellDef> Short / Excess <br>View </th>
+                            <td mat-cell *matCellDef="let element"> <em class="fa fa-eye"></em> </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+                    </table>
+                </div>
+                <div class="paginator">
+                    <mat-paginator [pageSizeOptions]="[10,20, 50 , 100]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+</div>

@@ -1,32 +1,97 @@
 {
-	"message": "Request Completed Successfully",
-	"data": {
-		"responseData": [{
-			"id": 958,
-			"lkpServiceLineId": 128,
-			"serviceOfferingId": 1,
-			"contractId": 992
-		}, {
-			"id": 566,
-			"lkpServiceLineId": 128,
-			"serviceOfferingId": 2,
-			"contractId": 992
-		}],
-		"referenceData": {
-			"serviceLineList": [{
-				"id": 359,
-				"lookupVal": "WMS+DISTRIBUTION"
-			}, {
-				"id": 128,
-				"lookupVal": "DISTRIBUTION"
-			}, {
-				"id": 129,
-				"lookupVal": "PROJECTS"
-			}, {
-				"id": 130,
-				"lookupVal": "WAREHOUSE"
-			}]
-		}
-	},
-	"status": "SUCCESS"
-}
+    "message": "string",
+    "offerings": [
+      {
+        "contractId": 0,
+        "id": 0,
+        "lkpServiceLineId": 0,
+        "serviceOfferingId": 0
+      }
+    ],
+    "refernceList": {
+      "businessTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "chargeByList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "contractTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "opporTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "packagingTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "productCategoryList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "rateGroupList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "safexPincodeGroupList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "safexTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "serviceLineList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "serviceOfferingList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "slabProtectTypeList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "stateGroupList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ],
+      "statusList": [
+        {
+          "id": 0,
+          "lookupVal": "string"
+        }
+      ]
+    }
+  }

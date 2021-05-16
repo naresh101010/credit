@@ -1,0 +1,178 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+    </ol>
+    <div class="navigation_section">
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="col-md-5 pl-0">
+                    <div class="nav_card navPro cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                        <div style="margin-top: 20px !important;">
+                            <div class="col-md-2 color-primary">
+                                <img src="../assets/images/go_back.png" style="margin-top:6px" alt="" width="25px">
+                            </div>
+                            <div class="col-md-9">
+                                <label for="" class="control-label color-primary"
+                                    style="margin-top:7px; margin-left:5px; padding: 0px;">Go Back</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <mat-card-content>
+                        <div class="nav_card manifest_card active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-9" style="margin-top: 40px !important;">
+                                        <p>
+                                            <Strong> MY BOOKINGS </Strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="../assets/images/open_req_active.png" class="cardImageIcon" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <mat-card class="generated_mat_card">
+        <div class="row">
+            <div class="col-md-1 col-md-half">
+                <label for="" class="control-label">From</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input class="form-control" matInput [matDatepicker]="picker1" placeholder="DD/MM/YYYY"
+                        [value]="fromDate" (dateChange)="onChangeFromDate($event)" [max]="currentDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                    <mat-datepicker #picker1></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-1 col-md-half">
+                <label for="" class="control-label">To</label>
+            </div>
+            <div class="col-md-2">
+                <mat-form-field>
+                    <input class="form-control" matInput [matDatepicker]="picker" placeholder="DD/MM/YYYY"
+                        [value]="toDate" (dateChange)="onChangeToDate($event)" [max]="maxToDate">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2">
+                <button style="margin-top: -2px;" class="btn theme-button" mat-raised-button
+                    (click)="viewBookingList()">SEARCH</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2">
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" class="form-control" 
+                            placeholder="Search" (keyup)="applyFilter($event.target.value)">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+            </div>
+            <div class="col-md-10 text-right">
+                <a (click)="downloadExcel()"><img src="../assets/images/download.png" alt=""><em> Download
+                        Excel</em></a>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="table-responsive" *ngIf="dataSource">
+                    <table mat-table [dataSource]="dataSource" matSort 
+                     class="mat-elevation-z8" id="my-booking-table">
+                        <ng-container matColumnDef="waybillNumber">
+                            <th mat-header-cell *matHeaderCellDef>WAYBILL <br> NO.</th>
+                            <td mat-cell *matCellDef="let element"><a style="cursor: default;">{{ element.waybillNumber ? element.waybillNumber : element.waybillNo }}</a></td>
+                        </ng-container>
+                        <ng-container matColumnDef="request">
+                            <th mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
+                            <td mat-cell *matCellDef="let element">{{ getCustNameForRetail(element) }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="waybill">
+                            <th mat-header-cell *matHeaderCellDef>BOOKING <br> TYPE</th>
+                            <td mat-cell *matCellDef="let element">{{ element.businessType }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="pick">
+                            <th mat-header-cell *matHeaderCellDef>CUSTOMER <br> CODE</th>
+                            <td mat-cell *matCellDef="let element">{{ element.sfxPrcContractcode }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="booking">
+                            <th mat-header-cell *matHeaderCellDef>MOBILE NUMBER</th>
+                            <td mat-cell *matCellDef="let element">{{element.custContact ? element.custContact : getCnorMobileNum(element)}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="destination">
+                            <th mat-header-cell *matHeaderCellDef>PICK UP DATE</th>
+                            <td mat-cell *matCellDef="let element">{{ element.pickUpDate}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="sfx">
+                            <th mat-header-cell *matHeaderCellDef>PICK UP TIME</th>
+                            <td mat-cell *matCellDef="let element">{{ element.time }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="customer">
+                            <th mat-header-cell *matHeaderCellDef>ADDRESS</th>
+                            <td mat-cell *matCellDef="let element">
+                                <i [matTooltip]="element.address?element.address : getsearchAddress(element)" [matTooltipPosition]="'above'"
+                                    class="material-icons icon_theme_color">location_on</i>
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="location">
+                            <th mat-header-cell *matHeaderCellDef>ASSIGNED TO</th>
+                            <td mat-cell *matCellDef="let element">{{ element.userName}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="created">
+                            <th mat-header-cell *matHeaderCellDef>STATUS</th>
+                            <td mat-cell *matCellDef="let element">
+                                <!-- <strong
+                                *ngIf="element.waybillRequestMasterStatus"
+                                    [ngClass]="element.waybillRequestMasterStatus=='COMPLETED' ? 'cColor' : (element.waybillRequestMasterStatus=='IN-PROGRESS' ? 'ipColor' :'pColor')">
+                                    {{element.waybillRequestMasterStatus}}
+                                </strong>
+                                <strong
+                                *ngIf="element.waybillMasterStatus"
+                                    [ngClass]="element.waybillMasterStatus=='COMPLETED' ? 'cColor' : (element.waybillMasterStatus=='IN-PROGRESS' ? 'ipColor' :'pColor')">
+                                    {{element.waybillMasterStatus}}
+                                </strong> -->
+                                <strong
+                                
+                                    [ngClass]="element.status=='COMPLETED' ? 'cColor' : (element.status=='IN-PROGRESS' ? 'ipColor' :'pColor')">
+                                    {{element.status}}
+                                </strong>
+                                
+                            </td>
+                        </ng-container>
+
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <div class="paginator">
+                    <mat-paginator [pageSizeOptions]="[10,20, 50 , 100]" showFirstLastButtons></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+</div>

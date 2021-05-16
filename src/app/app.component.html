@@ -1,3 +1,11 @@
-<div class="main-cont">
-          <router-outlet></router-outlet>
+<!-- <app-navigation (contextmenu)="onRightClick($event)" (click)="onPopState($event)" (keypress)="onKeyDown($event)"> -->
+    <!-- <app-navigation >
+
+    </app-navigation> -->
+    
+<router-outlet></router-outlet>
+<div id="snackbar_module" (mouseenter)="cleartimeout()" (mouseleave)="removeToast()">
+    <h2 id="snack_msg"></h2>
 </div>
+
+<ngx-spinner id="spinner" size="large" type="ball-spin-clockwise">  </ngx-spinner>

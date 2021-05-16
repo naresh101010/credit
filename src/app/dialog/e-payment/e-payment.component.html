@@ -1,0 +1,130 @@
+<div class="modal-container">
+    <div class="mat-dialog-header">
+      <h4 class="margin-zero"><strong>Create New Request</strong></h4>
+      <em class="fa fa-times modal-close" (click)="closeDialog()" [mat-dialog-close]="true"></em>
+    </div>
+    <hr id="popup-hr"> 
+    <form class="mat-dialog-content" #f="ngForm">
+        <div class="col-md-12">
+            <div class="row mL-0" style="margin-bottom: 10px;">
+                <div class="col-md-3 flexCenter" style="background: #6A6868;height: 41px;font-size: 13px;padding-top: 7px;color: ghostwhite;">
+                    <label for="" > {{ waybillNumbers }} <br> </label>
+                </div>
+                <div class="col-md-3 flexCenter" style="background: #ddd;">
+                    <label for="" >Total Amount : <br>Rs {{ finalTotal }} </label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <label for="" class="control-label">TDS Applicable:</label>
+                </div>
+                <div class="col-md-6">
+                    <!-- <mat-radio-group aria-label="Select an option" (change)="radioChange($event)" name="tdsApplicable"
+                        ngModel #tdsApplicable="ngModel" required="true" [value]="'false'">
+                        <mat-radio-button value="true">Yes</mat-radio-button>
+                        <mat-radio-button value="false" [checked]="value" >No</mat-radio-button>
+                    </mat-radio-group> -->
+                    <mat-radio-group [(ngModel)]="tdsApplicable" name="tdsApplicable" (change)="radioChange($event)" required="true">
+                        <mat-radio-button [value]="'true'">Yes</mat-radio-button>
+                        <mat-radio-button [value]="'false'">No</mat-radio-button>
+                    </mat-radio-group>
+                    <!-- <span class="required"
+                        *ngIf="(tdsApplicable.touched || tdsApplicable.dirty) && tdsApplicable.invalid">Required
+                        Field.</span> -->
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="" class="control-label">TDS Amount:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="display-div">
+                                <select name="tdsAmount" [(ngModel)]="tdsAmount" [disabled]="disablefield" id=""
+                                    class="form-control" (change)="showInputBox($event.target.value)" required>
+                                    <option value="Auto (2%)">AUTO (2%)</option>
+                                    <option value="Custom">CUSTOM
+                                    </option>
+
+                                </select>
+                                <input type="text" class="input-width" name="customval" [disabled]="disablefield" [(ngModel)]="customval" (keyup)="onenterCustomValue(customval)" 
+                                    *ngIf="showInput">
+                            </div>
+                            <!-- <span class="required"
+                                *ngIf="(tdsAmount.touched || tdsAmount.dirty) && tdsAmount.invalid">Required
+                                Field.</span> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4" style="display: flex;justify-content: flex-end;">
+                            <label for="" class="control-label">TAN No.:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="tanNum" maxlength="10" ngModel #tanNum="ngModel" (input)="validateTanNum($event.target.value)">
+                                <span class="required"*ngIf="!validateTan">Invalid TAN number
+                                    </span>
+                            <!-- <input type="text" class="form-control" name="tanNum" 
+                                ngModel #tanNum="ngModel"> -->
+                            <!-- <span class="required" *ngIf="tanNum.errors?.pattern">Invalid number
+                            </span> -->
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="" class="control-label">Contact No:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="type" maxlength="10" class="form-control" name="contactno" maxlength="10" minlength="10" ngModel (keypress)="numberOnly($event)"
+                                #contactno="ngModel" required>
+                            <span class="required"
+                                *ngIf="contactno.invalid && submitted && contactno.errors?.required">Required
+                                Field.</span>
+                                <span class="required"
+                                *ngIf="contactno.invalid && submitted && contactno.errors?.minlength">Enter valid number.</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4" style="display: flex;justify-content: flex-end;">
+                            <label for="" class="control-label">Email ID:</label>
+                        </div>
+                        <div class="col-md-6">
+                            <input type="text" class="form-control" name="emailId"
+                                pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" ngModel #emailId="ngModel"
+                                required>
+                            <span class="required"
+                                *ngIf="emailId.errors?.required && submitted">Required
+                                Field</span>
+                                <span class="required"
+                                *ngIf="emailId.errors?.pattern && submitted">Please enter valid email address
+                                </span>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-md-5 col-md-offset-1">
+            </div>
+
+        </div>
+    </form>
+    <div class="row ">
+        <div class="col-md-12 flexBox mt-2 mb-2">
+            <!-- <button type="button" mat-raised-button class="btn theme-button mr-1" style="background:#6A6868 !important; border-color:#6A6868 !important;">POS</button> -->
+            <button mat-raised-button class="btn theme-button ml-1" [disabled]="isDisable" (click)="onSubmit(f)">SEND LINK</button>
+        </div>
+    </div>
+</div>
+  

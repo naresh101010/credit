@@ -1,0 +1,11 @@
+th.mat-header-cell {
+    font-weight: 300px !important;
+}
+.cardImageIcon {
+    float: right;
+    width: 5.5rem;
+    height: 5.5rem;
+    position: absolute;
+    right: 1.2rem;
+    margin-top: -40px!important;
+  }

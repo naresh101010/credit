@@ -1,0 +1,44 @@
+<div class="row">
+    <div class="col-md-2">
+      <div class="module_area">
+        <mat-form-field class="select_box_dropwodn overline_hidden" class="form-control">
+          <mat-label>MONTHLY</mat-label>
+          <mat-select>
+            <mat-option [value]="1">
+              MONTHLY
+            </mat-option>
+            <mat-option [value]="0">
+              YEARLY
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <mat-form-field appearance="outline">
+        <input matInput name="rateCardCode" class="form-control" placeholder="Search Associate">
+      </mat-form-field>
+    </div>
+    <div class="col-md-2">
+      <div class="searchbar_bw">
+        <mat-form-field appearance="outline">
+          <input matInput name="rateCardCode" class="form-control" placeholder="Search Associate">
+        </mat-form-field>
+        <em class="fa fa-search"></em>
+      </div>
+    </div>
+    <div class="col-md-2">
+      <mat-form-field>
+        <input matInput class="form-control" [matDatepicker]="picker1" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+    <div class="col-md-2">
+      <mat-form-field>
+        <input matInput class="form-control" [matDatepicker]="picker" placeholder="DD/MM/YYYY">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>

@@ -1,6 +1,0 @@
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} -f [OR]
-RewriteCond %{REQUEST_FILENAME} -d
-# not rewrite css, js and images
-RewriteRule ^ - [L]
-RewriteRule ^ index.html [L]

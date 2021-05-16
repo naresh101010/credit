@@ -1,0 +1,19 @@
+hr{
+    margin-top: 0;
+}
+::ng-deep.mat-form-field-appearance-outline .mat-select-arrow-wrapper{
+    transform: translateY(-6%)!important;
+}
+/* ::ng-deep.mat-select-panel{
+    min-width: calc(100% + 18px) !important;
+    width: 100% !important;
+    top: 15px !important;
+    margin-top: 0rem !important;
+    left: 8px !important;
+    box-shadow: none !important;
+    position: absolute !important;
+    border: .1rem solid #6A6868 !important;
+    border-radius: .2rem !important;
+    max-height: 29vh !important;
+    overflow-y: auto !important;
+} */

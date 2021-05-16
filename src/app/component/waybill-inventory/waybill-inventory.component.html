@@ -1,0 +1,88 @@
+<div class="container">
+
+    <ol class="breadcrumb">
+        <li><a [routerLink]="['/bookings-web-booking/web-booking']">Dashboard</a></li>
+    </ol>
+    <div class="navigation_section">
+
+        <div class="row">
+            <div class="col-md-4">
+
+                <div class="col-md-5 pl-0">
+                    <div class="nav_card navPro cursor_pointer" [routerLink]="['/bookings-web-booking/web-booking']">
+                        <div style="margin-top: 20px !important;">
+                            <div class="col-md-2 color-primary">
+                                <img src="../assets/images/go_back.png" style="margin-top:6px" alt="" width="25px">
+                            </div>
+                            <div class="col-md-9">
+                                <label for="" class="control-label color-primary" style="margin-top:7px; margin-left:5px; padding: 0px;">Go Back</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-7">
+                    <mat-card-content>
+                        <div class="nav_card manifest_card active">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="col-md-9" style="margin-top: 30px !important;">
+                                        <p>
+                                            <Strong> Waybill <br> Inventory </Strong>
+                                        </p>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <img src="../assets/images/notebook_white.png" class="cardImageIcon" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </mat-card-content>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    </div>
+    <mat-card class="generated_mat_card">
+        <div class="row">
+            <div class="col-md-2">
+                <div class="searchbar_bw">
+                    <mat-form-field appearance="outline">
+                        <input matInput name="rateCardCode" class="form-control" placeholder="Search" style="text-transform: inherit;" (keyup)="applyFilter($event.target.value)">
+                    </mat-form-field>
+                    <em class="fa fa-search"></em>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="table-responsive">
+                    <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+                        <ng-container matColumnDef="from">
+                            <th mat-header-cell *matHeaderCellDef style="text-align: left !important;"> From </th>
+                            <td mat-cell *matCellDef="let element" style="text-align: left !important;"> {{element.pageStartNum}}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="to">
+                            <th mat-header-cell *matHeaderCellDef> To </th>
+                            <td mat-cell *matCellDef="let element"> {{element.pageEndNum}} </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="available">
+                            <th mat-header-cell *matHeaderCellDef> Available </th>
+                            <td mat-cell *matCellDef="let element"> {{element.pageAvablNum}} </td>
+                        </ng-container>
+
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+            </div>
+            <div class="col-md-4"></div>
+        </div>
+    </mat-card>

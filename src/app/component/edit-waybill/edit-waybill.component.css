@@ -1,0 +1,27 @@
+.mr_top_0{
+    margin-top: 0px;
+}   
+.display_flex{
+    display:flex;
+    position:relative;
+}
+.mr_right_20{
+    margin:0 3rem 0 0;
+}
+.position_relative{
+    position: relative;
+}
+.searchbar_bw em{
+    left: 1rem;
+}
+.width_10rem{
+    width: 10rem;
+}
+
+.mr-5{
+    margin-right: 30px;
+}
+
+.table_heading {
+    margin: 2px 5px 0 0px;
+}
