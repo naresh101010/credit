@@ -144,6 +144,7 @@ export class ViewManifestComponent implements OnInit {
       }
     }
     this.spinner.hide();
+    return null;
   }
 
   openEmailModal() {
