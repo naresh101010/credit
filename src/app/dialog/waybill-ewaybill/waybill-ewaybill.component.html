@@ -9,21 +9,21 @@
         <div class="table-responsive" style="overflow:hidden">
             <table  aria-describedby="table"  *ngIf="!hideEwayBillCol" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                 <ng-container matColumnDef="waybill">
-                    <th mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
+                    <th scope="row" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
                     <td mat-cell *matCellDef="let element"> {{element.ewaybillNumber}} </td>
                 </ng-container>
 
                 <ng-container  matColumnDef="weight">
-                    <th mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice No. </th>
+                    <th scope="row" mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice No. </th>
                     <td mat-cell *matCellDef="let element"> {{element.invoiceNumber}} </td>
                 </ng-container>
 
                 <ng-container matColumnDef="packages">
-                    <th mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice Amount </th>
+                    <th scope="row" mat-header-cell *matHeaderCellDef class="tableHeader"> Invoice Amount </th>
                     <td mat-cell *matCellDef="let element"> {{element.invoiceAmount}} </td>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                    <th mat-header-cell *matHeaderCellDef> </th>
+                    <th scope="row" mat-header-cell *matHeaderCellDef> </th>
                     <td mat-cell *matCellDef="let element">
                         <em class="material-icons icon_btn_display icon_theme_color"
                             (click)="deleteEwayBill(element)">delete</em></td>
@@ -37,11 +37,11 @@
                 <div class="col-md-10">
                     <table  aria-describedby="table"  mat-table [dataSource]="dataSource1" class="mat-elevation-z8">
                         <ng-container matColumnDef="waybill">
-                            <th id="" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef class="tableHeader"> E-Waybill No. </th>
                             <td mat-cell *matCellDef="let element"> {{element.ewaybillNumber}} </td>
                         </ng-container>
                         <ng-container matColumnDef="action">
-                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> </th>
                             <td mat-cell *matCellDef="let element">
                                 <em class="material-icons icon_btn_display icon_theme_color"
                                     (click)="deleteEwayBill(element)">delete</em></td>
