@@ -21,6 +21,7 @@
                     <div formArrayName="dataSource">
                         <div *ngFor="let comp of dynamicFormGroup.controls; let i=index">
                             <fieldset>
+                                <legend style="display: none;">form</legend>
                                 <!-- <legend><h3>COMPANY {{i+1}}: </h3></legend> -->
 
                                 <div [formGroupName]="i" style="margin-top:5px;">
