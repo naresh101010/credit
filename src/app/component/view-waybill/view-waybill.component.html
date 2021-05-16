@@ -122,7 +122,7 @@
                 <div class="table-responsive" [hidden]="!dataSource" >
                     <table  aria-describedby="table"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
                         <ng-container matColumnDef="checkbox">
-                            <th mat-header-cell *matHeaderCellDef>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>
                                 <mat-checkbox (change)="onChangeMultiple($event)"></mat-checkbox>
                             </th>
                             <td mat-cell *matCellDef="let element">
@@ -131,54 +131,54 @@
                         </ng-container>
 
                         <ng-container matColumnDef="waybill">
-                            <th mat-header-cell *matHeaderCellDef> Waybill No. </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Waybill No. </th>
                             <td mat-cell *matCellDef="let element"> <a href="javascript: void(0);" (click)="navigateTo(element)">{{element.waybillNumber}}</a>
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="pickup">
-                            <th mat-header-cell *matHeaderCellDef> Pick Up date </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Pick Up date </th>
                             <td mat-cell *matCellDef="let element"> {{element.pickupDate | date: 'MM/dd/yyyy'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="mop">
-                            <th mat-header-cell *matHeaderCellDef> Mop </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Mop </th>
                             <td mat-cell *matCellDef="let element"> {{mapId(element.branchMOPLookupId, 'BRANCH_MOP')}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="service">
-                            <th mat-header-cell *matHeaderCellDef> service offering </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> service offering </th>
                             <td mat-cell *matCellDef="let element"> {{ getOfferingFromId(element.serviceOfferingId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="consignor">
-                            <th mat-header-cell *matHeaderCellDef> consignor </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> consignor </th>
                             <td mat-cell *matCellDef="let element"> {{element.consignorId ? getCnor_cneeName(element.consignorId) : ''}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="consignee">
-                            <th mat-header-cell *matHeaderCellDef> consignee </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> consignee </th>
                             <td mat-cell *matCellDef="let element"> {{ element.consigneeId ? getCnor_cneeName(element.consigneeId) : ''}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="package">
-                            <th mat-header-cell *matHeaderCellDef> No. of Packages </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> No. of Packages </th>
                             <td mat-cell *matCellDef="let element"> {{element.totalPackageCount}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="weight">
-                            <th mat-header-cell *matHeaderCellDef> Total Weight </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Total Weight </th>
                             <td mat-cell *matCellDef="let element"> {{element.actualWeight}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="email">
-                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> </th>
                             <td mat-cell *matCellDef="let element"> <button (click)="openEmailModal(element)" mat-raised-button class="btn transparent-button"><img src="../assets/images/envelope.png" alt=""
                                         class="emailIc"><strong class="ml-1">Email</strong> </button> </td>
                         </ng-container>
 
                         <ng-container matColumnDef="print">
-                            <th mat-header-cell *matHeaderCellDef> </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> </th>
                             <td mat-cell *matCellDef="let element"> <button (click)="printMe()" mat-raised-button class="btn transparent-button"><img src="../assets/images/printer.png" alt=""
                                         class="emailIc"><strong class="ml-1">Print</strong></button> </td>
                         </ng-container>

@@ -160,19 +160,19 @@
                     <table  aria-describedby="table"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
                         <ng-container matColumnDef="request">
-                            <th mat-header-cell *matHeaderCellDef> Manifest <br> No. </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Manifest <br> No. </th>
                             <td mat-cell *matCellDef="let element" (click)="navigateToViewManifest(element)">
                                 <a>{{element.manifestNum}}</a>
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="waybill">
-                            <th mat-header-cell *matHeaderCellDef> Vehicle <br> No. </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Vehicle <br> No. </th>
                             <td mat-cell *matCellDef="let element"> {{vehicleType(element.vehicleId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="pick">
-                            <th mat-header-cell *matHeaderCellDef> #Waybill /<br>#Package </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> #Waybill /<br>#Package </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="w-11" *ngIf="element.manifestWaybillList.length > 0">{{  element.waybillPackages }}</div>
                                 <div class="w-11" *ngIf="element.manifestWaybillList.length === 0">-</div>
@@ -180,47 +180,47 @@
                         </ng-container>
 
                         <ng-container matColumnDef="booking">
-                            <th mat-header-cell *matHeaderCellDef> Service <br> Offering </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Service <br> Offering </th>
                             <td mat-cell *matCellDef="let element"> {{ element.offerings }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="destination">
-                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Type </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="w-8">{{element.lkpManifestShipmentType ? refType(element.lkpManifestShipmentType) : 'HUB'}} </div>
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="sfx">
-                            <th mat-header-cell *matHeaderCellDef> Created On </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Created On </th>
                             <td mat-cell *matCellDef="let element">
                                 <div class="w-13">{{element.createdDate | date: 'dd/MM/yyyy'}}</div>
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="customer">
-                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Status </th>
                             <td mat-cell *matCellDef="let element"> {{refType(element.lkpManifestStatusId)}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="location">
-                            <th mat-header-cell *matHeaderCellDef></th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element"> <button class="btn theme-button p-0" mat-raised-button  [ngClass]="{'theme_button_black':refType(element.lkpManifestStatusId) !== 'CREATED'}" [disabled]="refType(element.lkpManifestStatusId) !== 'CREATED'" (click)="openUpdate(element)">UPDATE</button> </td>
                         </ng-container>
 
                         <ng-container matColumnDef="created">
-                            <th mat-header-cell *matHeaderCellDef></th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element"> <button class="btn p-0 theme-button" [ngClass]="{'theme_button_black':refType(element.lkpManifestStatusId) !== 'CREATED'}" [disabled]="refType(element.lkpManifestStatusId) !== 'CREATED'" (click)="openConfirmMenifestModel(element)" mat-raised-button>CONFIRM</button> </td>
                         </ng-container>
 
                         <ng-container matColumnDef="finalish">
-                            <th mat-header-cell *matHeaderCellDef></th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element"> <button class="btn theme-button p-0" mat-raised-button [ngClass]="{'theme_button_black':getDisabled(element.lkpManifestStatusId)}" [disabled]="getDisabled(element.lkpManifestStatusId)"  (click)="openFinaliseModal(element)">FINALISE</button>
                             </td>
                         </ng-container>
 
                         <!-- <ng-container matColumnDef="extrand">
-                            <th mat-header-cell *matHeaderCellDef></th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element"> <button class="btn p-0 theme-button" [ngClass]="{'theme_button_black':getDisabled(element.lkpManifestStatusId) || element.shipmentType == 'HUB'}" [disabled]="getDisabled(element.lkpManifestStatusId) || element.shipmentType == 'HUB'" (click)="openExtendModel(element)" mat-raised-button>EXTEND</button> </td>
                         </ng-container> -->
 
@@ -282,47 +282,47 @@
                     <table  aria-describedby="table"  mat-table [dataSource]="createdManifaests" class="mat-elevation-z8">
 
                         <ng-container matColumnDef="request">
-                            <th mat-header-cell *matHeaderCellDef> Manifest No. </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Manifest No. </th>
                             <td mat-cell *matCellDef="let element"> {{element.manifestNum}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="waybill">
-                            <th mat-header-cell *matHeaderCellDef> Service Offering </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Service Offering </th>
                             <td mat-cell *matCellDef="let element"> {{ getOfferings(element.lkpServiceOfferingTypeIdList) }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="pick">
-                            <th mat-header-cell *matHeaderCellDef> Type </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Type </th>
                             <td mat-cell *matCellDef="let element"> {{element.lkpManifestShipmentType ? refType(element.lkpManifestShipmentType) : 'HUB'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="booking">
-                            <th mat-header-cell *matHeaderCellDef> To Location </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> To Location </th>
                             <td mat-cell *matCellDef="let element"> {{ element.toBranchId | mapToBranchName | async }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="destination">
-                            <th mat-header-cell *matHeaderCellDef> Created On </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Created On </th>
                             <td mat-cell *matCellDef="let element"> {{element.createdDate | date: 'dd/MM/yyyy'}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="sfx">
-                            <th mat-header-cell *matHeaderCellDef> Status </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Status </th>
                             <td mat-cell *matCellDef="let element"> {{ refType(element.lkpManifestStatusId) }} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="customer">
-                            <th mat-header-cell *matHeaderCellDef> Unloading <br>Date & Time </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Unloading <br>Date & Time </th>
                             <td mat-cell *matCellDef="let element"> {{element.customer}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="location">
-                            <th mat-header-cell *matHeaderCellDef> Manifest <br>View </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Manifest <br>View </th>
                             <td mat-cell *matCellDef="let element"> <em class="fa fa-eye color-primary" style="cursor: pointer;" (click)="navigateToViewManifest(element)"></em> </td>
                         </ng-container>
 
                         <ng-container matColumnDef="created">
-                            <th mat-header-cell *matHeaderCellDef> Short / Excess <br>View </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Short / Excess <br>View </th>
                             <td mat-cell *matCellDef="let element"> <em class="fa fa-eye"></em> </td>
                         </ng-container>
 

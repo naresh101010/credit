@@ -994,32 +994,32 @@
                     <div class="table-responsive scrollbar_booking_web">
                         <table  aria-describedby="table"  class="mat-elevation-z8">
                             <tr>
-                                <th class="mat-header-cell">
+                                <th scope="row" class="mat-header-cell">
                                     <p>Actual WEIGHT <sup class="required">
                                             *</sup></p>
                                 </th>
-                                <th class="mat-header-cell">
+                                <th scope="row" class="mat-header-cell">
                                     <p> No. of PKGS. <sup class="required">
                                             *</sup></p>
                                 </th>
-                                <th class="mat-header-cell" *ngIf="isPeaceType"> No. of Piece. <sup class="required">
+                                <th scope="row" class="mat-header-cell" *ngIf="isPeaceType"> No. of Piece. <sup class="required">
                                         *</sup></th>
-                                <th class="mat-header-cell">
+                                <th scope="row" class="mat-header-cell">
                                     <p> Length<sup class="required"> *</sup></p>
                                     <p class="measurement" *ngIf="unitCalculationType">
                                         ({{unitCalculationType}})</p>
                                 </th>
-                                <th class="mat-header-cell">
+                                <th scope="row" class="mat-header-cell">
                                     <p> Breadth <sup class="required"> *</sup></p>
                                     <p class="measurement" *ngIf="unitCalculationType">
                                         ({{unitCalculationType}})</p>
                                 </th>
-                                <th class="mat-header-cell">
+                                <th scope="row" class="mat-header-cell">
                                     <p> Height<sup class="required"> *</sup></p>
                                     <p class="measurement" *ngIf="unitCalculationType">
                                         ({{unitCalculationType}})</p>
                                 </th>
-                                <th class="mat-header-cell"> <span style="visibility: hidden;">Delete</span>
+                                <th scope="row" class="mat-header-cell"> <span style="visibility: hidden;">Delete</span>
                                 </th>
                             </tr>
                             <tr *ngFor="let packageDetails of  bookingInfoObj.packageList;let i = index">
@@ -1185,10 +1185,10 @@
                     <div class="table-responsive scrollbar_booking_web">
                         <table  aria-describedby="table"  class="mat-elevation-z8" *ngIf="bookingInfoObj.ewaybillAvailableFlag==0">
                             <tr>
-                                <th class="mat-header-cell  width-16rem">INVOICE NO <sup class="required"> *</sup></th>
-                                <th class="mat-header-cell  width-16rem"> DATE <sup class="required"> *</sup></th>
-                                <th class="mat-header-cell  width-16rem"> AMOUNT <sup class="required"> *</sup></th>
-                                <th class="mat-header-cell width-16rem"> <span style="visibility: hidden;">Delete</span>
+                                <th scope="row" class="mat-header-cell  width-16rem">INVOICE NO <sup class="required"> *</sup></th>
+                                <th scope="row" class="mat-header-cell  width-16rem"> DATE <sup class="required"> *</sup></th>
+                                <th scope="row" class="mat-header-cell  width-16rem"> AMOUNT <sup class="required"> *</sup></th>
+                                <th scope="row" class="mat-header-cell width-16rem"> <span style="visibility: hidden;">Delete</span>
                                 </th>
                             </tr>
                             <tr *ngFor="let packageDetails of bookingInfoObj.invoiceList;let i = index">
@@ -1260,9 +1260,9 @@
                         </table>
                         <table  aria-describedby="table"  class="mat-elevation-z8" *ngIf="bookingInfoObj.ewaybillAvailableFlag==1">
                             <tr>
-                                <th class="mat-header-cell  width-16rem">INVOICE NO <sup class="required"> *</sup></th>
-                                <th class="mat-header-cell  width-16rem"> DATE <sup class="required"> *</sup></th>
-                                <th class="mat-header-cell  width-16rem"> AMOUNT <sup class="required"> *</sup></th>
+                                <th scope="row" class="mat-header-cell  width-16rem">INVOICE NO <sup class="required"> *</sup></th>
+                                <th scope="row" class="mat-header-cell  width-16rem"> DATE <sup class="required"> *</sup></th>
+                                <th scope="row" class="mat-header-cell  width-16rem"> AMOUNT <sup class="required"> *</sup></th>
                             </tr>
                             <tr *ngFor="let packageDetails of bookingInfoObj.invoiceList;let i = index">
                                 <td class="mat-cell">

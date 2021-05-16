@@ -95,41 +95,41 @@
                     <table  aria-describedby="table"  mat-table [dataSource]="dataSource" matSort 
                      class="mat-elevation-z8" id="my-booking-table">
                         <ng-container matColumnDef="waybillNumber">
-                            <th mat-header-cell *matHeaderCellDef>WAYBILL <br> NO.</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>WAYBILL <br> NO.</th>
                             <td mat-cell *matCellDef="let element"><a style="cursor: default;">{{ element.waybillNumber ? element.waybillNumber : element.waybillNo }}</a></td>
                         </ng-container>
                         <ng-container matColumnDef="request">
-                            <th mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
                             <td mat-cell *matCellDef="let element">{{ getCustNameForRetail(element) }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="waybill">
-                            <th mat-header-cell *matHeaderCellDef>BOOKING <br> TYPE</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>BOOKING <br> TYPE</th>
                             <td mat-cell *matCellDef="let element">{{ element.businessType }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="pick">
-                            <th mat-header-cell *matHeaderCellDef>CUSTOMER <br> CODE</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>CUSTOMER <br> CODE</th>
                             <td mat-cell *matCellDef="let element">{{ element.sfxPrcContractcode }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="booking">
-                            <th mat-header-cell *matHeaderCellDef>MOBILE NUMBER</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>MOBILE NUMBER</th>
                             <td mat-cell *matCellDef="let element">{{element.custContact ? element.custContact : getCnorMobileNum(element)}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="destination">
-                            <th mat-header-cell *matHeaderCellDef>PICK UP DATE</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>PICK UP DATE</th>
                             <td mat-cell *matCellDef="let element">{{ element.pickUpDate}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="sfx">
-                            <th mat-header-cell *matHeaderCellDef>PICK UP TIME</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>PICK UP TIME</th>
                             <td mat-cell *matCellDef="let element">{{ element.time }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="customer">
-                            <th mat-header-cell *matHeaderCellDef>ADDRESS</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>ADDRESS</th>
                             <td mat-cell *matCellDef="let element">
                                 <i [matTooltip]="element.address?element.address : getsearchAddress(element)" [matTooltipPosition]="'above'"
                                     class="material-icons icon_theme_color">location_on</i>
@@ -137,12 +137,12 @@
                         </ng-container>
 
                         <ng-container matColumnDef="location">
-                            <th mat-header-cell *matHeaderCellDef>ASSIGNED TO</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>ASSIGNED TO</th>
                             <td mat-cell *matCellDef="let element">{{ element.userName}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="created">
-                            <th mat-header-cell *matHeaderCellDef>STATUS</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>STATUS</th>
                             <td mat-cell *matCellDef="let element">
                                 <!-- <strong
                                 *ngIf="element.waybillRequestMasterStatus"

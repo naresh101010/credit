@@ -63,18 +63,18 @@
                     <table  aria-describedby="table"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
                         <ng-container matColumnDef="from">
-                            <th mat-header-cell *matHeaderCellDef style="text-align: left !important;"> From </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef style="text-align: left !important;"> From </th>
                             <td mat-cell *matCellDef="let element" style="text-align: left !important;"> {{element.pageStartNum}}
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="to">
-                            <th mat-header-cell *matHeaderCellDef> To </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> To </th>
                             <td mat-cell *matCellDef="let element"> {{element.pageEndNum}} </td>
                         </ng-container>
 
                         <ng-container matColumnDef="available">
-                            <th mat-header-cell *matHeaderCellDef> Available </th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef> Available </th>
                             <td mat-cell *matCellDef="let element"> {{element.pageAvablNum}} </td>
                         </ng-container>
 

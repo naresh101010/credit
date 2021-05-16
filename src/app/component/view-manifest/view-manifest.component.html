@@ -30,22 +30,22 @@
                         <table  aria-describedby="table"  mat-table [dataSource]="waybillList" class="mat-elevation-z8" id="waybill-table">
 
                             <ng-container matColumnDef="waybill">
-                                <th mat-header-cell *matHeaderCellDef> Waybill No. </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Waybill No. </th>
                                 <td mat-cell *matCellDef="let element"> {{element.wayBillNumber}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="pickup">
-                                <th mat-header-cell *matHeaderCellDef> Consignor Name </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Consignor Name </th>
                                 <td mat-cell *matCellDef="let element"> {{element.consignorName}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="mop">
-                                <th mat-header-cell *matHeaderCellDef> Destination Pincode </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Destination Pincode </th>
                                 <td mat-cell *matCellDef="let element"> {{destpinCode}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="service">
-                                <th mat-header-cell *matHeaderCellDef> Quantity </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Quantity </th>
                                 <td mat-cell *matCellDef="let element"> {{element.quantity}} </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -55,17 +55,17 @@
                     <div class="table-responsive" *ngIf="isNic">
                         <table  aria-describedby="table"  mat-table [dataSource]="eWaybillList" class="mat-elevation-z8" id="consolidate-table">
                             <ng-container matColumnDef="Consolidation">
-                                <th mat-header-cell *matHeaderCellDef> Consolidation No. </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Consolidation No. </th>
                                 <td mat-cell *matCellDef="let element"> {{element.ewayblCnsolNum}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="Vehicle">
-                                <th mat-header-cell *matHeaderCellDef> Vehicle No. </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Vehicle No. </th>
                                 <td mat-cell *matCellDef="let element"> {{getVehicleNumber(element.vehicleId)}} </td>
                             </ng-container>
 
                             <ng-container matColumnDef="ewaybill">
-                                <th mat-header-cell *matHeaderCellDef> No. OF E-WAYBILL </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> No. OF E-WAYBILL </th>
                                 <td mat-cell *matCellDef="let element"> {{ getNoOfEwayBill(element) }} </td>
                             </ng-container>
                             <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>

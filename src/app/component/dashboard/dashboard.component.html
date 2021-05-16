@@ -136,7 +136,7 @@
                             <div class="table-responsive" [hidden]="!dataaourceWaybillRebookin?.data?.length > 0">
                                 <table  aria-describedby="table"  mat-table [dataSource]="dataaourceWaybillRebookin" matSort class="mat-elevation-z8">
                                     <ng-container matColumnDef="request">
-                                        <th mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
                                         <td mat-cell *matCellDef="let element">
                                             <a (click)="openTataAerocityModal(element)">
                                                 <div class="table_discription">{{getCustmName(element)}}</div>
@@ -145,7 +145,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="waybill">
-                                        <th mat-header-cell *matHeaderCellDef>BOOKING TYPE</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>BOOKING TYPE</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="table_description"
                                                 *ngIf="element.businessType === 'ANYWHERE TO ANYWHERE'">A2A</div>
@@ -156,7 +156,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="pick">
-                                        <th mat-header-cell *matHeaderCellDef>CUSTOMER CODE</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>CUSTOMER CODE</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="{{element.pick}}">{{element.sfxCode || element.prcContractCode}}
                                             </div>
@@ -164,7 +164,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="booking">
-                                        <th mat-header-cell *matHeaderCellDef>MOBILE NO.</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>MOBILE NO.</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="table_discription" *ngIf="storewayBill !== 'wayBill'">
                                                 {{getCnorMobileNum(element)}}</div>
@@ -174,21 +174,21 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="destination">
-                                        <th mat-header-cell *matHeaderCellDef>PICKUP DATE</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>PICKUP DATE</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="table_discription">{{element.pickUpDate}}</div>
                                         </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="sfx">
-                                        <th mat-header-cell *matHeaderCellDef>PICKUP TIME</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>PICKUP TIME</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="table_discription">{{element.pickUpFromTime}}</div>
                                         </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="customer">
-                                        <th mat-header-cell *matHeaderCellDef class="textCenter">ADDRESS</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef class="textCenter">ADDRESS</th>
                                         <td mat-cell *matCellDef="let element" class="textCenter">
                                             <div class="table_discription">
                                                 <em class="material-icons icon_theme_color"
@@ -200,7 +200,7 @@
                                     <!-- <ng-container *ngIf="storewayBill=='preBook'"> -->
 
                                     <ng-container matColumnDef="assignTo" *ngIf="storewayBill=='preBook'">
-                                        <th mat-header-cell *matHeaderCellDef>ASSIGNED TO</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>ASSIGNED TO</th>
                                         <td mat-cell *matCellDef="let element" class="textCenter">
                                             <div class="table_discription">
                                                 <em class="material-icons veiw" [matTooltip]="View"
@@ -219,7 +219,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="assignBtn" *ngIf="storewayBill=='preBook'">
-                                        <th mat-header-cell *matHeaderCellDef>.</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>.</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="whitBut">
                                                 <button class="btn theme-button p-0 assgnBt" mat-raised-button
@@ -233,7 +233,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="laying">
-                                        <th mat-header-cell *matHeaderCellDef>.</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>.</th>
                                         <td mat-cell *matCellDef="let element">
                                             <div class="">
                                                 <button class="btn theme-button p-0" mat-raised-button
@@ -427,20 +427,20 @@
                                 <table  aria-describedby="table"  mat-table [dataSource]="salesUsers" class="mat-elevation-z8">
 
                                     <ng-container matColumnDef="request">
-                                        <th mat-header-cell *matHeaderCellDef>PICK UP PERSON</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>PICK UP PERSON</th>
                                         <td mat-cell *matCellDef="let element"> <a>{{element.staffFname}}
                                                 {{element.staffMname || ''}} {{element.staffLname || ''}}</a> </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="waybill">
-                                        <th mat-header-cell *matHeaderCellDef class="textCenter">TOTAL WAYBILL</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef class="textCenter">TOTAL WAYBILL</th>
                                         <td mat-cell *matCellDef="let element" class="textCenter">
                                             {{element.totalWaybills}}
                                         </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="pick">
-                                        <th mat-header-cell *matHeaderCellDef class="textCenter">CREDIT-
+                                        <th scope="row" mat-header-cell *matHeaderCellDef class="textCenter">CREDIT-
                                             <P class="m-0">SURFACE/AIR</P>
                                         </th>
                                         <td mat-cell *matCellDef="let element" class="textCenter">
@@ -460,7 +460,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="booking">
-                                        <th mat-header-cell *matHeaderCellDef class="textCenter">TO PAY-
+                                        <th scope="row" mat-header-cell *matHeaderCellDef class="textCenter">TO PAY-
                                             <p class="m-0">SURFACE/AIR</p>
                                         </th>
                                         <td mat-cell *matCellDef="let element" class="textCenter">
@@ -482,7 +482,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="destination">
-                                        <th mat-header-cell *matHeaderCellDef class="textCenter">PAID-
+                                        <th scope="row" mat-header-cell *matHeaderCellDef class="textCenter">PAID-
                                             <p class="m-0">SURFACE/AIR</p>
                                         </th>
                                         <td mat-cell *matCellDef="let element" class="textCenter">
@@ -504,7 +504,7 @@
                                     </ng-container>
 
                                     <ng-container matColumnDef="sfx">
-                                        <th mat-header-cell *matHeaderCellDef class="textCenter">COMPLETED BOOKINGS</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef class="textCenter">COMPLETED BOOKINGS</th>
                                         <td mat-cell *matCellDef="let element" class="textCenter"> <span
                                                 class="cColor">{{getOpenBookingCount(element.staffId)}}</span> <span
                                                 class="pColor">/{{getAssignedBookingCount(element.staffId)}}</span>
@@ -584,29 +584,29 @@
                                 <table  aria-describedby="table"  mat-table [dataSource]="ePayemntsList" class="mat-elevation-z8">
 
                                     <ng-container matColumnDef="request">
-                                        <th mat-header-cell *matHeaderCellDef>RECEIPT ID</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>RECEIPT ID</th>
                                         <td mat-cell *matCellDef="let element"> <a
                                                 style="cursor: default;">{{element.pymtRefNum}}</a> </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="waybill">
-                                        <th mat-header-cell *matHeaderCellDef>WAYBILL NO.</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>WAYBILL NO.</th>
                                         <td mat-cell *matCellDef="let element"> {{ element.paymentWaybills | toString :
                                             'waybillNumber' }} </td>
                                     </ng-container>
                                     <ng-container matColumnDef="reqRaisedDate">
-                                        <th mat-header-cell *matHeaderCellDef>REQ. RAISED DATE</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>REQ. RAISED DATE</th>
                                         <td mat-cell *matCellDef="let element"> {{ element.createdDate | date:
                                             'dd/MM/yyyy' }} </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="pick">
-                                        <th mat-header-cell *matHeaderCellDef>AMOUNT</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>AMOUNT</th>
                                         <td mat-cell *matCellDef="let element"> {{element.totalPaymentAmount}} </td>
                                     </ng-container>
 
                                     <ng-container matColumnDef="booking">
-                                        <th mat-header-cell *matHeaderCellDef>STATUS</th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef>STATUS</th>
                                         <td mat-cell *matCellDef="let element">
                                             <span
                                                 *ngIf="element.lkpPymtRecvdStatusId && element.lkpPymtRecvdStatusId!==0"
@@ -619,7 +619,7 @@
                                         </td>
                                     </ng-container>
                                     <ng-container matColumnDef="confirm">
-                                        <th mat-header-cell *matHeaderCellDef></th>
+                                        <th scope="row" mat-header-cell *matHeaderCellDef></th>
                                         <td mat-cell *matCellDef="let element">
                                             <button class="btn theme-button" mat-raised-button
                                                 (click)="confirmPayment(element)">CONFIRM</button>
@@ -697,35 +697,35 @@
                                     <table  aria-describedby="table"  mat-table [dataSource]="dayEndBookings" class="mat-elevation-z8">
 
                                         <ng-container matColumnDef="request">
-                                            <th mat-header-cell *matHeaderCellDef>WAYBILL NO.</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>WAYBILL NO.</th>
                                             <td mat-cell *matCellDef="let element"> <a>{{element.wayBillNumber}}</a>
                                             </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="waybill">
-                                            <th mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>CUSTOMER NAME</th>
                                             <td mat-cell *matCellDef="let element"> {{custName(element.consignorId)}}
                                             </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="pick">
-                                            <th mat-header-cell *matHeaderCellDef>WAYBILL STATUS</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>WAYBILL STATUS</th>
                                             <td mat-cell *matCellDef="let element"> {{refType(element.bookingStatusId)}}
                                             </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="booking">
-                                            <th mat-header-cell *matHeaderCellDef>PICK UP DATE</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>PICK UP DATE</th>
                                             <td mat-cell *matCellDef="let element"> {{element.pickUpate}} </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="destination">
-                                            <th mat-header-cell *matHeaderCellDef>PICK UP TIME</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>PICK UP TIME</th>
                                             <td mat-cell *matCellDef="let element"> {{element.pickupTime}} </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="sfx">
-                                            <th mat-header-cell *matHeaderCellDef class="textCenter">ADDRESS</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef class="textCenter">ADDRESS</th>
                                             <td mat-cell *matCellDef="let element" class="textCenter">
                                                 <em class="material-icons icon_theme_color" [matTooltip]="getDayEndCnorAddr(element)"
                                                     [matTooltipPosition]="'above'">room</em>
@@ -733,7 +733,7 @@
                                         </ng-container>
 
                                         <ng-container matColumnDef="customer">
-                                            <th mat-header-cell *matHeaderCellDef>BOOKING CANCELLED?</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>BOOKING CANCELLED?</th>
                                             <td mat-cell *matCellDef="let element">
                                                 <mat-radio-group aria-label="Select an option"
                                                     (change)="radioChange($event, element)">
@@ -766,25 +766,25 @@
                                     <table  aria-describedby="table"  mat-table [dataSource]="dayFinanceBookings" class="mat-elevation-z8 wayB">
 
                                         <ng-container matColumnDef="request">
-                                            <th mat-header-cell *matHeaderCellDef>WAYBILL NUMBER</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>WAYBILL NUMBER</th>
                                             <td mat-cell *matCellDef="let element"> <a>{{element.waybillNumber}}</a>
                                             </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="waybill">
-                                            <th mat-header-cell *matHeaderCellDef>AMOUNT</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>AMOUNT</th>
                                             <td mat-cell *matCellDef="let element"> {{element.gttlAmount}} </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="pick">
-                                            <th mat-header-cell *matHeaderCellDef>MODE OF PAYMENT</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>MODE OF PAYMENT</th>
                                             <td mat-cell *matCellDef="let element">
                                                 {{refType(element.paymentMethodLookupId)}}
                                             </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="booking">
-                                            <th mat-header-cell *matHeaderCellDef>PAYMENT RECEIVED</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>PAYMENT RECEIVED</th>
                                             <td mat-cell *matCellDef="let element">
                                                 <mat-radio-group aria-label="Select an option"
                                                     (change)="changePaymentReceived($event, element)">
@@ -834,12 +834,12 @@
                                     <table  aria-describedby="table"  mat-table [dataSource]="missingWaybillLists" class="mat-elevation-z8">
 
                                         <ng-container matColumnDef="request">
-                                            <th mat-header-cell *matHeaderCellDef>WAYBILL NUMBER</th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef>WAYBILL NUMBER</th>
                                             <td mat-cell *matCellDef="let element"> {{element.wayBillNumber}} </td>
                                         </ng-container>
 
                                         <ng-container matColumnDef="waybill">
-                                            <th mat-header-cell *matHeaderCellDef></th>
+                                            <th scope="row" mat-header-cell *matHeaderCellDef></th>
                                             <td mat-cell *matCellDef="let element"> {{element.waybill}} </td>
                                         </ng-container>
 

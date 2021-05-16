@@ -85,17 +85,17 @@
             <table  aria-describedby="table"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
               <ng-container matColumnDef="request">
-                <th mat-header-cell *matHeaderCellDef>Date & Time</th>
+                <th scope="row" mat-header-cell *matHeaderCellDef>Date & Time</th>
                 <td mat-cell *matCellDef="let element"> {{element.statusDate}} </td>
               </ng-container>
 
               <ng-container matColumnDef="waybill">
-                <th mat-header-cell *matHeaderCellDef>Branch</th>
+                <th scope="row" mat-header-cell *matHeaderCellDef>Branch</th>
                 <td mat-cell *matCellDef="let element"> {{element.branchId}} </td>
               </ng-container>
 
               <ng-container matColumnDef="pick">
-                <th mat-header-cell *matHeaderCellDef>Shipment Tracking</th>
+                <th scope="row" mat-header-cell *matHeaderCellDef>Shipment Tracking</th>
                 <td mat-cell *matCellDef="let element"> {{element.status}} </td>
               </ng-container>
 

@@ -86,34 +86,34 @@
                     <table  aria-describedby="table"  mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
                         <ng-container matColumnDef="request">
-                            <th mat-header-cell *matHeaderCellDef>STAFF NAME</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>STAFF NAME</th>
                             <td mat-cell *matCellDef="let element" (click)="openViewStaffDetailModal(element)">
                                 <a>{{ getFullName(element)}}</a>
                             </td>
                         </ng-container>
 
                         <ng-container matColumnDef="waybill">
-                            <th mat-header-cell *matHeaderCellDef>DESIGNATION</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>DESIGNATION</th>
                             <td mat-cell *matCellDef="let element">{{ refType(element.desigId)}}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="pick">
-                            <th mat-header-cell *matHeaderCellDef>CONTACT (M)</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>CONTACT (M)</th>
                             <td mat-cell *matCellDef="let element">{{ element.altMob }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="booking">
-                            <th mat-header-cell *matHeaderCellDef>EMAIL</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>EMAIL</th>
                             <td mat-cell *matCellDef="let element">{{ element.ofcEmail }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="destination">
-                            <th mat-header-cell *matHeaderCellDef>KYC COMPLETED</th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef>KYC COMPLETED</th>
                             <td mat-cell *matCellDef="let element">{{ element.kycFlag ? 'YES' : 'NO' }}</td>
                         </ng-container>
 
                         <ng-container matColumnDef="sfx1">
-                            <th mat-header-cell *matHeaderCellDef></th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element">
                                 <!-- <img style="cursor: pointer;" (click)="edit(element)" src="../assets/images/edit.png" alt=""> -->
                                 <div class="d-flex align-items-center">
@@ -128,7 +128,7 @@
                             </td>
                         </ng-container>
                         <ng-container matColumnDef="sfx">
-                            <th mat-header-cell *matHeaderCellDef></th>
+                            <th scope="row" mat-header-cell *matHeaderCellDef></th>
                             <td mat-cell *matCellDef="let element">
       
                             </td>

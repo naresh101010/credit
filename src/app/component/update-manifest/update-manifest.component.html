@@ -51,7 +51,7 @@
                     <div class="table-responsive">
                         <table  aria-describedby="table"  mat-table [dataSource]="vehicleLists" class="mat-elevation-z8">
                             <ng-container matColumnDef="checkbox">
-                                <th mat-header-cell *matHeaderCellDef></th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef></th>
                                 <td mat-cell *matCellDef="let element">
                                     <div class="module_area">
                                         <mat-radio-group name="rrFlag">
@@ -63,17 +63,17 @@
                             </ng-container>
     
                             <ng-container matColumnDef="waybill">
-                                <th mat-header-cell *matHeaderCellDef> Vehicle Number </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Vehicle Number </th>
                                 <td mat-cell *matCellDef="let element"> {{element.vehicleNum}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="pickup">
-                                <th mat-header-cell *matHeaderCellDef> Vehicle Model </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Vehicle Model </th>
                                 <td mat-cell *matCellDef="let element"> {{element.vehicleModelId}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="mop">
-                                <th mat-header-cell *matHeaderCellDef> Vehicle Tonnage </th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef> Vehicle Tonnage </th>
                                 <td mat-cell *matCellDef="let element"> {{element.tareWt}} </td>
                             </ng-container>
     
@@ -100,27 +100,27 @@
                         <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
     
                             <ng-container matColumnDef="request">
-                                <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Waybill No.</th>
                                 <td mat-cell *matCellDef="let element"> {{element.wayBillNumber}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="congsigneename">
-                                <th mat-header-cell *matHeaderCellDef>Consignor Name.</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Consignor Name.</th>
                                 <td mat-cell *matCellDef="let element"> {{element.consignerName}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="custtype">
-                                <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Customer Type</th>
                                 <td mat-cell *matCellDef="let element"> {{element.custTypeLookupId}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="booking">
-                                <th mat-header-cell *matHeaderCellDef>Total Packages</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Total Packages</th>
                                 <td mat-cell *matCellDef="let element"> {{element.availablepackage}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="remaning">
-                                <th mat-header-cell *matHeaderCellDef>Remaning Packages</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Remaning Packages</th>
                                 <td mat-cell *matCellDef="let element"> {{element.remaninigPackages}} </td>
                             </ng-container>
     
@@ -149,13 +149,13 @@
                                 <div class="form-group">
 
                                     <table>
-                                        <thead>
-                                            <th>Waybillnumber</th>
-                                            <th>Consignor Name</th>
-                                            <th>Customer Type</th>
-                                            <th>Total Package</th>
-                                            <th>Load Packages</th>
-                                            <th></th>
+                                        <th scope="row"ead>
+                                            <th scope="row">Waybillnumber</th>
+                                            <th scope="row">Consignor Name</th>
+                                            <th scope="row">Customer Type</th>
+                                            <th scope="row">Total Package</th>
+                                            <th scope="row">Load Packages</th>
+                                            <th scope="row"></th>
                                         </thead>
                                         <tbody formArrayName="rows">
                                             <ng-container *ngFor="let row of rows.controls; let i = index">
@@ -208,27 +208,27 @@
                         <!-- <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
   
                           <ng-container matColumnDef="request">
-                              <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
+                              <th scope="row" mat-header-cell *matHeaderCellDef>Waybill No.</th>
                               <td mat-cell *matCellDef="let element"> <input class="form-control mr_bottom_0" type="text"></td>
                           </ng-container>
   
                           <ng-container matColumnDef="waybill">
-                              <th mat-header-cell *matHeaderCellDef>Consignor Name.</th>
+                              <th scope="row" mat-header-cell *matHeaderCellDef>Consignor Name.</th>
                               <td mat-cell *matCellDef="let element"> {{element.waybill}} </td>
                           </ng-container>
   
                           <ng-container matColumnDef="pick">
-                              <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+                              <th scope="row" mat-header-cell *matHeaderCellDef>Customer Type</th>
                               <td mat-cell *matCellDef="let element"> {{element.pick}} </td>
                           </ng-container>
   
                           <ng-container matColumnDef="booking">
-                              <th mat-header-cell *matHeaderCellDef>Total Packages</th>
+                              <th scope="row" mat-header-cell *matHeaderCellDef>Total Packages</th>
                               <td mat-cell *matCellDef="let element"> {{element.booking}} </td>
                           </ng-container>
   
                           <ng-container matColumnDef="remaning">
-                              <th mat-header-cell *matHeaderCellDef>loaded packages</th>
+                              <th scope="row" mat-header-cell *matHeaderCellDef>loaded packages</th>
   
                               <td mat-cell *matCellDef="let element">
                                   <div><input class="form-control img_adjust mr_bottom_0" type="text"> <img src="../assets/images/red_delete.png" alt="" style="cursor: pointer;" class="del_img"></div>
@@ -254,27 +254,27 @@
                         <table  aria-describedby="table"  mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
     
                             <ng-container matColumnDef="request">
-                                <th mat-header-cell *matHeaderCellDef>Waybill No.</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Waybill No.</th>
                                 <td mat-cell *matCellDef="let element"> <input class="form-control mr_bottom_0" type="text"></td>
                             </ng-container>
     
                             <ng-container matColumnDef="waybill">
-                                <th mat-header-cell *matHeaderCellDef>Consignor Name.</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Consignor Name.</th>
                                 <td mat-cell *matCellDef="let element"> {{element.waybill}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="pick">
-                                <th mat-header-cell *matHeaderCellDef>Customer Type</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Customer Type</th>
                                 <td mat-cell *matCellDef="let element"> {{element.pick}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="booking">
-                                <th mat-header-cell *matHeaderCellDef>Total Packages</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>Total Packages</th>
                                 <td mat-cell *matCellDef="let element"> {{element.booking}} </td>
                             </ng-container>
     
                             <ng-container matColumnDef="remaning">
-                                <th mat-header-cell *matHeaderCellDef>loaded packages</th>
+                                <th scope="row" mat-header-cell *matHeaderCellDef>loaded packages</th>
     
                                 <td mat-cell *matCellDef="let element">
                                     <div><input class="form-control img_adjust mr_bottom_0" type="text"> <img src="../assets/images/red_delete.png" alt="" style="cursor: pointer;" class="del_img"></div>
