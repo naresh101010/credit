@@ -22,6 +22,7 @@ import { Router } from '@angular/router';
 import { EpaymentRequestComponent } from 'src/app/dialog/e-payment/e-payment.component';
 import { DayEndService } from 'src/app/core/service/day-end.service';
 import { MopDialogComponent } from 'src/app/dialog/mop-dialog/mop-dialog.component';
+import { CommonService } from 'src/app/core/common.service';
 
 @Component({
   selector: "app-start-booking",
@@ -221,7 +222,8 @@ export class StartBookingComponent implements OnInit {
     private appComp: AppComponent,
     private dayEndService : DayEndService,
     private $branch: BranchService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private cs:CommonService
   ) { }
   bookingFlag;
   ngOnInit() {
@@ -3316,7 +3318,7 @@ mopChanged : boolean = true;
         productCategoryId: this.categoryListWithAlisList[0].id,
         packTypeLookupId: this.packageTypeId,
         lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-        tempId: this.makeid(),
+        tempId: this.cs.makeid(),
         productId: this.isProductIndex
       });
       if (isPresent) {
@@ -3405,7 +3407,7 @@ mopChanged : boolean = true;
               lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
               alias: product.packAlias ? product.packAlias : '',
               localId: product.localId ? product.localId : '',
-              tempId: this.makeid(),
+              tempId: this.cs.makeid(),
             });
           }
         }
@@ -3478,7 +3480,7 @@ mopChanged : boolean = true;
           productCategoryId: this.categoryListWithAlisList[0].id,
           packTypeLookupId: this.packageTypeId,
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-          tempId: this.makeid(),
+          tempId: this.cs.makeid(),
           productId: ProductPresent.id
         });
         if (isPresent) {
@@ -3497,7 +3499,7 @@ mopChanged : boolean = true;
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
           alias: isPresent.packAlias ? isPresent.packAlias : '',
           localId: isPresent.localId ? isPresent.localId : '',
-          tempId: this.makeid(),
+          tempId: this.cs.makeid(),
         });
         this.bookingInfoObj.packageList = [...tempList];
       }
@@ -3505,16 +3507,6 @@ mopChanged : boolean = true;
 
   }
 
-  makeid(length = 5) {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
 
   deletePackageInfoRow(index) {
 
@@ -3720,7 +3712,7 @@ mopChanged : boolean = true;
             lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
             alias: this.selectedProductCategoryCardList[0].packAlias ? this.selectedProductCategoryCardList[0].packAlias : '',
             localId: this.selectedProductCategoryCardList[0].localId ? this.selectedProductCategoryCardList[0].localId : '',
-            tempId: this.makeid(),
+            tempId: this.cs.makeid(),
           });
         }
       }

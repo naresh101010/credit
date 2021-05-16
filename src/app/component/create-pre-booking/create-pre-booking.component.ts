@@ -3551,7 +3551,7 @@ if(this.sampleBody.consigneeId){
         productCategoryId: this.categoryListWithAlisList[0].id,
         packTypeLookupId: this.packageTypeId,
         lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-        tempId: this.makeid(),
+        tempId: this.commonService.makeid(),
         productId: this.isProductIndex
       });
       if (isPresent) {
@@ -3639,7 +3639,7 @@ if(this.sampleBody.consigneeId){
               lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
               alias: product.packAlias ? product.packAlias : '',
               localId: product.localId ? product.localId : '',
-              tempId: this.makeid(),
+              tempId: this.commonService.makeid(),
             });
           }
         }
@@ -3712,7 +3712,7 @@ if(this.sampleBody.consigneeId){
           productCategoryId: this.categoryListWithAlisList[0].id,
           packTypeLookupId: this.packageTypeId,
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-          tempId: this.makeid(),
+          tempId: this.commonService.makeid(),
           productId: ProductPresent.id
         });
         if (isPresent) {
@@ -3731,7 +3731,7 @@ if(this.sampleBody.consigneeId){
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
           alias: isPresent.packAlias ? isPresent.packAlias : '',
           localId: isPresent.localId ? isPresent.localId : '',
-          tempId: this.makeid(),
+          tempId: this.commonService.makeid(),
         });
         this.bookingInfoObj.packageList = [...tempList];
       }
@@ -3739,16 +3739,7 @@ if(this.sampleBody.consigneeId){
 
   }
 
-  makeid(length = 5) {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
+
 
   deletePackageInfoRow(index) {
 
@@ -3954,7 +3945,7 @@ if(this.sampleBody.consigneeId){
             lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
             alias: this.selectedProductCategoryCardList[0].packAlias ? this.selectedProductCategoryCardList[0].packAlias : '',
             localId: this.selectedProductCategoryCardList[0].localId ? this.selectedProductCategoryCardList[0].localId : '',
-            tempId: this.makeid(),
+            tempId: this.commonService.makeid(),
           });
         }
       }

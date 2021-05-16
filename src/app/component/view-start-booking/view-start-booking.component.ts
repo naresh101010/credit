@@ -15,6 +15,7 @@ import { AppSetting } from '../../app.setting';
 import { DateUtilService } from 'src/app/core/util/date-util.service';
 import { ProductConfirmationComponent } from 'src/app/dialog/product-confirmation/product-confirmation.component';
 import { DatePipe } from '@angular/common';
+import { CommonService } from 'src/app/core/common.service';
 @Component({
   selector: 'app-view-start-booking',
   templateUrl: './view-start-booking.component.html',
@@ -208,7 +209,8 @@ export class ViewStartBookingComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private appComp: AppComponent,
     private $branch: BranchService,
-    public datepipe: DatePipe
+    public datepipe: DatePipe,
+    private cs:CommonService
   ) { }
   bookingFlag;
   ngOnInit() {
@@ -3006,7 +3008,7 @@ saveConsignorConsigneeInfo(){
         productCategoryId: this.categoryListWithAlisList[0].id,
         packTypeLookupId: this.packageTypeId,
         lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-        tempId: this.makeid(),
+        tempId: this.cs.makeid(),
         productId: this.isProductIndex
       });
       if (isPresent) {
@@ -3089,7 +3091,7 @@ saveConsignorConsigneeInfo(){
               lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
               alias: product.packAlias ? product.packAlias : '',
               localId: product.localId ? product.localId : '',
-              tempId: this.makeid(),
+              tempId: this.cs.makeid(),
             });
           }
         }
@@ -3162,7 +3164,7 @@ saveConsignorConsigneeInfo(){
           productCategoryId: this.categoryListWithAlisList[0].id,
           packTypeLookupId: this.packageTypeId,
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-          tempId: this.makeid(),
+          tempId: this.cs.makeid(),
           productId: ProductPresent.id
         });
         if (isPresent) {
@@ -3181,7 +3183,7 @@ saveConsignorConsigneeInfo(){
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
           alias: isPresent.packAlias ? isPresent.packAlias : '',
           localId: isPresent.localId ? isPresent.localId : '',
-          tempId: this.makeid(),
+          tempId: this.cs.makeid(),
         });
         this.bookingInfoObj.packageList = [...tempList];
       }
@@ -3189,16 +3191,7 @@ saveConsignorConsigneeInfo(){
 
   }
 
-  makeid(length = 5) {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
+
 
   deletePackageInfoRow(index) {
     
@@ -3404,7 +3397,7 @@ saveConsignorConsigneeInfo(){
             lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
             alias: this.selectedProductCategoryCardList[0].packAlias ? this.selectedProductCategoryCardList[0].packAlias : '',
             localId: this.selectedProductCategoryCardList[0].localId ? this.selectedProductCategoryCardList[0].localId : '',
-            tempId: this.makeid(),
+            tempId: this.cs.makeid(),
           });
         }
       }

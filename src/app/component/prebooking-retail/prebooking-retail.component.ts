@@ -14,6 +14,7 @@ import { SearchCustomerComponent } from 'src/app/dialog/search-customer/search-c
 import { AppSetting } from '../../app.setting';
 import { DateUtilService } from 'src/app/core/util/date-util.service';
 import { ProductConfirmationComponent } from 'src/app/dialog/product-confirmation/product-confirmation.component';
+import { CommonService } from 'src/app/core/common.service';
 @Component({
   selector: 'app-prebooking-retail',
   templateUrl: './prebooking-retail.component.html',
@@ -202,7 +203,8 @@ export class PrebookingRetailComponent implements OnInit {
     private spinner: NgxSpinnerService,
     private appComp: AppComponent,
     private $branch: BranchService,
-    private dateUtil: DateUtilService
+    private dateUtil: DateUtilService,
+    private CommonService_:CommonService
   ) { }
   bookingFlag;
   ngOnInit() {
@@ -2778,7 +2780,7 @@ export class PrebookingRetailComponent implements OnInit {
         productCategoryId: this.categoryListWithAlisList[0].id,
         packTypeLookupId: this.packageTypeId,
         lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-        tempId: this.makeid(),
+        tempId: this.CommonService_.makeid(),
         productId: this.isProductIndex
       });
       if (isPresent) {
@@ -2861,7 +2863,7 @@ export class PrebookingRetailComponent implements OnInit {
               lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
               alias: product.packAlias ? product.packAlias : '',
               localId: product.localId ? product.localId : '',
-              tempId: this.makeid(),
+              tempId: this.CommonService_.makeid(),
             });
           }
         }
@@ -2934,7 +2936,7 @@ export class PrebookingRetailComponent implements OnInit {
           productCategoryId: this.categoryListWithAlisList[0].id,
           packTypeLookupId: this.packageTypeId,
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
-          tempId: this.makeid(),
+          tempId: this.CommonService_.makeid(),
           productId: ProductPresent.id
         });
         if (isPresent) {
@@ -2953,7 +2955,7 @@ export class PrebookingRetailComponent implements OnInit {
           lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
           alias: isPresent.packAlias ? isPresent.packAlias : '',
           localId: isPresent.localId ? isPresent.localId : '',
-          tempId: this.makeid(),
+          tempId: this.CommonService_.makeid(),
         });
         this.bookingInfoObj.packageList = [...tempList];
       }
@@ -2961,16 +2963,6 @@ export class PrebookingRetailComponent implements OnInit {
 
   }
 
-  makeid(length = 5) {
-    var result = "";
-    var characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    var charactersLength = characters.length;
-    for (var i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  }
 
   deletePackageInfoRow(index) {
     
@@ -3176,7 +3168,7 @@ export class PrebookingRetailComponent implements OnInit {
             lbhUomLookupId: this.bookingInfoObj.lbhUomLookupId,
             alias: this.selectedProductCategoryCardList[0].packAlias ? this.selectedProductCategoryCardList[0].packAlias : '',
             localId: this.selectedProductCategoryCardList[0].localId ? this.selectedProductCategoryCardList[0].localId : '',
-            tempId: this.makeid(),
+            tempId: this.CommonService_.makeid(),
           });
         }
       }
