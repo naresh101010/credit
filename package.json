@@ -35,7 +35,7 @@
     "chart.piecelabel.js": "^0.15.0",
     "chartjs-plugin-labels": "^1.1.0",
     "core-js": "^2.6.10",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "keyboardevent-key-polyfill": "^1.1.0",
     "lodash": "^4.17.15",
     "mat-table-exporter": "^1.2.5",
